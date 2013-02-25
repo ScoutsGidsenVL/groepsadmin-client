@@ -1,0 +1,98 @@
+fieldset {
+  margin-bottom: 2em;
+}
+
+legend {
+  float: left;
+  width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 1em 0.5em;
+  border-bottom: 2px solid #e0e0e0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #aaa;
+  .clearfix();
+}
+
+// ============== //
+// = Containers = //
+// ============== //
+
+.control-group {
+  float: left;
+  width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  min-height: 3em;
+  padding: 0.5em;
+  border-bottom: 1px solid #e0e0e0;
+  line-height: 1.28571428571em;
+  .clearfix();
+
+  &:hover {
+    background-color: #f6f6f6;
+  }
+
+  &:hover input[type='text'] {
+    border: 1px solid #ddd;
+  }
+
+  .controls {
+    display: inline-block;
+    float: left;
+    width: 62%;
+  }
+
+  .controls.stretch {
+    width: 100%;
+  }
+
+// ========== //
+// = Labels = //
+// ========== //
+
+  .control-label {
+    display: inline-block;
+    float: left;
+    width: 38%;
+    margin: 1px 0;
+    padding: 0.35714285714em 0;
+    font-weight: bold;
+  }
+
+  .checkbox-label {
+    float: left;
+    margin: 1px 0;
+    padding: 0.4em 0;
+  }
+
+// ============ //
+// = Controls = //
+// ============ //
+
+  input[type='text'] {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 0.35714285714em;
+    border: 1px solid transparent;
+    outline: none;
+    line-height: inherit;
+    .box-shadow(none);
+    .border-radius(2px);
+
+    &:focus {
+      border: 1px solid #ddd;
+      .box-shadow(none);
+    }
+  }
+
+  input[type='checkbox'],
+  input[type='radio']{
+    float: right;
+    margin-top: 0.71428571428em;
+  }
+}
