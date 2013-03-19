@@ -1,3 +1,11 @@
+//
+// Forms
+// --------------------------------------------------
+
+
+// GENERAL STYLES
+// --------------
+
 fieldset {
   margin-bottom: 2em;
 }
@@ -16,9 +24,9 @@ legend {
   .clearfix();
 }
 
-// ============== //
-// = Containers = //
-// ============== //
+
+// CONTAINERS
+// ----------
 
 .control-group {
   float: left;
@@ -49,9 +57,8 @@ legend {
     width: 100%;
   }
 
-// ========== //
-// = Labels = //
-// ========== //
+  // Labels
+  // ------
 
   .control-label {
     display: inline-block;
@@ -68,9 +75,8 @@ legend {
     padding: 0.4em 0;
   }
 
-// ============ //
-// = Controls = //
-// ============ //
+  // Controls
+  // --------
 
   input[type='text'] {
     display: block;
@@ -95,4 +101,25 @@ legend {
     float: right;
     margin-top: 0.71428571428em;
   }
+}
+
+
+// DISABLED STATE
+// --------------
+
+// Disabled and read-only inputs
+input[disabled],
+select[disabled],
+textarea[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly] {
+  cursor: not-allowed;
+}
+// Explicitly reset the colors here
+input[type="radio"][disabled],
+input[type="checkbox"][disabled],
+input[type="radio"][readonly],
+input[type="checkbox"][readonly] {
+  background-color: transparent;
 }

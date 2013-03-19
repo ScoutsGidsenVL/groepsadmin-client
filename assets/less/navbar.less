@@ -85,7 +85,7 @@
 .navbar-search {
   position: relative;
   float: left;
-  margin-top: 8px;
+  margin-top: 7px;
   margin-bottom: 0;
 
   .icn-search {
@@ -98,6 +98,8 @@
     padding: 2px 4px;
     font-size: 21px;
     line-height: 21px;
+    text-decoration: none;
+    color: @textColor;
     opacity: 0.4;
 
     &.right {
@@ -173,14 +175,14 @@
 
   // Caret on top of dropdown
   &:after {
-    content: '';
     display: inline-block;
-    border-left:   6px solid transparent;
-    border-right:  6px solid transparent;
-    border-bottom: 6px solid @dropdownBackground;
     position: absolute;
-    top: -5px;
+    top: -6px;
     left: 10px;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid @dropdownBackground;
+    border-left: 6px solid transparent;
+    content: '';
   }
 }
 
