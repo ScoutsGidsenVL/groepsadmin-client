@@ -1,0 +1,97 @@
+// Neutralize some Bootstrap defaults
+.form-hover legend,
+.form-hover .form-group {
+  margin: 0;
+  padding: 0.5em;
+}
+
+fieldset {
+  margin-bottom: 2em;
+}
+
+
+
+legend {
+  font-size: @font-size-base;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: @gray-semi-dark;
+  border-bottom: 2px solid @gray-lighter;
+}
+
+
+
+
+.form-hover {
+
+
+  .form-group {
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #e0e0e0;
+    .transition(~"background-color ease-in-out .15s");
+
+    // Note: the following block could be simplified if IE8 supported the ':not()' pseudo-class
+    &:hover {
+      background-color: #f6f6f6;
+      
+      .form-control {
+        border-color: @input-border;
+      }
+    }
+
+    // Disabled and read-only fields
+    &.readonly:hover {
+      background-color: #fff;
+
+      .form-control {
+        border-color: transparent;
+      }
+    }
+  }
+
+  .control-label {
+    margin: 1px 0 2px;
+    padding: 0.35714285714em 0; // 5/14
+    line-height: 1.28571429; // 18/14
+  }
+
+  .form-control {
+    height: auto;
+    padding: 0.35714285714em; // 5/14
+    line-height: 1.28571429; // 18/14
+    color: @input-color;
+    border: 1px solid transparent;
+    .box-shadow(none);
+    .transition(~"border-color ease-in-out .15s, box-shadow ease-in-out .15s");
+
+    &:focus {
+      border: 1px solid @input-border;
+      border-radius: @input-border-radius;
+      .box-shadow(inset 0 1px 2px rgba(0,0,0,.1));
+    }
+
+    // Disabled and read-only fields
+    &[disabled],
+    &[readonly] {
+      background-color: #fff;
+
+      &:focus {
+        border-color: transparent;
+        .box-shadow(none);
+      }
+    }
+  }
+
+  // Select element spacing adjustment
+  .bootstrap-select {
+    width: 100% !important;
+    margin: 0;
+    padding: 0;
+
+    .btn {
+      padding: 0.35714285714em; // 5/14
+      line-height: 1.28571429; // 18/14
+    }
+  }
+}

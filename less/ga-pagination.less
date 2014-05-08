@@ -1,0 +1,38 @@
+.pagination-info {
+  margin: 10px 15px;
+  font-weight: 600;
+  color: @gray;
+}
+
+.panel-footer .pagination {
+  margin: 0;
+}
+
+.pagination > li {
+  float: left;
+  
+  > a {
+    padding: @padding-large-vertical @padding-large-horizontal;
+    font-size: @font-size-small;
+    font-weight: 600;
+    color: @gray;
+    background: transparent;
+    border: 0;
+  }
+}
+
+.pagination.pull-left > li {
+  > a {
+    margin-left: 0;
+    border-right: 1px solid @panel-inner-border;
+  }
+}
+.pagination.pull-right > li {
+  > a {
+    border-left: 1px solid @panel-inner-border;
+  }
+
+  &:first-child > a {
+    .border-left-radius(0);
+  }
+}

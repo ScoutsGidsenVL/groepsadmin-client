@@ -1,0 +1,40 @@
+body {
+  padding-top: 50px;
+}
+
+// Scouts en Gidsen Vlaanderen logo
+.navbar-brand {
+  position: relative;
+  margin: 0 15px -4px 0;
+  padding: 0px;
+}
+
+// Display fix for icons and caret in Navbar
+@media (min-width: @screen-tablet) {
+  .navbar-nav .hidden-xs {
+    display: inline-block !important;
+  }
+}
+@media (min-width: @screen-desktop) {
+  .navbar-nav .visible-md {
+    display: inline-block !important;
+  }
+}
+
+// Panel-heading btn-group margin fix
+.panel-heading .btn-group {
+  margin-bottom: 0;
+}
+
+// Fully responisve, no fixed-width containers
+.container-fluid {
+  margin-right: @fluid-grid-gutter-width; //@gridGutterWidth;
+  margin-left: @fluid-grid-gutter-width; //@gridGutterWidth;
+}
+
+// Table alignment fix
+.table thead > tr > th:first-child,
+.table tbody > tr > td:first-child {
+  padding-left: @grid-gutter-width * 1.3;
+}
+

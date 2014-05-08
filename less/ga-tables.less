@@ -1,0 +1,121 @@
+//
+// Collapsable Tables
+// --------------------------------------------------
+
+
+.t-caret {
+    display: none;
+}
+
+
+@media screen and (max-width: 640px) {
+  #members {
+    border: 0;
+
+    tbody, tr, td {
+      display: block;
+      border: 0;
+    }
+    thead {
+      display: none;
+    }
+    tr {
+      position: relative;
+      border-bottom: 1px solid @table-border-color;
+      .clearfix;
+
+      &:hover td {
+        background: none;
+      }
+    }
+    
+    .t-caret {
+      display: inline;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 10px;
+      border-left: 1px solid @table-border-color;
+      cursor: pointer;
+
+      .caret {
+        border-width: 7px;
+        border-bottom: 0;
+        border-top-color: @gray-light;
+      }
+    }
+
+
+    // Breakpoint with 3 rows visible
+    @rows: 3;
+    td:nth-child(-n+@{rows}) {
+        float: left;
+        width: 33.33%;
+    }
+    td:nth-child(-n+@{rows}):before {
+        display: none;
+    }
+    /*td:nth-child(3):after {
+        content: '';
+        display: inline-block;
+        float: right;
+        margin: 8px;
+        color: #666666;
+        border-top: 6px solid;
+        border-right: 6px solid transparent;
+        border-left: 6px solid transparent;
+    }*/
+
+    td:nth-child(n+4) {
+      clear: both;
+      font-size: 12/14em;
+
+      // Add the value of data-label attribute before the column data
+      &:before {
+          float: left;
+          width: 35%;
+          padding-right: 20px;
+          font-weight: bold;
+      }
+    }
+    td:nth-child(4) {
+      border-top: 1px solid @table-border-color;
+    }
+
+    // TOGGLE STATE: collapsed
+    td:nth-child(n+4):not(.t-caret) {
+      display: none;
+    }
+    // TOGGLE STATE: open
+    .t-open {
+      td:nth-child(n+4):not(.t-caret) {
+        display: block;
+      }
+      .t-caret {
+        border-left: 0;
+        border-right: 1px solid @table-border-color;
+        .rotate(180deg);
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 400px) {
+  #members {
+    td:nth-child(-n+3) {
+      width: auto;
+      padding-right: 0;
+    }
+    td:first-child {
+      width: 100%;
+      padding-bottom: 0 !important;
+      font-size: 11/14em;
+      color: @gray-light;
+    }
+
+    .t-caret {
+      padding: 21px 10px;
+    }
+  }
+}

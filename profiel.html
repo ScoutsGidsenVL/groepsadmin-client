@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mijn profiel | Groepsadministratie Scouts en Gidsen Vlaanderen</title>
+    <!--<script type="text/javascript" src="//d1ixjkaa8mp0re.cloudfront.net/js/07w8rUFm.js"></script>-->
+
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Styles -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+    <link href="less/bootstrap.less" rel="stylesheet/less">
+    <link href="bootstrap-select.css" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand visible-lg" href="#"><img src="img/logo.png" alt="Groepsadministratie Scouts en Gidsen Vlaanderen logo" width="50" height="64" /></a>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#leden">
+            <span class="glyphicon glyphicon-user"></span>&nbsp; <span class="hidden-xs">Leden</span>
+          </a></li>
+          <li><a href="#groepsinstellingen">
+            <span class="glyphicon glyphicon-cog"></span>&nbsp; <span class="hidden-xs">Groepsinstellingen</span>
+          </a></li>
+          <li><a href="#orakel">
+            <span class="glyphicon glyphicon-stats"></span>&nbsp; <span class="hidden-xs">Orakel</span>
+          </a></li>
+        </ul>
+        <div class="navbar-form navbar-left dropdown" role="search">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Zoeken">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+          </div>
+          <ul id="autocomplete" class="autocomplete dropdown-menu">
+            <li><a href="#">Marieke Vandecasteele <span>05/07/1989</span></a></li>
+            <li><a href="#">Marie-Sophie Cnockaert <span>03/10/1990</span></a></li>
+            <li><a href="#">Marie-Alix Maelfait <span>29/11/1998</span></a></li>
+            <li><a href="#">Marie Asscherickx <span>26/06/1980</span></a></li>
+            <li><a href="#">Marie-Amelie Cnockaert <span>08/08/1989</span></a></li>
+            <li><a href="#">Marieke Pattijn <span>23/06/2001</span></a></li>
+            <li><a href="#">Marie Beel <span>01/03/2004</span></a></li>
+            <li><a href="#">Marie Leenkecht <span>01/03/2004</span></a></li>
+          </ul>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="visible-md visible-lg">woutersynhaeve</span> <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Mijn profiel</a></li>
+              <li><a href="#">Help</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Afmelden</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="panel panel-default container-fluid">
+      <!-- Panel header -->
+      <div class="panel-heading clearfix">
+        <div class="pull-left">
+          <h1 class="panel-title">Mijn profiel</h1>
+          <p class="panel-subtitle">woutersynhaeve</p>
+        </div>
+        <!--
+        <div class="pull-right btn-group">
+            <button class="btn btn-default" title="vorig lid"><span class="glyphicon glyphicon-chevron-left"></span></button>
+            <button class="btn btn-default" title="volgend lid"><span class="glyphicon glyphicon-chevron-right"></span></button>
+        </div>
+      -->
+      </div>
+
+      <!-- Persoonsinfo -->
+      <div class="panel-body form-hover clearfix">
+        <section class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+          <fieldset>
+            <legend>Persoonlijk</legend>
+            <div class="form-group readonly">
+              <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
+              <div class="col-xs-7 col-xxs-12">
+                <input type="text" class="form-control" id="_voornaam" value="Wouter" readonly />
+              </div>
+            </div>
+            <div class="form-group readonly">
+              <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
+              <div class="col-xs-7 col-xxs-12">
+                <input type="text" class="form-control" id="_naam" value="Synhaeve" readonly />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="_gebruikersnaam" class="col-xs-5 col-xxs-12 control-label">Gebruikersnaam</label>
+              <div class="col-xs-7 col-xxs-12">
+                <input type="text" class="form-control" id="_gebruikersnaam" value="woutersynhaeve" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
+              <div class="col-xs-7 col-xxs-12">
+                <input type="text" class="form-control" id="_email" value="woutersynhaeve@gmail.com" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
+              <div class="col-xs-7 col-xxs-12">
+                <input type="text" class="form-control" id="_gsm" value="0472909361" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
+              <div class="col-xs-7 col-xxs-12">
+                <input type="text" class="form-control" id="_rekeningnummer" />
+              </div>
+            </div>
+          </fieldset>
+        </section>
+        <section class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+          <fieldset>
+            <legend>Postadres</legend>
+            <div class="form-group">
+              <label for="_land" class="col-xs-5 col-xxs-12 control-label">Land</label>
+              <div class="col-xs-7 col-xxs-12">
+
+                <select class="selectpicker" id="_land">
+                  <option selected>België</option>
+                  <option>Nederland</option>
+                  <option>Frankrijk</option>
+                  <option>Duitsland</option>
+                  <option>Luxemburg</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
+              <div class="col-xs-7 col-xxs-12">
+                <input type="text" class="form-control" id="_woonplaats" value="8791 Beveren (Leie)" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="_straatnaam" class="col-xs-5 col-xxs-12 control-label">Straat</label>
+              <div class="col-xs-7 col-xxs-12">
+                <input type="text" class="form-control" id="_straatnaam" value="Paanderstraat" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="_straatnummer" class="col-xs-5 col-xxs-12 control-label">Nr</label>
+              <div class="col-xs-7 col-xxs-12">
+                <input type="text" class="form-control" id="_straatnummer" maxlength="5" value="1" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="_bus" class="col-xs-5 col-xxs-12 control-label">Bus</label>
+              <div class="col-xs-7 col-xxs-12">
+                <input type="text" class="form-control" id="_bus" maxlength="4" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="_huistelefoon" class="col-xs-5 col-xxs-12 control-label">Huistelefoon</label>
+              <div class="col-xs-7 col-xxs-12">
+                <input type="text" class="form-control" id="_huistelefoon" maxlength="15" />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Groepsadministratie</legend>
+          </fieldset>
+        </section>
+        <section class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+          <fieldset>
+            <legend>Functies</legend>
+          </fieldset>
+        </section>
+      </div>
+
+      <!-- Panel footer -->
+      <footer class="panel-footer clearfix">
+        <ul class="pagination pull-left responsivefooter">
+          <li><a href="#">Opslaan</a></li>
+          <li><a href="#">Schrap</a></li>
+          <li><a href="#">Nieuw</a></li>
+          <li><a href="#">Broer/zus toevoegen</a></li>
+          <li><a href="#">Broer/zus toevoegen</a></li>
+        </ul>
+      </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/less-1.5.0.min.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/transition.js"></script>
+    <script src="js/dropdown.js"></script>
+    <script src="js/collapse.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/bootstrap-select.min.js"></script>
+    <script src="js/responsive-navbar.js"></script>
+    <script src="js/responsive-footer.js"></script>
+
+    <script type="text/javascript">
+      $('.selectpicker').selectpicker();
+
+      var btnFilter = $('#btnFilter');
+      $('#filterCollapse').on('show.bs.collapse hide.bs.collapse', function () {
+        btnFilter.toggleClass("active");
+      });
+
+      // Prevent filter-option-dropdowns from closing
+      $('#filterCollapse .dropdown-menu').on('click', function(e) {
+        e.stopPropagation();
+      });
+
+      //$('footer.panel-footer').responsiveFooter();
+    </script>
+    
+  </body>
+</html>

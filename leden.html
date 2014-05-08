@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leden | Groepsadministratie Scouts en Gidsen Vlaanderen</title>
+    <!--<script type="text/javascript" src="//d1ixjkaa8mp0re.cloudfront.net/js/07w8rUFm.js"></script>-->
+
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Styles -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+    <link href="less/bootstrap.less" rel="stylesheet/less">
+    <link href="bootstrap-select.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+    @media all and (max-width: 640px) {
+        #members td:nth-child(4):before {  content: 'Straat';  }
+        #members td:nth-child(5):before {  content: 'Nr';  }
+        #members td:nth-child(6):before {  content: 'Postcode';  }
+        #members td:nth-child(7):before {  content: 'Gemeente';  }
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand visible-lg" href="#"><img src="img/logo.png" alt="Groepsadministratie Scouts en Gidsen Vlaanderen logo" width="50" height="64" /></a>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#leden">
+            <span class="glyphicon glyphicon-user"></span>&nbsp; <span class="hidden-xs">Leden</span>
+          </a></li>
+          <li><a href="#groepsinstellingen">
+            <span class="glyphicon glyphicon-cog"></span>&nbsp; <span class="hidden-xs">Groepsinstellingen</span>
+          </a></li>
+          <li><a href="#orakel">
+            <span class="glyphicon glyphicon-stats"></span>&nbsp; <span class="hidden-xs">Orakel</span>
+          </a></li>
+        </ul>
+        <div class="navbar-form navbar-left dropdown" role="search">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Zoeken">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+          </div>
+          <ul id="autocomplete" class="autocomplete dropdown-menu">
+            <li><a href="#"><span class="pull-left">Marieke Vandecasteele</span><span class="pull-right">05/07/1989</span></a></li>
+            <li><a href="#"><span class="pull-left">Marie-Sophie Cnockaert</span><span class="pull-right">03/10/1990</span></a></li>
+            <li><a href="#"><span class="pull-left">Marie-Alix Maelfait </span><span class="pull-right">29/11/1998</span></a></li>
+            <li><a href="#"><span class="pull-left">Marie Asscherickx </span><span class="pull-right">26/06/1980</span></a></li>
+            <li><a href="#"><span class="pull-left">Marie-Amelie Cnockaert </span><span class="pull-right">08/08/1989</span></a></li>
+            <li><a href="#"><span class="pull-left">Marieke Pattijn </span><span class="pull-right">23/06/2001</span></a></li>
+            <li><a href="#"><span class="pull-left">Marie Beel </span><span class="pull-right">01/03/2004</span></a></li>
+            <li><a href="#"><span class="pull-left">Marie Leenkecht </span><span class="pull-right">01/03/2004</span></a></li>
+          </ul>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="visible-md visible-lg">woutersynhaeve</span> <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Mijn profiel</a></li>
+              <li><a href="#">Help</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Afmelden</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="panel panel-default container-fluid">
+      <!-- Panel header -->
+      <div class="panel-heading clearfix">
+        <!--<h1 class="panel-title">Wouter Synhaeve</h1>
+        <p class="panel-subtitle">1994071000685</p>-->
+        <div class="pull-left">
+          <a id="btnFilter" class="btn btn-default btn-toggle" data-toggle="collapse" href="#filterCollapse"><span class="glyphicon glyphicon-filter"></span>&nbsp; Filter</a>
+
+          <select class="selectpicker" title="Opgeslagen filters">
+            <optgroup label="Persoonlijke filters">
+              <option>Export</option>
+              <option>Wanbetalers</option>
+            </optgroup>
+            <optgroup label="Standaard filters">
+              <option>Leden met geblokkeerd adres</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="pull-right">
+          <a href="#" class="btn-minimal"><span class="glyphicon glyphicon-plus"></span>&nbsp; Nieuw lid toevoegen</a>
+          <a  data-toggle="modal" href="#exportModal" class="btn-minimal"><span class="glyphicon glyphicon-share-alt"></span>&nbsp; Exporteren</a>
+
+        </div>
+      </div>
+
+      <!-- Filter panel -->
+      <div id="filterCollapse" class="panel-filter row-fluid clearfix collapse">
+
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
+          <div class="btn-group filter-option">
+            <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
+              <span class="filter-option-title">Functies</span>
+              <span class="filter-option-subtitle">Kapoen, Kabouters, Welpen</span>
+              <a href="#" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
+            </button>
+            <div class="dropdown-menu">
+              <input class="form-control input-sm" type="text" placeholder="Zoek functie">
+              <ul class="checklist">
+                <li class="list-heading">Functies leden</li>
+                <li><label for="chk1"><input type="checkbox" id="chk1" name="leden" value="akab">Akabe-leden</label></li>
+                <li><label for="chk2"><input type="checkbox" id="chk2" name="leden" value="kap">Kapoenen</label></li>
+                <li><label for="chk3"><input type="checkbox" id="chk3" name="leden" value="k">Kabouters</label></li>
+                <li><label for="chk4"><input type="checkbox" id="chk4" name="leden" value="w">Welpen</label></li>
+                <li><label for="chk5"><input type="checkbox" id="chk5" name="leden" value="jg">Jong gidsen</label></li>
+                <li><label for="chk6"><input type="checkbox" id="chk6" name="leden" value="jv">Jong verkenners</label></li>
+                <li><label for="chk7"><input type="checkbox" id="chk7" name="leden" value="g">Gidsen</label></li>
+                <li><label for="chk8"><input type="checkbox" id="chk8" name="leden" value="v">Verkenners</label></li>
+                <li><label for="chk9"><input type="checkbox" id="chk9" name="leden" value="jin">Jin</label></li>
+                <li class="list-heading">Functies leiding</li>
+                <li><label for="chk10"><input type="checkbox" id="chk10" name="leiding" value="akel" />Leiding in Akabetak</label></li>
+                <li><label for="chk11"><input type="checkbox" id="chk11" name="leiding" value="aake" />Adj. leiding in Akabetak</label></li>
+                <li><label for="chk12"><input type="checkbox" id="chk12" name="leiding" value="kpl" />Kapoenenleiding</label></li>
+                <li><label for="chk13"><input type="checkbox" id="chk13" name="leiding" value="akpl" />Adj. Kapoenenleiding</label></li>
+                <li><label for="chk14"><input type="checkbox" id="chk14" name="leiding" value="kwl" />Kabouter-Welpenleiding</label></li>
+                <li><label for="chk15"><input type="checkbox" id="chk15" name="leiding" value="akwl" />Adj. Kabouter-Welpenleiding</label></li>
+                <li><label for="chk16"><input type="checkbox" id="chk16" name="leiding" value="jgvl" />Jonggidsen-Jongverkennerleiding</label></li>
+                <li><label for="chk17"><input type="checkbox" id="chk17" name="leiding" value="ajgv" />Adj. Jonggidsen-Jongverkennerleiding</label></li>
+                <li><label for="chk18"><input type="checkbox" id="chk18" name="leiding" value="gvl" />Gidsen-Verkennerleiding</label></li>
+                <li><label for="chk19"><input type="checkbox" id="chk19" name="leiding" value="agvl" />Adj. Gidsen-Verkennerleiding</label></li>
+                <li><label for="chk20"><input type="checkbox" id="chk20" name="leiding" value="gra" />Groepsaalmoezenier</label></li>
+                <li><label for="chk21"><input type="checkbox" id="chk21" name="leiding" value="agra" />Adj. Aalmoezenier</label></li>
+                <li><label for="chk22"><input type="checkbox" id="chk22" name="leiding" value="grb" />Groepsbeheerder</label></li>
+                <li><label for="chk23"><input type="checkbox" id="chk23" name="leiding" value="grl" />Groepsleiding</label></li>
+                <li><label for="chk24"><input type="checkbox" id="chk24" name="leiding" value="agrl" />Adj. Groepsleiding</label></li>
+                <li><label for="chk25"><input type="checkbox" id="chk25" name="leiding" value="grlp" />Groepsleidingsploeg</label></li>
+                <li><label for="chk26"><input type="checkbox" id="chk26" name="leiding" value="grs" />Secretaris</label></li>
+                <li><label for="chk27"><input type="checkbox" id="chk27" name="leiding" value="agrs" />Adj. Secretaris</label></li>
+                <li class="list-heading">Andere functies</li>
+                <li><label for="chk28"><input type="checkbox" id="chk28" name="andere" value="ab" />Adres Briefwisseling</label></li>
+                <li><label for="chk29"><input type="checkbox" id="chk29" name="andere" value="grc" />Groepscomite</label></li>
+                <li><label for="chk30"><input type="checkbox" id="chk30" name="andere" value="ll" />Los Lid</label></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
+          <div class="btn-group filter-option">
+            <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
+              <span class="filter-option-title">Geslacht</span>
+              <span class="filter-option-subtitle">Mannelijk, vrouwelijk</span>
+              <a href="#" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
+            </button>
+            <div class="dropdown-menu">
+              <ul class="checklist">
+                <li><label for="chk31"><input type="checkbox" id="chk31" name="geslacht" value="m">Mannelijk</label></li>
+                <li><label for="chk32"><input type="checkbox" id="chk32" name="geslacht" value="v">Vrouwelijk</label></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
+          <div class="btn-group filter-option">
+            <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
+              <span class="filter-option-title">Groepseigen velden</span>
+              <span class="filter-option-subtitle">Betaald</span>
+              <a href="#" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
+            </button>
+            <div class="dropdown-menu">
+              <ul class="checklist">
+                <li><label for="chk33"><input type="checkbox" id="chk33" name="betaald" value="m">Betaald</label></li>
+                <li><label for="chk34"><input type="checkbox" id="chk34" name="betaald" value="v">Betaald 10</label></li>
+                <li><label for="chk35"><input type="checkbox" id="chk35" name="betaald" value="v">Betaald 11</label></li>
+                <li><label for="chk36"><input type="checkbox" id="chk36" name="betaald" value="v">Betaald 12</label></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
+          <div class="btn-group filter-option">
+            <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
+              <span class="filter-option-title">Groepseigen velden</span>
+              <span class="filter-option-subtitle">Betaald</span>
+              <a href="#" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
+            </button>
+            <div class="dropdown-menu">
+              <ul class="checklist">
+                <li><label for="chk33"><input type="checkbox" id="chk33" name="betaald" value="m">Betaald</label></li>
+                <li><label for="chk34"><input type="checkbox" id="chk34" name="betaald" value="v">Betaald 10</label></li>
+                <li><label for="chk35"><input type="checkbox" id="chk35" name="betaald" value="v">Betaald 11</label></li>
+                <li><label for="chk36"><input type="checkbox" id="chk36" name="betaald" value="v">Betaald 12</label></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="btn-group">
+          <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
+            <span class="glyphicon glyphicon-plus"></span>
+            <span class="hidden-label">Filter criteria toevoegen</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#">Geslacht</a></li>
+            <li><a href="#">Groepseigen gegevens</a></li>
+            <li><a href="#">Extra Criteria</a></li>
+          </ul>
+        </div>
+        <a href="#" class="btn btn-filter btn-filter-columns"><span class="glyphicon glyphicon-th-list"></span></a>
+      </div>
+
+      <!-- Table -->
+      <table id="members" class="table table-responsive table-hover">
+        <thead>
+          <tr>
+            <th>Lidnummer</th><th>Voornaam</th><th>Achternaam</th><th>Straat</th><th>Nr</th><th>Postcode</th><th>Gemeente</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="t-open">
+            <td>1994071000685</td><td>Georgino</td><td>Mijnen</td><td>Oostjachtpark</td><td>499</td><td>4632</td><td>Cerexhe-Heuseux</td>
+            <td class="t-caret" role="button"><span class="caret"></span></td>
+          </tr>
+          <tr>
+            <td>1989080400123</td><td>Kawtar</td><td>Tel</td><td>Lambrechtstraat</td><td>64</td><td>3530</td><td>Houthalen-Helchteren</td>
+            <td class="t-caret" role="button"><span class="caret"></span></td>
+          </tr>
+          <tr>
+            <td>1991112000453</td><td>Juriën</td><td>Erkens</td><td>Oostjachtpark</td><td>393</td><td>2580</td><td>Putte</td>
+            <td class="t-caret" role="button"><span class="caret"></span></td>
+          </tr>
+          <tr>
+            <td>1993052300123</td><td>Chaïma</td><td>Dieterman</td><td>Orchideeenlaan</td><td>114</td><td>2170</td><td>Merksem</td>
+            <td class="t-caret" role="button"><span class="caret"></span></td>
+          </tr>
+          <tr>
+            <td>1996071100358</td><td>Miranda</td><td>Onrust</td><td>Hooivelden</td><td>369</td><td>8600</td><td>Oostkerke</td>
+            <td class="t-caret" role="button"><span class="caret"></span></td>
+          </tr>
+          <tr>
+            <td>1992121800876</td><td>Danillo</td><td>van Brummelen</td><td>Stationsstraat</td><td>456</td><td>8900</td><td>Ieper</td>
+            <td class="t-caret" role="button"><span class="caret"></span></td>
+          </tr>
+          <tr>
+            <td>1995060800404</td><td>Thijme</td><td>Wallenburg</td><td>Tiegemberg</td><td>344</td><td>8573</td><td>Anzegem</td>
+            <td class="t-caret" role="button"><span class="caret"></span></td>
+          </tr>
+          <tr>
+            <td>1993022500378</td><td>Rik</td><td>ten Berge</td><td>Linieweg</td><td>277</td><td>3800</td><td>Groot-Gelmen</td>
+            <td class="t-caret" role="button"><span class="caret"></span></td>
+          </tr>
+          <tr>
+            <td>2006031400453</td><td>Janieke</td><td>Olsthoorn</td><td>Lambrechtstraat</td><td>152</td><td>3118</td><td>Werchter</td>
+            <td class="t-caret" role="button"><span class="caret"></span></td>
+          </tr>
+          <tr>
+            <td>1990053000188</td><td>Loek</td><td>Klopper</td><td>Maskenstraat</td><td>494</td><td>9910</td><td>Knesselare</td>
+            <td class="t-caret" role="button"><span class="caret"></span></td>
+          </tr>
+          <tr>
+            <td>1995102700278</td><td>Gert</td><td>Maathuis</td><td>Amerveldstraat</td><td>236</td><td>7624</td><td>Howardries</td>
+            <td class="t-caret" role="button"><span class="caret"></span></td>
+          </tr>
+          <tr>
+            <td>2005090500129</td><td>Ot</td><td>van Schooten</td><td>Kasterleesteenweg</td><td>36</td><td>2050</td><td>Antwerpen</td>
+            <td class="t-caret" role="button"><span class="caret"></span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Panel footer -->
+      <footer class="panel-footer clearfix">
+        <small class="pagination-info pull-left">1 tot 12 van 118</small>
+        <ul class="pagination pull-right">
+          <li><a href="#">«</a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#">»</a></li>
+        </ul>
+      </footer>
+    </div>
+
+    <!-- Export modal window -->
+    <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="Exporteren" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header panel-heading">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Exporteren</h4>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/less-1.5.0.min.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/transition.js"></script>
+    <script src="js/dropdown.js"></script>
+    <script src="js/collapse.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/bootstrap-select.min.js"></script>
+    <script src="js/responsive-navbar.js"></script>
+    <script src="js/responsive-table.js"></script>
+    <script src="js/responsive-footer.js"></script>
+
+    <script type="text/javascript">
+      $('.selectpicker').selectpicker();
+
+      var btnFilter = $('#btnFilter');
+      $('#filterCollapse').on('show.bs.collapse hide.bs.collapse', function () {
+        btnFilter.toggleClass("active");
+      });
+
+      // Prevent filter-option-dropdowns from closing
+      $('#filterCollapse .dropdown-menu').on('click', function(e) {
+        e.stopPropagation();
+      });
+
+      //$('footer.panel-footer').responsiveFooter();
+    </script>
+
+  </body>
+</html>

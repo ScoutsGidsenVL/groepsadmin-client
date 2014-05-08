@@ -1,0 +1,171 @@
+//
+// Every component in the filter panel
+// --------------------------------------------------
+
+.panel-filter {
+  position: relative;
+  background-color: @brand-primary;
+  padding: @fluid-grid-gutter-width/2 75px @fluid-grid-gutter-width/2 @fluid-grid-gutter-width/2;
+
+  > div {
+    float: left;
+    height: 55px; //fixes a box-model bug in FF
+    padding: @fluid-grid-gutter-width/2;
+    margin: 0 ;
+  }
+}
+
+// Customized button design in filter bar
+// -------------------------
+.btn-filter {
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+  background-color: darken(@brand-primary, 5%);
+  border: 1px solid darken(@brand-primary, 10%);
+
+  &:hover {
+    background-color: darken(@brand-primary, 8%);
+    border-color: darken(@brand-primary, 13%);
+  }
+  &:hover,
+  &:active,
+  &:focus {
+    color: #fff;
+  }
+}
+
+// New Filter button
+// -------------------------
+.btn-filter .glyphicon-plus {
+  padding: 9px 5px 14px 6px;
+}
+
+// hide the descriptive label
+.btn-group:not(:first-child) .hidden-label {
+    display: none;
+}
+
+// Columns button
+// -------------------------
+.btn-filter-columns {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 71px;
+  font-size: 16px;
+  line-height: 59px;
+  border-width: 0 0 0 1px;
+  border-radius: 0;
+}
+
+// Filter option (criteria)
+// -------------------------
+.filter-option {
+  width: 100%;
+
+ .btn {
+    width: 100%;
+    text-align: left;
+
+    &:hover .filter-option-close {
+      display: inline;
+    }
+  }
+}
+
+.filter-option-title {
+  display: block;
+  font-weight: 600;
+}
+
+.filter-option-subtitle {
+  display: block;
+  font-size: @font-size-small;
+  overflow: hidden;
+}
+
+.filter-option-close {
+  display: none;
+  position: absolute;
+  top: 16px;
+  right: 15px;
+  color: #fff !important;
+}
+
+// Open-state for the dropdown
+// -------------------------
+.open {
+  &.filter-option {
+    margin-bottom: 18px;  // fixes the jumping div's when opened
+  }
+
+  &.filter-option .btn {
+    color: @gray-darker;
+    text-shadow: none;
+    background-color: #d9d9d9;
+    border-bottom: 0;
+    .border-bottom-radius(0);
+
+    &:hover {
+      #gradient .vertical(rgba(0,0,0,0.12), rgba(0,0,0,0));
+
+      .filter-option-close {
+        display: none;
+      }
+    }
+  }
+
+  .filter-option-subtitle {
+    height: 0;
+  }
+}
+
+.filter-option .dropdown-menu {
+  width: 100%;
+  margin: 0;
+  padding: 0 4px 4px 4px;
+  background-color: #d9d9d9;
+  border-top: 0;
+  .border-top-radius(0);
+}
+
+.checklist {
+  max-height: 250px;
+  overflow-y: scroll;
+  margin: 4px 0 0 0;
+  padding: 0 9px;
+  font-size: @font-size-small;
+  list-style: none;
+  background: #fff;
+  border: 1px solid #c0c0c0;
+  border-radius: @border-radius-small;
+
+  li {
+    
+  }
+
+  label {
+    width: 100%;
+    margin: 0;
+    padding: 6px 0;
+    font-weight: 400;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 8px;
+  }
+}
+
+.list-heading {
+  margin: 3px 0 5px 0;
+  padding: 3px 0 4px 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: @gray-semi-dark;
+  border-bottom: 2px solid @gray-lighter;
+
+  &:not(:first-child) {
+    padding-top: 9px;
+  }
+}
