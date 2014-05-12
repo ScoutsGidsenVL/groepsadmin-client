@@ -11,11 +11,14 @@ module.exports = function(grunt) {
           'css/bootstrap.css': ['less/bootstrap.less']
         },
         options: {
-          compress: true/*,
-          // LESS source maps
-          // To enable, set sourceMap to true and update sourceMapRootpath based on your install
+          compress: true,
+          yuicompress: true,
+          optimization: 2,
           sourceMap: true,
-          sourceMapFilename: 'css/styles.css.map'*/
+          sourceMapFilename: 'css/bootstrap.css.map', // where file is generated and located
+          sourceMapURL: '/groepsadmin/css/bootstrap.css.map', // the complete url and filename put in the compiled css file
+          //sourceMapBasepath: 'public', // Sets sourcemap base path, defaults to current working directory.
+          sourceMapRootpath: '/groepsadmin', // adds this path onto the sourcemap filename and less file paths
         }
       }
     },
@@ -27,19 +30,20 @@ module.exports = function(grunt) {
         files: ['less/**/*.less'],
         tasks: ['less'],
         options: {
-          nospawn: true
+          livereload: true,
+          nospaces: true
         }
-      },
+      }/*,
       // Watch for JS changes.
       scripts: {
-        files: ['js/**/*.js'],
+        files: ['js/*.js'],
         tasks: ['less::development']
       }/*,
       livereload: {
         options: { 
           livereload: false
         },
-        files: ['css/styles.css', 'js/scripts.js','*.html' ]
+        files: ['css/*.css', 'js/*.js','*.html' ]
       }*/
     }
 
