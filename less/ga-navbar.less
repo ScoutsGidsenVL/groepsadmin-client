@@ -1,5 +1,5 @@
 //Navbar alignment fix
-.navbar .container {
+.navbar .container-fluid {
   padding: 0;
 }
 
@@ -9,11 +9,19 @@
   margin: 12px @fluid-grid-gutter-width;
 
   .input-group {
+    width: 100%;
     border: 1px solid darken(@body-bg, 25%);
     background-color: #fffefa;
     border-radius: @border-radius-base;
     @shadow: inset 0 2px 4px rgba(0,0,0,.2);
     box-shadow: @shadow;
+
+    &-btn {
+      width: 1% !important;
+    }
+    .btn {
+      font-size: @font-size-base !important;
+    }
   }
 
   &.dropdown .form-control {

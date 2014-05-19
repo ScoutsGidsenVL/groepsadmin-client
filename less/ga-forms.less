@@ -9,8 +9,6 @@ fieldset {
   margin-bottom: 2em;
 }
 
-
-
 legend {
   font-size: @font-size-base;
   font-weight: 700;
@@ -19,7 +17,9 @@ legend {
   border-bottom: 2px solid @gray-lighter;
 }
 
-
+.bootstrap-select {
+  margin: 0 !important;
+}
 
 
 .form-hover {
@@ -86,12 +86,15 @@ legend {
   // Select element spacing adjustment
   .bootstrap-select {
     width: 100% !important;
-    margin: 0;
     padding: 0;
 
     .btn {
       padding: 0.35714285714em; // 5/14
       line-height: 1.28571429; // 18/14
     }
+  }
+
+  .btn {
+    border-radius: @input-border-radius;
   }
 }
