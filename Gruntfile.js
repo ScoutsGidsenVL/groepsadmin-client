@@ -24,27 +24,27 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      // Watch for LESS changes, building CSS directly
+      options: {
+        livereload: true,
+      },
+      // Watch for LESS changes and build CSS automatically
       styles: {
         // Which files to watch (all .less files recursively in the less directory)
         files: ['less/**/*.less'],
         tasks: ['less'],
         options: {
-          livereload: true,
           nospaces: true
         }
-      }/*,
+      },/*
       // Watch for JS changes.
       scripts: {
         files: ['js/*.js'],
         tasks: ['less::development']
-      }/*,
-      livereload: {
-        options: { 
-          livereload: false
-        },
-        files: ['css/*.css', 'js/*.js','*.html' ]
       }*/
+      // Watch html files, just for LiveReload
+      templates: {
+        files: ['*.html']
+      }
     }
 
   });
