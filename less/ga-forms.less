@@ -17,14 +17,19 @@ legend {
   border-bottom: 2px solid @gray-lighter;
 }
 
+.form-control:focus {
+  box-shadow: none;
+}
+.dropdown-menu a:focus {
+  outline: none; 
+}
+
 .bootstrap-select {
   margin: 0 !important;
 }
 
 
 .form-hover {
-
-
   .form-group {
     float: left;
     width: 100%;
@@ -86,11 +91,28 @@ legend {
   // Select element spacing adjustment
   .bootstrap-select {
     width: 100% !important;
-    padding: 0;
 
     .btn {
       padding: 0.35714285714em; // 5/14
       line-height: 1.28571429; // 18/14
+      border-color: transparent;
+    }
+  }
+  
+  .selectpicker {
+    border-color: transparent
+  }
+  .caret {
+    display: none;
+  }
+  
+  .form-group:hover,
+  .bootstrap-select.open {
+    .selectpicker {
+      border-color: @btn-default-border;
+    }
+    .caret {
+      display: block; 
     }
   }
 
