@@ -56,7 +56,7 @@
   $.fn.responsivetable.Constructor = ResponsiveTable
 
   $(window).on('load', function () {
-    $('#members').each(function () {
+    $('#leden').each(function () {
       var $menu = $(this)
       $menu.responsivetable($menu.data())
     })

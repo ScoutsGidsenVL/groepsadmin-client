@@ -2,14 +2,16 @@
 // Collapsable Tables
 // --------------------------------------------------
 
-
 .t-caret {
-    display: none;
+  display: none;
 }
 
+#leden tr {
+  cursor: pointer;
+}
 
 @media screen and (max-width: 640px) {
-  #members {
+  #leden {
     border: 0;
 
     tbody, tr, td {
@@ -28,7 +30,7 @@
         background: none;
       }
     }
-    
+
     .t-caret {
       display: inline;
       position: absolute;
@@ -49,21 +51,21 @@
     // Breakpoint with 3 rows visible
     @rows: 3;
     td:nth-child(-n+@{rows}) {
-        float: left;
-        width: 33.33%;
+      float: left;
+      width: 33.33%;
     }
     td:nth-child(-n+@{rows}):before {
-        display: none;
+      display: none;
     }
     /*td:nth-child(3):after {
-        content: '';
-        display: inline-block;
-        float: right;
-        margin: 8px;
-        color: #666666;
-        border-top: 6px solid;
-        border-right: 6px solid transparent;
-        border-left: 6px solid transparent;
+      content: '';
+      display: inline-block;
+      float: right;
+      margin: 8px;
+      color: #666666;
+      border-top: 6px solid;
+      border-right: 6px solid transparent;
+      border-left: 6px solid transparent;
     }*/
 
     td:nth-child(n+4) {
@@ -72,10 +74,10 @@
 
       // Add the value of data-label attribute before the column data
       &:before {
-          float: left;
-          width: 35%;
-          padding-right: 20px;
-          font-weight: bold;
+        float: left;
+        width: 35%;
+        padding-right: 20px;
+        font-weight: bold;
       }
     }
     td:nth-child(4) {
@@ -102,7 +104,7 @@
 
 
 @media screen and (max-width: 400px) {
-  #members {
+  #leden {
     td:nth-child(-n+3) {
       width: auto;
       padding-right: 0;

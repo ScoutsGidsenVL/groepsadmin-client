@@ -1,0 +1,138 @@
+<!-- Panel header -->
+<div class="panel-heading clearfix">
+  <div class="pull-left">
+    <h1 class="panel-title">{{lid.persoonsgegevens.voornaam + ' ' + lid.persoonsgegevens.achternaam}}</h1>
+    <p class="panel-subtitle">woutersynhaeve{{lid.persoonsgegevens.gebruikersnaam}}</p>
+  </div>
+  <!--
+  <div class="pull-right btn-group">
+      <button class="btn btn-default" title="vorig lid"><span class="glyphicon glyphicon-chevron-left"></span></button>
+      <button class="btn btn-default" title="volgend lid"><span class="glyphicon glyphicon-chevron-right"></span></button>
+  </div>
+-->
+</div>
+
+<!-- Persoonsinfo -->
+<div class="panel-body form-hover clearfix">
+  <section class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+    <fieldset>
+      <legend>Persoonlijk</legend>
+      <div class="form-group readonly">
+        <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="text" class="form-control" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam" readonly />
+        </div>
+      </div>
+      <div class="form-group readonly">
+        <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam" readonly />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_gebruikersnaam" class="col-xs-5 col-xxs-12 control-label">Gebruikersnaam</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="text" class="form-control" id="_gebruikersnaam" ng-model="lid.persoonsgegevens.gebruikersnaam" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="text" class="form-control" id="_email" ng-model="lid.email" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" />
+        </div>
+      </div>
+    </fieldset>
+  </section>
+  <section class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+    <fieldset>
+      <legend>Postadres</legend>
+      <div class="form-group">
+        <label for="_land" class="col-xs-5 col-xxs-12 control-label">Land</label>
+        <div class="col-xs-7 col-xxs-12">
+          <select class="selectpicker" id="_land" ng-model="lid.adressen.land">
+            <option selected>België</option>
+            <option>Nederland</option>
+            <option>Frankrijk</option>
+            <option>Duitsland</option>
+            <option>Luxemburg</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="text" class="form-control" id="_woonplaats" ng-model="lid.adressen.gemeente" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_straatnaam" class="col-xs-5 col-xxs-12 control-label">Straat</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="text" class="form-control" id="_straatnaam" ng-model="lid.adressen.straat" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_straatnummer" class="col-xs-5 col-xxs-12 control-label">Nr</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="lid.adressen.nummer" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_bus" class="col-xs-5 col-xxs-12 control-label">Bus</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="lid.adressen.bus" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_huistelefoon" class="col-xs-5 col-xxs-12 control-label">Huistelefoon</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="text" class="form-control" id="_huistelefoon" maxlength="15" ng-model="lid.adressen.telefoon" />
+        </div>
+      </div>
+    </fieldset>
+  </section>
+  <section class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+    <fieldset>
+      <legend>Functies</legend>
+      <div class="form-group">
+        <div class="col-lg-4 col-md-4 help-block"><p>24 aug '11</p><p><a href="" class="btn-link-danger">Stop functie</a></p></div>
+        <div class="col-lg-8 col-md-8"><p><strong>Verantw groepsadmin</strong></p><p>Jan Bart (W2409G)</p></div>
+      </div>
+      <div class="form-group">
+        <div class="col-lg-4 col-md-4 help-block"><p>24 aug '11</p><p><a href="" class="btn-link-danger">Stop functie</a></p></div>
+        <div class="col-lg-8 col-md-8"><p><strong>Gidsen-verkennerleiding</strong></p><p>Jan Bart (W2409G)</p></div>
+      </div>
+      <div class="form-group">
+        <div class="col-lg-4 col-md-4 help-block"><p>24 aug '11</p><p><a href="" class="btn-link-danger">Stop functie</a></p></div>
+        <div class="col-lg-8 col-md-8"><p><strong>Adres briefwisseling</strong></p><p>Jan Bart (W2409G)</p></div>
+      </div>
+    </fieldset>
+  </section>
+  <section class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+    <fieldset>
+      <legend>Groepsadministratie</legend>
+    </fieldset>
+  </section>
+</div>
+
+<!-- Panel footer -->
+<footer class="panel-footer clearfix">
+  <ul class="pagination pull-left responsivefooter">
+    <li><a href="#">Opslaan</a></li>
+    <li><a href="#">Schrap</a></li>
+    <li><a href="#">Nieuw</a></li>
+    <li><a href="#">Broer/zus toevoegen</a></li>
+    <li><a href="#">Broer/zus toevoegen</a></li>
+  </ul>
+</footer>

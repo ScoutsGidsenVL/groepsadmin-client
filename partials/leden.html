@@ -1,0 +1,176 @@
+<!-- Panel header -->
+<div class="panel-heading clearfix">
+  <!--<h1 class="panel-title">Wouter Synhaeve</h1>
+  <p class="panel-subtitle">1994071000685</p>-->
+  <div class="pull-left">
+    <a id="btnFilter" class="btn btn-default btn-toggle" data-toggle="collapse" href="#filterCollapse"><span class="glyphicon glyphicon-filter"></span>&nbsp; Filter</a>
+
+    <select class="selectpicker" title="Opgeslagen filters">
+      <optgroup label="Persoonlijke filters">
+        <option>Export</option>
+        <option>Wanbetalers</option>
+      </optgroup>
+      <optgroup label="Standaard filters">
+        <option>Leden met geblokkeerd adres</option>
+      </optgroup>
+    </select>
+  </div>
+
+  <div class="pull-right">
+    <a href="#" class="btn-minimal"><span class="glyphicon glyphicon-plus"></span>&nbsp; Nieuw lid toevoegen</a>
+    <a  data-toggle="modal" href="#exportModal" class="btn-minimal"><span class="glyphicon glyphicon-share-alt"></span>&nbsp; Exporteren</a>
+
+  </div>
+</div>
+
+<!-- Filter panel -->
+<div id="filterCollapse" class="panel-filter row-fluid clearfix collapse">
+
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
+    <div class="btn-group filter-option">
+      <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
+        <span class="filter-option-title">Functies</span>
+        <span class="filter-option-subtitle">Kapoen, Kabouters, Welpen</span>
+        <a href="#" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
+      </button>
+      <div class="dropdown-menu">
+        <input class="form-control input-sm" type="text" placeholder="Zoek functie">
+        <ul class="checklist">
+          <li class="list-heading">Functies leden</li>
+          <li><label for="chk1"><input type="checkbox" id="chk1" name="leden" value="akab">Akabe-leden</label></li>
+          <li><label for="chk2"><input type="checkbox" id="chk2" name="leden" value="kap">Kapoenen</label></li>
+          <li><label for="chk3"><input type="checkbox" id="chk3" name="leden" value="k">Kabouters</label></li>
+          <li><label for="chk4"><input type="checkbox" id="chk4" name="leden" value="w">Welpen</label></li>
+          <li><label for="chk5"><input type="checkbox" id="chk5" name="leden" value="jg">Jong gidsen</label></li>
+          <li><label for="chk6"><input type="checkbox" id="chk6" name="leden" value="jv">Jong verkenners</label></li>
+          <li><label for="chk7"><input type="checkbox" id="chk7" name="leden" value="g">Gidsen</label></li>
+          <li><label for="chk8"><input type="checkbox" id="chk8" name="leden" value="v">Verkenners</label></li>
+          <li><label for="chk9"><input type="checkbox" id="chk9" name="leden" value="jin">Jin</label></li>
+          <li class="list-heading">Functies leiding</li>
+          <li><label for="chk10"><input type="checkbox" id="chk10" name="leiding" value="akel" />Leiding in Akabetak</label></li>
+          <li><label for="chk11"><input type="checkbox" id="chk11" name="leiding" value="aake" />Adj. leiding in Akabetak</label></li>
+          <li><label for="chk12"><input type="checkbox" id="chk12" name="leiding" value="kpl" />Kapoenenleiding</label></li>
+          <li><label for="chk13"><input type="checkbox" id="chk13" name="leiding" value="akpl" />Adj. Kapoenenleiding</label></li>
+          <li><label for="chk14"><input type="checkbox" id="chk14" name="leiding" value="kwl" />Kabouter-Welpenleiding</label></li>
+          <li><label for="chk15"><input type="checkbox" id="chk15" name="leiding" value="akwl" />Adj. Kabouter-Welpenleiding</label></li>
+          <li><label for="chk16"><input type="checkbox" id="chk16" name="leiding" value="jgvl" />Jonggidsen-Jongverkennerleiding</label></li>
+          <li><label for="chk17"><input type="checkbox" id="chk17" name="leiding" value="ajgv" />Adj. Jonggidsen-Jongverkennerleiding</label></li>
+          <li><label for="chk18"><input type="checkbox" id="chk18" name="leiding" value="gvl" />Gidsen-Verkennerleiding</label></li>
+          <li><label for="chk19"><input type="checkbox" id="chk19" name="leiding" value="agvl" />Adj. Gidsen-Verkennerleiding</label></li>
+          <li><label for="chk20"><input type="checkbox" id="chk20" name="leiding" value="gra" />Groepsaalmoezenier</label></li>
+          <li><label for="chk21"><input type="checkbox" id="chk21" name="leiding" value="agra" />Adj. Aalmoezenier</label></li>
+          <li><label for="chk22"><input type="checkbox" id="chk22" name="leiding" value="grb" />Groepsbeheerder</label></li>
+          <li><label for="chk23"><input type="checkbox" id="chk23" name="leiding" value="grl" />Groepsleiding</label></li>
+          <li><label for="chk24"><input type="checkbox" id="chk24" name="leiding" value="agrl" />Adj. Groepsleiding</label></li>
+          <li><label for="chk25"><input type="checkbox" id="chk25" name="leiding" value="grlp" />Groepsleidingsploeg</label></li>
+          <li><label for="chk26"><input type="checkbox" id="chk26" name="leiding" value="grs" />Secretaris</label></li>
+          <li><label for="chk27"><input type="checkbox" id="chk27" name="leiding" value="agrs" />Adj. Secretaris</label></li>
+          <li class="list-heading">Andere functies</li>
+          <li><label for="chk28"><input type="checkbox" id="chk28" name="andere" value="ab" />Adres Briefwisseling</label></li>
+          <li><label for="chk29"><input type="checkbox" id="chk29" name="andere" value="grc" />Groepscomite</label></li>
+          <li><label for="chk30"><input type="checkbox" id="chk30" name="andere" value="ll" />Los Lid</label></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
+    <div class="btn-group filter-option">
+      <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
+        <span class="filter-option-title">Geslacht</span>
+        <span class="filter-option-subtitle">Mannelijk, vrouwelijk</span>
+        <a href="#" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
+      </button>
+      <div class="dropdown-menu">
+        <ul class="checklist">
+          <li><label for="chk31"><input type="checkbox" id="chk31" name="geslacht" value="m">Mannelijk</label></li>
+          <li><label for="chk32"><input type="checkbox" id="chk32" name="geslacht" value="v">Vrouwelijk</label></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
+    <div class="btn-group filter-option">
+      <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
+        <span class="filter-option-title">Groepseigen velden</span>
+        <span class="filter-option-subtitle">Betaald</span>
+        <a href="#" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
+      </button>
+      <div class="dropdown-menu">
+        <ul class="checklist">
+          <li><label for="chk33"><input type="checkbox" id="chk33" name="betaald" value="m">Betaald</label></li>
+          <li><label for="chk34"><input type="checkbox" id="chk34" name="betaald" value="v">Betaald 10</label></li>
+          <li><label for="chk35"><input type="checkbox" id="chk35" name="betaald" value="v">Betaald 11</label></li>
+          <li><label for="chk36"><input type="checkbox" id="chk36" name="betaald" value="v">Betaald 12</label></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
+    <div class="btn-group filter-option">
+      <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
+        <span class="filter-option-title">Groepseigen velden</span>
+        <span class="filter-option-subtitle">Betaald</span>
+        <a href="#" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
+      </button>
+      <div class="dropdown-menu">
+        <ul class="checklist">
+          <li><label for="chk33"><input type="checkbox" id="chk33" name="betaald" value="m">Betaald</label></li>
+          <li><label for="chk34"><input type="checkbox" id="chk34" name="betaald" value="v">Betaald 10</label></li>
+          <li><label for="chk35"><input type="checkbox" id="chk35" name="betaald" value="v">Betaald 11</label></li>
+          <li><label for="chk36"><input type="checkbox" id="chk36" name="betaald" value="v">Betaald 12</label></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
+      <span class="glyphicon glyphicon-plus"></span>
+      <span class="hidden-label">Filter criteria toevoegen</span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href="#">Geslacht</a></li>
+      <li><a href="#">Groepseigen gegevens</a></li>
+      <li><a href="#">Extra Criteria</a></li>
+    </ul>
+  </div>
+  <a href="#" class="btn btn-filter btn-filter-columns"><span class="glyphicon glyphicon-th-list"></span></a>
+</div>
+
+<!-- Table -->
+<table id="leden" class="table table-responsive table-hover">
+  <thead>
+    <tr>
+      <th>Lidnummer</th><th>Voornaam</th><th>Achternaam</th><th>Straat</th><th>Nr</th><th>Postcode</th><th>Gemeente</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="" ng-repeat="lid in leden" ga-lid="{{lid.id}}">
+      <td>{{lid.lidnummer}}</td>
+      <td>{{lid.voornaam}}</td>
+      <td>{{lid.achternaam}}</td>
+      <td>{{lid.straat}}</td>
+      <td>{{lid.nummer}}</td>
+      <td>{{lid.postcode}}</td>
+      <td>{{lid.gemeente}}</td>
+      <td class="t-caret" role="button"><span class="caret"></span></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Panel footer -->
+<footer class="panel-footer clearfix">
+  <small class="pagination-info pull-left">1 tot 12 van 118</small>
+  <ul class="pagination pull-right">
+    <li><a href="#">«</a></li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#">»</a></li>
+  </ul>
+</footer>
