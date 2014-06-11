@@ -89,12 +89,12 @@
     </fieldset>
   </section>
   <section class="col-lg-4 col-sm-6 col-xs-12">
-    <fieldset>
+    <fieldset ng-repeat="adres in lid.adressen | filter:{'postadres': true}">
       <legend>Postadres</legend>
       <div class="form-group">
         <label for="_land" class="col-xs-5 col-xxs-12 control-label">Land</label>
         <div class="col-xs-7 col-xxs-12">
-          <select class="selectpicker" id="_land" ng-model="lid.adressen[0].land">
+          <select class="selectpicker" id="_land" ng-model="adres.land">
             <option selected>België</option>
             <option>Nederland</option>
             <option>Frankrijk</option>
@@ -107,37 +107,37 @@
       <div class="form-group">
         <label for="_postcode" class="col-xs-5 col-xxs-12 control-label">Postcode</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_postcode" maxlength="4" ng-model="lid.adressen[0].postcode" />
+          <input type="text" class="form-control" id="_postcode" maxlength="4" ng-model="adres.postcode" />
         </div>
       </div>
       <div class="form-group">
         <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_woonplaats" ng-model="lid.adressen[0].gemeente" />
+          <input type="text" class="form-control" id="_woonplaats" ng-model="adres.gemeente" />
         </div>
       </div>
       <div class="form-group">
         <label for="_straatnaam" class="col-xs-5 col-xxs-12 control-label">Straat</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_straatnaam" ng-model="lid.adressen[0].straat" />
+          <input type="text" class="form-control" id="_straatnaam" ng-model="adres.straat" />
         </div>
       </div>
       <div class="form-group">
         <label for="_straatnummer" class="col-xs-5 col-xxs-12 control-label">Nr</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="lid.adressen[0].nummer" />
+          <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="adres.nummer" />
         </div>
       </div>
       <div class="form-group">
         <label for="_bus" class="col-xs-5 col-xxs-12 control-label">Bus</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="lid.adressen[0].bus" />
+          <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" />
         </div>
       </div>
       <div class="form-group">
         <label for="_huistelefoon" class="col-xs-5 col-xxs-12 control-label">Huistelefoon</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_huistelefoon" maxlength="15" ng-model="lid.adressen[0].telefoon" />
+          <input type="text" class="form-control" id="_huistelefoon" maxlength="15" ng-model="adres.telefoon" />
         </div>
       </div>
     </fieldset>
