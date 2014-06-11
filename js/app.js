@@ -37,10 +37,17 @@ var gaApp = angular
 
   .controller('DetailsController', ['$scope', '$routeParams', 'RestService', function ($scope, $routeParams, RestService) {
     $scope.lid = RestService.get({ id:$routeParams.id });
+    $scope.datum = new Date();
     
-    /*$http.get('data.json').success(function (data) {
-      $scope.artists = data;
-    });*/
+    $scope.opslaan = function() {
+      $scope.lid.$save(function(response) {
+        $scope.lid = response;
+      });
+    }
+    
+    $scope.schrap = function() {}
+    $scope.nieuw = function() {}
+    $scope.gezinslid = function() {}
   }])
 
   .directive('gaLid', ['$location', function ($location) {

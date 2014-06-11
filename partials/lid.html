@@ -2,7 +2,7 @@
 <div class="panel-heading clearfix">
   <div class="pull-left">
     <h1 class="panel-title">{{lid.persoonsgegevens.voornaam + ' ' + lid.persoonsgegevens.achternaam}}</h1>
-    <p class="panel-subtitle">woutersynhaeve{{lid.persoonsgegevens.gebruikersnaam}}</p>
+    <p class="panel-subtitle">{{lid.verbondsgegevens.lidnummer }}</p>
   </div>
   <!--
   <div class="pull-right btn-group">
@@ -14,19 +14,46 @@
 
 <!-- Persoonsinfo -->
 <div class="panel-body form-hover clearfix">
-  <section class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+  <section class="col-lg-4 col-sm-6 col-xs-12">
     <fieldset>
       <legend>Persoonlijk</legend>
-      <div class="form-group readonly">
+      <div class="form-group">
         <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam" readonly />
+          <input type="text" class="form-control" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam" />
         </div>
       </div>
-      <div class="form-group readonly">
+      <div class="form-group">
         <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam" readonly />
+          <input type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_geslacht" class="col-xs-5 col-xxs-12 control-label">Geslacht</label>
+        <div class="col-xs-7 col-xxs-12">
+          <select class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht">
+            <option value="man">Mannelijk</option>
+            <option value="vrouw">Vrouwelijk</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="date" class="form-control" id="_geboortedatum" max="{{datum | date:'yyyy-MM-dd'}}" ng-model="lid.persoonsgegevens.geboortedatum" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_beperking" class="col-xs-5 col-xxs-12 control-label">Verminderd lidgeld</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="checkbox" class="" id="_beperking" ng-model="lid.persoonsgegevens.beperking" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_verminderdlidgeld" class="col-xs-5 col-xxs-12 control-label">Persoon met beperking</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.persoonsgegevens.verminderdlidgeld" />
         </div>
       </div>
       <div class="form-group">
@@ -35,16 +62,16 @@
           <input type="text" class="form-control" id="_gebruikersnaam" ng-model="lid.persoonsgegevens.gebruikersnaam" />
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group {{lid.email?'readonly':''}}">
         <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_email" ng-model="lid.email" />
+          <input type="text" class="form-control" id="_email" ng-model="lid.email" ng-readonly="lid.email" />
         </div>
       </div>
       <div class="form-group">
         <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm" />
+          <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.GSM" />
         </div>
       </div>
       <div class="form-group">
@@ -53,73 +80,86 @@
           <input type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" />
         </div>
       </div>
+      <div class="form-group">
+        <label for="_lidgeldbetaald" class="col-xs-5 col-xxs-12 control-label">Lidgeld betaald</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="checkbox" class="" id="_lidgeldbetaald" ng-model="lid.verbondsgegevens.lidgeldbetaald" />
+        </div>
+      </div>
     </fieldset>
   </section>
-  <section class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+  <section class="col-lg-4 col-sm-6 col-xs-12">
     <fieldset>
       <legend>Postadres</legend>
       <div class="form-group">
         <label for="_land" class="col-xs-5 col-xxs-12 control-label">Land</label>
         <div class="col-xs-7 col-xxs-12">
-          <select class="selectpicker" id="_land" ng-model="lid.adressen.land">
+          <select class="selectpicker" id="_land" ng-model="lid.adressen[0].land">
             <option selected>België</option>
             <option>Nederland</option>
             <option>Frankrijk</option>
             <option>Duitsland</option>
             <option>Luxemburg</option>
+            <option>UK</option>
           </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="_postcode" class="col-xs-5 col-xxs-12 control-label">Postcode</label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="text" class="form-control" id="_postcode" maxlength="4" ng-model="lid.adressen[0].postcode" />
         </div>
       </div>
       <div class="form-group">
         <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_woonplaats" ng-model="lid.adressen.gemeente" />
+          <input type="text" class="form-control" id="_woonplaats" ng-model="lid.adressen[0].gemeente" />
         </div>
       </div>
       <div class="form-group">
         <label for="_straatnaam" class="col-xs-5 col-xxs-12 control-label">Straat</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_straatnaam" ng-model="lid.adressen.straat" />
+          <input type="text" class="form-control" id="_straatnaam" ng-model="lid.adressen[0].straat" />
         </div>
       </div>
       <div class="form-group">
         <label for="_straatnummer" class="col-xs-5 col-xxs-12 control-label">Nr</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="lid.adressen.nummer" />
+          <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="lid.adressen[0].nummer" />
         </div>
       </div>
       <div class="form-group">
         <label for="_bus" class="col-xs-5 col-xxs-12 control-label">Bus</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="lid.adressen.bus" />
+          <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="lid.adressen[0].bus" />
         </div>
       </div>
       <div class="form-group">
         <label for="_huistelefoon" class="col-xs-5 col-xxs-12 control-label">Huistelefoon</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_huistelefoon" maxlength="15" ng-model="lid.adressen.telefoon" />
+          <input type="text" class="form-control" id="_huistelefoon" maxlength="15" ng-model="lid.adressen[0].telefoon" />
         </div>
       </div>
     </fieldset>
   </section>
-  <section class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+  <section class="col-lg-4 col-sm-6 col-xs-12">
     <fieldset>
       <legend>Functies</legend>
       <div class="form-group">
-        <div class="col-lg-4 col-md-4 help-block"><p>24 aug '11</p><p><a href="" class="btn-link-danger">Stop functie</a></p></div>
-        <div class="col-lg-8 col-md-8"><p><strong>Verantw groepsadmin</strong></p><p>Jan Bart (W2409G)</p></div>
+        <div class="col-xs-4 help-block"><p>24 aug '11</p><p><a href="" class="btn-link-danger">Stop functie</a></p></div>
+        <div class="col-xs-8"><p><strong>Verantw groepsadmin</strong></p><p>Jan Bart (W2409G)</p></div>
       </div>
       <div class="form-group">
-        <div class="col-lg-4 col-md-4 help-block"><p>24 aug '11</p><p><a href="" class="btn-link-danger">Stop functie</a></p></div>
-        <div class="col-lg-8 col-md-8"><p><strong>Gidsen-verkennerleiding</strong></p><p>Jan Bart (W2409G)</p></div>
+        <div class="col-xs-4 help-block"><p>24 aug '11</p><p><a href="" class="btn-link-danger">Stop functie</a></p></div>
+        <div class="col-xs-8"><p><strong>Gidsen-verkennerleiding</strong></p><p>Jan Bart (W2409G)</p></div>
       </div>
       <div class="form-group">
-        <div class="col-lg-4 col-md-4 help-block"><p>24 aug '11</p><p><a href="" class="btn-link-danger">Stop functie</a></p></div>
-        <div class="col-lg-8 col-md-8"><p><strong>Adres briefwisseling</strong></p><p>Jan Bart (W2409G)</p></div>
+        <div class="col-xs-4 help-block"><p>24 aug '11</p><p><a href="" class="btn-link-danger">Stop functie</a></p></div>
+        <div class="col-xs-8"><p><strong>Adres briefwisseling</strong></p><p>Jan Bart (W2409G)</p></div>
       </div>
     </fieldset>
   </section>
-  <section class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+  <section class="col-lg-4 col-sm-6 col-xs-12">
     <fieldset>
       <legend>Groepsadministratie</legend>
     </fieldset>
@@ -132,7 +172,6 @@
     <li><a href="#">Opslaan</a></li>
     <li><a href="#">Schrap</a></li>
     <li><a href="#">Nieuw</a></li>
-    <li><a href="#">Broer/zus toevoegen</a></li>
     <li><a href="#">Broer/zus toevoegen</a></li>
   </ul>
 </footer>
