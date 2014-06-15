@@ -1,33 +1,51 @@
 !function($, window, document, undefined) {
 
   var ResponsiveFooter = function (element) {
-    var $el = $(element).width('100%');
-    var totalWidth = $el.width() - 43, // 43: necessary width for extra button
-      w = 0, i = 0, list = [];
-
-    // Check if all the buttons fit in the bar, remove the ones that don't
+    var $el = $(element).width('100%'),
+        i = 0;
+    
+    $el.origin = $el.children().clone();
+    
+    $el.childWidths = [];
     $el.children().each(function() {
-      w += Math.ceil($(this).width());
-      if(w > totalWidth) return false;
+      $el.childWidths[i] = Math.ceil($(this).width());
       ++i;
     });
-    list = $el.children().slice(i).remove();
+    
+    $el.optimize = function() {
+      var totalWidth = this.width() - 43, // 43: necessary width for extra button
+        html = '', w = 0, i = 0, list = [];
 
-    // Create the dropdown-menu
-    if(list.length) {
-      var html = '<li class=\"dropdown dropup pull-right\" title=\"Meer\"><a href=\"\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></a>';
-      html += '<ul class=\"dropdown-menu pull-right\">';
-      list.each(function() {
+      // Check if all the buttons fit in the bar, remove the ones that don't
+      this.origin.each(function() {
+        w += $el.childWidths[i];
+        if(w > totalWidth) return false;
         html += this.outerHTML;
+        ++i;
       });
-      html += '</ul></li>';
+      list = this.origin.slice(i);
 
-      $el.append(html);
-        //$btn.dropdown();
-      /*  $btn.on('click', function() {
-          $dropdown.toggleClass('open');
-        })*/
+      // Create the dropdown-menu
+      if(list.length) {
+        html += '<li class=\"dropdown dropup pull-right\" title=\"Meer\"><a class=\"dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></a>';
+        html += '<ul class=\"dropdown-menu pull-right\">';
+        list.each(function() {
+          html += this.outerHTML;
+        });
+        html += '</ul></li>';
+
+        this.html(html);
+      } else {
+        // Restore the original bar
+        this.html(this.origin);
+      }
     }
+    
+    $(window).resize( $.throttle(250, function() {
+      $el.optimize();
+    }));
+    
+    $el.optimize();
   }
 
   // RESPONSIVE FOOTER DEFINITION

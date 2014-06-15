@@ -44,10 +44,14 @@ var gaApp = angular
         $scope.lid = response;
       });
     }
-    
     $scope.schrap = function() {}
     $scope.nieuw = function() {}
     $scope.gezinslid = function() {}
+    
+    $scope.$on('$viewContentLoaded', function() {
+      $('.selectpicker').selectpicker();
+      $('.responsivefooter').responsivefooter();
+    });
   }])
 
   .directive('gaLid', ['$location', function ($location) {
