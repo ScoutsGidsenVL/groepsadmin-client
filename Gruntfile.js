@@ -45,6 +45,12 @@ module.exports = function(grunt) {
       templates: {
         files: ['*.html']
       }
+    },
+
+    connect: {
+      server: {
+        livereload: true
+      }
     }
 
   });
@@ -52,8 +58,13 @@ module.exports = function(grunt) {
   // Load required modules
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-connect');
 
   // Task definitions
   grunt.registerTask('default', ['watch']);
+  grunt.registerTask('serve', [
+      'connect:server',
+      'watch'
+      ]);
 
 };
