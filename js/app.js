@@ -22,7 +22,7 @@ var gaApp = angular
   }])
 
   .factory('RestService', ['$resource', function($resource) {
-    return $resource('http://localhost:8080/restga/lid/:id', { id: '@lid.id' });
+    return $resource('http://localhost:8080/lid/:id', { id: '@lid.id' });
   }])
 
   .controller('ListController', ['$scope', 'RestService', function ($scope, RestService) {
