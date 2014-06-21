@@ -140,6 +140,12 @@
           <input type="text" class="form-control" id="_huistelefoon" maxlength="15" ng-model="adres.telefoon" />
         </div>
       </div>
+      <div class="form-group readonly">
+        <label for="_adresstatus" class="col-xs-5 col-xxs-12 control-label">Status <span class="glyphicon glyphicon-question-sign" title="Geblokkeerd: dit adres is geblokeerd - Overleden: deze persoon is overleden - Extra: deze persoon ontvangt een eigen Over&Weer"></span></label>
+        <div class="col-xs-7 col-xxs-12">
+          <input type="text" class="form-control" id="_adresstatus" readonly ng-model="adres.status" />
+        </div>
+      </div>
     </fieldset>
   </section>
   <section class="col-lg-4 col-sm-6 col-xs-12">
