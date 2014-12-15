@@ -177,10 +177,19 @@
 
 <!-- Panel footer -->
 <footer class="panel-footer clearfix">
-  <ul class="pagination pull-left responsivefooter">
-    <li><a href="#">Opslaan</a></li>
-    <li><a href="#">Schrap</a></li>
-    <li><a href="#">Nieuw</a></li>
-    <li><a href="#">Broer/zus toevoegen</a></li>
+  <ul class="pagination pull-left responsive-footer">
+    <li><a href="" ng-click="opslaan()">Opslaan</a></li>
+    <li><a href="" ng-click="schrap()">Schrap</a></li>
+    <li><a href="" ng-click="nieuw()">Nieuw</a></li>
+    <li><a href="" ng-click="gezinslid()">Broer/zus toevoegen</a></li>
+    <li class="dropdown dropup pull-right" title="Meer">
+      <a class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+      <ul class="dropdown-menu pull-right">
+        <li><a href="" ng-click="opslaan()">Opslaan</a></li>
+        <li><a href="" ng-click="schrap()">Schrap</a></li>
+        <li><a href="" ng-click="nieuw()">Nieuw</a></li>
+        <li><a href="" ng-click="gezinslid()">Broer/zus toevoegen</a></li>
+      </ul>
+    </li>
   </ul>
 </footer>
