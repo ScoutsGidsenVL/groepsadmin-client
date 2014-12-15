@@ -224,7 +224,7 @@
 //** Hover color for dropdown links.
 @dropdown-link-hover-color:      #fff;
 //** Hover background for dropdown links.
-@dropdown-link-hover-bg:         @component-active-bg;
+@dropdown-link-hover-bg:         lighten(@component-active-bg, 25%);  // ga-adjustment
 
 //** Active dropdown menu item text color.
 @dropdown-link-active-color:     @component-active-color;
@@ -615,7 +615,7 @@
 //## Define alert colors, border radius, and padding.
 
 @alert-padding:               15px;
-@alert-border-radius:         @border-radius-base;
+@alert-border-radius:         0;  // ga-adjustment
 @alert-link-font-weight:      bold;
 
 @alert-success-bg:            @state-success-bg;
