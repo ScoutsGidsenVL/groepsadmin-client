@@ -3,8 +3,8 @@
 
 De API heeft de volgende eindpunten:
 
-| | | |
-|-|-|-|
+|   |   |
+|---|---|
 | *[/lid](#lid)*                                | `POST`                      |
 | *[/lid/{lidid}](#lidlidid)*                   | `GET` `PATCH`               |
 | *[/lid/profiel](#lidprofiel)*                 | `GET` `PATCH`               |
@@ -27,8 +27,9 @@ Nuttiger is dat bij een `PATCH` of `DELETE` de gebruiker op deze manier een vorm
 ### Headers
 
 De volgende headers moeten opgestuurd worden naar de server:
-| | | |
-|-|-|-|
+
+|   |   |
+|---|---|
 | *Accept* 			| `application/json`                              |
 | *Authentication* 	| oauth-2.0 access token: `Bearer {accessToken}`  |
 
@@ -411,8 +412,8 @@ Een error met een bevestigingslink.
 ### Status codes
 Zoals het hoort gebruiken we de volgende HTTP status codes:
 
-| | | |
-|-|-|-|
+|   |   |
+|---|---|
 | 200 | Request OK              |
 | 201 | Resource created        |
 | 304 | Not modified            |
