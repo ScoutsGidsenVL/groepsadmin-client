@@ -110,6 +110,17 @@ Een specifiek lid
       "status": "NORMAAL",
     }
   ],
+  "contacten": [
+    {
+      "id": "d5f75e23385c5e6e0139493b84fe0abc",
+      "voornaam": "Henrietta",
+      "achternaam": "Smyth",
+      "rol": "Moeder",
+      "adres": "d5f75e23385c5e6e0139493b84fe0352",
+      "gsm" : "0499 12 34 56",
+      "email": null
+    }
+  ],
   "email": "b.powell@example.com",
   "functies": {
     "A3143G": [
