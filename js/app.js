@@ -1,5 +1,5 @@
 var gaApp = angular
-  .module('gaApp', ['ngRoute', 'ngResource'])
+  .module('gaApp', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
   .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     // Configure the routes
@@ -26,6 +26,7 @@ var gaApp = angular
   }])
 
   .controller('ListController', ['$scope', 'RestService', function ($scope, RestService) {
+    $scope.isFilterCollapsed = true;
     //$scope.leden = RestService.query();
     
     $scope.leden = [

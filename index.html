@@ -90,23 +90,18 @@
     <script src="js/angular.min.js"></script>
     <script src="js/angular-route.min.js"></script>
     <script src="js/angular-resource.min.js"></script>
+    <script src="js/ui-bootstrap-custom-tpls-0.12.0.min.js"></script> <!-- Included: collapse -->
     <script src="js/app.js"></script>
     <script src="js/ui-typeahead.js"></script>
     
     <script src="js/transition.js"></script>
     <script src="js/dropdown.js"></script>
-    <script src="js/collapse.js"></script>
     <script src="js/modal.js"></script>
     <script src="js/bootstrap-select.min.js"></script>
     <script src="js/responsive-navbar.js"></script>
 
     <script type="text/javascript">
       $('.selectpicker').selectpicker();
-
-      var btnFilter = $('#btnFilter');
-      $('#filterCollapse').on('show.bs.collapse hide.bs.collapse', function () {
-        btnFilter.toggleClass("active");
-      });
 
       // Prevent filter-option-dropdowns from closing
       $('#filterCollapse .dropdown-menu').on('click', function(e) {

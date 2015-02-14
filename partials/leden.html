@@ -3,7 +3,7 @@
   <!--<h1 class="panel-title">Wouter Synhaeve</h1>
   <p class="panel-subtitle">1994071000685</p>-->
   <div class="pull-left">
-    <a id="btnFilter" class="btn btn-default btn-toggle" data-toggle="collapse" href="#filterCollapse"><span class="glyphicon glyphicon-filter"></span>&nbsp; Filter</a>
+    <a class="btn btn-default btn-toggle" ng-class="{ 'active' : !isFilterCollapsed }" href ng-click="isFilterCollapsed = !isFilterCollapsed"><span class="glyphicon glyphicon-filter"></span>&nbsp; Filter</a>
 
     <select class="selectpicker" title="Opgeslagen filters">
       <optgroup label="Persoonlijke filters">
@@ -24,7 +24,7 @@
 </div>
 
 <!-- Filter panel -->
-<div id="filterCollapse" class="panel-filter row-fluid clearfix collapse">
+<div id="filterCollapse" class="panel-filter row-fluid clearfix collapse" collapse="isFilterCollapsed">
 
   <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
     <div class="btn-group filter-option">
