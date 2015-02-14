@@ -75,15 +75,4 @@
   $window.on("resize", resizeWindow);
   $clrInput.on("click", focusOut);
 
-
-
-
-  // temporary! for testing only
-  $input.on("focus", function() {
-    $(".navbar-form").toggleClass("open");
-  });
-  $input.on("focusout", function() {
-    $(".navbar-form").toggleClass("open");
-  })
-
 }(jQuery, window, document);

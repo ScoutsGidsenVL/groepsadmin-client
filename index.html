@@ -34,24 +34,23 @@
             <span class="glyphicon glyphicon-stats"></span>&nbsp; <span class="hidden-xs">Orakel</span>
           </a></li>
         </ul>
-        <div class="navbar-form navbar-left dropdown" role="search">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Zoeken">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-            </span>
+        
+        <div class="navbar-form navbar-left" role="search">
+          <div typeahead class="dropdown" ng-controller="SearchController" term="input" items="results" action="gotoLid(item)" >
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Zoeken" ng-model="input" ng-change="query()">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+              </span>
+            </div>
+            <ul id="autocomplete" class="autocomplete dropdown-menu" ng-cloak>
+              <li ng-repeat="lid in results" typeahead-item="lid">
+                <a href>{{lid.voornaam + ' ' + lid.achternaam}}<span class="pull-right">{{lid.geboortedatum}}</span></a>
+              </li>
+            </ul>
           </div>
-          <ul id="autocomplete" class="autocomplete dropdown-menu">
-            <li><a href="#">Marieke Vandecasteele <span class="pull-right">05/07/1989</span></a></li>
-            <li><a href="#">Marie-Sophie Cnockaert <span class="pull-right">03/10/1990</span></a></li>
-            <li><a href="#">Marie-Alix Maelfait <span class="pull-right">29/11/1998</span></a></li>
-            <li><a href="#">Marie Asscherickx <span class="pull-right">26/06/1980</span></a></li>
-            <li><a href="#">Marie-Amelie Cnockaert <span class="pull-right">08/08/1989</span></a></li>
-            <li><a href="#">Marieke Pattijn <span class="pull-right">23/06/2001</span></a></li>
-            <li><a href="#">Marie Beel <span class="pull-right">01/03/2004</span></a></li>
-            <li><a href="#">Marie Leenkecht <span class="pull-right">01/03/2004</span></a></li>
-          </ul>
         </div>
+
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a href="" class="dropdown-toggle" data-toggle="dropdown">
@@ -92,6 +91,7 @@
     <script src="js/angular-route.min.js"></script>
     <script src="js/angular-resource.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/ui-typeahead.js"></script>
     
     <script src="js/transition.js"></script>
     <script src="js/dropdown.js"></script>
