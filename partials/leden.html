@@ -1,25 +1,13 @@
 <!-- Panel header -->
 <div class="panel-heading clearfix">
-  <!--<h1 class="panel-title">Wouter Synhaeve</h1>
-  <p class="panel-subtitle">1994071000685</p>-->
   <div class="pull-left">
     <a class="btn btn-default btn-toggle" ng-class="{ 'active' : !isFilterCollapsed }" href ng-click="isFilterCollapsed = !isFilterCollapsed"><span class="glyphicon glyphicon-filter"></span>&nbsp; Filter</a>
-
-    <select class="selectpicker" title="Opgeslagen filters">
-      <optgroup label="Persoonlijke filters">
-        <option>Export</option>
-        <option>Wanbetalers</option>
-      </optgroup>
-      <optgroup label="Standaard filters">
-        <option>Leden met geblokkeerd adres</option>
-      </optgroup>
-    </select>
+    <select class="selectpicker" title="Opgeslagen filters" ng-model="currentFilter" ng-options="filter.naam group by filter.label for filter in opgeslagenFilters"></select>
   </div>
 
   <div class="pull-right">
     <a href="#" class="btn-minimal"><span class="glyphicon glyphicon-plus"></span>&nbsp; Nieuw lid toevoegen</a>
     <a  data-toggle="modal" href="#exportModal" class="btn-minimal"><span class="glyphicon glyphicon-share-alt"></span>&nbsp; Exporteren</a>
-
   </div>
 </div>
 

@@ -49,10 +49,6 @@ var gaApp = angular
     $scope.nieuw = function() {}
     $scope.gezinslid = function() {}
     
-    $scope.$on('$viewContentLoaded', function() {
-      $('.selectpicker').selectpicker();
-      $('.responsivefooter').responsivefooter();
-    });
     $scope.stopFunctie = function(id) {
       // Een bestaande niet beëindigde functie opladen met einde != null of false.
       // OF: /functie/{functieId} DELETE request
