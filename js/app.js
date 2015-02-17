@@ -40,8 +40,11 @@ var gaApp = angular
     $scope.lid = RestService.get({ id:$routeParams.id });
     $scope.datum = new Date();
     
-    $scope.opslaan = function() {
-      $scope.lid.$save(function(response) {
+    $scope.opslaan = function(obj) {
+      console.log("UPDATE");
+      //e.preventDefault();
+      $scope.lid.$update(function(response) {
+        console.log("SUCCESS");
         $scope.lid = response;
       });
     }
