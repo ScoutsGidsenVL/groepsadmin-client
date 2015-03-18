@@ -2,7 +2,7 @@
 <div class="panel-heading clearfix">
   <div class="pull-left">
     <h1 class="panel-title">{{lid.persoonsgegevens.voornaam + ' ' + lid.persoonsgegevens.achternaam}}</h1>
-    <p class="panel-subtitle">{{lid.verbondsgegevens.lidnummer }}</p>
+    <p class="panel-subtitle">{{lid.verbondsgegevens.lidnummer}}</p>
   </div>
   <!--
   <div class="pull-right btn-group">
@@ -154,17 +154,20 @@
   <section class="col-lg-4 col-sm-6 col-xs-12">
     <fieldset>
       <legend>Functies</legend>
-      <div class="form-group">
-        <div class="col-xs-4 help-block"><p>24 aug '11</p><p><a href="" class="btn-link-danger">Stop functie</a></p></div>
-        <div class="col-xs-8"><p><strong>Verantw groepsadmin</strong></p><p>Jan Bart (W2409G)</p></div>
-      </div>
-      <div class="form-group">
-        <div class="col-xs-4 help-block"><p>24 aug '11</p><p><a href="" class="btn-link-danger">Stop functie</a></p></div>
-        <div class="col-xs-8"><p><strong>Gidsen-verkennerleiding</strong></p><p>Jan Bart (W2409G)</p></div>
-      </div>
-      <div class="form-group">
-        <div class="col-xs-4 help-block"><p>24 aug '11</p><p><a href="" class="btn-link-danger">Stop functie</a></p></div>
-        <div class="col-xs-8"><p><strong>Adres briefwisseling</strong></p><p>Jan Bart (W2409G)</p></div>
+      <div ng-repeat="groep in lid.functies">
+        <!-- In AngularJS 1.3: "filter:{einde: '!true'}" -->
+        <!-- "filter:{einde: '!!'}" voor functies met einde property -->
+        <div class="form-group" ng-repeat="functie in groep | filter:{einde: '!'}">
+          <div class="col-xs-4 help-block">
+            <p>{{functie.begin}}</p>
+            <p>{{functie.einde}}<a ng-if="!functie.einde" href class="btn-link-danger" ng-click="stopFunctie(functie.functie)">Stop functie</a>
+            </p>
+          </div>
+          <div class="col-xs-8">
+            <p><strong>Functienaam</strong></p>
+            <p>Groepsnaam ({{functie.groep}})</p>
+          </div>
+        </div>
       </div>
     </fieldset>
   </section>
