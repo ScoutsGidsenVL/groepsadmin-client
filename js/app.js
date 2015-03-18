@@ -1,5 +1,5 @@
 var gaApp = angular
-  .module('gaApp', ['ngRoute', 'ngResource', 'ui.bootstrap'])
+  .module('gaApp', ['ngRoute', 'ngResource', 'ga.services.alert', 'ga.ui', 'ui.bootstrap'])
 
   .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     // Configure the routes
