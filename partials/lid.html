@@ -92,18 +92,18 @@
     </fieldset>
   </section>
   <section class="col-lg-4 col-sm-6 col-xs-12">
-    <fieldset ng-repeat="adres in lid.adressen | filter:{'postadres': true}">
+    <fieldset ng-repeat="adres in lid.adressen | filter:{postadres: true}">
       <legend>Postadres</legend>
       <div class="form-group">
         <label for="_land" class="col-xs-5 col-xxs-12 control-label">Land</label>
         <div class="col-xs-7 col-xxs-12">
           <select class="selectpicker" id="_land" ng-model="adres.land">
-            <option>België</option>
-            <option>Nederland</option>
-            <option>Frankrijk</option>
-            <option>Duitsland</option>
-            <option>Luxemburg</option>
-            <option>UK</option>
+            <option value="BE">België</option>
+            <option value="DE">Duitsland</option>
+            <option value="FR">Frankrijk</option>
+            <option value="GB">Groot-Brittannië</option>
+            <option value="LU">Luxemburg</option>
+            <option value="NL">Nederland</option>
           </select>
         </div>
       </div>
