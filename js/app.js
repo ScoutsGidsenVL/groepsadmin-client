@@ -23,7 +23,7 @@ var gaApp = angular
 
   .factory('RestService', ['$resource', function($resource) {
     return $resource(
-      'http://localhost:8080/restga/lid/:id',
+      'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/lid/:id',
       {id: '@lid.id'},
       {'update': {method:'PATCH'}}
     );
@@ -40,17 +40,21 @@ var gaApp = angular
     ];
   }])
 
-  .controller('DetailsController', ['$scope', '$routeParams', 'RestService', function ($scope, $routeParams, RestService) {
-    $scope.lid = RestService.get({ id:$routeParams.id });
+  .controller('DetailsController', ['$scope', '$routeParams', 'RestService', 'alertService', function ($scope, $routeParams, RestService, alertService) {
+    $scope.lid = RestService.get({id:$routeParams.id});
     $scope.datum = new Date();
     
-    $scope.opslaan = function(obj) {
-      console.log("UPDATE");
-      //e.preventDefault();
-      $scope.lid.$update(function(response) {
-        console.log("SUCCESS");
-        $scope.lid = response;
-      });
+    $scope.opslaan = function() {
+      $scope.lid = RestService.update({id:$scope.lid.id}, $scope.lid).$promise.then(
+        function(response){
+          console.log(response);
+          $scope.lid = response;
+        },
+        // Error handling
+        function(error){
+          alertService.add('danger', "Error " + error.status + ". " + error.statusText);
+        }
+      );
     }
     $scope.schrap = function() {}
     $scope.nieuw = function() {}
