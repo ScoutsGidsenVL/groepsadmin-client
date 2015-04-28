@@ -9,8 +9,9 @@
     'ga.ledenlijstcontroller',
     'ga.lidcontroller',
     'ga.searchcontroller',
-    'ga.ui',
     'ga.typeahead',
+    'ga.ui.selectpicker',
+    'ga.ui.alert',
     'ui.bootstrap'
   ]);
 

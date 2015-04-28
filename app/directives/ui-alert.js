@@ -4,25 +4,40 @@
 // Code licensed under MIT License.
 // http://angular-ui.github.io/bootstrap/
 
-angular.module('ga.ui', [])
-  .controller('AlertController', ['$scope', '$attrs', function ($scope, $attrs) {
-    $scope.closeable = 'close' in $attrs;
-    this.close = $scope.close;
-  }])
+(function() {
+  'use strict';
 
-  .directive('alert', function () {
+  angular
+    .module('ga.ui.alert', [])
+    .directive('alert', alert)
+  //.directive('dismissOnTimeout', dismissOnTimeout);
+
+
+  function alert() {
     return {
       restrict: 'EA',
-      controller: 'AlertController',
+      controller: AlertController,
       templateUrl: 'alert.html',
       transclude: true,
       replace: true,
       scope: {
         type: '@',
         close: '&'
-      }
+      },
+      /*controller: ['$scope', '$attrs', function($scope, $attrs) {
+        $scope.closeable = 'close' in $attrs;
+        this.close = $scope.close;
+      }]*/
     };
-  })
+  }
+
+  AlertController.$inject = ['$scope', '$attrs'];
+
+  function AlertController($scope, $attrs) {
+    $scope.closeable = 'close' in $attrs;
+    this.close = $scope.close;
+  }
+
   /*
   .directive('dismissOnTimeout', ['$timeout', function($timeout) {
     return {
@@ -35,3 +50,4 @@ angular.module('ga.ui', [])
     };
   }]);
   */
+})();

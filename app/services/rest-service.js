@@ -11,19 +11,22 @@
     return $resource(
       'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/lid/:id',
       {id: '@id'},
-      {'update': {method: 'PATCH', transformRequest: changesOnly, cache: false}}
+      {'update': {method: 'PATCH', transformRequest: changesOnly}}
     );
   }
   
   function changesOnly(data) {
-    if(data.dirty) {
+    if(data.changes) {
       var changes = new Object();
-      data.dirty.forEach(function (val, key, array) {
+      //changes.id = data.id;  // id verplicht meesturen
+      
+      data.changes.forEach(function (val, key, array) {
         changes[val] = data[val];
       });
-      return changes;
+      
+      return JSON.stringify(changes);
     } else {
-      return data;
+      return JSON.stringify(data);
     }
   }
 })();

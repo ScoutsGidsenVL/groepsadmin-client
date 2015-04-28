@@ -9,31 +9,40 @@
 
   function LidController ($scope, $routeParams, RestService, AlertService, $http) {
     $scope.lid = RestService.get({id:$routeParams.id}, loadSuccess);
-                                 
+
     function loadSuccess(data) {
-      $scope.lid.datum = new Date();
+      $scope.lid.datum = new Date('1988-11-09');
+
+      // Changes object bijhouden: enkel de gewijzigde properties meesturen met PATCH
+      $scope.lid.changes = new Array();
+
+      angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam'], function(value, key) {
+        $scope.$watch(value, setChanges, true);
+      });
+    }
+
+    function setChanges(newVal, oldVal, scope) {
+      if (newVal == oldVal) return;
+
+      var sectie = this.exp.split(".").pop();
+      if($scope.lid.changes.indexOf(sectie) < 0) {
+        $scope.lid.changes.push(sectie);
+      }
     }
 
 
     $scope.opslaan = function() {
-      $scope.lid = RestService.update({id:$scope.lid.id}, $scope.lid).$promise.then(
-        function(response){
-          console.log(response);
-          $scope.lid = response;
-        },
-        // Error handling
-        function(error){
-          AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
-        }
-      );
+      $scope.lid.$update(function() {
+        //$scope.lid = response;
+      });
     }
-    
+
     $scope.schrap = function() {
     }
-    
+
     $scope.nieuw = function() {
     }
-    
+
     $scope.gezinslid = function() {
     }
 
