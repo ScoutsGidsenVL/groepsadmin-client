@@ -1,6 +1,14 @@
-gaApp
+(function() {
+  'use strict';
+
+  angular
+    .module('ga.ui.selectpicker', [])
+    .directive('selectpicker', selectpicker);
+
+  //selectpicker.$inject = ['$parse'];
+
   // <select>-elementen renderen als Bootstrap SelectPickers.
-  .directive('selectpicker', ['$parse', function ($parse) {
+  function selectpicker(/*$parse*/) {
     return {
       restrict: 'EAC',
       require: '?ngModel',
@@ -8,7 +16,7 @@ gaApp
       compile: function (tElem, tAttrs, transclude) {
         //tElem.selectpicker($parse(tAttrs.selectpicker)());
         //tElem.selectpicker('refresh');
-        
+
         return function (scope, elem, attrs, ngModel) {
           if (!ngModel) return;
           // Opmerking: Als ng-model statisch is (m.a.w. niet geüpdatet wordt), zal $watch expression niet uitgevoerd worden.
@@ -20,13 +28,14 @@ gaApp
             });
           });
           /*
-          ngModel.$render = function () {
-            scope.$evalAsync(function () {
-              elem.selectpicker('refresh');
-            });
-          }*/
+            ngModel.$render = function () {
+              scope.$evalAsync(function () {
+                elem.selectpicker('refresh');
+              });
+            }*/
         };
       }
-        
+
     };
-  }])
+  }
+})();

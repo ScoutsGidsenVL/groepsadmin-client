@@ -40,7 +40,7 @@ module.exports = function(grunt) {
       scripts: {
         files: ['js/*.js'],
         tasks: ['less::development']
-      }*/
+      },*/
       // Watch html files, just for LiveReload
       templates: {
         files: ['*.html']
@@ -63,8 +63,8 @@ module.exports = function(grunt) {
   // Task definitions
   grunt.registerTask('default', ['watch']);
   grunt.registerTask('serve', [
-      'connect:server',
-      'watch'
-      ]);
+    'connect:server',
+    'watch'
+  ]);
 
 };

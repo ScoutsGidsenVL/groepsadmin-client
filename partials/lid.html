@@ -41,7 +41,7 @@
       <div class="form-group">
         <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="date" class="form-control" id="_geboortedatum" max="{{datum | date:'yyyy-MM-dd'}}" ng-model="lid.persoonsgegevens.geboortedatum" />
+          <input type="date" class="form-control" id="_geboortedatum" ng-model="lid.datum" />
         </div>
       </div>
       <label class="form-group control checkbox">
@@ -87,8 +87,8 @@
         <div class="col-xs-7 col-xxs-12">
           <input type="checkbox" class="" id="_lidgeldbetaald" ng-model="lid.verbondsgegevens.lidgeldbetaald" />
           <span class="control-indicator"></span>
-        </label>
-      </div>
+        </div>
+      </label>
     </fieldset>
   </section>
   <section class="col-lg-4 col-sm-6 col-xs-12">

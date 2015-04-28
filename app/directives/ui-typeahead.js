@@ -1,68 +1,37 @@
-gaApp
-  .directive('typeahead', ["$location", "$timeout", function($location, $timeout) {
+(function() {
+  'use strict';
+
+  angular
+    .module('ga.typeahead', [])
+    .directive('typeahead', typeahead)
+    .directive('typeaheadItem', typeaheadItem);
+
+
+  function typeahead() {
     return {
       restrict: 'EAC',
       scope: {
-        query: "&",
+        query: '&',
         term: '=',
         items: '=',
-        action: "&"
+        action: '&'
       },
-      controller: ["$scope", function($scope) {
-        $scope.items = [];
-        $scope.hide = true;
-        
-        this.activate = function(item) {
-          $scope.active = item;
-        };
-        
-        this.activateNextItem = function() {
-          var index = $scope.items.indexOf($scope.active);
-          this.activate($scope.items[(index + 1) % $scope.items.length]);
-        }
-
-        this.activatePreviousItem = function() {
-          var index = $scope.items.indexOf($scope.active);
-          this.activate($scope.items[index === 0 ? $scope.items.length - 1 : index - 1]);
-        }
- 
-        this.isActive = function(item) {
-          return $scope.active === item;
-        };
-        
-        this.selectActive = function() {
-          this.select($scope.active);
-        };
- 
-        this.select = function(item) {
-          $scope.hide = true;
-          //$scope.focused = true;
-          
-          if(item) {
-            $scope.action({item:item});
-          }
-        };
-        
-        $scope.isVisible = function() {
-          return !$scope.hide && ($scope.focused || $scope.mousedOver);
-        };
-      }],
-      
+      controller: TypeaheadController,
       link: function(scope, elem, attrs, controller) {
         var $input = elem.find('.input-group > input');
-        
+
         $input.bind('focus', function() {
           scope.$apply(function() { scope.focused = true; });
         });
-        
+
         $input.bind('blur', function() {
           scope.$apply(function() { scope.focused = false; });
         });
-        
+
         elem.bind('mouseover', function() {
           scope.$apply(function() { scope.mousedOver = true; });
         });
-        
+
         elem.bind('mouseleave', function() {
           scope.$apply(function() { scope.mousedOver = false; });
         });
@@ -86,7 +55,7 @@ gaApp
               break;
           }
         });
-        
+
         $input.bind('keyup', function(e) {
           switch(e.keyCode) {
             case 9: // Tab || Enter key
@@ -100,12 +69,14 @@ gaApp
               break;
           }
         });
-        
+
         scope.$watch('term', function(newVal, oldVal){
           scope.hide = newVal ? false : true;
-          //scope.query({term:newVal});
+          if(newVal) {
+            scope.query({term:newVal});
+          }
         });
-        
+
         scope.$watch('isVisible()', function(visible) {
           if (visible) {
             elem.addClass('open');
@@ -115,14 +86,14 @@ gaApp
         });
       },
     };
-  }])
+  }
 
-  .directive('typeaheadItem', function() {
+  function typeaheadItem() {
     return {
       require: '^typeahead',
       link: function(scope, elem, attrs, controller) {
         var item = scope.$eval(attrs.typeaheadItem);
-        
+
         scope.$watch(function() { return controller.isActive(item); }, function(active) {
           if (active) {
             elem.addClass('active');
@@ -134,10 +105,54 @@ gaApp
         elem.bind('mouseenter', function(e) {
           scope.$apply(function() { controller.activate(item); });
         });
-        
+
         elem.bind('click', function(e) {
           scope.$apply(function() { controller.select(item); });
         });
       }
     };
-  });
+  }
+
+
+  TypeaheadController.$inject = ['$scope'];
+
+  function TypeaheadController($scope) {
+    $scope.items = [];
+    $scope.hide = true;
+
+    this.activate = function(item) {
+      $scope.active = item;
+    };
+
+    this.activateNextItem = function() {
+      var index = $scope.items.indexOf($scope.active);
+      this.activate($scope.items[(index + 1) % $scope.items.length]);
+    }
+
+    this.activatePreviousItem = function() {
+      var index = $scope.items.indexOf($scope.active);
+      this.activate($scope.items[index === 0 ? $scope.items.length - 1 : index - 1]);
+    }
+
+    this.isActive = function(item) {
+      return $scope.active === item;
+    };
+
+    this.selectActive = function() {
+      this.select($scope.active);
+    };
+
+    this.select = function(item) {
+      $scope.hide = true;
+      //$scope.focused = true;
+
+      if(item) {
+        $scope.action({item:item});
+      }
+    };
+
+    $scope.isVisible = function() {
+      return !$scope.hide && ($scope.focused || $scope.mousedOver);
+    };
+  }
+})();
