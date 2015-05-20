@@ -157,10 +157,10 @@
       <div ng-repeat="groep in lid.functies">
         <!-- In AngularJS 1.3: "filter:{einde: '!true'}" -->
         <!-- "filter:{einde: '!!'}" voor functies met einde property -->
-        <div class="form-group" ng-repeat="functie in groep | filter:{einde: '!'}">
+        <div class="form-group" ng-repeat="functie in groep | filter:{einde:'undefined'}">
           <div class="col-xs-4 help-block">
-            <p>{{functie.begin}}</p>
-            <p>{{functie.einde}}<a ng-if="!functie.einde" href class="btn-link-danger" ng-click="stopFunctie(functie.functie)">Stop functie</a>
+            <p>{{functie.begin | date:'d MMM &#8217;yy'}}</p>
+            <p>{{functie.einde | date:'d MMM &#8217;yy'}}<a ng-if="!functie.einde" href class="btn-link-danger" ng-click="stopFunctie(functie.functie)">Stop functie</a>
             </p>
           </div>
           <div class="col-xs-8">
