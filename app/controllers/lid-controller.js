@@ -9,10 +9,10 @@
 
   function LidController ($scope, $routeParams, RestService, AlertService, $http) {
     $scope.lid = RestService.get({id:$routeParams.id}, loadSuccess);
-
+    
     function loadSuccess(data) {
-      $scope.lid.datum = new Date('1988-11-09');
-
+      $scope.lid.persoonsgegevens.geboortedatum = new Date($scope.lid.persoonsgegevens.geboortedatum);
+      
       // Changes object bijhouden: enkel de gewijzigde properties meesturen met PATCH
       $scope.lid.changes = new Array();
 
