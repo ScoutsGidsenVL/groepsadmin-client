@@ -3,18 +3,25 @@
 
 De API heeft de volgende eindpunten:
 
-|   |   |
-|---|---|
-| *[/lid](#lid)*                                | `POST`                      |
-| *[/lid/{lidid}](#lidlidid)*                   | `GET` `PATCH`               |
-| *[/lid/profiel](#lidprofiel)*                 | `GET` `PATCH`               |
-| *[/groep](#groep)*                            | `GET`                       |
-| *[/groep/{groepsnummer}](#groepgroepsnummer)* | `GET` `PUT`                 |
-| */functie*                                    | `GET`                       |
-| */functie?{query-string}*                     | `GET`                       |
-| *[/functie/{functieid}](#functiefunctieid)*   | `GET` `POST` `PUT` `DELETE` |
+| Endpoint                                      | `GET`        | `POST`     | `PATCH`                 | `DELETE`           |
+|---|---|---|---|---|
+| */*                                           | OK           | -          | -                       | -                  |
+| *[/lid](#lid)*                                | -            | Not found  | -                       | -                  |
+| *[/lid/{lidid}](#lidlidid)*                   | OK¹          | -          | Unsupported Media Type  | -                  |
+| *[/lid/profiel](#lidprofiel)*                 | OK¹          | -          | Method not allowed      | -                  |
+| *[/groep](#groep)*                            | Not found    | -          | -                       | -                  |
+| *[/groep/{groepsnummer}](#groepgroepsnummer)* | OK²          | -          | Method not allowed      | -                  |
+| */functie*                                    | Not found    | Not found  | -                       | -                  |
+| */functie?{query-string}*                     | Not found    | -          | -                       | -                  |
+| *[/functie/{functieid}](#functiefunctieid)*   | OK³          | -          | Method not allowed      | Method not allowed |
 
-
+ ¹ Geen verbondsgegevens/”lidkaartafgedrukt”, adres/“giscode” en adres/“omschrijving”  
+   Bij adres id wordt het veld adresId genoemd, bij functie id is dat gewoon “functie (niet consequent)  
+   Functies gaan in de toekomst niet meer per groep geordend worden
+   
+ ² Geen “website”, “publieke-info”, “email”, opgericht", "beeindigd”, "publiek-inschrijven”, “rekeningnummer” en adres/“positie”
+ 
+ ³ Geen “voor”, “type” of “beschrijving”
 
 ## Algemeen
 
@@ -59,7 +66,8 @@ De volgende headers moeten opgestuurd worden naar de server:
 Maak een nieuw lid aan.
 
 ##### Request
-In te vullen secties: `persoonsgegevens`, `adressen`, `email` en `functies`
+In te vullen secties: `persoonsgegevens`, `adressen`, `email` en `functies`  
+Optioneel: `groepseigen` en `contacten`
 
 ##### Response
 Het lid zoals in `GET` lid
@@ -88,12 +96,13 @@ Een specifiek lid
     "verminderdlidgeld": false,
     "rekeningnummer": "BE68 5390 0754 7034",
   },
-  "verbond": {
+  "verbondsgegevens": {
     "lidnummer": "1857012301234",
     "klantnummer": "I127872",
     "lidgeldbetaald": true,
     "lidkaartafgedrukt": true
   },
+  "gebruikersnaam": "lukasvo",
   "adressen": [
     {
       "id": "d5f75e23385c5e6e0139493b84fe0352",
@@ -101,7 +110,7 @@ Een specifiek lid
       "postcode": "9000",
       "gemeente": "Gent",
       "straat": "Zondernaamstraat",
-      /* "giscode": "0160", */
+      "giscode": "0160",
       "nummer": "1",
       "bus": "",
       "telefoon": "012345678",
@@ -116,7 +125,7 @@ Een specifiek lid
       "voornaam": "Henrietta",
       "achternaam": "Smyth",
       "rol": "Moeder",
-      "adres": "d5f75e23385c5e6e0139493b84fe0352",
+      "adresId": "d5f75e23385c5e6e0139493b84fe0352",
       "gsm" : "0499 12 34 56",
       "email": null
     }
@@ -246,21 +255,22 @@ Alle groepen waar je toegang toe hebt:
 ```javascript
 {
   "groepen": [{
-    "nummer": "A3143G",
+    "groepsnummer": "A3143G",
     "naam": "Sint-benedictus",
-    "link":[{
+    "links":[{
       "href": "https://ga.sgv.be/rest/groep/A3143G",
       "rel": "self"
     },{
       "href": "https://ga.sgv.be/rest/groep/A3143G",
       "rel": "update",
-      "method": "PUT",
+      "method": "PATCH",
     }]
   }],
   "links":[{
     "href": "https://ga.sgv.be/rest/groep",
     "rel": "self"
-  }]
+  }],
+  "aangepast": "2015-06-04T08:34:41.823Z"
 }
 ```
 
@@ -271,7 +281,8 @@ Alle groepen waar je toegang toe hebt:
 ##### Response
 ```javascript
 {
-  "nummer":"A3143G",
+  "id": "d5f75b320b812440010b812550aa028e",
+  "groepsnummer":"A3143G",
   "naam": "Sint Benedictus",
   "adres": {
     "land": "BE",
@@ -293,14 +304,14 @@ Alle groepen waar je toegang toe hebt:
   "beeindigd":"2014/09/01",//optioneel - enkel voor gestopte groepen
   "publiek-inschrijven": true,
   "rekeningnummer":"BE68 5390 0754 7034",
-  "link":[
+  "links":[
     {
       "href": "https://ga.sgv.be/rest/groep/A3143G",
       "rel": "self"
     },{
       "href": "https://ga.sgv.be/rest/groep/A3143G",
       "rel": "update",
-      "method": "PUT",
+      "method": "PATCH",
     },{
       "href": "https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/lidworden?groep=A3143G",
       "rel": "inschrijven",
@@ -326,11 +337,12 @@ Alle groepen waar je toegang toe hebt:
       "rel": "statistieken",
       "method": "GET"
     }
-  ]
+  ],
+  "aangepast": "2015-06-04T08:34:41.823Z"
 }
 ```
 
-#### `PUT`
+#### `PATCH`
 
 ##### Request
 Zelfde als `GET` response, maar `links`, `naam` en `nummer` worden genegeerd.
@@ -338,6 +350,15 @@ Zelfde als `GET` response, maar `links`, `naam` en `nummer` worden genegeerd.
 ##### Response
 `GET` response.
 
+### */functie*
+
+#### `POST`
+
+##### Request
+Je maak een nieuwe groepseigen functie aan. Enkel de velden `beschrijving` en `voor` zijn verplicht. We laten (op dit moment) geen meerdere groepen in het `voor` veld door.
+
+##### Response
+Een redirect naar de nieuwe functie of een error.
 
 ### */functie/{functieId}*
 
@@ -363,7 +384,8 @@ Een verbondsfunctie:
       "rel": "adjunct",
       "method": "GET"
     }
-  ]
+  ],
+  "aangepast": "2015-06-04T08:34:41.823Z"
 }
 ```
 
@@ -382,31 +404,23 @@ Groepseigen functie:
     }, {    
       "href": "https://ga.sgv.be/rest/groep/A3143G",
       "rel": "update",
-      "method": "PUT"
+      "method": "PATCH"
     }, {    
       "href": "https://ga.sgv.be/rest/groep/A3143G",
       "rel": "delete",
       "method": "DELETE"
     },
-  ]
+  ],
+  "aangepast": "2015-06-04T08:34:41.823Z"
 }
 ```
 
-#### `POST`
-
+#### `PATCH`
 ##### Request
-Je maak een nieuwe groepseigen functie aan. Enkel de velden `beschrijving` en `voor` zijn verplicht. We laten (op dit moment) geen meerdere groepen in het `voor` veld door.
-
-##### Response
-Een redirect naar de nieuwe functie of een error.
-
-#### `PUT`
 Update van het `beschrijving` veld. Alle andere velden worden genegeerd.
 
-##### Request
-De upgedate functie of een error.
-
 ##### Response
+De upgedate functie of een error.
 
 #### `DELETE`
 
@@ -457,7 +471,8 @@ Zoals het hoort gebruiken we de volgende HTTP status codes:
       "method": "POST",
       "href": "https://ga.svg.be/rest/lid/gaid/forceer?geboortedatum=2009-01-21"
     }
-  ]
+  ],
+  "aangepast": "2015-06-04T08:34:41.823Z"
 }
 ```
 
