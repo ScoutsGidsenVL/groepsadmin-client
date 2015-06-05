@@ -11,14 +11,20 @@
     $scope.lid = RestService.get({id:$routeParams.id}, loadSuccess);
     
     function loadSuccess(data) {
-      $scope.lid.persoonsgegevens.geboortedatum = new Date($scope.lid.persoonsgegevens.geboortedatum);
-      
+      parseModel();
+
       // Changes object bijhouden: enkel de gewijzigde properties meesturen met PATCH
       $scope.lid.changes = new Array();
 
       angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam'], function(value, key) {
         $scope.$watch(value, setChanges, true);
       });
+    }
+    
+    function parseModel() {
+      // Datums moeten van type Date Object zijn in Angular
+      // Moet geparsed worden vóór Model geüpdatet wordt
+      $scope.lid.persoonsgegevens.geboortedatum = new Date($scope.lid.persoonsgegevens.geboortedatum);
     }
 
     function setChanges(newVal, oldVal, scope) {
@@ -32,7 +38,8 @@
 
 
     $scope.opslaan = function() {
-      $scope.lid.$update(function() {
+      $scope.lid.$update(function(response) {
+        parseModel();
         //$scope.lid = response;
       });
     }
