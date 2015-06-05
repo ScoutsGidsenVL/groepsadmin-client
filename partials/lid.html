@@ -64,10 +64,10 @@
           <input type="text" class="form-control" id="_gebruikersnaam" ng-model="lid.gebruikersnaam" />
         </div>
       </div>
-      <div class="form-group {{lid.email?'readonly':''}}">
+      <div class="form-group" ng-class="{ 'readonly' : !hasPermission('email') }">
         <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_email" ng-model="lid.email" ng-readonly="lid.email" />
+          <input type="text" class="form-control" id="_email" ng-model="lid.email" ng-readonly="!hasPermission('email')" />
         </div>
       </div>
       <div class="form-group">

@@ -8,6 +8,9 @@
   LidController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService', '$http'];
 
   function LidController ($scope, $routeParams, RestService, AlertService, $http) {
+    var sectie,
+        patchObj;
+    
     $scope.lid = RestService.get({id:$routeParams.id}, loadSuccess);
     
     function loadSuccess(data) {
@@ -19,6 +22,11 @@
       angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam'], function(value, key) {
         $scope.$watch(value, setChanges, true);
       });
+      
+      // Permissies komen uit PATCH link object
+      patchObj = $.grep($scope.lid.links, function(e){
+        return e.method == "PATCH";
+      })[0];
     }
     
     function parseModel() {
@@ -30,16 +38,22 @@
     function setChanges(newVal, oldVal, scope) {
       if (newVal == oldVal) return;
 
-      var sectie = this.exp.split(".").pop();
+      sectie = this.exp.split(".").pop();
       if($scope.lid.changes.indexOf(sectie) < 0) {
         $scope.lid.changes.push(sectie);
       }
     }
 
+    $scope.hasPermission = function(val) {
+      if (patchObj) {
+        return patchObj.secties.indexOf(val) > -1;
+      }
+    }
 
     $scope.opslaan = function() {
       $scope.lid.$update(function(response) {
         parseModel();
+        AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
         //$scope.lid = response;
       });
     }
