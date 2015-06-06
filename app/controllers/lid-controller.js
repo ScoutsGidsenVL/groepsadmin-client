@@ -5,13 +5,13 @@
     .module('ga.lidcontroller', ['ga.services.alert'])
     .controller('LidController', LidController);
 
-  LidController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService', '$http'];
+  LidController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService'];
 
-  function LidController ($scope, $routeParams, RestService, AlertService, $http) {
+  function LidController ($scope, $routeParams, RestService, AlertService) {
     var sectie,
         patchObj;
     
-    $scope.lid = RestService.get({id:$routeParams.id}, loadSuccess);
+    $scope.lid = RestService.Lid.get({id:$routeParams.id}, loadSuccess);
     
     function loadSuccess(data) {
       parseModel();

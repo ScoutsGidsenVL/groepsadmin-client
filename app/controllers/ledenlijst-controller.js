@@ -16,7 +16,7 @@
       $scope.currentFilter = $scope.opgeslagenFilters[1];
       $scope.isFilterCollapsed = true;
 
-      //$scope.leden = RestService.query();
+      //$scope.leden = RestService.Leden.query();
       $scope.leden = [
         {id: "d5f75b320db2ee17010db33666f86d46", lidnummer: "1988110903791 ", voornaam: "Wouter", achternaam: "Synhaeve", postcode: "8530", gemeente: "Harelbeke", straat: "Stasegemsesteenweg", nummer: "27"},
         {id: "profiel", lidnummer: "1989080400123", voornaam: "Kawtar", achternaam: "Tel", postcode: "2547", gemeente: "Lint", straat: "Lambrechtstraat", nummer: "28"},

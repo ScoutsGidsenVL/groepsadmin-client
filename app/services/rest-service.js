@@ -5,14 +5,26 @@
     .module('ga.services.rest', ['ngResource'])
     .factory('RestService', RestService);
 
-  RestService.$inject = ['$resource'];
+  RestService.$inject = ['$resource', '$cacheFactory'];
 
-  function RestService($resource) {
-    return $resource(
-      'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/lid/:id',
-      {id: '@id'},
-      {'update': {method: 'PATCH', transformRequest: changesOnly}}
-    );
+  function RestService($resource, $cacheFactory) {
+    return {
+      Lid: $resource(
+        'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/lid/:id',
+        {id: '@id'},
+        {'update': {method: 'PATCH', transformRequest: changesOnly, cache: false}}
+      ),
+      Functie: $resource(
+        'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/functie/:functieId',
+        {functieId: '@functieId'},
+        {get: {method:'GET', cache: $cacheFactory('functiesCache')}}
+      ),
+      Groep: $resource(
+        'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/groep/:id',
+        {functieId: '@id'},
+        {get: {method:'GET', cache: $cacheFactory('groepenCache')}}
+      )
+    }
   }
   
   function changesOnly(data) {
