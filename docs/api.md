@@ -11,8 +11,8 @@ De API heeft de volgende eindpunten:
 | *[/lid/profiel](#lidprofiel)*                 | OK¹          | -          | Method not allowed      | -                  |
 | *[/groep](#groep)*                            | Not found    | -          | -                       | -                  |
 | *[/groep/{groepsnummer}](#groepgroepsnummer)* | OK²          | -          | Method not allowed      | -                  |
-| */functie(#functie)*                          | Not found    | Not found  | -                       | -                  |
-| */functie?{query-string}(#functiefunctieid)*  | Not found    | -          | -                       | -                  |
+| *[/functie](#functie)*                        | Not found    | Not found  | -                       | -                  |
+| *[/functie?{query-string}](#functiefunctieid)*| Not found    | -          | -                       | -                  |
 | *[/functie/{functieid}](#functiefunctieid)*   | OK³          | -          | Method not allowed      | Method not allowed |
 
  ¹ Geen verbondsgegevens/”lidkaartafgedrukt”, adres/“giscode” en adres/“omschrijving”  
