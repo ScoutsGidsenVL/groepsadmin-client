@@ -11,8 +11,8 @@ De API heeft de volgende eindpunten:
 | *[/lid/profiel](#lidprofiel)*                 | OK¹          | -          | Method not allowed      | -                  |
 | *[/groep](#groep)*                            | Not found    | -          | -                       | -                  |
 | *[/groep/{groepsnummer}](#groepgroepsnummer)* | OK²          | -          | Method not allowed      | -                  |
-| */functie*                                    | Not found    | Not found  | -                       | -                  |
-| */functie?{query-string}*                     | Not found    | -          | -                       | -                  |
+| */functie(#functie)*                          | Not found    | Not found  | -                       | -                  |
+| */functie?{query-string}(#functiefunctieid)*  | Not found    | -          | -                       | -                  |
 | *[/functie/{functieid}](#functiefunctieid)*   | OK³          | -          | Method not allowed      | Method not allowed |
 
  ¹ Geen verbondsgegevens/”lidkaartafgedrukt”, adres/“giscode” en adres/“omschrijving”  
@@ -269,8 +269,7 @@ Alle groepen waar je toegang toe hebt:
   "links":[{
     "href": "https://ga.sgv.be/rest/groep",
     "rel": "self"
-  }],
-  "aangepast": "2015-06-04T08:34:41.823Z"
+  }]
 }
 ```
 
@@ -364,8 +363,11 @@ Een redirect naar de nieuwe functie of een error.
 
 #### `GET`
 
+"type": "verbond" of "groep"
+"voor": lijst van groepen a) waarbij deze functie kan voorkomen en b) waar de ingelogde gebruiker toegang toe heeft
+
 ##### Response
-Een verbondsfunctie:
+Een verbondsfunctie. Specifieke properties: "code" en "adjunct"
 ```javascript
 {
   "id": "d5f75e23385c5e6e0139493b8546035e",
