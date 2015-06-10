@@ -9,11 +9,11 @@ De API heeft de volgende eindpunten:
 | *[/lid](#lid)*                                | -            | Not found  | -                       | -                  |
 | *[/lid/{lidid}](#lidlidid)*                   | OK¹          | -          | Unsupported Media Type  | -                  |
 | *[/lid/profiel](#lidprofiel)*                 | OK¹          | -          | Method not allowed      | -                  |
-| *[/groep](#groep)*                            | Not found    | -          | -                       | -                  |
+| *[/groep](#groep)*                            | OK²          | -          | -                       | -                  |
 | *[/groep/{groepsnummer}](#groepgroepsnummer)* | OK²          | -          | Method not allowed      | -                  |
-| *[/functie](#functie)*                        | Not found    | Not found  | -                       | -                  |
+| *[/functie](#functie)*                        | OK³          | Not found  | -                       | -                  |
 | *[/functie?{query-string}](#functiefunctieid)*| Not found    | -          | -                       | -                  |
-| *[/functie/{functieid}](#functiefunctieid)*   | OK³          | -          | Method not allowed      | Method not allowed |
+| *[/functie/{functieid}](#functiefunctieid)*   | OK           | -          | Method not allowed      | Method not allowed |
 
  ¹ Geen verbondsgegevens/”lidkaartafgedrukt”, adres/“giscode” en adres/“omschrijving”  
    Bij adres id wordt het veld adresId genoemd, bij functie id is dat gewoon “functie (niet consequent)  
@@ -21,7 +21,7 @@ De API heeft de volgende eindpunten:
    
  ² Geen “website”, “publieke-info”, “email”, opgericht", "beeindigd”, "publiek-inschrijven”, “rekeningnummer” en adres/“positie”
  
- ³ Geen “voor”, “type” of “beschrijving”
+ ³ Imperformante request
 
 ## Algemeen
 
@@ -351,6 +351,15 @@ Zelfde als `GET` response, maar `links`, `naam` en `nummer` worden genegeerd.
 
 ### */functie*
 
+#### `GET`
+
+Opgelet: imperformante request!
+
+##### Response
+Alle functies waar je recht op hebt:
+- functies die vasthangen aan groepsoorten waar je recht op hebt
+- groepseigen functies van groepen waar je recht op hebt
+
 #### `POST`
 
 ##### Request
@@ -364,17 +373,19 @@ Een redirect naar de nieuwe functie of een error.
 #### `GET`
 
 "type": "verbond" of "groep"
-"voor": lijst van groepen a) waarbij deze functie kan voorkomen en b) waar de ingelogde gebruiker toegang toe heeft
 
 ##### Response
 Een verbondsfunctie. Specifieke properties: "code" en "adjunct"
+
+"groepen": lijst van groepen a) waarbij deze functie kan voorkomen en b) waar de ingelogde gebruiker toegang toe heeft
+
 ```javascript
 {
   "id": "d5f75e23385c5e6e0139493b8546035e",
   "code": "KWL",
   "beschrijving": "Kabouter welpen leider",
   "type":"verbond",
-  "voor":["A3143G", "A3160M"],
+  "groepen":["A3143G", "A3160M"],
   "adjunct":"e0139493b8546035ed5f75e23385c5e6"
   "links":[
     {    
@@ -392,12 +403,15 @@ Een verbondsfunctie. Specifieke properties: "code" en "adjunct"
 ```
 
 Groepseigen functie:
+
+"groepen": groep waartoe deze functie behoort
+
 ```javascript
 {
   "id": "d5f75e23385c5e6e0139493b8546035e",
   "beschrijving": "Barploeg",
   "type":"groep",
-  "voor":["A3143G"],
+  "groepen":["A3143G"],
   "links":[
     {    
       "href": "https://ga.sgv.be/rest/groep/A3143G",
