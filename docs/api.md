@@ -224,10 +224,12 @@ Een beschrijving per sectie wat kan en mag:
 ###### email
 * Is soms wijzigbaar en soms niet, goed kijken naar de secties in de links topic.
 
-###### functies
-* Functie toevoegen == een functie toevoegen met `begin` != `null` of `false`.  De id zal door de server ingevuld worden.
-* Functie stopzetten == een bestaande niet beeindigde functie opladen met `einde` != `null` of `false`.  Je mag dus datum invullen, maar de server zal hier geen rekening mee houden.
-* Voor het groeps en het functie veld wordt er enkel naar de waarde van `id` gekeken.  Alle andere velden worden genegeerd.  Je bent dus niet verplicht om telkens alle functies terug te sturen naar de server als je er een enkele wil aanpassen.
+###### functie-instanties
+Een functie-instantie heeft geen `id` veld.  Het wordt uniek gekenmerkt door de combinatie van de velden `functie`, `groep` en `begin`.
+
+* Functie-instantie toevoegen == een functie-instatie toevoegen met `begin` != `null` of `false`.  Deze zal door de server worden ingevuld op de huidige timestamp.
+* Functie-instantie stopzetten == een bestaande niet beeindigde functie-instantie opladen met `einde` != `null` of `false`.  Je mag dus datum invullen, maar de server zal hier geen rekening mee houden.
+* Er word dus enkel naar de combinatie van `functie`, `groep` en `begin` gekeken.  Alle andere velden worden genegeerd.  Je bent dus niet verplicht om telkens alle functies terug te sturen naar de server als je er een enkele wil aanpassen.
 
 ###### groepseigen
 * Groepseigen velden worden gecorreleerd aan de hand van een id.
