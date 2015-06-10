@@ -8,6 +8,7 @@
     'ga.services.alert',
     'ga.ledenlijstcontroller',
     'ga.lidcontroller',
+    'ga.lid.velden',
     'ga.searchcontroller',
     'ga.typeahead',
     'ga.ui.selectpicker',

@@ -154,21 +154,8 @@
   <section class="col-lg-4 col-sm-6 col-xs-12">
     <fieldset>
       <legend>Functies</legend>
-      <div ng-repeat="groep in lid.functies">
-        <!-- In AngularJS 1.3: "filter:{einde: '!true'}" -->
-        <!-- "filter:{einde: '!!'}" voor functies met einde property -->
-        <div class="form-group" ng-repeat="functie in groep | filter:{einde:'undefined'}">
-          <div class="col-xs-4 help-block">
-            <p>{{functie.begin | date:'d MMM &#8217;yy'}}</p>
-            <p>{{functie.einde | date:'d MMM &#8217;yy'}}<a ng-if="!functie.einde" href class="btn-link-danger" ng-click="stopFunctie(functie.functie)">Stop functie</a>
-            </p>
-          </div>
-          <div class="col-xs-8">
-            <p><strong>Functienaam</strong></p>
-            <p>Groepsnaam ({{functie.groep}})</p>
-          </div>
-        </div>
-      </div>
+        <ga-functie class="form-group" ng-repeat="fn in lid.functies | filter:{einde:'undefined'}" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie">
+        </ga-functie>
     </fieldset>
   </section>
   <section class="col-lg-4 col-sm-6 col-xs-12">

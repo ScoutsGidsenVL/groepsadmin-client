@@ -14,11 +14,8 @@
     $scope.lid = RestService.Lid.get({id:$routeParams.id}, loadSuccess);
     
     function loadSuccess(data) {
-      parseModel();
-
-      // Changes object bijhouden: enkel de gewijzigde properties meesturen met PATCH
-      $scope.lid.changes = new Array();
-
+      initModel();
+      
       angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam'], function(value, key) {
         $scope.$watch(value, setChanges, true);
       });
@@ -29,10 +26,35 @@
       })[0];
     }
     
-    function parseModel() {
+    function initModel() {
       // Datums moeten van type Date Object zijn in Angular
       // Moet geparsed worden vóór Model geüpdatet wordt
       $scope.lid.persoonsgegevens.geboortedatum = new Date($scope.lid.persoonsgegevens.geboortedatum);
+      
+      // Changes object bijhouden: enkel de gewijzigde properties meesturen met PATCH
+      $scope.lid.changes = new Array();
+      
+      // Functies samenvoegen in één Array (Tijdelijk tot API update)
+      var f = [];
+      angular.forEach($scope.lid.functies, function(value) {
+        f = f.concat(value);
+      });
+      $scope.lid.functies = f;
+      
+      // Alle actieve functies ophalen
+      $scope.functieslijst = [];
+      angular.forEach($scope.lid.functies, function(value, key) {
+        var fn = RestService.Functie.get({functieId:value.functie});
+        $scope.functieslijst[value.functie] = fn;
+      });
+      
+      // Alle actieve groepen ophalen
+      $scope.groepenlijst = [];
+      angular.forEach($scope.lid.functies, function(value, key) {
+        if($scope.groepenlijst[value.groep]) return;
+        var gr = RestService.Groep.get({id:value.groep});
+        $scope.groepenlijst[value.groep] = gr;
+      });
     }
 
     function setChanges(newVal, oldVal, scope) {
@@ -52,8 +74,8 @@
 
     $scope.opslaan = function() {
       $scope.lid.$update(function(response) {
-        parseModel();
         AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
+        initModel();
         //$scope.lid = response;
       });
     }
@@ -66,11 +88,29 @@
 
     $scope.gezinslid = function() {
     }
-
-    $scope.stopFunctie = function(id) {
-      // Een bestaande niet beëindigde functie opladen met einde != null of false.
-      // OF: /functie/{functieId} DELETE request
-      console.log(id);
+    
+    $scope.stopFunctie = function(functie) {
+      // Opmerking: is momenteel nog niet voorzien in API
+      
+      var lid = {
+        id: $scope.lid.id,  // Overbodig? id zit al in PATCH url
+        functies: {
+          functie: functie.functie,
+          groep: functie.groep,
+          einde: new Date()
+        }
+      }
+      
+      RestService.Lid.update({id:lid.id}, lid).$promise.then(
+        function(response) {
+          AlertService.add('success ', "Functie gestopt????", 5000);
+          initModel();
+          // TODO: update lid model (hier niet automatisch geüpdatet)
+        },
+        function(error) {
+          AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
+        }
+      );
     }
   }
 })();
