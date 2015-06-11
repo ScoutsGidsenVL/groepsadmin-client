@@ -15,8 +15,7 @@ De API heeft de volgende eindpunten:
 | *[/functie?{query-string}](#functiefunctieid)*| Not found    | -          | -                       | -                  |
 | *[/functie/{functieid}](#functiefunctieid)*   | OK           | -          | Method not allowed      | Method not allowed |
 
- ¹ Geen verbondsgegevens/”lidkaartafgedrukt”, adres/“giscode” en adres/“omschrijving”  
-   Bij adres id wordt het veld adresId genoemd, bij functie id is dat gewoon “functie (niet consequent)  
+ ¹ Geen verbondsgegevens/”lidkaartafgedrukt”, adres/“giscode” en adres/“omschrijving”
    Functies gaan in de toekomst niet meer per groep geordend worden
    
  ² Geen “website”, “publieke-info”, “email”, opgericht", "beeindigd”, "publiek-inschrijven”, “rekeningnummer” en adres/“positie”
@@ -238,7 +237,7 @@ Een functie-instantie heeft geen `id` veld.  Het wordt uniek gekenmerkt door de 
 * Als een gegeven niet opgeladen wordt wordt het als onveranderd beschouwd.
 
 ##### Response
-Het lid zoals in `GET` lid
+Een redirect naar het nieuwe lid of error
 
 
 ### */lid/profiel*
