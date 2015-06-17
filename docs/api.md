@@ -7,13 +7,13 @@ De API heeft de volgende eindpunten:
 |---|---|---|---|---|
 | */*                                           | OK           | -          | -                       | -                  |
 | *[/lid](#lid)*                                | -            | Not found  | -                       | -                  |
-| *[/lid/{lidid}](#lidlidid)*                   | OK¹          | -          | Unsupported Media Type  | -                  |
-| *[/lid/profiel](#lidprofiel)*                 | OK¹          | -          | Method not allowed      | -                  |
+| *[/lid/{lidid}](#lidlidid)*                   | OK¹          | -          | OK                      | -                  |
+| *[/lid/profiel](#lidprofiel)*                 | OK¹          | -          | OK                      | -                  |
 | *[/groep](#groep)*                            | OK²          | -          | -                       | -                  |
 | *[/groep/{groepsnummer}](#groepgroepsnummer)* | OK²          | -          | Method not allowed      | -                  |
-| *[/functie](#functie)*                        | OK³          | Not found  | -                       | -                  |
+| *[/functie](#functie)*                        | OK³          | OK         | -                       | -                  |
 | *[/functie?{query-string}](#functiefunctieid)*| Not found    | -          | -                       | -                  |
-| *[/functie/{functieid}](#functiefunctieid)*   | OK           | -          | Method not allowed      | Method not allowed |
+| *[/functie/{functieid}](#functiefunctieid)*   | OK           | -          | OK                      | Method not allowed |
 
  ¹ Geen verbondsgegevens/”lidkaartafgedrukt”, adres/“giscode” en adres/“omschrijving”
    Functies gaan in de toekomst niet meer per groep geordend worden
@@ -226,8 +226,8 @@ Een beschrijving per sectie wat kan en mag:
 ###### functie-instanties
 Een functie-instantie heeft geen `id` veld.  Het wordt uniek gekenmerkt door de combinatie van de velden `functie`, `groep` en `begin`.
 
-* Functie-instantie toevoegen == een functie-instatie toevoegen met `begin` != `null` of `false`.  Deze zal door de server worden ingevuld op de huidige timestamp.
-* Functie-instantie stopzetten == een bestaande niet beeindigde functie-instantie opladen met `einde` != `null` of `false`.  Je mag dus datum invullen, maar de server zal hier geen rekening mee houden.
+* Functie-instantie toevoegen == een functie-instatie toevoegen met `begin` != `null`.  Deze zal door de server worden ingevuld op de huidige timestamp.
+* Functie-instantie stopzetten == een bestaande niet beeindigde functie-instantie opladen met `einde` != `null`.  Je mag dus datum invullen, maar de server zal hier geen rekening mee houden.
 * Er word dus enkel naar de combinatie van `functie`, `groep` en `begin` gekeken.  Alle andere velden worden genegeerd.  Je bent dus niet verplicht om telkens alle functies terug te sturen naar de server als je er een enkele wil aanpassen.
 
 ###### groepseigen
