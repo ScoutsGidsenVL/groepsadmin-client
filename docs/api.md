@@ -3,24 +3,19 @@
 
 De API heeft de volgende eindpunten:
 
-| Endpoint                                      | `GET`        | `POST`     | `PATCH`                 | `DELETE`           |
+| Endpoint                                      | `GET`     | `POST` | `PATCH` | `DELETE` |
 |---|---|---|---|---|
-| */*                                           | OK           | -          | -                       | -                  |
-| *[/lid](#lid)*                                | -            | Not found  | -                       | -                  |
-| *[/lid/{lidid}](#lidlidid)*                   | OK¹          | -          | OK                      | -                  |
-| *[/lid/profiel](#lidprofiel)*                 | OK¹          | -          | OK                      | -                  |
-| *[/groep](#groep)*                            | OK²          | -          | -                       | -                  |
-| *[/groep/{groepsnummer}](#groepgroepsnummer)* | OK²          | -          | Method not allowed      | -                  |
-| *[/functie](#functie)*                        | OK³          | OK         | -                       | -                  |
-| *[/functie?{query-string}](#functiefunctieid)*| Not found    | -          | -                       | -                  |
-| *[/functie/{functieid}](#functiefunctieid)*   | OK           | -          | OK                      | Method not allowed |
+| */*                                           | OK        | -      | -       | -        |
+| *[/lid](#lid)*                                | -         | OK     | -       | -        |
+| *[/lid/{lidid}](#lidlidid)*                   | OK        | -      | OK      | -        |
+| *[/lid/profiel](#lidprofiel)*                 | OK        | -      | OK      | -        |
+| *[/groep](#groep)*                            | OK        | -      | -       | -        |
+| *[/groep/{groepsnummer}](#groepgroepsnummer)* | OK        | -      | OK      | -        |
+| *[/functie](#functie)*                        | OK*       | OK     | -       | -        |
+| *[/functie?{query-string}](#functiefunctieid)*| Not found | -      | -       | -        |
+| *[/functie/{functieid}](#functiefunctieid)*   | OK        | -      | OK      | OK       |
 
- ¹ Geen verbondsgegevens/”lidkaartafgedrukt”, adres/“giscode” en adres/“omschrijving”
-   Functies gaan in de toekomst niet meer per groep geordend worden
-   
- ² Geen “website”, “publieke-info”, “email”, opgericht", "beeindigd”, "publiek-inschrijven”, “rekeningnummer” en adres/“positie”
- 
- ³ Imperformante request
+ * Imperformante request
 
 ## Algemeen
 
