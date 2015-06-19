@@ -11,7 +11,7 @@ We kiezen ervoor om de waarden en de structuur los te koppelen.
 Dit omdat ze een ander gedrag hebben.  De waarden zijn door andere momenten en
 door andere partijen te wijzigen dan de structuur.
 
-Een voorbeeld:
+Hieronder een voorbeeld bij een GET op een lid. Bij een GET op een groep wordt enkel het schema getoond.
 ```json
 {
    "waarden" : {
