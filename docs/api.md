@@ -3,17 +3,17 @@
 
 De API heeft de volgende eindpunten:
 
-| Endpoint                                      | `GET`     | `POST` | `PATCH` | `DELETE` |
-|---|---|---|---|---|
-| */*                                           | OK        | -      | -       | -        |
-| *[/lid](#lid)*                                | -         | OK     | -       | -        |
-| *[/lid/{lidid}](#lidlidid)*                   | OK        | -      | OK      | -        |
-| *[/lid/profiel](#lidprofiel)*                 | OK        | -      | OK      | -        |
-| *[/groep](#groep)*                            | OK        | -      | -       | -        |
-| *[/groep/{groepsnummer}](#groepgroepsnummer)* | OK        | -      | OK      | -        |
-| *[/functie](#functie)*                        | OK*       | OK     | -       | -        |
-| *[/functie?{query-string}](#functiefunctieid)*| Not found | -      | -       | -        |
-| *[/functie/{functieid}](#functiefunctieid)*   | OK        | -      | OK      | OK       |
+| Endpoint                                         | `GET` | `POST` | `PATCH` | `DELETE` |
+|---|---|---|---|---|   
+| */*                                              | OK    | -      | -       | -        |
+| *[/lid](#lid)*                                   | -     | OK     | -       | -        |
+| *[/lid/{lidid}](#lidlidid)*                      | OK    | -      | OK      | -        |
+| *[/lid/profiel](#lidprofiel)*                    | OK    | -      | OK      | -        |
+| *[/groep](#groep)*                               | OK    | -      | -       | -        |
+| *[/groep/{groepsnummer}](#groepgroepsnummer)*    | OK    | -      | OK      | -        |
+| *[/functie](#functie)*                           | OK*   | OK     | -       | -        |
+| *[/functie?{query-string}](#functiequerystring)* | OK    | -      | -       | -        |
+| *[/functie/{functieid}](#functiefunctieid)*      | OK    | -      | OK      | OK       |
 
  * Imperformante request
 
@@ -340,7 +340,15 @@ Alle groepen waar je toegang toe hebt:
 #### `PATCH`
 
 ##### Request
-Zelfde als `GET` response, maar `links`, `naam` en `nummer` worden genegeerd.
+Zelfde als `GET` response, maar `links`, `naam`, `nummer` en `groepseigenFuncties` worden genegeerd.
+
+###### Groepseigen gegevens
+
+Geen groepseigenGegevens property meegeven -> er verandert niets
+Lege groepseigenGegevens property meegeven -> alle gegevens worden verwijderd
+
+
+[Lees meer over dynamische velden](dynamische_velden.md)
 
 ##### Response
 `GET` response.
@@ -363,6 +371,12 @@ Je maak een nieuwe groepseigen functie aan. Enkel de velden `beschrijving` en `v
 
 ##### Response
 Een redirect naar de nieuwe functie of een error.
+
+### */functie?{query-string}*
+
+#### `GET`
+
+Returns alle functies waar de gebruiker recht op heeft die in deze groep kunnen voorkomen.
 
 ### */functie/{functieId}*
 
