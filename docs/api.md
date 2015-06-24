@@ -88,7 +88,7 @@ Een specifiek lid
     "geboortedatum": "1857-02-22",
     "beperking": false,
     "verminderdlidgeld": false,
-    "rekeningnummer": "BE68 5390 0754 7034",
+    "rekeningnummer": "BE68 5390 0754 7034"
   },
   "verbondsgegevens": {
     "lidnummer": "1857012301234",
@@ -125,8 +125,7 @@ Een specifiek lid
     }
   ],
   "email": "b.powell@example.com",
-  "functies": {
-    "A3143G": [
+  "functies": [
       {
         "groep": "A3143G",
         "functie": "d5f75e23385c5e6e0139493b8546035e",
@@ -142,8 +141,7 @@ Een specifiek lid
           "method": "GET"
         }]
       }
-    ]
-  },
+  ],
   "groepseigen": [
     {
       "groep": "A3143G",
@@ -276,64 +274,118 @@ Alle groepen waar je toegang toe hebt:
 ##### Response
 ```javascript
 {
-  "id": "d5f75b320b812440010b812550aa028e",
-  "groepsnummer":"A3143G",
-  "naam": "Sint Benedictus",
-  "adres": {
-    "land": "BE",
-    "postcode": "2640",
-    "gemeente": "Mortsel",
-    "straat": "Jacob van Arteveldestraat",
-    "giscode": "0160",
-    "nummer": "27",
-    "bus": "",
-    "positie": {
-      "lat" : 51.166969,
-      "lng" : 4.462271
-    }
-  },
-  "website":"http://www.sgv.be",
-  "publieke-info":"Info die we op onze website mogen zetten",
-  "email":"info@sgv.be",
-  "opgericht":"1900/01/01",
-  "beeindigd":"2014/09/01",//optioneel - enkel voor gestopte groepen
-  "publiek-inschrijven": true,
-  "rekeningnummer":"BE68 5390 0754 7034",
-  "links":[
-    {
-      "href": "https://ga.sgv.be/rest/groep/A3143G",
-      "rel": "self"
-    },{
-      "href": "https://ga.sgv.be/rest/groep/A3143G",
-      "rel": "update",
-      "method": "PATCH",
-    },{
-      "href": "https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/lidworden?groep=A3143G",
-      "rel": "inschrijven",
-      "method": "GET"
-    },{
-      "href": "https://ga.sgv.be/rest/groep/A3143G/inschrijvingen",
-      "rel": "inschrijvingen",
-      "method": "GET"
-    },{
-      "href": "https://ga.sgv.be/rest/groep/A3143G/groepseigen-gegevens",
-      "rel": "groepseigen-gegevens",
-      "method": "GET"
-    },{
-      "href": "https://ga.sgv.be/rest/functie?groep=A3143G",
-      "rel": "groepseigen-functies",
-      "method": "GET"
-    },{
-      "href": "https://ga.sgv.be/rest/functie",
-      "rel": "groepseigen-functies-aanmaken",
-      "method": "POST"
-    },{
-      "href": "https://ga.sgv.be/rest/groep/A3143G/statistieken",
-      "rel": "statistieken",
-      "method": "GET"
-    }
-  ],
-  "aangepast": "2015-06-04T08:34:41.823Z"
+    "links":[
+      {
+        "href": "https://ga.sgv.be/rest/groep/A3143G",
+        "rel": "self"
+      },{
+        "href": "https://ga.sgv.be/rest/groep/A3143G",
+        "rel": "update",
+        "method": "PATCH",
+      },{
+        "href": "https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/lidworden?groep=A3143G",
+        "rel": "inschrijven",
+        "method": "GET"
+      },{
+        "href": "https://ga.sgv.be/rest/groep/A3143G/inschrijvingen",
+        "rel": "inschrijvingen",
+        "method": "GET"
+      },{
+        "href": "https://ga.sgv.be/rest/groep/A3143G/groepseigen-gegevens",
+        "rel": "groepseigen-gegevens",
+        "method": "GET"
+      },{
+        "href": "https://ga.sgv.be/rest/functie?groep=A3143G",
+        "rel": "groepseigen-functies",
+        "method": "GET"
+      },{
+        "href": "https://ga.sgv.be/rest/functie",
+        "rel": "groepseigen-functies-aanmaken",
+        "method": "POST"
+      },{
+        "href": "https://ga.sgv.be/rest/groep/A3143G/statistieken",
+        "rel": "statistieken",
+        "method": "GET"
+      }
+    ],
+    "id": "d5f75b320b812440010b812550aa028e",
+    "aangepast": "2015-06-24T13:33:48.654Z",
+    "groepsnummer": "O2301G",
+    "naam": "Sint-Kristoffel",
+    "adres": {
+        "id": "d5f75b320b812440010b812550aa028e",
+        "land": "BE",
+        "postcode": "9300",
+        "gemeente": "Aalst",
+        "straat": "Graanmarkt",
+        "nummer": "3",
+        "bus": "",
+        "postadres": false,
+        "status": "normaal",
+        "giscode": "0096",
+        "positie": {
+          "lat" : 51.166969,
+          "lng" : 4.462271
+        }
+    },
+    "rekeningnummer": "BE07293005850266",
+    "email": "info@kroffel.be",
+    "website": "www.kroffel.be",
+    "vrijeInfo": "Oudste scouts van Aalst",
+    "groepseigenFuncties": [
+        {
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "http://localhost:8080/groepsadmin/rest-ga/functie/402881254de206eb014de2077da50002"
+                }
+            ],
+            "id": "402881254de206eb014de2077da50002",
+            "aangepast": "2015-06-24T13:33:48.654Z",
+            "beschrijving": "Een groepseigen functie",
+            "type": "groep",
+            "groepen": [
+                "O2301G"
+            ]
+        }
+    ],
+    "groepseigenGegevens": [
+        {
+         "type" : "vinkje",
+         "label" : "Een vinkje",
+         "beschrijving" : "Dit is een vinkje dat je <strong>aan</strong> of uit mag klikken",
+         "meer-info" : "<i>NOG</i> meer info",
+         "id" : "c4ca4238a0b923820dcc509a6f75849b"
+      },
+      {
+         "type" : "groep",
+         "label" : "titel/label van de groep",
+         "beschrijving" : "Al deze velden horen bij elkaar",
+         "velden" : [
+            {
+               "type" : "tekst",
+               "id" : "c81e728d9d4c2f636f067f89cc14862c",
+               "label": "tekst veld"
+            },
+            {
+                "type" : "keuze",
+                "id": "eccbc87e4b5ce2fe28308fd9f2a7baf3",
+                "label": "keuze veld",
+                "keuzes": [
+                    {
+                        "id": "5bd15ca24cee57242a9b28b79481da6d",
+                        "label": "Een keuze"   
+                    }, ...
+                ]
+            }
+            , ...
+         ]
+      }
+      , ...
+    ],
+    "opgericht": "1932-05-30T23:00:00.000Z",
+    "beeindigd":"2014/09/01", //optioneel - enkel voor gestopte groepen
+    "publiek-inschrijven": false
 }
 ```
 
@@ -345,6 +397,7 @@ Zelfde als `GET` response, maar `links`, `naam`, `nummer` en `groepseigenFunctie
 ###### Groepseigen gegevens
 
 Geen groepseigenGegevens property meegeven -> er verandert niets
+
 Lege groepseigenGegevens property meegeven -> alle gegevens worden verwijderd
 
 
