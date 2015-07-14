@@ -30,6 +30,9 @@
       // Changes object bijhouden: enkel de gewijzigde properties meesturen met PATCH
       $scope.lid.changes = new Array();
       
+      // Functiehistoriek weergeven/verbergen
+      $scope.isFunctiesCollapsed = true;
+      
       // Functies samenvoegen in één Array (Tijdelijk tot API update)
       var f = [];
       angular.forEach($scope.lid.functies, function(value) {

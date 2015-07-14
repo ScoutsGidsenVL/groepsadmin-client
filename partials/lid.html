@@ -154,8 +154,11 @@
   <section class="col-lg-4 col-sm-6 col-xs-12">
     <fieldset>
       <legend>Functies</legend>
-        <ga-functie class="form-group" ng-repeat="fn in lid.functies | filter:{einde:'undefined'}" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie">
-        </ga-functie>
+      <ga-functie class="form-group" ng-repeat="fn in lid.functies | collapsedFilter:isFunctiesCollapsed" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie">
+      </ga-functie>
+      <div class="text-center">
+        <a class="btn btn-link" href ng-click="isFunctiesCollapsed = !isFunctiesCollapsed">Functiehistoriek weergeven</a>
+      </div>
     </fieldset>
   </section>
   <section class="col-lg-4 col-sm-6 col-xs-12">

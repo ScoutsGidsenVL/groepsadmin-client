@@ -3,7 +3,8 @@
 
   angular
     .module('ga.lid.velden', [])
-    .directive('gaFunctie', gaFunctie);
+    .directive('gaFunctie', gaFunctie)
+    .filter('collapsedFilter', collapsedFilter);
 
   function gaFunctie() {
     return {
@@ -24,5 +25,18 @@
   //FunctieController.$inject = ['$scope'];
 
   //function FunctieController($scope) {}
+  
+  function collapsedFilter() {
+    return function(input, isCollapsed) {
+      if (isCollapsed) {
+        return $.grep(input, function(fn){
+          return fn.einde == undefined;
+        });
+      }
+      else {
+        return input;
+      }
+    };
+  }
 
 })();
