@@ -157,7 +157,7 @@
       <ga-functie class="form-group" ng-repeat="fn in lid.functies | collapsedFilter:isFunctiesCollapsed" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie">
       </ga-functie>
       <div class="text-center">
-        <a class="btn btn-link" href ng-click="isFunctiesCollapsed = !isFunctiesCollapsed">Functiehistoriek weergeven</a>
+        <a class="btn btn-link" href ng-click="isFunctiesCollapsed = !isFunctiesCollapsed">{{isFunctiesCollapsed ? "Functiehistoriek weergeven" : "Functiehistoriek verbergen"}}</a>
       </div>
     </fieldset>
   </section>
