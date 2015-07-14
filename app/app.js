@@ -13,7 +13,8 @@
     'ga.typeahead',
     'ga.ui.selectpicker',
     'ga.ui.alert',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ga.utils'
   ]);
 
 
@@ -21,8 +22,8 @@
     .directive('gaLid', ['$location', function ($location) {
       return {
         restrict: 'A',
-        link: function (scope, element, attr) {
-          element.click(function () {
+        link: function (scope, elem, attr) {
+          elem.click(function () {
             $location.path('/lid/' + attr.gaLid);
             scope.$apply();
           });

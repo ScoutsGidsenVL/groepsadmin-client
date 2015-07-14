@@ -27,10 +27,6 @@
     }
     
     function initModel() {
-      // Datums moeten van type Date Object zijn in Angular
-      // Moet geparsed worden vóór Model geüpdatet wordt
-      $scope.lid.persoonsgegevens.geboortedatum = new Date($scope.lid.persoonsgegevens.geboortedatum);
-      
       // Changes object bijhouden: enkel de gewijzigde properties meesturen met PATCH
       $scope.lid.changes = new Array();
       
