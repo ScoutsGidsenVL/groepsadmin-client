@@ -3,21 +3,21 @@
 
 De API heeft de volgende eindpunten:
 
-| Endpoint                                         | `GET` | `POST` | `PATCH` | `DELETE` | `PUT` |
-|--------------------------------------------------|-------|--------|---------|----------|-------|   
-| */*                                              | OK    | -      | -       | -        | -     |
-| *[/lid](#lid)*                                   | -     | OK     | -       | -        | -     |
-| *[/lid/{lidid}](#lidlidid)*                      | OK    | -      | OK      | -        | -     |
-| *[/lid/profiel](#lidprofiel)*                    | OK    | -      | OK      | -        | -     |
-| *[/groep](#groep)*                               | OK    | -      | -       | -        | -     |
-| *[/groep/{groepsnummer}](#groepgroepsnummer)*    | OK    | -      | OK      | -        | -     |
-| *[/functie](#functie)*                           | OK*   | OK     | -       | -        | -     |
-| *[/functie?{query-string}](#functiequerystring)* | OK    | -      | -       | -        | -     |
-| *[/functie/{functieid}](#functiefunctieid)*      | OK    | -      | OK      | OK       | -     |
-| *[/ledenlijst](#ledenlijst)*                     | NOK   | -      | -       | -        | -     |
-| *[/ledenlijst/filter](#filter)*                  | NOK   | NOK    | -       | -        | -     |
-| *[/ledenlijst/filter/{filterid}](#filterfilterid)*| NOK  | -      | NOK     | NOK      | NOK   |
-| *[/ledenlijst/kolom-type](#filterkolommen)*      | NOK   | -      | -       | -        | -     |
+| Endpoint                                                    | `GET` | `POST` | `PATCH` | `DELETE` | `PUT` |
+|-------------------------------------------------------------|-------|--------|---------|----------|-------|   
+| */*                                                         | OK    | -      | -       | -        | -     |
+| *[/lid](#lid)*                                              | -     | OK     | -       | -        | -     |
+| *[/lid/{lidid}](#lidlidid)*                                 | OK    | -      | OK      | -        | -     |
+| *[/lid/profiel](#lidprofiel)*                               | OK    | -      | OK      | -        | -     |
+| *[/groep](#groep)*                                          | OK    | -      | -       | -        | -     |
+| *[/groep/{groepsnummer}](#groepgroepsnummer)*               | OK    | -      | OK      | -        | -     |
+| *[/functie](#functie)*                                      | OK*   | OK     | -       | -        | -     |
+| *[/functie?{query-string}](#functiequerystring)*            | OK    | -      | -       | -        | -     |
+| *[/functie/{functieid}](#functiefunctieid)*                 | OK    | -      | OK      | OK       | -     |
+| *[/ledenlijst](#ledenlijst)*                                | NOK   | -      | -       | -        | -     |
+| *[/ledenlijst/filter](#ledenlijstfilter)*                   | NOK   | NOK    | -       | -        | -     |
+| *[/ledenlijst/filter/{filterid}](#ledenlijstfilterfilterid)*| NOK  | -      | NOK     | NOK      | NOK   |
+| *[/ledenlijst/kolom-type](#ledenlijstkolom-type)*           | NOK   | -      | -       | -        | -     |
 
  * Imperformante request
 
