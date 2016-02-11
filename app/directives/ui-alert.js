@@ -36,6 +36,7 @@
   function AlertController($scope, $attrs) {
     $scope.closeable = 'close' in $attrs;
     this.close = $scope.close;
+
   }
 
   /*

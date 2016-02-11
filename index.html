@@ -72,6 +72,10 @@
     
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()">{{alert.msg}}</alert>
     
+    <dialog ng-if="dialog" close="dialog.close()" confirm="dialog.confirm()" dismiss="dialog.confirm()" title="{{dialog.title}}" >
+    {{dialog.msg}}
+    </dialog>
+
     <!-- Embedded templates -->
     <script type="text/ng-template" id="alert.html">
       <div class="alert" ng-class="['alert-' + (type || 'warning'), closeable ? 'alert-dismissable' : null]" role="alert">
@@ -82,6 +86,32 @@
         <div ng-transclude></div>
       </div>
     </script>
+
+    <script type="text/ng-template" id="dialog.html" >
+      <div class="panel panel-default container-fluid" role="dialog">
+        <div class="panel-heading">
+          <h3 class="panel-title">{{title}}</h3>
+          <button ng-show="closeable" type="button" class=" close btn" ng-click="close()">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+        </div>
+        <div class="panel-body">
+          <p ng-transclude></p>
+          <div class="pull-right">
+            <button ng-show="confirmable" type="button" class="btn btn-success" ng-click="confirm()">
+              <span class="glyphicon glyphicon-ok"></span><span> Ja</span>
+            </button>
+            <button ng-show="dismissable" type="button" class="btn btn-danger" ng-click="close()">
+              <span class="glyphicon glyphicon-remove"></span><span> Nee</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </script>
+
+
 
     <!-- Scripts -->
     <script src="js/jquery-1.10.2.min.js"></script>
@@ -100,8 +130,10 @@
     <script src="app/services/rest-service.js"></script>
     <script src="app/services/http-interceptor-service.js"></script>
     <script src="app/services/alert-service.js"></script>
+    <script src="app/services/dialog-service.js"></script>
     <script src="app/directives/lid-functie.js"></script>
     <script src="app/directives/ui-alert.js"></script>
+    <script src="app/directives/ui-dialog.js"></script>
     <script src="app/directives/ui-bootstrap-custom-tpls-0.12.0.min.js"></script> <!-- Included: collapse -->
     <script src="app/directives/ui-typeahead.js"></script>
     <script src="app/directives/ui-selectpicker.js"></script>

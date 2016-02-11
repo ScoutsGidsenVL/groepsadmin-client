@@ -2,12 +2,12 @@
   'use strict';
 
   angular
-    .module('ga.lidcontroller', ['ga.services.alert'])
+    .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog'])
     .controller('LidController', LidController);
 
-  LidController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService'];
+  LidController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService','DialogService'];
 
-  function LidController ($scope, $routeParams, RestService, AlertService) {
+  function LidController ($scope, $routeParams, RestService, AlertService, DialogService) {
     var sectie,
         patchObj;
     
@@ -89,29 +89,64 @@
 
     $scope.gezinslid = function() {
     }
-    
+
     $scope.stopFunctie = function(functie) {
-      // Opmerking: is momenteel nog niet voorzien in API
-      
       var lid = {
         id: $scope.lid.id,  // Overbodig? id zit al in PATCH url
-        functies: {
-          functie: functie.functie,
-          groep: functie.groep,
-          einde: new Date()
+        functies: [
+          {
+            functie: functie.functie,
+            groep: functie.groep,
+            einde: new Date(),
+            begin: functie.begin
+          }
+        ]
+      }
+
+      /*
+      * bevestiging return functie
+      * --------------------------------------
+      */
+      $scope.confirmstopFunctie = function(result){
+
+        if(result){
+          //set lid bevestiging
+          lid.bevesteging = true;
+
+          //send new request
+          RestService.Lid.update({id:lid.id}, lid).$promise.then(
+            function(response) {
+              AlertService.add('success ', "Functie is geschrapt.", 5000);
+              initModel();
+              // TODO: update lid model (hier niet automatisch geüpdatet)
+
+            },
+            function(error) {
+              console.log(error);
+              AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
+            }
+          );
+        } else{
+          AlertService.add('danger ', "Aanpassing niet doorgevoerd", 5000);
         }
       }
+
       
       RestService.Lid.update({id:lid.id}, lid).$promise.then(
         function(response) {
-          AlertService.add('success ', "Functie gestopt????", 5000);
-          initModel();
-          // TODO: update lid model (hier niet automatisch geüpdatet)
+
+          //toon confirmvenster
+          var currentFunctiName= $scope.functieslijst[functie.functie].beschrijving;
+          DialogService.new("Bevestig","Weet u zeker dat u " + $scope.lid.persoonsgegevens.voornaam + " wilt schrappen als " + currentFunctiName + "?", $scope.confirmstopFunctie);
+
         },
         function(error) {
           AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
         }
       );
+
+
     }
+
   }
 })();

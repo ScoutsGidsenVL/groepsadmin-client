@@ -13,6 +13,7 @@
     'ga.typeahead',
     'ga.ui.selectpicker',
     'ga.ui.alert',
+    'ga.ui.dialog',
     'ui.bootstrap',
     'ga.utils'
   ]);

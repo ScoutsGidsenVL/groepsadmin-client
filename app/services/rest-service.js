@@ -10,17 +10,17 @@
   function RestService($resource, $cacheFactory) {
     return {
       Lid: $resource(
-        'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/lid/:id',
+        'http://localhost/groepsadmin/rest-ga/lid/:id',
         {id: '@id'},
         {'update': {method: 'PATCH', transformRequest: changesOnly, cache: false}}
       ),
       Functie: $resource(
-        'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/functie/:functieId',
+        'http://localhost/groepsadmin/rest-ga/functie/:functieId',
         {functieId: '@functieId'},
         {get: {method:'GET', cache: $cacheFactory('functiesCache')}}
       ),
       Groep: $resource(
-        'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/groep/:id',
+        'http://localhost/groepsadmin/rest-ga/groep/:id',
         {functieId: '@id'},
         {get: {method:'GET', cache: $cacheFactory('groepenCache')}}
       )
