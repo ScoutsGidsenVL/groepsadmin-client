@@ -122,7 +122,6 @@
 
             },
             function(error) {
-              console.log(error);
               AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
             }
           );
