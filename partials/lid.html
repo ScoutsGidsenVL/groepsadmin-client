@@ -20,19 +20,23 @@
       <div class="form-group">
         <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam" />
+          <p ng-if="!editable">{{ lid.persoonsgegevens.voornaam }}</p>
+          <input ng-if="editable" type="text" class="form-control" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam"/>
         </div>
       </div>
       <div class="form-group">
         <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam" />
+          <p ng-if="!editable">{{ lid.persoonsgegevens.achternaam }}</p>
+          <input ng-if="editable" type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam"/>
         </div>
       </div>
       <div class="form-group">
         <label for="_geslacht" class="col-xs-5 col-xxs-12 control-label">Geslacht</label>
         <div class="col-xs-7 col-xxs-12">
-          <select class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht">
+          <p ng-if="!editable && lid.persoonsgegevens.geslacht == 'man'">Mannelijke</p>
+          <p ng-if="!editable && lid.persoonsgegevens.geslacht == 'vrouw'">Mannelijke</p>
+          <select ng-if="editable" class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht">
             <option value="man">Mannelijk</option>
             <option value="vrouw">Vrouwelijk</option>
           </select>
@@ -41,51 +45,57 @@
       <div class="form-group">
         <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="date" class="form-control" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date />
+          <!-- fix date-parse -->
+          <p ng-if="!editable">{{ lid.persoonsgegevens.geboortedatum }}</p>
+          <input ng-if="editable" type="date" class="form-control" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date />
         </div>
       </div>
       <label class="form-group control checkbox">
         <div class="col-xs-5 col-xxs-12 control-label">Persoon met beperking</div>
         <div class="col-xs-7 col-xxs-12">
-          <input type="checkbox" class="" id="_beperking" ng-model="lid.persoonsgegevens.beperking" />
+          <input type="checkbox" class="" id="_beperking" ng-model="lid.persoonsgegevens.beperking" ng-disabled="!editable"/>
           <span class="control-indicator"></span>
         </div>
       </label>
       <label class="form-group control checkbox">
         <div class="col-xs-5 col-xxs-12 control-label">Verminderd lidgeld</div>
         <div class="col-xs-7 col-xxs-12">
-          <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.persoonsgegevens.verminderdlidgeld" />
+          <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.persoonsgegevens.verminderdlidgeld" ng-disabled="!editable"/>
           <span class="control-indicator"></span>
         </div>
       </label>
       <div class="form-group">
         <label for="_gebruikersnaam" class="col-xs-5 col-xxs-12 control-label">Gebruikersnaam</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_gebruikersnaam" ng-model="lid.gebruikersnaam" />
+          <p>{{ lid.gebruikersnaam }}</p>
+         <!-- <input type="text" class="form-control" id="_gebruikersnaam" ng-model="lid.gebruikersnaam" ng-disabled="true"/> -->
         </div>
       </div>
       <div class="form-group" ng-class="{ 'readonly' : !hasPermission('email') }">
         <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_email" ng-model="lid.email" ng-readonly="!hasPermission('email')" />
+          <p>{{ lid.email }}</p>
+          <!-- <input type="text" class="form-control" id="_email" ng-model="lid.email" ng-readonly="!hasPermission('email')" ng-disabled="true"/> -->
         </div>
       </div>
       <div class="form-group">
         <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.GSM" />
+          <p ng-if="!editable">{{ lid.persoonsgegevens.GSM }}</p>
+          <input ng-if="editable" type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.GSM" />
         </div>
       </div>
       <div class="form-group">
         <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" />
+          <p ng-if="!editable">{{ lid.persoonsgegevens.rekeningnummer }}</p>
+          <input ng-if="editable" type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" ng-disabled="!editable"/>
         </div>
       </div>
       <label class="form-group control checkbox">
         <div class="col-xs-5 col-xxs-12 control-label">Lidgeld betaald</div>
         <div class="col-xs-7 col-xxs-12">
-          <input type="checkbox" class="" id="_lidgeldbetaald" ng-model="lid.verbondsgegevens.lidgeldbetaald" />
+          <input type="checkbox" class="" id="_lidgeldbetaald" ng-model="lid.verbondsgegevens.lidgeldbetaald" ng-disabled="!editable"/>
           <span class="control-indicator"></span>
         </div>
       </label>
@@ -97,7 +107,13 @@
       <div class="form-group">
         <label for="_land" class="col-xs-5 col-xxs-12 control-label">Land</label>
         <div class="col-xs-7 col-xxs-12">
-          <select class="selectpicker" id="_land" ng-model="adres.land">
+          <p ng-if="!editable && adres.land == 'BE'">België</p>
+          <p ng-if="!editable && adres.land == 'DE'">Duitsland</p>
+          <p ng-if="!editable && adres.land == 'FR'">Frankrijk</p>
+          <p ng-if="!editable && adres.land == 'GB'">Groot-Brittannië</p>
+          <p ng-if="!editable && adres.land == 'LU'">Luxemburg</p>
+          <p ng-if="!editable && adres.land == 'NL'">Nederland</p>
+          <select ng-if="editable" class="selectpicker" id="_land" ng-model="adres.land">
             <option value="BE">België</option>
             <option value="DE">Duitsland</option>
             <option value="FR">Frankrijk</option>
@@ -110,43 +126,50 @@
       <div class="form-group">
         <label for="_postcode" class="col-xs-5 col-xxs-12 control-label">Postcode</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_postcode" maxlength="4" ng-model="adres.postcode" />
+          <p ng-if="!editable">{{adres.postcode}}</p>
+          <input ng-if="editable" type="text" class="form-control" id="_postcode" maxlength="4" ng-model="adres.postcode" />
         </div>
       </div>
       <div class="form-group">
         <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_woonplaats" ng-model="adres.gemeente" />
+         <p ng-if="!editable">{{adres.gemeente}}</p>
+          <input ng-if="editable" type="text" class="form-control" id="_woonplaats" ng-model="adres.gemeente" />
         </div>
       </div>
       <div class="form-group">
         <label for="_straatnaam" class="col-xs-5 col-xxs-12 control-label">Straat</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_straatnaam" ng-model="adres.straat" />
+          <p ng-if="!editable">{{ adres.straat }}</p>
+          <input ng-if="editable" type="text" class="form-control" id="_straatnaam" ng-model="adres.straat" />
         </div>
       </div>
       <div class="form-group">
         <label for="_straatnummer" class="col-xs-5 col-xxs-12 control-label">Nr</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="adres.nummer" />
+          <p ng-if="!editable">{{ adres.nummer }}</p>
+          <input ng-if="editable" type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="adres.nummer" />
         </div>
       </div>
       <div class="form-group">
         <label for="_bus" class="col-xs-5 col-xxs-12 control-label">Bus</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" />
+          <p ng-if="!editable">{{ adres.bus }}</p>
+          <input ng-if="editable"type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" />
         </div>
       </div>
       <div class="form-group">
         <label for="_telefoon" class="col-xs-5 col-xxs-12 control-label">Telefoon</label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_telefoon" maxlength="15" ng-model="adres.telefoon" />
+          <p ng-if="!editable">{{ adres.telefoon }}</p>
+          <input ng-if="editable" type="text" class="form-control" id="_telefoon" maxlength="15" ng-model="adres.telefoon" />
         </div>
       </div>
       <div class="form-group readonly">
         <label for="_adresstatus" class="col-xs-5 col-xxs-12 control-label">Status <span class="glyphicon glyphicon-question-sign" title="Geblokkeerd: dit adres is geblokeerd - Overleden: deze persoon is overleden - Extra: deze persoon ontvangt een eigen Over&Weer"></span></label>
         <div class="col-xs-7 col-xxs-12">
-          <input type="text" class="form-control" id="_adresstatus" readonly ng-model="adres.status" />
+          <p>{{ adres.status }}</p>
+          <!-- <input type="text" class="form-control" id="_adresstatus" readonly ng-model="adres.status" />-->
         </div>
       </div>
     </fieldset>
@@ -154,7 +177,7 @@
   <section class="col-lg-4 col-sm-6 col-xs-12">
     <fieldset>
       <legend>Functies</legend>
-      <ga-functie class="form-group" ng-repeat="fn in lid.functies | collapsedFilter:isFunctiesCollapsed" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie">
+      <ga-functie class="form-group" ng-repeat="fn in lid.functies | collapsedFilter:isFunctiesCollapsed" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie" editable="editable">
       </ga-functie>
       <div class="text-center">
         <a class="btn btn-link" href ng-click="isFunctiesCollapsed = !isFunctiesCollapsed">{{isFunctiesCollapsed ? "Functiehistoriek weergeven" : "Functiehistoriek verbergen"}}</a>
@@ -169,7 +192,7 @@
 </div>
 
 <!-- Panel footer -->
-<footer class="panel-footer clearfix">
+<footer class="panel-footer clearfix" ng-if="editable">
   <ul class="pagination pull-left responsive-footer">
     <li><a href="" ng-click="opslaan()">Opslaan</a></li>
     <li><a href="" ng-click="schrap()">Schrap</a></li>

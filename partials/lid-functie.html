@@ -1,6 +1,6 @@
 <div class="col-xs-4 help-block">
   <p>{{functie.begin | date:'d MMM &#8217;yy'}}</p>
-  <p>{{functie.einde | date:'d MMM &#8217;yy'}}<a ng-if="!functie.einde" href class="btn-link-danger" ng-click="stopFunctie(functie)">Stop functie</a>
+  <p>{{functie.einde | date:'d MMM &#8217;yy'}}<a ng-if="!functie.einde && editable" href class="btn-link-danger" ng-click="stopFunctie(functie)">Stop functie</a>
   </p>
 </div>
 <div class="col-xs-8">

@@ -13,7 +13,8 @@
         functie: '=',
         functieslijst: '=',
         groepenlijst: '=',
-        stopFunctie: '='
+        stopFunctie: '=',
+        editable: '='
       },
       //controller: FunctieController,
       /*link: function(scope, elem, attrs, controller) {
