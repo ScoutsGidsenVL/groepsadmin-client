@@ -65,6 +65,8 @@
       }
     }
 
+    // Schrijfrechten kunnen per sectie ingesteld zijn. Controlleer als sectienaam voorkomt in PATCH opties.
+    // Mogelijke sectienamen van een lid zijn "persoonsgegevens", "adressen", "email", "functies.*", "groepseigen".
     $scope.hasPermission = function(val) {
       if (patchObj) {
         return patchObj.secties.indexOf(val) > -1;
