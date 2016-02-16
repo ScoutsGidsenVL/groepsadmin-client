@@ -8,21 +8,23 @@
   LidController.$inject = ['$scope', '$routeParams', '$location', 'RestService', 'AlertService', 'DialogService'];
 
   function LidController ($scope, $routeParams, $location, RestService, AlertService, DialogService) {
-
     var sectie,
         patchObj;
     
     RestService.Lid.get({id:$routeParams.id}).$promise.then(
         function(result) {
+
           $scope.lid = result;
           loadSuccess($scope.lid)
-          console.log($scope.lid);
+
           /*
           * check if user is VGA
           * ------------------------------------------------------
           */
-          $scope.editable = false;
-            //Static ID
+
+          $scope.editable = true;
+          /*
+          //Static ID
             //TO-DO: User id binnenkrijgen via oAuth.
           var currentUserID = "d5f75b320db2ee17010db32157a201d4";//VGA
           //var currentUserID = "d5f75b320db2ee17010db321582b01f3";//geen VGA d5f75b320db2ee17010db321582b01f3
@@ -44,6 +46,7 @@
                 }
               );
           }
+          */
         },
         function(error) {
           if(error.data.beschrijving =="Geen leesrechten op dit lid"){
