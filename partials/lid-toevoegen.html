@@ -261,8 +261,8 @@
         <fieldset ng-repeat="groepFuncties in groepEnfuncties">
           <legend>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
             <div class="pull-right" ng-init="showme = (groepEnfuncties.length != 1) ? true : false; ">
-              <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
-              <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+              <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+              <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
             </div>
           </legend>
           <fieldset ng-show="!showme" class="ga-functie-list">
@@ -270,8 +270,8 @@
               <legend>
                 Verbonds functies
                 <div class="pull-right">
-                  <button ng-click="showverbondfuncties=true" ng-hide="showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                  <button ng-click="showverbondfuncties=false" ng-hide="!showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                  <button ng-click="showverbondfuncties=true" ng-hide="showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                  <button ng-click="showverbondfuncties=false" ng-hide="!showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
                 </div>
               </legend>
               <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'verbond' } | orderBy : 'beschrijving'" ng-show="!showverbondfuncties">
@@ -289,8 +289,8 @@
               <legend>
                 Groepseigen functies
                 <div class="pull-right">
-                  <button ng-click="showgroepfuncties=true" ng-hide="showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                  <button ng-click="showgroepfuncties=false" ng-hide="!showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                  <button ng-click="showgroepfuncties=true" ng-hide="showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                  <button ng-click="showgroepfuncties=false" ng-hide="!showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
                 </div>
               </legend>
 

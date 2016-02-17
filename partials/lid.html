@@ -285,18 +285,18 @@
           <legend>Functies toevoegen</legend>
           <fieldset ng-repeat="groepFuncties in groepEnfuncties">
           <legend>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
-            <div class="pull-right" ng-init="showme = (groepEnfuncties.length != 1) ? true : false; ">
-              <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
-              <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+            <div class="pull-right" ng-init="showme=true;">
+              <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+              <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
             </div>
           </legend>
           <fieldset ng-show="!showme" class="ga-functie-list">
             <section class="clearfix">
               <legend>
                 Verbonds functies
-                <div class="pull-right">
-                  <button ng-click="showverbondfuncties=true" ng-hide="showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                  <button ng-click="showverbondfuncties=false" ng-hide="!showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                <div class="pull-right" ng-init="showverbondfuncties=true;">
+                  <button ng-click="showverbondfuncties=true" ng-hide="showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                  <button ng-click="showverbondfuncties=false" ng-hide="!showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
                 </div>
               </legend>
               <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'verbond' } | orderBy : 'beschrijving'" ng-show="!showverbondfuncties">
@@ -313,9 +313,9 @@
             <section class="clearfix">
               <legend>
                 Groepseigen functies
-                <div class="pull-right">
-                  <button ng-click="showgroepfuncties=true" ng-hide="showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                  <button ng-click="showgroepfuncties=false" ng-hide="!showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                <div class="pull-right" ng-init="showgroepfuncties=true;">
+                  <button ng-click="showgroepfuncties=true" ng-hide="showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                  <button ng-click="showgroepfuncties=false" ng-hide="!showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
                 </div>
               </legend>
 
@@ -349,14 +349,14 @@
 <footer class="panel-footer clearfix">
   <ul class="pagination pull-left responsive-footer">
     <li><a href="" ng-click="opslaan()">Opslaan</a></li>
-    <li><a href="" ng-click="schrap()">Schrap</a></li>
+    <li><a href="" ng-click="schrap()">Stop alle functies</a></li>
     <li><a href="" ng-click="nieuw()">Nieuw</a></li>
     <li><a href="" ng-click="gezinslid()">Broer/zus toevoegen</a></li>
     <li class="dropdown dropup pull-right" title="Meer">
       <a class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
         <li><a href="" ng-click="opslaan()">Opslaan</a></li>
-        <li><a href="" ng-click="schrap()">Schrap</a></li>
+        <li><a href="" ng-click="schrap()">Stop alle functies</a></li>
         <li><a href="" ng-click="nieuw()">Nieuw</a></li>
         <li><a href="" ng-click="gezinslid()">Broer/zus toevoegen</a></li>
       </ul>
