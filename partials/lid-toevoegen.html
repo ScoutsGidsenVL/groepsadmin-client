@@ -1,8 +1,7 @@
 <!-- Panel header -->
 <div class="panel-heading clearfix">
   <div class="pull-left">
-    <h1 class="panel-title" ng-bind="lid.persoonsgegevens.voornaam + ' ' + lid.persoonsgegevens.achternaam"></h1>
-    <p class="panel-subtitle" ng-bind="lid.verbondsgegevens.lidnummer"></p>
+    <h1 class="panel-title" >Nieuw lid</h1>
   </div>
   <!--
   <div class="pull-right btn-group">
@@ -23,23 +22,19 @@
           <div class="form-group">
             <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
             <div class="col-xs-7 col-xxs-12">
-              <p ng-if="!editable">{{ lid.persoonsgegevens.voornaam }}</p>
-              <input ng-if="editable" type="text" class="form-control" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam"/>
+              <input type="text" class="form-control" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam" />
             </div>
           </div>
           <div class="form-group">
             <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
             <div class="col-xs-7 col-xxs-12">
-              <p ng-if="!editable">{{ lid.persoonsgegevens.achternaam }}</p>
-              <input ng-if="editable" type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam"/>
+              <input type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam" />
             </div>
           </div>
           <div class="form-group">
             <label for="_geslacht" class="col-xs-5 col-xxs-12 control-label">Geslacht</label>
             <div class="col-xs-7 col-xxs-12">
-              <p ng-if="!editable && lid.persoonsgegevens.geslacht == 'man'">Mannelijke</p>
-              <p ng-if="!editable && lid.persoonsgegevens.geslacht == 'vrouw'">Mannelijke</p>
-              <select ng-if="editable" class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht">
+              <select class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht">
                 <option value="man">Mannelijk</option>
                 <option value="vrouw">Vrouwelijk</option>
               </select>
@@ -49,56 +44,45 @@
             <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
             <div class="col-xs-7 col-xxs-12">
               <!-- fix date-parse -->
-              <p ng-if="!editable">{{ lid.persoonsgegevens.geboortedatum }}</p>
-              <input ng-if="editable" type="date" class="form-control" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date />
+              <input type="date" class="form-control" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date/>
             </div>
           </div>
           <label class="form-group control checkbox">
             <div class="col-xs-5 col-xxs-12 control-label">Persoon met beperking</div>
             <div class="col-xs-7 col-xxs-12">
-              <input type="checkbox" class="" id="_beperking" ng-model="lid.persoonsgegevens.beperking" ng-disabled="!editable"/>
+              <input type="checkbox" class="" id="_beperking" ng-model="lid.persoonsgegevens.beperking" />
               <span class="control-indicator"></span>
             </div>
           </label>
           <label class="form-group control checkbox">
             <div class="col-xs-5 col-xxs-12 control-label">Verminderd lidgeld</div>
             <div class="col-xs-7 col-xxs-12">
-              <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.persoonsgegevens.verminderdlidgeld" ng-disabled="!editable"/>
+              <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.persoonsgegevens.verminderdlidgeld" />
               <span class="control-indicator"></span>
             </div>
           </label>
           <div class="form-group">
-            <label for="_gebruikersnaam" class="col-xs-5 col-xxs-12 control-label">Gebruikersnaam</label>
-            <div class="col-xs-7 col-xxs-12">
-              <p>{{ lid.gebruikersnaam }}</p>
-             <!-- <input type="text" class="form-control" id="_gebruikersnaam" ng-model="lid.gebruikersnaam" ng-disabled="true"/> -->
-            </div>
-          </div>
-          <div class="form-group" ng-class="{ 'readonly' : !hasPermission('email') }">
             <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
             <div class="col-xs-7 col-xxs-12">
-              <p>{{ lid.email }}</p>
-              <!-- <input type="text" class="form-control" id="_email" ng-model="lid.email" ng-readonly="!hasPermission('email')" ng-disabled="true"/> -->
+              <input type="text" class="form-control" id="_email" ng-model="lid.email" />
             </div>
           </div>
           <div class="form-group">
             <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
             <div class="col-xs-7 col-xxs-12">
-              <p ng-if="!editable">{{ lid.persoonsgegevens.GSM }}</p>
-              <input ng-if="editable" type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.GSM" />
+              <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.GSM" />
             </div>
           </div>
           <div class="form-group">
             <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
             <div class="col-xs-7 col-xxs-12">
-              <p ng-if="!editable">{{ lid.persoonsgegevens.rekeningnummer }}</p>
-              <input ng-if="editable" type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" ng-disabled="!editable"/>
+              <input type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" />
             </div>
           </div>
           <label class="form-group control checkbox">
             <div class="col-xs-5 col-xxs-12 control-label">Lidgeld betaald</div>
             <div class="col-xs-7 col-xxs-12">
-              <input type="checkbox" class="" id="_lidgeldbetaald" ng-model="lid.verbondsgegevens.lidgeldbetaald" ng-disabled="!editable"/>
+              <input type="checkbox" class="" id="_lidgeldbetaald" ng-model="lid.verbondsgegevens.lidgeldbetaald" />
               <span class="control-indicator"></span>
             </div>
           </label>
@@ -108,21 +92,23 @@
       <section>
         <fieldset ng-repeat="contact in lid.contacten">
           <legend>Gegevens {{ contact.rol }}
-            <div class="pull-right"><button ng-click="showme=true" ng-hide="showme" class="btn-minimal" title="Gegevens tonen"><span class="glyphicon glyphicon-chevron-down"></span></button> <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up" title="Gegevens verbergen"></span></button>
+            <div class="pull-right">
+              <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
+              <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
             </div>
           </legend>
           <div class="form-group" ng-hide="!showme">
             <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
             <div class="col-xs-7 col-xxs-12">
               <p ng-if="!editable">{{ contact.voornaam }}</p>
-              <input ng-if="editable" type="text" class="form-control" id="_voornaam" ng-model="contact.voornaam"/>
+              <input ng-if="editable" type="text" class="form-control" id="_voornaam" ng-model="contact.voornaam" />
             </div>
           </div>
           <div class="form-group" ng-hide="!showme">
             <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
             <div class="col-xs-7 col-xxs-12">
               <p ng-if="!editable">{{ contact.achternaam }}</p>
-              <input ng-if="editable" type="text" class="form-control" id="_naam" ng-model="contact.achternaam"/>
+              <input ng-if="editable" type="text" class="form-control" id="_naam" ng-model="contact.achternaam" />
             </div>
           </div>
           <div class="form-group" ng-class="{ 'readonly' : !hasPermission('email') }" ng-hide="!showme">
@@ -145,20 +131,20 @@
     <div class="col-lg-4 col-sm-6 col-xs-12">
       <!-- Adressen -->
       <section>
-         <legend >
+        <legend>
           Adressen
-           <div class="pull-right">
+          <div class="pull-right">
             <button ng-click="showform=true" class="btn-minimal" title="Adres toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
           </div>
         </legend>
         <fieldset></fieldset>
         <fieldset ng-repeat="adres in lid.adressen">
-          <legend >
+          <legend>
             {{ adres.straat }} {{ adres.nummer }} {{ adres.bus }}, {{adres.postcode}} {{adres.gemeente}}
             <div class="pull-right" ng-init="showme = (adres.postadres == true) ? true : false; ">
-              <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span></button>
-              <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span></button>
-              <button class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
+              <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
+              <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+              <button class="btn-minimal"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
           </legend>
           <div class="form-group" ng-hide="!showme">
@@ -184,10 +170,10 @@
             <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
             <div class="col-xs-2 col-xxs-2">
               <p ng-if="!editable">{{adres.postcode}}</p>
-              <input ng-if="editable" type="text" class="form-control" id="_postcode" maxlength="4" ng-model="adres.postcode" placeholder="Postcode"/>
+              <input ng-if="editable" type="text" class="form-control" id="_postcode" maxlength="4" ng-model="adres.postcode" placeholder="Postcode" />
             </div>
             <div class="col-xs-5 col-xxs-12">
-             <p ng-if="!editable">{{adres.gemeente}}</p>
+              <p ng-if="!editable">{{adres.gemeente}}</p>
               <input ng-if="editable" type="text" class="form-control" id="_woonplaats" ng-model="adres.gemeente" />
             </div>
           </div>
@@ -199,11 +185,11 @@
             </div>
             <div class="col-xs-1 col-xxs-12">
               <p ng-if="!editable">{{ adres.nummer }}</p>
-              <input ng-if="editable" type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="adres.nummer" placeholder="Nr."/>
+              <input ng-if="editable" type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="adres.nummer" placeholder="Nr." />
             </div>
             <div class="col-xs-1 col-xxs-12">
               <p ng-if="!editable">{{ adres.bus }}</p>
-              <input ng-if="editable"type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus"/>
+              <input ng-if="editable" type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" />
             </div>
           </div>
           <div class="form-group" ng-hide="!showme">
@@ -222,7 +208,7 @@
         </fieldset>
         <div ng-hide="!showform">
           <legend>Nieuw adres toevoegen</legend>
-          <form novalidate >
+          <form novalidate>
             <div class="form-group">
               <label for="_land" class="col-xs-5 col-xxs-12 control-label">Land</label>
               <div class="col-xs-7 col-xxs-12">
@@ -239,31 +225,31 @@
             <div class="form-group">
               <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
               <div class="col-xs-2 col-xxs-2">
-                <input type="text" class="form-control" id="_postcode" maxlength="4" ng-model="newadres.postcode" placeholder="Postcode"/>
+                <input type="text" class="form-control" id="_postcode" maxlength="4" ng-model="newadres.postcode" placeholder="Postcode" />
               </div>
               <div class="col-xs-5 col-xxs-12">
-                <input type="text" class="form-control" id="_woonplaats" ng-model="newadres.gemeente" placeholder="Gemeente"/>
+                <input type="text" class="form-control" id="_woonplaats" ng-model="newadres.gemeente" placeholder="Gemeente" />
               </div>
             </div>
             <div class="form-group">
               <label for="_straatnaam" class="col-xs-5 col-xxs-12 control-label">Straat</label>
               <div class="col-xs-5 col-xxs-12">
-                <input type="text" class="form-control" id="_straatnaam" ng-model="newadres.straat" placeholder="Straat"/>
+                <input type="text" class="form-control" id="_straatnaam" ng-model="newadres.straat" placeholder="Straat" />
               </div>
               <div class="col-xs-1 col-xxs-12">
-                <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="newadres.nummer" placeholder="Nr."/>
+                <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="newadres.nummer" placeholder="Nr." />
               </div>
               <div class="col-xs-1 col-xxs-12">
-                <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="newadres.bus" placeholder="Bus"/>
+                <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="newadres.bus" placeholder="Bus" />
               </div>
             </div>
             <div class="form-group">
               <label for="_telefoon" class="col-xs-5 col-xxs-12 control-label">Telefoon</label>
               <div class="col-xs-7 col-xxs-12">
-                <input type="text" class="form-control" id="_telefoon" maxlength="15" ng-model="newadres.telefoon"/>
+                <input type="text" class="form-control" id="_telefoon" maxlength="15" ng-model="newadres.telefoon" />
               </div>
             </div>
-            <input type="button" ng-click="adrestoevoegen(newadres)" value="Toevoegen" class="btn btn-success pull-right"/>
+            <input type="button" ng-click="adrestoevoegen(newadres)" value="Toevoegen" class="btn btn-success pull-right" />
           </form>
         </div>
       </section>
@@ -271,19 +257,8 @@
     <div class="col-lg-4 col-sm-6 col-xs-12">
       <!-- Functies -->
       <section>
-        <fieldset>
-          <legend>Functies</legend>
-          <ga-functie class="form-group" ng-repeat="fn in lid.functies | collapsedFilter:isFunctiesCollapsed" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie" editable="editable">
-          </ga-functie>
-          <div class="text-center">
-            <a class="btn btn-link" href ng-click="isFunctiesCollapsed = !isFunctiesCollapsed">{{isFunctiesCollapsed ? "Functiehistoriek weergeven" : "Functiehistoriek verbergen"}}</a>
-          </div>
-        </fieldset>
-      </section>
-      <section>
-        <fieldset>
-          <legend>Functies toevoegen</legend>
-          <fieldset ng-repeat="groepFuncties in groepEnfuncties">
+        <legend>Functies</legend>
+        <fieldset ng-repeat="groepFuncties in groepEnfuncties">
           <legend>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
             <div class="pull-right" ng-init="showme = (groepEnfuncties.length != 1) ? true : false; ">
               <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
@@ -331,8 +306,6 @@
             </section>
           </fieldset>
         </fieldset>
-        </fieldset>
-
       </section>
 
       <!-- Groepseigen gegevens -->
@@ -349,16 +322,12 @@
 <footer class="panel-footer clearfix">
   <ul class="pagination pull-left responsive-footer">
     <li><a href="" ng-click="opslaan()">Opslaan</a></li>
-    <li><a href="" ng-click="schrap()">Schrap</a></li>
     <li><a href="" ng-click="nieuw()">Nieuw</a></li>
-    <li><a href="" ng-click="gezinslid()">Broer/zus toevoegen</a></li>
     <li class="dropdown dropup pull-right" title="Meer">
       <a class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
         <li><a href="" ng-click="opslaan()">Opslaan</a></li>
-        <li><a href="" ng-click="schrap()">Schrap</a></li>
         <li><a href="" ng-click="nieuw()">Nieuw</a></li>
-        <li><a href="" ng-click="gezinslid()">Broer/zus toevoegen</a></li>
       </ul>
     </li>
   </ul>

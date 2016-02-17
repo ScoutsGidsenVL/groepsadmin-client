@@ -5,9 +5,9 @@
     .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog'])
     .controller('LidController', LidController);
 
-  LidController.$inject = ['$scope', '$routeParams', '$location', 'RestService', 'AlertService', 'DialogService'];
+  LidController.$inject = ['$scope', '$routeParams', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope'];
 
-  function LidController ($scope, $routeParams, $location, RestService, AlertService, DialogService) {
+  function LidController ($scope, $routeParams, $location, RestService, AlertService, DialogService, $rootScope) {
     var sectie,
         patchObj;
     
@@ -61,7 +61,7 @@
 
         }
       );
-    
+
     function loadSuccess(data) {
       initModel();
       
@@ -73,6 +73,33 @@
       patchObj = $.grep($scope.lid.links, function(e){
         return e.method == "PATCH";
       })[0];
+
+      //init functies;
+      RestService.Functies.get().$promise.then(
+      function(result){
+        $scope.functies = result;
+        RestService.Groepen.get().$promise.then(
+          function(result){
+            $scope.groepen = result;
+            //herordenen zodat ze eenvoudig gebruikt kunnen worden in de template;
+            $scope.groepEnfuncties = [];
+            angular.forEach($scope.groepen.groepen, function(value, key){
+              var tempGroep = value;
+              tempGroep.functies = [];
+              angular.forEach($scope.functies.functies, function(value2, key2){
+                if(value2.groepen.indexOf(tempGroep.groepsnummer) != -1){
+                  tempGroep.functies.push(value2);
+                }
+              })
+              $scope.groepEnfuncties.push(tempGroep);
+            });
+          }
+        );
+      }
+    );
+
+
+
 
     }
     
@@ -133,14 +160,48 @@
         //$scope.lid = response;
       });
     }
+    $scope.adrestoevoegen = function(newadres){
+      if(newadres == undefined){
+        AlertService.add('danger ', "Geen adres aangemaakt", 5000);
+      }else{
+        //static giscode.
+        newadres.giscode = 0;
+        newadres.postadress = false;
+        newadres.omschrijving = "";
+        var lid = {};
+        lid.id = $scope.lid.id;
+        lid.adressen = $scope.lid.adressen;
+        lid.adressen.push(newadres);
+
+      }
+    }
 
     $scope.schrap = function() {
+
     }
 
     $scope.nieuw = function() {
+      $location.path("/lid/toevoegen");
     }
 
     $scope.gezinslid = function() {
+      //bereid lid voor om doorgegeven te worden.
+      console.log($scope.lid);
+      var familielid = $scope.lid;
+      delete familielid.aangepast;
+      delete familielid.links;
+      delete familielid.email;
+      delete familielid.id;
+      delete familielid.gebruikersnaam;
+      delete familielid.persoonsgegevens.beperking;
+      delete familielid.persoonsgegevens.geboortedatum;
+      delete familielid.persoonsgegevens.geslacht;
+      delete familielid.persoonsgegevens.voornaam;
+      delete familielid.verbondsgegevens;
+      familielid.functies = [];
+      console.log(familielid);
+      $rootScope.familielid = familielid;
+      $location.path("/lid/toevoegen");
     }
 
     $scope.stopFunctie = function(functie) {

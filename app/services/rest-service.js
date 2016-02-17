@@ -19,9 +19,17 @@
         {functieId: '@functieId'},
         {get: {method:'GET', cache: $cacheFactory('functiesCache')}}
       ),
+      Functies: $resource(
+        'http://localhost/groepsadmin/rest-ga/functie/',
+        {get: {method:'GET', cache: $cacheFactory('allFunctiesCache')}}
+      ),
       Groep: $resource(
         'http://localhost/groepsadmin/rest-ga/groep/:id',
         {functieId: '@id'},
+        {get: {method:'GET', cache: $cacheFactory('groepCache')}}
+      ),
+      Groepen: $resource(
+        'http://localhost/groepsadmin/rest-ga/groep/',
         {get: {method:'GET', cache: $cacheFactory('groepenCache')}}
       )
     }
