@@ -5,48 +5,18 @@
     .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog'])
     .controller('LidController', LidController);
 
-  LidController.$inject = ['$scope', '$routeParams', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope'];
+  LidController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope'];
 
-  function LidController ($scope, $routeParams, $location, RestService, AlertService, DialogService, $rootScope) {
+  function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope) {
     var sectie,
         patchObj;
+    var madeChanges = false;
     
     RestService.Lid.get({id:$routeParams.id}).$promise.then(
         function(result) {
 
           $scope.lid = result;
-          loadSuccess($scope.lid)
-
-          /*
-          * check if user is VGA
-          * ------------------------------------------------------
-          */
-
-          $scope.editable = true;
-          /*
-          //Static ID
-            //TO-DO: User id binnenkrijgen via oAuth.
-          var currentUserID = "d5f75b320db2ee17010db32157a201d4";//VGA
-          //var currentUserID = "d5f75b320db2ee17010db321582b01f3";//geen VGA d5f75b320db2ee17010db321582b01f3
-
-          if (currentUserID == $routeParams.id){
-            $scope.editable = true;
-          }
-          else{
-            RestService.Lid.get({id:currentUserID}).$promise.then(
-               function(result) {
-                  angular.forEach(result.functies, function(value) {
-                    RestService.Functie.get({functieId:value.functie}).$promise.then(
-                      function(result){
-                        if(result.code == "VGA" && result.einde == undefined){
-                          $scope.editable = true;
-                        }
-                    });
-                  });
-                }
-              );
-          }
-          */
+          loadSuccess($scope.lid);
         },
         function(error) {
           if(error.data.beschrijving =="Geen leesrechten op dit lid"){
@@ -77,16 +47,16 @@
       //init functies;
       RestService.Functies.get().$promise.then(
       function(result){
-        $scope.functies = result;
+        var functies = result;
         RestService.Groepen.get().$promise.then(
           function(result){
-            $scope.groepen = result;
+            var groepen = result;
             //herordenen zodat ze eenvoudig gebruikt kunnen worden in de template;
             $scope.groepEnfuncties = [];
-            angular.forEach($scope.groepen.groepen, function(value, key){
+            angular.forEach(groepen.groepen, function(value, key){
               var tempGroep = value;
               tempGroep.functies = [];
-              angular.forEach($scope.functies.functies, function(value2, key2){
+              angular.forEach(functies.functies, function(value2, key2){
                 if(value2.groepen.indexOf(tempGroep.groepsnummer) != -1){
                   tempGroep.functies.push(value2);
                 }
@@ -153,13 +123,16 @@
     }
 
     $scope.opslaan = function() {
+      //console.log($scope.lid.$update());
       $scope.lid.$update(function(response) {
         AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
         refreshLid(); //temp
         //initModel();
         //$scope.lid = response;
+        madeChanges =false;
       });
     }
+
     $scope.adrestoevoegen = function(newadres){
       if(newadres == undefined){
         AlertService.add('danger ', "Geen adres aangemaakt", 5000);
@@ -172,7 +145,6 @@
         lid.id = $scope.lid.id;
         lid.adressen = $scope.lid.adressen;
         lid.adressen.push(newadres);
-
       }
     }
 
@@ -266,9 +238,57 @@
 
     }
 
+    $scope.functieToevoegen = function(groepsnummer, functie, type){
+      if(type == 'add'){
+        var functieInstantie = {};
+        functieInstantie.functie = functie;
+        functieInstantie.groep = groepsnummer;
+        functieInstantie.begin = "temp";
+        $scope.lid.functies.push(functieInstantie);
+        madeChanges = true;
+        return 'stop';
+      }
+      else{
+        angular.forEach($scope.lid.functies, function(value,key){
+          if(value.groep == groepsnummer && value.functie == functie && value.begin == 'temp'){
+            $scope.lid.functies.splice(key, 1);
+          }
+        });
+        return 'add'
+      }
+    }
+
     //temp refresh Lid function.
     function refreshLid() {
        $scope.lid = RestService.Lid.get({id:$routeParams.id}, loadSuccess);
+    }
+
+    $scope.setChangesStatus = function(){
+      madeChanges = true;
+    }
+
+    $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
+      if(madeChanges){
+        event.preventDefault();
+        var paramObj = {
+              trueVal:newUrl
+        }
+        DialogService.new("Pagina verlaten","U staat op het punt om deze pagina te verlaten, niet opgeslagen aanpassignen zullen verloren gaan. Bent u zeker dat u wil doorgaan?", $scope.locationChange, paramObj );
+      }
+
+    });
+
+    /*
+    * return functie voor wanneer en persoon van pagina veranderd en er zij nog openstaande aanpassingen.
+    * ----------------------------------------------------------------------------------------------------
+    */
+    $scope.locationChange = function(result, url){
+      console.log(result);
+      console.log(url);
+      if(result == true){
+        madeChanges = false;
+        $window.location.href = url;
+      }
     }
 
   }

@@ -14,6 +14,10 @@
         {id: '@id'},
         {'update': {method: 'PATCH', transformRequest: changesOnly, cache: false}}
       ),
+      LidAdd: $resource(
+        'http://localhost/groepsadmin/rest-ga/lid/',
+        {'add': {method: 'POST', transformRequest: changesOnly, cache: false}}
+      ),
       Functie: $resource(
         'http://localhost/groepsadmin/rest-ga/functie/:functieId',
         {functieId: '@functieId'},

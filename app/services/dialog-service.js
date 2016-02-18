@@ -12,17 +12,30 @@
     $rootScope.dialog;
 
     return dialogService = {
-      new: function(title, msg, returnfunctie) {
+      new: function(title, msg, returnfunctie, extraparamObj) {
         var dialog = {
           title: title,
           msg: msg,
           close: function() {
-            returnfunctie(false);
-            $rootScope.dialog = null;
+            if( extraparamObj.falseVal != undefined){
+              $rootScope.dialog = null;
+              returnfunctie(false, extraparamObj.falseVal);
+            }
+            else{
+              $rootScope.dialog = null;
+              returnfunctie(false);
+            }
           },
           confirm: function() {
-            returnfunctie(true);
-            $rootScope.dialog = null;
+            if(extraparamObj.trueVal != undefined){
+              $rootScope.dialog = null;
+              returnfunctie(true, extraparamObj.trueVal);
+            }
+            else{
+              $rootScope.dialog = null;
+              returnfunctie(true);
+            }
+
           }
         };
         $rootScope.dialog = dialog;
