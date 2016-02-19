@@ -12,6 +12,9 @@
         patchObj;
     var madeChanges = false;
     
+    var tempadresId = 1;
+    var tempcontactId = 1;
+
     RestService.Lid.get({id:$routeParams.id}).$promise.then(
         function(result) {
 
@@ -103,11 +106,17 @@
         var gr = RestService.Groep.get({id:value.groep});
         $scope.groepenlijst[value.groep] = gr;
       });
+
+      $scope.postadres;
+      angular.forEach($scope.lid.adressen, function(value, key){
+        if(value.postadres == true){
+          $scope.postadres = value.id;
+        }
+      });
     }
 
     function setChanges(newVal, oldVal, scope) {
       if (newVal == oldVal) return;
-
       sectie = this.exp.split(".").pop();
       if($scope.lid.changes.indexOf(sectie) < 0) {
         $scope.lid.changes.push(sectie);
@@ -141,6 +150,8 @@
         newadres.giscode = 0;
         newadres.postadress = false;
         newadres.omschrijving = "";
+        newadres.id = 'tempadres' + tempadresId;
+        tempadresId++;
         var lid = {};
         lid.id = $scope.lid.id;
         lid.adressen = $scope.lid.adressen;
@@ -149,6 +160,61 @@
     }
 
     $scope.schrap = function() {
+      //alle functies op non actief zetten;
+      var lid ={
+        id: $scope.lid.id,  // Overbodig? id zit al in PATCH url
+        functies:  []
+      }
+      angular.forEach($scope.lid.functies, function(value, key){
+        //functies toegevoegd tijdens deze sesie worden nog niet doorgegevens
+        if(value.begin != "temp"){
+          var functie = value;
+          functie = new Date().toISOString();
+          lid.functies.push(value);
+        }
+      });
+      /*
+      * bevestiging return functie
+      * --------------------------------------
+      */
+      $scope.confirmstopFunctie = function(result){
+        if(result){
+          //set lid bevestiging
+          lid.bevesteging = true;
+
+          //send new request
+          RestService.Lid.update({id:lid.id}, lid).$promise.then(
+            function(response) {
+              AlertService.add('success ', 'Alle actieve functies werden geschrapt.', 5000);
+              initModel();
+              // TODO: update lid model (hier niet automatisch geüpdatet)
+
+            },
+            function(error) {
+              AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
+            }
+          );
+        } else{
+          AlertService.add('danger ', "Aanpassing niet doorgevoerd", 5000);
+        }
+      }
+      RestService.Lid.update({id:lid.id}, lid).$promise.then(
+        function(response) {
+          //toon confirmvenster
+          DialogService.new("Bevestig","Weet u zeker dat u alle actieve functies van " + $scope.lid.persoonsgegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
+          refreshLid();
+        },
+        function(error) {
+          console.log(error);
+          if(error.status == 403){
+            AlertService.add('warning', "De VGA-functie kan niet geschrapt worden. <a href=\"	https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginahulp:_src_4_TContentFunctionsEntry_OUTPUT_KAN_NIET_STOPZETTEN\">Meer info</a> ");
+          }
+          else{
+            AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+          }
+          console.log(error.data.beschrijving);
+        }
+      );
 
     }
 
@@ -194,7 +260,6 @@
       * --------------------------------------
       */
       $scope.confirmstopFunctie = function(result){
-
         if(result){
           //set lid bevestiging
           lid.bevesteging = true;
@@ -215,18 +280,17 @@
           AlertService.add('danger ', "Aanpassing niet doorgevoerd", 5000);
         }
       }
-
-      
       RestService.Lid.update({id:lid.id}, lid).$promise.then(
         function(response) {
           //toon confirmvenster
-          var currentFunctiName= $scope.functieslijst[functie.functie].beschrijving;
-          DialogService.new("Bevestig","Weet u zeker dat u " + $scope.lid.persoonsgegevens.voornaam + " wilt schrappen als " + currentFunctiName + "?", $scope.confirmstopFunctie);
+          var currentFunctieName= $scope.functieslijst[functie.functie].beschrijving;
+          DialogService.new("Bevestig","Weet u zeker dat u " + $scope.lid.persoonsgegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
           refreshLid();
         },
         function(error) {
-          if(error.data.beschrijving == "Minimum aantal van functie Verantw Groepsadmin bereikt in deze groep"){
-            AlertService.add('warning', "De VGA-functie kan niet geschrapt worden. <a href=\"	https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginahulp:_src_4_TContentFunctionsEntry_OUTPUT_KAN_NIET_STOPZETTEN\">Meer info</a> ");
+          console.log(error);
+          if(error.status == 403){
+            AlertService.add('warning', error.data.beschrijving);
           }
           else{
             AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
@@ -234,8 +298,6 @@
           console.log(error.data.beschrijving);
         }
       );
-
-
     }
 
     $scope.functieToevoegen = function(groepsnummer, functie, type){
@@ -267,6 +329,48 @@
       madeChanges = true;
     }
 
+    $scope.changePostadres = function(adresID){
+
+    }
+
+    $scope.deleteContact = function(contactID){
+      var contactIndex;
+      angular.forEach($scope.lid.contacten, function(value, index){
+        if(value.id == contactID){
+          contactIndex = index;
+        }
+      });
+      $scope.lid.contacten.splice(contactIndex,1);
+    }
+
+    $scope.deleteAdres = function(adresID){
+      var adresIndex;
+      angular.forEach($scope.lid.adressen, function(value, index){
+        if(value.id == adresID){
+          adresIndex = index;
+        }
+      });
+      $scope.lid.adressen.splice(adresIndex,1);
+    }
+
+    $scope.changeContactAdres = function(contactID, adresID){
+
+    }
+    $scope.contactTovoegen = function(nieuwContact){
+      console.log(nieuwContact);
+      if(nieuwContact == undefined){
+        AlertService.add('danger ', "Geen contact aangemaakt", 5000);
+      }
+      else{
+        //set temp ID;
+        newadres.id = 'tempcontact' + tempcontactId;
+        tempcontactId++;
+        $scope.lid.contacten.push(nieuwContact);
+      }
+
+
+    }
+
     $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
       if(madeChanges){
         event.preventDefault();
@@ -279,7 +383,7 @@
     });
 
     /*
-    * return functie voor wanneer en persoon van pagina veranderd en er zij nog openstaande aanpassingen.
+    * return functie voor wanneer en persoon van pagina veranderd en er zijn nog openstaande aanpassingen.
     * ----------------------------------------------------------------------------------------------------
     */
     $scope.locationChange = function(result, url){
@@ -290,6 +394,5 @@
         $window.location.href = url;
       }
     }
-
   }
 })();

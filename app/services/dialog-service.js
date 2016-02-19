@@ -17,25 +17,37 @@
           title: title,
           msg: msg,
           close: function() {
-            if( extraparamObj.falseVal != undefined){
-              $rootScope.dialog = null;
-              returnfunctie(false, extraparamObj.falseVal);
+            if(extraparamObj != undefined){
+              if( extraparamObj.falseVal != undefined){
+                $rootScope.dialog = null;
+                returnfunctie(false, extraparamObj.falseVal);
+              }
+              else{
+                $rootScope.dialog = null;
+                returnfunctie(false);
+              }
             }
             else{
               $rootScope.dialog = null;
               returnfunctie(false);
             }
+
           },
           confirm: function() {
-            if(extraparamObj.trueVal != undefined){
-              $rootScope.dialog = null;
-              returnfunctie(true, extraparamObj.trueVal);
+            if(extraparamObj != undefined){
+              if(extraparamObj.trueVal != undefined){
+                $rootScope.dialog = null;
+                returnfunctie(true, extraparamObj.trueVal);
+              }
+              else{
+                $rootScope.dialog = null;
+                returnfunctie(true);
+              }
             }
             else{
               $rootScope.dialog = null;
               returnfunctie(true);
             }
-
           }
         };
         $rootScope.dialog = dialog;

@@ -35,7 +35,7 @@
           <div class="form-group">
             <label for="_geslacht" class="col-xs-5 col-xxs-12 control-label">Geslacht</label>
             <div class="col-xs-7 col-xxs-12">
-              <select ng-if="editable" class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht" ng-change="setChangesStatus()">
+              <select class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht" ng-change="setChangesStatus()">
                 <option value="man">Mannelijk</option>
                 <option value="vrouw">Vrouwelijk</option>
               </select>
@@ -45,7 +45,7 @@
             <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
             <div class="col-xs-7 col-xxs-12">
               <!-- fix date-parse -->
-              <input ng-if="editable" type="date" class="form-control" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date ng-change="setChangesStatus()"/>
+              <input type="date" class="form-control" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date ng-change="setChangesStatus()"/>
             </div>
           </div>
           <label class="form-group control checkbox">
@@ -85,8 +85,7 @@
           <div class="form-group">
             <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
             <div class="col-xs-7 col-xxs-12">
-              <p ng-if="!editable">{{ lid.persoonsgegevens.rekeningnummer }}</p>
-              <input ng-if="editable" type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" ng-change="setChangesStatus()"/>
+              <input type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" ng-change="setChangesStatus()"/>
             </div>
           </div>
           <label class="form-group control checkbox">
@@ -96,15 +95,39 @@
               <span class="control-indicator"></span>
             </div>
           </label>
+          <div class="form-group">
+            <label for="_postadres" class="col-xs-5 col-xxs-12 control-label">Postadres</label>
+            <div class="col-xs-7 col-xxs-12">
+              <select  id="_postadres" ng-model="postadres">
+                <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" >{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
+              </select>
+            </div>
+          </div>
         </fieldset>
       </section>
       <!-- Contacten -->
       <section>
+        <legend>Contacten
+          <div class="pull-right">
+            <button ng-click="showcontactform=true" class="btn-minimal" title="Contact toevoegen" ng-show="lid.contacten.length < 2"><span class="glyphicon glyphicon-plus"></span></button>
+          </div></legend>
         <fieldset ng-repeat="contact in lid.contacten">
+
           <legend>Gegevens {{ contact.rol }}
             <div class="pull-right"><button ng-click="showme=true" ng-hide="showme" class="btn-minimal" title="Gegevens tonen"><span class="glyphicon glyphicon-chevron-down"></span></button> <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up" title="Gegevens verbergen"></span></button>
+            <button ng-click="deleteContact(contact.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
             </div>
           </legend>
+          <div class="form-group" ng-hide="!showme">
+            <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
+            <div class="col-xs-7 col-xxs-12">
+              <select class="selectpicker" id="_rol" ng-model="contact.rol" ng-change="setChangesStatus()">
+                <option value="vader">Vader</option>
+                <option value="moeder">Moeder</option>
+                <option value="voogd">Voogd</option>
+              </select>
+            </div>
+          </div>
           <div class="form-group" ng-hide="!showme">
             <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
             <div class="col-xs-7 col-xxs-12">
@@ -130,7 +153,63 @@
               <input ng-if="editable" type="text" class="form-control" id="_gsm" ng-model="contact.GSM" ng-change="setChangesStatus()"/>
             </div>
           </div>
+          <div class="form-group" ng-hide="!showme">
+             <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
+             <div class="col-xs-7 col-xxs-12">
+               <select  id="_adres" ng-model="contact.adres">
+                 <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" >{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
+               </select>
+             </div>
+          </div>
         </fieldset>
+        <div ng-hide="!showcontactform">
+            <legend>Nieuw contact toevoegen</legend>
+            <form novalidate >
+              <div class="form-group">
+                <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
+                <div class="col-xs-7 col-xxs-12">
+                  <select class="selectpicker" id="_rol" ng-model="newcontact.rol" ng-change="setChangesStatus()">
+                    <option value="vader">Vader</option>
+                    <option value="moeder">Moeder</option>
+                    <option value="voogd">Voogd</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
+                <div class="col-xs-7 col-xxs-12">
+                  <input type="text" class="form-control" id="_voornaam"  ng-model="newcontact.voornaam" ng-change="setChangesStatus()"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
+                <div class="col-xs-7 col-xxs-12">
+                  <input type="text" class="form-control" id="_naam" ng-model="newcontact.naam" ng-change="setChangesStatus()"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
+                <div class="col-xs-7 col-xxs-12">
+                  <input type="text" class="form-control" id="_email" ng-model="newcontact.email" ng-change="setChangesStatus()"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="_GSM" class="col-xs-5 col-xxs-12 control-label">Telefoon</label>
+                <div class="col-xs-7 col-xxs-12">
+                  <input type="text" class="form-control" id="_GSM" ng-model="newcontact.telefoon" ng-change="setChangesStatus()"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
+                <div class="col-xs-7 col-xxs-12">
+                  <select  id="_adres" ng-model="newcontact.adres">
+                    <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" >{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
+                  </select>
+                </div>
+              </div>
+              <input type="button" ng-click="contactTovoegen(newcontact)" value="Toevoegen" class="btn btn-success pull-right" />
+            </form>
+          </div>
       </section>
     </div>
     <div class="col-lg-4 col-sm-6 col-xs-12">
@@ -149,19 +228,13 @@
               <div class="pull-right" ng-init="showme = (adres.postadres == true) ? true : false; ">
                 <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span></button>
                 <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span></button>
-                <button class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
+                <button ng-click="deleteAdres(adres.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
               </div>
             </legend>
             <div class="form-group" ng-hide="!showme">
               <label for="_land" class="col-xs-5 col-xxs-12 control-label">Land</label>
               <div class="col-xs-7 col-xxs-12">
-                <p ng-if="!editable && adres.land == 'BE'">België</p>
-                <p ng-if="!editable && adres.land == 'DE'">Duitsland</p>
-                <p ng-if="!editable && adres.land == 'FR'">Frankrijk</p>
-                <p ng-if="!editable && adres.land == 'GB'">Groot-Brittannië</p>
-                <p ng-if="!editable && adres.land == 'LU'">Luxemburg</p>
-                <p ng-if="!editable && adres.land == 'NL'">Nederland</p>
-                <select ng-if="editable" class="selectpicker" id="_land" ng-model="adres.land" ng-change="setChangesStatus()">
+                <select class="selectpicker" id="_land" ng-model="adres.land" ng-change="setChangesStatus()">
                   <option value="BE">België</option>
                   <option value="DE">Duitsland</option>
                   <option value="FR">Frankrijk</option>
@@ -174,34 +247,28 @@
             <div class="form-group" ng-hide="!showme">
               <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
               <div class="col-xs-2 col-xxs-2">
-                <p ng-if="!editable">{{adres.postcode}}</p>
-                <input ng-if="editable" type="text" class="form-control" id="_postcode" maxlength="4" ng-model="adres.postcode" placeholder="Postcode" ng-change="setChangesStatus()"/>
+                <input type="text" class="form-control" id="_postcode" maxlength="4" ng-model="adres.postcode" placeholder="Postcode" ng-change="setChangesStatus()"/>
               </div>
               <div class="col-xs-5 col-xxs-12">
-               <p ng-if="!editable">{{adres.gemeente}}</p>
-                <input ng-if="editable" type="text" class="form-control" id="_woonplaats" ng-model="adres.gemeente" ng-change="setChangesStatus()"/>
+                <input type="text" class="form-control" id="_woonplaats" ng-model="adres.gemeente" ng-change="setChangesStatus()"/>
               </div>
             </div>
             <div class="form-group" ng-hide="!showme">
               <label for="_straatnaam" class="col-xs-5 col-xxs-12 control-label">Straat</label>
               <div class="col-xs-5 col-xxs-12">
-                <p ng-if="!editable">{{ adres.straat }}</p>
-                <input ng-if="editable" type="text" class="form-control" id="_straatnaam" ng-model="adres.straat" ng-change="setChangesStatus()"/>
+                <input type="text" class="form-control" id="_straatnaam" ng-model="adres.straat" ng-change="setChangesStatus()"/>
               </div>
               <div class="col-xs-1 col-xxs-12">
-                <p ng-if="!editable">{{ adres.nummer }}</p>
-                <input ng-if="editable" type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="adres.nummer" placeholder="Nr." ng-change="setChangesStatus()"/>
+                <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="adres.nummer" placeholder="Nr." ng-change="setChangesStatus()"/>
               </div>
               <div class="col-xs-1 col-xxs-12">
-                <p ng-if="!editable">{{ adres.bus }}</p>
-                <input ng-if="editable"type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-change="setChangesStatus()"/>
+                <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-change="setChangesStatus()"/>
               </div>
             </div>
             <div class="form-group" ng-hide="!showme">
               <label for="_telefoon" class="col-xs-5 col-xxs-12 control-label">Telefoon</label>
               <div class="col-xs-7 col-xxs-12">
-                <p ng-if="!editable">{{ adres.telefoon }}</p>
-                <input ng-if="editable" type="text" class="form-control" id="_telefoon" maxlength="15" ng-model="adres.telefoon" ng-change="setChangesStatus()"/>
+                <input type="text" class="form-control" id="_telefoon" maxlength="15" ng-model="adres.telefoon" ng-change="setChangesStatus()"/>
               </div>
             </div>
             <div class="form-group readonly" ng-hide="!showme">
