@@ -142,23 +142,6 @@
       });
     }
 
-    $scope.adrestoevoegen = function(newadres){
-      if(newadres == undefined){
-        AlertService.add('danger ', "Geen adres aangemaakt", 5000);
-      }else{
-        //static giscode.
-        newadres.giscode = 0;
-        newadres.postadress = false;
-        newadres.omschrijving = "";
-        newadres.id = 'tempadres' + tempadresId;
-        tempadresId++;
-        var lid = {};
-        lid.id = $scope.lid.id;
-        lid.adressen = $scope.lid.adressen;
-        lid.adressen.push(newadres);
-      }
-    }
-
     $scope.schrap = function() {
       //alle functies op non actief zetten;
       var lid ={
@@ -353,21 +336,27 @@
       $scope.lid.adressen.splice(adresIndex,1);
     }
 
-    $scope.changeContactAdres = function(contactID, adresID){
-
+    $scope.addAdres= function(){
+      var newadres = {
+        postadress: false,
+        omschrijving: "",
+        id: 'tempadres' + tempadresId
+      }
+      tempadresId++;
+      var lid = {};
+      lid.id = $scope.lid.id;
+      lid.adressen = $scope.lid.adressen;
+      lid.adressen.push(newadres);
     }
-    $scope.contactTovoegen = function(nieuwContact){
-      console.log(nieuwContact);
-      if(nieuwContact == undefined){
-        AlertService.add('danger ', "Geen contact aangemaakt", 5000);
-      }
-      else{
-        //set temp ID;
-        newadres.id = 'tempcontact' + tempcontactId;
-        tempcontactId++;
-        $scope.lid.contacten.push(nieuwContact);
-      }
 
+    $scope.contactTovoegen = function(){
+      if($scope.lid.contacten.length < 2){
+        var newcontact = {
+          id: 'tempcontact' + tempcontactId,
+        }
+        $scope.lid.contacten.push(newcontact);
+        tempcontactId++;
+      }
 
     }
 

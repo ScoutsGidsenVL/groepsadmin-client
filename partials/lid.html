@@ -109,15 +109,22 @@
       <section>
         <legend>Contacten
           <div class="pull-right">
-            <button ng-click="showcontactform=true" class="btn-minimal" title="Contact toevoegen" ng-show="lid.contacten.length < 2"><span class="glyphicon glyphicon-plus"></span></button>
+            <button ng-click="contactTovoegen()" class="btn-minimal" title="Contact toevoegen" ng-show="lid.contacten.length < 2"><span class="glyphicon glyphicon-plus"></span></button>
           </div></legend>
         <fieldset ng-repeat="contact in lid.contacten">
-
-          <legend>Gegevens {{ contact.rol }}
-            <div class="pull-right"><button ng-click="showme=true" ng-hide="showme" class="btn-minimal" title="Gegevens tonen"><span class="glyphicon glyphicon-chevron-down"></span></button> <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up" title="Gegevens verbergen"></span></button>
-            <button ng-click="deleteContact(contact.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
-            </div>
-          </legend>
+          <legend class="clearfix">
+                <div ng-if="contact.rol || contact.naam || contact.voornaam" class="pull-left">
+                  {{ contact.voornaam }} {{ contact.naam }}
+                </div>
+                <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left" >
+                  Nieuw contact
+                </div>
+                <div class="pull-right" ng-init="showme = false; " class="pull-left">
+                  <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span></button>
+                  <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span></button>
+                  <button ng-click="deleteContact(contact.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
+                </div>
+            </legend>
           <div class="form-group" ng-hide="!showme">
             <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
             <div class="col-xs-7 col-xxs-12">
@@ -143,14 +150,13 @@
           <div class="form-group" ng-class="{ 'readonly' : !hasPermission('email') }" ng-hide="!showme">
             <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
             <div class="col-xs-7 col-xxs-12">
-              <p>{{ contact.email }}</p>
-              <!-- <input type="text" class="form-control" id="_email" ng-model="lid.email" ng-readonly="!hasPermission('email')" ng-disabled="true"/> -->
+              <input type="text" class="form-control" id="_email" ng-model="lid.email" ng-readonly="!hasPermission('email')" ng-disabled="true"/>
             </div>
           </div>
           <div class="form-group" ng-hide="!showme">
             <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
             <div class="col-xs-7 col-xxs-12">
-              <input ng-if="editable" type="text" class="form-control" id="_gsm" ng-model="contact.GSM" ng-change="setChangesStatus()"/>
+              <input type="text" class="form-control" id="_gsm" ng-model="contact.GSM" ng-change="setChangesStatus()"/>
             </div>
           </div>
           <div class="form-group" ng-hide="!showme">
@@ -162,54 +168,6 @@
              </div>
           </div>
         </fieldset>
-        <div ng-hide="!showcontactform">
-            <legend>Nieuw contact toevoegen</legend>
-            <form novalidate >
-              <div class="form-group">
-                <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
-                <div class="col-xs-7 col-xxs-12">
-                  <select class="selectpicker" id="_rol" ng-model="newcontact.rol" ng-change="setChangesStatus()">
-                    <option value="vader">Vader</option>
-                    <option value="moeder">Moeder</option>
-                    <option value="voogd">Voogd</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
-                <div class="col-xs-7 col-xxs-12">
-                  <input type="text" class="form-control" id="_voornaam"  ng-model="newcontact.voornaam" ng-change="setChangesStatus()"/>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
-                <div class="col-xs-7 col-xxs-12">
-                  <input type="text" class="form-control" id="_naam" ng-model="newcontact.naam" ng-change="setChangesStatus()"/>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
-                <div class="col-xs-7 col-xxs-12">
-                  <input type="text" class="form-control" id="_email" ng-model="newcontact.email" ng-change="setChangesStatus()"/>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="_GSM" class="col-xs-5 col-xxs-12 control-label">Telefoon</label>
-                <div class="col-xs-7 col-xxs-12">
-                  <input type="text" class="form-control" id="_GSM" ng-model="newcontact.telefoon" ng-change="setChangesStatus()"/>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
-                <div class="col-xs-7 col-xxs-12">
-                  <select  id="_adres" ng-model="newcontact.adres">
-                    <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" >{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
-                  </select>
-                </div>
-              </div>
-              <input type="button" ng-click="contactTovoegen(newcontact)" value="Toevoegen" class="btn btn-success pull-right" />
-            </form>
-          </div>
       </section>
     </div>
     <div class="col-lg-4 col-sm-6 col-xs-12">
@@ -218,18 +176,23 @@
          <legend >
           Adressen
            <div class="pull-right">
-            <button ng-click="showform=true" class="btn-minimal" title="Adres toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
+            <button ng-click="addAdres()" class="btn-minimal" title="Adres toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
           </div>
         </legend>
         <fieldset>
           <fieldset ng-repeat="adres in lid.adressen">
-            <legend >
-              {{ adres.straat }} {{ adres.nummer }} {{ adres.bus }}, {{adres.postcode}} {{adres.gemeente}}
-              <div class="pull-right" ng-init="showme = (adres.postadres == true) ? true : false; ">
-                <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span></button>
-                <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span></button>
-                <button ng-click="deleteAdres(adres.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
-              </div>
+            <legend class="clearfix">
+                <div ng-if="adres.straat || adres.bus || adres.postcode || adres.gemeente" class="pull-left">
+                  {{ adres.straat }} {{ adres.nummer }} {{ adres.bus }}, {{adres.postcode}} {{adres.gemeente}}
+                </div>
+                <div ng-if="!adres.straat && !adres.bus && !adres.postcode && !adres.gemeente" class="pull-left" >
+                  Nieuw adres
+                </div>
+                <div class="pull-right" ng-init="showme = (adres.postadres == true) ? true : false; " class="pull-left">
+                  <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span></button>
+                  <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span></button>
+                  <button ng-click="deleteAdres(adres.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
+                </div>
             </legend>
             <div class="form-group" ng-hide="!showme">
               <label for="_land" class="col-xs-5 col-xxs-12 control-label">Land</label>
