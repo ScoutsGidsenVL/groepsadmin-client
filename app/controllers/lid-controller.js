@@ -113,6 +113,66 @@
           $scope.postadres = value.id;
         }
       });
+      $scope.lid.groepseigen =
+{
+   "waarden" : {
+      "c4ca4238a0b923820dcc509a6f75849b" : true,
+      "c81e728d9d4c2f636f067f89cc14862c" : "Beetje tekst",
+      "eccbc87e4b5ce2fe28308fd9f2a7baf3" : "5bd15ca24cee57242a9b28b79481da6d"
+   },
+   "schema" : [
+     {
+         "type" : "vinkje",
+         "label" : "Een vinkje",
+         "beschrijving" : "Dit is een vinkje dat je <strong>aan</strong> of uit mag klikken",
+         "meer-info" : "<i>NOG</i> meer info",
+         "id" : "c4ca4238a0b923820dcc509a6f75849b"
+      },
+            {
+          "type" : "keuze",
+          "id": "eccbc87e4b5ce2fe28308fd9f2a7baf3",
+          "label": "keuze veld",
+          "keuzes": [
+              {
+                  "id": "5bd15ca24cee57242a9b28b79481da6d",
+                  "label": "Een keuze"
+              },
+              {
+                  "id": "33d15ca24cee57242a9b28b79481da33",
+                  "label": "keuze 2"
+              }
+          ]
+      },
+
+      {
+         "type" : "groep",
+         "label" : "titel/label van de groep",
+         "beschrijving" : "Al deze velden horen bij elkaar",
+         "velden" : [
+            {
+               "type" : "tekst",
+               "id" : "c81e728d9d4c2f636f067f89cc14862c",
+               "label": "tekst veld"
+            },
+            {
+                "type" : "keuze",
+                "id": "eccbc87e4b5ce2fe28308fd9f2a7baf3",
+                "label": "keuze veld",
+                "keuzes": [
+                    {
+                        "id": "5bd15ca24cee57242a9b28b79481da6d",
+                        "label": "Een keuze"
+                    },
+                    {
+                        "id": "5bd15ca24cee57242a9b28b79481da6d",
+                        "label": "keuze 2"
+                    }
+                ]
+            }
+         ]
+      }
+   ]
+};
     }
 
     function setChanges(newVal, oldVal, scope) {

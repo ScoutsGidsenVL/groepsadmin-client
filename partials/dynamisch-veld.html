@@ -1,0 +1,37 @@
+<div ng-switch="veld.type">
+  <label class="form-group control checkbox" ng-switch-when="vinkje">
+    <div class="col-xs-5 col-xxs-12 control-label">{{ veld.label }}</div>
+    <div class="col-xs-7 col-xxs-12">
+      <input type="checkbox" class="" id="" ng-model="waarden[veld.id]"/>
+      <span class="control-indicator"></span>
+    </div>
+  </label>
+
+  <div class="form-group" ng-switch-when="tekst">
+    <label class="col-xs-5 col-xxs-12 control-label">{{ veld.label }}</label>
+    <div class="col-xs-7 col-xxs-12">
+      <input  type="text" class="form-control" ng-model="waarden[veld.id]"/>
+    </div>
+  </div>
+
+  <div class="form-group" ng-switch-when="email">
+    <label class="col-xs-5 col-xxs-12 control-label">{{ veld.label }}</label>
+    <div class="col-xs-7 col-xxs-12">
+      <input  type="email" class="form-control" ng-model="waarden[veld.id]"/>
+    </div>
+  </div>
+  <div class="form-group" ng-switch-when="keuze">
+    <label class="col-xs-5 col-xxs-12 control-label">{{ veld.label }}</label>
+    <div class="col-xs-7 col-xxs-12">
+      <select ng-model="waarden[veld.id]">
+        <option ng-repeat="keuze in veld.keuzes" value="{{keuze.id}}" >{{ keuze.label }}</option>
+      </select>
+    </div>
+  </div>
+  <div ng-switch-when="groep">
+     <div>{{ veld.type }}</div>
+     <!-- <dynamischveld  ng-repeat="ge in veld.velden" waarden="waarder" veld="ge"></dynamischveld> -->
+
+  </div>
+
+</div>
