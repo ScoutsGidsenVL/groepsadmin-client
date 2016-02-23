@@ -98,7 +98,7 @@
           <div class="form-group">
             <label for="_postadres" class="col-xs-5 col-xxs-12 control-label">Postadres</label>
             <div class="col-xs-7 col-xxs-12">
-              <select  id="_postadres" ng-model="postadres">
+              <select  id="_postadres" ng-model="postadres" ng-change="changePostadres(postadres)">
                 <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" >{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
               </select>
             </div>
@@ -289,6 +289,12 @@
           </div>
         </fieldset>
       </section>
+      <!-- Groepseigen gegevens -->
+      <section>
+        <fieldset>
+          <legend>Groepseigen gegevens</legend>
+        </fieldset>
+      </section>
     </div>
     <div class="col-lg-4 col-sm-6 col-xs-12">
       <!-- Functies -->
@@ -353,12 +359,6 @@
 
       </section>
 
-      <!-- Groepseigen gegevens -->
-      <section>
-        <fieldset>
-          <legend>Groepseigen gegevens</legend>
-        </fieldset>
-      </section>
     </div>
   </div>
 </div>

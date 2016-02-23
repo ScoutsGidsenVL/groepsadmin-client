@@ -313,7 +313,15 @@
     }
 
     $scope.changePostadres = function(adresID){
-
+      console.log(adresID);
+      angular.forEach($scope.lid.adressen, function(value,index){
+        if(value.id == adresID){
+          value.postadres = true;
+        }
+        else{
+          value.postadres = false;
+        }
+      });
     }
 
     $scope.deleteContact = function(contactID){
@@ -338,7 +346,7 @@
 
     $scope.addAdres= function(){
       var newadres = {
-        postadress: false,
+        postadres: false,
         omschrijving: "",
         id: 'tempadres' + tempadresId
       }
