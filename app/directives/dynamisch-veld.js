@@ -16,7 +16,7 @@
       },
       link: function (scope, element, attrs) {
 			if (angular.isArray(scope.veld.velden)) {
-				element.append('<div><dynamischveldcolectie waarden="waarden" velden="veld.velden"></dynamischveldcolectie></div>');
+				element.append('<legend>{{veld.label}}</legend><fieldset class="ga-form-group"><p ng-if="veld.beschrijving">{{veld.beschrijving}}</p><dynamischveldcolectie waarden="waarden" velden="veld.velden"></dynamischveldcolectie><fieldset>');
               $compile(element.contents())(scope)
 			}
 		}
