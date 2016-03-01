@@ -2,24 +2,26 @@
   'use strict';
 
   angular
-    .module('ga.dynamischevelden', [])
+    .module('ga.dynamischveld', [])
     .directive('dynamischveld', dynamischveld);
 
-  function dynamischveld() {
+  function dynamischveld($compile) {
     return {
       restrict: 'E',
-      controller: FieldController,
       templateUrl: 'partials/dynamisch-veld.html',
-      transclude: true,
       replace: true,
       scope: {
         waarden : '=',
         veld: '='
-      }
+      },
+      link: function (scope, element, attrs) {
+			if (angular.isArray(scope.veld.velden)) {
+				element.append('<div><dynamischveldcolectie waarden="waarden" velden="veld.velden"></dynamischveldcolectie></div>');
+              $compile(element.contents())(scope)
+			}
+		}
     };
   }
-  function FieldController($scope, $attrs) {
 
-  }
 
 })();

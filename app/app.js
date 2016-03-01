@@ -10,6 +10,7 @@
     'ga.lidcontroller',
     'ga.lidtoevoegencontroller',
     'ga.lid.velden',
+    'ga.dynamischveld',
     'ga.dynamischevelden',
     'ga.searchcontroller',
     'ga.typeahead',
