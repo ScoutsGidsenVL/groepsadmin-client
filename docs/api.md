@@ -231,8 +231,9 @@ Een beschrijving per sectie wat kan en mag:
 ###### functie-instanties
 Een functie-instantie heeft geen `id` veld.  Het wordt uniek gekenmerkt door de combinatie van de velden `functie`, `groep` en `begin`.
 
-* Functie-instantie toevoegen == een functie-instatie toevoegen met `begin` != `null`.  Deze zal door de server worden ingevuld op de huidige timestamp.
+* Functie-instantie toevoegen == een functie-instatie toevoegen met `begin` != `null`.  Deze zal door de server worden ingevuld op de huidige timestamp maar je geeft best een datetime mee.
 * Functie-instantie stopzetten == een bestaande niet beeindigde functie-instantie opladen met `einde` != `null`.  Je mag dus datum invullen, maar de server zal hier geen rekening mee houden.
+* Om te bevestigen dat de Functie-instantie stopgezet wordt moeten we een parameter `bevestig` met daarin een boolean toevoegen aan de request URL.
 * Er word dus enkel naar de combinatie van `functie`, `groep` en `begin` gekeken.  Alle andere velden worden genegeerd.  Je bent dus niet verplicht om telkens alle functies terug te sturen naar de server als je er een enkele wil aanpassen.
 
 ###### groepseigen
