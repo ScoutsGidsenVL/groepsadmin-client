@@ -10,7 +10,6 @@
   function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope) {
     var sectie,
         patchObj;
-    var madeChanges = false;
     
     var tempadresId = 1;
     var tempcontactId = 1;
@@ -30,53 +29,20 @@
           else{
             AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
           }
-          console.log(error.data);
+          //console.log(error.data);
 
         }
       );
 
-    function loadSuccess(data) {
-      initModel();
-      
-      angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam'], function(value, key) {
-        $scope.$watch(value, setChanges, true);
-      });
-      
-      // Permissies komen uit PATCH link object
-      patchObj = $.grep($scope.lid.links, function(e){
-        return e.method == "PATCH";
-      })[0];
-
-      //init functies;
-      RestService.Functies.get().$promise.then(
-      function(result){
-        var functies = result;
-        RestService.Groepen.get().$promise.then(
-          function(result){
-            var groepen = result;
-            //herordenen zodat ze eenvoudig gebruikt kunnen worden in de template;
-            $scope.groepEnfuncties = [];
-            angular.forEach(groepen.groepen, function(value, key){
-              var tempGroep = value;
-              tempGroep.functies = [];
-              angular.forEach(functies.functies, function(value2, key2){
-                if(value2.groepen.indexOf(tempGroep.groepsnummer) != -1){
-                  tempGroep.functies.push(value2);
-                }
-              })
-              $scope.groepEnfuncties.push(tempGroep);
-            });
-          }
-        );
-      }
-    );
 
 
-
-
-    }
+    /*
+    * Algemeen
+    * ---------------------------------------
+    */
     
-    function initModel() {
+    // initialisatie
+     function initModel() {
       // Changes object bijhouden: enkel de gewijzigde properties meesturen met PATCH
       $scope.lid.changes = new Array();
       
@@ -99,6 +65,11 @@
         });
       });
       
+      // maak array van groepseigenvelden
+      $scope.lid.groepseigen = Array();
+
+
+
       // Alle actieve groepen ophalen
       $scope.groepenlijst = [];
       angular.forEach($scope.lid.functies, function(value, key) {
@@ -107,12 +78,48 @@
         $scope.groepenlijst[value.groep] = gr;
       });
 
+
+
+      /*
+      // Alle actieve groepen ophalen
+      $scope.groepenlijst = [];
+      angular.forEach($scope.lid.functies, function(value, key) {
+        console.log($scope.groepenlijst);
+        if($scope.groepenlijst.indexOf(value.groep) == -1 ){
+          console.log(value.groep);
+          RestService.Groep.get({id:value.groep}).$promise.then(
+            function(result){
+              var groepseigen = {
+                groep : value.groep,
+                gegevens : Array()
+              }
+              $scope.lid.groepseigen.push(groepseigen);
+
+              $scope.groepenlijst[value.groep] = result;
+              //console.log(result);
+              //console.log(value.groep);
+              angular.forEach(result.groepseigenGegevens, function(groeseigengegevens, index){
+                var groepseigenvelden = {
+                  groep : value.groep,
+                  gegevens : groeseigengegevens
+                }
+                $scope.lid.groepseigen.push(groepseigenvelden);
+              });
+              console.log($scope.lid.groepseigen);
+
+          });
+        }
+      });*/
+
       $scope.postadres;
       angular.forEach($scope.lid.adressen, function(value, key){
         if(value.postadres == true){
           $scope.postadres = value.id;
         }
       });
+
+      /*
+
       $scope.lid.groepseigen =
 {
    "waarden" : {
@@ -172,16 +179,50 @@
          ]
       }
    ]
-};
+};*/
     }
 
-    function setChanges(newVal, oldVal, scope) {
-      if (newVal == oldVal) return;
-      sectie = this.exp.split(".").pop();
-      if($scope.lid.changes.indexOf(sectie) < 0) {
-        $scope.lid.changes.push(sectie);
-      }
+
+    //
+    function loadSuccess(data) {
+      initModel();
+
+      // init watch, naar welke objecten/delen van het lid object moet er gekeken worden om aanpassingen bij te houden?
+      angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies'], function(value, key) {
+        $scope.$watch(value, setChanges, true);
+      });
+
+      // Permissies komen uit PATCH link object
+      patchObj = $.grep($scope.lid.links, function(e){
+        return e.method == "PATCH";
+      })[0];
+
+      //init functies;
+      RestService.Functies.get().$promise.then(
+        function(result){
+          var functies = result;
+          RestService.Groepen.get().$promise.then(
+            function(result){
+              var groepen = result;
+              //herordenen zodat ze eenvoudig gebruikt kunnen worden in de template;
+              $scope.groepEnfuncties = [];
+              angular.forEach(groepen.groepen, function(value, key){
+                var tempGroep = value;
+                tempGroep.functies = [];
+                angular.forEach(functies.functies, function(value2, key2){
+                  if(value2.groepen.indexOf(tempGroep.groepsnummer) != -1){
+                    tempGroep.functies.push(value2);
+                  }
+                })
+                $scope.groepEnfuncties.push(tempGroep);
+              });
+            }
+          );
+        }
+      );
+
     }
+
 
     // Schrijfrechten kunnen per sectie ingesteld zijn. Controlleer als sectienaam voorkomt in PATCH opties.
     // Mogelijke sectienamen van een lid zijn "persoonsgegevens", "adressen", "email", "functies.*", "groepseigen".
@@ -190,18 +231,256 @@
         return patchObj.secties.indexOf(val) > -1;
       }
     }
+      
+    function setChanges(newVal, oldVal, scope) {
+      if (newVal == oldVal) return;
+      sectie = this.exp.split(".").pop();
+      if($scope.lid.changes.indexOf(sectie) < 0) {
+        $scope.lid.changes.push(sectie);
+      }
+    }
 
-    $scope.opslaan = function() {
-      //console.log($scope.lid.$update());
-      $scope.lid.$update(function(response) {
-        AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
-        refreshLid(); //temp
-        //initModel();
-        //$scope.lid = response;
-        madeChanges =false;
+    // nieuw lid initialiseren na update.
+    function initAangepastLid() {
+      //changes array aanmaken
+      $scope.lid.changes = new Array();
+
+      //groepseigenvelden initialiseren.
+      $scope.lid.groepseigen = Array();
+    }
+
+    /*
+    * persoonlijke info
+    * ---------------------------------------
+    */
+
+    $scope.changePostadres = function(adresID){
+      angular.forEach($scope.lid.adressen, function(value,index){
+        if(value.id == adresID){
+          value.postadres = true;
+        }
+        else{
+          value.postadres = false;
+        }
       });
     }
 
+
+
+    /*
+    * Contacten
+    * ---------------------------------------
+    */
+
+    // contacten wissen in het model
+    $scope.deleteContact = function(contactID){
+      var contactIndex;
+      angular.forEach($scope.lid.contacten, function(value, index){
+        if(value.id == contactID){
+          contactIndex = index;
+        }
+      });
+      $scope.lid.contacten.splice(contactIndex,1);
+    }
+
+    // nieuw contact toevoegen aan het model
+    $scope.contactToevoegen = function(){
+      if($scope.lid.contacten.length < 2){
+        var newcontact = {};
+        $scope.lid.contacten.push(newcontact);
+        tempcontactId++;
+      }
+
+    }
+
+
+    /*
+    * Adressen
+    * ---------------------------------------
+    */
+
+    // een adres toevoegen aan het lid model
+    $scope.addAdres= function(){
+      var newadres = {
+        postadres: false,
+        omschrijving: "",
+        id: 'tempadres' + tempadresId,
+        giscode: Math.floor((Math.random() * 100) + 1).toString(), //temp random giscode
+        bus: ''
+      }
+      tempadresId++;
+      var lid = {};
+      lid.id = $scope.lid.id;
+      lid.adressen = $scope.lid.adressen;
+      lid.adressen.push(newadres);
+    }
+
+    // een aders wissen in het lid model
+    $scope.deleteAdres = function(adresID){
+      var wisindex;
+      //controle wissen postadres
+      angular.forEach($scope.lid.adressen, function(value, index){
+        if(value.id == adresID){
+          if(value.postadres){
+            AlertService.add('danger', "Postadres kan niet gewist worden, selecteer éérst een ander adres als postadres.", 5000);
+          }
+          else{
+            //controle wissen van adres gekoppeld aan een contact
+            var kanwissen = true;
+            angular.forEach($scope.lid.contacten, function(contact, index){
+              if(contact.adres == adresID){
+                AlertService.add('danger', "Dit adres is nog gekoppeld aan een contact, het kan daarom niet gewist worden.", 5000);
+                kanwissen = false;
+              }
+            });
+            if(kanwissen){
+              $scope.lid.adressen.splice(index,1);
+              wisindex = index;
+              kanwissen = true;
+            }
+          }
+        }
+      });
+
+
+    }
+
+
+
+    /*
+    * Functies
+    * ---------------------------------------
+    */
+
+
+    // functie meteen stop zetten.
+    $scope.stopFunctie = function(functie) {
+      var lid = {
+        id: $scope.lid.id,  // Overbodig? id zit al in PATCH url
+        functies: [
+          {
+            functie: functie.functie,
+            groep: functie.groep,
+            einde: new Date(),
+            begin: functie.begin
+          }
+        ]
+      }
+
+      /*
+      * bevestiging return functie
+      * --------------------------------------
+      */
+      $scope.confirmstopFunctie = function(result){
+        if(result){
+          //set lid bevestiging
+          lid.bevestig = true;
+
+          //send new request
+          RestService.Lid.update({id:lid.id, bevestiging: true}, lid).$promise.then(
+            function(response) {
+              AlertService.add('success ', "Functie is geschrapt.", 5000);
+              initModel();
+              initAangepastLid();
+
+            },
+            function(error) {
+              AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
+            }
+          );
+        } else{
+          AlertService.add('danger ', "Aanpassing niet doorgevoerd", 5000);
+        }
+      }
+      RestService.Lid.update({id:lid.id, bevestiging: false}, lid).$promise.then(
+        function(response) {
+          //toon confirmvenster
+          var currentFunctieName= $scope.functieslijst[functie.functie].beschrijving;
+          DialogService.new("Bevestig","Weet u zeker dat u " + $scope.lid.persoonsgegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
+          initAangepastLid();
+        },
+        function(error) {
+          if(error.status == 403){
+            AlertService.add('warning', error.data.beschrijving);
+          }
+          else{
+            AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+          }
+        }
+      );
+    }
+
+    // nieuwe functie toevoegen aan model
+    $scope.functieToevoegen = function(groepsnummer, functie, type){
+      if(type == 'add'){
+        var functieInstantie = {};
+        functieInstantie.functie = functie;
+        functieInstantie.groep = groepsnummer;
+
+
+        functieInstantie.begin = '2016-01-01T00:00:00.000+01:00'; // set static date
+        functieInstantie.temp = true;
+
+        $scope.lid.functies.push(functieInstantie);
+        return 'stop';
+      }
+      else{
+        angular.forEach($scope.lid.functies, function(value,key){
+          if(value.groep == groepsnummer && value.functie == functie && value.temp == true){
+            $scope.lid.functies.splice(key, 1);
+          }
+        });
+        return 'add'
+      }
+    }
+
+
+    // controle ofdat het lid reeds deze functie had voordat er aanapssingen gedaan werden.
+    // zodat deze niet weergegeven wordt in de keuzelijst.
+    // functies die gestart worden tijdens deze sessie worden wel weergegeven in de lijst
+    $scope.checkFunctie = function(groep, functie){
+      var check = false;
+      angular.forEach($scope.lid.functies, function(value, key){
+        if(value.groep == groep && value.functie == functie && value.temp != true && value.einde == undefined ){
+          check = true;
+        }
+      });
+      return check
+    }
+
+
+    /*
+    * Panel footer functionaliteit
+    * ---------------------------------------
+    */
+
+    // nieuwlid
+    $scope.nieuw = function() {
+      $location.path("/lid/toevoegen");
+    }
+
+    // nieuw gezindslid aanmaken
+    $scope.gezinslid = function() {
+      //bereid lid voor om doorgegeven te worden.
+      console.log($scope.lid);
+      var familielid = $scope.lid;
+      delete familielid.aangepast;
+      delete familielid.links;
+      delete familielid.email;
+      delete familielid.id;
+      delete familielid.gebruikersnaam;
+      delete familielid.persoonsgegevens.beperking;
+      delete familielid.persoonsgegevens.geboortedatum;
+      delete familielid.persoonsgegevens.geslacht;
+      delete familielid.persoonsgegevens.voornaam;
+      delete familielid.verbondsgegevens;
+      familielid.functies = [];
+      console.log(familielid);
+      $rootScope.familielid = familielid;
+      $location.path("/lid/toevoegen");
+    }
+
+    // schrap het lid
     $scope.schrap = function() {
       //alle functies op non actief zetten;
       var lid ={
@@ -226,7 +505,7 @@
           lid.bevesteging = true;
 
           //send new request
-          RestService.Lid.update({id:lid.id}, lid).$promise.then(
+          RestService.Lid.update({id:lid.id, bevestiging: false}, lid).$promise.then(
             function(response) {
               AlertService.add('success ', 'Alle actieve functies werden geschrapt.', 5000);
               initModel();
@@ -241,195 +520,77 @@
           AlertService.add('danger ', "Aanpassing niet doorgevoerd", 5000);
         }
       }
-      RestService.Lid.update({id:lid.id}, lid).$promise.then(
+      RestService.Lid.update({id:lid.id, bevestiging: false}, lid).$promise.then(
         function(response) {
           //toon confirmvenster
           DialogService.new("Bevestig","Weet u zeker dat u alle actieve functies van " + $scope.lid.persoonsgegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
           refreshLid();
         },
         function(error) {
-          console.log(error);
           if(error.status == 403){
             AlertService.add('warning', "De VGA-functie kan niet geschrapt worden. <a href=\"	https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginahulp:_src_4_TContentFunctionsEntry_OUTPUT_KAN_NIET_STOPZETTEN\">Meer info</a> ");
           }
           else{
             AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
           }
-          console.log(error.data.beschrijving);
-        }
-      );
-
-    }
-
-    $scope.nieuw = function() {
-      $location.path("/lid/toevoegen");
-    }
-
-    $scope.gezinslid = function() {
-      //bereid lid voor om doorgegeven te worden.
-      console.log($scope.lid);
-      var familielid = $scope.lid;
-      delete familielid.aangepast;
-      delete familielid.links;
-      delete familielid.email;
-      delete familielid.id;
-      delete familielid.gebruikersnaam;
-      delete familielid.persoonsgegevens.beperking;
-      delete familielid.persoonsgegevens.geboortedatum;
-      delete familielid.persoonsgegevens.geslacht;
-      delete familielid.persoonsgegevens.voornaam;
-      delete familielid.verbondsgegevens;
-      familielid.functies = [];
-      console.log(familielid);
-      $rootScope.familielid = familielid;
-      $location.path("/lid/toevoegen");
-    }
-
-    $scope.stopFunctie = function(functie) {
-      var lid = {
-        id: $scope.lid.id,  // Overbodig? id zit al in PATCH url
-        functies: [
-          {
-            functie: functie.functie,
-            groep: functie.groep,
-            einde: new Date(),
-            begin: functie.begin
-          }
-        ]
-      }
-
-      /*
-      * bevestiging return functie
-      * --------------------------------------
-      */
-      $scope.confirmstopFunctie = function(result){
-        if(result){
-          //set lid bevestiging
-          lid.bevesteging = true;
-
-          //send new request
-          RestService.Lid.update({id:lid.id}, lid).$promise.then(
-            function(response) {
-              AlertService.add('success ', "Functie is geschrapt.", 5000);
-              initModel();
-              // TODO: update lid model (hier niet automatisch geüpdatet)
-
-            },
-            function(error) {
-              AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
-            }
-          );
-        } else{
-          AlertService.add('danger ', "Aanpassing niet doorgevoerd", 5000);
-        }
-      }
-      RestService.Lid.update({id:lid.id}, lid).$promise.then(
-        function(response) {
-          //toon confirmvenster
-          var currentFunctieName= $scope.functieslijst[functie.functie].beschrijving;
-          DialogService.new("Bevestig","Weet u zeker dat u " + $scope.lid.persoonsgegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
-          refreshLid();
-        },
-        function(error) {
-          console.log(error);
-          if(error.status == 403){
-            AlertService.add('warning', error.data.beschrijving);
-          }
-          else{
-            AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
-          }
-          console.log(error.data.beschrijving);
         }
       );
     }
 
-    $scope.functieToevoegen = function(groepsnummer, functie, type){
-      if(type == 'add'){
-        var functieInstantie = {};
-        functieInstantie.functie = functie;
-        functieInstantie.groep = groepsnummer;
-        functieInstantie.begin = "temp";
-        $scope.lid.functies.push(functieInstantie);
-        madeChanges = true;
-        return 'stop';
+    // alle aanpassingen opslaan
+    $scope.opslaan = function() {
+      if($scope.lid.changes.indexOf("adressen") != -1  && $scope.lid.changes.indexOf("contacten") != -1){
+        //als er aanpassingen gebeurd zijn aan de contacten en tegelijk ook aan de adressen worden eerst de adressen toegevoegd en daarna de contacten.
+        var adressen = $scope.lid.adressen;
+        var contacten = $scope.lid.contacten;
+        //eerst adressen committen
+        $scope.lid.changes.splice($scope.lid.changes.indexOf("contacten"),1);
+        $scope.lid.$update(function(response) {
+          //connect oude adressen met nieuwe
+          var adressenIndex = Array();
+          angular.forEach(adressen, function(adres, index){
+            angular.forEach(response.adressen, function(newadres, index){
+              if(adres.giscode == newadres.giscode){
+                adressenIndex[adres.id] = newadres.id;
+              }
+            });
+          });
+          //vervang oude adresid's in contacten
+          angular.forEach(contacten, function(contact, index){
+            contact.adres = adressenIndex[contact.adres];
+          });
+          console.log(contacten);
+          $scope.lid.contacten = contacten;
+          $scope.lid.changes = Array();
+          $scope.lid.changes.push("contacten");
+
+          //aangepaste contacten opsturen naar server.
+          $scope.lid.$update(function(response) {
+            AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
+            initAangepastLid();
+          });
+          initAangepastLid();
+        });
+
       }
       else{
-        angular.forEach($scope.lid.functies, function(value,key){
-          if(value.groep == groepsnummer && value.functie == functie && value.begin == 'temp'){
-            $scope.lid.functies.splice(key, 1);
-          }
+        $scope.lid.$update(function(response) {
+          AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
+          initAangepastLid();
         });
-        return 'add'
       }
     }
 
-    //temp refresh Lid function.
-    function refreshLid() {
-       $scope.lid = RestService.Lid.get({id:$routeParams.id}, loadSuccess);
-    }
 
-    $scope.setChangesStatus = function(){
-      madeChanges = true;
-    }
 
-    $scope.changePostadres = function(adresID){
-      console.log(adresID);
-      angular.forEach($scope.lid.adressen, function(value,index){
-        if(value.id == adresID){
-          value.postadres = true;
-        }
-        else{
-          value.postadres = false;
-        }
-      });
-    }
+    /*
+    * Pagina event listeners
+    * ---------------------------------------
+    */
 
-    $scope.deleteContact = function(contactID){
-      var contactIndex;
-      angular.forEach($scope.lid.contacten, function(value, index){
-        if(value.id == contactID){
-          contactIndex = index;
-        }
-      });
-      $scope.lid.contacten.splice(contactIndex,1);
-    }
-
-    $scope.deleteAdres = function(adresID){
-      var adresIndex;
-      angular.forEach($scope.lid.adressen, function(value, index){
-        if(value.id == adresID){
-          adresIndex = index;
-        }
-      });
-      $scope.lid.adressen.splice(adresIndex,1);
-    }
-
-    $scope.addAdres= function(){
-      var newadres = {
-        postadres: false,
-        omschrijving: "",
-        id: 'tempadres' + tempadresId
-      }
-      tempadresId++;
-      var lid = {};
-      lid.id = $scope.lid.id;
-      lid.adressen = $scope.lid.adressen;
-      lid.adressen.push(newadres);
-    }
-
-    $scope.contactTovoegen = function(){
-      if($scope.lid.contacten.length < 2){
-        var newcontact = {
-          id: 'tempcontact' + tempcontactId,
-        }
-        $scope.lid.contacten.push(newcontact);
-        tempcontactId++;
-      }
-
-    }
-
+    // listener voor wanneer een gebruiker van pagina veranderd en er zijn nog openstaande aanpassingen.
     $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
-      if(madeChanges){
+      if($scope.lid.changes.length != 0){
         event.preventDefault();
         var paramObj = {
               trueVal:newUrl
@@ -439,17 +600,17 @@
 
     });
 
-    /*
-    * return functie voor wanneer en persoon van pagina veranderd en er zijn nog openstaande aanpassingen.
-    * ----------------------------------------------------------------------------------------------------
-    */
+    // return functie voor de bevestiging na het veranderen van pagina
     $scope.locationChange = function(result, url){
-      console.log(result);
-      console.log(url);
       if(result == true){
         madeChanges = false;
         $window.location.href = url;
       }
     }
+
+
+
+
+
   }
 })();

@@ -23,19 +23,19 @@
           <div class="form-group">
             <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input  type="text" class="form-control" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam" ng-change="setChangesStatus()" />
+              <input  type="text" class="form-control" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam"/>
             </div>
           </div>
           <div class="form-group">
             <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input  type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam" ng-change="setChangesStatus()"/>
+              <input  type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam"/>
             </div>
           </div>
           <div class="form-group">
             <label for="_geslacht" class="col-xs-5 col-xxs-12 control-label">Geslacht</label>
             <div class="col-xs-7 col-xxs-12">
-              <select class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht" ng-change="setChangesStatus()">
+              <select class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht" >
                 <option value="man">Mannelijk</option>
                 <option value="vrouw">Vrouwelijk</option>
               </select>
@@ -45,20 +45,20 @@
             <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
             <div class="col-xs-7 col-xxs-12">
               <!-- fix date-parse -->
-              <input type="date" class="form-control" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date ng-change="setChangesStatus()"/>
+              <input type="date" class="form-control" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date />
             </div>
           </div>
           <label class="form-group control checkbox">
             <div class="col-xs-5 col-xxs-12 control-label">Persoon met beperking</div>
             <div class="col-xs-7 col-xxs-12">
-              <input type="checkbox" class="" id="_beperking" ng-model="lid.persoonsgegevens.beperking" ng-change="setChangesStatus()"/>
+              <input type="checkbox" class="" id="_beperking" ng-model="lid.persoonsgegevens.beperking" />
               <span class="control-indicator"></span>
             </div>
           </label>
           <label class="form-group control checkbox">
             <div class="col-xs-5 col-xxs-12 control-label">Verminderd lidgeld</div>
             <div class="col-xs-7 col-xxs-12">
-              <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.persoonsgegevens.verminderdlidgeld" ng-change="setChangesStatus()"/>
+              <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.persoonsgegevens.verminderdlidgeld" />
               <span class="control-indicator"></span>
             </div>
           </label>
@@ -78,19 +78,19 @@
           <div class="form-group">
             <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.GSM" ng-change="setChangesStatus()" />
+              <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.GSM"  />
             </div>
           </div>
           <div class="form-group">
             <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" ng-change="setChangesStatus()"/>
+              <input type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" />
             </div>
           </div>
           <label class="form-group control checkbox">
             <div class="col-xs-5 col-xxs-12 control-label">Lidgeld betaald</div>
             <div class="col-xs-7 col-xxs-12">
-              <input type="checkbox" class="" id="_lidgeldbetaald" ng-model="lid.verbondsgegevens.lidgeldbetaald" ng-change="setChangesStatus()"/>
+              <input type="checkbox" class="" id="_lidgeldbetaald" ng-model="lid.verbondsgegevens.lidgeldbetaald" />
               <span class="control-indicator"></span>
             </div>
           </label>
@@ -108,12 +108,12 @@
       <section>
         <legend>Contacten
           <div class="pull-right">
-            <button ng-click="contactTovoegen()" class="btn-minimal" title="Contact toevoegen" ng-show="lid.contacten.length < 2"><span class="glyphicon glyphicon-plus"></span></button>
+            <button ng-click="contactToevoegen()" class="btn-minimal" title="Contact toevoegen" ng-show="lid.contacten.length < 2"><span class="glyphicon glyphicon-plus"></span></button>
           </div></legend>
         <fieldset ng-repeat="contact in lid.contacten">
           <legend class="clearfix">
                 <div ng-if="contact.rol || contact.naam || contact.voornaam" class="pull-left">
-                  {{ contact.voornaam }} {{ contact.naam }}
+                  {{ contact.voornaam }} {{ contact.achternaam }}
                 </div>
                 <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left" >
                   Nieuw contact
@@ -127,7 +127,7 @@
           <div class="form-group" ng-hide="!showme">
             <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
             <div class="col-xs-7 col-xxs-12">
-              <select class="selectpicker" id="_rol" ng-model="contact.rol" ng-change="setChangesStatus()">
+              <select class="selectpicker" id="_rol" ng-model="contact.rol" >
                 <option value="vader">Vader</option>
                 <option value="moeder">Moeder</option>
                 <option value="voogd">Voogd</option>
@@ -146,23 +146,23 @@
               <input type="text" class="form-control" id="_naam" ng-model="contact.achternaam"/>
             </div>
           </div>
-          <div class="form-group" ng-class="{ 'readonly' : !hasPermission('email') }" ng-hide="!showme">
+          <div class="form-group" ng-hide="!showme">
             <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_email" ng-model="lid.email" ng-readonly="!hasPermission('email')" ng-disabled="true"/>
+              <input type="text" class="form-control" id="_email" ng-model="contact.email"/>
             </div>
           </div>
           <div class="form-group" ng-hide="!showme">
             <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_gsm" ng-model="contact.GSM" ng-change="setChangesStatus()"/>
+              <input type="text" class="form-control" id="_gsm" ng-model="contact.GSM" />
             </div>
           </div>
           <div class="form-group" ng-hide="!showme">
              <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
              <div class="col-xs-7 col-xxs-12">
                <select  id="_adres" ng-model="contact.adres">
-                 <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" >{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
+                 <option ng-repeat="adres in lid.adressen" value="{{adres.id}}">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
                </select>
              </div>
           </div>
@@ -196,7 +196,7 @@
             <div class="form-group" ng-hide="!showme">
               <label for="_land" class="col-xs-5 col-xxs-12 control-label">Land</label>
               <div class="col-xs-7 col-xxs-12">
-                <select class="selectpicker" id="_land" ng-model="adres.land" ng-change="setChangesStatus()">
+                <select class="selectpicker" id="_land" ng-model="adres.land">
                   <option value="BE">België</option>
                   <option value="DE">Duitsland</option>
                   <option value="FR">Frankrijk</option>
@@ -209,85 +209,42 @@
             <div class="form-group" ng-hide="!showme">
               <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
               <div class="col-xs-2 col-xxs-2">
-                <input type="text" class="form-control" id="_postcode" maxlength="4" ng-model="adres.postcode" placeholder="Postcode" ng-change="setChangesStatus()"/>
+                <input type="text" class="form-control" id="_postcode" maxlength="4" ng-model="adres.postcode" placeholder="Postcode" />
               </div>
               <div class="col-xs-5 col-xxs-12">
-                <input type="text" class="form-control" id="_woonplaats" ng-model="adres.gemeente" ng-change="setChangesStatus()"/>
+                <input type="text" class="form-control" id="_woonplaats" ng-model="adres.gemeente" />
               </div>
             </div>
             <div class="form-group" ng-hide="!showme">
               <label for="_straatnaam" class="col-xs-5 col-xxs-12 control-label">Straat</label>
               <div class="col-xs-5 col-xxs-12">
-                <input type="text" class="form-control" id="_straatnaam" ng-model="adres.straat" ng-change="setChangesStatus()"/>
+                <input type="text" class="form-control" id="_straatnaam" ng-model="adres.straat" />
               </div>
               <div class="col-xs-1 col-xxs-12">
-                <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="adres.nummer" placeholder="Nr." ng-change="setChangesStatus()"/>
+                <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="adres.nummer" placeholder="Nr." />
               </div>
               <div class="col-xs-1 col-xxs-12">
-                <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-change="setChangesStatus()"/>
+                <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" />
               </div>
             </div>
             <div class="form-group" ng-hide="!showme">
               <label for="_telefoon" class="col-xs-5 col-xxs-12 control-label">Telefoon</label>
               <div class="col-xs-7 col-xxs-12">
-                <input type="text" class="form-control" id="_telefoon" maxlength="15" ng-model="adres.telefoon" ng-change="setChangesStatus()"/>
+                <input type="text" class="form-control" id="_telefoon" maxlength="15" ng-model="adres.telefoon" />
               </div>
             </div>
+            <!--
             <div class="form-group readonly" ng-hide="!showme">
               <label for="_adresstatus" class="col-xs-5 col-xxs-12 control-label">Status <span class="glyphicon glyphicon-question-sign" title="Geblokkeerd: dit adres is geblokeerd - Overleden: deze persoon is overleden - Extra: deze persoon ontvangt een eigen Over&Weer"></span></label>
               <div class="col-xs-7 col-xxs-12">
                 <input type="text" class="form-control" id="_adresstatus" readonly ng-model="adres.status" />
               </div>
             </div>
+            -->
           </fieldset>
-          <div ng-hide="!showform">
-            <legend>Nieuw adres toevoegen</legend>
-            <form novalidate >
-              <div class="form-group">
-                <label for="_land" class="col-xs-5 col-xxs-12 control-label">Land</label>
-                <div class="col-xs-7 col-xxs-12">
-                  <select class="selectpicker" id="_land" ng-model="newadres.land" ng-change="setChangesStatus()">
-                    <option value="BE">België</option>
-                    <option value="DE">Duitsland</option>
-                    <option value="FR">Frankrijk</option>
-                    <option value="GB">Groot-Brittannië</option>
-                    <option value="LU">Luxemburg</option>
-                    <option value="NL">Nederland</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
-                <div class="col-xs-2 col-xxs-2">
-                  <input type="text" class="form-control" id="_postcode" maxlength="4" ng-model="newadres.postcode" placeholder="Postcode" ng-change="setChangesStatus()"/>
-                </div>
-                <div class="col-xs-5 col-xxs-12">
-                  <input type="text" class="form-control" id="_woonplaats" ng-model="newadres.gemeente" placeholder="Gemeente" ng-change="setChangesStatus()"/>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="_straatnaam" class="col-xs-5 col-xxs-12 control-label">Straat</label>
-                <div class="col-xs-5 col-xxs-12">
-                  <input type="text" class="form-control" id="_straatnaam" ng-model="newadres.straat" placeholder="Straat" ng-change="setChangesStatus()"/>
-                </div>
-                <div class="col-xs-1 col-xxs-12">
-                  <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="newadres.nummer" placeholder="Nr." ng-change="setChangesStatus()"/>
-                </div>
-                <div class="col-xs-1 col-xxs-12">
-                  <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="newadres.bus" placeholder="Bus" ng-change="setChangesStatus()"/>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="_telefoon" class="col-xs-5 col-xxs-12 control-label">Telefoon</label>
-                <div class="col-xs-7 col-xxs-12">
-                  <input type="text" class="form-control" id="_telefoon" maxlength="15" ng-model="newadres.telefoon" ng-change="setChangesStatus()"/>
-                </div>
-              </div>
-              <input type="button" ng-click="adrestoevoegen(newadres)" value="Toevoegen" class="btn btn-success pull-right" />
-            </form>
-          </div>
         </fieldset>
       </section>
+
       <!-- Groepseigen gegevens -->
       <section>
         <fieldset>
@@ -323,7 +280,7 @@
                     <button ng-click="showverbondfuncties=false" ng-hide="!showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
                   </div>
                 </legend>
-                <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'verbond' } | orderBy : 'beschrijving'" ng-show="!showverbondfuncties">
+                <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'verbond' } | orderBy : 'beschrijving'" ng-show=" !showverbondfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
                   <label class="col-md-6 form-group control checkbox" >
                     <div class="col-xs-11 col-xxs-11 control-label">{{ groepFunctie.beschrijving }}</div>
                     <div class="col-xs-1 col-xxs-1">
@@ -342,12 +299,11 @@
                     <button ng-click="showgroepfuncties=false" ng-hide="!showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
                   </div>
                 </legend>
-
-                <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'groep' } | orderBy : 'beschrijving'" ng-show="!showgroepfuncties">
+                <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'groep' } | orderBy : 'beschrijving'" ng-show="!showgroepfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
                   <label class="col-md-6 form-group control checkbox ga-functie-list">
                     <div class="col-xs-11 col-xxs-11 control-label">{{ groepFunctie.beschrijving }}</div>
                     <div class="col-xs-1 col-xxs-1">
-                      <input type="checkbox" class="" ng-click="functieToevoegen(groepFuncties.groepsnummer,groepFunctie.id)"/>
+                      <input type="checkbox" class="" ng-init="status='add';" ng-click="status = functieToevoegen(groepFuncties.groepsnummer,groepFunctie.id, status)"/>
                       <span class="control-indicator"></span>
                     </div>
                   </label>
@@ -356,7 +312,6 @@
             </fieldset>
           </fieldset>
         </fieldset>
-
       </section>
 
     </div>

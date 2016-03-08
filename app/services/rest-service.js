@@ -10,31 +10,31 @@
   function RestService($resource, $cacheFactory) {
     return {
       Lid: $resource(
-        'http://localhost/groepsadmin/rest-ga/lid/:id',
-        {id: '@id'},
+        'http://localhost/groepsadmin/rest-ga/lid/:id?bevestig=:bevestiging',
+        {id: '@id',bevestiging: '@bevestiging'},
         {'update': {method: 'PATCH', transformRequest: changesOnly, cache: false}}
       ),
       LidAdd: $resource(
         'http://localhost/groepsadmin/rest-ga/lid/',
-        {'add': {method: 'POST', transformRequest: changesOnly, cache: false}}
+        {'add': {method: 'POST', cache: false}}
       ),
       Functie: $resource(
         'http://localhost/groepsadmin/rest-ga/functie/:functieId',
         {functieId: '@functieId'},
-        {get: {method:'GET', cache: $cacheFactory('functiesCache')}}
+        {get: {method: 'GET', cache: $cacheFactory('functiesCache')}}
       ),
       Functies: $resource(
         'http://localhost/groepsadmin/rest-ga/functie/',
-        {get: {method:'GET', cache: $cacheFactory('allFunctiesCache')}}
+        {get: {method: 'GET', cache: $cacheFactory('allFunctiesCache')}}
       ),
       Groep: $resource(
         'http://localhost/groepsadmin/rest-ga/groep/:id',
         {functieId: '@id'},
-        {get: {method:'GET', cache: $cacheFactory('groepCache')}}
+        {get: {method: 'GET', cache: $cacheFactory('groepCache')}}
       ),
       Groepen: $resource(
         'http://localhost/groepsadmin/rest-ga/groep/',
-        {get: {method:'GET', cache: $cacheFactory('groepenCache')}}
+        {get: {method: 'GET', cache: $cacheFactory('groepenCache')}}
       )
     }
   }
