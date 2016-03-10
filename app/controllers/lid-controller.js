@@ -64,11 +64,6 @@
             $scope.functieslijst[value.functie] = result;
         });
       });
-      
-      // maak array van groepseigenvelden
-      $scope.lid.groepseigen = Array();
-
-
 
       // Alle actieve groepen ophalen
       $scope.groepenlijst = [];
@@ -78,39 +73,6 @@
         $scope.groepenlijst[value.groep] = gr;
       });
 
-
-
-      /*
-      // Alle actieve groepen ophalen
-      $scope.groepenlijst = [];
-      angular.forEach($scope.lid.functies, function(value, key) {
-        console.log($scope.groepenlijst);
-        if($scope.groepenlijst.indexOf(value.groep) == -1 ){
-          console.log(value.groep);
-          RestService.Groep.get({id:value.groep}).$promise.then(
-            function(result){
-              var groepseigen = {
-                groep : value.groep,
-                gegevens : Array()
-              }
-              $scope.lid.groepseigen.push(groepseigen);
-
-              $scope.groepenlijst[value.groep] = result;
-              //console.log(result);
-              //console.log(value.groep);
-              angular.forEach(result.groepseigenGegevens, function(groeseigengegevens, index){
-                var groepseigenvelden = {
-                  groep : value.groep,
-                  gegevens : groeseigengegevens
-                }
-                $scope.lid.groepseigen.push(groepseigenvelden);
-              });
-              console.log($scope.lid.groepseigen);
-
-          });
-        }
-      });*/
-
       $scope.postadres;
       angular.forEach($scope.lid.adressen, function(value, key){
         if(value.postadres == true){
@@ -118,68 +80,6 @@
         }
       });
 
-      /*
-
-      $scope.lid.groepseigen =
-{
-   "waarden" : {
-      "c4ca4238a0b923820dcc509a6f75849b" : true,
-      "c81e728d9d4c2f636f067f89cc14862c" : "Beetje tekst",
-      "eccbc87e4b5ce2fe28308fd9f2a7baf3" : "5bd15ca24cee57242a9b28b79481da6d"
-   },
-   "schema" : [
-     {
-         "type" : "vinkje",
-         "label" : "Een vinkje",
-         "beschrijving" : "Dit is een vinkje dat je <strong>aan</strong> of uit mag klikken",
-         "meer-info" : "<i>NOG</i> meer info",
-         "id" : "c4ca4238a0b923820dcc509a6f75849b"
-      },
-            {
-          "type" : "keuze",
-          "id": "eccbc87e4b5ce2fe28308fd9f2a7baf3",
-          "label": "keuze veld",
-          "keuzes": [
-              {
-                  "id": "5bd15ca24cee57242a9b28b79481da6d",
-                  "label": "Een keuze"
-              },
-              {
-                  "id": "33d15ca24cee57242a9b28b79481da33",
-                  "label": "keuze 2"
-              }
-          ]
-      },
-
-      {
-         "type" : "groep",
-         "label" : "titel/label van de groep",
-         "beschrijving" : "Al deze velden horen bij elkaar",
-         "velden" : [
-            {
-               "type" : "tekst",
-               "id" : "c81e728d9d4c2f636f067f89cc14862c",
-               "label": "tekst veld"
-            },
-            {
-                "type" : "keuze",
-                "id": "eccbc87e4b5ce2fe28308fd9f2a7baf3",
-                "label": "keuze veld",
-                "keuzes": [
-                    {
-                        "id": "5bd15ca24cee57242a9b28b79481da6d",
-                        "label": "Een keuze"
-                    },
-                    {
-                        "id": "5bd15ca24cee57242a9b28b79481da6d",
-                        "label": "keuze 2"
-                    }
-                ]
-            }
-         ]
-      }
-   ]
-};*/
     }
 
 
@@ -244,9 +144,6 @@
     function initAangepastLid() {
       //changes array aanmaken
       $scope.lid.changes = new Array();
-
-      //groepseigenvelden initialiseren.
-      $scope.lid.groepseigen = Array();
     }
 
     /*
@@ -380,8 +277,10 @@
           RestService.Lid.update({id:lid.id, bevestiging: true}, lid).$promise.then(
             function(response) {
               AlertService.add('success ', "Functie is geschrapt.", 5000);
-              initModel();
+              console.log(response);
+              $scope.lid.functies = response.functies;
               initAangepastLid();
+
 
             },
             function(error) {
@@ -392,12 +291,14 @@
           AlertService.add('danger ', "Aanpassing niet doorgevoerd", 5000);
         }
       }
+
       RestService.Lid.update({id:lid.id, bevestiging: false}, lid).$promise.then(
         function(response) {
           //toon confirmvenster
           var currentFunctieName= $scope.functieslijst[functie.functie].beschrijving;
           DialogService.new("Bevestig","Weet u zeker dat u " + $scope.lid.persoonsgegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
           initAangepastLid();
+
         },
         function(error) {
           if(error.status == 403){
@@ -419,14 +320,14 @@
 
 
         functieInstantie.begin = '2016-01-01T00:00:00.000+01:00'; // set static date
-        functieInstantie.temp = true;
+        functieInstantie.temp = "tijdelijk";
 
         $scope.lid.functies.push(functieInstantie);
         return 'stop';
       }
       else{
         angular.forEach($scope.lid.functies, function(value,key){
-          if(value.groep == groepsnummer && value.functie == functie && value.temp == true){
+          if(value.groep == groepsnummer && value.functie == functie && value.temp == "tijdelijk"){
             $scope.lid.functies.splice(key, 1);
           }
         });
@@ -441,7 +342,7 @@
     $scope.checkFunctie = function(groep, functie){
       var check = false;
       angular.forEach($scope.lid.functies, function(value, key){
-        if(value.groep == groep && value.functie == functie && value.temp != true && value.einde == undefined ){
+        if(value.groep == groep && value.functie == functie && value.temp != "tijdelijk" && value.einde == undefined ){
           check = true;
         }
       });

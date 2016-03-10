@@ -249,7 +249,20 @@
       <section>
         <fieldset>
           <legend>Groepseigen gegevens</legend>
-          <fieldset><dynamischveldcolectie waarden="lid.groepseigen.waarden" velden="lid.groepseigen.schema"></dynamischveldcolectie></fieldset>
+          <fieldset ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden">
+            <legend>{{ key }} {{ groepenlijst[key].naam }}
+              <div class="pull-right" ng-init="showgroepseigenvelden=true;">
+                <button ng-click="showgroepseigenvelden=true" ng-hide="showgroepseigenvelden" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                <button ng-click="showgroepseigenvelden=false" ng-hide="!showgroepseigenvelden" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
+              </div>
+            </legend>
+            <fieldset class="ga-functie-list" ng-if="groepseigenVeldenVerzameling.schema.length > 0">
+              <dynamischveldcolectie waarden="groepseigenVeldenVerzameling.waarden" velden="groepseigenVeldenVerzameling.schema" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
+            </fieldset>
+            <fieldset class="ga-functie-list" ng-if="groepseigenVeldenVerzameling.schema.length == 0">
+              <legend ng-show="!showgroepseigenvelden">Geen groepseigen gegevens in deze groep</legend>
+            </fieldset>
+          </fieldset>
         </fieldset>
       </section>
     </div>
@@ -258,7 +271,7 @@
       <section>
         <fieldset>
           <legend>Functies</legend>
-          <ga-functie class="form-group" ng-repeat="fn in lid.functies | collapsedFilter:isFunctiesCollapsed | filter:{begin:'!temp'}" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie">
+          <ga-functie class="form-group" ng-repeat="fn in lid.functies | collapsedFilter:isFunctiesCollapsed | filter:{temp:'!tijdelijk'}" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie">
           </ga-functie>
           <div class="text-center">
             <a class="btn btn-link" href ng-click="isFunctiesCollapsed = !isFunctiesCollapsed">{{isFunctiesCollapsed ? "Functiehistoriek weergeven" : "Functiehistoriek verbergen"}}</a>
