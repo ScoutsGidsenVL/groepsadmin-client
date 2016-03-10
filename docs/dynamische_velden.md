@@ -13,48 +13,55 @@ door andere partijen te wijzigen dan de structuur.
 
 Hieronder een voorbeeld bij een GET op een lid. Bij een GET op een groep wordt enkel het schema getoond.
 ```json
-{
-   "waarden" : {
-      "c4ca4238a0b923820dcc509a6f75849b" : true,
-      "c81e728d9d4c2f636f067f89cc14862c" : "Beetje tekst",
-      "eccbc87e4b5ce2fe28308fd9f2a7baf3" : "5bd15ca24cee57242a9b28b79481da6d"
-      ...
-   },
-   "schema" : [
-      {
-         "type" : "vinkje",
-         "label" : "Een vinkje",
-         "beschrijving" : "Dit is een vinkje dat je <strong>aan</strong> of uit mag klikken",
-         "meer-info" : "<i>NOG</i> meer info",
-         "id" : "c4ca4238a0b923820dcc509a6f75849b"
-      },
-      {
-         "type" : "groep",
-         "label" : "titel/label van de groep",
-         "beschrijving" : "Al deze velden horen bij elkaar",
-         "velden" : [
-            {
-               "type" : "tekst",
-               "id" : "c81e728d9d4c2f636f067f89cc14862c",
-               "label": "tekst veld"
-            },
-            {
-                "type" : "keuze",
-                "id": "eccbc87e4b5ce2fe28308fd9f2a7baf3",
-                "label": "keuze veld",
-                "keuzes": [
-                    {
-                        "id": "5bd15ca24cee57242a9b28b79481da6d",
-                        "label": "Een keuze"   
-                    }, ...
-                ]
+"schema": [
+                {
+                    "links": [],
+                    "id": "d5f75b320dc7de39010dca243a830129",
+                    "aangepast": "2016-03-10T12:36:45.132+01:00",
+                    "type": "tekst",
+                    "label": "Opmerkingen",
+                    "beschrijving": "",
+                    "kanLeidingWijzigen": false,
+                    "verplicht": false,
+                    "kanLidWijzigen": false,
+                    "sort": 0,
+                    "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+                },
+                {
+                    "links": [],
+                    "id": "d5f75e2340fc9dac014102187b4e2a68",
+                    "aangepast": "2016-03-10T12:36:45.132+01:00",
+                    "type": "vinkje",
+                    "label": "helpen op evenementen",
+                    "beschrijving": "",
+                    "kanLeidingWijzigen": false,
+                    "verplicht": false,
+                    "kanLidWijzigen": false,
+                    "sort": 0,
+                    "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+                },
+                {
+                    "links": [],
+                    "id": "40288144535b694a01535b6adb2c0003",
+                    "aangepast": "2016-03-10T12:36:45.132+01:00",
+                    "type": "lijst",
+                    "label": "Dit is een lijst",
+                    "kanLeidingWijzigen": false,
+                    "verplicht": false,
+                    "kanLidWijzigen": false,
+                    "sort": 0,
+                    "keuzes": [
+                        "Lijstwaarde1",
+                        "Lijstwaarde2"
+                    ],
+                    "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+                }
+            ],
+            "waarden": {
+                "d5f75b320dc7de39010dca243a830129": "",
+                "d5f75e2340fc9dac014102187b4e2a68": "true",
+                "40288144535b694a01535b6adb2c0003": "Lijswaarde1"
             }
-            , ...
-         ]
-      }
-      , ...
-   ]
-}
 ```
 
 ## Hoe zit het ineen?
@@ -92,8 +99,9 @@ De volgende attributen zijn gedefinieerd op input-velden:
   * `beschrijving`: langere tekst altijd weergegeven in de buurt van het veld 
      kan een subset van html bevatten _optioneel_
   * `meer-info`: Nog meer info over dit veld.  Kan html bevatten en getoond worden als een link die uit kan klappen of een hover tooltip. _optioneel_
-  * `alleen-lezen`: Of een veld gewijzigd mag worden door de gebruiker. 
   _optioneel default false_
+  * `kanLeidingWijzigen`: Bepaald of de leiding dit veld kan wijzigen.
+  * `kanLidWijzigen`: Beapaald of het lid zelf het veld kan wijzigen.
 
 #### Structuur-velden
 

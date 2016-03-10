@@ -16,7 +16,7 @@ De API heeft de volgende eindpunten:
 | *[/functie/{functieid}](#functiefunctieid)*                 | OK    | -      | OK      | OK       | -     |
 | *[/ledenlijst](#ledenlijst)*                                | NOK   | -      | -       | -        | -     |
 | *[/ledenlijst/filter](#ledenlijstfilter)*                   | NOK   | NOK    | -       | -        | -     |
-| *[/ledenlijst/filter/{filterid}](#ledenlijstfilterfilterid)*| NOK  | -      | NOK     | NOK      | NOK   |
+| *[/ledenlijst/filter/{filterid}](#ledenlijstfilterfilterid)*| NOK   | -      | NOK     | NOK      | NOK   |
 | *[/ledenlijst/kolom-type](#ledenlijstkolom-type)*           | NOK   | -      | -       | -        | -     |
 
  * Imperformante request
@@ -146,39 +146,63 @@ Een specifiek lid
         }]
       }
   ],
-  "groepseigen": [
-    {
-      "groep": "A3143G",
-      "gegevens": [
-        {
-          "id": "d5f75e233f7d1ccc013f9e3c6a0909f7",
-          "naam": "Gaat mee op Weekend",
-          "type": "vinkje",
-          "waarde": true,
-          "schrijfbaar": true,
+  "groepseigenVelden": {
+        "A1301G": {
+            "schema": [],
+            "waarden": {}
         },
-        {
-          "id": "dd5f75e233f7d1ccc013f9e3c6a0909f7",
-          "naam": "E-mail ouder",
-          "type": "email",
-          "waarde": "",
-          "schrijfbaar": true,
-        },
-        {
-          "id": "d5f75e233f7d1ccc013f9e3c6a0909f7",
-          "naam": "lievelingskleur",
-          "type": "lijst",
-          "keuze": ["groen", "rood", "blauw"],
-          "schrijfbaar": false,
-        },
-      ],      
-      "links": [{
-        "href": "http://ga.sgv.be/rest/groep/A3143G",
-        "rel": "groep",
-        "method": "GET"
-      }]
+        "O1504G": {
+            "schema": [
+                {
+                    "links": [],
+                    "id": "d5f75b320dc7de39010dca243a830129",
+                    "aangepast": "2016-03-10T12:36:45.132+01:00",
+                    "type": "tekst",
+                    "label": "Opmerkingen",
+                    "beschrijving": "",
+                    "kanLeidingWijzigen": false,
+                    "verplicht": false,
+                    "kanLidWijzigen": false,
+                    "sort": 0,
+                    "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+                },
+                {
+                    "links": [],
+                    "id": "d5f75e2340fc9dac014102187b4e2a68",
+                    "aangepast": "2016-03-10T12:36:45.132+01:00",
+                    "type": "vinkje",
+                    "label": "helpen op evenementen",
+                    "beschrijving": "",
+                    "kanLeidingWijzigen": false,
+                    "verplicht": false,
+                    "kanLidWijzigen": false,
+                    "sort": 0,
+                    "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+                },
+                {
+                    "links": [],
+                    "id": "40288144535b694a01535b6adb2c0003",
+                    "aangepast": "2016-03-10T12:36:45.132+01:00",
+                    "type": "lijst",
+                    "label": "Dit is een lijst",
+                    "kanLeidingWijzigen": false,
+                    "verplicht": false,
+                    "kanLidWijzigen": false,
+                    "sort": 0,
+                    "keuzes": [
+                        "Lijstwaarde1",
+                        "Lijstwaarde2"
+                    ],
+                    "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+                }
+            ],
+            "waarden": {
+                "d5f75b320dc7de39010dca243a830129": "",
+                "d5f75e2340fc9dac014102187b4e2a68": "true",
+                "40288144535b694a01535b6adb2c0003": "Lijswaarde1"
+            }
+        }
     }
-  ],
   "links": [
     {
       "rel": "self",
@@ -241,6 +265,7 @@ Een functie-instantie heeft geen `id` veld.  Het wordt uniek gekenmerkt door de 
 * Er wordt enkel gekeken naar het `id` veld en het `waarde` veld.  Alle andere velden worden genegeerd.
 * Een niet schrijfbaar dat toch opgeladen wordt, wordt genegeerd.
 * Als een gegeven niet opgeladen wordt wordt het als onveranderd beschouwd.
+* Meer info over de eigen schappen van groepseigen velden kan gevonden worden in de dynamischevelden documentatie
 
 ##### Response
 Een redirect naar het nieuwe lid of error
@@ -362,40 +387,53 @@ Alle groepen waar je toegang toe hebt:
             ]
         }
     ],
-    "groepseigenGegevens": [
-        {
-         "type" : "vinkje",
-         "label" : "Een vinkje",
-         "beschrijving" : "Dit is een vinkje dat je <strong>aan</strong> of uit mag klikken",
-         "meer-info" : "<i>NOG</i> meer info",
-         "id" : "c4ca4238a0b923820dcc509a6f75849b"
-      },
-      {
-         "type" : "groep",
-         "label" : "titel/label van de groep",
-         "beschrijving" : "Al deze velden horen bij elkaar",
-         "velden" : [
-            {
-               "type" : "tekst",
-               "id" : "c81e728d9d4c2f636f067f89cc14862c",
-               "label": "tekst veld"
-            },
-            {
-                "type" : "keuze",
-                "id": "eccbc87e4b5ce2fe28308fd9f2a7baf3",
-                "label": "keuze veld",
-                "keuzes": [
-                    {
-                        "id": "5bd15ca24cee57242a9b28b79481da6d",
-                        "label": "Een keuze"   
-                    }, ...
-                ]
-            }
-            , ...
-         ]
-      }
-      , ...
-    ],
+    "groepseigenGegevens": {
+        "schema": [
+                {
+                    "links": [],
+                    "id": "d5f75b320dc7de39010dca243a830129",
+                    "aangepast": "2016-03-10T12:36:45.132+01:00",
+                    "type": "tekst",
+                    "label": "Opmerkingen",
+                    "beschrijving": "",
+                    "kanLeidingWijzigen": false,
+                    "verplicht": false,
+                    "kanLidWijzigen": false,
+                    "sort": 0,
+                    "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+                },
+                {
+                    "links": [],
+                    "id": "d5f75e2340fc9dac014102187b4e2a68",
+                    "aangepast": "2016-03-10T12:36:45.132+01:00",
+                    "type": "vinkje",
+                    "label": "helpen op evenementen",
+                    "beschrijving": "",
+                    "kanLeidingWijzigen": false,
+                    "verplicht": false,
+                    "kanLidWijzigen": false,
+                    "sort": 0,
+                    "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+                },
+                {
+                    "links": [],
+                    "id": "40288144535b694a01535b6adb2c0003",
+                    "aangepast": "2016-03-10T12:36:45.132+01:00",
+                    "type": "lijst",
+                    "label": "Dit is een lijst",
+                    "kanLeidingWijzigen": false,
+                    "verplicht": false,
+                    "kanLidWijzigen": false,
+                    "sort": 0,
+                    "keuzes": [
+                        "Lijstwaarde1",
+                        "Lijstwaarde2"
+                    ],
+                    "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+                }
+            ],
+            "waarden": {}
+    },
     "opgericht": "1932-05-30T23:00:00.000Z",
     "beeindigd":"2014/09/01", //optioneel - enkel voor gestopte groepen
     "publiek-inschrijven": false
