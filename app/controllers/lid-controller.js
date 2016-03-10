@@ -503,8 +503,9 @@
 
     // return functie voor de bevestiging na het veranderen van pagina
     $scope.locationChange = function(result, url){
-      if(result == true){
-        madeChanges = false;
+      console.log(url);
+      if(result){
+        $scope.lid.changes = new Array();
         $window.location.href = url;
       }
     }
