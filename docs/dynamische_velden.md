@@ -14,54 +14,54 @@ door andere partijen te wijzigen dan de structuur.
 Hieronder een voorbeeld bij een GET op een lid. Bij een GET op een groep wordt enkel het schema getoond.
 ```json
 "schema": [
-                {
-                    "links": [],
-                    "id": "d5f75b320dc7de39010dca243a830129",
-                    "aangepast": "2016-03-10T12:36:45.132+01:00",
-                    "type": "tekst",
-                    "label": "Opmerkingen",
-                    "beschrijving": "",
-                    "kanLeidingWijzigen": false,
-                    "verplicht": false,
-                    "kanLidWijzigen": false,
-                    "sort": 0,
-                    "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
-                },
-                {
-                    "links": [],
-                    "id": "d5f75e2340fc9dac014102187b4e2a68",
-                    "aangepast": "2016-03-10T12:36:45.132+01:00",
-                    "type": "vinkje",
-                    "label": "helpen op evenementen",
-                    "beschrijving": "",
-                    "kanLeidingWijzigen": false,
-                    "verplicht": false,
-                    "kanLidWijzigen": false,
-                    "sort": 0,
-                    "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
-                },
-                {
-                    "links": [],
-                    "id": "40288144535b694a01535b6adb2c0003",
-                    "aangepast": "2016-03-10T12:36:45.132+01:00",
-                    "type": "lijst",
-                    "label": "Dit is een lijst",
-                    "kanLeidingWijzigen": false,
-                    "verplicht": false,
-                    "kanLidWijzigen": false,
-                    "sort": 0,
-                    "keuzes": [
-                        "Lijstwaarde1",
-                        "Lijstwaarde2"
-                    ],
-                    "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
-                }
-            ],
-            "waarden": {
-                "d5f75b320dc7de39010dca243a830129": "",
-                "d5f75e2340fc9dac014102187b4e2a68": "true",
-                "40288144535b694a01535b6adb2c0003": "Lijswaarde1"
-            }
+    {
+        "links": [],
+        "id": "d5f75b320dc7de39010dca243a830129",
+        "aangepast": "2016-03-10T12:36:45.132+01:00",
+        "type": "tekst",
+        "label": "Opmerkingen",
+        "beschrijving": "",
+        "kanLeidingWijzigen": false,
+        "verplicht": false,
+        "kanLidWijzigen": false,
+        "sort": 0,
+        "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+    },
+    {
+        "links": [],
+        "id": "d5f75e2340fc9dac014102187b4e2a68",
+        "aangepast": "2016-03-10T12:36:45.132+01:00",
+        "type": "vinkje",
+        "label": "helpen op evenementen",
+        "beschrijving": "",
+        "kanLeidingWijzigen": false,
+        "verplicht": false,
+        "kanLidWijzigen": false,
+        "sort": 0,
+        "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+    },
+    {
+        "links": [],
+        "id": "40288144535b694a01535b6adb2c0003",
+        "aangepast": "2016-03-10T12:36:45.132+01:00",
+        "type": "lijst",
+        "label": "Dit is een lijst",
+        "kanLeidingWijzigen": false,
+        "verplicht": false,
+        "kanLidWijzigen": false,
+        "sort": 0,
+        "keuzes": [
+            "Lijstwaarde1",
+            "Lijstwaarde2"
+        ],
+        "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+    }
+],
+"waarden": {
+    "d5f75b320dc7de39010dca243a830129": "",
+    "d5f75e2340fc9dac014102187b4e2a68": "true",
+    "40288144535b694a01535b6adb2c0003": "Lijswaarde1"
+}
 ```
 
 ## Hoe zit het ineen?
