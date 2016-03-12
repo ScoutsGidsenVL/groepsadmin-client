@@ -11,8 +11,10 @@
     var sectie,
         patchObj;
     
-    var tempadresId = 1;
-    var tempcontactId = 1;
+    // Nieuwe adressen hebben geen id. Tijdelijk opgelost met tempAdresId.
+    // Voorstel: UUID genereren aan client-side. http://stackoverflow.com/a/2117523
+    var tempAdresId = 1;
+    var tempContactId = 1;
 
     RestService.Lid.get({id:$routeParams.id}).$promise.then(
         function(result) {
@@ -185,7 +187,7 @@
       if($scope.lid.contacten.length < 2){
         var newcontact = {};
         $scope.lid.contacten.push(newcontact);
-        tempcontactId++;
+        tempContactId++;
       }
 
     }
@@ -201,11 +203,11 @@
       var newadres = {
         postadres: false,
         omschrijving: "",
-        id: 'tempadres' + tempadresId,
+        id: 'tempadres' + tempAdresId,
         giscode: Math.floor((Math.random() * 100) + 1).toString(), //temp random giscode
         bus: ''
       }
-      tempadresId++;
+      tempAdresId++;
       var lid = {};
       lid.id = $scope.lid.id;
       lid.adressen = $scope.lid.adressen;
@@ -429,7 +431,7 @@
         },
         function(error) {
           if(error.status == 403){
-            AlertService.add('warning', "De VGA-functie kan niet geschrapt worden. <a href=\"	https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginahulp:_src_4_TContentFunctionsEntry_OUTPUT_KAN_NIET_STOPZETTEN\">Meer info</a> ");
+            AlertService.add('warning', "De VGA-functie kan niet geschrapt worden. <a href=\" https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginahulp:_src_4_TContentFunctionsEntry_OUTPUT_KAN_NIET_STOPZETTEN\">Meer info</a> ");
           }
           else{
             AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
