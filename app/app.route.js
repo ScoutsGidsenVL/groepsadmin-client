@@ -10,19 +10,24 @@
   function configure($routeProvider, $locationProvider) {
     // Configure the routes
     $routeProvider
-    // Leden tabel
+      // Leden tabel
       .when('/', {
-      templateUrl: 'partials/leden.html',
-      controller: 'LedenlijstController'
-    })
-    // Lid detailpagina
+        templateUrl: 'partials/leden.html',
+        controller: 'LedenlijstController'
+      })
+      // Lid detailpagina
       .when('/lid/:id', {
-      templateUrl: 'partials/lid.html',
-      controller: 'LidController'
-    })
+        templateUrl: 'partials/lid.html',
+        controller: 'LidController'
+      })
+      // Groepsinstellingen
+      .when('/groepsinstellingen', {
+        templateUrl: 'partials/groepsinstellingen.html'/*,
+        controller: 'GroepsinstellingenController'*/
+      })
       .otherwise({
-      redirectTo: '/'
-    });
+        redirectTo: '/'
+      });
 
     //$locationProvider.html5Mode(true).hashPrefix('!');
   }
