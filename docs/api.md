@@ -265,7 +265,7 @@ Een functie-instantie heeft geen `id` veld.  Het wordt uniek gekenmerkt door de 
 * Er wordt enkel gekeken naar het `id` veld en het `waarde` veld.  Alle andere velden worden genegeerd.
 * Een niet schrijfbaar dat toch opgeladen wordt, wordt genegeerd.
 * Als een gegeven niet opgeladen wordt wordt het als onveranderd beschouwd.
-* Meer info over de eigen schappen van groepseigen velden kan gevonden worden in de dynamischevelden documentatie
+* Meer info over de eigenschappen van groepseigen velden kan gevonden worden in de [dynamischevelden documentatie](dynamische_velden.md)
 
 ##### Response
 Een redirect naar het nieuwe lid of error
