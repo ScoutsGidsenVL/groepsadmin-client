@@ -8,8 +8,7 @@
   LidController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope'];
 
   function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope) {
-    var sectie,
-        patchObj;
+    var sectie
     
     // Nieuwe adressen hebben geen id. Tijdelijk opgelost met tempAdresId.
     // Voorstel: UUID genereren aan client-side. http://stackoverflow.com/a/2117523
@@ -31,8 +30,6 @@
           else{
             AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
           }
-          //console.log(error.data);
-
         }
       );
 
@@ -95,7 +92,7 @@
       });
 
       // Permissies komen uit PATCH link object
-      patchObj = $.grep($scope.lid.links, function(e){
+      $scope.patchObj = $.grep($scope.lid.links, function(e){
         return e.method == "PATCH";
       })[0];
 
@@ -127,10 +124,10 @@
 
 
     // Schrijfrechten kunnen per sectie ingesteld zijn. Controlleer als sectienaam voorkomt in PATCH opties.
-    // Mogelijke sectienamen van een lid zijn "persoonsgegevens", "adressen", "email", "functies.*", "groepseigen".
+    // Mogelijke sectienamen van een lid zijn "persoonsgegevens", "adressen", "email", "functies.*", "groepseigen.*".
     $scope.hasPermission = function(val) {
-      if (patchObj) {
-        return patchObj.secties.indexOf(val) > -1;
+      if ($scope.patchObj) {
+        return $scope.patchObj.secties.indexOf(val) > -1;
       }
     }
       
@@ -243,6 +240,10 @@
 
 
     }
+    /*
+    * Groepseigengegevens
+    * ---------------------------------------
+    */
 
 
 
@@ -498,19 +499,19 @@
         var paramObj = {
               trueVal:newUrl
         }
-        DialogService.new("Pagina verlaten","U staat op het punt om deze pagina te verlaten, niet opgeslagen aanpassignen zullen verloren gaan. Bent u zeker dat u wil doorgaan?", $scope.locationChange, paramObj );
+        DialogService.new("Pagina verlaten","U staat op het punt om deze pagina te verlaten, niet opgeslagen aanpassignen zullen verloren gaan. Bent u zeker dat u wilt verdergaan?", $scope.locationChange, paramObj );
       }
 
     });
 
     // return functie voor de bevestiging na het veranderen van pagina
     $scope.locationChange = function(result, url){
-      console.log(url);
       if(result){
         $scope.lid.changes = new Array();
         $window.location.href = url;
       }
     }
+
 
 
 
