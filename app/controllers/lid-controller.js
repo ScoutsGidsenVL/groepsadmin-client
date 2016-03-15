@@ -393,27 +393,32 @@
       }
       angular.forEach($scope.lid.functies, function(value, key){
         //functies toegevoegd tijdens deze sesie worden nog niet doorgegevens
-        if(value.begin != "temp"){
-          var functie = value;
-          functie = new Date().toISOString();
-          lid.functies.push(value);
+        if(value.temp != "tijdelijk"){
+          var functieInstantie = {
+            functie: value.functie,
+            groep: value.groep,
+            einde: new Date(),
+            begin: value.begin
+          };
+          lid.functies.push(functieInstantie);
         }
       });
-      /*
-      * bevestiging return functie
-      * --------------------------------------
-      */
+
+
+      // bevestiging return functie
+      // --------------------------------------
       $scope.confirmstopFunctie = function(result){
         if(result){
           //set lid bevestiging
           lid.bevesteging = true;
 
           //send new request
-          RestService.Lid.update({id:lid.id, bevestiging: false}, lid).$promise.then(
+          RestService.Lid.update({id:lid.id, bevestiging: true}, lid).$promise.then(
             function(response) {
               AlertService.add('success ', 'Alle actieve functies werden geschrapt.', 5000);
-              initModel();
-              // TODO: update lid model (hier niet automatisch geüpdatet)
+              console.log(response);
+              $scope.lid=response;
+              initAangepastLid();
 
             },
             function(error) {
@@ -428,7 +433,7 @@
         function(response) {
           //toon confirmvenster
           DialogService.new("Bevestig","Weet u zeker dat u alle actieve functies van " + $scope.lid.persoonsgegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
-          refreshLid();
+
         },
         function(error) {
           if(error.status == 403){
