@@ -18,7 +18,8 @@
       ),
       LidAdd: $resource(
         base + 'lid/',
-        {'add': {method: 'POST', cache: false}}
+        {},
+        {'save': {method: 'POST'}}
       ),
       Functie: $resource(
         base + 'functie/:functieId',

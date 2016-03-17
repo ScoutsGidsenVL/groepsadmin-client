@@ -146,7 +146,7 @@
     }
 
     /*
-    * persoonlijke info
+    * Persoonlijke info
     * ---------------------------------------
     */
 
@@ -240,6 +240,7 @@
 
 
     }
+
     /*
     * Groepseigengegevens
     * ---------------------------------------
@@ -366,7 +367,6 @@
     // nieuw gezindslid aanmaken
     $scope.gezinslid = function() {
       //bereid lid voor om doorgegeven te worden.
-      console.log($scope.lid);
       var familielid = $scope.lid;
       delete familielid.aangepast;
       delete familielid.links;
@@ -379,8 +379,8 @@
       delete familielid.persoonsgegevens.voornaam;
       delete familielid.verbondsgegevens;
       familielid.functies = [];
-      console.log(familielid);
       $rootScope.familielid = familielid;
+      $scope.lid.changes = [];
       $location.path("/lid/toevoegen");
     }
 
