@@ -375,6 +375,7 @@
       delete familielid.gebruikersnaam;
       delete familielid.persoonsgegevens.beperking;
       delete familielid.persoonsgegevens.geboortedatum;
+      delete familielid.persoonsgegevens.verminderdlidgeld;
       delete familielid.persoonsgegevens.geslacht;
       delete familielid.persoonsgegevens.voornaam;
       delete familielid.verbondsgegevens;

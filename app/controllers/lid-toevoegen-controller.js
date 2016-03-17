@@ -16,9 +16,32 @@
 
 
 
+
     // TODO - controle of de gebruiker wel nieuwe leden kan maken
     //        => anders redirect naar leden lijst
 
+
+    // huidige gebruiker opvragen, om de secties te kunnen bekijken die de gebruiker mag mee sturen
+    var aangemeldeGebruiker;
+    RestService.Lid.get({id:'profiel'}).$promise.then(
+      function(result) {
+        aangemeldeGebruiker = result;
+        $scope.patchObj = $.grep(aangemeldeGebruiker.links, function(e){
+          return e.method == "PATCH";
+        })[0];
+      },
+      function(error) {}
+    );
+
+    /*
+    * Controle ofdat de sectie aangepast mag worden.
+    * ---------------------------------------
+    */
+    $scope.hasPermission = function(val) {
+      if ($scope.patchObj) {
+        return $scope.patchObj.secties.indexOf(val) > -1;
+      }
+    }
 
     /*
     * Initialisatie van het nieuwe lid model
@@ -36,8 +59,9 @@
     } else{
       // wel broer of zus
       lid = $rootScope.familielid;
-      //delete $rootScope.familielid;
-      console.log(lid);
+      lid.persoonsgegevens.verminderdlidgeld = false;
+      lid.persoonsgegevens.beperking = false;
+      delete $rootScope.familielid;
       // controle of er adressen e.d. aanwezig zijn. => temp id's geven.
       angular.forEach(lid.adressen, function(adres, key){
         angular.forEach(lid.contacten, function(contact, key){
@@ -46,7 +70,7 @@
             }
         });
         adres.id = tempAdresId;
-          tempAdresId++;
+        tempAdresId++;
       });
     }
     $scope.lid = lid;
@@ -234,6 +258,7 @@
       RestService.LidAdd.save(origineelLid).$promise.then(
         function(response) {
           console.log(response);
+          //zend update van de extra infotmatie(functies, contacten, ...)
 
         },
         function(error) {
@@ -246,14 +271,8 @@
         }
       );
 
-      //zend update van de extra infotmatie(functies, contacten, ...)
 
-      /*
-      $scope.lid.$update(function(response) {
-        AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
 
-        //redirect to lid profile;
-      });*/
     }
 
     /*

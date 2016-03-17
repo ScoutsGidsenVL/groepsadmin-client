@@ -228,7 +228,7 @@
       <section>
         <fieldset>
           <legend>Groepseigen gegevens</legend>
-          <fieldset ng-repeat="groepFuncties in groepEnfuncties">
+          <fieldset ng-repeat="groepFuncties in groepEnfuncties" ng-show="hasPermission('groepseigen.' + groepFuncties.groepsnummer)">
 
            <legend>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
               <div class="pull-right" ng-init="showgroepseigenvelden=true;">
@@ -236,12 +236,10 @@
                 <button ng-click="showgroepseigenvelden=false" ng-hide="!showgroepseigenvelden" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
               </div>
             </legend>
-            <fieldset class="ga-functie-list" ng-if="groepFuncties.groepseigenGegevens.schema.length > 0">
+            <fieldset class="ga-functie-list">
               <dynamischveldcolectie waarden="groepFuncties.groepseigenGegevens.waarden" velden="groepFuncties.groepseigenGegevens.schema" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
             </fieldset>
-            <fieldset class="ga-functie-list" ng-if="groepFuncties.groepseigenGegevens.schema.length == 0">
-              <legend ng-show="!showgroepseigenvelden">Geen groepseigen gegevens in deze groep</legend>
-            </fieldset>
+
           </fieldset>
         </fieldset>
       </section>
@@ -251,10 +249,10 @@
       <section>
         <fieldset>
           <legend>Functies toevoegen</legend>
-          <fieldset ng-repeat="groepFuncties in groepEnfuncties">
-            <legend>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
+          <fieldset ng-repeat="groepFuncties in groepEnfuncties" ng-show="hasPermission('functieInstanties.' + groepFuncties.groepsnummer)">
+            <legend >{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
             </legend>
-            <fieldset class="ga-functie-list">
+            <fieldset class="ga-functie-list" >
               <section class="clearfix">
                 <legend>
                   Verbonds functies
