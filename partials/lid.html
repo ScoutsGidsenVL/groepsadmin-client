@@ -281,7 +281,7 @@
       <section>
         <fieldset>
           <legend>Functies toevoegen</legend>
-          <fieldset ng-repeat="groepFuncties in groepEnfuncties">
+          <fieldset ng-repeat="groepFuncties in groepEnfuncties" ng-show="hasPermission('functieInstanties.' + groepFuncties.groepsnummer)">
             <legend>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
             </legend>
             <fieldset class="ga-functie-list">
