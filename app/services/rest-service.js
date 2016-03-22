@@ -33,11 +33,11 @@
       Groep: $resource(
         base + 'groep/:id',
         {functieId: '@id'},
-        {get: {method: 'GET', cache: $cacheFactory('groepCache')}}
+        {get: {method: 'GET'}}
       ),
       Groepen: $resource(
         base + 'groep/',
-        {get: {method: 'GET', cache: $cacheFactory('groepenCache')}}
+        {get: {method: 'GET'}}
       )
     }
   }

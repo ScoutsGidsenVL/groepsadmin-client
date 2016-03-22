@@ -5,21 +5,17 @@
     .module('ga.lidtoevoegencontroller', ['ga.services.alert', 'ga.services.dialog'])
     .controller('LidToevoegenController', LidToevoegenController);
 
-  LidToevoegenController.$inject = ['$scope', '$location', 'RestService', 'AlertService', 'DialogService','$rootScope'];
+  LidToevoegenController.$inject = ['$scope', '$location', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route'];
 
-  function LidToevoegenController ($scope, $location, RestService, AlertService, DialogService, $rootScope) {
+  function LidToevoegenController ($scope, $location, RestService, AlertService, DialogService, $rootScope, $route) {
 
     // Nieuwe adressen hebben geen id. Tijdelijk opgelost met tempAdresId.
     // Voorstel: UUID genereren aan client-side. http://stackoverflow.com/a/2117523
     var tempAdresId = 1;
     var tempContactId = 1;
 
-
-
-
     // TODO - controle of de gebruiker wel nieuwe leden kan maken
     //        => anders redirect naar leden lijst
-
 
     // huidige gebruiker opvragen, om de secties te kunnen bekijken die de gebruiker mag mee sturen
     var aangemeldeGebruiker;
@@ -65,6 +61,7 @@
       // controle of er adressen e.d. aanwezig zijn. => temp id's geven.
       angular.forEach(lid.adressen, function(adres, key){
         angular.forEach(lid.contacten, function(contact, key){
+
             if(adres.id == contact.adres){
               contact.adres = tempAdresId;
             }
@@ -73,6 +70,7 @@
         tempAdresId++;
       });
     }
+
     $scope.lid = lid;
 
 
@@ -247,18 +245,60 @@
         origineelLid.functies = [];
         origineelLid.functies.push($scope.lid.functies[0]);
       } else{
-        //toon error lid heeft geen functie
         origineelLid.functies = [];
       }
-      //zend post met basis informaitie(persoonsgegevesn, adressen, 1 functieinstantie, groepseigengegevens)
-      origineelLid.persoonsgegevens.geboortedatum =  '2016-01-01T00:00:00.000+01:00'; // set static date
-      console.log(RestService);
-      console.log($scope.lid);
-      console.log(origineelLid);
+      //zend post met basis informaitie(persoonsgegevesn, adressen, 1 functieinstantie)
+      origineelLid.persoonsgegevens.geboortedatum =  '2016-01-01T00:00:00.000+01:00'; // set static date;
       RestService.LidAdd.save(origineelLid).$promise.then(
         function(response) {
           console.log(response);
-          //zend update van de extra infotmatie(functies, contacten, ...)
+          origineelLid.contacten = $scope.lid.contacten;
+          //alle extra functies sturen via patch
+          var patchDeel = {};
+          //controle zijn er contacten?
+          if(origineelLid.contacten.length >0){
+            patchDeel.contacten = [];
+            angular.forEach(origineelLid.adressen, function(origineelAdres, key){
+              angular.forEach(response.adressen, function(adres){
+                //vervangen door Gis code wanneer gis werkt.
+                if( origineelAdres.bus == adres.bus &&
+                    origineelAdres.gemeente == adres.gemeente &&
+                    origineelAdres.land == adres.land &&
+                    origineelAdres.nummer == adres.nummer &&
+                    origineelAdres.postcode == adres.postcode &&
+                    origineelAdres.straat == adres.straat &&
+                    origineelAdres.telefoon == adres.telefoon
+                  ){
+                  //zend update van de extra infotmatie(functies, contacten, ...)
+                  angular.forEach(origineelLid.contacten, function(contact){
+                    contact.adres = adres.id
+                    patchDeel.contacten.push(contact);
+                  });
+                }
+              });
+            });
+          }
+          if($scope.lid.functies.length > 1){
+            patchDeel.functies = $scope.lid.functies.splice(1, $scope.lid.functies.length-1);
+          }
+          if(patchDeel.functies || patchDeel.contacten){
+            //stuur extra info via patch
+            RestService.Lid.update({id:response.id}, patchDeel).$promise.then(
+              function(response) {
+                // redirect to lid page
+                console.log(response);
+                $location.path("/lid/" + response.id);
+              },
+              function(error) {
+                AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
+              }
+            );
+          } else {
+            // redirect to lid page
+            $location.path("/lid/" + response.id);
+          }
+
+
 
         },
         function(error) {
@@ -270,9 +310,6 @@
           }
         }
       );
-
-
-
     }
 
     /*
@@ -281,7 +318,7 @@
     */
 
     $scope.nieuw = function() {
-      $location.path("/lid/toevoegen");
+      $route.reload();
     }
 
 
