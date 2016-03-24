@@ -280,7 +280,7 @@
       </section>
       <section>
         <fieldset>
-          <legend>Functies toevoegen</legend>
+          <legend ng-show="showFunctieToevoegen">Functies toevoegen</legend>
           <fieldset ng-repeat="groepFuncties in groepEnfuncties" ng-show="hasPermission('functieInstanties.' + groepFuncties.groepsnummer)">
             <legend>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
             </legend>
