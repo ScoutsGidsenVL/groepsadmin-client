@@ -43,28 +43,34 @@
     );*/
 
     $scope.busy = false;
+    $scope.end = false
     $scope.aantalPerPagina = 50
     $scope.leden = [];
     $scope.nextPage = function(){
-      console.log($scope.busy);
       if ($scope.busy) return;
       $scope.busy = true;
-      console.log($scope.busy);
-      console.log("nieuwe leden ophalen");
+      // voorkom dat er request gedaanworden wanneer alle resultaaten geladen zijn
+      if($scope.leden.length !== $scope.totaalAantalLeden-1){
+        console.log("nieuwe leden ophalen");
+        RestService.Leden.get({aantal: $scope.aantalPerPagina, offset: ($scope.leden.length == 0) ? 0 : ($scope.leden.length+1) }).$promise.then(
+          function (response) {
 
-      RestService.Leden.get({aantal: $scope.aantalPerPagina, offset: ($scope.leden.length == 0) ? 0 : ($scope.leden.length+1) }).$promise.then(
-        function (response) {
+            // voeg de leden toe aan de leden Array;
+            $scope.leden.push.apply($scope.leden,response.leden);
+            console.log($scope.leden.length);
+            $scope.totaalAantalLeden = response.totaal;
+            $scope.offset = response.offset;
+            $scope.busy = false;
+          },
+          function (error) {
+          }
+        );
+      }
+      else{
+        $scope.busy = false;
+        $scope.end = true;
+      }
 
-          // voeg de leden toe aan de leden Array;
-          $scope.leden.push.apply($scope.leden,response.leden);
-          console.log($scope.leden.length);
-          $scope.totaalAantalLeden = response.totaal;
-          $scope.offset = response.offset;
-          $scope.busy = false;
-        },
-        function (error) {
-        }
-      );
     }
   }
 })();
