@@ -6,7 +6,7 @@
   </div>
 
   <div class="pull-right">
-    <a href="#" class="btn-minimal"><span class="glyphicon glyphicon-plus"></span>&nbsp; Nieuw lid toevoegen</a>
+    <a href="#/lid/toevoegen" class="btn-minimal"><span class="glyphicon glyphicon-plus"></span>&nbsp; Nieuw lid toevoegen</a>
     <a  data-toggle="modal" href="#exportModal" class="btn-minimal"><span class="glyphicon glyphicon-share-alt"></span>&nbsp; Exporteren</a>
   </div>
 </div>
@@ -111,7 +111,7 @@
 </div>
 
 <!-- Table -->
-<table id="leden" class="table table-responsive table-hover">
+<table id="leden" class="table table-responsive table-hover" infinite-scroll="nextPage()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
   <thead>
     <tr>
       <th>Lidnummer</th><th>Voornaam</th><th>Achternaam</th><th>Straat</th><th>Nr</th><th>Postcode</th><th>Gemeente</th>
@@ -119,7 +119,7 @@
   </thead>
   <tbody>
     <tr class="" ng-repeat="lid in leden" ga-lid="{{lid.id}}">
-      <td>{{lid.lidnummer}}</td>
+      <td>{{lid.id}}</td>
       <td>{{lid.voornaam}}</td>
       <td>{{lid.achternaam}}</td>
       <td>{{lid.straat}}</td>
@@ -130,11 +130,15 @@
     </tr>
   </tbody>
 </table>
+<footer class="panel-footer clearfix">
+  <div ng-show='busy' class="loading"><i class="fa fa-spinner"></i>Leden aan het ophalen... </div>
+</footer>
 
 <!-- Panel footer -->
+<!--
 <footer class="panel-footer clearfix">
-  <small class="pagination-info pull-left">1 tot 12 van 118</small>
-  <ul class="pagination pull-right">
+  <small class="pagination-info pull-left">{{ offset + 1 }} tot {{ offset + aantalPerPagina }} van {{ totaalAantalLeden }}</small>
+  <ul class="pagination pull-right" >
     <li><a href="#">«</a></li>
     <li><a href="#">1</a></li>
     <li><a href="#">2</a></li>
@@ -144,3 +148,4 @@
     <li><a href="#">»</a></li>
   </ul>
 </footer>
+-->

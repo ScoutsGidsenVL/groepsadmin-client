@@ -18,7 +18,8 @@
     'ga.ui.alert',
     'ga.ui.dialog',
     'ui.bootstrap',
-    'ga.utils'
+    'ga.utils',
+    'infinite-scroll'
   ]);
 
 

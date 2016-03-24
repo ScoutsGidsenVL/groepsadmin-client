@@ -38,6 +38,11 @@
       Groepen: $resource(
         base + 'groep/',
         {get: {method: 'GET'}}
+      ),
+      Leden: $resource(
+        base + 'ledenlijst?aantal=:aantal&offset=:offset',
+        {id: '@aantal',bevestiging: '@offset'},
+        {'get': {method: 'GET', cache: false}}
       )
     }
   }
