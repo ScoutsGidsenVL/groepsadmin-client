@@ -65,9 +65,7 @@
     }
     // controle on resize
     angular.element($window).bind('resize', function () {
-      //moeten we extra leden ophalen?
-      var tableMax = 37 * $scope.leden.length;
-      if(tableMax < $(window).height() && $scope.leden.length !== $scope.totaalAantalLeden-1 && !$scope.busy){
+      if($(window).height() > $("#leden").height() && !$scope.busy){
         $scope.nextPage();
       }
     });
