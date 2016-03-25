@@ -42,9 +42,11 @@
       }
     );*/
 
+
+
     $scope.busy = false;
     $scope.end = false
-    $scope.aantalPerPagina = 25
+    $scope.aantalPerPagina = 10
     $scope.leden = [];
     $scope.nextPage = function(){
       if ($scope.busy) return;
@@ -54,13 +56,19 @@
         console.log("nieuwe leden ophalen");
         RestService.Leden.get({aantal: $scope.aantalPerPagina, offset: ($scope.leden.length == 0) ? 0 : ($scope.leden.length+1) }).$promise.then(
           function (response) {
-
             // voeg de leden toe aan de leden Array;
             $scope.leden.push.apply($scope.leden,response.leden);
             console.log($scope.leden.length);
             $scope.totaalAantalLeden = response.totaal;
             $scope.offset = response.offset;
             $scope.busy = false;
+
+            // controle of er nog meer leden geladen moeten worden
+            var tableMax = 37 * $scope.leden.length;
+            if(tableMax < $(window).height()){
+              $scope.nextPage();
+            }
+
           },
           function (error) {
           }
