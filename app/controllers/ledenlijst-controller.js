@@ -44,7 +44,7 @@
 
     $scope.busy = false;
     $scope.end = false
-    $scope.aantalPerPagina = 50
+    $scope.aantalPerPagina = 25
     $scope.leden = [];
     $scope.nextPage = function(){
       if ($scope.busy) return;
