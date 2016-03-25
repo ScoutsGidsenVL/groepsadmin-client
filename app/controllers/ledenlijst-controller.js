@@ -25,22 +25,13 @@
     $scope.currentFilter = $scope.opgeslagenFilters[1];
     $scope.isFilterCollapsed = true;
 
-    //waarden van de huidige filter aanpassen
 
-/*
-    RestService.Leden.get().$promise.then(
-      function (response) {
-        console.log(response);
-        $scope.leden = response.leden;
-
-        $scope.totaalAantalLeden = response.totaal;
-        $scope.offset = response.offset;
-        $scope.aantalPerPagina = response.aantal;
-
-      },
-      function (error) {
+    // controle moet er meer gelanden worden
+    $scope.meerLaden = function(last){
+      if(last && $(window).height() > $("#leden").height()){
+        $scope.nextPage();
       }
-    );*/
+    }
 
 
 
@@ -62,13 +53,6 @@
             $scope.totaalAantalLeden = response.totaal;
             $scope.offset = response.offset;
             $scope.busy = false;
-
-            // controle of er nog meer leden geladen moeten worden
-            var tableMax = 37 * $scope.leden.length;
-            if(tableMax < $(window).height() && $scope.leden.length !== $scope.totaalAantalLeden-1){
-              $scope.nextPage();
-            }
-
           },
           function (error) {
           }

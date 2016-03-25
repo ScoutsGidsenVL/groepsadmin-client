@@ -111,14 +111,14 @@
 </div>
 
 <!-- Table -->
-<table id="leden" class="table table-responsive table-hover" infinite-scroll="nextPage()" infinite-scroll-disabled="(busy || end )" infinite-scroll-distance='1'>
+<table id="leden" class="table table-responsive table-hover" infinite-scroll="nextPage()" infinite-scroll-disabled="(busy || end )" infinite-scroll-distance="1" infinite-scroll-immediate-check="true">
   <thead>
     <tr>
       <th>Lidnummer</th><th>Voornaam</th><th>Achternaam</th><th>Straat</th><th>Nr</th><th>Postcode</th><th>Gemeente</th>
     </tr>
   </thead>
   <tbody>
-    <tr  ng-repeat="lid in leden" ga-lid="{{lid.id}}">
+    <tr  ng-repeat="lid in leden" ga-lid="{{lid.id}}" ng-init="meerLaden($last)"  >
       <td><div class="fade-in slide-in">{{lid.id}}</div></td>
       <td><div class="fade-in slide-in">{{lid.waarden[0]}}</div></td>
       <td><div class="fade-in slide-in">{{lid.achternaam}}</div></td>
@@ -130,8 +130,8 @@
     </tr>
   </tbody>
 </table>
-<footer class="panel-footer clearfix">
-  <div ng-show='busy && !end ' class="loading"><i class="fa fa-spinner fa-pulse"></i>Leden aan het ophalen... </div>
+<footer class="panel-footer clearfix" in-view="test($inview)">
+  <div ng-show='busy && !end ' class="loading" in-view="test($inview)"><i class="fa fa-spinner fa-pulse"></i>Leden aan het ophalen... </div>
 </footer>
 
 <!-- Panel footer -->
