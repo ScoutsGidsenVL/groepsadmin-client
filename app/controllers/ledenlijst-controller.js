@@ -5,9 +5,9 @@
     .module('ga.ledenlijstcontroller', [])
     .controller('LedenlijstController', LedenlijstController);
 
-  LedenlijstController.$inject = ['$scope', 'RestService'];
+  LedenlijstController.$inject = ['$scope', 'RestService', '$window'];
 
-  function LedenlijstController($scope, RestService) {
+  function LedenlijstController($scope, RestService, $window) {
     $scope.opgeslagenFilters = [
       {
         naam: "Export",
@@ -65,7 +65,7 @@
 
             // controle of er nog meer leden geladen moeten worden
             var tableMax = 37 * $scope.leden.length;
-            if(tableMax < $(window).height()){
+            if(tableMax < $(window).height() && $scope.leden.length !== $scope.totaalAantalLeden-1){
               $scope.nextPage();
             }
 
@@ -78,7 +78,14 @@
         $scope.busy = false;
         $scope.end = true;
       }
-
     }
+    // controle on resize
+    angular.element($window).bind('resize', function () {
+      //moeten we extra leden ophalen?
+      var tableMax = 37 * $scope.leden.length;
+      if(tableMax < $(window).height() && $scope.leden.length !== $scope.totaalAantalLeden-1 && !$scope.busy){
+        $scope.nextPage();
+      }
+    });
   }
 })();
