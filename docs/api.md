@@ -33,9 +33,9 @@ Nuttiger is dat bij een `PATCH` of `DELETE` de gebruiker op deze manier een vorm
 
 De volgende headers moeten opgestuurd worden naar de server:
 
-|   |   |
-|---|---|
-| *Accept* 			| `application/json`                              |
+| Header            | Content                                         |
+| :---------------- | :---------------------------------------------- |
+| *Accept* 			    | `application/json`                              |
 | *Authentication* 	| oauth-2.0 access token: `Bearer {accessToken}`  |
 
 
