@@ -605,6 +605,59 @@ Redirect naar nieuwe filter.
 }
 ```
 
+### `/ledenlijst/filter`
+#### `GET`
+
+##### Request
+Geen body nodig.
+
+##### Response
+```javascript
+{
+  "filters": [ //Enkel opgeslage filters, huidige niet dus.
+    {
+      "id": "d5f75e23385c5e6e0139493b8546035e",  //Niet aanwezig voor `huidige` filter als niet opgeslagen
+      "naam": "Mijn filter", //Niet aanwezig voor `huidige` filter als niet opgeslagen
+      "type":"verbond",  // Niet aanwezig voor `huidige` als niet opgeslagen.  Mogelijkheden ['verbond', 'groep', 'lid']
+      "groep": "A3143G", // Enkel aanwezig indien type groep
+      "links":[
+        {    
+          "href": "https://ga.sgv.be/rest/ledenlijst/filter/d5f75e23385c5e6e0139493b8546035e",  //Niet aanwezig voor `huidige` filter als niet opgeslagen
+          "rel": "self",
+          "method": "GET"
+        }, {
+          "rel": "update", //Enkel aanwezig als je dit type filter mag wijzigen
+          "href": "https://ga.sgv.be/rest/ledenlijst/filter/d5f75b320b812440010b8127f95f4db4",
+          "method": "PATCH",
+          "secties": ["id", "naam", "groep" /*als type == "groep"*/, "kolommen", "filter", "sortering"]  //"naam" niet zichtbaar voor "huidige"
+        }
+      ]
+    }
+  ],
+  "links":[
+    {    
+      "href": "https://ga.sgv.be/rest/ledenlijst/filter",
+      "rel": "self",
+      "method": "GET"
+    }, {
+      "rel": "create",
+      "href": "https://ga.sgv.be/rest/ledenlijst/filter",
+      "method": "POST",
+    }, {    
+      "href": "https://ga.sgv.be/rest/ledenlijst/filter/huidige",
+      "rel": "current",
+      "method": "GET"
+    }, 
+  ]
+}
+```
+
+#### `POST`
+##### Request
+Alle secties behalve `links` en `id`
+
+##### Response
+Redirect naar nieuwe filter.
 
 ### `/ledenlijst/filter/{filterid}`
 #### `GET`
@@ -718,61 +771,6 @@ Geen body nodig.
 
 ##### Response
 HTTP 204 zonder body indien toegelaten.
-
-
-### `/ledenlijst/filter`
-#### `GET`
-
-##### Request
-Geen body nodig.
-
-##### Response
-```javascript
-{
-  "filters": [ //Enkel opgeslage filters, huidige niet dus.
-    {
-      "id": "d5f75e23385c5e6e0139493b8546035e",  //Niet aanwezig voor `huidige` filter als niet opgeslagen
-      "naam": "Mijn filter", //Niet aanwezig voor `huidige` filter als niet opgeslagen
-      "type":"verbond",  // Niet aanwezig voor `huidige` als niet opgeslagen.  Mogelijkheden ['verbond', 'groep', 'lid']
-      "groep": "A3143G", // Enkel aanwezig indien type groep
-      "links":[
-        {    
-          "href": "https://ga.sgv.be/rest/ledenlijst/filter/d5f75e23385c5e6e0139493b8546035e",  //Niet aanwezig voor `huidige` filter als niet opgeslagen
-          "rel": "self",
-          "method": "GET"
-        }, {
-          "rel": "update", //Enkel aanwezig als je dit type filter mag wijzigen
-          "href": "https://ga.sgv.be/rest/ledenlijst/filter/d5f75b320b812440010b8127f95f4db4",
-          "method": "PATCH",
-          "secties": ["id", "naam", "groep" /*als type == "groep"*/, "kolommen", "filter", "sortering"]  //"naam" niet zichtbaar voor "huidige"
-        }
-      ]
-    }
-  ],
-  "links":[
-    {    
-      "href": "https://ga.sgv.be/rest/ledenlijst/filter",
-      "rel": "self",
-      "method": "GET"
-    }, {
-      "rel": "create",
-      "href": "https://ga.sgv.be/rest/ledenlijst/filter",
-      "method": "POST",
-    }, {    
-      "href": "https://ga.sgv.be/rest/ledenlijst/filter/huidige",
-      "rel": "current",
-      "method": "GET"
-    }, 
-  ]
-}
-```
-
-#### `POST`
-##### Request
-Alle secties behalve `links` en `id`
-
-##### Response
-Redirect naar nieuwe filter.
 
 ### `/ledenlijst/kolom-type`
 #### `GET`

@@ -21,6 +21,7 @@ Hieronder een voorbeeld bij een GET op een lid. Bij een GET op een groep wordt e
         "type": "tekst",
         "label": "Opmerkingen",
         "beschrijving": "",
+        "kanGebruikerWijzigen": true,
         "kanLeidingWijzigen": false,
         "verplicht": false,
         "kanLidWijzigen": false,
@@ -34,6 +35,7 @@ Hieronder een voorbeeld bij een GET op een lid. Bij een GET op een groep wordt e
         "type": "vinkje",
         "label": "helpen op evenementen",
         "beschrijving": "",
+        "kanGebruikerWijzigen": false,
         "kanLeidingWijzigen": false,
         "verplicht": false,
         "kanLidWijzigen": false,
@@ -46,6 +48,7 @@ Hieronder een voorbeeld bij een GET op een lid. Bij een GET op een groep wordt e
         "aangepast": "2016-03-10T12:36:45.132+01:00",
         "type": "lijst",
         "label": "Dit is een lijst",
+        "kanGebruikerWijzigen": false,
         "kanLeidingWijzigen": false,
         "verplicht": false,
         "kanLidWijzigen": false,
@@ -102,6 +105,7 @@ De volgende attributen zijn gedefinieerd op input-velden:
   _optioneel default false_
   * `kanLeidingWijzigen`: Bepaald of de leiding dit veld kan wijzigen.
   * `kanLidWijzigen`: Beapaald of het lid zelf het veld kan wijzigen.
+  * `kanGebruikerWijzigen"`: true, //kan de gebruik die op dit moment aangeld is dit gegeven aanpassen
 
 #### Structuur-velden
 
