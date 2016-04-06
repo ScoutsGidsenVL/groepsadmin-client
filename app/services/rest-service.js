@@ -41,9 +41,20 @@
       ),
       Leden: $resource(
         base + 'ledenlijst?aantal=:aantal&offset=:offset',
-        {id: '@aantal',bevestiging: '@offset'},
+        {aantal: '@aantal', offset: '@offset'},
+        {'get': {method: 'GET', cache: false}}
+      ),
+      FilterDetails: $resource(
+        base + 'ledenlijst/filter/:id',
+        {id: '@id'},
+        {'get': {method: 'GET', cache: false}}
+      ),
+      Filters: $resource(
+        base + 'ledenlijst/filter',
+        {},
         {'get': {method: 'GET', cache: false}}
       )
+
     }
   }
 

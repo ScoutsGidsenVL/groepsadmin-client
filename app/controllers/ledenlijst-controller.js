@@ -8,23 +8,24 @@
   LedenlijstController.$inject = ['$scope', 'RestService', '$window'];
 
   function LedenlijstController($scope, RestService, $window) {
-    $scope.opgeslagenFilters = [
-      {
-        naam: "Export",
-        label: "Persoonlijke filters"
+    // opgeslagen filters ophalen
+    RestService.Filters.get().$promise.then(
+      function (response) {
+        $scope.opgeslagenFilters = response;
       },
-      {
-        naam: "Wanbetalers",
-        label: "Persoonlijke filters"
-      },
-      {
-        naam: "Leden met geblokkeerd adres",
-        label: "Standaard filters"
+      function (error) {
       }
-      ];
-    $scope.currentFilter = $scope.opgeslagenFilters[1];
-    $scope.isFilterCollapsed = true;
+    );
+    // huidige filter ophalen
+    RestService.FilterDetails.get({id: 'huidige'}).$promise.then(
+      function (response) {
+        $scope.currentFilter = response;
+      },
+      function (error) {
+      }
+    );
 
+    $scope.isFilterCollapsed = true;
 
     // controle moet er meer gelanden worden
     $scope.meerLaden = function(last){
