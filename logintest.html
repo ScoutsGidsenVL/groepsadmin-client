@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="nl" ng-app="ga">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groepsadministratie Scouts en Gidsen Vlaanderen</title>
+
+    <!-- Styles -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      /* Dynamically generated CSS for small phones */
+      @media all and (max-width: 640px) {
+          #leden td:nth-child(4):before {  content: 'Straat';  }
+          #leden td:nth-child(5):before {  content: 'Nr';  }
+          #leden td:nth-child(6):before {  content: 'Postcode';  }
+          #leden td:nth-child(7):before {  content: 'Gemeente';  }
+        }
+    </style>
+  </head>
+
+  <body>
+   <h1>LoginTest</h1>
+   <button id="loginbutton">Login</button>
+   <pre id="token"></pre>
+   <script src="js/jquery-1.10.2.min.js"></script>
+   <script src="bower_/jquery-1.10.2.min.js"></script>
+   <script src="bower_components/keycloak/dist/keycloak.js"></script>
+    <script type="text/javascript">
+     var keycloak = new Keycloak({ url: 'http://groepsadmin-develop.scoutsengidsenvlaanderen.net:8888/auth', realm: 'scouts', clientId: 'groepsadmin-localhost' })
+//     var keycloak = new Keycloak({ url: 'http://localhost:8080/auth', realm: 'test', clientId: 'groepsadmin-localhost' })
+     keycloak.init().success(function(authenticated) {
+
+  $('#token').text(JSON.stringify(keycloak.token));
+  $.ajax(
+  'http://localhost:8181/svn-7.5.1.0-steven/rest-ga/lid/profiel',
+  {
+    type: 'GET',
+    dataType: 'json',
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader("Authorization", "Bearer " + keycloak.token)
+    },
+    complete: function (resp) {
+      console.log(resp);
+    },
+    error: function (jqXHR,  textStatus,  errorThrown) {
+      console.log(textStatus);
+    }
+  }
+);
+});
+      $('#loginbutton').on('click', function(e) {
+	keycloak.login()
+      });
+    </script>
+
+  </body>
+</html>
