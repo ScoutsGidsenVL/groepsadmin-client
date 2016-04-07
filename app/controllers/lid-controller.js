@@ -143,6 +143,7 @@
       if($scope.lid.changes.indexOf(sectie) < 0) {
         $scope.lid.changes.push(sectie);
       }
+      $window.onbeforeunload = unload;
     }
 
     // nieuw lid initialiseren na update.
@@ -414,21 +415,17 @@
     // nieuw gezindslid aanmaken
     $scope.gezinslid = function() {
       //bereid lid voor om doorgegeven te worden.
-      var familielid = $scope.lid;
-      delete familielid.aangepast;
-      delete familielid.links;
-      delete familielid.email;
-      delete familielid.id;
-      delete familielid.gebruikersnaam;
-      delete familielid.persoonsgegevens.beperking;
-      delete familielid.persoonsgegevens.geboortedatum;
-      delete familielid.persoonsgegevens.verminderdlidgeld;
-      delete familielid.persoonsgegevens.geslacht;
-      delete familielid.persoonsgegevens.voornaam;
-      delete familielid.verbondsgegevens;
-      familielid.functies = [];
+      var familielid = {
+        persoonsgegevens: {
+            achternaam: $scope.lid.persoonsgegevens.achternaam
+          },
+        adressen: $scope.lid.adressen,
+        contacten: $scope.lid.contacten,
+        functies: []
+      }
+      console.log(familielid);
       $rootScope.familielid = familielid;
-      $scope.lid.changes = [];
+      console.log($scope.lid);
       $location.path("/lid/toevoegen");
     }
 
@@ -564,11 +561,9 @@
         $window.location.href = url;
       }
     }
-
-
-
-
-
-
+    // refresh of navigatie naar een andere pagina.
+    var unload = function (e) {
+       return "U staat op het punt deze pagina te verlaten, Niet opgeslagen aanpassingen zullen verloren gaan!!";
+    };
   }
 })();

@@ -109,7 +109,8 @@
         <legend>Contacten
           <div class="pull-right" ng-if="hasPermission('contacten')">
             <button ng-click="contactToevoegen()" class="btn-minimal" title="Contact toevoegen" ng-show="lid.contacten.length < 2"><span class="glyphicon glyphicon-plus"></span></button>
-          </div></legend>
+          </div>
+        </legend>
         <fieldset ng-repeat="contact in lid.contacten">
           <legend class="clearfix">
                 <div ng-if="contact.rol || contact.naam || contact.voornaam" class="pull-left">
@@ -162,7 +163,7 @@
              <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
              <div class="col-xs-7 col-xxs-12">
                <select  id="_adres" ng-model="contact.adres">
-                 <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" ng-selected="contact.adres = adres.id">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
+                 <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" ng-selected="contact.adres == adres.id">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
                </select>
              </div>
           </div>

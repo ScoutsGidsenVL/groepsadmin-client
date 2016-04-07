@@ -77,7 +77,7 @@
             <label for="_postadres" class="col-xs-5 col-xxs-12 control-label">Postadres</label>
             <div class="col-xs-7 col-xxs-12">
               <select id="_postadres" ng-model="postadres" ng-change="changePostadres(postadres)">
-                <option ng-repeat="adres in lid.adressen" value="{{adres.id}}">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
+                <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" ng-selected="adres.postadres">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
               </select>
             </div>
           </div>
@@ -212,7 +212,7 @@
             <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
             <div class="col-xs-7 col-xxs-12">
               <select id="_adres" ng-model="contact.adres">
-                <option ng-repeat="adres in lid.adressen" value="{{adres.id}}">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
+                <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" ng-selected="contact.adres == adres.id">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
               </select>
             </div>
           </div>

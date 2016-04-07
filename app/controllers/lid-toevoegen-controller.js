@@ -5,7 +5,7 @@
     .module('ga.lidtoevoegencontroller', ['ga.services.alert', 'ga.services.dialog'])
     .controller('LidToevoegenController', LidToevoegenController);
 
-  LidToevoegenController.$inject = ['$scope', '$location', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route'];
+  LidToevoegenController.$inject = ['$scope', '$location', '$window', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route'];
 
   function LidToevoegenController ($scope, $location, RestService, AlertService, DialogService, $rootScope, $route) {
 
@@ -39,12 +39,17 @@
       }
     }
 
+
+
     /*
     * Initialisatie van het nieuwe lid model
     * ---------------------------------------
     */
     var lid = {};
     lid.functies = [];
+    lid.changes = [];
+    lid.email = null;
+    lid.gebruikersnaam = null;
     lid.persoonsgegevens= {};
     lid.persoonsgegevens.verminderdlidgeld = false;
     lid.persoonsgegevens.beperking = false;
@@ -61,10 +66,10 @@
       // controle of er adressen e.d. aanwezig zijn. => temp id's geven.
       angular.forEach(lid.adressen, function(adres, key){
         angular.forEach(lid.contacten, function(contact, key){
-
             if(adres.id == contact.adres){
               contact.adres = tempAdresId;
             }
+            contact.id = key;
         });
         adres.id = tempAdresId;
         tempAdresId++;
@@ -74,6 +79,22 @@
     $scope.lid = lid;
 
 
+    function setChanges(newVal, oldVal, scope) {
+      if (newVal == oldVal) return;
+      sectie = this.exp.split(".").pop();
+      if($scope.lid.changes.indexOf(sectie) < 0) {
+        $scope.lid.changes.push(sectie);
+      }
+      $window.onbeforeunload = unload;
+    }
+
+
+
+
+
+    angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies'], function(value, key) {
+      $scope.$watch(value, setChanges, true);
+    });
 
     /*
     * Initialisatie van andere benodigdheden.
@@ -144,7 +165,6 @@
         $scope.lid.contacten.push(newcontact);
         tempContactId++;
       }
-
     }
 
 
@@ -365,7 +385,30 @@
     * page Change functionaliteit
     * ---------------------------------------
     */
+    // listener voor wanneer een gebruiker van pagina veranderd en er zijn nog openstaande aanpassingen.
+    $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
+      if($scope.lid.changes.length != 0){
+        event.preventDefault();
+        var paramObj = {
+              trueVal:newUrl
+        }
+        DialogService.new("Pagina verlaten","U staat op het punt om deze pagina te verlaten, niet opgeslagen aanpassignen zullen verloren gaan. Bent u zeker dat u wilt verdergaan?", $scope.locationChange, paramObj );
+      }
 
+    });
+
+    // return functie voor de bevestiging na het veranderen van pagina
+    $scope.locationChange = function(result, url){
+      if(result){
+        $scope.lid.changes = new Array();
+        $window.location.href = url;
+      }
+    }
+
+    // refresh of navigatie naar een andere pagina.
+    var unload = function (e) {
+       return "U staat op het punt deze pagina te verlaten, Niet opgeslagen aanpassingen zullen verloren gaan!!";
+    };
 
 
   }
