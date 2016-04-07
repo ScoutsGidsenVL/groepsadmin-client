@@ -9,6 +9,7 @@
 
   function RestService($resource, $cacheFactory) {
     var base = '/groepsadmin/rest-ga/';
+    var baseGis = '/groepsadmin/rest/gis/';
 
     return {
       Lid: $resource(
@@ -53,7 +54,18 @@
         base + 'ledenlijst/filter',
         {},
         {'get': {method: 'GET', cache: false}}
+      ),
+      Gemeente: $resource(
+        baseGis + 'gemeente?term=:zoekterm',
+        {zoekterm: '@zoekterm'},
+        {'get': {method: 'GET', cache: false}}
+      ),
+      Code: $resource(
+        baseGis + 'code?term=:zoekterm&postcode=:postcode',
+        {zoekterm: '@zoekterm', postcode: '@postcode'},
+        {'query': {method: 'GET', isArray:true, cache: false}}
       )
+
 
     }
   }

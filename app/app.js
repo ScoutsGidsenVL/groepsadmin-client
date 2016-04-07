@@ -13,7 +13,6 @@
     'ga.dynamischveld',
     'ga.dynamischevelden',
     'ga.searchcontroller',
-    'ga.typeahead',
     'ga.ui.selectpicker',
     'ga.ui.alert',
     'ga.ui.dialog',

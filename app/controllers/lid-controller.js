@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog'])
+    .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('LidController', LidController);
 
   LidController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope'];
@@ -207,7 +207,6 @@
         postadres: false,
         omschrijving: "",
         id: 'tempadres' + tempAdresId,
-        giscode: Math.floor((Math.random() * 100) + 1).toString(), //temp random giscode
         bus: ''
       }
       tempAdresId++;
@@ -246,6 +245,46 @@
 
 
     }
+
+    // zoek gemeentes
+    $scope.zoekGemeente = function(zoekterm){
+      var resultaatGemeentes = [];
+      return RestService.Gemeente.get({zoekterm:zoekterm, token:1}).$promise.then(
+          function(result){
+            angular.forEach(result, function(val){
+              if(typeof val == 'string'){
+                resultaatGemeentes.push(val);
+              }
+            });
+            return resultaatGemeentes;
+        });
+    }
+
+    // gemeente opslaan in het adres
+    $scope.bevestigGemeente = function(item, adres) {
+      adres.postcode = item.substring(0,4);
+      adres.gemeente = item.substring(5);
+    };
+
+    // zoek straten en giscodes
+    $scope.zoekStraat = function(zoekterm, adres){
+      var resultaatStraten = [];
+      return RestService.Code.query({zoekterm:zoekterm, postcode: adres.postcode}).$promise.then(
+          function(result){
+            angular.forEach(result, function(val){
+                resultaatStraten.push(val);
+            });
+            return resultaatStraten;
+        });
+    }
+
+    // straat en giscode opslaan in het adres
+    $scope.bevestigStraat = function(item, adres) {
+      adres.straat = item.straat;
+      adres.giscode = item.code;
+
+    };
+
 
     /*
     * Groepseigengegevens

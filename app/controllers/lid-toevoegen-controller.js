@@ -173,7 +173,7 @@
       lid.adressen.push(newadres);
     }
 
-    // een aders wissen in het lid model
+    // een adres wissen in het lid model
     $scope.deleteAdres = function(adresID){
       var wisindex;
       //controle wissen postadres
@@ -199,10 +199,49 @@
           }
         }
       });
-
-
     }
-     /*
+
+    // zoek gemeentes
+    $scope.zoekGemeente = function(zoekterm){
+      var resultaatGemeentes = [];
+      return RestService.Gemeente.get({zoekterm:zoekterm, token:1}).$promise.then(
+          function(result){
+            angular.forEach(result, function(val){
+              if(typeof val == 'string'){
+                resultaatGemeentes.push(val);
+              }
+            });
+            return resultaatGemeentes;
+        });
+    }
+
+    // gemeente opslaan in het adres
+    $scope.bevestigGemeente = function(item, adres) {
+      adres.postcode = item.substring(0,4);
+      adres.gemeente = item.substring(5);
+    };
+
+    // zoek straten en giscodes
+    $scope.zoekStraat = function(zoekterm, adres){
+      var resultaatStraten = [];
+      return RestService.Code.query({zoekterm:zoekterm, postcode: adres.postcode}).$promise.then(
+          function(result){
+            angular.forEach(result, function(val){
+                resultaatStraten.push(val);
+            });
+            return resultaatStraten;
+        });
+    }
+
+    // straat en giscode opslaan in het adres
+    $scope.bevestigStraat = function(item, adres) {
+      adres.straat = item.straat;
+      adres.giscode = item.code;
+
+    };
+
+
+    /*
     * Functies
     * ---------------------------------------
     */

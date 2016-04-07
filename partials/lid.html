@@ -206,25 +206,26 @@
                 </select>
               </div>
             </div>
+
             <div class="form-group" ng-hide="!showme">
               <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
               <div class="col-xs-2 col-xxs-2">
-                <input type="text" class="form-control" id="_postcode" maxlength="4" ng-model="adres.postcode" placeholder="Postcode" ng-disabled="!hasPermission('adressen')"/>
+                <input type="text" class="form-control" id="_postcode" maxlength="4" ng-model="adres.postcode" placeholder="Postcode" id="_postcode" ng-disabled="!hasPermission('adressen')" typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)"/>
               </div>
               <div class="col-xs-5 col-xxs-12">
-                <input type="text" class="form-control" id="_woonplaats" ng-model="adres.gemeente" ng-disabled="!hasPermission('adressen')"/>
+                <input type="text" class="form-control" ng-disabled="!hasPermission('adressen')" placeholder="Woonplaats" id="_gemeente" ng-model="adres.gemeente" typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)"/>
               </div>
             </div>
             <div class="form-group" ng-hide="!showme">
               <label for="_straatnaam" class="col-xs-5 col-xxs-12 control-label">Straat</label>
               <div class="col-xs-5 col-xxs-12">
-                <input type="text" class="form-control" id="_straatnaam" ng-model="adres.straat" ng-disabled="!hasPermission('adressen')"/>
+                <input type="text" class="form-control" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"  placeholder="Straatnaam" id="_straatnaam" ng-model="adres.straat" typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres)"  typeahead-on-select="bevestigStraat($item, adres)"/>
               </div>
               <div class="col-xs-1 col-xxs-12">
-                <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="adres.nummer" placeholder="Nr." ng-disabled="!hasPermission('adressen')"/>
+                <input type="text" class="form-control" id="_straatnummer" maxlength="5" ng-model="adres.nummer"  placeholder="Nr." ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
               </div>
               <div class="col-xs-1 col-xxs-12">
-                <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-disabled="!hasPermission('adressen')"/>
+                <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
               </div>
             </div>
             <div class="form-group" ng-hide="!showme">
@@ -287,7 +288,7 @@
             <fieldset class="ga-functie-list">
               <section class="clearfix">
                 <legend>
-                  Verbonds functies
+                  Verbondsfuncties
                   <div class="pull-right" ng-init="showverbondfuncties=true;">
                     <button ng-click="showverbondfuncties=true" ng-hide="showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
                     <button ng-click="showverbondfuncties=false" ng-hide="!showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
