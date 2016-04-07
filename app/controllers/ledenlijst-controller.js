@@ -44,9 +44,9 @@
       if ($scope.busy) return;
       $scope.busy = true;
       // voorkom dat er request gedaanworden wanneer alle resultaaten geladen zijn
-      if($scope.leden.length !== $scope.totaalAantalLeden-1){
+      if($scope.leden.length !== $scope.totaalAantalLeden){
         console.log("nieuwe leden ophalen");
-        RestService.Leden.get({aantal: $scope.aantalPerPagina, offset: ($scope.leden.length == 0) ? 0 : ($scope.leden.length+1) }).$promise.then(
+        RestService.Leden.get({aantal: $scope.aantalPerPagina, offset: ($scope.leden.length == 0) ? 0 : ($scope.leden.length) }).$promise.then(
           function (response) {
             // voeg de leden toe aan de leden Array;
             $scope.leden.push.apply($scope.leden,response.leden);
