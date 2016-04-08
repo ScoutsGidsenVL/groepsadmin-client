@@ -23,9 +23,9 @@
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand visible-md-block visible-lg-block" href="#"><img src="img/logo.png" alt="Groepsadministratie Scouts en Gidsen Vlaanderen logo" width="50" height="64" /></a>
+        <a class="navbar-brand visible-md-block visible-lg-block" href="#/"><img src="img/logo.png" alt="Groepsadministratie Scouts en Gidsen Vlaanderen logo" width="50" height="64" /></a>
         <ul class="nav navbar-nav">
-          <li class="active"><a href="/">
+          <li class="active"><a href="#/">
             <span class="glyphicon glyphicon-user"></span>&nbsp; <span class="hidden-xs">Leden</span>
           </a></li>
           <li><a href="#/groepsinstellingen">
@@ -35,23 +35,14 @@
             <span class="glyphicon glyphicon-stats"></span>&nbsp; <span class="hidden-xs">Orakel</span>
           </a></li>
         </ul>
-        <!--
+        <!-- Zoekveld -->
         <div class="navbar-form navbar-left" ng-controller="SearchController" role="search">
-          <div typeahead class="dropdown" query="zoekLid(input)" term="input" items="results" action="gotoLid(item)" >
+          <div class="col-xs-7 col-xxs-2">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Zoeken" ng-model="input">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-              </span>
+              <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" uib-typeahead="lid for lid in zoekLeden($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"/>
             </div>
-            <ul id="autocomplete" class="autocomplete dropdown-menu" ng-cloak>
-              <li ng-repeat="lid in results" typeahead-item="lid">
-                <a href>{{lid.voornaam + ' ' + lid.achternaam}}<span class="pull-right">{{lid.geboortedatum}}</span></a>
-              </li>
-            </ul>
           </div>
         </div>
-        -->
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a href="" class="dropdown-toggle" data-toggle="dropdown">

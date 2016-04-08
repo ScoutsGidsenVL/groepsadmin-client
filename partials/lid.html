@@ -210,13 +210,13 @@
             <div class="form-group" ng-hide="!showme">
               <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
               <div class="col-xs-7 col-xxs-2">
-                <input type="text" class="form-control" ng-init="gemeenteWrap = adres.postcode + ' ' + adres.gemeente" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)"/>
+                <input type="text" class="form-control" ng-init="gemeenteWrap = adres.postcode + ' ' + adres.gemeente" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" typeahead-show-hint="true"/>
               </div>
             </div>
             <div class="form-group" ng-hide="!showme">
               <label for="_straatnaam" class="col-xs-5 col-xxs-12 control-label">Straat</label>
               <div class="col-xs-5 col-xxs-12">
-                <input type="text" class="form-control" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"  placeholder="Straatnaam" id="_straatnaam" ng-model="adres.straat" uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres) "  typeahead-on-select="bevestigStraat($item, adres)"/>
+                <input type="text" class="form-control" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"  placeholder="Straatnaam" id="_straatnaam" ng-model="adres.straat" uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres) "  typeahead-on-select="bevestigStraat($item, adres)" typeahead-show-hint="true"/>
               </div>
               <div class="col-xs-1 col-xxs-12">
                 <input type="text" class="form-control" id="_huisnummer" maxlength="5" ng-model="adres.nummer"  placeholder="Nr." ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
