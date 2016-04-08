@@ -303,9 +303,6 @@
     * ---------------------------------------
     */
 
-
-
-
     // functie meteen stop zetten.
     $scope.stopFunctie = function(functie) {
       var lid = {
@@ -561,6 +558,7 @@
     // return functie voor de bevestiging na het veranderen van pagina
     $scope.locationChange = function(result, url){
       if(result){
+        $window.onbeforeunload = null;
         $scope.lid.changes = new Array();
         $window.location.href = url;
       }
