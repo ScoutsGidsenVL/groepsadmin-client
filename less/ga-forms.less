@@ -17,13 +17,18 @@
 
 fieldset {
   margin-bottom: 2em;
-  fieldset{
+  fieldset {
     margin-bottom: 0;
+    legend {
+      text-transform: capitalize;
+      border-bottom: 1px solid @gray-lighter;
+      font-size: @font-size-base;
+    }
   }
 }
 
 legend {
-  font-size: @font-size-base;
+  font-size: floor((@font-size-base * 1.20));
   font-weight: 700;
   text-transform: uppercase;
   color: @gray-semi-dark;
@@ -136,6 +141,7 @@ legend {
     float: left;
     width: 100%;
     border-bottom: 1px solid #e0e0e0;
+
     .transition(~"background-color ease-in-out .15s");
 
     // Note: the following block could be simplified if IE8 supported the ':not()' pseudo-class
@@ -155,6 +161,9 @@ legend {
         border-color: transparent;
       }
     }
+  }
+  .ga-functie-list {
+    padding-left: 20px;
   }
 
   .control-label {
