@@ -1,0 +1,20 @@
+{
+  "name": "Groepsadministratie",
+  "description": "Front end van de nieuwe groepsadministratie",
+  "main": "",
+  "authors": [
+    "Steven Aerts <steven.aerts@gmail.com>"
+  ],
+  "homepage": "https://github.com/ScoutsGidsenVL/groepsadmin-client",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "keycloak": "^1.9.1"
+  }
+}

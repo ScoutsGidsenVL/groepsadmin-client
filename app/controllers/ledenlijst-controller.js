@@ -1,27 +1,74 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ga.ledenlijstcontroller', [])
     .controller('LedenlijstController', LedenlijstController);
 
-  LedenlijstController.$inject = ['$scope', 'RestService'];
+  LedenlijstController.$inject = ['$scope', 'RestService', '$window'];
 
-  function LedenlijstController($scope, RestService) {
-      $scope.opgeslagenFilters = [
-        {naam: "Export", label:"Persoonlijke filters"},
-        {naam: "Wanbetalers", label: "Persoonlijke filters"},
-        {naam: "Leden met geblokkeerd adres", label: "Standaard filters"}
-      ];
-      $scope.currentFilter = $scope.opgeslagenFilters[1];
-      $scope.isFilterCollapsed = true;
+  function LedenlijstController($scope, RestService, $window) {
+    // opgeslagen filters ophalen
+    RestService.Filters.get().$promise.then(
+      function (response) {
+        $scope.opgeslagenFilters = response;
+      },
+      function (error) {
+      }
+    );
+    // huidige filter ophalen
+    RestService.FilterDetails.get({id: 'huidige'}).$promise.then(
+      function (response) {
+        $scope.currentFilter = response;
+      },
+      function (error) {
+      }
+    );
 
-      //$scope.leden = RestService.Leden.query();
-      $scope.leden = [
-        {id: "d5f75b320db2ee17010db33666f86d46", lidnummer: "1988110903791 ", voornaam: "Wouter", achternaam: "Synhaeve", postcode: "8530", gemeente: "Harelbeke", straat: "Stasegemsesteenweg", nummer: "27"},
-        {id: "profiel", lidnummer: "1989080400123", voornaam: "Kawtar", achternaam: "Tel", postcode: "2547", gemeente: "Lint", straat: "Lambrechtstraat", nummer: "28"},
-        {id: "profiel", lidnummer: "1994071000685", voornaam: "Georgino", achternaam: "Mijnen", postcode: "3530", gemeente: "Houthalen-Helchteren", straat: "Lambrechtstraat", nummer: "64"},
-        {id: "profiel", lidnummer: "1991112000453", voornaam: "Juriën", achternaam: "Erkens", postcode: "2580", gemeente: "Putte", straat: "Oostjachtpark", nummer: "393"}
-      ];
+    $scope.isFilterCollapsed = true;
+
+    // controle moet er meer gelanden worden
+    $scope.meerLaden = function(last){
+      if(last && $(window).height() > $("#leden").height()){
+        $scope.nextPage();
+      }
     }
+
+
+
+    $scope.busy = false;
+    $scope.end = false
+    $scope.aantalPerPagina = 10
+    $scope.leden = [];
+    $scope.nextPage = function(){
+      if ($scope.busy) return;
+      $scope.busy = true;
+      // voorkom dat er request gedaanworden wanneer alle resultaaten geladen zijn
+      if($scope.leden.length !== $scope.totaalAantalLeden){
+        console.log("nieuwe leden ophalen");
+        RestService.Leden.get({aantal: $scope.aantalPerPagina, offset: ($scope.leden.length == 0) ? 0 : ($scope.leden.length) }).$promise.then(
+          function (response) {
+            // voeg de leden toe aan de leden Array;
+            $scope.leden.push.apply($scope.leden,response.leden);
+            console.log($scope.leden.length);
+            $scope.totaalAantalLeden = response.totaal;
+            $scope.offset = response.offset;
+            $scope.busy = false;
+          },
+          function (error) {
+          }
+        );
+      }
+      else{
+        $scope.busy = false;
+        $scope.end = true;
+      }
+    }
+    // controle on resize
+    angular.element($window).bind('resize', function () {
+      if($(window).height() > $("#leden").height() && !$scope.busy){
+        $scope.nextPage();
+      }
+    });
+  }
 })();

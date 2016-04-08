@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -10,10 +10,15 @@
   function configure($routeProvider, $locationProvider) {
     // Configure the routes
     $routeProvider
-      // Leden tabel
+    // Leden tabel
       .when('/', {
         templateUrl: 'partials/leden.html',
         controller: 'LedenlijstController'
+      })
+      // Lid toevoegen
+      .when('/lid/toevoegen', {
+        templateUrl: 'partials/lid-toevoegen.html',
+        controller: 'LidToevoegenController'
       })
       // Lid detailpagina
       .when('/lid/:id', {
@@ -22,8 +27,8 @@
       })
       // Groepsinstellingen
       .when('/groepsinstellingen', {
-        templateUrl: 'partials/groepsinstellingen.html'/*,
-        controller: 'GroepsinstellingenController'*/
+        templateUrl: 'partials/groepsinstellingen.html'
+          /*controller: 'GroepsinstellingenController'*/
       })
       .otherwise({
         redirectTo: '/'

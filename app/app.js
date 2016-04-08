@@ -8,13 +8,17 @@
     'ga.services.alert',
     'ga.ledenlijstcontroller',
     'ga.lidcontroller',
+    'ga.lidtoevoegencontroller',
     'ga.lid.velden',
+    'ga.dynamischveld',
+    'ga.dynamischevelden',
     'ga.searchcontroller',
-    'ga.typeahead',
     'ga.ui.selectpicker',
     'ga.ui.alert',
+    'ga.ui.dialog',
     'ui.bootstrap',
-    'ga.utils'
+    'ga.utils',
+    'infinite-scroll'
   ]);
 
 

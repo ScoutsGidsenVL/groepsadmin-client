@@ -6,7 +6,7 @@
   </div>
 
   <div class="pull-right">
-    <a href="#" class="btn-minimal"><span class="glyphicon glyphicon-plus"></span>&nbsp; Nieuw lid toevoegen</a>
+    <a href="#/lid/toevoegen" class="btn-minimal"><span class="glyphicon glyphicon-plus"></span>&nbsp; Nieuw lid toevoegen</a>
     <a  data-toggle="modal" href="#exportModal" class="btn-minimal"><span class="glyphicon glyphicon-share-alt"></span>&nbsp; Exporteren</a>
   </div>
 </div>
@@ -111,30 +111,30 @@
 </div>
 
 <!-- Table -->
-<table id="leden" class="table table-responsive table-hover">
+<table id="leden" class="table table-responsive table-hover" infinite-scroll="nextPage()" infinite-scroll-disabled="(busy || end )" infinite-scroll-distance="1" infinite-scroll-immediate-check="true">
   <thead>
     <tr>
-      <th>Lidnummer</th><th>Voornaam</th><th>Achternaam</th><th>Straat</th><th>Nr</th><th>Postcode</th><th>Gemeente</th>
+      <th ng-repeat="kolom in currentFilter.kolommen">{{ kolom.label }}</th>
     </tr>
   </thead>
   <tbody>
-    <tr class="" ng-repeat="lid in leden" ga-lid="{{lid.id}}">
-      <td>{{lid.lidnummer}}</td>
-      <td>{{lid.voornaam}}</td>
-      <td>{{lid.achternaam}}</td>
-      <td>{{lid.straat}}</td>
-      <td>{{lid.nummer}}</td>
-      <td>{{lid.postcode}}</td>
-      <td>{{lid.gemeente}}</td>
+    <tr  ng-repeat="lid in leden" ga-lid="{{lid.id}}" ng-init="meerLaden($last)" >
+      <td ng-repeat="kolom in currentFilter.kolommen">
+        <div class="fade-in slide-in">{{lid.waarden[$index]}}</div>
+      </td>
       <td class="t-caret" role="button"><span class="caret"></span></td>
     </tr>
   </tbody>
 </table>
+<footer class="panel-footer clearfix" in-view="test($inview)">
+  <div ng-show='busy && !end ' class="loading" in-view="test($inview)"><i class="fa fa-spinner fa-pulse"></i>Leden aan het ophalen... </div>
+</footer>
 
 <!-- Panel footer -->
+<!--
 <footer class="panel-footer clearfix">
-  <small class="pagination-info pull-left">1 tot 12 van 118</small>
-  <ul class="pagination pull-right">
+  <small class="pagination-info pull-left">{{ offset + 1 }} tot {{ offset + aantalPerPagina }} van {{ totaalAantalLeden }}</small>
+  <ul class="pagination pull-right" >
     <li><a href="#">«</a></li>
     <li><a href="#">1</a></li>
     <li><a href="#">2</a></li>
@@ -144,3 +144,4 @@
     <li><a href="#">»</a></li>
   </ul>
 </footer>
+-->

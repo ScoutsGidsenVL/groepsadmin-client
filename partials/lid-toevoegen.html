@@ -1,15 +1,8 @@
 <!-- Panel header -->
 <div class="panel-heading clearfix">
   <div class="pull-left">
-    <h1 class="panel-title" ng-bind="lid.persoonsgegevens.voornaam + ' ' + lid.persoonsgegevens.achternaam"></h1>
-    <p class="panel-subtitle" ng-bind="lid.verbondsgegevens.lidnummer"></p>
+    <h1 class="panel-title">Nieuw lid</h1>
   </div>
-  <!--
-  <div class="pull-right btn-group">
-      <button class="btn btn-default" title="vorig lid"><span class="glyphicon glyphicon-chevron-left"></span></button>
-      <button class="btn btn-default" title="volgend lid"><span class="glyphicon glyphicon-chevron-right"></span></button>
-  </div>
--->
 </div>
 
 <!-- Persoonsinfo -->
@@ -23,19 +16,19 @@
           <div class="form-group">
             <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input  type="text" class="form-control" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam" ng-disabled="!hasPermission('persoonsgegevens')"/>
+              <input type="text" class="form-control" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam" />
             </div>
           </div>
           <div class="form-group">
             <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input  type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam" ng-disabled="!hasPermission('persoonsgegevens')"/>
+              <input type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam" />
             </div>
           </div>
           <div class="form-group">
             <label for="_geslacht" class="col-xs-5 col-xxs-12 control-label">Geslacht</label>
             <div class="col-xs-7 col-xxs-12">
-              <select class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht" ng-disabled="!hasPermission('persoonsgegevens')">
+              <select class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht">
                 <option value="man">Mannelijk</option>
                 <option value="vrouw">Vrouwelijk</option>
               </select>
@@ -45,137 +38,59 @@
             <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
             <div class="col-xs-7 col-xxs-12">
               <!-- fix date-parse -->
-              <input type="date" class="form-control" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date ng-disabled="!hasPermission('persoonsgegevens')"/>
+              <input type="date" class="form-control" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date/>
             </div>
           </div>
           <label class="form-group control checkbox">
             <div class="col-xs-5 col-xxs-12 control-label">Persoon met beperking</div>
             <div class="col-xs-7 col-xxs-12">
-              <input type="checkbox" class="" id="_beperking" ng-model="lid.persoonsgegevens.beperking" ng-disabled="!hasPermission('persoonsgegevens')"/>
+              <input type="checkbox" class="" id="_beperking" ng-model="lid.persoonsgegevens.beperking" />
               <span class="control-indicator"></span>
             </div>
           </label>
           <label class="form-group control checkbox">
             <div class="col-xs-5 col-xxs-12 control-label">Verminderd lidgeld</div>
             <div class="col-xs-7 col-xxs-12">
-              <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.persoonsgegevens.verminderdlidgeld" ng-disabled="!hasPermission('persoonsgegevens')"/>
+              <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.persoonsgegevens.verminderdlidgeld" />
               <span class="control-indicator"></span>
             </div>
           </label>
           <div class="form-group">
-            <label for="_gebruikersnaam" class="col-xs-5 col-xxs-12 control-label">Gebruikersnaam</label>
-            <div class="col-xs-7 col-xxs-12">
-              <p>{{ lid.gebruikersnaam }}</p>
-             <!-- <input type="text" class="form-control" id="_gebruikersnaam" ng-model="lid.gebruikersnaam" ng-disabled="true"/> -->
-            </div>
-          </div>
-          <div class="form-group" ng-class="{ 'readonly' : !hasPermission('email') }">
             <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_email" ng-model="lid.email" ng-disabled="!hasPermission('email')"/>
+              <input type="text" class="form-control" id="_email" ng-model="lid.email" />
             </div>
           </div>
           <div class="form-group">
             <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm" ng-disabled="!hasPermission('persoonsgegevens')"/>
+              <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm" />
             </div>
           </div>
           <div class="form-group">
             <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" ng-disabled="!hasPermission('persoonsgegevens')"/>
+              <input type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" />
             </div>
           </div>
-          <label class="form-group control checkbox">
-            <div class="col-xs-5 col-xxs-12 control-label">Lidgeld betaald</div>
-            <div class="col-xs-7 col-xxs-12">
-              <input type="checkbox" class="" id="_lidgeldbetaald" ng-model="lid.verbondsgegevens.lidgeldbetaald" ng-disabled="!hasPermission('persoonsgegevens')"/>
-              <span class="control-indicator"></span>
-            </div>
-          </label>
           <div class="form-group">
             <label for="_postadres" class="col-xs-5 col-xxs-12 control-label">Postadres</label>
             <div class="col-xs-7 col-xxs-12">
-              <select  id="_postadres" ng-model="postadres" ng-change="changePostadres(postadres)" ng-disabled="!hasPermission('persoonsgegevens')">
+              <select id="_postadres" ng-model="postadres" ng-change="changePostadres(postadres)">
                 <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" ng-selected="adres.postadres">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
               </select>
             </div>
           </div>
         </fieldset>
       </section>
-      <!-- Contacten -->
-      <section>
-        <legend>Contacten
-          <div class="pull-right" ng-if="hasPermission('contacten')">
-            <button ng-click="contactToevoegen()" class="btn-minimal" title="Contact toevoegen" ng-show="lid.contacten.length < 2"><span class="glyphicon glyphicon-plus"></span></button>
-          </div>
-        </legend>
-        <fieldset ng-repeat="contact in lid.contacten">
-          <legend class="clearfix">
-                <div ng-if="contact.rol || contact.naam || contact.voornaam" class="pull-left">
-                  {{ contact.voornaam }} {{ contact.achternaam }}
-                </div>
-                <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left" >
-                  Nieuw contact
-                </div>
-                <div class="pull-right" ng-init="showme = false; " class="pull-left">
-                  <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span></button>
-                  <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span></button>
-                  <button ng-click="deleteContact(contact.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
-                </div>
-            </legend>
-          <div class="form-group" ng-hide="!showme">
-            <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
-            <div class="col-xs-7 col-xxs-12">
-              <select class="selectpicker" id="_rol" ng-model="contact.rol" >
-                <option value="vader">Vader</option>
-                <option value="moeder">Moeder</option>
-                <option value="voogd">Voogd</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group" ng-hide="!showme">
-            <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
-            <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_voornaam" ng-model="contact.voornaam"/>
-            </div>
-          </div>
-          <div class="form-group" ng-hide="!showme">
-            <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
-            <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_naam" ng-model="contact.achternaam"/>
-            </div>
-          </div>
-          <div class="form-group" ng-hide="!showme">
-            <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
-            <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_email" ng-model="contact.email"/>
-            </div>
-          </div>
-          <div class="form-group" ng-hide="!showme">
-            <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
-            <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_gsm" ng-model="contact.gsm" />
-            </div>
-          </div>
-          <div class="form-group" ng-hide="!showme">
-             <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
-             <div class="col-xs-7 col-xxs-12">
-               <select  id="_adres" ng-model="contact.adres">
-                 <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" ng-selected="contact.adres == adres.id">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
-               </select>
-             </div>
-          </div>
-        </fieldset>
-      </section>
+
     </div>
     <div class="col-lg-4 col-sm-6 col-xs-12">
       <!-- Adressen -->
       <section>
          <legend >
           Adressen
-           <div class="pull-right" ng-if="hasPermission('adressen')">
+           <div class="pull-right">
             <button ng-click="addAdres()" class="btn-minimal" title="Adres toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
           </div>
         </legend>
@@ -191,13 +106,13 @@
                 <div class="pull-right" ng-init="showme = (adres.postadres == true) ? true : false; " class="pull-left">
                   <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span></button>
                   <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span></button>
-                  <button ng-click="deleteAdres(adres.id)" class="btn-minimal" ng-if="hasPermission('adressen')"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
+                  <button ng-click="deleteAdres(adres.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
                 </div>
             </legend>
             <div class="form-group" ng-hide="!showme">
               <label for="_land" class="col-xs-5 col-xxs-12 control-label">Land</label>
               <div class="col-xs-7 col-xxs-12">
-                <select class="selectpicker" id="_land" ng-model="adres.land" ng-disabled="!hasPermission('adressen')">
+                <select class="selectpicker" id="_land" ng-model="adres.land">
                   <option value="BE">België</option>
                   <option value="DE">Duitsland</option>
                   <option value="FR">Frankrijk</option>
@@ -207,7 +122,6 @@
                 </select>
               </div>
             </div>
-
             <div class="form-group" ng-hide="!showme">
               <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
               <div class="col-xs-2 col-xxs-2">
@@ -232,64 +146,118 @@
             <div class="form-group" ng-hide="!showme">
               <label for="_telefoon" class="col-xs-5 col-xxs-12 control-label">Telefoon</label>
               <div class="col-xs-7 col-xxs-12">
-                <input type="text" class="form-control" id="_telefoon" maxlength="15" ng-model="adres.telefoon" ng-disabled="!hasPermission('adressen')"/>
+                <input type="text" class="form-control" id="_telefoon" maxlength="15" ng-model="adres.telefoon"/>
               </div>
             </div>
-            <!--
-            <div class="form-group readonly" ng-hide="!showme">
-              <label for="_adresstatus" class="col-xs-5 col-xxs-12 control-label">Status <span class="glyphicon glyphicon-question-sign" title="Geblokkeerd: dit adres is geblokeerd - Overleden: deze persoon is overleden - Extra: deze persoon ontvangt een eigen Over&Weer"></span></label>
-              <div class="col-xs-7 col-xxs-12">
-                <input type="text" class="form-control" id="_adresstatus" readonly ng-model="adres.status" />
-              </div>
-            </div>
-            -->
           </fieldset>
         </fieldset>
       </section>
 
+      <!-- Contacten -->
+      <section>
+        <legend>Contacten
+          <div class="pull-right">
+            <button ng-click="contactToevoegen()" class="btn-minimal" title="Contact toevoegen" ng-show="lid.contacten.length < 2"><span class="glyphicon glyphicon-plus"></span></button>
+          </div>
+        </legend>
+        <fieldset ng-repeat="contact in lid.contacten">
+          <legend class="clearfix">
+            <div ng-if="contact.rol || contact.naam || contact.voornaam" class="pull-left">
+              {{ contact.voornaam }} {{ contact.achternaam }}
+            </div>
+            <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left">
+              Nieuw contact
+            </div>
+            <div class="pull-right" ng-init="showme = false; " class="pull-left">
+              <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span></button>
+              <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span></button>
+              <button ng-click="deleteContact(contact.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
+            </div>
+          </legend>
+          <div class="form-group" ng-hide="!showme">
+            <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
+            <div class="col-xs-7 col-xxs-12">
+              <select class="selectpicker" id="_rol" ng-model="contact.rol">
+                <option value="vader">Vader</option>
+                <option value="moeder">Moeder</option>
+                <option value="voogd">Voogd</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" ng-hide="!showme">
+            <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
+            <div class="col-xs-7 col-xxs-12">
+              <input type="text" class="form-control" id="_voornaam" ng-model="contact.voornaam" />
+            </div>
+          </div>
+          <div class="form-group" ng-hide="!showme">
+            <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
+            <div class="col-xs-7 col-xxs-12">
+              <input type="text" class="form-control" id="_naam" ng-model="contact.achternaam" />
+            </div>
+          </div>
+          <div class="form-group" ng-hide="!showme">
+            <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
+            <div class="col-xs-7 col-xxs-12">
+              <input type="text" class="form-control" id="_email" ng-model="contact.email" />
+            </div>
+          </div>
+          <div class="form-group" ng-hide="!showme">
+            <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
+            <div class="col-xs-7 col-xxs-12">
+              <input type="text" class="form-control" id="_gsm" ng-model="contact.GSM" />
+            </div>
+          </div>
+          <div class="form-group" ng-hide="!showme">
+            <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
+            <div class="col-xs-7 col-xxs-12">
+              <select id="_adres" ng-model="contact.adres">
+                <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" ng-selected="contact.adres == adres.id">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+      </section>
+
+
+
       <!-- Groepseigen gegevens -->
+      <!--
       <section>
         <fieldset>
           <legend>Groepseigen gegevens</legend>
-          <fieldset ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden">
-            <legend>{{ key }} {{ groepenlijst[key].naam }}
+          <fieldset ng-repeat="groepFuncties in groepEnfuncties" ng-show="hasPermission('groepseigen.' + groepFuncties.groepsnummer)">
+
+           <legend>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
               <div class="pull-right" ng-init="showgroepseigenvelden=true;">
                 <button ng-click="showgroepseigenvelden=true" ng-hide="showgroepseigenvelden" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
                 <button ng-click="showgroepseigenvelden=false" ng-hide="!showgroepseigenvelden" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
               </div>
             </legend>
-            <fieldset class="ga-functie-list" ng-if="groepseigenVeldenVerzameling.schema.length > 0">
-              <dynamischveldcolectie waarden="groepseigenVeldenVerzameling.waarden" velden="groepseigenVeldenVerzameling.schema" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
+            <fieldset class="ga-functie-list" ng-if="lid.groepseigenVelden[groepFuncties.groepsnummer].schema.length > 0">
+              <dynamischveldcolectie waarden="lid.groepseigenVelden[groepFuncties.groepsnummer].waarden" velden="lid.groepseigenVelden[groepFuncties.groepsnummer].schema" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
             </fieldset>
-            <fieldset class="ga-functie-list" ng-if="groepseigenVeldenVerzameling.schema.length == 0">
+            <fieldset class="ga-functie-list" ng-if="lid.groepseigenVelden[groepFuncties.groepsnummer].schema.length == 0">
               <legend ng-show="!showgroepseigenvelden">Geen groepseigen gegevens in deze groep</legend>
             </fieldset>
+
           </fieldset>
         </fieldset>
       </section>
+      -->
     </div>
     <div class="col-lg-4 col-sm-6 col-xs-12">
       <!-- Functies -->
       <section>
         <fieldset>
-          <legend>Functies</legend>
-          <ga-functie class="form-group" ng-repeat="fn in lid.functies | collapsedFilter:isFunctiesCollapsed | filter:{temp:'!tijdelijk'}" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie" patch-secties="patchObj.secties">
-          </ga-functie>
-          <div class="text-center">
-            <a class="btn btn-link" href ng-click="isFunctiesCollapsed = !isFunctiesCollapsed">{{isFunctiesCollapsed ? "Functiehistoriek weergeven" : "Functiehistoriek verbergen"}}</a>
-          </div>
-        </fieldset>
-      </section>
-      <section>
-        <fieldset ng-show="showFunctieToevoegen">
           <legend>Functies toevoegen</legend>
           <fieldset ng-repeat="groepFuncties in groepEnfuncties" ng-show="hasPermission('functies.' + groepFuncties.groepsnummer)">
-            <legend>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
+            <legend >{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
             </legend>
-            <fieldset class="ga-functie-list">
+            <fieldset class="ga-functie-list" >
               <section class="clearfix">
                 <legend>
-                  Verbondsfuncties
+                  Verbonds functies
                   <div class="pull-right" ng-init="showverbondfuncties=true;">
                     <button ng-click="showverbondfuncties=true" ng-hide="showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
                     <button ng-click="showverbondfuncties=false" ng-hide="!showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
@@ -299,7 +267,7 @@
                   <label class="col-md-6 form-group control checkbox" >
                     <div class="col-xs-11 col-xxs-11 control-label">{{ groepFunctie.beschrijving }}</div>
                     <div class="col-xs-1 col-xxs-1">
-                      <input type="checkbox" class="" ng-init="status='add';" ng-click="status = functieToevoegen(groepFuncties.groepsnummer,groepFunctie.id, status)" ng-disabled="!hasPermission('functieInstanties.' + groepFuncties.groepsnummer)"/>
+                      <input type="checkbox" class="" ng-init="status='add';" ng-click="status = functieToevoegen(groepFuncties.groepsnummer,groepFunctie.id, status)"/>
                       <span class="control-indicator"></span>
                     </div>
                   </label>
@@ -318,7 +286,7 @@
                   <label class="col-md-6 form-group control checkbox ga-functie-list">
                     <div class="col-xs-11 col-xxs-11 control-label">{{ groepFunctie.beschrijving }}</div>
                     <div class="col-xs-1 col-xxs-1">
-                      <input type="checkbox" class="" ng-init="status='add';" ng-click="status = functieToevoegen(groepFuncties.groepsnummer,groepFunctie.id, status)" ng-disabled="!hasPermission('functieInstanties.' + groepFuncties.groepsnummer)"/>
+                      <input type="checkbox" class="" ng-init="status='add';" ng-click="status = functieToevoegen(groepFuncties.groepsnummer,groepFunctie.id, status)"/>
                       <span class="control-indicator"></span>
                     </div>
                   </label>
@@ -328,7 +296,6 @@
           </fieldset>
         </fieldset>
       </section>
-
     </div>
   </div>
 </div>
@@ -337,16 +304,12 @@
 <footer class="panel-footer clearfix">
   <ul class="pagination pull-left responsive-footer">
     <li><a href="" ng-click="opslaan()">Opslaan</a></li>
-    <li><a href="" ng-click="schrap()">Stop alle functies</a></li>
     <li><a href="" ng-click="nieuw()">Nieuw</a></li>
-    <li><a href="" ng-click="gezinslid()">Broer/zus toevoegen</a></li>
     <li class="dropdown dropup pull-right" title="Meer">
       <a class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
         <li><a href="" ng-click="opslaan()">Opslaan</a></li>
-        <li><a href="" ng-click="schrap()">Stop alle functies</a></li>
         <li><a href="" ng-click="nieuw()">Nieuw</a></li>
-        <li><a href="" ng-click="gezinslid()">Broer/zus toevoegen</a></li>
       </ul>
     </li>
   </ul>

@@ -7,6 +7,7 @@
 
     <!-- Styles -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href="css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       /* Dynamically generated CSS for small phones */
@@ -34,7 +35,7 @@
             <span class="glyphicon glyphicon-stats"></span>&nbsp; <span class="hidden-xs">Orakel</span>
           </a></li>
         </ul>
-        
+        <!--
         <div class="navbar-form navbar-left" ng-controller="SearchController" role="search">
           <div typeahead class="dropdown" query="zoekLid(input)" term="input" items="results" action="gotoLid(item)" >
             <div class="input-group">
@@ -50,14 +51,14 @@
             </ul>
           </div>
         </div>
-
+        -->
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a href="" class="dropdown-toggle" data-toggle="dropdown">
               <span class="visible-md-inline visible-lg-inline">woutersynhaeve</span> <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="">Mijn profiel</a></li>
+              <li><a href="#/lid/profiel">Mijn profiel</a></li>
               <li><a href="">Help</a></li>
               <li class="divider"></li>
               <li><a href="">Afmelden</a></li>
@@ -72,6 +73,10 @@
     
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()">{{alert.msg}}</alert>
     
+    <dialog ng-if="dialog" close="dialog.close()" confirm="dialog.confirm()" dismiss="dialog.confirm()" title="{{dialog.title}}" >
+    {{dialog.msg}}
+    </dialog>
+
     <!-- Embedded templates -->
     <script type="text/ng-template" id="alert.html">
       <div class="alert" ng-class="['alert-' + (type || 'warning'), closeable ? 'alert-dismissable' : null]" role="alert">
@@ -82,6 +87,36 @@
         <div ng-transclude></div>
       </div>
     </script>
+
+    <script type="text/ng-template" id="dialog.html">
+      <div class="dialog-overlay">
+        <div class="row">
+          <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 dialog">
+            <div class="panel panel-default container-fluid" role="dialog">
+              <div class="panel-heading clearfix">
+                <h3 class="panel-title">{{title}}</h3>
+                <button ng-show="closeable" type="button" class=" close btn" ng-click="close()">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+                </button>
+              </div>
+              <div class="panel-body">
+                <p ng-transclude></p>
+                <div class="pull-right action-btn-group">
+                  <button ng-show="confirmable" type="button" class="btn btn-success" ng-click="confirm()">
+                    <span class="glyphicon glyphicon-ok"></span><span> Ja</span>
+                  </button>
+                  <button ng-show="dismissable" type="button" class="btn btn-danger" ng-click="close()">
+                    <span class="glyphicon glyphicon-remove"></span><span> Nee</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </script>
+
 
     <!-- Scripts -->
     <script src="js/jquery-1.10.2.min.js"></script>
@@ -96,15 +131,22 @@
     <script src="app/app.config.js"></script>
     <script src="app/controllers/ledenlijst-controller.js"></script>
     <script src="app/controllers/lid-controller.js"></script>
+    <script src="app/controllers/lid-toevoegen-controller.js"></script>
     <script src="app/controllers/search-controller.js"></script>
     <script src="app/services/rest-service.js"></script>
     <script src="app/services/http-interceptor-service.js"></script>
     <script src="app/services/alert-service.js"></script>
+    <script src="app/services/dialog-service.js"></script>
     <script src="app/directives/lid-functie.js"></script>
     <script src="app/directives/ui-alert.js"></script>
-    <script src="app/directives/ui-bootstrap-custom-tpls-0.12.0.min.js"></script> <!-- Included: collapse -->
-    <script src="app/directives/ui-typeahead.js"></script>
+    <script src="app/directives/ui-dialog.js"></script>
+    <script src="app/directives/dynamisch-veld.js"></script>
+    <script src="app/directives/dynamische-velden-collectie.js"></script>
+    <script src="app/directives/ui-bootstrap-custom-tpls-0.12.0.min.js"></script>
+
+    <!-- Included: collapse -->
     <script src="app/directives/ui-selectpicker.js"></script>
+    <script src="app/directives/ng-infinite-scroll.js"></script>
     <script src="app/directives/utils.js"></script>
     
     <script src="js/bootstrap/transition.js"></script>

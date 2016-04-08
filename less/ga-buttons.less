@@ -17,12 +17,13 @@
 // Fits in like a regular button but displays only the label
 .btn-minimal {
   display: inline-block;
-  padding: @padding-base-vertical @padding-base-horizontal;
+  /* padding: @padding-base-vertical @padding-base-horizontal; */
   margin-bottom: 0; // For input.btn
   font-size: @font-size-base;
   font-weight: @btn-font-weight;
   line-height: @line-height-base;
   color: @gray;
+  background: none;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -34,6 +35,7 @@
   &:focus {
     color: @btn-default-color;
     text-decoration: none;
+    outline: none;
   }
 }
 

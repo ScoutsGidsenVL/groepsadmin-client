@@ -1,0 +1,59 @@
+  // rotate spinner
+  .rotate {
+    animation-name: rotate;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  // fade in
+  .fade-in {
+    animation-name: fadeIn;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  // slide in
+  .slide-in {
+    overflow: hidden;
+    animation-name: slideIn;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+
+  }
+
+  @keyframes slideIn {
+    from {
+      max-height: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+    to {
+      max-height: 37px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+  }
+
