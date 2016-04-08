@@ -207,14 +207,10 @@
                 </select>
               </div>
             </div>
-
             <div class="form-group" ng-hide="!showme">
               <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
-              <div class="col-xs-2 col-xxs-2">
-                <input type="text" class="form-control" id="_postcode" maxlength="4" ng-model="adres.postcode" placeholder="Postcode" id="_postcode" ng-disabled="!hasPermission('adressen')" typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)"/>
-              </div>
-              <div class="col-xs-5 col-xxs-12">
-                <input type="text" class="form-control" ng-disabled="!hasPermission('adressen')" placeholder="Woonplaats" id="_gemeente" ng-model="adres.gemeente" typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)"/>
+              <div class="col-xs-7 col-xxs-2">
+                <input type="text" class="form-control" ng-model= "gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)"/>
               </div>
             </div>
             <div class="form-group" ng-hide="!showme">
