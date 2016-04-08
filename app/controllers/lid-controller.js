@@ -208,7 +208,7 @@
         postadres: false,
         omschrijving: "",
         id: 'tempadres' + tempAdresId,
-        bus: ''
+        bus: null
       }
       tempAdresId++;
       var lid = {};
@@ -265,6 +265,10 @@
     $scope.bevestigGemeente = function(item, adres) {
       adres.postcode = item.substring(0,4);
       adres.gemeente = item.substring(5);
+      adres.straat = null;
+      adres.bus = null;
+      adres.nummer = null;
+      adres.giscode = null;
     };
 
     // zoek straten en giscodes
