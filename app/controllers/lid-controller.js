@@ -117,7 +117,7 @@
               });
               // controle of de functies weergegeven mogen worden
               angular.forEach($scope.groepEnfuncties, function(groepFuncties){
-                if($scope.patchObj.secties.indexOf('functies.'+groepFuncties.groepsnummer) >= -1){
+                if($scope.patchObj.secties.indexOf('functies.'+groepFuncties.groepsnummer) > -1){
                   $scope.showFunctieToevoegen =  true
                 }
               });

@@ -117,7 +117,7 @@
           </div>
         </legend>
           <fieldset ng-repeat="adres in lid.adressen">
-            <legend class="clearfix">
+            <legend class="clearfix" ng-init="showme = false; " ng-click="showme = showme ? false : true">
                 <div ng-if="adres.straat || adres.bus || adres.postcode || adres.gemeente" class="pull-left">
                   {{ adres.straat }} {{ adres.nummer }} {{ adres.bus }}, {{adres.postcode}} {{adres.gemeente}}
                 </div>
@@ -125,8 +125,10 @@
                   Nieuw adres
                 </div>
                 <div class="pull-right"  class="pull-left">
-                  <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span></button>
-                  <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span></button>
+                  <button  class="btn-minimal">
+                    <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
+                    <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
+                  </button>
                   <button ng-click="deleteAdres(adres.id)" class="btn-minimal" ng-if="hasPermission('adressen')"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
                 </div>
             </legend>
@@ -184,19 +186,21 @@
             </div>
           </legend>
           <fieldset ng-repeat="contact in lid.contacten">
-            <legend class="clearfix">
-                  <div ng-if="contact.rol || contact.naam || contact.voornaam" class="pull-left">
-                    {{ contact.voornaam }} {{ contact.achternaam }}
-                  </div>
-                  <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left" >
-                    Nieuw contact
-                  </div>
-                  <div class="pull-right" ng-init="showme = false; " class="pull-left">
-                    <button ng-click="showme=true" ng-hide="showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span></button>
-                    <button ng-click="showme=false" ng-hide="!showme" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span></button>
-                    <button ng-click="deleteContact(contact.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
-                  </div>
-              </legend>
+            <legend class="clearfix" ng-init="showme = false; " ng-click="showme = showme ? false : true">
+              <div ng-if="contact.rol || contact.naam || contact.voornaam" class="pull-left">
+                {{ contact.voornaam }} {{ contact.achternaam }}
+              </div>
+              <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left" >
+                Nieuw contact
+              </div>
+              <div class="pull-right"  class="pull-left">
+                <button  class="btn-minimal">
+                  <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Contact tonen"></span>
+                  <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Contact verbergen"></span>
+                </button>
+                <button ng-click="deleteContact(contact.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
+              </div>
+            </legend>
             <fieldset class="ga-functie-list" ng-hide="!showme">
             <div class="form-group" >
               <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
@@ -247,20 +251,19 @@
 
       <!-- Groepseigen gegevens -->
       <section>
-        <fieldset>
-          <legend>Groepseigen gegevens</legend>
-          <fieldset ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden">
-            <legend>{{ key }} {{ groepenlijst[key].naam }}
-              <div class="pull-right" ng-init="showgroepseigenvelden=true;">
-                <button ng-click="showgroepseigenvelden=true" ng-hide="showgroepseigenvelden" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                <button ng-click="showgroepseigenvelden=false" ng-hide="!showgroepseigenvelden" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
+        <fieldset ng-if="lid.groepseigenVelden">
+          <legend >Groepseigen gegevens</legend>
+          <fieldset ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden" ng-if="groepseigenVeldenVerzameling.schema.length > 0">
+            <legend ng-click="showgroepseigenvelden = showgroepseigenvelden ? false : true">{{ key }} {{ groepenlijst[key].naam }}
+              <div class="pull-right" ng-init="showgroepseigenvelden=true;" >
+                <button class="btn-minimal">
+                  <span ng-hide="showgroepseigenvelden" class="glyphicon glyphicon-chevron-up"></span>
+                  <span ng-hide="!showgroepseigenvelden" class="glyphicon glyphicon-chevron-down"></span>
+                </button>
               </div>
             </legend>
             <fieldset class="ga-functie-list" ng-if="groepseigenVeldenVerzameling.schema.length > 0">
               <dynamischveldcolectie waarden="groepseigenVeldenVerzameling.waarden" velden="groepseigenVeldenVerzameling.schema" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
-            </fieldset>
-            <fieldset class="ga-functie-list" ng-if="groepseigenVeldenVerzameling.schema.length == 0">
-              <legend ng-show="!showgroepseigenvelden">Geen groepseigen gegevens in deze groep</legend>
             </fieldset>
           </fieldset>
         </fieldset>
@@ -288,11 +291,13 @@
             </legend>
             <fieldset class="ga-functie-list">
               <section class="clearfix">
-                <legend>
+                <legend ng-init="showverbondfuncties=true;" ng-click="showverbondfuncties = showverbondfuncties ? false : true">
                   Verbondsfuncties
-                  <div class="pull-right" ng-init="showverbondfuncties=true;">
-                    <button ng-click="showverbondfuncties=true" ng-hide="showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                    <button ng-click="showverbondfuncties=false" ng-hide="!showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                  <div class="pull-right">
+                    <button  class="btn-minimal">
+                      <span ng-hide="showverbondfuncties" class="glyphicon glyphicon-chevron-down" title="Verbondsfuncties tonen"></span>
+                      <span ng-hide="!showverbondfuncties" class="glyphicon glyphicon-chevron-up" title="Verbondsfuncties verbergen"></span>
+                    </button>
                   </div>
                 </legend>
                 <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'verbond' } | orderBy : 'beschrijving'" ng-show=" !showverbondfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
@@ -307,11 +312,13 @@
               </section>
 
               <section class="clearfix">
-                <legend>
+                <legend ng-init="showgroepfuncties=true;" ng-click="showgroepfuncties = showgroepfuncties ? false : true">
                   Groepseigen functies
                   <div class="pull-right" ng-init="showgroepfuncties=true;">
-                    <button ng-click="showgroepfuncties=true" ng-hide="showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                    <button ng-click="showgroepfuncties=false" ng-hide="!showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                    <button  class="btn-minimal">
+                      <span ng-hide="showgroepfuncties" class="glyphicon glyphicon-chevron-down" title="Groepseigen functies tonen"></span>
+                      <span ng-hide="!showgroepfuncties" class="glyphicon glyphicon-chevron-up" title="Groepseigen functies verbergen"></span>
+                    </button>
                   </div>
                 </legend>
                 <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'groep' } | orderBy : 'beschrijving'" ng-show="!showgroepfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
@@ -328,7 +335,6 @@
           </fieldset>
         </fieldset>
       </section>
-
     </div>
   </div>
 </div>
