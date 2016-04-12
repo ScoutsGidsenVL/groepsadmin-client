@@ -198,14 +198,14 @@
                   <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Contact tonen"></span>
                   <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Contact verbergen"></span>
                 </button>
-                <button ng-click="deleteContact(contact.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
+                <button ng-click="deleteContact(contact.id)" ng-show="hasPermission('contacten')" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
               </div>
             </legend>
             <fieldset class="ga-functie-list" ng-hide="!showme">
             <div class="form-group" >
               <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
               <div class="col-xs-7 col-xxs-12">
-                <select class="selectpicker" id="_rol" ng-model="contact.rol" >
+                <select class="selectpicker" id="_rol" ng-model="contact.rol" ng-disabled="!hasPermission('contacten')">>
                   <option value="vader">Vader</option>
                   <option value="moeder">Moeder</option>
                   <option value="voogd">Voogd</option>
@@ -215,31 +215,31 @@
             <div class="form-group" >
               <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
               <div class="col-xs-7 col-xxs-12">
-                <input type="text" class="form-control" id="_voornaam" ng-model="contact.voornaam"/>
+                <input type="text" class="form-control" id="_voornaam" ng-model="contact.voornaam" ng-disabled="!hasPermission('contacten')"/>
               </div>
             </div>
             <div class="form-group" >
               <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
               <div class="col-xs-7 col-xxs-12">
-                <input type="text" class="form-control" id="_naam" ng-model="contact.achternaam"/>
+                <input type="text" class="form-control" id="_naam" ng-model="contact.achternaam" ng-disabled="!hasPermission('contacten')"/>
               </div>
             </div>
             <div class="form-group" >
               <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
               <div class="col-xs-7 col-xxs-12">
-                <input type="text" class="form-control" id="_email" ng-model="contact.email"/>
+                <input type="text" class="form-control" id="_email" ng-model="contact.email" ng-disabled="!hasPermission('contacten')"/>
               </div>
             </div>
             <div class="form-group" >
               <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
               <div class="col-xs-7 col-xxs-12">
-                <input type="text" class="form-control" id="_gsm" ng-model="contact.gsm" />
+                <input type="text" class="form-control" id="_gsm" ng-model="contact.gsm" ng-disabled="!hasPermission('contacten')"/>
               </div>
             </div>
             <div class="form-group" >
                <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
                <div class="col-xs-7 col-xxs-12">
-                 <select  id="_adres" ng-model="contact.adres">
+                 <select  id="_adres" ng-model="contact.adres" ng-disabled="!hasPermission('contacten')">
                    <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" ng-selected="contact.adres == adres.id">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
                  </select>
                </div>

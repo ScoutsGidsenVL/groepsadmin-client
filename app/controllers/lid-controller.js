@@ -14,7 +14,6 @@
     // Voorstel: UUID genereren aan client-side. http://stackoverflow.com/a/2117523
     var tempAdresId = 1;
     var tempContactId = 1;
-
     RestService.Lid.get({id:$routeParams.id}).$promise.then(
         function(result) {
 

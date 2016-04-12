@@ -8,7 +8,7 @@
   RestService.$inject = ['$resource', '$cacheFactory'];
 
   function RestService($resource, $cacheFactory) {
-    var base = 'http://localhost/groepsadmin/rest-ga/';
+    var base = '/groepsadmin/rest-ga/';
     var baseGis = '/groepsadmin/rest/gis/';
 
     return {

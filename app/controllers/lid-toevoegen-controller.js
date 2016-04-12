@@ -7,7 +7,7 @@
 
   LidToevoegenController.$inject = ['$scope', '$location', '$window', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route'];
 
-  function LidToevoegenController ($scope, $location, RestService, AlertService, DialogService, $rootScope, $route) {
+  function LidToevoegenController ($scope, $location, $window, RestService, AlertService, DialogService, $rootScope, $route) {
 
     // Nieuwe adressen hebben geen id. Tijdelijk opgelost met tempAdresId.
     // Voorstel: UUID genereren aan client-side. http://stackoverflow.com/a/2117523
@@ -80,11 +80,6 @@
 
 
     function setChanges(newVal, oldVal, scope) {
-      if (newVal == oldVal) return;
-      sectie = this.exp.split(".").pop();
-      if($scope.lid.changes.indexOf(sectie) < 0) {
-        $scope.lid.changes.push(sectie);
-      }
       $window.onbeforeunload = unload;
     }
 
