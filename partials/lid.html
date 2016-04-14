@@ -94,7 +94,7 @@
               <span class="control-indicator"></span>
             </div>
           </label>
-          <div class="form-group">
+          <div class="form-group" ng-show="lid.adressen.length > 1">
             <label for="_postadres" class="col-xs-5 col-xxs-12 control-label">Postadres</label>
             <div class="col-xs-7 col-xxs-12">
               <select  id="_postadres" ng-model="postadres" ng-change="changePostadres(postadres)" ng-disabled="!hasPermission('persoonsgegevens')">
