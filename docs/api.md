@@ -21,9 +21,9 @@ De API heeft de volgende eindpunten:
 | *[/functie](#functie)*                                      | OK*   | OK     | -       | -        | -     |
 | *[/functie?{query-string}](#functiequery-string)*           | OK    | -      | -       | -        | -     |
 | *[/functie/{functieid}](#functiefunctieid)*                 | OK    | -      | OK      | OK       | -     |
-| *[/ledenlijst](#ledenlijst)*                                | NOK   | -      | -       | -        | -     |
-| *[/ledenlijst/filter](#ledenlijstfilter)*                   | NOK   | NOK    | -       | -        | -     |
-| *[/ledenlijst/filter/{filterid}](#ledenlijstfilterfilterid)*| NOK   | -      | NOK     | NOK      | NOK   |
+| *[/ledenlijst](#ledenlijst)*                                | OK    | -      | -       | -        | -     |
+| *[/ledenlijst/filter](#ledenlijstfilter)*                   | OK    | NOK    | -       | -        | -     |
+| *[/ledenlijst/filter/{filterid}](#ledenlijstfilterfilterid)*| OK    | -      | NOK     | NOK      | NOK   |
 | *[/ledenlijst/kolom-type](#ledenlijstkolom-type)*           | NOK   | -      | -       | -        | -     |
 
  * Imperformante request
