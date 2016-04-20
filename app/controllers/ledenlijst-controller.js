@@ -8,7 +8,14 @@
   LedenlijstController.$inject = ['$scope', 'RestService', '$window'];
 
   function LedenlijstController($scope, RestService, $window) {
+    // check authentication
+    console.log(keycloak.authenticated );
+    if(!keycloak.authenticated){
+      keycloak.login();
+    }
+
     // opgeslagen filters ophalen
+
     RestService.Filters.get().$promise.then(
       function (response) {
         $scope.opgeslagenFilters = response;
