@@ -1,5 +1,12 @@
 # REST API Documentatie
-## Endpoints
+
+* [Overzicht endpoints](#overzicht-endpoints)
+* [Algemeen](#algemeen)
+* [Eindpunten](#eindpunten)
+* [Errors](#errors)
+* [Meer lezen](#meer-lezen)
+
+## Overzicht endpoints
 
 De API heeft de volgende eindpunten:
 
@@ -12,7 +19,7 @@ De API heeft de volgende eindpunten:
 | *[/groep](#groep)*                                          | OK    | -      | -       | -        | -     |
 | *[/groep/{groepsnummer}](#groepgroepsnummer)*               | OK    | -      | OK      | -        | -     |
 | *[/functie](#functie)*                                      | OK*   | OK     | -       | -        | -     |
-| *[/functie?{query-string}](#functiequerystring)*            | OK    | -      | -       | -        | -     |
+| *[/functie?{query-string}](#functiequery-string)*           | OK    | -      | -       | -        | -     |
 | *[/functie/{functieid}](#functiefunctieid)*                 | OK    | -      | OK      | OK       | -     |
 | *[/ledenlijst](#ledenlijst)*                                | NOK   | -      | -       | -        | -     |
 | *[/ledenlijst/filter](#ledenlijstfilter)*                   | NOK   | NOK    | -       | -        | -     |
