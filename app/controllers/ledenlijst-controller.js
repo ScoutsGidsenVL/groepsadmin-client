@@ -10,12 +10,13 @@
   function LedenlijstController($scope, RestService, $window) {
     // check authentication
     console.log(keycloak.authenticated );
+
     if(!keycloak.authenticated){
       keycloak.login();
+      return;
     }
 
     // opgeslagen filters ophalen
-
     RestService.Filters.get().$promise.then(
       function (response) {
         $scope.opgeslagenFilters = response;
@@ -23,6 +24,7 @@
       function (error) {
       }
     );
+
     // huidige filter ophalen
     RestService.FilterDetails.get({id: 'huidige'}).$promise.then(
       function (response) {
@@ -31,7 +33,6 @@
       function (error) {
       }
     );
-
     $scope.isFilterCollapsed = true;
 
     // controle moet er meer gelanden worden
