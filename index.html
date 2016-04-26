@@ -7,36 +7,33 @@
 
     <!-- favicon's -->
     <!-- Default favicon's -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicons/favicon-16x16.png">
 
     <!-- Apple favicon's -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="img/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="img/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="img/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="img/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="img/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="img/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicons/apple-icon-180x180.png">
 
     <!-- Android favicon's -->
-    <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="img/favicons/android-icon-192x192.png">
     <link rel="manifest" href="manifest.json">
 
     <!-- MS favicon's & tile info-->
-    <meta name="msapplication-config" content="/img/favicons/browserconfig.xml" />
+    <meta name="msapplication-config" content="img/favicons/browserconfig.xml" />
     <meta name="application-name" content="Groepsadministratie"/>
     <meta name="msapplication-TileColor" content="#ffffff"/>
-    <meta name="msapplication-square70x70logo" content="/img/favicons/tiny.png"/>
-    <meta name="msapplication-square150x150logo" content="/img/favicons/square.png"/>
-    <meta name="msapplication-wide310x150logo" content="/img/favicons/wide.png"/>
-    <meta name="msapplication-square310x310logo" content="/img/favicons/large.png"/>
-
-
-
+    <meta name="msapplication-square70x70logo" content="img/favicons/tiny.png"/>
+    <meta name="msapplication-square150x150logo" content="img/favicons/square.png"/>
+    <meta name="msapplication-wide310x150logo" content="img/favicons/wide.png"/>
+    <meta name="msapplication-square310x310logo" content="img/favicons/large.png"/>
 
     <!-- Styles -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
@@ -59,10 +56,10 @@
         <a class="navbar-brand visible-md-block visible-lg-block" href="#/"><img src="img/logo.png" alt="Groepsadministratie Scouts en Gidsen Vlaanderen logo" width="50" height="64" /></a>
         <ul class="nav navbar-nav">
           <li class="active"><a href="#/">
-            <span class="glyphicon glyphicon-user"></span>&nbsp; <span class="hidden-xs">Leden</span>
+            <i class="fa fa-users" aria-hidden="true"></i></span>&nbsp; <span class="hidden-xs">Leden</span>
           </a></li>
           <li><a href="#/groepsinstellingen">
-            <span class="glyphicon glyphicon-cog"></span>&nbsp; <span class="hidden-xs">Groepsinstellingen</span>
+            <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp; <span class="hidden-xs">Groepsinstellingen</span>
           </a></li>
           <li><a href="#/orakel">
             <span class="glyphicon glyphicon-stats"></span>&nbsp; <span class="hidden-xs">Orakel</span>
@@ -149,7 +146,7 @@
     <!-- Keycloak -->
     <script src="bower_components/keycloak/dist/keycloak.js"></script>
 
-       <script>
+    <script>
       var keycloak = new Keycloak({
         url: 'http://groepsadmin-develop.scoutsengidsenvlaanderen.net:8888/auth',
         realm: 'scouts',
