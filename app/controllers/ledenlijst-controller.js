@@ -10,11 +10,12 @@
   function LedenlijstController($scope, RestService, $window) {
     // check authentication
     console.log(keycloak.authenticated );
-
+    /*
     if(!keycloak.authenticated){
       keycloak.login();
       return;
     }
+    */
 
     // opgeslagen filters ophalen
     RestService.Filters.get().$promise.then(
@@ -25,14 +26,8 @@
       }
     );
 
-    // huidige filter ophalen
-    RestService.FilterDetails.get({id: 'huidige'}).$promise.then(
-      function (response) {
-        $scope.currentFilter = response;
-      },
-      function (error) {
-      }
-    );
+    // filter samenstellen
+    stelFilterSamen();
 
     // controle moet er meer gelanden worden
     $scope.meerLaden = function(last){
@@ -41,55 +36,81 @@
       }
     }
 
-    /*
-     * dynamische criteria ophalen
-     * -----------------------------------------------------------
-     */
-    $scope.criteria = [];
 
-    // alle functies ophalen
-    RestService.Functies.get().$promise.then(
+    /*
+     * Filter samenstellen
+     * -------------------------------------------------------
+     */
+
+    function functieGroepNaamMaken(functie){
+      if (functie.type == "groep"){
+        return "Functies van " + functie.groepen[0];
+      } else {
+        return functie.type.charAt(0).toUpperCase() + functie.type.slice(1);
+      }
+    }
+
+    function bestaatFunctieGroep(functie, functieGroepen){
+      var functieGroepNaam = functieGroepNaamMaken(functie);
+      var functieGroepBestaat = false;
+      angular.forEach(functieGroepen, function(functieGroep, key){
+        if(functieGroep.title == functieGroepNaam ){
+          functieGroepBestaat = true;
+        }
+      });
+      return functieGroepBestaat;
+    }
+
+    function functieGroepKey(functie, functieGroepen){
+      var tempKey;
+      angular.forEach(functieGroepen, function(functieGroep, key){
+        if(functieGroep.title == functieGroepNaamMaken(functie)){
+          tempKey =  key;
+          return;
+        }
+      });
+      return tempKey;
+    }
+
+    function voegFunctieGroepToAan(functie, functieGroepen){
+      var tempFunctieGroep = {
+                               title : functieGroepNaamMaken(functie),
+                               criteriaKey : "functies",
+                               multiplePossible : true,
+                               items: []
+                             }
+            // toeveogen aan functie groep
+      functieGroepen.push(tempFunctieGroep);
+      return functieGroepen;
+    }
+
+    function voegItemToeAanFunctiGroep(functie, functieGroepen){
+      // voeg functie toe aan items van dat type
+      var tempItem = {
+                    value : functie.id,
+                    label : functie.beschrijving
+                  };
+      console.log(functieGroepKey(functie, functieGroepen));
+      functieGroepen[functieGroepKey(functie, functieGroepen)].items.push(tempItem);
+      return functieGroepen;
+    }
+
+    function stelFilterSamen(){
+      $scope.criteria = [];
+      // functies ophalen
+      RestService.Functies.get().$promise.then(
       function(result){
         var functies = result.functies;
         var functieGroepen = [];
         angular.forEach(functies, function(value){
-          var functieGroepNaam;
-          if (value.type == "groep"){
-            functieGroepNaam = "Functies van " + value.groepen[0];
-          } else {
-            functieGroepNaam = value.type.charAt(0).toUpperCase() + value.type.slice(1);
+          if(!bestaatFunctieGroep(value, functieGroepen)){
+            //nieuwe functie groep maken
+            functieGroepen = voegFunctieGroepToAan(value, functieGroepen);
           }
-
-          var functieGroepBestaat = false;
-          var functieGroepKey;
-          angular.forEach(functieGroepen, function(functieGroep, key){
-            if(functieGroep.title == functieGroepNaam ){
-              functieGroepBestaat = true;
-              functieGroepKey = key;
-              return;
-            }
-          });
-
-          if(!functieGroepBestaat){
-            // nieuwe functie groep aanmaken
-            var tempFunctiGroep = {
-                                    title : functieGroepNaam,
-                                    criteriaKey : "functies",
-                                    multiplePossible : true,
-                                    items: []
-                                  }
-            // toeveogen aan functie groep
-            functieGroepen.push(tempFunctiGroep);
-            // nieuwe key instellen.
-            functieGroepKey = (functieGroepen.length - 1);
-          }
-
-          // voeg functie toe aan items van dat type
-          var item = {
-                        value : value.id,
-                        label : value.beschrijving
-                      };
-          functieGroepen[functieGroepKey].items.push(item);
+          // functie toevoegen
+          console.log(value);
+          console.log(functieGroepen);
+          functieGroepen = voegItemToeAanFunctiGroep(value, functieGroepen);
         });
 
         // functie groepen toevoegen aan de criteria.
@@ -98,62 +119,116 @@
         })
     });
 
-    // alle groepen van de gebruiker ophalen
-    RestService.Groepen.get().$promise.then(
-      function(result){
-        var groepen = result.groepen;
-        var groepenCriteria = {
-                        title : "Groepen",
-                        criteriaKey : "groepen",
-                        multiplePossible : true,
-                        items: []
-                        };
-        angular.forEach(groepen, function(value){
-          var groep = {
-                    value : value.groepsnummer,
-                    label : value.naam + " [" + value.groepsnummer + "]"
-          }
-          groepenCriteria.items.push(groep);
-        });
-        $scope.criteria.push(groepenCriteria);
-    });
+      // groepen ophalen
+      RestService.Groepen.get().$promise.then(
+        function(result){
+          var groepen = result.groepen;
+          var groepenCriteria = {
+                          title : "Groepen",
+                          criteriaKey : "groepen",
+                          multiplePossible : true,
+                          items: []
+                          };
+          angular.forEach(groepen, function(value){
+            var groep = {
+                      value : value.groepsnummer,
+                      label : value.naam + " [" + value.groepsnummer + "]"
+            }
+            groepenCriteria.items.push(groep);
+          });
+          $scope.criteria.push(groepenCriteria);
+      });
 
-    // alle groepseigen velden ophalen
+      // groepseigenfuncties ophalen
 
 
-    //statische criteria toevoegen.
-    var geslacht = {
-                      title : "Geslacht",
-                      creteriaKey : "geslacht",
-                      multiplePossible : false,
-                      items : [
-                                {
-                                  value: "Mannelijk",
-                                  label: "man"
-                                },
-                                {
-                                  value: "Vrouwlijk",
-                                  label: "vrouw"
-                                }
-                              ]
+      // statische criteria toevoegen.
+      var geslacht = {
+                        title : "Geslacht",
+                        creteriaKey : "geslacht",
+                        multiplePossible : false,
+                        items : [
+                                  {
+                                    value: "Mannelijk",
+                                    label: "man"
+                                  },
+                                  {
+                                    value: "Vrouwlijk",
+                                    label: "vrouw"
+                                  }
+                                ]
+                      }
+      var geblokeerdadres = {
+                              title : "Geblokeerd adres",
+                              creteriaKey : "adresgeblokeerd",
+                              multiplePossible : false,
+                              items : [
+                                        {
+                                          value: "Ja",
+                                          label: true
+                                        },
+                                        {
+                                          value: "Nee",
+                                          label: false
+                                        }
+                                      ]
+                              }
+      $scope.criteria.push(geslacht);
+      $scope.criteria.push(geblokeerdadres);
+      // huidige filter ophalen en verwerken;
+      RestService.FilterDetails.get({id: 'huidige'}).$promise.then(
+        function (response) {
+          $scope.geslecteerdeCriteria = [];
+          $scope.currentFilter = response;
+          angular.forEach($scope.currentFilter.criteria, function(value, key){
+            console.log(key);
+            console.log($scope.geslecteerdeCriteria);
+            if(key === "functies"){
+              angular.forEach(value, function(functieID){
+                RestService.Functie.get({functieId:functieID}).$promise.then(
+                  function(result){
+                    var functie  = result;
+                    if(!bestaatFunctieGroep(functie, $scope.geslecteerdeCriteria)){
+                      $scope.geslecteerdeCriteria = voegFunctieGroepToAan(functie, $scope.geslecteerdeCriteria);
                     }
-    var geblokeerdadres = {
-                            title : "Geblokeerd adres",
-                            creteriaKey : "adresgeblokeerd",
-                            multiplePossible : false,
-                            items : [
-                                      {
-                                        value: "Ja",
-                                        label: true
-                                      },
-                                      {
-                                        value: "Nee",
-                                        label: false
-                                      }
-                                    ]
-                            }
-    $scope.criteria.push(geslacht);
-    $scope.criteria.push(geblokeerdadres);
+                    $scope.geslecteerdeCriteria = voegItemToeAanFunctiGroep(functie, $scope.geslecteerdeCriteria);
+                  }
+                );
+              });
+            } else if(key === "groepen") {
+              var items = [];
+              angular.forEach(value, function(groepsnummer){
+                RestService.Groep.get({id:groepsnummer}).$promise.then(
+                  function(result){
+                    var groep  = result;
+                   items.push({
+                        value : groep.groepsnummer,
+                        label :  groep.groepsnummer
+                      });
+                  }
+                );
+              });
+              var tempselectedCriteria = {
+                                            title : key.charAt(0).toUpperCase() + key.slice(1),
+                                            criteriaKey : "groepen",
+                                            multiplePossible : true,
+                                            items: items
+                                          }
+               $scope.geslecteerdeCriteria.push(tempselectedCriteria);
+
+            } else {
+              var tempselectedCriteria = {
+                                            title : key.charAt(0).toUpperCase() + key.slice(1),
+                                            values : value
+                                          }
+               $scope.geslecteerdeCriteria.push(tempselectedCriteria);
+            }
+          });
+        }
+      );
+
+    }
+
 
     /*
      * Infinity scroll
@@ -161,8 +236,8 @@
      */
 
     $scope.busy = false;
-    $scope.end = false
-    $scope.aantalPerPagina = 10
+    $scope.end = false;
+    $scope.aantalPerPagina = 10;
     $scope.leden = [];
     $scope.nextPage = function(){
       if ($scope.busy) return;
@@ -268,6 +343,6 @@
         // lokaal hersorteren.
       }
     }
+}
 
-  }
 })();

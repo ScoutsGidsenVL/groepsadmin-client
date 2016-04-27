@@ -33,7 +33,7 @@
       ),
       Groep: $resource(
         base + 'groep/:id',
-        {functieId: '@id'},
+        {groepsnummer: '@id'},
         {get: {method: 'GET'}}
       ),
       Groepen: $resource(

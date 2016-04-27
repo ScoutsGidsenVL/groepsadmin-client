@@ -22,15 +22,14 @@
 <!-- Filter panel -->
 <div id="filterCollapse" class="panel-filter row-fluid clearfix collapse" uib-collapse="isFilterCollapsed">
 
-  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12" ng-repeat="selectedCriteria in geslecteerdeCriteria">
     <div class="btn-group filter-option">
       <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
-        <span class="filter-option-title">Functies</span>
-        <span class="filter-option-subtitle">Kapoen, Kabouters, Welpen</span>
+        <span class="filter-option-title">{{ selectedCriteria.title }}</span>
+        <span class="filter-option-subtitle"><span ng-repeat="selectedCriteriaItem in selectedCriteria.items">{{selectedCriteriaItem.label}}<span ng-if="!$last">, </span></span></span>
         <a ng-click="closeCiretia()" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
       </button>
       <div class="dropdown-menu">
-        <input class="form-control input-sm" type="text" placeholder="Zoek functie">
         <ul class="checklist">
           <li class="list-heading">Functies leden</li>
           <li><label for="chk1"><input type="checkbox" id="chk1" name="leden" value="akab">Akabe-leden</label></li>
@@ -69,41 +68,6 @@
       </div>
     </div>
   </div>
-
-  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
-    <div class="btn-group filter-option">
-      <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
-        <span class="filter-option-title">Geslacht</span>
-        <span class="filter-option-subtitle">Mannelijk, vrouwelijk</span>
-        <a href="#" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
-      </button>
-      <div class="dropdown-menu">
-        <ul class="checklist">
-          <li><label for="chk31"><input type="checkbox" id="chk31" name="geslacht" value="m">Mannelijk</label></li>
-          <li><label for="chk32"><input type="checkbox" id="chk32" name="geslacht" value="v">Vrouwelijk</label></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
-    <div class="btn-group filter-option">
-      <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
-        <span class="filter-option-title">Groepseigen velden</span>
-        <span class="filter-option-subtitle">Betaald</span>
-        <a href="#" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
-      </button>
-      <div class="dropdown-menu">
-        <ul class="checklist">
-          <li><label for="chk33"><input type="checkbox" id="chk33" name="betaald" value="m">Betaald</label></li>
-          <li><label for="chk34"><input type="checkbox" id="chk34" name="betaald" value="v">Betaald 10</label></li>
-          <li><label for="chk35"><input type="checkbox" id="chk35" name="betaald" value="v">Betaald 11</label></li>
-          <li><label for="chk36"><input type="checkbox" id="chk36" name="betaald" value="v">Betaald 12</label></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
   <div class="btn-group" >
     <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown" title="Filter criteria toevoegen">
       <span class="glyphicon glyphicon-plus"></span>
