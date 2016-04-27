@@ -90,7 +90,6 @@
                     value : functie.id,
                     label : functie.beschrijving
                   };
-      console.log(functieGroepKey(functie, functieGroepen));
       functieGroepen[functieGroepKey(functie, functieGroepen)].items.push(tempItem);
       return functieGroepen;
     }
@@ -108,8 +107,6 @@
             functieGroepen = voegFunctieGroepToAan(value, functieGroepen);
           }
           // functie toevoegen
-          console.log(value);
-          console.log(functieGroepen);
           functieGroepen = voegItemToeAanFunctiGroep(value, functieGroepen);
         });
 
@@ -157,32 +154,31 @@
                                     label: "vrouw"
                                   }
                                 ]
-                      }
+                    }
+      $scope.criteria.push(geslacht);
       var geblokeerdadres = {
-                              title : "Geblokeerd adres",
+                              title : "Adresgeblokeerd",
                               creteriaKey : "adresgeblokeerd",
                               multiplePossible : false,
                               items : [
                                         {
-                                          value: "Ja",
-                                          label: true
+                                          value: true,
+                                          label: "Ja"
                                         },
                                         {
-                                          value: "Nee",
-                                          label: false
+                                          value: false,
+                                          label: "Nee"
                                         }
                                       ]
                               }
-      $scope.criteria.push(geslacht);
       $scope.criteria.push(geblokeerdadres);
+
       // huidige filter ophalen en verwerken;
       RestService.FilterDetails.get({id: 'huidige'}).$promise.then(
         function (response) {
           $scope.geslecteerdeCriteria = [];
           $scope.currentFilter = response;
           angular.forEach($scope.currentFilter.criteria, function(value, key){
-            console.log(key);
-            console.log($scope.geslecteerdeCriteria);
             if(key === "functies"){
               angular.forEach(value, function(functieID){
                 RestService.Functie.get({functieId:functieID}).$promise.then(
@@ -226,9 +222,56 @@
           });
         }
       );
-
     }
 
+    $scope.getKeyInCriteriaBytitle = function(title){
+      var criteriaKey;
+      angular.forEach($scope.criteria, function(value, key){
+        if(value.title == title){
+          criteriaKey =  key;
+          return
+        }
+      })
+      return criteriaKey;
+    }
+
+    $scope.inSelectedCriteria = function(title){
+      var criteriaKey;
+      angular.forEach($scope.geslecteerdeCriteria, function(value, key){
+        if(value.title == title){
+          criteriaKey =  key;
+          return
+        }
+      })
+      if(criteriaKey >= 0 ){
+        return true;
+      }
+      return false;
+    }
+
+    $scope.addSelectedCriteria =function(criteriaItem){
+      $scope.geslecteerdeCriteria.push({
+                                        title : criteriaItem.title,
+                                        creteriaKey : criteriaItem.creteriaKey,
+                                        multiplePossible : criteriaItem.multiplePossible,
+                                        items : []
+                                        });
+    }
+
+    $scope.closeCriteria = function(selectedCriteria){
+      var criteriaKey;
+      angular.forEach($scope.geslecteerdeCriteria, function(value, key){
+        if(value.title == selectedCriteria.title){
+          criteriaKey =  key;
+          return;
+        }
+      })
+      $scope.geslecteerdeCriteria.splice(criteriaKey,1);
+
+      //TO-DO: delete from filtermodel
+      //TO-DO: leden
+      //TO-DO: nieuwe leden ophalen
+    }
 
     /*
      * Infinity scroll
@@ -244,12 +287,10 @@
       $scope.busy = true;
       // voorkom dat er request gedaanworden wanneer alle resultaaten geladen zijn
       if($scope.leden.length !== $scope.totaalAantalLeden){
-        console.log("nieuwe leden ophalen");
         RestService.Leden.get({aantal: $scope.aantalPerPagina, offset: ($scope.leden.length == 0) ? 0 : ($scope.leden.length) }).$promise.then(
           function (response) {
             // voeg de leden toe aan de leden Array;
             $scope.leden.push.apply($scope.leden,response.leden);
-            console.log($scope.leden.length);
             $scope.totaalAantalLeden = response.totaal;
             $scope.offset = response.offset;
             $scope.busy = false;
