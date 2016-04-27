@@ -26,8 +26,26 @@
     <div class="btn-group filter-option">
       <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown">
         <span class="filter-option-title">{{ selectedCriteria.title }}</span>
-        <span class="filter-option-subtitle"><span ng-repeat="selectedCriteriaItem in selectedCriteria.items">{{selectedCriteriaItem.label}}<span ng-if="!$last">, </span></span></span>
+        <span class="filter-option-subtitle" ng-if="selectedCriteria.multiplePossible">
+          <span ng-repeat="selectedCriteriaItem in selectedCriteria.items">{{selectedCriteriaItem.label}}
+            <span ng-if="!$last">,&nbsp;</span>
+          </span>
+          <span ng-if="!selectedCriteria.items.lenght">
+            &nbsp;
+          </span>
+        </span>
+
+        <span class="filter-option-subtitle" ng-if="!selectedCriteria.multiplePossible">
+          <span ng-repeat="selectedCriteriaItem in selectedCriteria.items">{{selectedCriteriaItem.label}}
+            <span ng-if="!$last">, </span>
+          </span>
+          <span ng-if="!selectedCriteria.items.lenght">
+            &nbsp;
+          </span>
+        </span>
+
         <a ng-click="closeCriteria(selectedCriteria)" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
+
       </button>
       <div class="dropdown-menu">
         <ul class="checklist">
@@ -43,13 +61,14 @@
   </div>
 
   <!-- Filter options/criteria toevoegen-->
-  <div class="btn-group" >
+  <div class="btn-group">
+
     <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown" title="Filter criteria toevoegen">
       <span class="glyphicon glyphicon-plus"></span>
       <span class="hidden-label">Filter criteria toevoegen</span>
     </button>
     <ul class="dropdown-menu">
-      <li ng-repeat="criteriaItem in criteria" ng-if="!inSelectedCriteria(criteriaItem.title)"><a href="#/" ng-click="addSelectedCriteria(criteriaItem)">{{ criteriaItem.title }}</a></li>
+      <li ng-repeat="criteriaItem in criteria" ng-if="!inSelectedCriteria(criteriaItem.title)"><a ng-click="addSelectedCriteria(criteriaItem)">{{ criteriaItem.title }}</a></li>
     </ul>
   </div>
       <!-- <a href="#" class="btn btn-filter btn-filter-columns"><span class="glyphicon glyphicon-th-list"></span></a> -->
