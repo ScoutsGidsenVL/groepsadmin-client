@@ -68,7 +68,7 @@
 
           <!-- items waarvan er maar één geselecteerd kan worden -->
           <li ng-if="!selectedCriteria.multiplePossible">
-            <label ng-repeat="criteriaItem in criteria[getKeyInCriteriaBytitle(selectedCriteria.title)].items | orderBy:'label'" ng-click="filterCriteriaAanpassen(criteriaItem,selectedCriteria)"><input type="radio" name="selectedCriteria.title" ng-checked="selectedCriteria.values == criteriaItem.value">{{ criteriaItem.label }}</label>
+            <label ng-repeat="criteriaItem in criteria[getKeyInCriteriaBytitle(selectedCriteria.title)].items | orderBy:'label'" ng-click="filterCriteriaAanpassen(criteriaItem,selectedCriteria)"><input type="radio" name="selectedCriteria.title" ng-checked="selectedCriteria.items == criteriaItem.value">{{ criteriaItem.label }}</label>
           </li>
         </ul>
       </div>
