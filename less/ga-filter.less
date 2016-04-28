@@ -149,8 +149,12 @@
   border: 1px solid #c0c0c0;
   border-radius: @border-radius-small;
 
+  hr {
+    margin: 0;
+  }
+
   li {
-    
+
   }
 
   label {
@@ -158,6 +162,10 @@
     margin: 0;
     padding: 6px 0;
     font-weight: 400;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   input[type="checkbox"] {

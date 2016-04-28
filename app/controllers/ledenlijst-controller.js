@@ -17,6 +17,10 @@
     }
     */
 
+    /*
+     * Init
+     * -------------------------------------------------------
+     */
     // opgeslagen filters ophalen
     RestService.Filters.get().$promise.then(
       function (response) {
@@ -29,19 +33,11 @@
     // filter samenstellen
     stelFilterSamen();
 
-    // controle moet er meer gelanden worden
-    $scope.meerLaden = function(last){
-      if(last && $(window).height() > $("#leden").height()){
-        $scope.nextPage();
-      }
-    }
-
 
     /*
      * Filter samenstellen
      * -------------------------------------------------------
      */
-
     function functieGroepNaamMaken(functie){
       if (functie.type == "groep"){
         return "Functies van " + functie.groepen[0];
@@ -176,7 +172,7 @@
       // huidige filter ophalen en verwerken;
       RestService.FilterDetails.get({id: 'huidige'}).$promise.then(
         function (response) {
-          $scope.geslecteerdeCriteria = [];
+          $scope.geselecteerdeCriteria = [];
           $scope.currentFilter = response;
           angular.forEach($scope.currentFilter.criteria, function(value, key){
             if(key === "functies"){
@@ -184,10 +180,10 @@
                 RestService.Functie.get({functieId:functieID}).$promise.then(
                   function(result){
                     var functie  = result;
-                    if(!bestaatFunctieGroep(functie, $scope.geslecteerdeCriteria)){
-                      $scope.geslecteerdeCriteria = voegFunctieGroepToAan(functie, $scope.geslecteerdeCriteria);
+                    if(!bestaatFunctieGroep(functie, $scope.geselecteerdeCriteria)){
+                      $scope.geselecteerdeCriteria = voegFunctieGroepToAan(functie, $scope.geselecteerdeCriteria);
                     }
-                    $scope.geslecteerdeCriteria = voegItemToeAanFunctiGroep(functie, $scope.geslecteerdeCriteria);
+                    $scope.geselecteerdeCriteria = voegItemToeAanFunctiGroep(functie, $scope.geselecteerdeCriteria);
                   }
                 );
               });
@@ -199,7 +195,7 @@
                     var groep  = result;
                    items.push({
                         value : groep.groepsnummer,
-                        label :  groep.groepsnummer
+                        label :  groep.naam + " [" + groep.groepsnummer + "]"
                       });
                   }
                 );
@@ -210,20 +206,21 @@
                                             multiplePossible : true,
                                             items: items
                                           }
-               $scope.geslecteerdeCriteria.push(tempselectedCriteria);
+               $scope.geselecteerdeCriteria.push(tempselectedCriteria);
 
             } else {
               var tempselectedCriteria = {
                                             title : key.charAt(0).toUpperCase() + key.slice(1),
-                                            values : value
+                                            items : value
                                           }
-               $scope.geslecteerdeCriteria.push(tempselectedCriteria);
+               $scope.geselecteerdeCriteria.push(tempselectedCriteria);
             }
           });
         }
       );
     }
 
+    // returnt de key/index van een criteria a.d.h.v. de titel
     $scope.getKeyInCriteriaBytitle = function(title){
       var criteriaKey;
       angular.forEach($scope.criteria, function(value, key){
@@ -235,9 +232,10 @@
       return criteriaKey;
     }
 
+    // controle is de criteria geselecteerd a.d.h.v. de titel
     $scope.inSelectedCriteria = function(title){
       var criteriaKey;
-      angular.forEach($scope.geslecteerdeCriteria, function(value, key){
+      angular.forEach($scope.geselecteerdeCriteria, function(value, key){
         if(value.title == title){
           criteriaKey =  key;
           return
@@ -249,8 +247,9 @@
       return false;
     }
 
+    // criteria  toevoegen aan de geselecteerde criteria
     $scope.addSelectedCriteria =function(criteriaItem){
-      $scope.geslecteerdeCriteria.push({
+      $scope.geselecteerdeCriteria.push({
                                         title : criteriaItem.title,
                                         creteriaKey : criteriaItem.creteriaKey,
                                         multiplePossible : criteriaItem.multiplePossible,
@@ -258,30 +257,101 @@
                                         });
     }
 
+    // criteria  wissen uit de geselecteerde criteria
     $scope.closeCriteria = function(selectedCriteria){
       var criteriaKey;
-      angular.forEach($scope.geslecteerdeCriteria, function(value, key){
+      angular.forEach($scope.geselecteerdeCriteria, function(value, key){
         if(value.title == selectedCriteria.title){
           criteriaKey =  key;
           return;
         }
       })
-      $scope.geslecteerdeCriteria.splice(criteriaKey,1);
+      $scope.geselecteerdeCriteria.splice(criteriaKey,1);
 
       //TO-DO: delete from filtermodel
-      //TO-DO: leden
       //TO-DO: nieuwe leden ophalen
+    }
+
+
+    // controle is het criteriaitem geselecteerd
+    $scope.isCriteriaItemSelected= function(criteriaItem, selectedCriteria){
+      var itemsLength = selectedCriteria.items.length
+      for(var i = 0; i < itemsLength; i++){
+        if(selectedCriteria.items[i].value == criteriaItem.value){
+          return true;
+        }
+      }
+      return false;
+
+    }
+
+    // label
+    $scope.getLabelForValue = function(value, selectedCriteria){
+      var label = '';
+      angular.forEach($scope.criteria, function(criteria){
+        if(criteria.title == selectedCriteria.title){
+          angular.forEach(criteria.items, function(item){
+            if(item.value == value){
+              label = item.label;
+              return
+            }
+          });
+          return
+        }
+      });
+      return label;
+    }
+
+
+    /*
+     * Filter aanpassen
+     * -------------------------------------------------------
+     */
+    // item toevoegen aan een criteria waar er meerdere items geselecteerd mogen worden.
+    $scope.filterCriteriaToevoegen = function(criteriaItem, selectedCriteria){
+      selectedCriteria.items.push(criteriaItem);
+
+      //TO-DO: toevoegenen aan filtermodel
+      //TO-DO: nieuwe leden ophalen
+    }
+
+    // item verwijderen uit een criteria waar er meerdere items geselecteerd mogen worden.
+    $scope.filterCriteriaVerwijderen = function(criteriaItem, selectedCriteria){
+      // verwijderen uit geselecteerdeCriteria
+      var itemsLength = selectedCriteria.items.length
+      for(var i = 0; i < itemsLength; i++){
+        if(selectedCriteria.items[i].value == criteriaItem.value){
+           selectedCriteria.items.splice(i,1);
+        }
+      }
+
+      //TO-DO: toevoegenen aan filtermodel
+      //TO-DO: nieuwe leden ophalen
+    }
+
+    // nieuwe waarde voor een criteria waarvan maar één item geselecteerd magworden aanpassen
+    $scope.filterCriteriaAanpassen = function(criteriaItem, selectedCriteria){
+      selectedCriteria.items = criteriaItem.value;
     }
 
     /*
      * Infinity scroll
      * -----------------------------------------------------------
      */
-
     $scope.busy = false;
     $scope.end = false;
     $scope.aantalPerPagina = 10;
     $scope.leden = [];
+
+    // controle moet er meer leden ingeladen worden
+    $scope.meerLaden = function(last){
+      if(last && $(window).height() > $("#leden").height()){
+        $scope.nextPage();
+      }
+    }
+
+
+    // functie die aangeroepen word om (meer) leden op te halen via de api
     $scope.nextPage = function(){
       if ($scope.busy) return;
       $scope.busy = true;
