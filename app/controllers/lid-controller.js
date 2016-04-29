@@ -11,7 +11,7 @@
     // check authentication
     console.log(keycloak.authenticated );
     if(!keycloak.authenticated){
-      keycloak.login();
+      //keycloak.login();
     }
 
     var sectie
