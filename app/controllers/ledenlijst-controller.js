@@ -22,17 +22,39 @@
      * -------------------------------------------------------
      */
     // opgeslagen filters ophalen
-    RestService.Filters.get().$promise.then(
+    /*RestService.Filters.get().$promise.then(
       function (response) {
         $scope.opgeslagenFilters = response;
       },
       function (error) {
       }
-    );
+    );*/
 
     // filter samenstellen
     stelFilterSamen();
 
+
+    // Kolommen sortable maken
+    var index;
+    $( ".sortable" ).sortable({
+      placeholder: "placeholder-kolom-kop",
+      helper: "clone",
+      start : function(event, ui){
+        index =  ui.item.index();
+      },
+      stop : function(event, ui){
+        $(".placeholder-body").remove();
+        // To-Do filter aanpassen
+        // To-Do Leden wissen
+        // TO-Do nieuwe leden ophalen
+        console.log(ui.item.index());
+      },
+      change : function(){
+        $( "table tbody tr td:nth-child(" + (index + 1) + ")" ).hide();
+        $(".placeholder-body").remove();
+        $("table tbody tr td:nth-child(" + $('.test-kop').index() + ")" ).after('<td class="placeholder-body" style="background-color: #A9C593;"></td>');
+      }
+    });
 
     /*
      * Filter samenstellen
