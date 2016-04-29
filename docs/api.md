@@ -25,6 +25,7 @@ De API heeft de volgende eindpunten:
 | *[/ledenlijst/filter](#ledenlijstfilter)*                   | OK    | NOK    | -       | -        | -     |
 | *[/ledenlijst/filter/{filterid}](#ledenlijstfilterfilterid)*| OK    | -      | NOK     | NOK      | NOK   |
 | *[/ledenlijst/kolom-type](#ledenlijstkolom-type)*           | NOK   | -      | -       | -        | -     |
+| *[/zoeken](#zoeken)*               | NOK   | -      | -       | -        | -     |
 
  * Imperformante request
 
@@ -812,6 +813,43 @@ Geen body nodig.
       "method": "GET"
     } 
   ]
+}
+```
+
+### `/zoeken`
+#### `GET`
+//Een lijst van alle leden die in aanmerking komen voor de query.
+
+##### Request
+Uri parameters toegelaten:
+* `query`: string waarop gezocht moet worden
+* `token`: string token warmee de client de request kan identificeren (transparant terug gegeven door de server).
+
+
+##### Response
+```javascript 
+{
+  "token": "foobar",
+  leden: [{
+    "link": {
+      "rel": "self",
+      "href": "https://ga.sgv.be/rest/lid/d5f75b320b812440010b8127f95f4db4",
+      "method": "GET"
+    },
+    "voornaam": "Baden",
+    "achternaam": "Powell",
+    "geboortedatum": "1857-02-22",
+  },
+  {
+    "link": {
+      "rel": "self",
+      "href": "https://ga.sgv.be/rest/lid/d5f75b320b812440010b8127f95f4db4",
+      "method": "GET"
+    },
+    "voornaam": "Olave",
+    "achternaam": "Baden-Powell",
+    "geboortedatum": "1889-02-22",
+  }]
 }
 ```
 
