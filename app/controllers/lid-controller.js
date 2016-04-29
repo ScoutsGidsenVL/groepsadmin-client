@@ -93,7 +93,16 @@
 
       // init watch, naar welke objecten/delen van het lid object moet er gekeken worden om aanpassingen bij te houden?
       angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies'], function(value, key) {
-        $scope.$watch(value, setChanges, true);
+        $scope.$watch(value, function(newVal, oldVal, scope) {
+            console.log(value);
+            if (newVal == oldVal) return;
+            sectie = value.split(".").pop();
+            if($scope.lid.changes.indexOf(sectie) < 0) {
+              $scope.lid.changes.push(sectie);
+            }
+            $window.onbeforeunload = unload;
+          },
+          true);
       });
 
       // Permissies komen uit PATCH link object
@@ -140,16 +149,6 @@
       if ($scope.patchObj) {
         return $scope.patchObj.secties.indexOf(val) > -1;
       }
-    }
-      
-    function setChanges(newVal, oldVal, scope) {
-      console.log(this);
-      if (newVal == oldVal) return;
-      sectie = this.exp.split(".").pop();
-      if($scope.lid.changes.indexOf(sectie) < 0) {
-        $scope.lid.changes.push(sectie);
-      }
-      $window.onbeforeunload = unload;
     }
 
     // nieuw lid initialiseren na update.
@@ -357,6 +356,7 @@
           var currentFunctieName= $scope.functieslijst[functie.functie].beschrijving;
           DialogService.new("Bevestig","Weet u zeker dat u " + $scope.lid.persoonsgegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
           initAangepastLid();
+          $window.onbeforeunload = null;
 
         },
         function(error) {
@@ -529,6 +529,7 @@
           $scope.lid.$update(function(response) {
             AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
             initAangepastLid();
+            $window.onbeforeunload = null;
           });
           initAangepastLid();
         });
@@ -538,6 +539,7 @@
         $scope.lid.$update(function(response) {
           AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
           initAangepastLid();
+          $window.onbeforeunload = null;
         });
       }
     }
