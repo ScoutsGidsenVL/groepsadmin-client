@@ -9,12 +9,11 @@
 
   function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope) {
     // check authentication
-    /*
     console.log(keycloak.authenticated );
     if(!keycloak.authenticated){
       keycloak.login();
     }
-    */
+
     var sectie
     
     // Nieuwe adressen hebben geen id. Tijdelijk opgelost met tempAdresId.
@@ -144,6 +143,7 @@
     }
       
     function setChanges(newVal, oldVal, scope) {
+      console.log(this);
       if (newVal == oldVal) return;
       sectie = this.exp.split(".").pop();
       if($scope.lid.changes.indexOf(sectie) < 0) {

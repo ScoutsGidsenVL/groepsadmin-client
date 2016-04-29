@@ -9,10 +9,10 @@
 
   function LidToevoegenController ($scope, $location, $window, RestService, AlertService, DialogService, $rootScope, $route) {
     // check authentication
-    /*console.log(keycloak.authenticated );
+    console.log(keycloak.authenticated );
     if(!keycloak.authenticated){
       keycloak.login();
-    }*/
+    }
 
 
     // Nieuwe adressen hebben geen id. Tijdelijk opgelost met tempAdresId.

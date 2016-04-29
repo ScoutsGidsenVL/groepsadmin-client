@@ -9,13 +9,12 @@
 
   function LedenlijstController($scope, RestService, $window) {
     // check authentication
-    /*console.log(keycloak.authenticated );
-
+    console.log(keycloak.authenticated );
     if(!keycloak.authenticated){
       keycloak.login();
       return;
     }
-    */
+
 
     /*
      * Init
