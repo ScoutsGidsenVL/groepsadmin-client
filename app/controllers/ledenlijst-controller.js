@@ -51,7 +51,7 @@
       change : function(){
         $( "table tbody tr td:nth-child(" + (index + 1) + ")" ).hide();
         $(".placeholder-body").remove();
-        $("table tbody tr td:nth-child(" + $('.test-kop').index() + ")" ).after('<td class="placeholder-body" style="background-color: #A9C593;"></td>');
+        $("table tbody tr td:nth-child(" + $('.placeholder-kolom-kop').index() + ")" ).after('<td class="placeholder-body" style="background-color: #A9C593;"></td>');
       }
     });
 
