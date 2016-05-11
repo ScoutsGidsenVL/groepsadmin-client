@@ -220,7 +220,7 @@ Een specifiek lid
       "rel": "update",
       "href": "https://ga.sgv.be/rest/lid/d5f75b320b812440010b8127f95f4db4",
       "method": "PATCH",
-      "secties": ["persoonsgegevens", "adressen", "email", "functies.A3143G", "groepseigen"]
+      "secties": ["persoonsgegevens", "gebruikersnaam", "vgagegevens", "adressen", "email", "functies.A3143G", "groepseigenVelden.A1301G"]
     }, { //Indien lid vanuit filter opgeroepen werd en er dus een vorig en volgend lid mogelijk is
       "rel": "prev",
       "href": "https://ga.sgv.be/rest/lid/d5f75b320b812440010b8127f95f4db4?positie=acme",
@@ -233,9 +233,19 @@ Een specifiek lid
   ]
 }
 ```
-
 * Bij samengevoegde leden zullen beide lid-id's blijven werken, en naar dezelfde resource leiden (waarschijnlijk redirect).
 * Een andere mogelijkheid is om elke sectie van deze resource te splitsen in kleinere secties.  (*lid/{lidid}/persoonsgegevens*).  Dit is makkelijker op de server kant, maar heb het gevoel dat op de client zijde dit dingen vermoeilijkt (of niet?).
+
+###### Link secties
+Deze secties bepalen welke onderdelen van het lid aangepast kunnen worden door de huidige gebruiker.
+`persoonsgegevens` : Algemene persoonsgegevens
+`gebruikersnaam` : de gebruikersnaam van het lid
+`vgagegevens` : velden: "Persoon met beperking" en "Verminderd lidgeld"
+`email` : het emailadres van het lid
+`adressen` : de adressen van het lid
+`contacten` : de contacten van het lid
+`functies.A1301G` : de functies van het lid in de groep met groepsnummer A1301G (zowel groepseigenfuncties als verbondsfuncties)
+`groepseigenVelden.A1301G` : de groepseigenvelden van het lid de groep met groepsnummer A1301G
 
 #### PATCH
 Updaten van een lid
