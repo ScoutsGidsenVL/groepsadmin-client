@@ -10,11 +10,16 @@
   
   function httpInterceptor($q, AlertService) {
     return {
-      /*
       'request': function(config) {
+        // add keycloak header if request goes to groepsadmin API
+        if(config.url.lastIndexOf('/groepsadmin/rest-ga/', 0) === 0 ){
+          console.log('API request');
+          config.headers.Authorization = "Bearer mF_9.B5f-4.1JqM";
+        }
+        console.log(config);
         return config;
       },
-
+      /*
       'requestError': function(rejection) {
         if (canRecover(rejection)) {
           return responseOrNewPromise
@@ -27,6 +32,7 @@
       },
       */
       'responseError': function(rejection) {
+        console.log(rejection);
         if (!navigator.onLine || rejection.status == 0) {
           // Note: Browsers implement the NavigatorOnLine.onLine property differently.
           // See the docs: https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/onLine
