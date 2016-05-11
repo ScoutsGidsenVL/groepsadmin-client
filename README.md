@@ -83,6 +83,22 @@ Bijvoorbeeld `ga-lid="{{lid.id}}"` creëert een EventListener om de pagina van d
 
 Cursus AngularJS: <http://angular.codeschool.com>
 
+### Dependencies
+#### UI Bootstrap - v1.3.2
+
+<https://angular-ui.github.io/bootstrap/>
+
+In deze client word er voor sommige ondendelen gebruikgemaakt van Bootstrap components die speciaal voor AngularJS geschreven zijn.
+Onderdelen die included zijn in de custom build voor deze applicatie:
+* Collapse
+* Alert
+* Dataparser
+* Dropdown
+* Typeahead
+
+#### ng-infinite-scroll - v1.0.0
+
+<https://sroze.github.io/ngInfiniteScroll/index.html>
 
 ### ng-inspector (optioneel)
 
