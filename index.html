@@ -75,8 +75,8 @@
         </div>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
-            <a href="" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="visible-md-inline visible-lg-inline">woutersynhaeve</span> <span class="caret"></span>
+            <a href="" class="dropdown-toggle" data-toggle="dropdown" ng-controller="UserController">
+              <span class="visible-md-inline visible-lg-inline">{{ username }}</span> <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
               <li><a href="#/lid/profiel">Mijn profiel</a></li>
@@ -160,6 +160,7 @@
     <script src="app/controllers/lid-controller.js"></script>
     <script src="app/controllers/lid-toevoegen-controller.js"></script>
     <script src="app/controllers/search-controller.js"></script>
+    <script src="app/controllers/user-controller.js"></script>
 
     <script src="app/services/rest-service.js"></script>
     <script src="app/services/http-interceptor-service.js"></script>
