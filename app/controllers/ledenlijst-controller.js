@@ -5,9 +5,9 @@
     .module('ga.ledenlijstcontroller', [])
     .controller('LedenlijstController', LedenlijstController);
 
-  LedenlijstController.$inject = ['$scope', 'RestService', '$window'];
+  LedenlijstController.$inject = ['$scope', 'RestService', '$window', 'keycloak'];
 
-  function LedenlijstController($scope, RestService, $window) {
+  function LedenlijstController($scope, RestService, $window, keycloak) {
     console.log('login = ' + keycloak.authenticated);
 
 
