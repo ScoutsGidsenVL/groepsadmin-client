@@ -5,14 +5,11 @@
     .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('LidController', LidController);
 
-  LidController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope'];
+  LidController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'keycloak' ];
 
-  function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope) {
-    // check authentication
-    console.log(keycloak.authenticated );
-    if(!keycloak.authenticated){
-      //keycloak.login();
-    }
+  function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, keycloak) {
+    console.log('login = ' + keycloak.authenticated);
+
 
     var sectie
     

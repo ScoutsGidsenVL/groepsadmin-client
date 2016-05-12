@@ -6,15 +6,15 @@
     .factory('httpInterceptor', httpInterceptor)
     
 
-  httpInterceptor.$inject = ['$q', 'AlertService'];
+  httpInterceptor.$inject = ['$q', 'AlertService', 'keycloak'];
   
-  function httpInterceptor($q, AlertService) {
+  function httpInterceptor($q, AlertService, keycloak) {
     return {
       'request': function(config) {
         // add keycloak header if request goes to groepsadmin API
         if(config.url.lastIndexOf('/groepsadmin/rest-ga/', 0) === 0 ){
           console.log('API request');
-          config.headers.Authorization = "Bearer mF_9.B5f-4.1JqM";
+          config.headers.Authorization = "Bearer " + keycloak.token;
         }
         console.log(config);
         return config;

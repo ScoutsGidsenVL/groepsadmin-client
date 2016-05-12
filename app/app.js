@@ -34,6 +34,9 @@
         }
       }
     }])
+  angular.module('ga').factory('keycloak', $window => {
+    return $window._keycloak;
+  });
   /*
 .filter("mydate", function() {
     var re = /\\\/Date\(([0-9]*)\)\\\//;

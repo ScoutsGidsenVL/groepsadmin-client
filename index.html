@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="nl" ng-app="ga">
+<html lang="nl">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -147,17 +147,6 @@
     <!-- Keycloak -->
     <script src="bower_components/keycloak/dist/keycloak.js"></script>
 
-    <script>
-      var keycloak = new Keycloak({
-        url: 'http://groepsadmin-develop.scoutsengidsenvlaanderen.net:8888/auth',
-        realm: 'scouts',
-        clientId: 'groepsadmin-localhost-80'
-      })
-      keycloak.init();
-    </script>
-
-
-
     <!-- Angular -->
     <script src="js/angular/angular.min.js"></script>
     <script src="js/angular/angular-route.min.js"></script>
@@ -201,6 +190,22 @@
       });
     </script>
 
+    <script>
+      angular.element(document).ready(() => {
+        window._keycloak = Keycloak({
+          url: 'https://login.scoutsengidsenvlaanderen.be/auth',
+          realm: 'scouts',
+          clientId: 'groepsadmin-localhost-80'
+        });
 
+        window._keycloak
+          .init({
+            onLoad: 'login-required'
+          })
+          .success(() => {
+            angular.bootstrap(document, ['ga']); // manually bootstrap Angular
+          });
+      });
+    </script>
   </body>
 </html>

@@ -8,12 +8,8 @@
   LedenlijstController.$inject = ['$scope', 'RestService', '$window'];
 
   function LedenlijstController($scope, RestService, $window) {
-    // check authentication
-    console.log(keycloak.authenticated );
-    if(!keycloak.authenticated){
-      //keycloak.login();
-      //return;
-    }
+    console.log('login = ' + keycloak.authenticated);
+
 
 
     /*
