@@ -9,7 +9,10 @@
 
   function UserController ($scope, keycloak) {
     console.log('login = ' + keycloak.authenticated);
-    $scope.username = keycloak.idTokenParsed.name + " " + keycloak.idTokenParsed.family_name;
+    $scope.username = keycloak.idTokenParsed.name
+    $scope.logout = function(){
+      keycloak.logout();
+    }
 
   }
 })();
