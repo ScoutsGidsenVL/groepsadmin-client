@@ -69,7 +69,7 @@
         <div class="navbar-form navbar-left" ng-controller="SearchController" role="search">
           <div class="col-xs-7 col-xxs-2">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" uib-typeahead="lid for lid in zoekLeden($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"/>
+              <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" id="_zoekenWrap"  uib-typeahead="lid for lid in zoekLid($viewValue)"  typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"/>
             </div>
           </div>
         </div>

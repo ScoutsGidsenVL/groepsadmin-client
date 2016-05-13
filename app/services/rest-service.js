@@ -64,6 +64,11 @@
         baseGis + 'code?term=:zoekterm&postcode=:postcode',
         {zoekterm: '@zoekterm', postcode: '@postcode'},
         {'query': {method: 'GET', isArray:true, cache: false}}
+      ),
+      Zoeken: $resource(
+        base + 'zoeken?query=:zoekterm&token=:token',
+        {zoekterm: '@zoekterm', token: '@token'},
+        {'query': {method: 'GET', isArray:true, cache: false}}
       )
 
 
