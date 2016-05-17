@@ -12,9 +12,15 @@
     // zoek leden via api
     $scope.zoekLid = function(zoekterm){
       rencentsteToken++;
-      RestService.Zoeken.get({zoekterm:zoekterm, token:rencentsteToken}).$promise.then(
+      return RestService.Zoeken.get({zoekterm:zoekterm, token:rencentsteToken}).$promise.then(
           function(result){
-            return result.zoekLeden;
+            // controle is dit de meest recente request
+            if (result.token == rencentsteToken){
+              console.log("Meest recent request.");
+              console.log(result.zoekLeden);
+              return result.zoekLeden;
+            }
+            return null;
         });
     }
 

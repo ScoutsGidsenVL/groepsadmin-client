@@ -66,10 +66,13 @@
           </a></li>
         </ul>
         <!-- Zoekveld -->
-        <div class="navbar-form navbar-left" ng-controller="SearchController" role="search">
+        <div class="navbar-form navbar-left" ng-controller="SearchController" role="search" id="search">
           <div class="col-xs-7 col-xxs-2">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" id="_zoekenWrap"  uib-typeahead="lid for lid in zoekLid($viewValue)"  typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"/>
+              <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" id="_zoekenWrap" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html" typeahead-min-length="3" typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
+              <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken "><i class="fa fa-spinner fa-pulse"></i></div>
+              <div ng-show="noResults" class="input-group-addon" title="Geen resultaten gevonden"><i class="fa fa-ban"></i></div>
+
             </div>
           </div>
         </div>
@@ -196,7 +199,7 @@
         window._keycloak = Keycloak({
           url: 'https://login.scoutsengidsenvlaanderen.be/auth',
           realm: 'scouts',
-          clientId: 'groepsadmin-dev-client'
+          clientId: 'groepsadmin-localhost-80'
         });
 
         window._keycloak

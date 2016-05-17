@@ -1,1 +1,9 @@
-<a href>{{match.model.voornaam + ' ' + match.model.achternaam}}</a>
+<a ng-click="gaNaarLid(match.model)">
+  {{match.model.voornaam + ' ' + match.model.naam}}
+  <br>
+  <span ng-if="match.model.telefoon || match.model.email">
+    <i ng-if="match.model.telefoon && match.model.email">{{match.model.telefoon + ' - ' + match.model.email}}</i>
+    <i ng-if="match.model.telefoon && !match.model.email">{{match.model.telefoon}}</i>
+    <i ng-if="!match.model.telefoon && match.model.email">{{match.model.email}}</i>
+  </span>
+</a>

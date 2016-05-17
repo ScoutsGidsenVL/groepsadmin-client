@@ -13,10 +13,10 @@
       'request': function(config) {
         // add keycloak header if request goes to groepsadmin API
         if(config.url.lastIndexOf('/groepsadmin/rest-ga/', 0) === 0 ){
-          console.log('API request');
+          //console.log('API request');
           config.headers.Authorization = "Bearer " + keycloak.token;
         }
-        console.log(config);
+        // console.log(config);
         return config;
       },
       /*
@@ -32,7 +32,7 @@
       },
       */
       'responseError': function(rejection) {
-        console.log(rejection);
+        // console.log(rejection);
         if (!navigator.onLine || rejection.status == 0) {
           // Note: Browsers implement the NavigatorOnLine.onLine property differently.
           // See the docs: https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/onLine
