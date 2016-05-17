@@ -12,10 +12,11 @@
     $rootScope.alerts = [];
 
     return alertService = {
-      add: function(type, msg, timeout) {
+      add: function(type, msg, timeout, url) {
         var alert = {
           type: type,
           msg: msg,
+          url: url,
           close: function() {
             return alertService.closeAlert(this);
           }
@@ -34,6 +35,9 @@
       },
 
       closeAlertByIndex: function(index) {
+        return index>-1 && $rootScope.alerts.splice(index, 1);
+      },
+      closeAlertByUrl: function(url) {
         return index>-1 && $rootScope.alerts.splice(index, 1);
       },
 

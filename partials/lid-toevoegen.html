@@ -258,7 +258,11 @@
       <!-- Functies -->
       <section>
         <fieldset>
-          <legend>Functies toevoegen</legend>
+          <legend>Functies toevoegen
+            <div class="pull-right" ng-hide="groepEnfuncties.length">
+              <i class="fa fa-spinner fa-pulse"> </i>
+            </div>
+          </legend>
           <fieldset ng-repeat="groepFuncties in groepEnfuncties" ng-show="hasPermission('functies.' + groepFuncties.groepsnummer)">
             <legend >{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
             </legend>

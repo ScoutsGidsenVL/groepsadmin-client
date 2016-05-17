@@ -15,12 +15,27 @@
       Lid: $resource(
         base + 'lid/:id?bevestig=:bevestiging',
         {id: '@id',bevestiging: '@bevestiging'},
-        {'update': {method: 'PATCH', transformRequest: changesOnly, cache: false}}
+        {
+          'update': {
+            method: 'PATCH', transformRequest: changesOnly,cache: false
+          }
+        }
       ),
       LidAdd: $resource(
         base + 'lid/',
         {},
-        {'save': {method: 'POST'}}
+        {'save': {
+            method: 'POST'
+          },
+         'options': {
+            method: 'OPTIONS',
+            transformResponse: function (data) {
+              var result = {};
+              result.data = data;
+              return result;
+            }
+          }
+        }
       ),
       Functie: $resource(
         base + 'functie/:functieId',
