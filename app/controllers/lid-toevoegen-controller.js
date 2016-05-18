@@ -294,6 +294,7 @@
     */
 
     $scope.opslaan = function() {
+      $scope.saving = true;
       var origineelLid = {};
       angular.copy($scope.lid,origineelLid);
       //lid voorbereiden voor verzenden
@@ -345,8 +346,11 @@
                 // redirect to lid page
                 console.log(response);
                 $location.path("/lid/" + response.id);
+                $scope.saving = false;
+                AlertService.add('success ', "Lid teogeveogd", 5000);
               },
               function(error) {
+                $scope.saving = false;
                 AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
               }
             );

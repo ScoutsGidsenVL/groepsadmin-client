@@ -506,6 +506,7 @@
     // alle aanpassingen opslaan
     $scope.opslaan = function() {
       if($scope.lid.changes.indexOf("adressen") != -1  && $scope.lid.changes.indexOf("contacten") != -1){
+        $scope.saving = true;
         //als er aanpassingen gebeurd zijn aan de contacten en tegelijk ook aan de adressen worden eerst de adressen toegevoegd en daarna de contacten.
         var adressen = $scope.lid.adressen;
         var contacten = $scope.lid.contacten;
@@ -529,9 +530,9 @@
           $scope.lid.contacten = contacten;
           $scope.lid.changes = Array();
           $scope.lid.changes.push("contacten");
-
           //aangepaste contacten opsturen naar server.
           $scope.lid.$update(function(response) {
+            $scope.saving = false;
             AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
             initAangepastLid();
             $window.onbeforeunload = null;
@@ -541,7 +542,9 @@
 
       }
       else{
+        $scope.saving = true;
         $scope.lid.$update(function(response) {
+          $scope.saving = false;
           AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
           initAangepastLid();
           $window.onbeforeunload = null;

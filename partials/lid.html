@@ -356,14 +356,26 @@
 <!-- Panel footer -->
 <footer class="panel-footer clearfix">
   <ul class="pagination pull-left responsive-footer">
-    <li><a href="" ng-click="opslaan()" ng-show="lid">Opslaan</a></li>
+    <li>
+      <a href="" ng-click="opslaan()" ng-show="lid">Opslaan
+        <div class="pull-right" ng-show="saving">
+          <i class="fa fa-spinner fa-pulse"> </i>
+        </div>
+      </a>
+    </li>
     <li><a href="" ng-click="schrap()" ng-show="lid.functies">Stop alle functies</a></li>
     <li><a href="" ng-click="nieuw()" ng-show="canPost">Nieuw</a></li>
     <li><a href="" ng-click="gezinslid()" ng-show="lid && canPost">Broer/zus toevoegen</a></li>
     <li class="dropdown dropup pull-right" title="Meer">
       <a class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
-        <li><a href="" ng-click="opslaan()" ng-show="lid">Opslaan</a></li>
+        <li>
+          <a href="" ng-click="opslaan()" ng-show="lid">Opslaan
+            <div class="pull-right" ng-show="saving">
+              <i class="fa fa-spinner fa-pulse"> </i>
+            </div>
+          </a>
+        </li>
         <li><a href="" ng-click="schrap()" ng-show="lid.functies">Stop alle functies</a></li>
         <li><a href="" ng-click="nieuw()" ng-show="canPost">Nieuw</a></li>
         <li><a href="" ng-click="gezinslid()" ng-show="lid && canPost">Broer/zus toevoegen</a></li>
