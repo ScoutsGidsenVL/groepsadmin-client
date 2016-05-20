@@ -192,18 +192,18 @@
     </script>
 
     <script>
-      angular.element(document).ready(() => {
+      angular.element(document).ready(function() {
         window._keycloak = Keycloak({
           url: 'https://login.scoutsengidsenvlaanderen.be/auth',
           realm: 'scouts',
-          clientId: 'groepsadmin-dev-client'
+          clientId: 'groepsadmin-localhost-80'
         });
 
         window._keycloak
           .init({
             onLoad: 'login-required'
           })
-          .success(() => {
+          .success(function() {
             angular.bootstrap(document, ['ga']); // manually bootstrap Angular
           });
       });

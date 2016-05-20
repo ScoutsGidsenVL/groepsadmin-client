@@ -35,7 +35,7 @@
         }
       }
     }])
-  angular.module('ga').factory('keycloak', $window => {
+  angular.module('ga').factory('keycloak', function($window) {
     return $window._keycloak;
   });
   /*
