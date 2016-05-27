@@ -36,8 +36,6 @@
     <meta name="msapplication-square310x310logo" content="img/favicons/large.png"/>
 
     <!-- Styles -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href="css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       /* Dynamically generated CSS for small phones */
@@ -51,6 +49,36 @@
   </head>
 
   <body>
+    <div id="global-menu" class="region">
+      <div class="globale_menubalk">
+        <ul id="items"><li><a href="https://www.scoutsengidsenvlaanderen.be" id="item_sgv">Scouts en Gidsen Vlaanderen</a></li><li class="menu_item"><a href="https://www.scoutsengidsenvlaanderen.be/">Scouts en Gidsen Vlaanderen</a></li><li class="menu_item"><a href="http://www.hopper.be/winkel">Hopper Winkel</a></li><li class="menu_item"><a href="http://www.hopper.be/jeugdverblijf">Hopper Jeugdverblijven</a></li><li><a href="https://www.facebook.com/scoutsengidsenvlaanderen" id="item_facebook" style="background-image: url(https://www.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_fb.png);" title="Facebook">&nbsp;</a></li><li><a href="https://twitter.com/ScoutsGidsenVL" id="item_twitter" style="background-image: url(https://www.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_twitter.png);" title="Twitter">&nbsp;</a></li><li><a href="https://instagram.com/scoutsgidsenvl" id="item_instagram" style="background-image: url(https://www.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_instagram.png);" title="Instagram">&nbsp;</a></li></ul>
+
+        <div id="account">
+          <span id="item_aanmelden" style="display: none;">
+            <a id="gm_aanmelden" class="item_link" href="/user">Aanmelden</a> of <a class="item_link" href="https://groepsadmin.scoutsengidsenvlaanderen.be">Registreren</a>
+          </span>
+
+          <span id="item_username" active-link="active" class="dropdown" ng-controller="UserController">
+            <a href="#/lid/profiel" class="mijn_profiel" rel="nofollow">{{ username }}</a>
+          </span>
+
+          <span id="item_instellingen">
+            <a href="http://wiki.scoutsengidsenvlaanderen.be" id="item_help" rel="nofollow">
+              <i class="fa fa-question" aria-hidden="true"></i>
+              Help
+            </a>
+          </span>
+
+          <span id="item_afmelden" ng-controller="UserController">
+            <a ng-click="logout()" rel="nofollow">
+              <i class="fa fa-sign-out"></i>
+              Afmelden
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand visible-md-block visible-lg-block" href="#/"><img src="img/logo.png" alt="Groepsadministratie Scouts en Gidsen Vlaanderen logo" width="50" height="64" /></a>
@@ -65,6 +93,7 @@
             <span class="glyphicon glyphicon-stats"></span>&nbsp; <span class="hidden-xs">Orakel</span>
           </a></li>
         </ul>
+
         <!-- Zoekveld -->
         <div class="navbar-form navbar-left" ng-controller="SearchController" role="search" id="search">
           <div class="col-xs-7 col-xxs-2">
@@ -76,21 +105,62 @@
             </div>
           </div>
         </div>
-        <ul class="nav navbar-nav navbar-right">
-          <li active-link="active" class="dropdown" ng-controller="UserController">
-            <a href="#/lid/profiel">
-              {{ username }}
-            </a>
-          </li>
-          <li><a href="" ><i class="fa fa-question" aria-hidden="true"></i></a></li>
-          <li ng-controller="UserController"><a ng-click="logout()" title="afmelden"><i class="fa fa-sign-out"></i> Logout</a></li>
-
-        </ul>
       </div>
     </nav>
 
     <!-- Include the rendered template -->
-    <div class="panel panel-default container-fluid" ng-view></div>
+    <div class="main-content">
+      <div class="panel panel-default container-fluid" ng-view></div>
+    </div>
+
+    <footer class="region" id="footer">
+      <div class="container">
+        <div class="footer-top">
+          <div class="logo">
+            <a href="/" rel="home" title="Scouts en Gidsen Vlaanderen logo" class="logo-link">
+              <!--[if !IE]>-->
+                <img class="site-logo" src="https://www.scoutsengidsenvlaanderen.be/sites/all/themes/theme2014/assets/img/logo-alt.svg" alt="Scouts en Gidsen Vlaanderen">
+              <!--<![endif]-->
+              <!--[if lte IE 9]>
+                <img class="site-logo" src="/sites/all/themes/theme2014/assets/img/logo-alt.png" alt="Scouts en Gidsen Vlaanderen logo" />
+              <![endif]-->
+            </a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="contact">
+            Scouts en Gidsen Vlaanderen vzw<br>
+            Wilrijkstraat 45, 2140 Antwerpen<br>
+            <a href="callto:+3232311620">+32 3 231 16 20</a><br>
+            <a href="mailto:info@scoutsengidsenvlaanderen.be">info@scoutsengidsenvlaanderen.be</a><br>
+            <!--<a href="/contact" class="arrow-link shape-link">Contact</a>-->
+          </div>
+          <div class="externe-links">
+            <ul>
+              <li>
+                <div class="logo logo-hopper">
+                  <a href="http://www.hopper.be" title="Hopper" class="logo-link">
+                      <img class="site-logo" src="https://www.scoutsengidsenvlaanderen.be/sites/all/themes/theme2014/assets/img/logo-hopper.png" alt="Hopper">
+                  </a>
+                </div>
+              </li>
+              <li>
+                <div class="logo logo-vlaanderen">
+                  <a href="http://www.vlaanderen.be/nl" title="Vlaanderen - Verbeelding werkt" class="logo-link">
+                    <!--[if !IE]>-->
+                      <img class="site-logo" src="https://www.scoutsengidsenvlaanderen.be/sites/all/themes/theme2014/assets/img/logo-vlaanderen.svg" alt="Vlaanderen - Verbeelding werkt">
+                    <!--<![endif]-->
+                    <!--[if lte IE 9]>
+                      <img class="site-logo" src="/sites/all/themes/theme2014/assets/img/logo-vlaanderen.png" alt="Vlaanderen - Verbeelding werkt" />
+                    <![endif]-->
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
 
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()">{{alert.msg}}</alert>
 
@@ -229,7 +299,7 @@
           })
           .success(function() {
             angular.bootstrap(document, ['ga']); // manually bootstrap Angular
-          });
+        });
       });
     </script>
   </body>
