@@ -31,6 +31,19 @@ Meer info over de property order:
 
 
 
+## NPM en Bower
+
+<https://nodejs.org/>
+<http://bower.io/>
+
+Bower wordt gebruikt om dependencies te beheren.
+
+Installeer Bower via npm: `npm install -g bower`
+
+Gebruik dan Bower om onze dependencies (Keycloak) te installeren: `bower update`
+
+
+
 ## Grunt
 
 <http://gruntjs.com>
