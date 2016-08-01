@@ -17,6 +17,7 @@
     'ga.ui.selectpicker',
     'ga.ui.alert',
     'ga.ui.dialog',
+    'ga.filters',
     'ui.bootstrap',
     'ga.utils',
     'infinite-scroll'

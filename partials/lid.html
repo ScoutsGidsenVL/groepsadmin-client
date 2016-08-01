@@ -24,16 +24,22 @@
               <i class="fa fa-spinner fa-pulse"> </i>
             </div>
           </legend>
-          <div class="form-group" ng-show="lid">
+          <div class="form-group {{  'persoonsgegevens.voornaam' | formValidator:validationErrors  }}" ng-show="lid">
             <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input  type="text" class="form-control" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam" ng-disabled="!hasPermission('persoonsgegevens')"/>
+              <input  type="text" class="form-control"    id="_voornaam" ng-model="lid.persoonsgegevens.voornaam" ng-disabled="!hasPermission('persoonsgegevens')"/>
+              <div ng-if="'persoonsgegevens.voornaam' | formValidator:validationErrors">
+                <i class="validation-error-details">{{ 'persoonsgegevens.voornaam' | formValidatorError:validationErrors }}</i>
+              </div>
             </div>
           </div>
-          <div class="form-group" ng-show="lid">
+          <div class="form-group {{  'persoonsgegevens.achternaam' | formValidator:validationErrors  }}" ng-show="lid">
             <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
             <div class="col-xs-7 col-xxs-12">
               <input  type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam" ng-disabled="!hasPermission('persoonsgegevens')"/>
+              <div ng-if="'persoonsgegevens.achternaam' | formValidator:validationErrors">
+                <i class="validation-error-details">{{ 'persoonsgegevens.achternaam' | formValidatorError:validationErrors }}</i>
+              </div>
             </div>
           </div>
           <div class="form-group" ng-show="lid">
@@ -45,11 +51,14 @@
               </select>
             </div>
           </div>
-          <div class="form-group" ng-show="lid">
+          <div class="form-group {{  'persoonsgegevens.geboortedatum' | formValidator:validationErrors  }}" ng-show="lid">
             <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
             <div class="col-xs-7 col-xxs-12">
               <!-- fix date-parse -->
               <input type="date" class="form-control" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date ng-disabled="!hasPermission('persoonsgegevens')"/>
+              <div ng-if="'persoonsgegevens.geboortedatum' | formValidator:validationErrors">
+                <i class="validation-error-details">{{ 'persoonsgegevens.geboortedatum' | formValidatorError:validationErrors }}</i>
+              </div>
             </div>
           </div>
           <label class="form-group control checkbox" ng-show="lid">
@@ -70,7 +79,7 @@
             <label for="_gebruikersnaam" class="col-xs-5 col-xxs-12 control-label">Gebruikersnaam</label>
             <div class="col-xs-7 col-xxs-12">
               <p>{{ lid.gebruikersnaam }}</p>
-             <!-- <input type="text" class="form-control" id="_gebruikersnaam" ng-model="lid.gebruikersnaam" ng-disabled="true"/> -->
+              <input type="text" class="form-control" id="_gebruikersnaam" ng-model="lid.gebruikersnaam"/>
             </div>
           </div>
           <div class="form-group" ng-class="{ 'readonly' : !hasPermission('email') }" ng-show="lid">
@@ -79,19 +88,25 @@
               <input type="text" class="form-control" id="_email" ng-model="lid.email" ng-disabled="!hasPermission('email')"/>
             </div>
           </div>
-          <div class="form-group" ng-show="lid">
+          <div class="form-group {{  'persoonsgegevens.gsm' | formValidator:validationErrors  }}" ng-show="lid">
             <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
             <div class="col-xs-7 col-xxs-12">
               <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm" ng-disabled="!hasPermission('persoonsgegevens')"/>
+              <div ng-if="'persoonsgegevens.gsm' | formValidator:validationErrors">
+                <i class="validation-error-details">{{ 'persoonsgegevens.gsm' | formValidatorError:validationErrors }}</i>
+              </div>
             </div>
           </div>
-          <div class="form-group" ng-show="lid">
+          <div class="form-group {{  'persoonsgegevens.rekeningnummer' | formValidator:validationErrors  }}" ng-show="lid">
             <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
             <div class="col-xs-7 col-xxs-12">
               <input type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" ng-disabled="!hasPermission('persoonsgegevens')"/>
+              <div ng-if="'persoonsgegevens.rekeningnummer' | formValidator:validationErrors">
+                <i class="validation-error-details">{{ 'persoonsgegevens.rekeningnummer' | formValidatorError:validationErrors }}</i>
+              </div>
             </div>
           </div>
-          <label class="form-group control checkbox" ng-show="lid">
+          <label class="form-group control checkbox {{  'verbondsgegevens.lidgeldbetaald' | formValidator:validationErrors  }}" ng-show="lid">
             <div class="col-xs-5 col-xxs-12 control-label">Lidgeld betaald</div>
             <div class="col-xs-7 col-xxs-12">
               <input type="checkbox" class="" id="_lidgeldbetaald" ng-model="lid.verbondsgegevens.lidgeldbetaald" ng-disabled="!hasPermission('persoonsgegevens')"/>

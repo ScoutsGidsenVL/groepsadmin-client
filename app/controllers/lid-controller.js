@@ -10,7 +10,7 @@
   function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, keycloak) {
     console.log('login = ' + keycloak.authenticated);
 
-
+    $scope.validationErrors = [];
     var sectie
     
     // Nieuwe adressen hebben geen id. Tijdelijk opgelost met tempAdresId.
@@ -541,14 +541,24 @@
         });
 
       }
-      else{
+      else {
         $scope.saving = true;
-        $scope.lid.$update(function(response) {
-          $scope.saving = false;
-          AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
-          initAangepastLid();
-          $window.onbeforeunload = null;
-        });
+        $scope.lid.$update(
+          function(response) {
+            $scope.saving = false;
+            AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
+            initAangepastLid();
+            $window.onbeforeunload = null;
+            $scope.validationErrors = [];
+          },
+          function(error){
+            $scope.saving = false;
+            console.log(error);
+            if (error.data.titel == "Validatie faalde voor Lid"){
+              $scope.validationErrors = error.data.details;
+            }
+          }
+        );
       }
     }
 
