@@ -1,0 +1,1700 @@
+{
+  "links": [
+    {
+      "rel": "self",
+      "href": "http://localhost/groepsadmin/rest-ga/groep/X0006G",
+      "method": "GET",
+      "secties": []
+},
+    {
+      "rel": "self",
+      "href": "http://localhost/groepsadmin/rest-ga/groep/X0006G",
+      "method": "PATCH",
+      "secties": []
+},
+    {
+      "rel": "groepseigen functies aanmaken",
+      "href": "http://localhost/groepsadmin/rest-ga/functie",
+      "method": "POST",
+      "secties": []
+},
+    {
+      "rel": "inschrijven",
+      "href": "http://localhost/groepsadmin/lidworden?groep=X0006G",
+      "method": "GET",
+      "secties": []
+}
+],
+  "id": "d5f75b320b812440010b812552aa02ef",
+  "aangepast": "2016-08-02T14:16:54.148+02:00",
+  "groepsnummer": "X0006G",
+  "naam": "Stads -Regionale Ondersteuning",
+  "adres": {
+    "id": "d5f75b320b812440010b812552aa02ef",
+    "land": "BE",
+    "postcode": "2018",
+    "gemeente": "Antwerpen 1",
+    "straat": "Lange Kievitstraat",
+    "nummer": "74",
+    "postadres": false,
+    "status": "normaal",
+    "positie": {
+      "latitude": 51.213013200091,
+      "longitude": 4.42216873168945
+    },
+    "giscode": "6221"
+  },
+  "opgericht": "1899-12-31T23:09:21.000+00:09:21",
+  "rekeningnummer": "BE75409651860151",
+  "email": "",
+  "website": "www.scoutsengidsenvlaanderen.be",
+  "vrijeInfo": "",
+  "groepseigenFuncties": [],
+  "groepseigenGegevens": {
+    "schema": [
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463a56ef01463d0240f5000d",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463a56ef01463d0240f5000d",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst",
+        "label": "Eventueel naam van verblijfsinstelling:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 9,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463384de0146391124af00e5",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463384de0146391124af00e5",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Zo ja, welk?",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 26,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014715f910590751",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014715f910590751",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Zelfstandigheid",
+        "beschrijving": "(aanvinken wat past)",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 44,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b201471659a07c07b8",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b201471659a07c07b8",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "Onze zoon of dochter heeft soms de intentie om weg te lopen of zich te verwijderen van de groep.",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 129,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147162b9a700782",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147162b9a700782",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "ons kind kan in groep het openbaar vervoer gebruiken",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 50,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b201471633c2650789",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b201471633c2650789",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "onze zoon of dochter kan helpen bij tafeldekken",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 86,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147162648c1077c",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147162648c1077c",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "soep eten",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 84,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147163f6f9f0796",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147163f6f9f0796",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "onze zoon of dochter plast &rsquo;s nachts soms in bed",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 99,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e4610ed0201461f15b3fe001d",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e4610ed0201461f15b3fe001d",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Medische informatie",
+        "beschrijving": "Het is verboden om als leid(st)er, behalve EHBO, op eigen initiatief medische handelingen uit te voeren. Ook het verstrekken van lichte pijnstillende en koortswerende medicatie zoals Perdolan, Dafalgan of Aspirine is, zonder toelating van de ouders, voorbehouden aan een arts. Daarom is het noodzakelijk om via het onderstaande kader op deze steekkaart vooraf toestemming van ouders te hebben voor het eventueel toedienen van dergelijke hulp.",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 18,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147163c5b150792",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147163c5b150792",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Slapen",
+        "beschrijving": "(invullen of aanvinken wat past)",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 95,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147165b6eff07bc",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147165b6eff07bc",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Zo ja, welke? Beperkt tot:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 133,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b201471647a68607a1",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b201471647a68607a1",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Volgende symptomen zijn kenmerkend voor onze zoon of dochter bij een opstekende ziekte:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 110,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147162ee9210784",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147162ee9210784",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "kortingskaart voor De Lijn",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 75,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147162f798b0787",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147162f798b0787",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "kortingskaart voor de trein",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 78,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463384de0146390f8cb000e3",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463384de0146390f8cb000e3",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Info over noodzakelijke aanpak bij deze aandoening:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 24,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147160777860758",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147160777860758",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Zelfredzaamheid",
+        "beschrijving": "Hieronder staan een aantal handelingen. Gelieve aan te geven of uw zoon/dochter deze handelingen al dan niet zelfstandig kan. Onder zelfstandig verstaan we volledig zelfstandig, dwz: er moet niemand in de buurt zijn, zelfs niet om een oogje in het zeil te houden of om te controleren of het goed is gedaan. Indien niet volledig zelfstandig, gelieve dan aan te geven welke hulp uw zoon/dochter nodig heeft (vb. toezicht: je moet er bij blijven en controleren; je moet concrete instructies geven; samen doen;...).",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 51,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147160aa05c075a",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147160aa05c075a",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Zo nee, welke hulp is nodig?",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 53,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b201471629815a077e",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b201471629815a077e",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "ons kind kiest zijn/haar kleren zelf",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 46,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147162a4283077f",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147162a4283077f",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "ons kind kan lezen/schrijven",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 47,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b201471658963c07b7",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b201471658963c07b7",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "Onze zoon of dochter is te vertrouwen met vuur.",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 128,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014716509f3f07ae",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014716509f3f07ae",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Zo ja, wanneer en welke?",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 119,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014716537eda07b0",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014716537eda07b0",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Varia",
+        "beschrijving": "(invullen of aanvinken wat past)",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 121,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147162b51b20781",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147162b51b20781",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "ons kind kan fietsen",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 49,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147165a58d907ba",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147165a58d907ba",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Zo ja, van welke?",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 131,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147163f1b2c0795",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147163f1b2c0795",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "onze zoon of dochter is het gewend om met andere kinderen in dezelfde ruimte te slapen",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 98,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014720df14c607c2",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014720df14c607c2",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Voornaam, naam en tak van broers of zussen in dezelfde groep:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 7,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b201471625520f0779",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b201471625520f0779",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "boterhammen smeren",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 81,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014716340116078a",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014716340116078a",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "onze zoon of dochter kan helpen bij afruimen",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 87,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147164054320798",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147164054320798",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst",
+        "label": "Aantal uur slaap per nacht dat onze zoon of dochter nodig heeft:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 101,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147162f49220786",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147162f49220786",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "treinabonnement",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 77,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e4610ed0201461f119f740016",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e4610ed0201461f119f740016",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Zo neen, deze activiteiten zijn onmogelijk of niet toegestaan:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 11,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b201471615cb60076e",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b201471615cb60076e",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Andere:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 72,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463a56ef01463cebc8be0001",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463a56ef01463cebc8be0001",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Bevestiging",
+        "beschrijving": "Ik verklaar dat de ingevulde gegevens volledig en correct zijn. Het is raadzaam deze steekkaart voor elk kamp na te kijken.",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 137,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b201471625f982077b",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b201471625f982077b",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "snijden van vlees",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 83,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014716284e1c077d",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014716284e1c077d",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "ons kind kan alleen naar het toilet gaan",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 45,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463384de014639188d5400ea",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463384de014639188d5400ea",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Aanvullende opmerkingen",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 31,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014716476a3807a0",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014716476a3807a0",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst",
+        "label": "Vanaf welke temperatuur spreken wij van koorts?",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 109,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463a56ef01463cfac643000c",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463a56ef01463cfac643000c",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Engagement",
+        "beschrijving": "Leiding engageert er zich toe om samen zorg te dragen voor de veiligheid en het welzijn van alle leden. Bij twijfels of vragen hieromtrent is het absoluut  wenselijk dat ouders en leiding contact met elkaar opnemen.Wij danken u voor het vertrouwen in Scouts en Gidsen Vlaanderen.",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 134,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014715d0a20d0748",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014715d0a20d0748",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Aanvullende info bij akabe",
+        "beschrijving": "Als je in de groep kinderen of jongeren met een handicap hebt, kan volgende lijst met specifieke vragen een interessante of noodzakelijke aanvulling zijn bij de standaardgegevens op de individuele steekkaart.",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 36,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014716344296078b",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014716344296078b",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "onze zoon of dochter kan helpen bij het afwassen",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 88,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147164e0bcc07aa",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147164e0bcc07aa",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "voor meisjes: we verwachten dat ons kind ongesteld zal zijn tijdens het kamp",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 115,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147165dd1d007bf",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147165dd1d007bf",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst",
+        "label": "Voornaam en naam:",
+        "beschrijving": "Wie vult deze steekkaart in?",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 2,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463384de0146391b5df600ef",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463384de0146391b5df600ef",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Als er iets verandert aan de gezondheidstoestand van uw zoon of dochter na de invuldatum van deze steekkaart, dan vragen wij uitdrukkelijk dit zo snel mogelijk hier aan te passen.",
+        "beschrijving": "Vergeet niet de Kids-Id, EID of ISI-kaart, mee te brengen bij vertrek op meerdaagse activiteiten.",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 136,
+        "keuzes": [
+""
+],
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147162b0c0d0780",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147162b0c0d0780",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "ons kind kan zwemmen",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 48,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463384de01463905280100de",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463384de01463905280100de",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Zo ja, welke?",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 23,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463384de01463907763900e1",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463384de01463907763900e1",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst",
+        "label": "Telefoon/gsm:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 5,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147161b7ca2076f",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147161b7ca2076f",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Vervoersbewijzen",
+        "beschrijving": "Onze zoon of dochter beschikt over een: (aanvinken wat past)",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 73,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b201471625c3c1077a",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b201471625c3c1077a",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "drank inschenken",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 82,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e4610ed0201461f01ebc70012",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e4610ed0201461f01ebc70012",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Adres en bereikbaarheid",
+        "beschrijving": "Wie contacteren als de ouders niet bereikbaar zijn (zoals op kinderpas -12 jarigen)?",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 3,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b201471646b5d5079e",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b201471646b5d5079e",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst",
+        "label": "Te verwachten reactie van onze zoon of dochter bij doktersbezoek:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 107,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147162faa890788",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147162faa890788",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "begeleiderskaart voor de trein",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 79,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b201471645f785079c",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b201471645f785079c",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst",
+        "label": "Gewicht van onze zoon of dochter:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 105,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014716563b0507b4",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014716563b0507b4",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Zo ja,  leiding kan hiermee zo omgaan:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 125,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e4610ed0201461f14d9de001b",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e4610ed0201461f14d9de001b",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Bij sociale omgang:",
+        "beschrijving": "(vb. pesten, heimwee, angsten, slaapwandelen, &hellip;)",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 16,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463384de0146391abdd000ee",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463384de0146391abdd000ee",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Zo ja, andere aandachtspunten die belang kunnen hebben bij de omgang met ons kind:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 35,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147163b98d50791",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147163b98d50791",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst",
+        "label": "Zo nee, je kan zeggen dat ons kind niets meer krijgt als:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 94,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014716463150079d",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014716463150079d",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst",
+        "label": "Lengte van onze zoon of dochter:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 106,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b201473541be3907e9",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b201473541be3907e9",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "",
+        "beschrijving": "Is er bijzondere aandacht nodig om risico's te voorkomen? Zo ja, onderstaande velden invullen:",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 13,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147164dbd6007a9",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147164dbd6007a9",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "voor jongens: ons kind scheert zich regelmatig",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 114,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014720e22ec507c3",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014720e22ec507c3",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Attest van de arts",
+        "beschrijving": "Dit is een bijlage aan de individuele steekkaart voor het toedienen van medicatie: <a href=\"https://www.scoutsengidsenvlaanderen.be/files/paginas/publicaties/virtueel_boekenrek/individuele_steekkaart_extras/individuele_steekkaart_dokterattest_medicatie_20110210.pdf\">hier downloaden </a>",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 21,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e480b9aa901480c7fb70100de",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e480b9aa901480c7fb70100de",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Bij sporten:",
+        "beschrijving": "(vb. zwemmen, fietsen, hoogte, rust, &hellip;)",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 14,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147162f13cc0785",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147162f13cc0785",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "begeleiderskaart voor De Lijn",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 76,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e4610ed0201461f1464ef001a",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e4610ed0201461f1464ef001a",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Bij hygi&euml;ne:",
+        "beschrijving": "(vb. zelfstandigheid, allergie, bedwateren, &hellip;)",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 15,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147162ea53a0783",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147162ea53a0783",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "lijnabonnement",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 74,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147162059690776",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147162059690776",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Maaltijden",
+        "beschrijving": "Welke hulp zou moeten worden voorzien bij de maaltijden? (aanvinken wat past)",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 80,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e4610ed0201461f0312090014",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e4610ed0201461f0312090014",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Deelname aan activiteiten",
+        "beschrijving": "Zaken om rekening mee te houden bij organisatie van activiteiten. Onze zoon of dochter kan en mag deelnemen aan alle gewone scoutingactiviteiten op maat van de leeftijdstak (op tocht gaan, spelen, kamperen, &hellip; ).",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 10,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e4610ed0201461f1204140017",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e4610ed0201461f1204140017",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "eventuele reden:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 12,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e4610ed0201461f026f8e0013",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e4610ed0201461f026f8e0013",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Eventueel belangrijke afspraken vanuit de gezinssituatie:",
+        "beschrijving": "(vb. regeling echtscheiding)",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 8,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463384de0146391800f100e9",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463384de0146391800f100e9",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst",
+        "label": "Onze huisarts: naam en telefoon:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 30,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463a56ef01463d07711e000f",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463a56ef01463d07711e000f",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "INDIVIDUELE STEEKKAART",
+        "beschrijving": "Met deze individuele steekkaart geven ouders jaarlijks aan de takleiding alle noodzakelijke inlichtingen over hun kind(eren) aangesloten bij een plaatselijke groep van Scouts en Gidsen Vlaanderen. <br>Deze informatie draagt bij aan een veilige en persoonlijke begeleiding van alle leden en wordt vertrouwelijk behandeld door de leidingsploeg. <br>Wanneer er wijzigingen zijn in deze gegevens is het belangrijk om deze onmiddellijk aan te passen. <br><br>Het is noodzakelijk om deze steekkaart op te maken voor iedereen actief in Scouts en Gidsen Vlaanderen binnen de drie eerste weken van het lidmaatschap en te laten invullen door de ouders of voogd van alle leden. Jaarlijks binnen de eerste drie maanden van elk nieuw werkjaar opnieuw na te kijken. Leid(st)ers kunnen hun eigen gegevens op deze steekkaart zelf invullen en ondertekenen indien meerderjarig.",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 1,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463384de01463913fa7600e7",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463384de01463913fa7600e7",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst",
+        "label": "Zo ja, in welk jaar?",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 28,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147164257cf079b",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147164257cf079b",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "groep",
+        "label": "Medisch - hygi&euml;ne",
+        "beschrijving": "(invullen of aanvinken wat past)",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": false,
+        "kanGebruikerWijzigen": false,
+        "sort": 104,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014716471f98079f",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014716471f98079f",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "Onze zoon of dochter maakt gemakkelijk koorts.",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 108,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b20147164d005407a8",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b20147164d005407a8",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "vinkje",
+        "label": "onze zoon of dochter draagt een bril/lenzen",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 113,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e4610ed0201461f1523c6001c",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e4610ed0201461f1523c6001c",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Andere beperkingen of zorgen:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 17,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e463384de0146391a3b4800ed",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e463384de0146391a3b4800ed",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst_meerdere_lijnen",
+        "label": "Zo ja, op vlak van voeding (vb. vegetari&euml;r, halal):",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 34,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e46f060b2014716400c480797",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e46f060b2014716400c480797",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst",
+        "label": "Het normale slaapuur van onze zoon of dochter:",
+        "beschrijving": "",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 100,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+},
+      {
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost/groepsadmin/rest-ga/groepseigengegeven/d5f75e1e480b9aa901481224fea601cd",
+            "method": "GET",
+            "secties": []
+}
+],
+        "id": "d5f75e1e480b9aa901481224fea601cd",
+        "aangepast": "2016-08-02T14:16:54.148+02:00",
+        "type": "tekst",
+        "label": "Functie (indien van toepassing)",
+        "beschrijving": "Eventueel voor kinderen die in een instelling verblijven.",
+        "verplicht": false,
+        "kanLeidingWijzigen": false,
+        "kanLidWijzigen": true,
+        "kanGebruikerWijzigen": false,
+        "sort": 6,
+        "deletedTimestamp": "2016-08-02T14:16:54.148+02:00"
+}
+],
+    "waarden": {}
+  },
+  "publiek-inschrijven": true
+}

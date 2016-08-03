@@ -20,11 +20,17 @@
         templateUrl: 'partials/lid-toevoegen.html',
         controller: 'LidToevoegenController'
       })
+      // Lid individuelestekkaart
+      .when('/lid/individuelesteekkaart/:id', {
+        templateUrl: 'partials/lid-individuele-steekkaart.html',
+        controller: 'LidIndividueleSteekkaartController'
+      })
       // Lid detailpagina
       .when('/lid/:id', {
         templateUrl: 'partials/lid.html',
         controller: 'LidController'
       })
+
       // Groepsinstellingen
       .when('/groepsinstellingen', {
         templateUrl: 'partials/groepsinstellingen.html'

@@ -1,0 +1,25 @@
+<!-- Panel header -->
+<div class="panel-heading clearfix">
+  <div class="pull-left">
+  </div>
+</div>
+
+<!-- Persoonsinfo -->
+<div class="panel-body form-hover clearfix">
+  <div class="ga-functie-list" ng-for="individueleSteekkaartLayoutGroups">
+    <dynamischformulier class="individueele-steekkaart" waarden="individueleSteekkaartWaarden" velden="individueleSteekkaartLayoutGroups"></dynamischformulier>
+  </div>
+</div>
+
+<!-- Panel footer -->
+<footer class="panel-footer clearfix">
+  <ul class="pagination pull-left responsive-footer">
+    <li>
+      <a href="" ng-click="opslaan()" ng-show="lid">Opslaan
+        <div class="pull-right" ng-show="saving">
+          <i class="fa fa-spinner fa-pulse"> </i>
+        </div>
+      </a>
+    </li>
+  </ul>
+</footer>

@@ -32,4 +32,15 @@
     </div>
     <p class="ga-form-beschrijving" ng-bind="veld.beschrijving"></p>
   </div>
+  <div class="form-group" ng-switch-when="groep">
+    <h2 for="{{veld.id}}" class="col-xs-5 col-xxs-12 control-label">{{ veld.label }}</h2>
+    <p class="ga-form-beschrijving" ng-bind="veld.beschrijving"></p>
+  </div>
+  <div class="form-group" ng-switch-when="tekst_meerdere_lijnen">
+    <label for="{{veld.id}}" class="col-xs-5 col-xxs-12 control-label">{{ veld.label }}</label>
+    <div class="col-xs-7 col-xxs-12">
+      <textarea  type="text" class="form-control" id="{{veld.id}}" ng-model="waarden[veld.id]" ng-disabled="!veld.kanGebruikerWijzigen"/>
+    </div>
+    <p class="ga-form-beschrijving" ng-bind="veld.beschrijving"></p>
+  </div>
 </div>

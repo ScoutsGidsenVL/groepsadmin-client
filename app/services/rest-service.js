@@ -10,11 +10,12 @@
   function RestService($resource, $cacheFactory) {
     var base = '/groepsadmin/rest-ga/';
     var baseGis = '/groepsadmin/rest/gis/';
+    var basejson = "/";
 
     return {
       Lid: $resource(
         base + 'lid/:id?bevestig=:bevestiging',
-        {id: '@id',bevestiging: '@bevestiging'},
+        {id: '@id', bevestiging: '@bevestiging'},
         {
           'update': {
             method: 'PATCH', transformRequest: changesOnly,cache: false
@@ -36,6 +37,10 @@
             }
           }
         }
+      ),
+      LidIndividueleSteekkaart: $resource(
+        basejson + 'medischesteekkaart.json',
+        {get: {method: 'GET'}}
       ),
       Functie: $resource(
         base + 'functie/:functieId',
