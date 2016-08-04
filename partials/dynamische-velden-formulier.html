@@ -1,1 +1,11 @@
-<div ng-repeat="veldengroep in velden"><dynamischveldcolectie waarden="waarden" velden="veldengroep"></dynamischveldcolectie></div>
+<div ng-repeat="veldengroep in velden" class="groep-van-velden">
+  <h2 class="individuele-steekkaart-heading" ng-click="showgroepseigenvelden = ($index == 0 ) ? false : !showgroepseigenvelden"> {{ veldengroep[0].label }}
+      <div class="pull-right" ng-init="showgroepseigenvelden = ($index == 0) ? false : true" >
+        <button class="btn-minimal" ng-hide="$index == 0">
+          <span ng-hide="showgroepseigenvelden" class="glyphicon glyphicon-chevron-up"></span>
+          <span ng-hide="!showgroepseigenvelden" class="glyphicon glyphicon-chevron-down"></span>
+        </button>
+      </div>
+  </h2>
+  <dynamischveldcolectie waarden="waarden" velden="veldengroep" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
+</div>

@@ -22,7 +22,8 @@
     'ga.filters',
     'ui.bootstrap',
     'ga.utils',
-    'infinite-scroll'
+    'infinite-scroll',
+    'ngSanitize'
   ]);
 
 

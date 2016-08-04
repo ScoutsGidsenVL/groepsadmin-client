@@ -1,13 +1,15 @@
 <!-- Panel header -->
 <div class="panel-heading clearfix">
   <div class="pull-left">
+  <h1>Individuele steekkaart</h1>
+  <p>{{ lid.verbondsgegevens.lidnummer }} - {{ lid.persoonsgegevens.voornaam }} {{ lid.persoonsgegevens.achternaam }}</p>
   </div>
 </div>
 
 <!-- Persoonsinfo -->
 <div class="panel-body form-hover clearfix">
-  <div class="ga-functie-list" ng-for="individueleSteekkaartLayoutGroups">
-    <dynamischformulier class="individueele-steekkaart" waarden="individueleSteekkaartWaarden" velden="individueleSteekkaartLayoutGroups"></dynamischformulier>
+  <div class="individuele-steekkaart" ng-for="individueleSteekkaartLayoutGroups">
+    <dynamischformulier class="" waarden="individueleSteekkaartWaarden" velden="individueleSteekkaartLayoutGroups"></dynamischformulier>
   </div>
 </div>
 

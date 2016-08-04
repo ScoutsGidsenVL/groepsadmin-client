@@ -12,6 +12,22 @@
      * Init
      * --------------------------------------
      */
+    // lid ophalen
+    RestService.Lid.get({id:$routeParams.id}).$promise.then(
+        function(result) {
+          $scope.lid = result;
+        },
+        function(error) {
+          if(error.data.beschrijving =="Geen leesrechten op dit lid"){
+            //redirect to lid overzicht.
+            $location.path('/');
+            AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
+          }
+          else{
+            AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+          }
+        }
+      );
 
     // steekkaart ophalen.
     RestService.LidIndividueleSteekkaart.get().$promise.then(
@@ -52,6 +68,14 @@
         },
         function(error) {
           console.log(error);
+          if(error.data.beschrijving =="Geen leesrechten op dit lid"){
+            //redirect to lid overzicht.
+            $location.path('/');
+            AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
+          }
+          else{
+            AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+          }
         }
       );
 
