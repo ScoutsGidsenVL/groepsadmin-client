@@ -33,8 +33,8 @@
 
       // Groepsinstellingen
       .when('/groepsinstellingen', {
-        templateUrl: 'partials/groepsinstellingen.html'
-          /*controller: 'GroepsinstellingenController'*/
+        templateUrl: 'partials/groepsinstellingen.html',
+          controller: 'GroepController'
       })
       .otherwise({
         redirectTo: '/'

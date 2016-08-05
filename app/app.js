@@ -11,6 +11,7 @@
     'ga.usercontroller',
     'ga.lidtoevoegencontroller',
     'ga.lidindividuelesteekkaartcontroller',
+    'ga.groepcontroller',
     'ga.lid.velden',
     'ga.dynamischveld',
     'ga.dynamischevelden',

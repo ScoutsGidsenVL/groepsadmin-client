@@ -2,97 +2,148 @@
 <div class="panel-heading clearfix">
   <div class="pull-left">
     <span style="margin-right: 5px;"><b>Groep:</b></span>
-    <select class="selectpicker" id="" ng-model="('X0055G')">
-      <option value="A4102G">Sint-Joris <i>(A4102G)</i></option>
-      <option value="X0055G">Ploeg Informatica <i>(X0055G)</i></option>
-    </select>
+    <select ng-options="groep.groepsnummer for groep in groepenlijst track by groep.id" ng-model="activegroup"></select>
   </div>
-  <!--
-  <div class="pull-right btn-group">
-      <button class="btn btn-default" title="vorig lid"><span class="glyphicon glyphicon-chevron-left"></span></button>
-      <button class="btn btn-default" title="volgend lid"><span class="glyphicon glyphicon-chevron-right"></span></button>
-  </div>
--->
 </div>
 
 <!-- Persoonsinfo -->
 <div class="panel-body form-hover clearfix">
- 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
-    <!-- google maps -->
-    <div id="map-container" class="col-sm-6 col-lg-4 col-xs-12"></div>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
-    <!-- Groeps gegevens -->
-    <section class="col-sm-6 col-lg-4 col-xs12">
-      <fieldset>
-        <legend>Groepseigen gegevens</legend>
-
+  <!-- Groeps gegevens -->
+     <div class="row">
+      <div class="col-md-4">
+        <legend>Algemeen</legend>
         <div class="form-group">
           <label for="_groepsnaam" class="col-xs-6 col-xxs-12 control-label">Groepsnaam</label>
           <div class="col-xs-6 col-xxs-12">
-            <input type="text" class="form-control" id="_groepsnaam" ng-model="('Sint-Joris')"/>
+            <input type="text" class="form-control" id="_groepsnaam" ng-model="activegroup.naam"/>
           </div>
         </div>
 
         <div class="form-group">
           <label for="_groepsnummer" class="col-xs-6 col-xxs-12 control-label">Groepsnummer</label>
           <div class="col-xs-6 col-xxs-12">
-            <input type="text" class="form-control" id="_groepsnummer" ng-model="('A4102G')" />
+            <input type="text" class="form-control" id="_groepsnummer"  ng-model="activegroup.groepsnummer"/>
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="_adres" class="col-xs-6 col-xss-12 control-label">Adres</label>
-          <div class="col-xs-6 col-xxs-12">
-            <input type="text" class="form-control" id="_adres" ng-model="('wilrijkstraat 45, Antwerpen')" />
-          </div>
-        </div>
-
         <div class="form-group">
           <label for="_website" class="col-xs-6 col-xss-12 control-label">Website</label>
           <div class="col-xs-6 col-xxs-12">
-            <input type="text" class="form-control" id="_website" ng-model="('http://wwww.scoutsgroep.be')" />
+            <input type="text" class="form-control" id="_website" ng-model="activegroup.website"/>
           </div>
         </div>
 
         <div class="form-group">
           <label for="_vrijeInfo" class="col-xs-6 col-xxs-12 control-label">Vrije info</label>
           <div class="col-xs-6 col-xxs-12">
-            <input type="text" class="form-control" id="_vrijeInfo" ng-model="('fusie A4102S en A4107M')" />
+            <input type="text" class="form-control" id="_vrijeInfo" ng-model="activegroup.vrijeInfo"/>
           </div>
         </div>
 
         <div class="form-group">
           <label for="_email" class="col-xs-6 col-xxs-12 control-label">E-mail</label>
           <div class="col-xs-6 col-xxs-12">
-            <input type="text" class="form-control" id="_email" ng-model="('--')" />
+            <input type="text" class="form-control" id="_email" ng-model="activegroup.email"/>
           </div>
         </div>
 
         <div class="form-group readonly">
           <label for="_oprichtingsDatum" class="col-xs-6 col-xxs-12 control-label">Oprichtingsdatum</label>
           <div class="col-xs-6 col-xxs-12">
-            <input type="date" readonly class="form-control" id="_oprichtingsDatum" ng-model="('01/01/1900')" />
+            <input type="text" class="form-control" id="_oprichtingsDatum" ng-model="activegroup.opgericht" />
           </div>
         </div>
 
         <div class="form-group">
           <label for="_rekeningNummer" class="col-xs-6 col-xxs-12 control-label">Rekeningnummer</label>
           <div class="col-xs-6 col-xxs-12">
-            <input type="text" class="form-control" id="_rekeningNummer" ng-model="('BE40001111222333')" />
+            <input type="text" class="form-control" id="_rekeningNummer" ng-model="activegroup.rekeningnummer"/>
+            <!-- Nationaal XXX-XXXXXXX-XX -->
+            <!-- Internationaal IBAN BEXX XXXX XXXX XXXX -->
+            <!-- BIC KREDBEBB -->
           </div>
         </div>
-      </fieldset>
-    </section>
+      </div>
 
-    <!-- Groeps eigen functies -->
-    <section class="col-sm-6 col-lg-4 col-xs-12">
-      <fieldset>
-        <legend>Groepseigen functies:</legend>
-      </fieldset>
-    </section>
+      <div class="col-md-4">
+        <legend>Contact</legend>
+        <div class="form-group form-group-no-hover" ng-if="activegroup.groepsleiding">
+          <label>Groepsleiding</label>
+          <ul>
+            <!-- mail en Gsm moeten link zijn  -->
+            <li ng-repeat="groepsleiding in activegroup.groepsleiding">{{ groepsleiding.naam }} - <a href="mailto:{{ groepsleiding.email }}">{{ groepsleiding.email }}</a></li>
+          </ul>
+        </div>
 
+        <div class="form-group form-group-no-hover" ng-if="activegroup.vga">
+          <label>Verantwoordelijke Groepsadministratie</label>
+          <ul>
+            <li>{{ activegroup.vga.naam }} - <a href="mailto:{{ activegroup.vga.email }}">{{ activegroup.vga.email }}</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <!-- Via variabele naamaanpassen => Lokaal aanpassen-->
+        <legend>Lokalen</legend>
+        <div class="form-group form-group-no-hover">
+
+          <ul>
+            <!-- mail en Gsm moeten link zijn  -->
+            <li ng-repeat="lokaal in activegroup.adres">{{ lokaal.straat }} {{ lokaal.nummmer }} {{ lokaal.bus }}
+              <br>{{ lokaal.postcode }} {{ lokaal.gemeente }}
+            </li>
+          </ul>
+          <div id="lokalen-kaart" style="height:400px; width:100%; display:inline-block; border:solid 1px gray">
+            Google Map
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <!-- Groeps eigen functies -->
+   <div class="row">
+    <div class="col-md-6">
+      <legend>Groepseigen functies:
+        <div class="pull-right">
+          <span ng-hide="" class="glyphicon glyphicon-plus"></span>
+        </div>
+      </legend>
+
+      <div ng-if="activegroup.groepseigenFuncties">
+        <ul>
+          <li ng-repeat="groepseigenFunctie in activegroup.groepseigenFuncties | orderBy:'sort'" ng-bind-html="groepseigenFunctie.beschrijving"></li>
+        </ul>
+      </div>
+
+      <div ng-if="!activegroup.groepseigenFuncties.length">
+        <i>Geen groepseigen functies beschikbaar voor deze groep.</i>
+        <a href="#">Nieuwe groepseigen functie aanmaken.</a>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <legend>Groepseigen gegevens:
+         <div class="pull-right">
+          <span ng-hide="" class="glyphicon glyphicon-plus"></span>
+        </div>
+      </legend>
+
+      <div ng-if="activegroup.groepseigenGegevens">
+        <ul>
+          <li ng-repeat="groepseigenGegeven in activegroup.groepseigenGegevens.schema | orderBy:'sort'" ng-bind-html="groepseigenGegeven.label"></li>
+        </ul>
+      </div>
+
+      <div ng-if="!activegroup.groepseigenGegevens.length">
+        <i>Geen groepseigen gegevens beschikbaar voor deze groep.</i>
+        <a href="#">Nieuw groepseigen gegeven aanmaken.</a>
+      </div>
+
+
+    </div>
+  </div>
 </div>
 
 <!-- Panel footer -->
