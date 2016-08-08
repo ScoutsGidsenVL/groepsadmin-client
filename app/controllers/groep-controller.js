@@ -145,12 +145,29 @@
       for(var i=0; i < markersCount; i++){
         $scope.markers[i].setMap(null);
       }
+      $scope.markers = [];
+    }
+    var openInfoWindow = function(map, marker){
+      var infoWindow = new google.maps.InfoWindow({
+        content: this.infoProp,
+        maxWidth: 200
+      });
+      infoWindow.open(map, marker);
     }
 
-    // event functies
+    /*
+     * event functies
+     * ----------------------------------
+     */
     $scope.ChangeGroep = function () {
       loadGoogleMap();
     }
+
+    $scope.centerMap = function(lat, lng, index){
+      $scope.googleMap.setCenter(new google.maps.LatLng(lat, lng));
+      google.maps.event.trigger($scope.markers[index], 'click');
+    }
+
 
   }
 })();

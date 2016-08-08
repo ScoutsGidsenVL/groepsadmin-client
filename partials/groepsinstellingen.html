@@ -88,11 +88,11 @@
       <div class="col-md-4">
         <!-- Via variabele naamaanpassen => Lokaal aanpassen-->
         <legend>Lokalen</legend>
-        <div class="form-group readonly">
+        <div class="form-group readonly" id="lokalen">
 
           <ul class="lokalen">
             <!-- mail en Gsm moeten link zijn  -->
-            <li ng-repeat="lokaal in activegroup.adres" class="lokaal-adres"><span class="adres-letter"><i class="fa fa-map-marker" aria-hidden="true"></i>{{ markerLabels[$index] }}</span><span class="adres-label">{{ lokaal.straat }} {{ lokaal.nummmer }} {{ lokaal.bus }}
+            <li ng-repeat="lokaal in activegroup.adres" class="lokaal-adres" ng-click="centerMap(lokaal.positie.latitude, lokaal.positie.longitude, $index)"><span class="adres-letter"><i class="fa fa-map-marker" aria-hidden="true"></i>{{ markerLabels[$index] }}</span><span class="adres-label">{{ lokaal.straat }} {{ lokaal.nummmer }} {{ lokaal.bus }}
               <br>{{ lokaal.postcode }} {{ lokaal.gemeente }}</span>
             </li>
           </ul>
