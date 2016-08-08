@@ -36,6 +36,19 @@
         templateUrl: 'partials/groepsinstellingen.html',
           controller: 'GroepController'
       })
+
+      // Groepsinstellingen
+      .when('/groepsinstellingen', {
+        templateUrl: 'partials/groepsinstellingen.html',
+          controller: 'GroepController'
+      })
+
+      // Orakel
+      /*.when('/orakel', {
+        templateUrl: 'partials/orakel.html',
+          controller: 'OrakelController'
+      })*/
+
       .otherwise({
         redirectTo: '/'
       });

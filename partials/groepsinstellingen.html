@@ -15,17 +15,17 @@
      <div class="row">
       <div class="col-md-4">
         <legend>Algemeen</legend>
-        <div class="form-group">
+        <div class="form-group readonly">
           <label for="_groepsnaam" class="col-xs-6 col-xxs-12 control-label">Groepsnaam</label>
           <div class="col-xs-6 col-xxs-12">
-            <input type="text" class="form-control" id="_groepsnaam" ng-model="activegroup.naam"/>
+            <input type="text" class="form-control" id="_groepsnaam" ng-model="activegroup.naam" disabled/>
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group readonly">
           <label for="_groepsnummer" class="col-xs-6 col-xxs-12 control-label">Groepsnummer</label>
           <div class="col-xs-6 col-xxs-12">
-            <input type="text" class="form-control" id="_groepsnummer"  ng-model="activegroup.groepsnummer"/>
+            <input type="text" class="form-control" id="_groepsnummer"  ng-model="activegroup.groepsnummer" disabled/>
           </div>
         </div>
         <div class="form-group">
@@ -38,7 +38,7 @@
         <div class="form-group">
           <label for="_vrijeInfo" class="col-xs-6 col-xxs-12 control-label">Vrije info</label>
           <div class="col-xs-6 col-xxs-12">
-            <input type="text" class="form-control" id="_vrijeInfo" ng-model="activegroup.vrijeInfo"/>
+            <textarea class="form-control" id="_vrijeInfo" ng-model="activegroup.vrijeInfo"/>
           </div>
         </div>
 
@@ -52,7 +52,7 @@
         <div class="form-group readonly">
           <label for="_oprichtingsDatum" class="col-xs-6 col-xxs-12 control-label">Oprichtingsdatum</label>
           <div class="col-xs-6 col-xxs-12">
-            <input type="text" class="form-control" id="_oprichtingsDatum" ng-model="activegroup.opgericht" />
+            <input type="text" class="form-control" id="_oprichtingsDatum" ng-model="activegroup.opgericht" disabled/>
           </div>
         </div>
 
@@ -69,7 +69,7 @@
 
       <div class="col-md-4">
         <legend>Contact</legend>
-        <div class="form-group form-group-no-hover" ng-if="activegroup.groepsleiding">
+        <div class="form-group readonly" ng-if="activegroup.groepsleiding">
           <label>Groepsleiding</label>
           <ul>
             <!-- mail en Gsm moeten link zijn  -->
@@ -77,7 +77,7 @@
           </ul>
         </div>
 
-        <div class="form-group form-group-no-hover" ng-if="activegroup.vga">
+        <div class="form-group readonly" ng-if="activegroup.vga">
           <label>Verantwoordelijke Groepsadministratie</label>
           <ul>
             <li>{{ activegroup.vga.naam }} - <a href="mailto:{{ activegroup.vga.email }}">{{ activegroup.vga.email }}</a></li>
@@ -88,15 +88,15 @@
       <div class="col-md-4">
         <!-- Via variabele naamaanpassen => Lokaal aanpassen-->
         <legend>Lokalen</legend>
-        <div class="form-group form-group-no-hover">
+        <div class="form-group readonly">
 
-          <ul>
+          <ul class="lokalen">
             <!-- mail en Gsm moeten link zijn  -->
-            <li ng-repeat="lokaal in activegroup.adres">{{ lokaal.straat }} {{ lokaal.nummmer }} {{ lokaal.bus }}
-              <br>{{ lokaal.postcode }} {{ lokaal.gemeente }}
+            <li ng-repeat="lokaal in activegroup.adres" class="lokaal-adres"><span class="adres-letter">{{ markerLabels[$index] }}</span><span class="adres-label">{{ lokaal.straat }} {{ lokaal.nummmer }} {{ lokaal.bus }}
+              <br>{{ lokaal.postcode }} {{ lokaal.gemeente }}</span>
             </li>
           </ul>
-          <div id="lokalen-kaart" style="height:400px; width:100%; display:inline-block; border:solid 1px gray">
+          <div id="lokalen-kaart" >
             Google Map
           </div>
         </div>
@@ -105,6 +105,7 @@
 
   <!-- Groeps eigen functies -->
    <div class="row">
+
     <div class="col-md-6">
       <legend>Groepseigen functies:
         <div class="pull-right">
@@ -123,6 +124,7 @@
         <a href="#">Nieuwe groepseigen functie aanmaken.</a>
       </div>
     </div>
+
     <div class="col-md-6">
       <legend>Groepseigen gegevens:
          <div class="pull-right">

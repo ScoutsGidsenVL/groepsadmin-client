@@ -22,4 +22,28 @@ angular.module('ga.filters', [])
       return returnValue;
     }
   })
+  // zet java tijd om naar human readable
+  .filter('javaDateFormatter', function () {
+    return function (date) {
+
+      console.warn("datefilter");
+      if(date == undefined || date == null){
+        return date;
+      }
+      var day = date.substr(8,2);
+      var month = date.substr(5,2);
+      var year = date.substr(0,4);
+      console.warn(day + '/' + month + '/' + year);
+      return year + '-' + month + '-' + day;
+    }
+  })
+
+  .filter('rekeningnummerFormatter', function () {
+  // BEXX XXXX XXXX XXXX
+    return function (field) {
+      console.log(field);
+      return field.substr(0,4) + ' ' + field.substr(4,4) + ' ' + field.substr(8,4) + ' ' + field.substr(12,4);
+    }
+  })
+
 ;
