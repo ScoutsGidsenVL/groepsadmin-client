@@ -1,0 +1,24 @@
+<!-- Panel header -->
+<div class="panel-heading clearfix">
+  <div class="pull-left">
+    <span style="margin-right: 5px;"><b>Orakel van:</b></span>
+    <select ng-options="groep.groepsnummer for groep in groepenlijst track by groep.id" ng-change="ChangeGroep()" ng-model="activegroup"></select>
+  </div>
+</div>
+
+<!-- Persoonsinfo -->
+<div class="panel-body form-hover clearfix">
+  <div class="btn-group-vertical col-md-3" role="group" >
+    <button type="button" class="btn btn-default">Ledenaantallen</button>
+    <button type="button" class="btn btn-default">Eigenschappen</button>
+    <button type="button" class="btn btn-default">Groepsevolutie</button>
+    <button type="button" class="btn btn-default">Ledenaantal per leeftijd</button>
+    <button type="button" class="btn btn-default">Huidige leidingservaring</button>
+    <button type="button" class="btn btn-default">Instroom en uitstroom per leeftijd</button>
+  </div>
+  <div class="col-md-9">
+    <h2>Groepsevolutie</h2>
+    <canvas id="grafiek" style="width: 400px; height: 400px; display: block;" ></canvas>
+  </div>
+</div>
+

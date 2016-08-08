@@ -60,6 +60,10 @@
         base + 'groep/',
         {get: {method: 'GET'}}
       ),
+      Orakel: $resource(
+        basejson + 'orakel.json',
+        {get: {method: 'GET'}}
+      ),
       Leden: $resource(
         base + 'ledenlijst?aantal=:aantal&offset=:offset',
         {aantal: '@aantal', offset: '@offset'},

@@ -12,6 +12,7 @@
     'ga.lidtoevoegencontroller',
     'ga.lidindividuelesteekkaartcontroller',
     'ga.groepcontroller',
+    'ga.orakelcontroller',
     'ga.lid.velden',
     'ga.dynamischveld',
     'ga.dynamischevelden',

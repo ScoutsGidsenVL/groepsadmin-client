@@ -44,10 +44,10 @@
       })
 
       // Orakel
-      /*.when('/orakel', {
+      .when('/orakel', {
         templateUrl: 'partials/orakel.html',
           controller: 'OrakelController'
-      })*/
+      })
 
       .otherwise({
         redirectTo: '/'
