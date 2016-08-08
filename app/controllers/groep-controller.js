@@ -49,13 +49,22 @@
                 $scope.activegroup = result;
                 loadGoogleMap();
               }
-              $scope.groepenlijst.push(result);
+
+              var exists = false;
+              angular.forEach($scope.groepenlijst, function(value){
+                if(value.groepsnummer == result.groepsnummer){
+                  exists = true;
+                }
+              })
+              if(!exists){
+                $scope.groepenlijst.push(result);
+              }
             });
         });
       }
 
 
-
+    // initialize Google Map
     var loadGoogleMap = function(){
       if(!$scope.googleMap){
         var mapOptions = {
@@ -70,8 +79,6 @@
       }
 
     }
-
-
 
     // Calculate center
     var berekenCenter = function(adressen){
@@ -140,6 +147,8 @@
 
 
     }
+
+    // Remove allmarkers on Map
     var clearMarkers = function(){
       var markersCount = $scope.markers.length;
       for(var i=0; i < markersCount; i++){
