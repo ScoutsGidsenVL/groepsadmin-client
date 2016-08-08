@@ -43,21 +43,7 @@
                              }
                            ];
               result.adres = [
-                {
-                  "id": "d5f75b320b812440010b8125513002ac",
-                  "land": "BE",
-                  "postcode": "9830",
-                  "gemeente": "Sint-Martens-Latem",
-                  "straat": "Albijn Van Den Abeelelaan",
-                  "nummer": "14",
-                  "postadres": false,
-                  "status": "normaal",
-                  "positie": {
-                    "latitude": 51.0006802,
-                    "longitude": 3.6286672
-                  },
-                    "giscode": "0063"
-                  }
+                result.adres
               ]
               if ($scope.activegroup == null) {
                 $scope.activegroup = result;
@@ -71,13 +57,18 @@
 
 
     var loadGoogleMap = function(){
-       var mapOptions = {
+      if(!$scope.googleMap){
+        var mapOptions = {
           zoom: 15,
           center: berekenCenter($scope.activegroup.adres)
         }
-      $scope.googleMap = new google.maps.Map(document.getElementById("lokalen-kaart"), mapOptions);
-      markersTekenen($scope.googleMap, $scope.activegroup.adres);
-      // draw markers.
+        $scope.googleMap = new google.maps.Map(document.getElementById("lokalen-kaart"), mapOptions);
+        markersTekenen($scope.googleMap, $scope.activegroup.adres);
+      } else {
+        $scope.googleMap.setCenter(berekenCenter($scope.activegroup.adres));
+        markersTekenen($scope.googleMap, $scope.activegroup.adres);
+      }
+
     }
 
 
@@ -158,10 +149,7 @@
 
     // event functies
     $scope.ChangeGroep = function () {
-      var mapOptions = {
-        zoom: 15,
-        center: berekenCenter($scope.activegroup.adres)
-      };
+      loadGoogleMap();
     }
 
   }

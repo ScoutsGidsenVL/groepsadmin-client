@@ -2,7 +2,7 @@
 <div class="panel-heading clearfix">
   <div class="pull-left">
     <span style="margin-right: 5px;"><b>Groep:</b></span>
-    <select ng-options="groep.groepsnummer for groep in groepenlijst track by groep.id" ng-model="activegroup"></select>
+    <select ng-options="groep.groepsnummer for groep in groepenlijst track by groep.id" ng-change="ChangeGroep()" ng-model="activegroup"></select>
   </div>
 </div>
 
@@ -92,7 +92,7 @@
 
           <ul class="lokalen">
             <!-- mail en Gsm moeten link zijn  -->
-            <li ng-repeat="lokaal in activegroup.adres" class="lokaal-adres"><span class="adres-letter">{{ markerLabels[$index] }}</span><span class="adres-label">{{ lokaal.straat }} {{ lokaal.nummmer }} {{ lokaal.bus }}
+            <li ng-repeat="lokaal in activegroup.adres" class="lokaal-adres"><span class="adres-letter"><i class="fa fa-map-marker" aria-hidden="true"></i>{{ markerLabels[$index] }}</span><span class="adres-label">{{ lokaal.straat }} {{ lokaal.nummmer }} {{ lokaal.bus }}
               <br>{{ lokaal.postcode }} {{ lokaal.gemeente }}</span>
             </li>
           </ul>
