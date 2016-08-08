@@ -9,12 +9,12 @@
 <!-- Persoonsinfo -->
 <div class="panel-body form-hover clearfix">
   <div class="btn-group-vertical col-md-3" role="group" >
-    <button type="button" class="btn btn-default">Ledenaantallen</button>
-    <button type="button" class="btn btn-default">Eigenschappen</button>
-    <button type="button" class="btn btn-default">Groepsevolutie</button>
-    <button type="button" class="btn btn-default">Ledenaantal per leeftijd</button>
-    <button type="button" class="btn btn-default">Huidige leidingservaring</button>
-    <button type="button" class="btn btn-default">Instroom en uitstroom per leeftijd</button>
+    <button type="button" class="btn btn-default" ng-class="tekenLedenaantallen()">Ledenaantallen</button>
+    <button type="button" class="btn btn-default" ng-class="tekenEigenschappen()">Eigenschappen</button>
+    <button type="button" class="btn btn-default" ng-click="tekenGroepsevolutie()">Groepsevolutie</button>
+    <button type="button" class="btn btn-default" ng-click="tekenLedenaantalPerLeeftijd()">Ledenaantal per leeftijd</button>
+    <button type="button" class="btn btn-default" ng-click="tekenHuidigeLeidingsErvaring()">Huidige leidingservaring</button>
+    <button type="button" class="btn btn-default" ng-click="tekenInEnUitstroom()">Instroom en uitstroom per leeftijd</button>
   </div>
   <div class="col-md-9">
     <h2>Groepsevolutie</h2>
