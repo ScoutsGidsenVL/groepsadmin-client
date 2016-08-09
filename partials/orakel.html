@@ -8,16 +8,15 @@
 
 <!-- Persoonsinfo -->
 <div class="panel-body form-hover clearfix">
-  <div class="btn-group-vertical col-md-3" role="group" >
-    <button type="button" class="btn btn-default" ng-class="tekenLedenaantallen()">Ledenaantallen</button>
-    <button type="button" class="btn btn-default" ng-class="tekenEigenschappen()">Eigenschappen</button>
+  <div class="btn-group col-md-8 col-md-offset-2" role="group" >
+    <button type="button" class="btn btn-default" ng-click="tekenLedenaantallen()">Ledenaantallen</button>
+    <button type="button" class="btn btn-default" ng-click="tekenEigenschappen()">Eigenschappen</button>
     <button type="button" class="btn btn-default" ng-click="tekenGroepsevolutie()">Groepsevolutie</button>
     <button type="button" class="btn btn-default" ng-click="tekenLedenaantalPerLeeftijd()">Ledenaantal per leeftijd</button>
     <button type="button" class="btn btn-default" ng-click="tekenHuidigeLeidingsErvaring()">Huidige leidingservaring</button>
     <button type="button" class="btn btn-default" ng-click="tekenInEnUitstroom()">Instroom en uitstroom per leeftijd</button>
   </div>
-  <div class="col-md-9">
-    <h2>Groepsevolutie</h2>
+  <div class="col-md-6 col-md-offset-3">
     <canvas id="grafiek" style="width: 400px; height: 400px; display: block;" ></canvas>
   </div>
 </div>
