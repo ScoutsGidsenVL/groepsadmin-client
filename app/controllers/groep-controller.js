@@ -24,65 +24,68 @@
     $scope.activegroup = null;
 
     var loadGroups = function () {
-        $scope.groepenlijst = [];
-        angular.forEach($scope.lid.functies, function (value, key) {
-          var gr = RestService.Groep.get({id: value.groep}).$promise.then(
-            function (result) {
-              result.vga = {
-                "naam": "Nathan Wuyts",
-                "email": "vga@scoutslatem.be"
-              };
-              result.groepsleiding = [
-                {
-                  "naam": "Joke Scheerder",
-                  "email": "joke@scheerder.be"
-                             },
-                {
-                  "naam": "Bram Scheerder",
-                  "email": "bram@scheerder.be"
-                             }
-                           ];
-              result.adres = [
-                result.adres
-              ]
-              if ($scope.activegroup == null) {
-                $scope.activegroup = result;
-                loadGoogleMap();
-              }
+       $scope.groepenlijst = [];
 
-              var exists = false;
-              angular.forEach($scope.groepenlijst, function(value){
-                if(value.groepsnummer == result.groepsnummer){
-                  exists = true;
-                }
-              })
-              if(!exists){
-                $scope.groepenlijst.push(result);
-              }
-            });
-        });
-      }
+      // groepen ophalen
+      RestService.Groepen.get().$promise.then(
+        function (result) {
+          $scope.groepenlijst = [];
+          //tijdelijk extra velden toevoegen aan het resultaat
+          angular.forEach(result.groepen, function(value){
+            value.vga = {
+              "naam": "Nathan Wuyts",
+              "email": "vga@scoutslatem.be"
+            };
+            value.groepsleiding = [
+              {
+                "naam": "Joke Scheerder",
+                "email": "joke@scheerder.be"
+                           },
+              {
+                "naam": "Bram Scheerder",
+                "email": "bram@scheerder.be"
+                           }
+                         ];
+            value.adres = [
+              value.adres
+            ];
+            $scope.groepenlijst.push(value);
+          })
+          if($scope.activegroup == null){
+            $scope.activegroup = result.groepen[0];
+            loadGoogleMap(result.groepen[0]);
+          }
+
+        },
+        function (Error){
+
+        }
+
+      );
+    }
 
 
     // initialize Google Map
-    var loadGoogleMap = function(){
+    var loadGoogleMap = function(groep){
+      var adressen = groep ? groep.adres : $scope.activegroup.adres;
+      console.log(adressen[0].straat);
       if(!$scope.googleMap){
         var mapOptions = {
           zoom: 15,
-          center: berekenCenter($scope.activegroup.adres)
+          center: berekenCenter(adressen)
         }
         $scope.googleMap = new google.maps.Map(document.getElementById("lokalen-kaart"), mapOptions);
-        markersTekenen($scope.googleMap, $scope.activegroup.adres);
+        markersTekenen($scope.googleMap, adressen);
       } else {
-        $scope.googleMap.setCenter(berekenCenter($scope.activegroup.adres));
-        markersTekenen($scope.googleMap, $scope.activegroup.adres);
+        $scope.googleMap.setCenter(berekenCenter(adressen));
+        markersTekenen($scope.googleMap, adressen);
       }
 
     }
 
     // Calculate center
     var berekenCenter = function(adressen){
-        // maar adres
+        // maar 1 adres
         if (adressen.length == 1){
           return new google.maps.LatLng(adressen[0].positie.latitude, adressen[0].positie.longitude);
         }
@@ -156,6 +159,8 @@
       }
       $scope.markers = [];
     }
+
+    // openMarkerInfo
     var openInfoWindow = function(map, marker){
       var infoWindow = new google.maps.InfoWindow({
         content: this.infoProp,
