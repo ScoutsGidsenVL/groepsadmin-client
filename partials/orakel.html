@@ -50,13 +50,16 @@
         <tr ng-repeat="dataset in orakelData.ledenaantallen.datasets">
           <td>{{ dataset.tak }}</td>
           <td>{{ dataset.leden[dataset.leden.length-1] }}</td>
-          <td></td>
+          <td ng-attr-id="{{ dataset.tak + '-leden'}}" ng-init="tekenSparkline( dataset.tak  + '-leden', dataset.leden )">
+            <canvas width="10" height="30"  > </canvas>
+          </td>
           <td>{{ dataset.percentageVrouwen }}</td>
           <td>{{ dataset.leiding[dataset.leiding.length-1] }}</td>
           <td></td>
           <td>{{ dataset.leden[dataset.leden.length-1] / dataset.leiding[dataset.leiding.length-1] | roundToOne}}</td>
         </tr>
       </tbody>
+
       <tfoot>
         <tr>
           <td>{{ totaalLedenAantallen.tak }}</td>

@@ -325,6 +325,10 @@
       $scope.currentView = "InEnUitstroom";
     }
 
+    $scope.tekenSparkline = function (id, waarden){
+
+    }
+
     var wisGrafiek = function(){
       $scope.grafiek ? $scope.grafiek.destroy() : "";
       $scope.showLedenAantallen = false;
@@ -381,8 +385,6 @@
               $scope.tekenInEnUitstroom();
             break;
           }
-
-
         },
         function (error) {
           AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
@@ -391,13 +393,12 @@
     }
 
 
+
     /*
      * event functies
      * ----------------------------------
      */
     $scope.ChangeGroep = function () {
-      alert("groepaangepast naar:" + $scope.activegroup.groepsnummer);
-
       // nieuwe grafiekdata ophalen
       grafiekDataOphalen();
     }
