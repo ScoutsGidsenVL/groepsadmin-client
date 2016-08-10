@@ -2,7 +2,7 @@
 <div class="panel-heading clearfix">
   <div class="pull-left">
     <span style="margin-right: 5px;"><b>Orakel van:</b></span>
-    <select ng-options="groep.groepsnummer for groep in groepenlijst track by groep.id" ng-change="ChangeGroep()" ng-model="activegroup"></select>
+    <select ng-options="groep.groepsnummer for groep in groepen track by groep.id" ng-change="ChangeGroep()" ng-model="activegroup"></select>
   </div>
 </div>
 
@@ -16,8 +16,83 @@
     <button type="button" class="btn btn-default" ng-click="tekenHuidigeLeidingsErvaring()">Huidige leidingservaring</button>
     <button type="button" class="btn btn-default" ng-click="tekenInEnUitstroom()">Instroom en uitstroom per leeftijd</button>
   </div>
-  <div class="col-md-6 col-md-offset-3">
-    <canvas id="grafiek" style="width: 400px; height: 400px; display: block;" ></canvas>
+  <div class="col-md-6 col-md-offset-3" ng-show="showGrafiek">
+    <canvas id="grafiek" width="700" height="500" style="width: 400px; height: 400px; display: block;" ></canvas>
+  </div>
+  <div class="col-md-8 col-md-offset-2" ng-show="showLedenAantallen">
+    <table class="table" ng-set>
+      <thead>
+       <tr>
+         <th>
+          Tak
+        </th>
+        <th>
+          Aantal Leden
+        </th>
+        <th>
+          Historiek
+        </th>
+        <th>
+          % Vrouwen
+        </th>
+        <th>
+          Aantal Leiding
+        </th>
+        <th>
+          Historiek
+        </th>
+        <th>
+          Omkaderingscijfer
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="dataset in orakelData.ledenaantallen.datasets">
+          <td>{{ dataset.tak }}</td>
+          <td>{{ dataset.leden[dataset.leden.length-1] }}</td>
+          <td></td>
+          <td>{{ dataset.percentageVrouwen }}</td>
+          <td>{{ dataset.leiding[dataset.leiding.length-1] }}</td>
+          <td></td>
+          <td>{{ dataset.leden[dataset.leden.length-1] / dataset.leiding[dataset.leiding.length-1] | roundToOne}}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>{{ totaalLedenAantallen.tak }}</td>
+          <td>{{ totaalLedenAantallen.leden[totaalLedenAantallen.leden.length-1] }}</td>
+          <td></td>
+          <td>{{ totaalLedenAantallen.percentageVrouwen | round }}</td>
+          <td>{{ totaalLedenAantallen.leiding[totaalLedenAantallen.leiding.length-1] }}</td>
+          <td></td>
+          <td>{{ totaalLedenAantallen.leden[totaalLedenAantallen.leden.length-1] / totaalLedenAantallen.leiding[totaalLedenAantallen.leiding.length-1] | roundToOne }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="col-md-6 col-md-offset-3" ng-show="showEigenschappen">
+    <table class="table">
+      <thead>
+       <tr>
+         <th>
+          Criteria
+        </th>
+        <th>
+          Waarde
+        </th>
+        <th>
+          Historiek
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="dataset in orakelData.eigenschappen.datasets">
+          <td>{{ dataset.criteria }}</td>
+          <td>{{ dataset.data[dataset.data.length-1] }} {{dataset.eenheid }}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 

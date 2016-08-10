@@ -45,5 +45,15 @@ angular.module('ga.filters', [])
       return field.substr(0,4) + ' ' + field.substr(4,4) + ' ' + field.substr(8,4) + ' ' + field.substr(12,4);
     }
   })
+  .filter('roundToOne', function () {
+        return function (value) {
+            return Math.round(value * 10) / 10;
+        };
+    })
+  .filter('round', function () {
+        return function (value) {
+            return Math.round(value);
+        };
+    })
 
 ;

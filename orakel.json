@@ -27,7 +27,7 @@
     ],
     "labels": ["1e jaar leiding", "2e jaar leiding", "3e jaar leiding", "4e jaar leiding", "5e jaar leiding"]
   },
-  "ledenaantalPetLeeftijd": {
+  "ledenaantalPerLeeftijd": {
     "datasets": [{
         "name": "Kapoenen",
         "data": [9, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -87,58 +87,97 @@
   "eigenschappen": {
     "datasets": [
       {
-        "creteria": "Aantal groepsleiding en leiding bij een tak",
+        "criteria": "Aantal groepsleiding en leiding bij een tak",
         "eenheid": "leid(st)ers",
         "data": [18, 23, 21, 19, 18, 23],
         "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014", "2014-2015", "Nu"]
       },
       {
-        "creteria": "Aantal groepsleiding",
+        "criteria": "Aantal groepsleiding",
         "eenheid": "leid(st)ers",
         "data": [2, 4, 2, 2, 3, 3],
         "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014", "2014-2015", "Nu"]
       },
       {
-        "creteria": "Aantal anderen",
+        "criteria": "Aantal anderen",
         "eenheid": "anderen",
         "data": [4, 4, 5, 6, 12, 6],
         "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014", "2014-2015", "Nu"]
       },
       {
-        "creteria": "Totaal groep",
+        "criteria": "Totaal groep",
         "eenheid": "personen",
         "data": [236, 195, 194, 205, 223, 233],
         "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014", "2014-2015", "Nu"]
       },
       {
-        "creteria": "Percentage vrouwen",
+        "criteria": "Percentage vrouwen",
         "eenheid": "%",
         "data": [53, 50, 53, 51, 47, 48],
         "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014", "2014-2015", "Nu"]
       },
       {
-        "creteria": "Percentage jongste takken",
+        "criteria": "Percentage jongste takken",
         "eenheid": "%",
         "data": [53, 57, 55, 50, 51, 50],
         "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014", "2014-2015", "Nu"]
       },
       {
-        "creteria": "Gemiddelde leeftijd leiding",
+        "criteria": "Gemiddelde leeftijd leiding",
         "eenheid": "jaar",
         "data": [19.9, 19.8, 19.6, 20.3, 21.3, 20.8],
         "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014", "2014-2015", "Nu"]
       },
       {
-        "creteria": "Gemiddelde blijfduur leden",
+        "criteria": "Gemiddelde blijfduur leden",
         "eenheid": "jaar",
         "data": [3.2, 3.6, 4.0, 4.4, 4.6, 4.2],
         "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014", "2014-2015", "Nu"]
       },
       {
-        "creteria": "Gemiddelde blijfduur leiding",
+        "criteria": "Gemiddelde blijfduur leiding",
         "eenheid": "jaar",
         "data": [3.5, 3.4, 3.0, 2.9, 2.7, 2.6],
         "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014","2014-2015", "Nu"]
+      }
+    ]
+  },
+  "ledenaantallen": {
+    "datasets": [
+      {
+        "tak": "Kapoenen",
+        "leden": [36, 36, 31, 37, 35, 38],
+        "leiding": [3, 4, 4, 3, 2, 3],
+        "percentageVrouwen": 45,
+        "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014", "2014-2015", "Nu"]
+      },
+      {
+        "tak": "Kabouters en Welpen",
+        "leden": [78, 62, 63, 55, 65, 67],
+        "leiding": [7, 8, 6, 6, 5, 7],
+        "percentageVrouwen": 52,
+        "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014", "2014-2015", "Nu"]
+      },
+      {
+        "tak": "Jonggivers",
+        "leden": [67, 49, 48, 63, 50, 52],
+        "leiding": [4, 6, 7, 4, 4, 6],
+        "percentageVrouwen": 46,
+        "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014", "2014-2015", "Nu"]
+      },
+      {
+        "tak": "Givers",
+        "leden": [27, 16, 29, 29, 30, 38],
+        "leiding": [3, 3, 3, 4, 3, 3],
+        "percentageVrouwen": 53,
+        "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014", "2014-2015", "Nu"]
+      },
+      {
+        "tak": "Jin",
+        "leden": [8, 9, 0, 0, 11, 13],
+        "leiding": [1, 2, 0, 0, 2, 2],
+        "percentageVrouwen": 15,
+        "labels": ["2010-2011", "2011-2012", "2012-2013", "2013-2014", "2014-2015", "Nu"]
       }
     ]
   }

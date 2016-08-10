@@ -61,7 +61,11 @@
         {get: {method: 'GET'}}
       ),
       Orakel: $resource(
+        // base + group/:id/orakel
+        //basejson + 'orakel:groepsnummer.json',
         basejson + 'orakel.json',
+
+        {groepsnummer: '@id'},
         {get: {method: 'GET'}}
       ),
       Leden: $resource(
