@@ -87,13 +87,34 @@
 
       <div class="col-md-4">
         <!-- Via variabele naamaanpassen => Lokaal aanpassen-->
-        <legend>Lokalen</legend>
+        <legend>Lokalen
+           <div class="pull-right">
+            <button ng-click="addAdres()" class="btn-minimal" title="Adres toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
+          </div></legend>
         <div class="form-group readonly" id="lokalen">
-
           <ul class="lokalen">
             <!-- mail en Gsm moeten link zijn  -->
-            <li ng-repeat="lokaal in activegroup.adres" class="lokaal-adres" ng-click="centerMap(lokaal.positie.latitude, lokaal.positie.longitude, $index)"><span class="adres-letter"><i class="fa fa-map-marker" aria-hidden="true"></i>{{ markerLabels[$index] }}</span><span class="adres-label">{{ lokaal.straat }} {{ lokaal.nummmer }} {{ lokaal.bus }}
-              <br>{{ lokaal.postcode }} {{ lokaal.gemeente }}</span>
+            <li ng-repeat="lokaal in activegroup.adres" class="lokaal-adres"><span class="adres-letter" ng-class="(lokaal.positie ? '' : 'adres-letter-inactive' )" ng-click="centerMap(lokaal.positie.latitude, lokaal.positie.longitude, lokaal.id)"><i class="fa fa-map-marker" aria-hidden="true"></i>{{ markerLabels[$index] }}</span>
+              <fieldset class="ga-functie-list">
+                <div class="form-group">
+                  <label for="_woonplaats" class="col-xs-3 col-xxs-12 control-label">Woonplaats</label>
+                  <div class="col-xs-9 col-xxs-2">
+                    <input type="text" class="form-control ga-functie-list" ng-init="gemeenteWrap = lokaal.postcode + ' ' + lokaal.gemeente" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-bind="lokaal.postcode + ' ' + lokaal.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, lokaal)" typeahead-show-hint="true"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="_straatnaam" class="col-xs-3 col-xxs-12 control-label">Straat</label>
+                  <div class="col-xs-5 col-xxs-12">
+                    <input type="text" class="form-control" ng-disabled="!lokaal.postcode || !lokaal.gemeente"  placeholder="Straatnaam" id="_straatnaam" ng-model="lokaal.straat" uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, lokaal) "  typeahead-on-select="bevestigStraat($item, lokaal)" typeahead-show-hint="true"/>
+                  </div>
+                  <div class="col-xs-2 col-xxs-12">
+                    <input type="text" class="form-control" id="_huisnummer" maxlength="5" ng-model="lokaal.nummer"  placeholder="Nr." ng-disabled="!lokaal.postcode || !lokaal.gemeente"/>
+                  </div>
+                  <div class="col-xs-2 col-xxs-12">
+                    <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-disabled=" !lokaal.postcode || !lokaal.gemeente"/>
+                  </div>
+                </div>
+            </fieldset>
             </li>
           </ul>
           <div id="lokalen-kaart" >

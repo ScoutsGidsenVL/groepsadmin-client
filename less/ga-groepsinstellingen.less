@@ -11,19 +11,27 @@
   .lokaal-adres {
     list-style-type: none;
     padding: 5px;
+    cursor: auto;
     .adres-letter {
+      cursor: pointer;
       font-weight: 700;
       margin-right: 10px;
       margin-bottom: 17px;
       font-size: 19px;
       float: left;
       line-height: 19px;
+      .fa {
+        font-size: 75px;
+      }
+    }
+    .adres-letter-inactive {
+      color:gray;
+      cursor: auto;
     }
     .adres-label {
 
     }
     &:hover{
-      cursor: pointer;
       background-color: #f6f6f6;
     }
   }

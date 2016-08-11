@@ -9,66 +9,54 @@
 
   function GroepController($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, keycloak) {
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-    // profiel op halen
-    RestService.Lid.get({id: 'profiel'}).$promise.then(
-      function (result) {
-        $scope.lid = result;
-        loadGroups();
-      },
-      function (error) {
-        AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
-      }
-    );
+    var tempAdresId = 1;
 
     $scope.activegroup = null;
 
-    var loadGroups = function () {
-       $scope.groepenlijst = [];
+    $scope.groepenlijst = [];
 
-      // groepen ophalen
-      RestService.Groepen.get().$promise.then(
-        function (result) {
-          $scope.groepenlijst = [];
-          //tijdelijk extra velden toevoegen aan het resultaat
-          angular.forEach(result.groepen, function(value){
-            value.vga = {
-              "naam": "Nathan Wuyts",
-              "email": "vga@scoutslatem.be"
-            };
-            value.groepsleiding = [
-              {
-                "naam": "Joke Scheerder",
-                "email": "joke@scheerder.be"
-                           },
-              {
-                "naam": "Bram Scheerder",
-                "email": "bram@scheerder.be"
-                           }
-                         ];
-            value.adres = [
-              value.adres
-            ];
-            $scope.groepenlijst.push(value);
-          })
-          if($scope.activegroup == null){
-            $scope.activegroup = result.groepen[0];
-            loadGoogleMap(result.groepen[0]);
-          }
-
-        },
-        function (Error){
-
+    // groepen ophalen
+    RestService.Groepen.get().$promise.then(
+      function (result) {
+        $scope.groepenlijst = [];
+        //tijdelijk extra velden toevoegen aan het resultaat
+        angular.forEach(result.groepen, function(value){
+          value.vga = {
+            "naam": "Nathan Wuyts",
+            "email": "vga@scoutslatem.be"
+          };
+          value.groepsleiding = [
+            {
+              "naam": "Joke Scheerder",
+              "email": "joke@scheerder.be"
+                         },
+            {
+              "naam": "Bram Scheerder",
+              "email": "bram@scheerder.be"
+                         }
+                       ];
+            //temp fix positie
+            value.adres.positie = {
+              latitude: 51.209229,
+              longitude: 4.438130
+            }
+          value.adres = [
+            value.adres
+          ];
+          $scope.groepenlijst.push(value);
+        })
+        if($scope.activegroup == null){
+          $scope.activegroup = result.groepen[0];
+          loadGoogleMap(result.groepen[0]);
         }
-
-      );
-    }
-
+      },
+      function (Error){
+      }
+    );
 
     // initialize Google Map
     var loadGoogleMap = function(groep){
       var adressen = groep ? groep.adres : $scope.activegroup.adres;
-      console.log(adressen[0].straat);
       if(!$scope.googleMap){
         var mapOptions = {
           zoom: 15,
@@ -130,22 +118,16 @@
       clearMarkers();
 
       angular.forEach(adressen, function(value, key){
-        console.log(key);
         var marker = new google.maps.Marker({
           position: new google.maps.LatLng(value.positie.latitude, value.positie.longitude),
           map: map,
-          draggable: false,
+          draggable: true,
           label: $scope.markerLabels[key],
-          infoProp: value.straat + " " +value.nummer + ( value.bus ? (" " + value.bus) : "") + "," + "<br>" + value.postcode + " " + value.gemeente
+          infoProp: value.straat + " " +value.nummer + ( value.bus ? (" " + value.bus) : "") + "," + "<br>" + value.postcode + " " + value.gemeente,
+          adresId: value.id
         });
-        $scope.markers.push(marker);
-        marker.addListener('click', function() {
-          var infoWindow = new google.maps.InfoWindow({
-            content: this.infoProp,
-            maxWidth: 200
-          });
-          infoWindow.open(map, this);
-        });
+        marker = markerAddEvents(marker, map);
+        $scope.markers[value.id] = (marker);
       });
 
 
@@ -163,7 +145,7 @@
     // openMarkerInfo
     var openInfoWindow = function(map, marker){
       var infoWindow = new google.maps.InfoWindow({
-        content: this.infoProp,
+        content: marker.infoProp,
         maxWidth: 200
       });
       infoWindow.open(map, marker);
@@ -177,11 +159,121 @@
       loadGoogleMap();
     }
 
-    $scope.centerMap = function(lat, lng, index){
+    $scope.centerMap = function(lat, lng, id){
+      if(lat == undefined || lng == undefined || id == undefined){
+        return;
+      }
+
       $scope.googleMap.setCenter(new google.maps.LatLng(lat, lng));
-      google.maps.event.trigger($scope.markers[index], 'click');
+      google.maps.event.trigger($scope.markers[id], 'click');
     }
 
+    $scope.addAdres = function () {
+      var newAdres = {
+        id: 'tempadres' + tempAdresId,
+        bus: null,
 
+      }
+      tempAdresId++;
+      $scope.activegroup.adres.push(newAdres);
+      addMarkerFromNewAdres($scope.googleMap, newAdres)
+    }
+
+    // zoek gemeentes
+    $scope.zoekGemeente = function(zoekterm){
+      var resultaatGemeentes = [];
+      return RestService.Gemeente.get({zoekterm:zoekterm, token:1}).$promise.then(
+          function(result){
+            angular.forEach(result, function(val){
+              if(typeof val == 'string'){
+                resultaatGemeentes.push(val);
+              }
+            });
+            return resultaatGemeentes;
+        });
+    }
+
+    // gemeente opslaan in het adres
+    $scope.bevestigGemeente = function(item, adres) {
+      adres.postcode = item.substring(0,4);
+      adres.gemeente = item.substring(5);
+      adres.straat = null;
+      adres.bus = null;
+      adres.nummer = null;
+      adres.giscode = null;
+      adres.land = "BE"
+      // google geocode gemeente naar coordinaten
+      // => teken marker + Info plaats deze marker op de juiste plaats.
+
+    };
+
+    // zoek straten en giscodes
+    $scope.zoekStraat = function(zoekterm, adres){
+      var resultaatStraten = [];
+      return RestService.Code.query({zoekterm:zoekterm, postcode: adres.postcode}).$promise.then(
+          function(result){
+            angular.forEach(result, function(val){
+                resultaatStraten.push(val);
+            });
+            return resultaatStraten;
+        });
+    }
+
+    // straat en giscode opslaan in het adres
+    $scope.bevestigStraat = function(item, adres) {
+      adres.straat = item.straat;
+      adres.giscode = item.code;
+
+    };
+
+    // marker van een nieuw adres op de kaart plaatsen.
+    var addMarkerFromNewAdres = function (map, adres) {
+      var marker = new google.maps.Marker({
+        position: map.getCenter(),
+        map: map,
+        draggable: true,
+        label: $scope.markerLabels[$scope.activegroup.adres.length - 1],
+        infoProp: "<b>Nieuw adres toegevoegd!</b></br> Plaats deze marker op het lokaal",
+        adresId: adres.id
+      });
+      marker = markerAddEvents(marker, map);
+      $scope.markers[adres.id] = (marker);
+      openInfoWindow (map, marker);
+    }
+
+    /*
+    * Marker events
+    * ----------------------------------------------------
+    */
+
+    // voegt alle nodige events toe aan een bepaalde marker
+    var markerAddEvents = function (marker, map) {
+      console.log("initMarkerEvents");
+      console.log(marker.infoProp);
+      console.log(marker.adresId);
+
+      marker.addListener('click', function () {
+        var infoWindow = new google.maps.InfoWindow({
+          content: marker.infoProp,
+          maxWidth: 200
+        });
+        infoWindow.open(map, this);
+      });
+
+      marker.addListener('dragend', function (evt) {
+        angular.forEach($scope.activegroup.adres, function(value, key){
+          if (value.id == marker.adresId) {
+            if ($scope.activegroup.adres[key].positie == undefined) {
+              $scope.activegroup.adres[key].positie = {};
+            }
+            $scope.activegroup.adres[key].positie.latitude = evt.latLng.lat();
+            $scope.activegroup.adres[key].positie.longitude = evt.latLng.lng();
+
+          }
+        });
+      });
+
+      return marker;
+    }
   }
 })();
