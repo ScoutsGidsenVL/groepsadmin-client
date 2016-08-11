@@ -89,8 +89,9 @@
         <!-- Via variabele naamaanpassen => Lokaal aanpassen-->
         <legend>Lokalen
            <div class="pull-right">
-            <button ng-click="addAdres()" class="btn-minimal" title="Adres toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
-          </div></legend>
+            <button ng-click="addAdres()" class="btn-minimal" title="Lokaal toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
+          </div>
+        </legend>
         <div class="form-group readonly" id="lokalen">
           <ul class="lokalen">
             <!-- mail en Gsm moeten link zijn  -->
@@ -130,14 +131,21 @@
     <div class="col-md-6">
       <legend>Groepseigen functies:
         <div class="pull-right">
-          <span ng-hide="" class="glyphicon glyphicon-plus"></span>
-        </div>
+            <button  class="btn-minimal" title="Groepseigen functie toevoegen" ng-click="addGroepseigenFunctie()"><span class="glyphicon glyphicon-plus"></span></button>
+          </div>
       </legend>
 
       <div ng-if="activegroup.groepseigenFuncties">
-        <ul>
-          <li ng-repeat="groepseigenFunctie in activegroup.groepseigenFuncties | orderBy:'sort'" ng-bind-html="groepseigenFunctie.beschrijving"></li>
-        </ul>
+        <div class="form-group" ng-repeat="groepseigenFunctie in activegroup.groepseigenFuncties">
+          <div class="col-xs-11">
+            <input type="text" class="form-control ga-functie-list" ng-model="activegroup.groepseigenFuncties[$index].beschrijving" placeholder="Groepseigen functie"/>
+          </div>
+          <div class="col-xs-1">
+           <button class="btn-minimal" title="groepseigenfunctie wissen" ng-click="wisGroepseigenFunctie()">
+             <span class="glyphicon glyphicon-trash"></span>
+           </button>
+          </div>
+        </div>
       </div>
 
       <div ng-if="!activegroup.groepseigenFuncties.length">
@@ -155,7 +163,8 @@
 
       <div ng-if="activegroup.groepseigenGegevens">
         <ul>
-          <li ng-repeat="groepseigenGegeven in activegroup.groepseigenGegevens.schema | orderBy:'sort'" ng-bind-html="groepseigenGegeven.label"></li>
+          <li ng-repeat="groepseigenGegeven in activegroup.groepseigenGegevens.schema | orderBy:'sort'">
+          </li>
         </ul>
       </div>
 

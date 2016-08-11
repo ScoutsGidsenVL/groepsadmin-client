@@ -9,11 +9,7 @@
 
   function GroepController($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, keycloak) {
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    var tempAdresId = 1;
-
-    $scope.activegroup = null;
-
-    $scope.groepenlijst = [];
+    var tempId = 1;
 
     // groepen ophalen
     RestService.Groepen.get().$promise.then(
@@ -45,7 +41,7 @@
           ];
           $scope.groepenlijst.push(value);
         })
-        if($scope.activegroup == null){
+        if($scope.activegroup == undefined){
           $scope.activegroup = result.groepen[0];
           loadGoogleMap(result.groepen[0]);
         }
@@ -54,6 +50,10 @@
       }
     );
 
+    /*
+     * Google Maps Functies
+     * ----------------------------------
+     */
     // initialize Google Map
     var loadGoogleMap = function(groep){
       var adressen = groep ? groep.adres : $scope.activegroup.adres;
@@ -152,13 +152,15 @@
     }
 
     /*
-     * event functies
+     * event functies Lokalen
      * ----------------------------------
      */
+    //dropdown verander van groep
     $scope.ChangeGroep = function () {
       loadGoogleMap();
     }
 
+    // marker-icon click
     $scope.centerMap = function(lat, lng, id){
       if(lat == undefined || lng == undefined || id == undefined){
         return;
@@ -168,13 +170,14 @@
       google.maps.event.trigger($scope.markers[id], 'click');
     }
 
+    // nieuw adres toeveogen
     $scope.addAdres = function () {
       var newAdres = {
-        id: 'tempadres' + tempAdresId,
+        id: 'tempadres' + tempId,
         bus: null,
 
       }
-      tempAdresId++;
+      tempId++;
       $scope.activegroup.adres.push(newAdres);
       addMarkerFromNewAdres($scope.googleMap, newAdres)
     }
@@ -234,11 +237,30 @@
         draggable: true,
         label: $scope.markerLabels[$scope.activegroup.adres.length - 1],
         infoProp: "<b>Nieuw adres toegevoegd!</b></br> Plaats deze marker op het lokaal",
-        adresId: adres.id
+        adresId: adres.id,
+        animation: google.maps.Animation.DROP,
       });
       marker = markerAddEvents(marker, map);
       $scope.markers[adres.id] = (marker);
       openInfoWindow (map, marker);
+    }
+
+    /*
+     * event groepseigenfuncties
+     * ----------------------------------
+     */
+
+    $scope.addGroepseigenFunctie = function () {
+      var newFunction = {
+        id: 'tempFunctie' + tempId,
+        beschrijving: null
+      }
+      tempId++;
+      $scope.activegroup.groepseigenFuncties.push(newFunction);
+    }
+
+    $scope.wisGroepseigenFunctie = function () {
+      // controle wis ik een nieuwe groepseigen functie
     }
 
     /*
@@ -248,10 +270,6 @@
 
     // voegt alle nodige events toe aan een bepaalde marker
     var markerAddEvents = function (marker, map) {
-      console.log("initMarkerEvents");
-      console.log(marker.infoProp);
-      console.log(marker.adresId);
-
       marker.addListener('click', function () {
         var infoWindow = new google.maps.InfoWindow({
           content: marker.infoProp,
