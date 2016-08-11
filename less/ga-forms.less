@@ -20,7 +20,7 @@ fieldset {
   fieldset {
     margin-bottom: 0;
     legend {
-      text-transform: capitalize;
+      text-transform:lowercase;
       border-bottom: 1px solid @gray-lighter;
       font-size: @font-size-base;
       cursor: pointer;
@@ -29,6 +29,9 @@ fieldset {
       -moz-user-select: none;      /* Firefox */
       -ms-user-select: none;       /* IE/Edge */
       user-select: none;
+    }
+    legend:first-letter{
+      text-transform: uppercase;
     }
   }
 }

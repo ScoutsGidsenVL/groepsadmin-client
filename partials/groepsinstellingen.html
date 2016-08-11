@@ -127,18 +127,17 @@
 
   <!-- Groeps eigen functies -->
    <div class="row">
-
     <div class="col-md-6">
-      <legend>Groepseigen functies:
+      <legend>Groepseigen functies
         <div class="pull-right">
             <button  class="btn-minimal" title="Groepseigen functie toevoegen" ng-click="addGroepseigenFunctie()"><span class="glyphicon glyphicon-plus"></span></button>
           </div>
       </legend>
 
       <div ng-if="activegroup.groepseigenFuncties">
-        <div class="form-group" ng-repeat="groepseigenFunctie in activegroup.groepseigenFuncties">
+        <div class="form-group" ng-repeat="groepseigenFunctie in activegroup.groepseigenFuncties | orderBy:'sort'">
           <div class="col-xs-11">
-            <input type="text" class="form-control ga-functie-list" ng-model="activegroup.groepseigenFuncties[$index].beschrijving" placeholder="Groepseigen functie"/>
+            <input type="text" class="form-control ga-functie-list" ng-model="activegroup.groepseigenFuncties[$index].beschrijving" placeholder="Nieuwe groepseigen functie"/>
           </div>
           <div class="col-xs-1">
            <button class="btn-minimal" title="groepseigenfunctie wissen" ng-click="wisGroepseigenFunctie()">
@@ -150,31 +149,76 @@
 
       <div ng-if="!activegroup.groepseigenFuncties.length">
         <i>Geen groepseigen functies beschikbaar voor deze groep.</i>
-        <a href="#">Nieuwe groepseigen functie aanmaken.</a>
+        <a ng-click="addGroepseigenFunctie()">Nieuwe groepseigen functie aanmaken.</a>
       </div>
     </div>
 
-    <div class="col-md-6">
-      <legend>Groepseigen gegevens:
+    <fieldset class="col-md-6">
+      <legend>Groepseigen gegevens
          <div class="pull-right">
           <span ng-hide="" class="glyphicon glyphicon-plus"></span>
         </div>
       </legend>
 
-      <div ng-if="activegroup.groepseigenGegevens">
-        <ul>
-          <li ng-repeat="groepseigenGegeven in activegroup.groepseigenGegevens.schema | orderBy:'sort'">
-          </li>
-        </ul>
+      <div ng-if="activegroup.groepseigenGegevens" class="sortable">
+        <fieldset class="sortable" ng-repeat="groepseigenGegeven in activegroup.groepseigenGegevens.schema | orderBy:'sort'"
+         ng-init="showme = false; " ng-click="showme = showme ? false : true">
+          <legend>
+            {{ groepseigenGegeven.label }}
+            <span>({{ groepseigenGegeven.type | fieldTypeFormatter }})</span>
+            <button class="btn-minimal pull-right" title="openklappen" ng-click="">
+              <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Groepseigen gegeven tonen"></span>
+              <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Groepseigen gegeven verbergen"></span>
+            </button>
+          </legend>
+
+          <div class="form-group col-xs-12" ng-hide="!showme">
+            <label class="col-xs-1  control-label"><i class="fa fa-text-width" aria-hidden="true"></i></label>
+            <div class="col-xs-11">
+              <!-- fix date-parse -->
+              <input type="text" class="form-control" ng-model="activegroup.groepseigenGegevens.schema[$index].label" placeholder="Nieuw groepseigen gegeven"/>
+            </div>
+          </div>
+          <div class="" ng-if="groepseigenGegeven.type == 'lijst' " ng-init="groepseigenGegevenIndex = $index" ng-hide="!showme">
+            <div ng-repeat="keuze in activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes">
+              {{ keuze }}
+              <input ng-model="activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes[$index]">
+            </div>
+          </div>
+          <div class="col-md-12 form-group" ng-hide="!showme">
+            <label class="control checkbox col-md-5">
+              <div class="col-xs-11 col-xxs-11 control-label">Alle leiding kan wijzigen</div>
+              <div class="col-xs-1 col-xxs-1">
+                <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema[$index].kanLeidingWijzigen"/>
+                <span class="control-indicator"></span>
+              </div>
+            </label>
+
+            <label class=" control checkbox col-md-5 col-md-offset-2">
+              <div class="col-xs-11 col-xxs-11 control-label">Persoon zelf kan wijzigen</div>
+              <div class="col-xs-1 col-xxs-1">
+                <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema[$index].kanLidWijzigen"/>
+                <span class="control-indicator"></span>
+              </div>
+            </label>
+          </div>
+          <div class="form-group col-xs-6" ng-hide="!showme">
+            <label class="col-xs-12 col-xxs-12" >Helpinstructie</label>
+            <div class="col-xs-12 col-xxs-12">
+              <textarea class="form-control" ng-model="activegroup.groepseigenGegevens.schema[$index].beschrijving">
+              </textarea>
+            </div>
+          </div>
+        </fieldset>
       </div>
 
-      <div ng-if="!activegroup.groepseigenGegevens.length">
+      <div ng-if="!activegroup.groepseigenGegevens.schema.length">
         <i>Geen groepseigen gegevens beschikbaar voor deze groep.</i>
-        <a href="#">Nieuw groepseigen gegeven aanmaken.</a>
+        <a>Nieuw groepseigen gegeven aanmaken.</a>
       </div>
 
 
-    </div>
+    </fieldset>
   </div>
 </div>
 

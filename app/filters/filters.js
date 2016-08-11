@@ -56,4 +56,15 @@ angular.module('ga.filters', [])
         };
     })
 
+  .filter('fieldTypeFormatter', function () {
+        return function (value) {
+            console.log(value);
+            value = value.toLowerCase();
+            var regex = new RegExp('_', 'g');
+            value = value.replace(regex, ' ');
+            console.log(value);
+            return value;
+        };
+    })
+
 ;

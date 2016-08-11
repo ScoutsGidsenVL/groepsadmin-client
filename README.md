@@ -96,6 +96,16 @@ Onderdelen die included zijn in de custom build voor deze applicatie:
 * Dropdown
 * Typeahead
 
+#### jQuery UI
+
+<https://jqueryui.com/>
+
+* Collapse
+* Alert
+* Dataparser
+* Dropdown
+* Typeahead
+
 #### ng-infinite-scroll - v1.0.0
 
 <https://sroze.github.io/ngInfiniteScroll/index.html>

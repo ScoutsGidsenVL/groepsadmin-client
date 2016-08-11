@@ -45,6 +45,7 @@
           $scope.activegroup = result.groepen[0];
           loadGoogleMap(result.groepen[0]);
         }
+        maakSorteerbaar();
       },
       function (Error){
       }
@@ -158,6 +159,7 @@
     //dropdown verander van groep
     $scope.ChangeGroep = function () {
       loadGoogleMap();
+      maakSorteerbaar();
     }
 
     // marker-icon click
@@ -261,6 +263,10 @@
 
     $scope.wisGroepseigenFunctie = function () {
       // controle wis ik een nieuwe groepseigen functie
+    }
+
+    var maakSorteerbaar = function (){
+       $( ".sortable" ).sortable();
     }
 
     /*
