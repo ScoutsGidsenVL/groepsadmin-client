@@ -10,7 +10,6 @@
   function GroepController($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, keycloak) {
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var tempId = 1;
-
     // groepen ophalen
     RestService.Groepen.get().$promise.then(
       function (result) {
@@ -248,7 +247,7 @@
     }
 
     /*
-     * event groepseigenfuncties
+     * event groepseigen functies
      * ----------------------------------
      */
 
@@ -265,8 +264,22 @@
       // controle wis ik een nieuwe groepseigen functie
     }
 
+    /*
+     * event groepseigen gegevens
+     * ----------------------------------
+     */
     var maakSorteerbaar = function (){
-       $( ".sortable" ).sortable();
+      $( ".sortable" ).sortable({
+        stop : function(event, ui){
+          var gegevenId = ui.item.attr('data-groepseigengegevenid');
+          var gegevenIndex = ui.item.index();
+          angular.forEach($scope.activegroup.groepseigenGegevens.schema, function(value, key){
+            if(value.id == gegevenId ){
+              $scope.activegroup.groepseigenGegevens.schema[key].sort = gegevenIndex;
+            }
+          })
+        }
+      });
     }
 
     /*

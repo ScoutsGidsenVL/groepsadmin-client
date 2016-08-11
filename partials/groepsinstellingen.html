@@ -162,7 +162,7 @@
 
       <div ng-if="activegroup.groepseigenGegevens" class="sortable">
         <fieldset class="sortable" ng-repeat="groepseigenGegeven in activegroup.groepseigenGegevens.schema | orderBy:'sort'"
-         ng-init="showme = false; " ng-click="showme = showme ? false : true">
+         ng-init="showme = false; " ng-click="showme = showme ? false : true" data-groepseigengegevenid="{{ groepseigenGegeven.id }}">
           <legend>
             {{ groepseigenGegeven.label }}
             <span>({{ groepseigenGegeven.type | fieldTypeFormatter }})</span>
