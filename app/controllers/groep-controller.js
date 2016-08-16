@@ -112,7 +112,7 @@
 
     // Place Markers on Map
     var markersTekenen = function(map, adressen){
-      if($scope.markers == null){
+      if($scope.markers == undefined){
         $scope.markers = [];
       }
       clearMarkers();
@@ -127,7 +127,7 @@
           adresId: value.id
         });
         marker = markerAddEvents(marker, map);
-        $scope.markers[value.id] = (marker);
+        $scope.markers.push(marker);
       });
 
 
@@ -135,10 +135,9 @@
 
     // Remove allmarkers on Map
     var clearMarkers = function(){
-      var markersCount = $scope.markers.length;
-      for(var i=0; i < markersCount; i++){
-        $scope.markers[i].setMap(null);
-      }
+      angular.forEach($scope.markers, function(value, key){
+        $scope.markers[key].setMap(null)
+      });
       $scope.markers = [];
     }
 
@@ -168,7 +167,12 @@
       }
 
       $scope.googleMap.setCenter(new google.maps.LatLng(lat, lng));
-      google.maps.event.trigger($scope.markers[id], 'click');
+      angular.forEach($scope.markers, function(value, key){
+        if(value.adresId == id){
+          google.maps.event.trigger(value, 'click');
+        }
+      })
+
     }
 
     // nieuw adres toeveogen
@@ -242,7 +246,7 @@
         animation: google.maps.Animation.DROP,
       });
       marker = markerAddEvents(marker, map);
-      $scope.markers[adres.id] = (marker);
+      $scope.markers.push(marker);
       openInfoWindow (map, marker);
     }
 
