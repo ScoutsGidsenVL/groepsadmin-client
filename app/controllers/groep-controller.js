@@ -260,8 +260,9 @@
       $scope.activegroup.groepseigenFuncties.push(newFunction);
     }
 
-    $scope.wisGroepseigenFunctie = function () {
-      // controle wis ik een nieuwe groepseigen functie
+    $scope.wisGroepseigenFunctie = function (id) {
+      // controle wis ik een nieuwe groepseigen functie => wissen uit array.
+      // anders deletedTimestaps op vandaag zetten;
     }
 
     /*
@@ -280,6 +281,40 @@
           })
         }
       });
+    }
+
+    $scope.addGroepseigenGegeven = function () {
+      var newGegeven = {
+        id: 'tempGegeven' + tempId,
+        beschrijving: null,
+        kanLeidingWijzigen: false,
+        kanLidWijzigen: false,
+        sort: $scope.activegroup.groepseigenGegevens.schema.length,
+        type: '',
+        status: "nieuw",
+        label: ""
+      }
+      tempId++;
+      $scope.activegroup.groepseigenGegevens.schema.push(newGegeven);
+    }
+
+    $scope.addKeuze = function (index) {
+      $scope.activegroup.groepseigenGegevens.schema[index].keuzes.push("");
+    }
+
+    $scope.wisKeuze = function (index, keuzeIndex) {
+      $scope.activegroup.groepseigenGegevens.schema[index].keuzes.splice(keuzeIndex, 1);
+    }
+
+    $scope.setType = function (index, type) {
+      $scope.activegroup.groepseigenGegevens.schema[index].type = type;
+      if (type == "lijst") {
+        $scope.activegroup.groepseigenGegevens.schema[index].keuzes = [];
+        $scope.activegroup.groepseigenGegevens.schema[index].keuzes.push("");
+      }
+      else{
+        delete $scope.activegroup.groepseigenGegevens.schema[index].keuzes;
+      }
     }
 
     /*

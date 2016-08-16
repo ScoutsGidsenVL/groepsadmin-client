@@ -98,7 +98,7 @@
             <li ng-repeat="lokaal in activegroup.adres" class="lokaal-adres"><span class="adres-letter" ng-class="(lokaal.positie ? '' : 'adres-letter-inactive' )" ng-click="centerMap(lokaal.positie.latitude, lokaal.positie.longitude, lokaal.id)"><i class="fa fa-map-marker" aria-hidden="true"></i>{{ markerLabels[$index] }}</span>
               <fieldset class="ga-functie-list">
                 <div class="form-group">
-                  <label for="_woonplaats" class="col-xs-3 col-xxs-12 control-label">Woonplaats</label>
+                  <label for="_woonplaats" class="col-xs-3 col-xxs-12 control-label">Gemeente</label>
                   <div class="col-xs-9 col-xxs-2">
                     <input type="text" class="form-control ga-functie-list" ng-init="gemeenteWrap = lokaal.postcode + ' ' + lokaal.gemeente" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-bind="lokaal.postcode + ' ' + lokaal.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, lokaal)" typeahead-show-hint="true"/>
                   </div>
@@ -130,8 +130,8 @@
     <div class="col-md-6">
       <legend>Groepseigen functies
         <div class="pull-right">
-            <button  class="btn-minimal" title="Groepseigen functie toevoegen" ng-click="addGroepseigenFunctie()"><span class="glyphicon glyphicon-plus"></span></button>
-          </div>
+          <button  class="btn-minimal" title="Groepseigen functie toevoegen" ng-click="addGroepseigenFunctie()"><span class="glyphicon glyphicon-plus"></span></button>
+        </div>
       </legend>
 
       <div ng-if="activegroup.groepseigenFuncties">
@@ -155,69 +155,207 @@
 
     <fieldset class="col-md-6">
       <legend>Groepseigen gegevens
-         <div class="pull-right">
-          <span ng-hide="" class="glyphicon glyphicon-plus"></span>
+        <div class="pull-right">
+          <button  class="btn-minimal" title="Groepseigen gegeven toevoegen" ng-click="addGroepseigenGegeven()"><span class="glyphicon glyphicon-plus"></span></button>
         </div>
       </legend>
 
       <div ng-if="activegroup.groepseigenGegevens" class="sortable">
         <fieldset class="sortable" ng-repeat="groepseigenGegeven in activegroup.groepseigenGegevens.schema | orderBy:'sort'"
-         ng-init="showme = false; " ng-click="showme = showme ? false : true" data-groepseigengegevenid="{{ groepseigenGegeven.id }}">
-          <legend>
-            {{ groepseigenGegeven.label }}
-            <span>({{ groepseigenGegeven.type | fieldTypeFormatter }})</span>
-            <button class="btn-minimal pull-right" title="openklappen" ng-click="">
+         ng-init="showme = false; "  data-groepseigengegevenid="{{ groepseigenGegeven.id }}">
+          <legend >
+            {{ groepseigenGegeven.label == "" ? 'Nieuw groepseigen gegeven' : groepseigenGegeven.label }}
+            <span ng-if="groepseigenGegeven.label != '' ">-
+              {{ groepseigenGegeven.type | fieldTypeFormatter }}
+            </span>
+            <button class="btn-minimal pull-right" title="openklappen" ng-click="showme = showme ? false : true">
               <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Groepseigen gegeven tonen"></span>
               <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Groepseigen gegeven verbergen"></span>
             </button>
           </legend>
 
-          <div class="form-group col-xs-12" ng-hide="!showme">
-            <label class="col-xs-1  control-label"><i class="fa fa-text-width" aria-hidden="true"></i></label>
-            <div class="col-xs-11">
-              <!-- fix date-parse -->
-              <input type="text" class="form-control" ng-model="activegroup.groepseigenGegevens.schema[$index].label" placeholder="Nieuw groepseigen gegeven"/>
-            </div>
-          </div>
-          <div class="" ng-if="groepseigenGegeven.type == 'lijst' " ng-init="groepseigenGegevenIndex = $index" ng-hide="!showme">
-            <div ng-repeat="keuze in activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes">
-              {{ keuze }}
-              <input ng-model="activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes[$index]">
-            </div>
-          </div>
-          <div class="col-md-12 form-group" ng-hide="!showme">
-            <label class="control checkbox col-md-5">
-              <div class="col-xs-11 col-xxs-11 control-label">Alle leiding kan wijzigen</div>
-              <div class="col-xs-1 col-xxs-1">
-                <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema[$index].kanLeidingWijzigen"/>
-                <span class="control-indicator"></span>
+          <!-- bestaande velden -->
+          <fieldset ng-if="groepseigenGegeven.status != 'nieuw' ">
+            <div class="form-group col-xs-12" ng-hide="!showme">
+              <label class="col-xs-1  control-label"><i class="fa fa-text-width" aria-hidden="true"></i></label>
+              <div class="col-xs-11">
+                <!-- fix date-parse -->
+                <input type="text" class="form-control" ng-model="activegroup.groepseigenGegevens.schema[$index].label" placeholder="Nieuw groepseigen gegeven"/>
               </div>
-            </label>
+            </div>
 
-            <label class=" control checkbox col-md-5 col-md-offset-2">
-              <div class="col-xs-11 col-xxs-11 control-label">Persoon zelf kan wijzigen</div>
-              <div class="col-xs-1 col-xxs-1">
-                <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema[$index].kanLidWijzigen"/>
-                <span class="control-indicator"></span>
+            <div class="" ng-if="groepseigenGegeven.type == 'lijst' " ng-init="groepseigenGegevenIndex = $index" ng-hide="!showme">
+              <div ng-repeat="keuze in activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes">
+                {{ keuze }}
+                <input ng-model="activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes[$index]">
               </div>
-            </label>
-          </div>
-          <div class="form-group col-xs-6" ng-hide="!showme">
-            <label class="col-xs-12 col-xxs-12" >Helpinstructie</label>
-            <div class="col-xs-12 col-xxs-12">
-              <textarea class="form-control" ng-model="activegroup.groepseigenGegevens.schema[$index].beschrijving">
-              </textarea>
             </div>
-          </div>
+
+            <div class="col-md-12 form-group" ng-hide="!showme">
+              <label class="control checkbox col-md-5">
+                <div class="col-xs-11 col-xxs-11 control-label">Alle leiding kan wijzigen</div>
+                <div class="col-xs-1 col-xxs-1">
+                  <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema[$index].kanLeidingWijzigen"/>
+                  <span class="control-indicator"></span>
+                </div>
+              </label>
+
+              <label class=" control checkbox col-md-5 col-md-offset-2">
+                <div class="col-xs-11 col-xxs-11 control-label">Persoon zelf kan wijzigen</div>
+                <div class="col-xs-1 col-xxs-1">
+                  <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema[$index].kanLidWijzigen"/>
+                  <span class="control-indicator"></span>
+                </div>
+              </label>
+            </div>
+
+            <div class="form-group col-xs-6" ng-hide="!showme">
+              <label class="col-xs-12 col-xxs-12" >Helpinstructie</label>
+              <div class="col-xs-12 col-xxs-12">
+                <textarea class="form-control" ng-model="activegroup.groepseigenGegevens.schema[$index].beschrijving">
+                </textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- nieuwe velden -->
+          <fieldset ng-if="groepseigenGegeven.status == 'nieuw'" ng-init="(groepseigenGegeven.status == 'nieuw' ? true : false)">
+            <div class="form-group col-xs-12" ng-hide="!showme">
+              <label class="col-xs-1">
+                Veld
+              </label>
+              <div class="col-xs-11">
+                <input type="text" class="form-control" ng-model="activegroup.groepseigenGegevens.schema[$index].label" placeholder="Nieuw groepseigen gegeven"/>
+              </div>
+            </div>
+
+            <div class="form-group col-xs-12" ng-hide="!showme">
+              <label class="col-xs-1">
+                Type
+              </label>
+              <div class="col-md-11" ng-hide="!showme" >
+               <button class="col-md-1 type-btn" ng-click="setType($index, 'tekst')" ng-mouseenter="typeHelp = 'tekst'" ng-mouseleave="typeHelp = ''">
+                  <svg version="1.1"  x="0px" y="0px" viewBox="0 0 1792 1792"  xml:space="preserve" class="type-sgv">
+                  <path d="M250.1,251.5l52.7,26.4c7.8,3.3,76.5,4.9,206.1,4.9c28.6,0,71.6-0.7,128.9-2c57.3-1.3,100.3-2,128.9-2
+                    c45.6,0,125.8-0.3,240.7-1c114.9-0.7,214-0.8,297.4-0.5c83.3,0.3,163.7,1.8,241.2,4.4c21.5,0.7,39.7-9.4,54.7-30.3l41-1
+                    c2.6,0,7.2,0.2,13.7,0.5s11.1,0.5,13.7,0.5c1.3,72.9,2,182.3,2,328.1c0,52.1-1.6,87.6-4.9,106.4c-25.4,9.1-47.5,15-66.4,17.6
+                    c-16.3-28.6-33.9-70.3-52.7-125c-2-5.9-5.5-21.3-10.7-46.4c-5.2-25.1-10.1-49-14.6-71.8s-6.8-34.5-6.8-35.2
+                    c-6.5-8.5-15.3-14.6-26.4-18.6c-3.3-1.3-24.7-2-64.5-2c-19.5,0-49.8-0.3-90.8-1s-74.5-1-100.6-1s-56.6,0.7-91.8,2
+                    s-66.4,3.6-93.8,6.8c-5.9,52.7-8.5,97-7.8,132.8l1,148.4v-50.8c0,35.8,0.3,85.9,1,150.4s1.1,123,1.5,175.8s0.5,102.5,0.5,149.4
+                    c0,10.4-0.8,33.7-2.4,69.8s-1.6,65.9,0,89.4s5.7,45.9,12.2,67.4c26,13.7,66.4,27.5,121.1,41.5s93.8,26.2,117.2,36.6
+                    c3.3,26,4.9,42.3,4.9,48.8c0,9.1-1,18.6-2.9,28.3l-33.2,1c-49.5,1.3-120.4-1.3-212.9-7.8s-159.8-9.8-202.1-9.8
+                    c-32.6,0-81.7,2.9-147.5,8.8s-115.2,8.8-148.4,8.8c-2-33.2-2.9-50.1-2.9-50.8v-8.8c11.1-17.6,31.1-31.6,60.1-42s61-19.9,96.2-28.3
+                    s60.5-17.3,76.2-26.4c4.6-10.4,8.3-34.5,11.2-72.3s4.9-85.1,5.9-142.1c1-57,1.5-107.4,1.5-151.4s-0.2-93.9-0.5-149.9
+                    s-0.5-85-0.5-86.9c0-4.6-0.8-11.6-2.4-21s-2.4-16.8-2.4-22c0-4.6,0.2-18.9,0.5-43s0.7-47.9,1-71.3s0.3-48.3,0-74.7
+                    c-0.3-26.4-1.3-48.3-2.9-65.9s-3.7-28-6.3-31.3c-7.2-7.8-59.9-11.7-158.2-11.7c-26.7,0-79.8,4.4-159.2,13.2S341.6,430.8,331.2,438
+                    c-12.4,7.8-23.4,31.1-33.2,69.8s-20,75-30.8,108.9s-24.6,51.4-41.5,52.7c-27.3-16.9-45.6-31.3-54.7-43v-374L250.1,251.5z"/>
+                  </svg>
+                </button>
+                <button class="col-md-1 type-btn" ng-click="setType($index, 'tekst_meerdere_lijnen')" ng-mouseenter="typeHelp = 'tekst op meerdere lijnen'" ng-mouseleave="typeHelp = ''">
+                  <svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+               viewBox="0 0 1792 1792" style="enable-background:new 0 0 1792 1792;" xml:space="preserve" class="type-sgv">
+                    <style type="text/css">
+                        .st0{fill:none;stroke:#000000;stroke-width:80;stroke-miterlimit:10;}
+                    </style>
+                    <path d="M182.2,128.7l36.1,18.1c5.4,2.2,52.4,3.3,141.2,3.3c19.6,0,49.1-0.4,88.3-1.3c39.3-0.9,68.7-1.3,88.3-1.3
+                        c31.2,0,86.2-0.2,165-0.7s146.7-0.6,203.8-0.3c57.1,0.2,112.2,1.2,165.3,3c14.7,0.4,27.2-6.5,37.5-20.7l28.1-0.7
+                        c1.8,0,4.9,0.1,9.4,0.3c4.5,0.2,7.6,0.3,9.4,0.3c0.9,50,1.3,124.9,1.3,224.9c0,35.7-1.1,60-3.3,73c-17.4,6.2-32.6,10.3-45.5,12
+                        c-11.2-19.6-23.2-48.2-36.1-85.7c-1.3-4-3.8-14.6-7.4-31.8s-6.9-33.6-10-49.2c-3.1-15.6-4.7-23.6-4.7-24.1
+                        c-4.5-5.8-10.5-10-18.1-12.7c-2.2-0.9-17-1.3-44.2-1.3c-13.4,0-34.1-0.2-62.2-0.7c-28.1-0.4-51.1-0.7-68.9-0.7
+                        c-17.8,0-38.8,0.4-62.9,1.3c-24.1,0.9-45.5,2.5-64.3,4.7c-4,36.1-5.8,66.5-5.4,91l0.7,101.7v-34.8c0,24.5,0.2,58.9,0.7,103.1
+                        s0.8,84.3,1,120.5s0.3,70.3,0.3,102.4c0,7.1-0.6,23.1-1.7,47.9c-1.1,24.8-1.1,45.2,0,61.2c1.1,16.1,3.9,31.5,8.4,46.2
+                        c17.8,9.4,45.5,18.9,83,28.4c37.5,9.6,64.3,18,80.3,25.1c2.2,17.8,3.3,29,3.3,33.5c0,6.2-0.7,12.7-2,19.4l-22.8,0.7
+                        c-33.9,0.9-82.5-0.9-145.9-5.4s-109.5-6.7-138.5-6.7c-22.3,0-56,2-101.1,6s-79,6-101.7,6c-1.3-22.8-2-34.4-2-34.8v-6
+                        c7.6-12,21.3-21.6,41.2-28.8s41.8-13.6,65.9-19.4c24.1-5.8,41.5-11.8,52.2-18.1c3.1-7.1,5.7-23.6,7.7-49.5c2-25.9,3.3-58.3,4-97.4
+                        c0.7-39,1-73.6,1-103.7s-0.1-64.4-0.3-102.7s-0.3-58.2-0.3-59.6c0-3.1-0.6-7.9-1.7-14.4s-1.7-11.5-1.7-15.1c0-3.1,0.1-12.9,0.3-29.4
+                        s0.4-32.8,0.7-48.9s0.2-33.1,0-51.2s-0.9-33.1-2-45.2c-1.1-12-2.6-19.2-4.4-21.4c-4.9-5.4-41-8-108.4-8c-18.3,0-54.7,3-109.1,9
+                        s-85.2,11.5-92.4,16.4c-8.5,5.4-16.1,21.3-22.8,47.9c-6.7,26.5-13.7,51.4-21.1,74.6c-7.4,23.2-16.8,35.2-28.4,36.1
+                        c-18.7-11.6-31.2-21.4-37.5-29.4V129.3L182.2,128.7z"/>
+                    <line class="st0" x1="927" y1="607" x2="1703" y2="607"></line>
+                    <line class="st0" x1="927" y1="777" x2="1703" y2="777"></line>
+                    <line class="st0" x1="924" y1="947" x2="1700" y2="947"></line>
+                    <line class="st0" x1="170" y1="1117" x2="1700" y2="1117"></line>
+                    <line class="st0" x1="170" y1="1287" x2="1700" y2="1287"></line>
+                    <line class="st0" x1="170" y1="1457" x2="1700" y2="1457"></line>
+                  </svg>
+                </button>
+                <button class="col-md-1 type-btn" ng-click="setType($index, 'mail')" ng-mouseenter="typeHelp = 'e-mail'" ng-mouseleave="typeHelp = ''">
+                  <i class="fa fa-envelope-o type-fa" aria-hidden="true"></i>
+                </button>
+                <button class="col-md-1 type-btn" ng-click="setType($index, 'lijst')" ng-mouseenter = "typeHelp = 'lijst'" ng-mouseleave = "typeHelp = ''">
+                  <i class="fa fa-caret-square-o-down type-fa" aria-hidden="true"></i>
+                </button>
+                <button class="col-md-1 type-btn" ng-click="setType($index, 'vinkje')" ng-mouseenter = "typeHelp = 'vinkje'" ng-mouseleave = "typeHelp = ''" >
+                  <i class="fa fa-check-square-o type-fa" aria-hidden="true"></i>
+                </button>
+
+                <button class="col-md-1 type-btn" ng-click="setType($index, 'groep')" ng-mouseenter="typeHelp = 'groep van velden'" ng-mouseleave="typeHelp = ''">
+                  <svg version="1.1" x="0px" y="0px" viewBox="0 0 500 500" class="type-sgv" >
+                    <path d="M319,190.3c0-5.7-4.6-10.3-10.3-10.3H19.3C13.6,180,9,184.6,9,190.3v289.4c0,5.7,4.6,10.3,10.3,10.3h289.4
+                              c5.7,0,10.3-4.6,10.3-10.3V190.3z" style="fill: #666666" />
+                    <g>
+                      <path d="M404,401V111.9c0-5.7-5.5-9.9-11.2-9.9H103.7c-5.7,0-10.7,4.2-10.7,9.9V159h215.3c17,0,31.7,14.5,31.7,31.6
+                                  V412h52.8C398.5,412,404,406.7,404,401z" style="fill: #333333" />
+                    </g>
+                    <g>
+                      <path d="M492,320.5V31.3c0-5.7-4.9-10.3-10.6-10.3H192.3c-5.7,0-10.3,4.6-10.3,10.3V79h215c17,0,31,13.9,31,31v221h53.4
+                                  C487.1,331,492,326.1,492,320.5z" />
+                    </g>
+                  </svg>
+                </button>
+              </div>
+              <p class="col-md-7 col-md-offset-1 type-help" ng-hide="!showme">
+                  {{ typeHelp }}
+                </p>
+            </div>
+
+            <div class="form-group" ng-init="groepseigenGegevenIndex = $index" ng-show="showme && activegroup.groepseigenGegevens.schema[$index].type == 'lijst'">
+              <label class="col-xs-4" >
+                Mogelijke keuzes  <button  class="btn-minimal" title="Keuze toevoegen" ng-click="addKeuze(groepseigenGegevenIndex)"><span class="glyphicon glyphicon-plus"></span></button>
+              </label>
+              <div ng-repeat="keuze in activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes track by $index">
+                <input class="form-control col-md-11" ng-model="activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes[$index]">
+                <button class="btn-minimal" title="Keuze wissen" ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </div>
+            </div>
+
+            <div class="col-md-12 form-group" ng-hide="!showme">
+              <label class="control checkbox col-md-5">
+                <div class="col-xs-11 col-xxs-11 control-label">Alle leiding kan wijzigen</div>
+                <div class="col-xs-1 col-xxs-1">
+                  <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema[$index].kanLeidingWijzigen"/>
+                  <span class="control-indicator"></span>
+                </div>
+              </label>
+              <label class=" control checkbox col-md-5 col-md-offset-2">
+                <div class="col-xs-11 col-xxs-11 control-label">Persoon zelf kan wijzigen</div>
+                <div class="col-xs-1 col-xxs-1">
+                  <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema[$index].kanLidWijzigen"/>
+                  <span class="control-indicator"></span>
+                </div>
+              </label>
+            </div>
+
+            <div class="form-group col-xs-6" ng-hide="!showme">
+              <label class="col-xs-12 col-xxs-12" >Helpinstructie</label>
+              <div class="col-xs-12 col-xxs-12">
+                <textarea class="form-control" ng-model="activegroup.groepseigenGegevens.schema[$index].beschrijving">
+                </textarea>
+              </div>
+            </div>
+
+
+          </fieldset>
+
         </fieldset>
       </div>
 
       <div ng-if="!activegroup.groepseigenGegevens.schema.length">
         <i>Geen groepseigen gegevens beschikbaar voor deze groep.</i>
-        <a>Nieuw groepseigen gegeven aanmaken.</a>
+        <a ng-click="addGroepseigenGegeven()">Nieuw groepseigen gegeven aanmaken.</a>
       </div>
-
-
     </fieldset>
   </div>
 </div>

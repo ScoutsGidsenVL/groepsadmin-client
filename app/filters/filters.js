@@ -58,6 +58,9 @@ angular.module('ga.filters', [])
 
   .filter('fieldTypeFormatter', function () {
         return function (value) {
+          if(value == undefined || value == null){
+            return value;
+          }
             value = value.toLowerCase();
             var regex = new RegExp('_', 'g');
             value = value.replace(regex, ' ');
