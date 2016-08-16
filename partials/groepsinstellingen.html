@@ -1,8 +1,9 @@
 <!-- Panel header -->
 <div class="panel-heading clearfix">
   <div class="pull-left">
-    <span style="margin-right: 5px;"><b>Groep:</b></span>
-    <select ng-options="groep.groepsnummer for groep in groepenlijst track by groep.id" ng-change="ChangeGroep()" ng-model="activegroup"></select>
+    <span style="margin-right: 5px;" ng-if="groepenlijst.length != 1"><b>Groep:</b></span>
+    <select ng-if="groepenlijst.length != 1" ng-options="groep.groepsnummer as ( groep.groepsnummer + ' ' + groep.naam) for groep in groepenlijst track by groep.id" ng-change="ChangeGroep()" ng-model="activegroup"></select>
+    <h2 ng-if="groepenlijst.length == 1">{{ activegroup.groepsnummer + ' ' + activegroup.naam }}</h2>
   </div>
 </div>
 
