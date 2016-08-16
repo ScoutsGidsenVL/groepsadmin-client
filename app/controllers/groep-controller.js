@@ -147,7 +147,20 @@
         content: marker.infoProp,
         maxWidth: 200
       });
-      infoWindow.open(map, marker);
+      google.maps.event.addListener(infoWindow,'closeclick',function(){
+          angular.forEach($scope.markers, function(value, key){
+            if(value.adresId == marker.adresId){
+              $scope.markers[key].infoIsOpen = false;
+            }
+          });
+        });
+      angular.forEach($scope.markers, function(value, key){
+        console.log(marker.infoIsOpen);
+        if(value.adresId == marker.adresId && !marker.infoIsOpen){
+          $scope.markers[key].infoIsOpen = true;
+          infoWindow.open(map, marker);
+        }
+      })
     }
 
     /*
@@ -333,7 +346,21 @@
           content: marker.infoProp,
           maxWidth: 200
         });
-        infoWindow.open(map, this);
+
+
+        google.maps.event.addListener(infoWindow,'closeclick',function(){
+          angular.forEach($scope.markers, function(value, key){
+            if(value.adresId == marker.adresId){
+              $scope.markers[key].infoIsOpen = false;
+            }
+          });
+        });
+        angular.forEach($scope.markers, function(value, key){
+          if(value.adresId == marker.adresId && !marker.infoIsOpen){
+            $scope.markers[key].infoIsOpen = true;
+            infoWindow.open(map, marker);
+          }
+        });
       });
 
       marker.addListener('dragend', function (evt) {

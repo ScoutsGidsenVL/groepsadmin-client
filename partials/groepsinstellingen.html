@@ -185,9 +185,16 @@
             </div>
 
             <div class="" ng-if="groepseigenGegeven.type == 'lijst' " ng-init="groepseigenGegevenIndex = $index" ng-hide="!showme">
-              <div ng-repeat="keuze in activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes">
-                {{ keuze }}
-                <input ng-model="activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes[$index]">
+              <label class="col-xs-12" >
+                Mogelijke keuzes  <button  class="btn-minimal" title="Keuze toevoegen" ng-click="addKeuze(groepseigenGegevenIndex)"><span class="glyphicon glyphicon-plus"></span></button>
+              </label>
+              <div class="col-xs-12" ng-repeat="keuze in activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes track by $index">
+               <fieldset class="form-group row">
+                 <input class="col-xs-11 form-control " ng-model="activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes[$index]" placeholder="Nieuwe keuze">
+                  <button class="col-xs-1 btn-minimal " title="Keuze wissen" ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+               </fieldset>
               </div>
             </div>
 
@@ -314,7 +321,7 @@
                 Mogelijke keuzes  <button  class="btn-minimal" title="Keuze toevoegen" ng-click="addKeuze(groepseigenGegevenIndex)"><span class="glyphicon glyphicon-plus"></span></button>
               </label>
               <div ng-repeat="keuze in activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes track by $index">
-                <input class="form-control col-md-11" ng-model="activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes[$index]">
+                <input class="form-control col-md-11" ng-model="activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes[$index]" placeholder="Nieuwe keuze">
                 <button class="btn-minimal" title="Keuze wissen" ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
                   <span class="glyphicon glyphicon-trash"></span>
                 </button>
@@ -345,8 +352,6 @@
                 </textarea>
               </div>
             </div>
-
-
           </fieldset>
 
         </fieldset>
