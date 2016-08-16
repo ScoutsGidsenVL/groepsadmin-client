@@ -125,22 +125,22 @@
       </div>
   </div>
 
-  <!-- Groeps eigen functies -->
+
    <div class="row">
+   <!-- Groeps eigen functies -->
     <div class="col-md-6">
       <legend>Groepseigen functies
         <div class="pull-right">
           <button  class="btn-minimal" title="Groepseigen functie toevoegen" ng-click="addGroepseigenFunctie()"><span class="glyphicon glyphicon-plus"></span></button>
         </div>
       </legend>
-
-      <div ng-if="activegroup.groepseigenFuncties">
-        <div class="form-group" ng-repeat="groepseigenFunctie in activegroup.groepseigenFuncties | orderBy:'sort'">
+      <div ng-if="activegroup.groepseigenFuncties" ng-repeat="groepseigenFunctie in activegroup.groepseigenFuncties">
+        <div class="form-group" ng-if="!groepseigenFunctie.deletedTimestamps">
           <div class="col-xs-11">
             <input type="text" class="form-control ga-functie-list" ng-model="activegroup.groepseigenFuncties[$index].beschrijving" placeholder="Nieuwe groepseigen functie"/>
           </div>
-          <div class="col-xs-1">
-           <button class="btn-minimal" title="groepseigenfunctie wissen" ng-click="wisGroepseigenFunctie()">
+          <div class="col-xs-1" ng-hide="groepseigenFunctie.deletedTimestamps">
+           <button class="btn-minimal" title="groepseigenfunctie wissen" ng-click="wisGroepseigenFunctie(groepseigenFunctie.id)">
              <span class="glyphicon glyphicon-trash"></span>
            </button>
           </div>
@@ -153,6 +153,7 @@
       </div>
     </div>
 
+    <!-- Groeps eigen gegevens -->
     <fieldset class="col-md-6">
       <legend>Groepseigen gegevens
         <div class="pull-right">

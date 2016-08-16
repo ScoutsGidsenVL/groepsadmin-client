@@ -280,6 +280,18 @@
     $scope.wisGroepseigenFunctie = function (id) {
       // controle wis ik een nieuwe groepseigen functie => wissen uit array.
       // anders deletedTimestaps op vandaag zetten;
+      angular.forEach($scope.activegroup.groepseigenFuncties, function(value, key){
+        if(value.id == id ) {
+          // controle wordt er een nieuwe groepseigen functie gewist?
+          if(value.id.indexOf('tempFunctie') != -1){
+            $scope.activegroup.groepseigenFuncties.splice(key, 1);
+          }
+          else {
+            $scope.activegroup.groepseigenFuncties[key].deletedTimestamps = new Date();
+          }
+        }
+        console.log($scope.activegroup.groepseigenFuncties[key]);
+      });
     }
 
     /*
