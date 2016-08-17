@@ -109,15 +109,19 @@ Onderdelen die included zijn in de custom build voor deze applicatie:
 * Dropdown
 * Typeahead
 
-#### jQuery UI
+#### jQuery UI - v1.10.4
 
 <https://jqueryui.com/>
 
 * Collapse
-* Alert
-* Dataparser
-* Dropdown
-* Typeahead
+* jquery.ui.core.js
+* jquery.ui.widget.js
+* jquery.ui.mouse.js
+* jquery.ui.draggable.js
+* jquery.ui.droppable.js
+* jquery.ui.resizable.js
+* jquery.ui.selectable.js 
+* jquery.ui.sortable.js
 
 #### ng-infinite-scroll - v1.0.0
 
