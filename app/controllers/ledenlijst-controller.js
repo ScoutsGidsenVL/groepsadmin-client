@@ -8,22 +8,12 @@
   LedenlijstController.$inject = ['$scope', 'RestService', '$window', 'keycloak'];
 
   function LedenlijstController($scope, RestService, $window, keycloak) {
-    console.log('login = ' + keycloak.authenticated);
-
 
 
     /*
      * Init
      * -------------------------------------------------------
      */
-    // opgeslagen filters ophalen
-    /*RestService.Filters.get().$promise.then(
-      function (response) {
-        $scope.opgeslagenFilters = response;
-      },
-      function (error) {
-      }
-    );*/
 
     // filter samenstellen
     stelFilterSamen();
@@ -107,8 +97,9 @@
       return functieGroepen;
     }
 
-    function stelFilterSamen(){
+    function stelFilterSamen(id){
       $scope.criteria = [];
+      
       // functies ophalen
       RestService.Functies.get().$promise.then(
       function(result){
@@ -127,7 +118,7 @@
         angular.forEach(functieGroepen, function(value){
           $scope.criteria.push(value);
         })
-    });
+      });
 
       // groepen ophalen
       RestService.Groepen.get().$promise.then(
@@ -151,7 +142,13 @@
 
       // groepseigenfuncties ophalen
 
-
+      // filters ophalen
+      RestService.Filters.get().$promise.then(
+        function (result){
+          $scope.filters = result.filters;
+        }
+      )
+      
       // statische criteria toevoegen.
       var geslacht = {
                         title : "Geslacht",
@@ -185,9 +182,14 @@
                                       ]
                               }
       $scope.criteria.push(geblokeerdadres);
-
+      
+      var filterId = id;
+      if(!id){
+        filterId = 'huidige'
+      }
+      
       // huidige filter ophalen en verwerken;
-      RestService.FilterDetails.get({id: 'huidige'}).$promise.then(
+      RestService.FilterDetails.get({id: filterId}).$promise.then(
         function (response) {
           $scope.geselecteerdeCriteria = [];
           $scope.currentFilter = response;
@@ -319,6 +321,16 @@
       return label;
     }
 
+    /*
+     *
+     *
+     */
+    
+    $scope.setFilter = function(filter){
+      stelFilterSamen(filter.id)
+      // resultaat wissen,
+      
+    }
 
     /*
      * Filter aanpassen
