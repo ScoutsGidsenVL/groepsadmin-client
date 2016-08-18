@@ -2,3 +2,5 @@
 !.git*
 !.idea/
 /bower_components/
+/css/bootstrap.css
+/css/bootstrap.css.map
