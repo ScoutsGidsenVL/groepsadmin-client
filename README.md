@@ -40,7 +40,7 @@ Bower wordt gebruikt om dependencies te beheren.
 
 Installeer Bower via npm: `npm install -g bower`
 
-Gebruik dan Bower om onze dependencies (Keycloak) te installeren: `bower update`
+Gebruik dan Bower om onze dependencies (Keycloak) te installeren: `bower install`
 
 
 
@@ -71,6 +71,12 @@ Creëert een build map met alle files geoptimaliseerd (minify, concat, ..), klaa
 Start een statische webserver.
 
 De `watch` task is opgenomen in `grunt serve`, deze hoef je dus niet nog eens apart te draaien.
+
+### `grunt less`
+
+Compileert de less bestanden tot één css bestand met bijhorende source map.
+
+De `less` task is opgenomen in `grunt watch`.
 
 
 
