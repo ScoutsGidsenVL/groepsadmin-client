@@ -4,6 +4,9 @@
     <h1 class="panel-title" ng-bind="lid.persoonsgegevens.voornaam + ' ' + lid.persoonsgegevens.achternaam"></h1>
     <p class="panel-subtitle" ng-bind="lid.verbondsgegevens.lidnummer"></p>
   </div>
+  <div class="pull-right">
+    <p class="panel-subtitle"><a href="#/lid/individuelesteekkaart/{{lid.id}}"><i class="fa fa-medkit" aria-hidden="true"></i> Individuele steekkaart</a></p>
+  </div>
   <!--
   <div class="pull-right btn-group">
       <button class="btn btn-default" title="vorig lid"><span class="glyphicon glyphicon-chevron-left"></span></button>
