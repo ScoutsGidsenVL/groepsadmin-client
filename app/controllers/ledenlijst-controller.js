@@ -182,6 +182,22 @@
                                       ]
                               }
       $scope.criteria.push(geblokeerdadres);
+      var oudleden = {
+                              title : "Oudleden",
+                              creteriaKey : "oudleden",
+                              multiplePossible : false,
+                              items : [
+                                        {
+                                          value: true,
+                                          label: "Ja"
+                                        },
+                                        {
+                                          value: false,
+                                          label: "Nee"
+                                        }
+                                      ]
+                              }
+      $scope.criteria.push(oudleden);
       
       var filterId = id;
       if(!id){
@@ -322,8 +338,8 @@
     }
 
     /*
-     *
-     *
+     * Filter samenstellen
+     * -------------------------------------------------------
      */
     
     $scope.setFilter = function(filter){
