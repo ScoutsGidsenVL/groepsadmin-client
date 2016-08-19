@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="nl" ng-app="ga">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groepsadministratie Scouts en Gidsen Vlaanderen</title>
+  <!-- Styles -->
+  <link href="css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body class="container">
+  <h1>API Tester</h1>
+  <h2>Keycloak token</h2>
+  <div id="token">
+    
+  </div>
+  
+  <h2>API</h2>
+  <label>Te testen url</label>
+  <input id="urlToTest" type="text" class="form-control">
+  <button id="testbutton">Verstuur</button>
+  <div id="result">
+
+  </div>
+  <script src="js/jquery-1.10.2.min.js"></script>
+  <script src="bower_components/keycloak/dist/keycloak.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      window._keycloak = Keycloak({
+        url: 'https://login.scoutsengidsenvlaanderen.be/auth',
+        realm: 'scouts',
+        clientId: 'groepsadmin-localhost-80',
+        redirectUri: "http://localhost/apitest.html"
+      });
+
+      window._keycloak
+        .init({
+          onLoad: 'login-required'
+        })
+        .success(function () {
+          // niets te doen 
+          $('#token').text(JSON.stringify( window._keycloak.token));
+        });
+      // test btn
+      $('#testbutton').on('click', function (e) {
+        console.log("start API request");
+        $.ajax($('#urlToTest').val(),
+          {
+            type: 'GET',
+            dataType: 'json',
+            beforeSend: function (xhr) {
+              xhr.setRequestHeader("Authorization", "Bearer " +  window._keycloak.token)
+          },
+          complete: function (resp) {
+            console.log(resp);
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+             $('#result').text(jqXHR.responseText);
+            console.log('resultaat:', jqXHR.responseText);
+          },
+          success: function (data, textStatus, jqXHR) {
+            $('#result').text(jqXHR.responseText);
+            console.log('resultaat:', data);
+          }
+        }
+      );
+      });
+
+    });
+
+/*
+    keycloak.init().success(function (authenticated) {
+
+      
+      
+    });*/
+  </script>
+
+</body>
+
+</html>
