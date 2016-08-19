@@ -9,12 +9,12 @@
 <!-- Persoonsinfo -->
 <div class="panel-body form-hover clearfix">
   <div class="btn-group col-md-8 col-md-offset-2" role="group" >
-    <button type="button" class="btn btn-default" ng-click="tekenLedenaantallen()">Ledenaantallen</button>
-    <button type="button" class="btn btn-default" ng-click="tekenEigenschappen()">Eigenschappen</button>
-    <button type="button" class="btn btn-default" ng-click="tekenGroepsevolutie()">Groepsevolutie</button>
-    <button type="button" class="btn btn-default" ng-click="tekenLedenaantalPerLeeftijd()">Ledenaantal per leeftijd</button>
-    <button type="button" class="btn btn-default" ng-click="tekenHuidigeLeidingsErvaring()">Huidige leidingservaring</button>
-    <button type="button" class="btn btn-default" ng-click="tekenInEnUitstroom()">Instroom en uitstroom per leeftijd</button>
+    <button type="button" class="btn btn-default" ng-class="( currentView == 'LedenAantallen') ? 'active': ''" ng-click="tekenLedenaantallen()">Ledenaantallen</button>
+    <button type="button" class="btn btn-default" ng-class="( currentView == 'Eigenschappen') ? 'active': ''" ng-click="tekenEigenschappen()">Eigenschappen</button>
+    <button type="button" class="btn btn-default" ng-class="( currentView == 'Groepsevolutie') ? 'active': ''" ng-click="tekenGroepsevolutie()">Groepsevolutie</button>
+    <button type="button" class="btn btn-default" ng-class="( currentView == 'LedenaantalPerLeeftijd') ? 'active': ''" ng-click="tekenLedenaantalPerLeeftijd()">Ledenaantal per leeftijd</button>
+    <button type="button" class="btn btn-default" ng-class="( currentView == 'HuidigeLeidingsErvaring') ? 'active': ''" ng-click="tekenHuidigeLeidingsErvaring()">Huidige leidingservaring</button>
+    <button type="button" class="btn btn-default" ng-class="( currentView == 'InEnUitstroom') ? 'active': ''" ng-click="tekenInEnUitstroom()">Instroom en uitstroom per leeftijd</button>
   </div>
   <div class="col-md-6 col-md-offset-3" ng-show="showGrafiek">
     <canvas id="grafiek" width="700" height="500" style="width: 400px; height: 400px; display: block;" ></canvas>
