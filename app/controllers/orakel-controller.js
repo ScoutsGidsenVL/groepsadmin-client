@@ -28,6 +28,14 @@
             display: true,
             position: "bottom",
             padding: 20
+          },
+          scales: {
+            xAxes: [{
+              display: true
+            }],
+            yAxes: [{
+              display: true
+            }]
           }
         }
 
@@ -115,7 +123,7 @@
         var dataset = {
           label: value.name,
           fill: false,
-          //lineTension: 0.1,
+          lineTension: 0,
           backgroundColor: chartColors[key].background,
           borderColor: chartColors[key].border,
           //borderCapStyle: 'butt',
@@ -139,6 +147,8 @@
 
       var grafiekOpties = globalOptions;
       grafiekOpties.title.text = "Groepsevolutie";
+      grafiekOpties.scales.xAxes[0].display = true;
+      grafiekOpties.scales.yAxes[0].display = true;
 
       $scope.grafiek = new Chart(ctx, {
         type: type,
@@ -243,6 +253,9 @@
 
       var grafiekOpties = globalOptions;
       grafiekOpties.title.text = "Huidige leidingservaring";
+      grafiekOpties.scales.xAxes[0].display = false;
+      grafiekOpties.scales.yAxes[0].display = false;
+
 
       var animation = { animateScale:true };
       $scope.grafiek = new Chart(ctx, {
