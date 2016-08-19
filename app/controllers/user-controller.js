@@ -14,7 +14,6 @@
     }
     $scope.logout = function(){
       keycloak.logout();
-      $window.location.href = 'http://login.scoutsengidsenvlaanderenen.be';
     }
   }
 })();
