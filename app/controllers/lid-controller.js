@@ -30,6 +30,8 @@
         function(result) {
           $scope.lid = result;
           loadSuccess($scope.lid);
+          getPostadresString();
+
         },
         function(error) {
           if(error.data.beschrijving =="Geen leesrechten op dit lid"){
@@ -176,8 +178,34 @@
           value.postadres = false;
         }
       });
+      getPostadresString();
     }
-
+          
+    var getPostadresString = function(){
+      angular.forEach($scope.lid.adressen, function(value){
+        if(value.postadres){
+          $scope.postadresString = '';
+          if( value.straat ){
+            $scope.postadresString = $scope.postadresString + value.straat;
+          }
+          if( value.nummer ){
+            $scope.postadresString = $scope.postadresString + ' ' + value.nummer;
+          }
+          if( value.bus ){
+            $scope.postadresString = $scope.postadresString + ' ' + value.bus;
+          }
+          if( value.postcode ){
+            $scope.postadresString = $scope.postadresString + ', ' + value.postcode;
+          }
+          if( value.gemeente ){
+            $scope.postadresString = $scope.postadresString + ' ' + value.gemeente;
+          }
+          if($scope.postadresString == '' ){
+            $scope.postadresString = 'Nieuw adres';
+          }
+        }
+      })
+    }
 
 
     /*

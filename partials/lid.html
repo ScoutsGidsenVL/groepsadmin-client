@@ -116,12 +116,16 @@
               <span class="control-indicator"></span>
             </div>
           </label>
-          <div class="form-group" ng-show="lid.adressen.length > 1">
+          <div class="form-group">
             <label for="_postadres" class="col-xs-5 col-xxs-12 control-label">Postadres</label>
-            <div class="col-xs-7 col-xxs-12">
-              <select  id="_postadres" ng-model="postadres" ng-change="changePostadres(postadres)" ng-disabled="!hasPermission('persoonsgegevens')">
-                <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" ng-selected="adres.postadres">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
-              </select>
+            <div class="btn-group selectpicker" uib-dropdown is-open="status.isopen">
+              <button type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="lid.adressen.length <= 1">
+               {{ postadresString }}<span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <li role="menuitem" ng-repeat="adres in lid.adressen"><a href ng-click="changePostadres(adres.id)" ng-if="adres.straat || adres.bus || adres.postcode || adres.gemeente">{{ adres.straat }} {{ adres.nummer }} {{ adres.bus }}, {{adres.postcode}} {{adres.gemeente}}</a>
+                <a href ng-click="changePostadres(adres.id)" ng-if="!adres.straat && !adres.bus && !adres.postcode && !adres.gemeente">Nieuw adres</a></li>
+              </ul>
             </div>
           </div>
         </fieldset>
