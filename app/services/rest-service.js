@@ -83,6 +83,11 @@
         {},
         {'get': {method: 'GET', cache: false}}
       ),
+      Kolomen: $resource(
+        base + 'ledenlijst/kolom-type',
+        {},
+        {'get': {method: 'GET', cache: false}}
+      ),
       Gemeente: $resource(
         baseGis + 'gemeente?term=:zoekterm',
         {zoekterm: '@zoekterm'},

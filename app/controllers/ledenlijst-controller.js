@@ -336,6 +336,44 @@
       });
       return label;
     }
+    
+    // kolomen ophalen;
+    RestService.Kolomen.get({}).$promise.then(
+      function(result){
+        $scope.kolommen = result.kolommen;
+      }
+    );
+    $scope.kolomInFilter = function(kolom){
+      var returnVal = false;
+      angular.forEach($scope.currentFilter.kolommen, function(val){
+        if(val.id == kolom.id){
+          returnVal = true;
+        }
+      })
+      return returnVal;
+    }
+    $scope.changeKolomInFilter = function(kolom){
+      // controle zit kolom reeds in filter => wis
+      var kolomInFilterIndex;
+      angular.forEach($scope.currentFilter.kolommen, function(value, key){
+        if(value.id == kolom.id){
+          kolomInFilterIndex = key;
+        }
+      });
+      if(kolomInFilterIndex){
+        //wis de kolom
+        $scope.currentFilter.kolommen.splice(kolomInFilterIndex, 1);
+        // huidige filter aanpasen via API
+      }
+      else {
+        // voeg de kolom toe
+        $scope.currentFilter.kolommen.push(kolom);
+        // huidige filter aanpasen via API
+      }
+      
+      // kolom nog niet in de filer => voeg toe
+      
+    }
 
     /*
      * Filter samenstellen

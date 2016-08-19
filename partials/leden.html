@@ -108,9 +108,11 @@
       <th class="sortable-disabled" uib-dropdown keyboard-nav="true" auto-close="disabled">
         <i class="fa fa-table dropdown-toggle"  aria-hidden="true" uib-dropdown-toggle></i>
         <ul class="dropdown-menu pull-right checklist" uib-dropdown-menu>
-          <li><label><input type="checkbox"  checked>Kolom X</label></li>
-          <li><label><input type="checkbox"  >Kolom X</label></li>
-          <li><label><input type="checkbox"  >Kolom X</label></li>
+          <li ng-repeat="kolom in kolommen">
+            <label>
+              <input type="checkbox" ng-checked="kolomInFilter(kolom)" ng-click="changeKolomInFilter(kolom)" title="{{ kolom.beschrijving }}">{{ kolom.label }}
+            </label>
+          </li>
         </ul>
       </th>
     </tr>
