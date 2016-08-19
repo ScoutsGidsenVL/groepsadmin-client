@@ -12,15 +12,15 @@
 
     $scope.validationErrors = [];
     var sectie
-    
+
     // Nieuwe adressen hebben geen id. Tijdelijk opgelost met tempAdresId.
     // Voorstel: UUID genereren aan client-side. http://stackoverflow.com/a/2117523
     var tempAdresId = 1;
     var tempContactId = 1;
     RestService.LidAdd.options().$promise.then(
       function(result) {
-        console.log(result.data);
-        console.log(result.data.indexOf('POST') > -1);
+        console.log('data:', result.data);
+        console.log('post?', result.data.indexOf('POST') > -1);
         if(result.data.indexOf('POST') > -1){
           $scope.canPost = true;
         }
@@ -34,7 +34,8 @@
 
         },
         function(error) {
-          if(error.data.beschrijving =="Geen leesrechten op dit lid"){
+          console.log(error);
+          if(error.data && error.data.beschrijving =="Geen leesrechten op dit lid"){
             //redirect to lid overzicht.
             $location.path('/');
             AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
@@ -51,22 +52,22 @@
     * Algemeen
     * ---------------------------------------
     */
-    
+
     // initialisatie
      function initModel() {
       // Changes object bijhouden: enkel de gewijzigde properties meesturen met PATCH
       $scope.lid.changes = new Array();
-      
+
       // Functiehistoriek weergeven/verbergen
       $scope.isFunctiesCollapsed = true;
-      
+
       // Functies samenvoegen in één Array (Tijdelijk tot API update)
       var f = [];
       angular.forEach($scope.lid.functies, function(value) {
         f = f.concat(value);
       });
       $scope.lid.functies = f;
-      
+
       // Alle actieve functies ophalen
       $scope.functieslijst = [];
       angular.forEach($scope.lid.functies, function(value, key) {
