@@ -502,6 +502,19 @@
         }
       );
     }
+    
+    
+    // kan de gebruiker functie stoppen van het lid?
+    $scope.kanSchrappen = function() {
+      var returnVal = false;
+      angular.forEach($scope.patchObj.secties, function(value){
+        if (value.indexOf('functies.') != -1){
+          returnVal = true;
+        }
+      })
+      return returnVal;
+    }
+    
 
     // alle aanpassingen opslaan
     $scope.opslaan = function() {
