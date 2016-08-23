@@ -18,16 +18,14 @@ De API heeft de volgende eindpunten:
 | *[/lid/profiel](#lidprofiel)*                               | OK    | -      | OK      | -        |
 | *[/groep](#groep)*                                          | OK    | -      | -       | -        |
 | *[/groep/{groepsnummer}](#groepgroepsnummer)*               | OK    | -      | OK      | -        |
-| *[/functie](#functie)*                                      | OK*   | OK     | -       | -        |
+| *[/functie](#functie)*                                      | OK    | OK     | -       | -        |
 | *[/functie?{query-string}](#functiequery-string)*           | OK    | -      | -       | -        |
 | *[/functie/{functieid}](#functiefunctieid)*                 | OK    | -      | OK      | OK       |
 | *[/ledenlijst](#ledenlijst)*                                | OK    | -      | -       | -        |
-| *[/ledenlijst/filter](#ledenlijstfilter)*                   | OK    | TO-DO  | -       | -        |
+| *[/ledenlijst/filter](#ledenlijstfilter)*                   | OK    | OK     | -       | -        |
 | *[/ledenlijst/filter/{filterid}](#ledenlijstfilterfilterid)*| OK    | -      | TO-DO   | TO-DO    |
-| *[/ledenlijst/kolom-type](#ledenlijstkolom-type)*           | TO-DO | -      | -       | -        |
+| *[/ledenlijst/kolom-type](#ledenlijstkolom-type)*           | OK    | -      | -       | -        |
 | *[/zoeken](#zoeken)*                                        | OK    | -      | -       | -        |
-
- * Imperformante request
 
 ## Algemeen
 
