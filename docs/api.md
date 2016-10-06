@@ -121,6 +121,10 @@ Een specifiek lid
       "postadres": true,
       "omschrijving" : "adres papa",
       "status": "NORMAAL",
+      "positie": {
+        "lat" : 51.166969,
+        "lng" : 4.462271
+      }
     }
   ],
   "contacten": [
@@ -366,22 +370,26 @@ Alle groepen waar je toegang toe hebt:
     "aangepast": "2015-06-24T13:33:48.654Z",
     "groepsnummer": "O2301G",
     "naam": "Sint-Kristoffel",
-    "adres": {
-        "id": "d5f75b320b812440010b812550aa028e",
+    "adressen": [
+      {
+        "id": "d5f75e23385c5e6e0139493b84fe0352",
         "land": "BE",
         "postcode": "9300",
         "gemeente": "Aalst",
         "straat": "Graanmarkt",
-        "nummer": "3",
+        "giscode": "0160",
+        "nummer": "1",
         "bus": "",
-        "postadres": false,
-        "status": "normaal",
-        "giscode": "0096",
+        "telefoon": "012345678",
+        "postadres": true,
+        "omschrijving" : "adres papa",
+        "status": "NORMAAL",
         "positie": {
           "lat" : 51.166969,
           "lng" : 4.462271
         }
-    },
+      }
+    ],
     "rekeningnummer": "BE07293005850266",
     "email": "info@kroffel.be",
     "website": "www.kroffel.be",
