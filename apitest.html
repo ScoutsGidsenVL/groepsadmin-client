@@ -7,30 +7,99 @@
   <title>Groepsadministratie Scouts en Gidsen Vlaanderen</title>
   <!-- Styles -->
   <link href="css/bootstrap.css" rel="stylesheet">
+
+  <style>
+    #token {
+      overflow: hidden;
+    }
+    #api {
+      float: right;
+    }
+    #token, #urlToTest, #method, #requestBody, #status {
+      margin-bottom: 10px;
+    }
+    #result {
+      width: 100%;
+      border: 0;
+    }
+  </style>
 </head>
 
 <body class="container">
   <h1>API Tester</h1>
-  <h2>Keycloak token</h2>
-  <div id="token">
-    
-  </div>
-  
-  <h2>API</h2>
-  <label>Te testen url</label>
-  <input id="urlToTest" type="text" class="form-control">
-  <button id="testbutton">Verstuur</button>
-  <div id="result">
 
+  <div id='api'>
+    <a href='https://github.com/ScoutsGidsenVL/groepsadmin-client/blob/master/docs/api.md' target='_blank'>Documentatie API</a>
   </div>
+
+  <h2>Request</h2>
+  <label>Keycloak token</label>
+  <div id="token"></div>
+  <form id='form'>
+    <label>Url</label>
+    <input type="text" id="urlToTest" class="form-control">
+    <label>Methode</label>
+    <select id="method" class="form-control">
+      <option value="GET" selected>GET</option>
+      <option value="POST">POST</option>
+      <option value="PATCH">PATCH</option>
+      <option value="DELETE">DELETE</option>
+      <option disabled>---</option>
+      <option value="HEAD">HEAD</option>
+      <option value="OPTIONS">OPTIONS</option>
+      <option value="TRACE">TRACE</option>
+    </select>
+    <label class='requestBody'>Body</label>
+    <textarea id="requestBody" class="form-control requestBody"></textarea>
+    <input type="submit" value="Verstuur">
+  </form>
+
+  <h2>Response</h2>
+  <label>Status</label>
+  <div id="status">Nog geen request verstuurd</div>
+  <label>Content</label>
+  <iframe id="result" src='data:text/plain,Nog geen request verstuurd'></iframe>
+
   <script src="js/jquery-1.10.2.min.js"></script>
   <script src="bower_components/keycloak/dist/keycloak.js"></script>
-  <script type="text/javascript">
+  <script>
+
+    $('#urlToTest').val(localStorage.getItem("url"));
+    $('#method').val(localStorage.getItem("method"));
+    $('#requestBody').val(localStorage.getItem("body"));
+
+    function writeResult(result, statusCode, statusText) {
+
+      $('#status').html(statusCode + ' - ' + statusText);
+
+      var content_type = 'text/plain';
+      if (result.match(/^[{\["]/)) {
+        content_type = 'application/json'
+      } else if (result[0] == '<') {
+        content_type = 'text/html';
+      }
+
+      document.getElementById('result').src = 'data:' + content_type + ',' + result;
+    }
+
+    setInterval(function(){
+
+      var resultBody = document.getElementById('result').contentDocument.body;
+      if (resultBody) {
+        document.getElementById('result').style.height
+          = parseFloat(window.getComputedStyle(resultBody).height) + 64 + 'px';
+      }
+
+      localStorage.setItem("url", $('#urlToTest').val());
+      localStorage.setItem("method", $('#method').val());
+      localStorage.setItem("body", $('#requestBody').val());
+    }, 100);
+
     $(document).ready(function () {
       window._keycloak = Keycloak({
         url: 'https://login.scoutsengidsenvlaanderen.be/auth',
         realm: 'scouts',
-        clientId: 'groepsadmin-localhost-80',
+        clientId: 'groepsadmin-localhost-8000',
         redirectUri: "http://localhost/apitest.html"
       });
 
@@ -39,44 +108,40 @@
           onLoad: 'login-required'
         })
         .success(function () {
-          // niets te doen 
-          $('#token').text(JSON.stringify( window._keycloak.token));
+          $('#token').text(window._keycloak.token);
         });
-      // test btn
-      $('#testbutton').on('click', function (e) {
-        console.log("start API request");
+
+      function onMethodChange(e) {
+        $('.requestBody').toggle(0 <= ['POST', 'PATCH', 'OPTIONS'].indexOf($('#method').val()));
+      }
+      $('#method').on('change', onMethodChange);
+      onMethodChange();
+
+      $('#form').on('submit', function (e) {
+
+        e.preventDefault(); // Pagina niet refreshen
+
         $.ajax($('#urlToTest').val(),
           {
-            type: 'GET',
-            dataType: 'json',
+            method: $('#method').val(),
+            contentType: 'application/json; charset=UTF-8',
+            data: $('#requestBody:visible').val() || '',
             beforeSend: function (xhr) {
-              xhr.setRequestHeader("Authorization", "Bearer " +  window._keycloak.token)
-          },
-          complete: function (resp) {
-            console.log(resp);
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-             $('#result').text(jqXHR.responseText);
-            console.log('resultaat:', jqXHR.responseText);
-          },
-          success: function (data, textStatus, jqXHR) {
-            $('#result').text(jqXHR.responseText);
-            console.log('resultaat:', data);
+              $('#status').html('Nog geen resultaat gekregen...');
+              $('#result').get()[0].src = 'data:text/plain,Nog geen resultaat gekregen...';
+              xhr.setRequestHeader("Authorization", "Bearer " +  window._keycloak.token);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              writeResult(jqXHR.responseText, jqXHR.status, errorThrown || textStatus);
+            },
+            success: function (data, textStatus, jqXHR) {
+              writeResult(jqXHR.responseText, jqXHR.status, textStatus);
+            }
           }
-        }
-      );
+        );
       });
-
     });
-
-/*
-    keycloak.init().success(function (authenticated) {
-
-      
-      
-    });*/
   </script>
 
 </body>
-
 </html>
