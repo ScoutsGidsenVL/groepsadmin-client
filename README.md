@@ -36,12 +36,12 @@ Meer info over de property order:
 <https://nodejs.org/>
 <http://bower.io/>
 
-Bower wordt gebruikt om dependencies te beheren.
+Bower en NPM worden gebruikt om dependencies te beheren.
 
-Installeer Bower via npm: `npm install -g bower`
-
-Gebruik dan Bower om onze dependencies (Keycloak) te installeren: `bower install`
-
+* Installeer eerst node.js, dit bevat NPM.
+* Installeer Bower en Grunt via NPM: `npm install -g` als administrator/root (zie package.json)
+  * Alternatief zonder extra rechten: `npm install` - Gebruik daarna `node_modules/bower/bin/bower` en `node_modules/grunt-cli/bin/grunt`
+* Gebruik dan Bower om Keycloak te installeren: `bower install` (zie bower.json)
 
 
 ## Grunt
@@ -60,11 +60,9 @@ In de Gruntfile zijn momenteel 3 taken gedefiniëerd:
 * Genereert een Source Map (geeft de juiste filenaam en lijnnummer voor het debuggen van CSS/LESS)
 * (maakt het eenvoudiger om LESS te debuggen)
 
-
 ### `grunt build`
 
 Creëert een build map met alle files geoptimaliseerd (minify, concat, ..), klaar voor production. (Todo)
-
 
 ### `grunt serve`
 
