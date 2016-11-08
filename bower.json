@@ -15,6 +15,6 @@
     "tests"
   ],
   "dependencies": {
-    "keycloak": "^1.9.2"
+    "keycloak": "^1.9.8"
   }
 }
