@@ -1,147 +1,196 @@
 <!DOCTYPE html>
 <html lang="nl" ng-app="ga">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groepsadministratie Scouts en Gidsen Vlaanderen</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Groepsadministratie Scouts en Gidsen Vlaanderen</title>
-  <!-- Styles -->
-  <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      #access_token,
+      #refresh_token,
+      #id_token {
+        word-break: break-all;
+        font-size: 0.8rem;
+      }
+      #api {
+        float: right;
+      }
+      #access_token_details,
+      #refresh_token_details,
+      #id_token_details,
+      #urlToTest,
+      #method,
+      #requestBody,
+      #status {
+        margin-bottom: 10px;
+      }
+      span.col {
+        display: inline-block;
+        width: 12em;
+      }
+      span.value {
+        width: 50em;
+      }
+      #result {
+        width: 100%;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body class="container">
+    <h1>API Tester</h1>
 
-  <style>
-    #token {
-      overflow: hidden;
-    }
-    #api {
-      float: right;
-    }
-    #token, #urlToTest, #method, #requestBody, #status {
-      margin-bottom: 10px;
-    }
-    #result {
-      width: 100%;
-      border: 0;
-    }
-  </style>
-</head>
+    <div id='api'>
+      <a href='https://github.com/ScoutsGidsenVL/groepsadmin-client/blob/master/docs/api.md' target='_blank'>Documentatie API</a>
+    </div>
 
-<body class="container">
-  <h1>API Tester</h1>
+    <h2>Request</h2>
+    <label>Access token (keycloak token)</label>
+    <div id="access_token"></div>
+    <div id="access_token_details"></div>
+    <!--label>Refresh token</label>
+    <div id="refresh_token"></div>
+    <div id="refresh_token_details"></div>
+    <label>ID token</label>
+    <div id="id_token"></div>
+    <div id="id_token_details"></div-->
+    <form id='form'>
+      <label>Url</label>
+      <input type="text" id="urlToTest" class="form-control">
+      <label>Methode</label>
+      <select id="method" class="form-control">
+        <option value="GET" selected>GET</option>
+        <option value="POST">POST</option>
+        <option value="PATCH">PATCH</option>
+        <option value="DELETE">DELETE</option>
+        <option disabled>---</option>
+        <option value="HEAD">HEAD</option>
+        <option value="OPTIONS">OPTIONS</option>
+        <option value="TRACE">TRACE</option>
+      </select>
+      <label class='requestBody'>Body</label>
+      <textarea id="requestBody" class="form-control requestBody"></textarea>
+      <input type="submit" value="Verstuur">
+    </form>
 
-  <div id='api'>
-    <a href='https://github.com/ScoutsGidsenVL/groepsadmin-client/blob/master/docs/api.md' target='_blank'>Documentatie API</a>
-  </div>
+    <h2>Response</h2>
+    <label>Status</label>
+    <div id="status">Nog geen request verstuurd</div>
+    <label>Content</label>
+    <iframe id="result" src='data:text/plain,Nog geen request verstuurd'></iframe>
 
-  <h2>Request</h2>
-  <label>Keycloak token</label>
-  <div id="token"></div>
-  <form id='form'>
-    <label>Url</label>
-    <input type="text" id="urlToTest" class="form-control">
-    <label>Methode</label>
-    <select id="method" class="form-control">
-      <option value="GET" selected>GET</option>
-      <option value="POST">POST</option>
-      <option value="PATCH">PATCH</option>
-      <option value="DELETE">DELETE</option>
-      <option disabled>---</option>
-      <option value="HEAD">HEAD</option>
-      <option value="OPTIONS">OPTIONS</option>
-      <option value="TRACE">TRACE</option>
-    </select>
-    <label class='requestBody'>Body</label>
-    <textarea id="requestBody" class="form-control requestBody"></textarea>
-    <input type="submit" value="Verstuur">
-  </form>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="bower_components/keycloak/dist/keycloak.js"></script>
+    <script>
+      $('#urlToTest').val(localStorage.getItem("url"));
+      $('#method').val(localStorage.getItem("method"));
+      $('#requestBody').val(localStorage.getItem("body"));
 
-  <h2>Response</h2>
-  <label>Status</label>
-  <div id="status">Nog geen request verstuurd</div>
-  <label>Content</label>
-  <iframe id="result" src='data:text/plain,Nog geen request verstuurd'></iframe>
+      function writeResult(result, statusCode, statusText) {
 
-  <script src="js/jquery-1.10.2.min.js"></script>
-  <script src="bower_components/keycloak/dist/keycloak.js"></script>
-  <script>
+        $('#status').html(statusCode + ' - ' + statusText);
 
-    $('#urlToTest').val(localStorage.getItem("url"));
-    $('#method').val(localStorage.getItem("method"));
-    $('#requestBody').val(localStorage.getItem("body"));
+        var content_type = 'text/plain';
+        if (result.match(/^[{\["]/)) {
+          content_type = 'application/json'
+        } else if (result[0] == '<') {
+          content_type = 'text/html';
+        }
 
-    function writeResult(result, statusCode, statusText) {
-
-      $('#status').html(statusCode + ' - ' + statusText);
-
-      var content_type = 'text/plain';
-      if (result.match(/^[{\["]/)) {
-        content_type = 'application/json'
-      } else if (result[0] == '<') {
-        content_type = 'text/html';
+        document.getElementById('result').src = 'data:' + content_type + ',' + result;
       }
 
-      document.getElementById('result').src = 'data:' + content_type + ',' + result;
-    }
+      setInterval(function(){
 
-    setInterval(function(){
+        if (document.getElementById('result').contentDocument) {
+          var resultBody = document.getElementById('result').contentDocument.body;
+          if (resultBody) {
+            document.getElementById('result').style.height
+              = parseFloat(window.getComputedStyle(resultBody).height) + 64 + 'px';
+          }
+        }
 
-      var resultBody = document.getElementById('result').contentDocument.body;
-      if (resultBody) {
-        document.getElementById('result').style.height
-          = parseFloat(window.getComputedStyle(resultBody).height) + 64 + 'px';
+        localStorage.setItem("url", $('#urlToTest').val());
+        localStorage.setItem("method", $('#method').val());
+        localStorage.setItem("body", $('#requestBody').val());
+
+        if (keycloak.refreshTokenParsed) {
+          $('#left').html(parseInt(keycloak.refreshTokenParsed['exp']) - Math.round(new Date().getTime() / 1000) - keycloak.timeSkew);
+        }
+      }, 100);
+
+      function getDetails(parsedToken) {
+
+        function row(name, key, extra) {
+          return '<span class="col">' + name + '</span><span class="col">' + key + '</span><span class="col value">' + parsedToken[key] + (extra ? ' - ' + extra : '') + '</span><br/>'
+        }
+
+        var result = row('Type', 'typ');
+
+        if (parsedToken['typ'] == 'Bearer') {
+          result += row('Client', 'aud');
+          result += row('Expires', 'exp', new Date(parsedToken['exp'] * 1000) + ' - Left: <span id="left"></span> s');
+          result += row('Gebruikersnaam', 'preferred_username');
+          result += row('GA id', 'sub');
+          result += row('Session state', 'session_state');
+          result += row('Allowed origin', 'allowed-origins');
+        }
+
+        return result;
       }
 
-      localStorage.setItem("url", $('#urlToTest').val());
-      localStorage.setItem("method", $('#method').val());
-      localStorage.setItem("body", $('#requestBody').val());
-    }, 100);
-
-    $(document).ready(function () {
-      window._keycloak = Keycloak({
-        url: 'https://login.scoutsengidsenvlaanderen.be/auth',
-        realm: 'scouts',
-        clientId: 'groepsadmin-localhost-8000',
-        redirectUri: "http://localhost/apitest.html"
-      });
-
-      window._keycloak
-        .init({
-          onLoad: 'login-required'
-        })
-        .success(function () {
-          $('#token').text(window._keycloak.token);
+      $(document).ready(function () {
+        var keycloak = Keycloak({
+          url: 'https://login.scoutsengidsenvlaanderen.be/auth',
+          realm: 'scouts',
+          clientId: 'groepsadmin-localhost-8000',
+          redirectUri: "http://localhost:8000/apitest.html"
         });
 
-      function onMethodChange(e) {
-        $('.requestBody').toggle(0 <= ['POST', 'PATCH', 'OPTIONS'].indexOf($('#method').val()));
-      }
-      $('#method').on('change', onMethodChange);
-      onMethodChange();
+        keycloak
+          .init({
+            onLoad: 'login-required'
+          })
+          .success(function () {
+            $('#access_token').text(keycloak.token);
+            $('#access_token_details').html(getDetails(keycloak.tokenParsed));
+            $('#refresh_token').text(keycloak.refreshToken);
+            $('#refresh_token_details').html(getDetails(keycloak.refreshTokenParsed));
+            $('#id_token').text(keycloak.idToken);
+            $('#id_token_details').html(getDetails(keycloak.idTokenParsed));
+          });
 
-      $('#form').on('submit', function (e) {
+        function onMethodChange(e) {
+          $('.requestBody').toggle(0 <= ['POST', 'PATCH', 'OPTIONS'].indexOf($('#method').val()));
+        }
+        $('#method').on('change', onMethodChange);
+        onMethodChange();
 
-        e.preventDefault(); // Pagina niet refreshen
+        $('#form').on('submit', function (e) {
 
-        $.ajax($('#urlToTest').val(),
-          {
-            method: $('#method').val(),
-            contentType: 'application/json; charset=UTF-8',
-            data: $('#requestBody:visible').val() || '',
-            beforeSend: function (xhr) {
-              $('#status').html('Nog geen resultaat gekregen...');
-              $('#result').get()[0].src = 'data:text/plain,Nog geen resultaat gekregen...';
-              xhr.setRequestHeader("Authorization", "Bearer " +  window._keycloak.token);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-              writeResult(jqXHR.responseText, jqXHR.status, errorThrown || textStatus);
-            },
-            success: function (data, textStatus, jqXHR) {
-              writeResult(jqXHR.responseText, jqXHR.status, textStatus);
+          e.preventDefault(); // Pagina niet refreshen
+
+          $.ajax($('#urlToTest').val(),
+            {
+              method: $('#method').val(),
+              contentType: 'application/json; charset=UTF-8',
+              data: $('#requestBody:visible').val() || '',
+              beforeSend: function (xhr) {
+                $('#status').html('Nog geen resultaat gekregen...');
+                $('#result').get()[0].src = 'data:text/plain,Nog geen resultaat gekregen...';
+                xhr.setRequestHeader("Authorization", "Bearer " +  keycloak.token);
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                writeResult(jqXHR.responseText, jqXHR.status, errorThrown || textStatus);
+              },
+              success: function (data, textStatus, jqXHR) {
+                writeResult(jqXHR.responseText, jqXHR.status, textStatus);
+              }
             }
-          }
-        );
+          );
+        });
       });
-    });
-  </script>
-
-</body>
+    </script>
+  </body>
 </html>
