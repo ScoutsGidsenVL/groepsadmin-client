@@ -83,6 +83,8 @@
     <script src="js/jquery-1.10.2.min.js"></script>
     <script src="bower_components/keycloak/dist/keycloak.js"></script>
     <script>
+      var keycloak;
+
       $('#urlToTest').val(localStorage.getItem("url"));
       $('#method').val(localStorage.getItem("method"));
       $('#requestBody').val(localStorage.getItem("body"));
@@ -141,7 +143,7 @@
       }
 
       $(document).ready(function () {
-        var keycloak = Keycloak({
+        keycloak = Keycloak({
           url: 'https://login.scoutsengidsenvlaanderen.be/auth',
           realm: 'scouts',
           clientId: 'groepsadmin-localhost-8000',
@@ -153,6 +155,7 @@
             onLoad: 'login-required'
           })
           .success(function () {
+            console.log(keycloak.token);
             $('#access_token').text(keycloak.token);
             $('#access_token_details').html(getDetails(keycloak.tokenParsed));
             $('#refresh_token').text(keycloak.refreshToken);
