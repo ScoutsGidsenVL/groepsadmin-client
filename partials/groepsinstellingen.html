@@ -94,7 +94,7 @@
             <button ng-click="addAdres()" class="btn-minimal" title="Lokaal toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
           </div>
         </legend>
-        <fieldset ng-repeat="lokaal in activegroup.adres">
+        <fieldset ng-repeat="lokaal in activegroup.adressen">
           <legend class="clearfix" ng-init="showme = false; " ng-click="showme = showme ? false : true">
            <div class="lokaal-legend pull-left">
              <i class="fa fa-map-marker" aria-hidden="true" ></i>{{ markerLabels[$index] }}

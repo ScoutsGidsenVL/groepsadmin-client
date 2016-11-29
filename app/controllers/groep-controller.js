@@ -15,7 +15,7 @@
       function (result) {
         $scope.groepenlijst = [];
         //tijdelijk extra velden toevoegen aan het resultaat
-        angular.forEach(result.groepen, function(value){
+        /*angular.forEach(result.groepen, function(value){
           value.vga = {
             "naam": "Nathan Wuyts",
             "email": "vga@scoutslatem.be"
@@ -39,7 +39,7 @@
             value.adres
           ];
           $scope.groepenlijst.push(value);
-        })
+        })*/
         if($scope.activegroup == undefined){
           $scope.activegroup = result.groepen[0];
           loadGoogleMap(result.groepen[0]);
@@ -56,17 +56,17 @@
      */
     // initialize Google Map
     var loadGoogleMap = function(groep){
-      var adressen = groep ? groep.adres : $scope.activegroup.adres;
+      //var adressen = groep ? groep.adres : $scope.activegroup.adres;
       if(!$scope.googleMap){
         var mapOptions = {
           zoom: 15,
-          center: berekenCenter(adressen)
+          center: berekenCenter(groep.adressen)
         }
         $scope.googleMap = new google.maps.Map(document.getElementById("lokalen-kaart"), mapOptions);
-        markersTekenen($scope.googleMap, adressen);
+        markersTekenen($scope.googleMap, groep.adressen);
       } else {
-        $scope.googleMap.setCenter(berekenCenter(adressen));
-        markersTekenen($scope.googleMap, adressen);
+        $scope.googleMap.setCenter(berekenCenter(groep.adressen));
+        markersTekenen($scope.googleMap, groep.adressen);
       }
 
     }
