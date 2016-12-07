@@ -1,17 +1,13 @@
 var getClient = function(){
   /*
-  * Example return data
-  {
+  Example result:
+      {
           url: 'https://login.scoutsengidsenvlaanderen.be/auth',
           realm: 'scouts',
           clientId: 'groepsadmin-localhost-8000',
-          redirectUri: "http://localhost/" + window.location.hash
-        }
+          redirectUri: 'http://localhost:8000/'
+      }
   */
-
-  // groepsadmin-dev-tvl-client
-
-  // groepsadmin-localhost-8000-client
 
   var returnClient = {
     url: 'https://login.scoutsengidsenvlaanderen.be/auth',
