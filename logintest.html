@@ -26,8 +26,10 @@
    <script src="js/jquery-1.10.2.min.js"></script>
    <script src="bower_/jquery-1.10.2.min.js"></script>
    <script src="bower_components/keycloak/dist/keycloak.js"></script>
+   <script src="js/keycloak-config.js"></script>
+
     <script type="text/javascript">
-     var keycloak = new Keycloak({ url: 'https://login.scoutsengidsenvlaanderen.be/auth', realm: 'scouts', clientId: 'groepsadmin-dev-client' })
+     var keycloak = new Keycloak(getClient())
      keycloak.init().success(function(authenticated) {
 
   $('#token').text(JSON.stringify(keycloak.token));

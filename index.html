@@ -146,6 +146,8 @@
     
     <!-- Keycloak -->
     <script src="bower_components/keycloak/dist/keycloak.js"></script>
+    <script src="js/keycloak-config.js"></script>
+
 
     <!-- Angular -->
     <script src="js/angular/angular.min.js"></script>
@@ -202,12 +204,7 @@
 
     <script>
       angular.element(document).ready(function() {
-        window._keycloak = Keycloak({
-          url: 'https://login.scoutsengidsenvlaanderen.be/auth',
-          realm: 'scouts',
-          clientId: 'groepsadmin-localhost-8000',
-          redirectUri: "http://localhost/" + window.location.hash
-        });
+        window._keycloak = Keycloak(getClient());
 
         window._keycloak
           .init({
