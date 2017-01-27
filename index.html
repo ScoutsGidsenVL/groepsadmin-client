@@ -91,9 +91,9 @@
 
     <!-- Include the rendered template -->
     <div class="panel panel-default container-fluid" ng-view></div>
-    
+
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()">{{alert.msg}}</alert>
-    
+
     <dialog ng-if="dialog" close="dialog.close()" confirm="dialog.confirm()" dismiss="dialog.confirm()" title="{{dialog.title}}" >
     {{dialog.msg}}
     </dialog>
@@ -138,16 +138,14 @@
       </div>
     </script>
 
-
     <!-- Scripts -->
     <script src="js/jquery-1.10.2.min.js"></script>
     <script src="js/jquery-ui-1.10.4.custom.min.js"></script>
     <script src="js/responsive-navbar.js"></script>
-    
+
     <!-- Keycloak -->
     <script src="bower_components/keycloak/dist/keycloak.js"></script>
     <script src="js/keycloak-config.js"></script>
-
 
     <!-- Angular -->
     <script src="js/angular/angular.min.js"></script>
@@ -155,7 +153,6 @@
     <script src="js/angular/angular-resource.min.js"></script>
     <script src="js/angular/angular-sanitize.js"></script>
 
-    
     <script src="app/app.js"></script>
     <script src="app/app.route.js"></script>
     <script src="app/app.config.js"></script>
@@ -187,22 +184,35 @@
     <script src="app/directives/ui-selectpicker.js"></script>
     <script src="app/directives/ng-infinite-scroll.js"></script>
     <script src="app/directives/utils.js"></script>
-    
+
     <script src="js/bootstrap/transition.js"></script>
     <script src="js/bootstrap/dropdown.js"></script>
     <script src="js/bootstrap/alert.js"></script>
     <script src="js/bootstrap/bootstrap-select.min.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQRUONtrmAcJ96_NILKeRvj5F5nXRh2MM"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.min.js"></script>
+    <script src="js/Chart.min.js"></script>
 
-    <script type="text/javascript">
+    <script>
+      var googleMapsKey = '';
+      switch (window.location.origin){
+        case 'http://localhost:8000':
+          googleMapsKey = 'AIzaSyBQRUONtrmAcJ96_NILKeRvj5F5nXRh2MM';
+          break;
+        case 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be':
+          googleMapsKey = 'AIzaSyBiKzCCqMUyu4mW0rKk777CU3pW86FZiJ8';
+          break;
+        case 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net':
+          googleMapsKey = 'AIzaSyBZU1SgLDbOfAlROSnR_cb_wWQGlQRqMqc';
+          break;
+      }
+      var script = document.createElement('script');
+      script.src = "https://maps.googleapis.com/maps/api/js?key=" + googleMapsKey;
+      document.body.appendChild(script);
+
       // Prevent filter-option-dropdowns from closing
       $('#filterCollapse .dropdown-menu').on('click', function(e) {
         e.stopPropagation();
       });
-    </script>
 
-    <script>
       angular.element(document).ready(function() {
         window._keycloak = Keycloak(getClient());
 
