@@ -13,7 +13,7 @@ var getClient = function(){
     url: 'https://login.scoutsengidsenvlaanderen.be/auth',
     realm: 'scouts',
     clientId: null,
-    redirectUri: redirectUri = window.location.href
+    redirectUri: window.location.href
   }
 
   switch(window.location.origin){
@@ -22,6 +22,9 @@ var getClient = function(){
       break;
     case 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be':
       returnClient.clientId = 'groepsadmin-dev-tvl-client';
+      break;
+    case 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net':
+      returnClient.clientId = 'groepsadmin-staging-client';
       break;
     default:
       returnClient.clientId = null;
