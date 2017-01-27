@@ -8,8 +8,17 @@
   RestService.$inject = ['$resource', '$cacheFactory'];
 
   function RestService($resource, $cacheFactory) {
-    var base = 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/';
-    var baseGis = 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be/groepsadmin/rest/gis/';
+
+    // Alteratief:
+    //var apiHost = 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net';
+    var apiHost = window.location.origin.replace('localhost:8000', 'localhost:8080');
+
+    // Alteratief:
+    //var apiRoot = apiHost + '/ga';
+    var apiRoot = apiHost + '/groepsadmin';
+
+    var base = apiRoot + '/rest-ga/';
+    var baseGis = apiRoot + '/rest/gis/';
     var basejson = "/";
 
     return {
