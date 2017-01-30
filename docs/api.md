@@ -288,14 +288,14 @@ Een functie-instantie heeft geen `id` veld.  Het wordt uniek gekenmerkt door de 
 * Meer info over de eigenschappen van groepseigen velden kan gevonden worden in de [dynamischevelden documentatie](dynamische_velden.md)
 
 ##### Response
-Een redirect naar het nieuwe lid of error
+Het nieuwe lid (geen redirect) of een error
 
 
 ### */lid/profiel*
 
 #### `GET`
 
-Verwijst naar *lid/{lidid van ingelogd lid}*
+Hetzelfde als *lid/{lidid van ingelogd lid}* (geen redirect)
 
 
 ### */groep*
