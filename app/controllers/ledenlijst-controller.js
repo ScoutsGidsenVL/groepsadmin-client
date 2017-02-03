@@ -407,7 +407,8 @@
       var itemsLength = selectedCriteria.items.length
       for(var i = 0; i < itemsLength; i++){
         if(selectedCriteria.items[i].value == criteriaItem.value){
-           selectedCriteria.items.splice(i,1);
+           selectedCriteria.items.splice(i, 1);
+           break;
         }
       }
 
