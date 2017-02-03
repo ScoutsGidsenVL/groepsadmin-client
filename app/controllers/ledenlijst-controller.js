@@ -99,7 +99,7 @@
 
     function stelFilterSamen(id){
       $scope.criteria = [];
-      
+
       // functies ophalen
       RestService.Functies.get().$promise.then(
       function(result){
@@ -148,7 +148,7 @@
           $scope.filters = result.filters;
         }
       )
-      
+
       // statische criteria toevoegen.
       var geslacht = {
                         title : "Geslacht",
@@ -198,30 +198,33 @@
                                       ]
                               }
       $scope.criteria.push(oudleden);
-      
+
       var filterId = id;
       if(!id){
         filterId = 'huidige'
       }
-      
+
       // huidige filter ophalen en verwerken;
       RestService.FilterDetails.get({id: filterId}).$promise.then(
         function (response) {
           $scope.geselecteerdeCriteria = [];
           $scope.currentFilter = response;
           angular.forEach($scope.currentFilter.criteria, function(value, key){
-            if(key === "functies"){
-              angular.forEach(value, function(functieID){
-                RestService.Functie.get({functieId:functieID}).$promise.then(
-                  function(result){
-                    var functie  = result;
-                    if(!bestaatFunctieGroep(functie, $scope.geselecteerdeCriteria)){
-                      $scope.geselecteerdeCriteria = voegFunctieGroepToAan(functie, $scope.geselecteerdeCriteria);
-                    }
-                    $scope.geselecteerdeCriteria = voegItemToeAanFunctiGroep(functie, $scope.geselecteerdeCriteria);
-                  }
-                );
-              });
+            if(key === "functies") {
+              RestService.Functies.get().$promise.then(
+                function (response) {
+                  angular.forEach(value, function(functieID) {
+                    angular.forEach(response.functies, function(apiFunctie) {
+                      if (apiFunctie.id == functieID) {
+                        if(!bestaatFunctieGroep(apiFunctie, $scope.geselecteerdeCriteria)){
+                          $scope.geselecteerdeCriteria = voegFunctieGroepToAan(apiFunctie, $scope.geselecteerdeCriteria);
+                        }
+                        $scope.geselecteerdeCriteria = voegItemToeAanFunctiGroep(apiFunctie, $scope.geselecteerdeCriteria);
+                      }
+                    });
+                  });
+                }
+              );
             } else if(key === "groepen") {
               var items = [];
               angular.forEach(value, function(groepsnummer){
@@ -336,7 +339,7 @@
       });
       return label;
     }
-    
+
     // kolomen ophalen;
     RestService.Kolomen.get({}).$promise.then(
       function(result){
@@ -370,20 +373,20 @@
         $scope.currentFilter.kolommen.push(kolom);
         // huidige filter aanpasen via API
       }
-      
+
       // kolom nog niet in de filer => voeg toe
-      
+
     }
 
     /*
      * Filter samenstellen
      * -------------------------------------------------------
      */
-    
+
     $scope.setFilter = function(filter){
       stelFilterSamen(filter.id)
       // resultaat wissen,
-      
+
     }
 
     /*
