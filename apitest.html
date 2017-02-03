@@ -47,7 +47,7 @@
 
     <h2>Request</h2>
     <label>Access token (keycloak token)</label>
-    <div id="access_token"></div>
+    <div id="access_token">Niet beschikbaar</div>
     <div id="access_token_details"></div>
     <!--label>Refresh token</label>
     <div id="refresh_token"></div>
@@ -56,6 +56,11 @@
     <div id="id_token"></div>
     <div id="id_token_details"></div-->
     <form id='form'>
+      <div style="float: right; font-weight: bold;">
+        <a href="javascript:history.go(0)">&#x21bb;</a>
+      </div>
+      <label>Client id</label>
+      <input type="text" id="clientId" class="form-control">
       <label>Url</label>
       <input type="text" id="urlToTest" class="form-control">
       <label>Methode</label>
@@ -84,11 +89,17 @@
     <script src="bower_components/keycloak/dist/keycloak.js"></script>
     <script src="js/keycloak-config.js"></script>
     <script>
-      var keycloak;
-
+      $('#clientId').val(localStorage.getItem("client"));
       $('#urlToTest').val(localStorage.getItem("url"));
       $('#method').val(localStorage.getItem("method"));
       $('#requestBody').val(localStorage.getItem("body"));
+
+      if (!$('#clientId').val()) {
+        if (getClient().clientId) {
+          localStorage.setItem("client", getClient().clientId);
+          $('#clientId').val(getClient().clientId);
+        }
+      }
 
       function writeResult(result, statusCode, statusText) {
 
@@ -104,6 +115,8 @@
         document.getElementById('result').src = 'data:' + content_type + ',' + result;
       }
 
+      var keycloak;
+
       setInterval(function(){
 
         if (document.getElementById('result').contentDocument) {
@@ -114,11 +127,12 @@
           }
         }
 
+        localStorage.setItem("client", $('#clientId').val());
         localStorage.setItem("url", $('#urlToTest').val());
         localStorage.setItem("method", $('#method').val());
         localStorage.setItem("body", $('#requestBody').val());
 
-        if (keycloak.refreshTokenParsed) {
+        if (keycloak && keycloak.refreshTokenParsed) {
           $('#left').html(parseInt(keycloak.refreshTokenParsed['exp']) - Math.round(new Date().getTime() / 1000) - keycloak.timeSkew);
         }
       }, 100);
@@ -144,7 +158,15 @@
       }
 
       $(document).ready(function () {
-        keycloak = Keycloak(getClient());
+        var clientConfig = getClient();
+        clientConfig.clientId = localStorage.getItem("client");
+        if (!clientConfig.clientId) {
+          console.log("Client id empty - Keyclaok not initialized");
+          return;
+        }
+        console.log(clientConfig);
+
+        keycloak = Keycloak(clientConfig);
 
         keycloak
           .init({
