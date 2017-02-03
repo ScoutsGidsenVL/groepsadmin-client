@@ -11,7 +11,7 @@
 De API heeft de volgende eindpunten:
 
 | Endpoint                                                    | `GET` | `POST` | `PATCH` | `DELETE` |
-|-------------------------------------------------------------|-------|--------|---------|----------|   
+|-------------------------------------------------------------|-------|--------|---------|----------|
 | */*                                                         | OK    | -      | -       | -        |
 | *[/lid](#lid)*                                              | -     | OK     | -       | -        |
 | *[/lid/{lidid}](#lidlidid)*                                 | OK    | -      | OK      | -        |
@@ -23,7 +23,7 @@ De API heeft de volgende eindpunten:
 | *[/functie/{functieid}](#functiefunctieid)*                 | OK    | -      | OK      | OK       |
 | *[/ledenlijst](#ledenlijst)*                                | OK    | -      | -       | -        |
 | *[/ledenlijst/filter](#ledenlijstfilter)*                   | OK    | OK     | -       | -        |
-| *[/ledenlijst/filter/{filterid}](#ledenlijstfilterfilterid)*| OK    | -      | TO-DO   | TO-DO    |
+| *[/ledenlijst/filter/{filterid}](#ledenlijstfilterfilterid)*| OK    | -      | OK      | OK       |
 | *[/ledenlijst/kolom-type](#ledenlijstkolom-type)*           | OK    | -      | -       | -        |
 | *[/zoeken](#zoeken)*                                        | OK    | -      | -       | -        |
 
@@ -41,8 +41,8 @@ De volgende headers moeten opgestuurd worden naar de server:
 
 | Header            | Content                                         |
 | :---------------- | :---------------------------------------------- |
-| *Accept* 			    | `application/json`                              |
-| *Authentication* 	| oauth-2.0 access token: `Bearer {accessToken}`  |
+| *Accept*              | `application/json`                              |
+| *Authentication*  | oauth-2.0 access token: `Bearer {accessToken}`  |
 
 
 
@@ -70,7 +70,7 @@ De volgende headers moeten opgestuurd worden naar de server:
 Maak een nieuw lid aan.
 
 ##### Request
-In te vullen secties: `persoonsgegevens`, `adressen`, `email` en `functies`  
+In te vullen secties: `persoonsgegevens`, `adressen`, `email` en `functies`
 Optioneel: `groepseigen` en `contacten`
 
 ##### Response
@@ -144,7 +144,7 @@ Een specifiek lid
         "groep": "A3143G",
         "functie": "d5f75e23385c5e6e0139493b8546035e",
         "begin": "2014-01-01",
-        "einde": "2014-03-02" 
+        "einde": "2014-03-02"
         "links": [{
           "href": "http://ga.sgv.be/rest/groep/A3143G",
           "rel": "groep",
@@ -526,11 +526,11 @@ Een verbondsfunctie. Specifieke properties: "code" en "adjunct"
   "groepen":["A3143G", "A3160M"],
   "adjunct":"e0139493b8546035ed5f75e23385c5e6"
   "links":[
-    {    
+    {
       "href": "https://ga.sgv.be/rest/functie/d5f75e23385c5e6e0139493b8546035e",
       "rel": "self",
       "method": "GET"
-    }, {    
+    }, {
       "href": "https://ga.sgv.be/rest/functie/e0139493b8546035ed5f75e23385c5e6", //link naar AKWL
       "rel": "adjunct",
       "method": "GET"
@@ -551,15 +551,15 @@ Groepseigen functie:
   "type":"groep",
   "groepen":["A3143G"],
   "links":[
-    {    
+    {
       "href": "https://ga.sgv.be/rest/groep/A3143G",
       "rel": "self",
       "method": "GET"
-    }, {    
+    }, {
       "href": "https://ga.sgv.be/rest/groep/A3143G",
       "rel": "update",
       "method": "PATCH"
-    }, {    
+    }, {
       "href": "https://ga.sgv.be/rest/groep/A3143G",
       "rel": "delete",
       "method": "DELETE"
@@ -603,7 +603,7 @@ Redirect naar nieuwe filter.
       "id": "d5f75b320b812440010b8127f95f4db4",
       "waarden": ["Baden", true], //voor volgorde zie filter kolommen
       "links":[
-        {    
+        {
           "href": "https://ga.sgv.be/lid/d5f75b320b812440010b8127f95f4db4?positie=foo", //Merk op extra paramter, de server kan ervoor kiezen om hier een extra parameter mee te geven, om zo prev en next correct te berekenen als lid meerdere keren in de lijst zit.
           "rel": "self",
           "method": "GET"
@@ -612,7 +612,7 @@ Redirect naar nieuwe filter.
     }
   ]
   "links":[
-    {    
+    {
       "href": "https://ga.sgv.be/rest/ledenlijst?offset=0",
       "rel": "self",
       "method": "GET"
@@ -620,11 +620,11 @@ Redirect naar nieuwe filter.
       "rel": "next",
       "method": "GET",
       "href": "https://ga.sgv.be/rest/ledenlijst?offset=20",
-    }, {    
+    }, {
       "href": "https://ga.sgv.be/rest/filter/huidige",
       "rel": "filter",
       "method": "GET"
-    }, 
+    },
   ]
 }
 ```
@@ -645,7 +645,7 @@ Geen body nodig.
       "type":"verbond",  // Niet aanwezig voor `huidige` als niet opgeslagen.  Mogelijkheden ['verbond', 'groep', 'lid']
       "groep": "A3143G", // Enkel aanwezig indien type groep
       "links":[
-        {    
+        {
           "href": "https://ga.sgv.be/rest/ledenlijst/filter/d5f75e23385c5e6e0139493b8546035e",  //Niet aanwezig voor `huidige` filter als niet opgeslagen
           "rel": "self",
           "method": "GET"
@@ -659,7 +659,7 @@ Geen body nodig.
     }
   ],
   "links":[
-    {    
+    {
       "href": "https://ga.sgv.be/rest/ledenlijst/filter",
       "rel": "self",
       "method": "GET"
@@ -667,11 +667,11 @@ Geen body nodig.
       "rel": "create",
       "href": "https://ga.sgv.be/rest/ledenlijst/filter",
       "method": "POST",
-    }, {    
+    }, {
       "href": "https://ga.sgv.be/rest/ledenlijst/filter/huidige",
       "rel": "current",
       "method": "GET"
-    }, 
+    },
   ]
 }
 ```
@@ -739,7 +739,7 @@ De `huidige` filter moet niet perse een opgeslagen filter zijn.
     }
   ],
   "links":[
-    {    
+    {
       "href": "https://ga.sgv.be/rest/ledenlijst/filter/d5f75e23385c5e6e0139493b8546035e",  //Niet aanwezig voor `huidige` filter als niet opgeslagen
       "rel": "self",
       "method": "GET"
@@ -794,7 +794,7 @@ Om een filter te deleten, `huidige` mag niet ge-deleted worden.
 Geen body nodig.
 
 ##### Response
-HTTP 204 zonder body indien toegelaten.
+HTTP 204 zonder body indien toegelaten, anders een HTTP 403
 
 ### `/ledenlijst/kolom-type`
 #### `GET`
@@ -804,7 +804,7 @@ HTTP 204 zonder body indien toegelaten.
 Geen body nodig.
 
 ##### Response
-```javascript 
+```javascript
 {
   "kolommen": [
     {
@@ -823,11 +823,11 @@ Geen body nodig.
     ...
   ],
   "links":[
-    {    
+    {
       "href": "https://ga.sgv.be/rest/ledenlijst/kolom-type",
       "rel": "self",
       "method": "GET"
-    } 
+    }
   ]
 }
 ```
@@ -843,7 +843,7 @@ Uri parameters toegelaten:
 
 
 ##### Response
-```javascript 
+```javascript
 {
   "token": "foobar",
   leden: [{
