@@ -1,19 +1,117 @@
-# Groepsadmin front-end documentatie
+# Groepsadmin front-end
 
-De nieuwe Groepsadmin wordt een AngularJS webapp die communiceert met een [REST webservice](https://github.com/ScoutsGidsenVL/groepsadmin-client/blob/master/docs/api.md). Voor de front-end worden volgende technologieën gebruikt.
+Dit is een front-end voor de nieuwe groepsadministratie van [Scouts en Gidsen Vlaanderen](https://www.scoutsengidsenvlaanderen.be/).
 
-1. [Twitter Bootstrap](#twitter-bootstrap)
-2. [Grunt](#grunt)
-3. [LiveReload (optioneel)](#livereload-optioneel)
-4. [AngularJS](#angularjs)
+Je kan deze front-end op twee manieren gebruiken:
 
+* Ofwel gebruik je de [test-versie](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/client/) van de Groepsadministratie. Je krijgt deze front-end daar, na het inloggen, te zien.
+* Ofwel draai je deze front-end op je eigen computer. Zo kan je zelf aanpassingen doen.
 
+Lees in beide gevallen ook de [handleiding](https://wiki.scoutsengidsenvlaanderen.be/doku.php?id=handleidingen:groepsadmin:nieuwe_versie_testen) over het testen van de nieuwe groepsadministratie.
 
-## Twitter Bootstrap
+## Zelf opzetten
 
-<http://getbootstrap.com>
+1. Installeer [Git](https://git-scm.com/).
+2. Voer `git clone https://github.com/ScoutsGidsenVL/groepsadmin-client` uit.
+3. Installeer [NPM en Bower](#npm-en-bower)
+4. Voer [`grunt serve`](#grunt-serve) uit.
+5. Start Chrome met de argumenten `--disable-web-security --user-data-dir`. Deze opties werken enkel als Chrome volledig afgesloten is. Deze beveiliging in andere browsers afzetten is erg moeilijk.
+6. Open <http://localhost:8000> in Chrome.
 
-Als CSS framework gebruiken we Twitter Bootstrap (momenteel v3.1.1). De CSS/JavaScript componenten vormen een goede basis en worden aangepast/uitgebreid waar nodig.
+Zorg achteraf dat Chrome niet telkens wordt opgestart met bovenstaande argumenten. Het is voor de beveiliging van je browser geen goed idee om deze opties altijd aan te laten staan.
+
+### Gaat er iets mis?
+
+Open steeds de browser-console (`F12`) om te zien wat er mis gaat.
+
+**Zie je 'connection refused' in de foutmeldingen?**
+
+* Er draait bij jou waarschijnlijk geen kopie van de _back_-end op [http://localhost:**8080**](http://localhost:8080). ;-)
+* Open `app/services/rest-service.js` in een editor.
+* Stel rond regel 10 `apiHost` in op het alternatief (en zet de oorspronkelijke lijn in commentaar).
+* Laad <http://localhost:8000> opnieuw in Chrome.
+
+**Zie je bij sommige URLs foutmeldingen over een onveilige verbinding?**
+
+* Open één van deze URLs en voeg hiervoor een uitzondering toe.
+* Je krijgt nu `401 Unauthorized`, maar dat is ok.
+* Laad <http://localhost:8000> opnieuw in Chrome.
+
+**Is er iets mis met je token?**
+
+* Open [logintest.html](http://localhost:8000/logintest.html) om te zien welk token je krijgt.
+* Open [apitest.html](http://localhost:8000/apitest.html) om te zien wat er in je token staat.
+
+**Gaat er nog iets anders mis?**
+
+Stuur een e-mail naar [informatica@scoutsengidsenvlaanderen.be](email:informatica@scoutsengidsenvlaanderen.be).
+
+## API
+
+De documentatie van de REST-API vind je onder <docs/api.md>.
+
+### Testen
+
+Je kan de API testen op `apitest.html`:
+
+* Ofwel open je lokaal [apitest.html](http://localhost:8000/apitest.html) in Chrome, zoals hierboven.
+* Ofwel open [apitest.html](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/client/apitest.html) je op de test-versie van de groepsadmin.
+
+## Technisch
+
+De nieuwe Groepsadmin is een AngularJS webapp die communiceert met een REST-API.
+
+Voor de front-end worden volgende technologieën gebruikt:
+
+1. [NPM](#npm-en-bower)
+2. [Bower](#npm-en-bower)
+3. [Grunt](#grunt)
+4. [Twitter Bootstrap](#twitter-bootstrap)
+5. [LiveReload](#livereload-optioneel)
+6. [AngularJS](#angularjs)
+
+### NPM en Bower
+
+[NPM](https://nodejs.org/)  en [Bower](https://bower.io/) worden gebruikt om dependencies te beheren.
+
+* Installeer eerst node.js, dit bevat NPM.
+* Installeer Bower en Grunt via NPM: `npm install -g` als administrator/root (zie `package.json`)
+  * Alternatief zonder extra rechten: `npm install` - Gebruik daarna `node_modules/bower/bin/bower` en `node_modules/grunt-cli/bin/grunt`
+* Gebruik dan Bower om Keycloak te installeren: `bower install` (zie `bower.json`)
+
+### Grunt
+
+[Grunt](http://gruntjs.com) is een task runner die helpt om onze workflow te automatiseren.
+
+[Introductie tot Grunt](http://24ways.org/2013/grunt-is-not-weird-and-hard)
+
+In de Gruntfile zijn momenteel 3 taken gedefiniëerd:
+
+#### `grunt watch`
+
+* Compiled automatisch LESS files naar CSS
+* Genereert een Source Map (geeft de juiste filenaam en lijnnummer voor het debuggen van CSS/LESS)
+* (maakt het eenvoudiger om LESS te debuggen)
+
+#### `grunt build`
+
+Creëert een build map met alle files geoptimaliseerd (minify, concat, ..), klaar voor production. (Todo)
+
+#### `grunt serve`
+
+Start een statische webserver.
+
+De `watch` task is opgenomen in `grunt serve`, deze hoef je dus niet nog eens apart te draaien.
+
+#### `grunt less`
+
+Compileert de less bestanden tot één css bestand met bijhorende source map.
+
+De `less` task is opgenomen in `grunt watch`.
+
+### Twitter Bootstrap
+
+Als CSS framework gebruiken we [Twitter Bootstrap](http://getbootstrap.com) (momenteel v3.1.1). De CSS/JavaScript componenten vormen een goede basis en worden aangepast/uitgebreid waar nodig.
 
 Indien bestaande styles overriden te omslachtig is, kan je deze blokken uitschakelen door ze in comments te zetten. Verwijder nooit de Bootstrap code. Mocht je bestaande code in aanpassen, plaats er `ga-adjustment` bij. Dit maakt het eenvoudiger om later nog up te daten.
 
@@ -29,68 +127,13 @@ Meer info over de property order:
 * <http://codeguide.co/#css-declaration-order>
 * <http://markdotto.com/2011/11/29/css-property-order>
 
+### LiveReload (optioneel)
 
+[LiveReload](http://livereload.com) monitort wijzigingen in de bronbestanden. Zodra een aanpassing in een bestand wordt opgeslagen (en Grunt klaar is met CSS/JavaScript compilen), wordt het browservenster automatisch geüpdatet.
 
-## NPM en Bower
+### AngularJS
 
-<https://nodejs.org/>
-<http://bower.io/>
-
-Bower en NPM worden gebruikt om dependencies te beheren.
-
-* Installeer eerst node.js, dit bevat NPM.
-* Installeer Bower en Grunt via NPM: `npm install -g` als administrator/root (zie package.json)
-  * Alternatief zonder extra rechten: `npm install` - Gebruik daarna `node_modules/bower/bin/bower` en `node_modules/grunt-cli/bin/grunt`
-* Gebruik dan Bower om Keycloak te installeren: `bower install` (zie bower.json)
-
-
-## Grunt
-
-<http://gruntjs.com>
-
-Grunt is een task runner die helpt om onze workflow te automatiseren.
-Introductie tot Grunt: <http://24ways.org/2013/grunt-is-not-weird-and-hard>
-
-In de Gruntfile zijn momenteel 3 taken gedefiniëerd:
-
-
-### `grunt watch`
-
-* Compiled automatisch LESS files naar CSS
-* Genereert een Source Map (geeft de juiste filenaam en lijnnummer voor het debuggen van CSS/LESS)
-* (maakt het eenvoudiger om LESS te debuggen)
-
-### `grunt build`
-
-Creëert een build map met alle files geoptimaliseerd (minify, concat, ..), klaar voor production. (Todo)
-
-### `grunt serve`
-
-Start een statische webserver.
-
-De `watch` task is opgenomen in `grunt serve`, deze hoef je dus niet nog eens apart te draaien.
-
-### `grunt less`
-
-Compileert de less bestanden tot één css bestand met bijhorende source map.
-
-De `less` task is opgenomen in `grunt watch`.
-
-
-
-## LiveReload (optioneel)
-
-<http://livereload.com>
-
-LiveReload monitort wijzigingen in de bronbestanden. Zodra een aanpassing in een bestand wordt opgeslagen (en Grunt klaar is met CSS/JavaScript compilen), wordt het browservenster automatisch geüpdatet.
-
-
-
-## AngularJS
-
-<http://angularjs.org>
-
-AngularJS is een MVC framework. Het laat ons toe om makkelijk een single-page webapp te bouwen die volledig op de client side draait.
+[AngularJS](http://angularjs.org) is een MVC javascript-framework. Het laat ons toe om makkelijk een single-page webapp te bouwen die volledig op de client side draait.
 
 Alle Angular functionaliteit zit in de namespace `ng`, om niet in het vaarwater te komen van (toekomstige) HTML5 syntax.
 
@@ -98,24 +141,25 @@ We kunnen zelf ook directives (custom HTML elementen) schrijven, dit doen we in 
 
 Bijvoorbeeld `ga-lid="{{lid.id}}"` creëert een EventListener om de pagina van dat lid te laden.
 
-Cursus AngularJS: <http://angular.codeschool.com>
+[Cursus AngularJS](http://angular.codeschool.com)
 
-### Dependencies
-#### UI Bootstrap - v1.3.2
+#### Dependencies
 
-<https://angular-ui.github.io/bootstrap/>
+##### UI Bootstrap - v1.3.2
 
-In deze client word er voor sommige ondendelen gebruikgemaakt van Bootstrap components die speciaal voor AngularJS geschreven zijn.
+In deze client word er voor sommige onderdelen gebruikgemaakt [UI Bootstrap](https://angular-ui.github.io/bootstrap/), components die speciaal voor AngularJS geschreven zijn.
+
 Onderdelen die included zijn in de custom build voor deze applicatie:
+
 * Collapse
 * Alert
 * Dataparser
 * Dropdown
 * Typeahead
 
-#### jQuery UI - v1.10.4
+##### jQuery UI - v1.10.4
 
-<https://jqueryui.com/>
+[jQueryUI](https://jqueryui.com)
 
 * Collapse
 * jquery.ui.core.js
@@ -124,15 +168,13 @@ Onderdelen die included zijn in de custom build voor deze applicatie:
 * jquery.ui.draggable.js
 * jquery.ui.droppable.js
 * jquery.ui.resizable.js
-* jquery.ui.selectable.js 
+* jquery.ui.selectable.js
 * jquery.ui.sortable.js
 
-#### ng-infinite-scroll - v1.0.0
+##### ngInfiniteScroll - v1.0.0
 
-<https://sroze.github.io/ngInfiniteScroll/index.html>
+[ngInfiniteScroll](https://sroze.github.io/ngInfiniteScroll)
 
-### ng-inspector (optioneel)
+#### ng-inspector (optioneel)
 
-<http://ng-inspector.org>
-
-Een debug panel voor AngularJS.
+[ng-inspector](http://ng-inspector.org) is een een debug panel voor AngularJS.
