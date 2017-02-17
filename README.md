@@ -48,7 +48,7 @@ Stuur een e-mail naar [informatica@scoutsengidsenvlaanderen.be](email:informatic
 
 ## API
 
-De documentatie van de REST-API vind je onder <docs/api.md>.
+De [documentatie](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/client/docs/api.html) van de REST-API staat mee online. Deze documentatie is aangemaakt met [Aglio](#aglio-optioneel).
 
 ### Testen
 
@@ -68,6 +68,7 @@ Voor de front-end worden volgende technologieën gebruikt:
 3. [Grunt](#grunt)
 4. [Twitter Bootstrap](#twitter-bootstrap)
 5. [LiveReload](#livereload-optioneel)
+5. [Aglio](#aglio-optioneel)
 6. [AngularJS](#angularjs)
 
 ### NPM en Bower
@@ -130,6 +131,12 @@ Meer info over de property order:
 ### LiveReload (optioneel)
 
 [LiveReload](http://livereload.com) monitort wijzigingen in de bronbestanden. Zodra een aanpassing in een bestand wordt opgeslagen (en Grunt klaar is met CSS/JavaScript compilen), wordt het browservenster automatisch geüpdatet.
+
+### Aglio (optioneel)
+
+[Aglio](https://github.com/danielgtaylor/aglio/blob/master/README.md) is een tool om de documentatie van de REST-API om te zetten van APIB naar HTML:
+
+`node_modules/.bin/aglio --theme-condense-nav=false -i docs/api.apib -o docs/api.html`
 
 ### AngularJS
 
