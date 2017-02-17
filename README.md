@@ -78,6 +78,7 @@ Voor de front-end worden volgende technologieën gebruikt:
 * Installeer eerst node.js, dit bevat NPM.
 * Installeer Bower en Grunt via NPM: `npm install -g` als administrator/root (zie `package.json`)
   * Alternatief zonder extra rechten: `npm install` - Gebruik daarna `node_modules/bower/bin/bower` en `node_modules/grunt-cli/bin/grunt`
+  * Mogelijk krijg je foutmeldingen over de installatie van *protagonist*, deze meldingen mag je negeren.
 * Gebruik dan Bower om Keycloak te installeren: `bower install` (zie `bower.json`)
 
 ### Grunt
