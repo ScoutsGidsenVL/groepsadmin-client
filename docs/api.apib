@@ -519,6 +519,14 @@ Dit is nog niet geïmplementeerd.
             // De inhoud van deze response is hetzelfde als bij `GET` op `/lid/{id}`,
             // met als `{id}` het id van de ingelogde gebruiker.
 
++ Response 400 (application/json)
+
+    Als de ingelogde gebruiker niet bevestigd heeft (bij het aanpassen van functies).
+
+    + Body
+
+            // TODO
+
 # Group Groepen
 
 ## Groepen algemeen [/groep]
@@ -560,7 +568,7 @@ Alle groepen waar je een een functie in of rechten op hebt
 + Response 200 (application/json)
 
     ::: note
-    Afhankelijk van de rechten van de ingelogde gebruiker, worden sommige secties getoond of verborgen.
+    Afhankelijk van de rechten van de ingelogde gebruiker op de opgevraagde groep, worden sommige secties getoond of verborgen.
     :::
 
     + Body
@@ -713,6 +721,604 @@ Alle groepen waar je een een functie in of rechten op hebt
             // De inhoud van deze response is hetzelfde als bij `GET` op
             // `/groep/{groepsnummer}`.
 
+
+## Groepsstatistieken [/groep/{groepsnummer}/statistieken]
+
++ Parameters
+    + groepsnummer (string) - Hoofdletter, vier cijfers en nog een hoofdletter
+
+### Groepsstatistieken opvragen [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "/groepsadmin/rest-ga/groep/A1000K/statistieken",
+                        "method": "GET",
+                        "secties": [ ]
+                    },
+                    {
+                        "rel": "groep",
+                        "href": "/groepsadmin/rest-ga/groep/A1000K",
+                        "method": "GET",
+                        "secties": [ ]
+                    }
+                ],
+                "groepsnummer": "A1000K",
+                "takStatistieken": [
+                    {
+                        "takNaam": "Alle takken",
+                        "aantalLeden": {
+                            "2012-2013": 38.0,
+                            "2015-2016": 34.0,
+                            "Nu": 0.0,
+                            "2011-2012": 49.0,
+                            "2014-2015": 29.0,
+                            "2013-2014": 47.0
+                        },
+                        "aantalLeiding": {
+                            "2012-2013": 20.0,
+                            "2015-2016": 13.0,
+                            "Nu": 13.0,
+                            "2011-2012": 24.0,
+                            "2014-2015": 7.0,
+                            "2013-2014": 15.0
+                        }
+                    }
+                ],
+                "criteria": [
+                    {
+                        "naam": "Aantal groepsleiding en leiding bij een tak",
+                        "formaat": "%.0fleid(st)ers",
+                        "aantalPersonen": {
+                            "2012-2013": 21.0,
+                            "2015-2016": 14.0,
+                            "Nu": 15.0,
+                            "2011-2012": 24.0,
+                            "2014-2015": 9.0,
+                            "2013-2014": 18.0
+                        }
+                    },
+                    {
+                        "naam": "Aantal groepsleiding",
+                        "formaat": "%.0fleid(st)ers",
+                        "aantalPersonen": {
+                            "2012-2013": 5.0,
+                            "2015-2016": 4.0,
+                            "Nu": 6.0,
+                            "2011-2012": 1.0,
+                            "2014-2015": 3.0,
+                            "2013-2014": 4.0
+                        }
+                    },
+                    {
+                        "naam": "Aantal anderen",
+                        "formaat": "%.0fanderen",
+                        "aantalPersonen": {
+                            "2012-2013": 3.0,
+                            "2015-2016": 3.0,
+                            "Nu": 2.0,
+                            "2011-2012": 2.0,
+                            "2014-2015": 2.0,
+                            "2013-2014": 3.0
+                        }
+                    },
+                    {
+                        "naam": "Totaal groep",
+                        "formaat": "%.0fpersonen",
+                        "aantalPersonen": {
+                            "2012-2013": 58.0,
+                            "2015-2016": 48.0,
+                            "Nu": 16.0,
+                            "2011-2012": 70.0,
+                            "2014-2015": 39.0,
+                            "2013-2014": 65.0
+                        }
+                    },
+                    {
+                        "naam": "Percentage vrouwen",
+                        "formaat": "%.0f%%",
+                        "aantalPersonen": {
+                            "2012-2013": 41.37931034482759,
+                            "2015-2016": 60.416666666666664,
+                            "Nu": 60.0,
+                            "2011-2012": 50.0,
+                            "2014-2015": 63.1578947368421,
+                            "2013-2014": 50.76923076923077
+                        }
+                    },
+                    {
+                        "naam": "Percentage jongste takken",
+                        "formaat": "%.0f%%",
+                        "aantalPersonen": {
+                            "2012-2013": 0.0,
+                            "2015-2016": 0.0,
+                            "Nu": 0.0,
+                            "2011-2012": 0.0,
+                            "2014-2015": 0.0,
+                            "2013-2014": 0.0
+                        }
+                    },
+                    {
+                        "naam": "Gemiddelde leeftijd leiding",
+                        "formaat": "%.1fjaar",
+                        "aantalPersonen": {
+                            "2012-2013": 23.980512620154187,
+                            "2015-2016": 22.213812936415056,
+                            "Nu": 22.752007228821213,
+                            "2011-2012": 23.652550474456465,
+                            "2014-2015": 23.005872049087632,
+                            "2013-2014": 24.690157189293473
+                        }
+                    },
+                    {
+                        "naam": "Gemiddelde blijfduur leden",
+                        "formaat": "%.1fjaar",
+                        "aantalPersonen": {
+                            "2012-2013": 0.6408088608799417,
+                            "2015-2016": 1.07663837841218,
+                            "Nu": 1.2671924923205193,
+                            "2011-2012": 0.512550232257,
+                            "2014-2015": 0.8642051803031864,
+                            "2013-2014": 0.7711117795346965
+                        }
+                    },
+                    {
+                        "naam": "Gemiddelde blijfduur leiding",
+                        "formaat": "%.1fjaar",
+                        "aantalPersonen": {
+                            "2012-2013": 0.9302141941496758,
+                            "2015-2016": 2.293313540611115,
+                            "Nu": 2.776727996033457,
+                            "2011-2012": 0.6393012861318165,
+                            "2014-2015": 1.735131840528388,
+                            "2013-2014": 1.302644111958056
+                        }
+                    }
+                ],
+                "groepsevolutie": [
+                    {
+                        "naam": "leden",
+                        "aantalPersonen": {
+                            "2007-2008": 0.0,
+                            "2009-2010": 55.0,
+                            "2012-2013": 38.0,
+                            "2006-2007": 0.0,
+                            "2015-2016": 34.0,
+                            "Nu": 0.0,
+                            "2011-2012": 49.0,
+                            "2014-2015": 29.0,
+                            "2008-2009": 43.0,
+                            "2013-2014": 47.0,
+                            "2010-2011": 41.0
+                        }
+                    },
+                    {
+                        "naam": "leiding",
+                        "aantalPersonen": {
+                            "2007-2008": 9.0,
+                            "2009-2010": 31.0,
+                            "2012-2013": 21.0,
+                            "2006-2007": 0.0,
+                            "2015-2016": 14.0,
+                            "Nu": 0.0,
+                            "2011-2012": 24.0,
+                            "2014-2015": 9.0,
+                            "2008-2009": 16.0,
+                            "2013-2014": 18.0,
+                            "2010-2011": 28.0
+                        }
+                    },
+                    {
+                        "naam": "anderen",
+                        "aantalPersonen": {
+                            "2007-2008": 0.0,
+                            "2009-2010": 2.0,
+                            "2012-2013": 3.0,
+                            "2006-2007": 0.0,
+                            "2015-2016": 3.0,
+                            "Nu": 0.0,
+                            "2011-2012": 2.0,
+                            "2014-2015": 2.0,
+                            "2008-2009": 2.0,
+                            "2013-2014": 3.0,
+                            "2010-2011": 2.0
+                        }
+                    },
+                    {
+                        "naam": "totaal",
+                        "aantalPersonen": {
+                            "2007-2008": 9.0,
+                            "2009-2010": 86.0,
+                            "2012-2013": 58.0,
+                            "2006-2007": 0.0,
+                            "2015-2016": 48.0,
+                            "Nu": 0.0,
+                            "2011-2012": 70.0,
+                            "2014-2015": 39.0,
+                            "2008-2009": 60.0,
+                            "2013-2014": 65.0,
+                            "2010-2011": 69.0
+                        }
+                    }
+                ],
+                "ledenPerLeeftijd": {
+                    "10": {
+                        "1985": 1,
+                        "1989": 1,
+                        "1992": 1,
+                        "1994": 1,
+                        "1995": 4,
+                        "1996": 4,
+                        "1997": 2,
+                        "1998": 1
+                    }
+                },
+                "leidingservaring": {
+                    "0": 2,
+                    "1": 3,
+                    "2": 2,
+                    "3": 3,
+                    "4": 1,
+                    "5": 1,
+                    "6": 1,
+                    "8": 1,
+                    "13": 1
+                },
+                "instroom": [
+                    {
+                        "werkjaar": "2009-2010",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 0,
+                            "9": 0,
+                            "10": 0,
+                            "11": 0,
+                            "12": 0,
+                            "13": 0,
+                            "14": 0,
+                            "15": 0,
+                            "16": 0,
+                            "17": 0,
+                            "18": 0,
+                            "19": 1,
+                            "20": 1,
+                            "21": 0
+                        }
+                    },
+                    {
+                        "werkjaar": "2011-2012",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 0,
+                            "9": 4,
+                            "10": 2,
+                            "11": 5,
+                            "12": 1,
+                            "13": 3,
+                            "14": 4,
+                            "15": 0,
+                            "16": 0,
+                            "17": 0,
+                            "18": 4,
+                            "19": 1,
+                            "20": 2,
+                            "21": 0
+                        }
+                    },
+                    {
+                        "werkjaar": "2017-2018",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 0,
+                            "9": 0,
+                            "10": 5,
+                            "11": 2,
+                            "12": 5,
+                            "13": 1,
+                            "14": 2,
+                            "15": 0,
+                            "16": 0,
+                            "17": 1,
+                            "18": 0,
+                            "19": 2,
+                            "20": 3,
+                            "21": 4
+                        }
+                    },
+                    {
+                        "werkjaar": "2012-2013",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 0,
+                            "9": 3,
+                            "10": 3,
+                            "11": 4,
+                            "12": 1,
+                            "13": 0,
+                            "14": 1,
+                            "15": 2,
+                            "16": 0,
+                            "17": 0,
+                            "18": 0,
+                            "19": 0,
+                            "20": 1,
+                            "21": 0
+                        }
+                    },
+                    {
+                        "werkjaar": "2014-2015",
+                        "aantalPerLeeftijd": {
+                            "7": 1,
+                            "8": 4,
+                            "9": 3,
+                            "10": 4,
+                            "11": 3,
+                            "12": 2,
+                            "13": 7,
+                            "14": 2,
+                            "15": 4,
+                            "16": 5,
+                            "17": 0,
+                            "18": 0,
+                            "19": 0,
+                            "20": 0,
+                            "21": 0
+                        }
+                    },
+                    {
+                        "werkjaar": "2010-2011",
+                        "aantalPerLeeftijd": {
+                            "7": 1,
+                            "8": 2,
+                            "9": 8,
+                            "10": 8,
+                            "11": 1,
+                            "12": 10,
+                            "13": 8,
+                            "14": 6,
+                            "15": 5,
+                            "16": 2,
+                            "17": 1,
+                            "18": 0,
+                            "19": 2,
+                            "20": 1,
+                            "21": 1
+                        }
+                    },
+                    {
+                        "werkjaar": "2013-2014",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 6,
+                            "9": 10,
+                            "10": 3,
+                            "11": 2,
+                            "12": 3,
+                            "13": 2,
+                            "14": 7,
+                            "15": 3,
+                            "16": 0,
+                            "17": 0,
+                            "18": 0,
+                            "19": 0,
+                            "20": 1,
+                            "21": 2
+                        }
+                    },
+                    {
+                        "werkjaar": "2016-2017",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 0,
+                            "9": 4,
+                            "10": 1,
+                            "11": 2,
+                            "12": 0,
+                            "13": 1,
+                            "14": 0,
+                            "15": 0,
+                            "16": 0,
+                            "17": 0,
+                            "18": 0,
+                            "19": 0,
+                            "20": 0,
+                            "21": 0
+                        }
+                    },
+                    {
+                        "werkjaar": "2015-2016",
+                        "aantalPerLeeftijd": {
+                            "7": 1,
+                            "8": 0,
+                            "9": 1,
+                            "10": 1,
+                            "11": 4,
+                            "12": 3,
+                            "13": 2,
+                            "14": 0,
+                            "15": 0,
+                            "16": 0,
+                            "17": 0,
+                            "18": 0,
+                            "19": 1,
+                            "20": 0,
+                            "21": 0
+                        }
+                    }
+                ],
+                "uitstroom": [
+                    {
+                        "werkjaar": "2009-2010",
+                        "aantalPerLeeftijd": { }
+                    },
+                    {
+                        "werkjaar": "2011-2012",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 0,
+                            "9": 3,
+                            "10": 3,
+                            "11": 6,
+                            "12": 0,
+                            "13": 4,
+                            "14": 4,
+                            "15": 1,
+                            "16": 1,
+                            "17": 1,
+                            "18": 2,
+                            "19": 0,
+                            "20": 1,
+                            "21": 0
+                        }
+                    },
+                    {
+                        "werkjaar": "2017-2018",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 0,
+                            "9": 1,
+                            "10": 8,
+                            "11": 3,
+                            "12": 8,
+                            "13": 3,
+                            "14": 4,
+                            "15": 4,
+                            "16": 3,
+                            "17": 1,
+                            "18": 0,
+                            "19": 0,
+                            "20": 1,
+                            "21": 2
+                        }
+                    },
+                    {
+                        "werkjaar": "2012-2013",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 0,
+                            "9": 1,
+                            "10": 2,
+                            "11": 2,
+                            "12": 3,
+                            "13": 1,
+                            "14": 2,
+                            "15": 4,
+                            "16": 1,
+                            "17": 1,
+                            "18": 0,
+                            "19": 2,
+                            "20": 2,
+                            "21": 1
+                        }
+                    },
+                    {
+                        "werkjaar": "2014-2015",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 1,
+                            "9": 3,
+                            "10": 1,
+                            "11": 2,
+                            "12": 1,
+                            "13": 1,
+                            "14": 2,
+                            "15": 2,
+                            "16": 3,
+                            "17": 0,
+                            "18": 0,
+                            "19": 1,
+                            "20": 0,
+                            "21": 1
+                        }
+                    },
+                    {
+                        "werkjaar": "2010-2011",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 0,
+                            "9": 5,
+                            "10": 1,
+                            "11": 0,
+                            "12": 3,
+                            "13": 3,
+                            "14": 2,
+                            "15": 0,
+                            "16": 0,
+                            "17": 0,
+                            "18": 0,
+                            "19": 0,
+                            "20": 1,
+                            "21": 0
+                        }
+                    },
+                    {
+                        "werkjaar": "2013-2014",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 2,
+                            "9": 5,
+                            "10": 3,
+                            "11": 1,
+                            "12": 4,
+                            "13": 3,
+                            "14": 6,
+                            "15": 3,
+                            "16": 1,
+                            "17": 1,
+                            "18": 1,
+                            "19": 0,
+                            "20": 0,
+                            "21": 0
+                        }
+                    },
+                    {
+                        "werkjaar": "2016-2017",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 0,
+                            "9": 1,
+                            "10": 1,
+                            "11": 2,
+                            "12": 5,
+                            "13": 3,
+                            "14": 2,
+                            "15": 0,
+                            "16": 0,
+                            "17": 0,
+                            "18": 0,
+                            "19": 0,
+                            "20": 0,
+                            "21": 0
+                        }
+                    },
+                    {
+                        "werkjaar": "2015-2016",
+                        "aantalPerLeeftijd": {
+                            "7": 0,
+                            "8": 1,
+                            "9": 3,
+                            "10": 2,
+                            "11": 5,
+                            "12": 3,
+                            "13": 2,
+                            "14": 6,
+                            "15": 3,
+                            "16": 3,
+                            "17": 7,
+                            "18": 0,
+                            "19": 0,
+                            "20": 0,
+                            "21": 0
+                        }
+                    }
+                ]
+            }
+
 # Group Functies
 
 Er zijn twee soorten functies:
@@ -782,13 +1388,13 @@ Het veld `groepen` bevat alle groepen waarbij deze functie kan voorkomen en waar
               "links": [
                 {
                   "rel": "self",
-                  "href": "https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/functie/d5f75e234441ba0101444b68882026c9",
+                  "href": "/groepsadmin/rest-ga/functie/d5f75e234441ba0101444b68882026c9",
                   "method": "GET",
                   "secties": [ ]
                 },
                 {
                   "rel": "self",
-                  "href": "https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/functie/d5f75e234441ba0101444b68882026c9",
+                  "href": "/groepsadmin/rest-ga/functie/d5f75e234441ba0101444b68882026c9",
                   "method": "PATCH",
                   "secties": [ ]
                 }
@@ -866,7 +1472,7 @@ Het veld `groepen` bevat alle groepen waarbij deze functie kan voorkomen en waar
                   "waarden": ["Baden", true], //voor volgorde zie filter kolommen
                   "links":[
                     {
-                      "href": "https://ga.sgv.be/lid/d5f75b320b812440010b8127f95f4db4?positie=foo", //Merk op extra paramter, de server kan ervoor kiezen om hier een extra parameter mee te geven, om zo prev en next correct te berekenen als lid meerdere keren in de lijst zit.
+                      "href": "/groepsadmin/rest-ga/lid/d5f75b320b812440010b8127f95f4db4?positie=foo", //Merk op extra paramter, de server kan ervoor kiezen om hier een extra parameter mee te geven, om zo prev en next correct te berekenen als lid meerdere keren in de lijst zit.
                       "rel": "self",
                       "method": "GET"
                     },
@@ -875,15 +1481,15 @@ Het veld `groepen` bevat alle groepen waarbij deze functie kan voorkomen en waar
               ]
               "links":[
                 {
-                  "href": "https://ga.sgv.be/rest/ledenlijst?offset=0",
+                  "href": "/groepsadmin/rest-ga/ledenlijst?offset=0",
                   "rel": "self",
                   "method": "GET"
                 }, {
                   "rel": "next",
                   "method": "GET",
-                  "href": "https://ga.sgv.be/rest/ledenlijst?offset=20",
+                  "href": "/groepsadmin/rest-ga/ledenlijst?offset=20",
                 }, {
-                  "href": "https://ga.sgv.be/rest/filter/huidige",
+                  "href": "/groepsadmin/rest-ga/filter/huidige",
                   "rel": "filter",
                   "method": "GET"
                 },
@@ -907,12 +1513,12 @@ Het veld `groepen` bevat alle groepen waarbij deze functie kan voorkomen en waar
                   "groep": "A3143G", // Enkel aanwezig indien type groep
                   "links":[
                     {
-                      "href": "https://ga.sgv.be/rest/ledenlijst/filter/d5f75e23385c5e6e0139493b8546035e",  //Niet aanwezig voor `huidige` filter als niet opgeslagen
+                      "href": "/groepsadmin/rest-ga/ledenlijst/filter/d5f75e23385c5e6e0139493b8546035e",  //Niet aanwezig voor `huidige` filter als niet opgeslagen
                       "rel": "self",
                       "method": "GET"
                     }, {
                       "rel": "update", //Enkel aanwezig als je dit type filter mag wijzigen
-                      "href": "https://ga.sgv.be/rest/ledenlijst/filter/d5f75b320b812440010b8127f95f4db4",
+                      "href": "/groepsadmin/rest-ga/ledenlijst/filter/d5f75b320b812440010b8127f95f4db4",
                       "method": "PATCH",
                       "secties": ["id", "naam", "groep" /*als type == "groep"*/, "kolommen", "filter", "sortering"]  //"naam" niet zichtbaar voor "huidige"
                     }
@@ -921,15 +1527,15 @@ Het veld `groepen` bevat alle groepen waarbij deze functie kan voorkomen en waar
               ],
               "links":[
                 {
-                  "href": "https://ga.sgv.be/rest/ledenlijst/filter",
+                  "href": "/groepsadmin/rest-ga/ledenlijst/filter",
                   "rel": "self",
                   "method": "GET"
                 }, {
                   "rel": "create",
-                  "href": "https://ga.sgv.be/rest/ledenlijst/filter",
+                  "href": "/groepsadmin/rest-ga/ledenlijst/filter",
                   "method": "POST",
                 }, {
-                  "href": "https://ga.sgv.be/rest/ledenlijst/filter/huidige",
+                  "href": "/groepsadmin/rest-ga/ledenlijst/filter/huidige",
                   "rel": "current",
                   "method": "GET"
                 },
@@ -956,7 +1562,6 @@ Het veld `groepen` bevat alle groepen waarbij deze functie kan voorkomen en waar
   + id (string) - Het id van de filter
 
 ### Filter opvragen [GET]
-
 
 De speciale `id` `huidige` wordt gebruikt om de filter gebruikt door de ledenlijst aan te duiden.
 
@@ -1011,12 +1616,12 @@ De `huidige` filter moet niet perse een opgeslagen filter zijn.
               ],
               "links":[
                 {
-                  "href": "https://ga.sgv.be/rest/ledenlijst/filter/d5f75e23385c5e6e0139493b8546035e",  //Niet aanwezig voor `huidige` filter als niet opgeslagen
+                  "href": "rest/ledenlijst/filter/d5f75e23385c5e6e0139493b8546035e",  //Niet aanwezig voor `huidige` filter als niet opgeslagen
                   "rel": "self",
                   "method": "GET"
                 }, {
                   "rel": "update", //Enkel aanwezig als je dit type filter mag wijzigen
-                  "href": "https://ga.sgv.be/rest/ledenlijst/filter/d5f75b320b812440010b8127f95f4db4",
+                  "href": "/rest/ledenlijst/filter/d5f75b320b812440010b8127f95f4db4",
                   "method": "PATCH",
                   "secties": ["id" /*Enkel bij `huidige`*/, "naam", "groep" /*als type == "groep"*/, "kolommen", "filter", "sortering"]  //"naam" niet zichtbaar voor "huidige"
                 }
@@ -1095,7 +1700,7 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
               ],
               "links":[
                 {
-                  "href": "https://ga.sgv.be/rest/ledenlijst/kolom-type",
+                  "href": "/groepsadmin/rest-ga/ledenlijst/kolom-type",
                   "rel": "self",
                   "method": "GET"
                 }
@@ -1124,7 +1729,7 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
               leden: [{
                 "link": {
                   "rel": "self",
-                  "href": "https://ga.sgv.be/rest/lid/d5f75b320b812440010b8127f95f4db4",
+                  "href": "/groepsadmin/rest-ga/lid/d5f75b320b812440010b8127f95f4db4",
                   "method": "GET"
                 },
                 "voornaam": "Baden",
@@ -1134,7 +1739,7 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
               {
                 "link": {
                   "rel": "self",
-                  "href": "https://ga.sgv.be/rest/lid/d5f75b320b812440010b8127f95f4db4",
+                  "href": "/groepsadmin/rest-ga/lid/d5f75b320b812440010b8127f95f4db4",
                   "method": "GET"
                 },
                 "voornaam": "Olave",
