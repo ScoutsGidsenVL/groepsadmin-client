@@ -5,11 +5,13 @@ HOST: https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/rest-
 
 ## Authentication request headers
 
-Bij elke request moet een *Authentication*-header worden meegegeven:
+Bij elke(*) request moet een *Authentication*-header worden meegegeven:
 
 `Authentication: Bearer {access token}`
 
 `{access token}` is een OAuth-2.0 access token. Dit kan verkregen worden door in te loggen op [keycloak](https://login.scoutsengidsenvlaanderen.be).
+
+(*) Enkele endpoints zijn publiek. Hierbij is geen *Authentication*-header nodig.
 
 ## Etag response headers
 
@@ -203,6 +205,10 @@ De structuur velden zorgen dat de input-velden gestructureerd kunnen worden.
 ## Overzicht [/]
 
 ### Overzicht opvragen [GET]
+
+:::note
+Dit enpoint is publiek. Er is hier geen *Authentication*-header nodig.
+:::
 
 + Response 200 (application/json)
 
@@ -526,6 +532,111 @@ Dit is nog niet geïmplementeerd.
     + Body
 
             // TODO
+
+
+## Lidaanvragen [/lid/aanvraag]
+
+### Lidaanvragen opvragen [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "/groepsadmin/rest-ga/lid/aanvraag",
+                        "method": "GET",
+                        "secties": [ ]
+                    }
+                ],
+                "groepen": [
+                    // Dit deel van de response bevat de response bij `GET` op
+                    // `/lid/aanvraag/{id}` voor de aanvragen waar je recht op hebt.
+                ]
+            }
+
+### Lidaanvraag aanmaken [POST]
+
+:::note
+Dit enpoint is publiek. Er is hier geen *Authentication*-header nodig.
+:::
+
++ Request (application/json)
+
+    + Body
+
+            // De inhoud van deze request is hetzelfde als de response bij `GET` op
+            // `/lid/aanvraag/{id}`.
+
++ Response 204
+
+    :::note
+    Omdat de gebruiker in de meeste gevallen niet het recht heeft om de lidaanvraag op te halen,
+    wordt er een lege response gegeven.
+    :::
+
+## Lidaanvraag [/lid/aanvraag/{id}]
+
++ Parameters
+    + id (string) - ID van de aanvraag
+
+### Lidaanvraag opvragen [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "links": [
+                    {
+                        "rel": "self",
+                        "href": "/groepsadmin/rest-ga/lid/aanvraag/402881605a6be53",
+                        "method": "GET"
+                    },
+                    {
+                        "rel": "nieuwlidgoedkeuren",
+                        "href": "http://localhost:8080/groepsadmin/rest-ga/lid",
+                        "method": "POST"
+                    },
+                    {
+                        "rel": "afkeuren",
+                        "href": "/groepsadmin/rest-ga/lid/aanvraag/402881605a6be53",
+                        "method": "DELETE"
+                    }
+                ],
+                "id": "402881605a6be53c015a6be6cd5d0002",
+                "aangepast": "2017-02-23T12:56:12.378+01:00",
+                "groepsnummer": "A1000K",
+                "opmerkingen": ":-)",
+                "gebruikersnaam": "",
+                "persoonsgegevens": {
+                    "voornaam": "Baden",
+                    "achternaam": "Powell",
+                    "geslacht": "man",
+                    "gsm": "04",
+                    "geboortedatum": "2000-01-01",
+                    "rekeningnummer": "BE12 3456 7890 1234"
+                },
+                "email": "tvl@s.be",
+                "adres": {
+                    "land": "BE",
+                    "postcode": "1234",
+                    "gemeente": "Brussel",
+                    "straat": "???",
+                    "nummer": "5",
+                    "bus": "",
+                    "telefoon": "",
+                    "postadres": false,
+                    "status": "normaal",
+                    "omschrijving": ""
+                }
+            }
+
+### Lidaanvraag verwijderen [DELETE]
+
++ Response 204
 
 # Group Groepen
 
