@@ -112,7 +112,7 @@
           content_type = 'text/html';
         }
 
-        document.getElementById('result').src = 'data:' + content_type + ',' + result;
+        document.getElementById('result').src = 'data:' + content_type + ',' + encodeURIComponent(result);
       }
 
       var keycloak;
