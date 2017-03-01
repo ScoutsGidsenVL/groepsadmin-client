@@ -284,7 +284,7 @@
       <section>
         <fieldset ng-if="lid.groepseigenVelden">
           <legend >Groepseigen gegevens</legend>
-          <fieldset ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden" ng-if="groepseigenVeldenVerzameling.schema.length > 0">
+          <fieldset ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden" ng-if="groepseigenVeldenVerzameling.schema.velden.length > 0">
             <legend ng-click="showgroepseigenvelden = showgroepseigenvelden ? false : true">{{ key }} {{ groepenlijst[key].naam }}
               <div class="pull-right" ng-init="showgroepseigenvelden=true;" >
                 <button class="btn-minimal">
@@ -293,8 +293,8 @@
                 </button>
               </div>
             </legend>
-            <fieldset class="ga-functie-list" ng-if="groepseigenVeldenVerzameling.schema.length > 0">
-              <dynamischveldcolectie waarden="groepseigenVeldenVerzameling.waarden" velden="groepseigenVeldenVerzameling.schema" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
+            <fieldset class="ga-functie-list" ng-if="groepseigenVeldenVerzameling.schema.velden.length > 0">
+              <dynamischveldcolectie waarden="groepseigenVeldenVerzameling.waarden" velden="groepseigenVeldenVerzameling.schema.velden" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
             </fieldset>
           </fieldset>
         </fieldset>

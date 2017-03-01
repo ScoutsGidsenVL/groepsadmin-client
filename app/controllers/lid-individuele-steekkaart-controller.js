@@ -41,7 +41,7 @@
               return 1;
             return 0;
           }
-          var individueleSteekkaartLayout = result.gegevens.schema.sort(compare);
+          var individueleSteekkaartLayout = result.gegevens.schema.velden.sort(compare);
 
           // bevat de groepering van de layout van input velden.
           // de teruggave van de API beschrijft enkel waar een groepstart en niet waar een groep stopt.

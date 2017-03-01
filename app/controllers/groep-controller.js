@@ -303,9 +303,9 @@
         stop : function(event, ui){
           var gegevenId = ui.item.attr('data-groepseigengegevenid');
           var gegevenIndex = ui.item.index();
-          angular.forEach($scope.activegroup.groepseigenGegevens.schema, function(value, key){
+          angular.forEach($scope.activegroup.groepseigenGegevens.schema.velden, function(value, key){
             if(value.id == gegevenId ){
-              $scope.activegroup.groepseigenGegevens.schema[key].sort = gegevenIndex;
+              value.sort = gegevenIndex;
             }
           })
         }
@@ -318,31 +318,31 @@
         beschrijving: null,
         kanLeidingWijzigen: false,
         kanLidWijzigen: false,
-        sort: $scope.activegroup.groepseigenGegevens.schema.length,
+        sort: $scope.activegroup.groepseigenGegevens.schema.velden.length,
         type: '',
         status: "nieuw",
         label: ""
       }
       tempId++;
-      $scope.activegroup.groepseigenGegevens.schema.push(newGegeven);
+      $scope.activegroup.groepseigenGegevens.schema.velden.push(newGegeven);
     }
 
     $scope.addKeuze = function (index) {
-      $scope.activegroup.groepseigenGegevens.schema[index].keuzes.push("");
+      $scope.activegroup.groepseigenGegevens.schema.velden[index].keuzes.push("");
     }
 
     $scope.wisKeuze = function (index, keuzeIndex) {
-      $scope.activegroup.groepseigenGegevens.schema[index].keuzes.splice(keuzeIndex, 1);
+      $scope.activegroup.groepseigenGegevens.schema.velden[index].keuzes.splice(keuzeIndex, 1);
     }
 
     $scope.setType = function (index, type) {
-      $scope.activegroup.groepseigenGegevens.schema[index].type = type;
+      $scope.activegroup.groepseigenGegevens.schema.velden[index].type = type;
       if (type == "lijst") {
-        $scope.activegroup.groepseigenGegevens.schema[index].keuzes = [];
-        $scope.activegroup.groepseigenGegevens.schema[index].keuzes.push("");
+        $scope.activegroup.groepseigenGegevens.schema.velden[index].keuzes = [];
+        $scope.activegroup.groepseigenGegevens.schema.velden[index].keuzes.push("");
       }
       else{
-        delete $scope.activegroup.groepseigenGegevens.schema[index].keuzes;
+        delete $scope.activegroup.groepseigenGegevens.schema.velden[index].keuzes;
       }
     }
 

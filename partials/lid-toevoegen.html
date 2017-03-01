@@ -242,10 +242,10 @@
                 <button ng-click="showgroepseigenvelden=false" ng-hide="!showgroepseigenvelden" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
               </div>
             </legend>
-            <fieldset class="ga-functie-list" ng-if="lid.groepseigenVelden[groepFuncties.groepsnummer].schema.length > 0">
-              <dynamischveldcolectie waarden="lid.groepseigenVelden[groepFuncties.groepsnummer].waarden" velden="lid.groepseigenVelden[groepFuncties.groepsnummer].schema" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
+            <fieldset class="ga-functie-list" ng-if="lid.groepseigenVelden[groepFuncties.groepsnummer].schema.velden.length > 0">
+              <dynamischveldcolectie waarden="lid.groepseigenVelden[groepFuncties.groepsnummer].waarden" velden="lid.groepseigenVelden[groepFuncties.groepsnummer].schema.velden" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
             </fieldset>
-            <fieldset class="ga-functie-list" ng-if="lid.groepseigenVelden[groepFuncties.groepsnummer].schema.length == 0">
+            <fieldset class="ga-functie-list" ng-if="lid.groepseigenVelden[groepFuncties.groepsnummer].schema.velden.length == 0">
               <legend ng-show="!showgroepseigenvelden">Geen groepseigen gegevens in deze groep</legend>
             </fieldset>
 

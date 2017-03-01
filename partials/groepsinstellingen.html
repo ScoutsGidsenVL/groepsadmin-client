@@ -66,7 +66,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Contacten -->
     <div class="col-md-4">
       <legend>Contact</legend>
@@ -85,7 +85,7 @@
         </ul>
       </div>
     </div>
-    
+
     <!-- Lokalen -->
     <div class="col-md-4">
       <fieldset>
@@ -193,7 +193,7 @@
       </legend>
 
       <div ng-if="activegroup.groepseigenGegevens" class="sortable">
-        <fieldset class="sortable" ng-repeat="groepseigenGegeven in activegroup.groepseigenGegevens.schema | orderBy:'sort'" ng-init="showme = false; " data-groepseigengegevenid="{{ groepseigenGegeven.id }}">
+        <fieldset class="sortable" ng-repeat="groepseigenGegeven in activegroup.groepseigenGegevens.schema.velden | orderBy:'sort'" ng-init="showme = false; " data-groepseigengegevenid="{{ groepseigenGegeven.id }}">
           <legend>
             {{ groepseigenGegeven.label == "" ? 'Nieuw groepseigen gegeven' : groepseigenGegeven.label }}
             <span ng-if="groepseigenGegeven.label != '' ">-
@@ -211,7 +211,7 @@
               <label class="col-xs-1  control-label"><i class="fa fa-text-width" aria-hidden="true"></i></label>
               <div class="col-xs-11">
                 <!-- fix date-parse -->
-                <input type="text" class="form-control" ng-model="activegroup.groepseigenGegevens.schema[$index].label" placeholder="Nieuw groepseigen gegeven" />
+                <input type="text" class="form-control" ng-model="activegroup.groepseigenGegevens.schema.velden[$index].label" placeholder="Nieuw groepseigen gegeven" />
               </div>
             </div>
 
@@ -220,9 +220,9 @@
                 Mogelijke keuzes
                 <button class="btn-minimal" title="Keuze toevoegen" ng-click="addKeuze(groepseigenGegevenIndex)"><span class="glyphicon glyphicon-plus"></span></button>
               </label>
-              <div class="col-xs-12" ng-repeat="keuze in activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes track by $index">
+              <div class="col-xs-12" ng-repeat="keuze in activegroup.groepseigenGegevens.schema.velden[groepseigenGegevenIndex].keuzes track by $index">
                 <fieldset class="form-group row">
-                  <input class="col-xs-11 form-control " ng-model="activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes[$index]" placeholder="Nieuwe keuze">
+                  <input class="col-xs-11 form-control " ng-model="activegroup.groepseigenGegevens.schema.velden[groepseigenGegevenIndex].keuzes[$index]" placeholder="Nieuwe keuze">
                   <button class="col-xs-1 btn-minimal " title="Keuze wissen" ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
                     <span class="glyphicon glyphicon-trash"></span>
                   </button>
@@ -234,7 +234,7 @@
               <label class="control checkbox col-md-5">
                 <div class="col-xs-11 col-xxs-11 control-label">Alle leiding kan wijzigen</div>
                 <div class="col-xs-1 col-xxs-1">
-                  <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema[$index].kanLeidingWijzigen" />
+                  <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema.velden[$index].kanLeidingWijzigen" />
                   <span class="control-indicator"></span>
                 </div>
               </label>
@@ -242,7 +242,7 @@
               <label class=" control checkbox col-md-5 col-md-offset-2">
                 <div class="col-xs-11 col-xxs-11 control-label">Persoon zelf kan wijzigen</div>
                 <div class="col-xs-1 col-xxs-1">
-                  <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema[$index].kanLidWijzigen" />
+                  <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema.velden[$index].kanLidWijzigen" />
                   <span class="control-indicator"></span>
                 </div>
               </label>
@@ -251,7 +251,7 @@
             <div class="form-group col-xs-6" ng-hide="!showme">
               <label class="col-xs-12 col-xxs-12">Helpinstructie</label>
               <div class="col-xs-12 col-xxs-12">
-                <textarea class="form-control" ng-model="activegroup.groepseigenGegevens.schema[$index].beschrijving">
+                <textarea class="form-control" ng-model="activegroup.groepseigenGegevens.schema.velden[$index].beschrijving">
                 </textarea>
               </div>
             </div>
@@ -264,7 +264,7 @@
                 Veld
               </label>
               <div class="col-xs-11">
-                <input type="text" class="form-control" ng-model="activegroup.groepseigenGegevens.schema[$index].label" placeholder="Nieuw groepseigen gegeven" />
+                <input type="text" class="form-control" ng-model="activegroup.groepseigenGegevens.schema.velden[$index].label" placeholder="Nieuw groepseigen gegeven" />
               </div>
             </div>
 
@@ -352,13 +352,13 @@
               </p>
             </div>
 
-            <div class="form-group" ng-init="groepseigenGegevenIndex = $index" ng-show="showme && activegroup.groepseigenGegevens.schema[$index].type == 'lijst'">
+            <div class="form-group" ng-init="groepseigenGegevenIndex = $index" ng-show="showme && activegroup.groepseigenGegevens.schema.velden[$index].type == 'lijst'">
               <label class="col-xs-4">
                 Mogelijke keuzes
                 <button class="btn-minimal" title="Keuze toevoegen" ng-click="addKeuze(groepseigenGegevenIndex)"><span class="glyphicon glyphicon-plus"></span></button>
               </label>
-              <div ng-repeat="keuze in activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes track by $index">
-                <input class="form-control col-md-11" ng-model="activegroup.groepseigenGegevens.schema[groepseigenGegevenIndex].keuzes[$index]" placeholder="Nieuwe keuze">
+              <div ng-repeat="keuze in activegroup.groepseigenGegevens.schema.velden[groepseigenGegevenIndex].keuzes track by $index">
+                <input class="form-control col-md-11" ng-model="activegroup.groepseigenGegevens.schema.velden[groepseigenGegevenIndex].keuzes[$index]" placeholder="Nieuwe keuze">
                 <button class="btn-minimal" title="Keuze wissen" ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
                   <span class="glyphicon glyphicon-trash"></span>
                 </button>
@@ -369,14 +369,14 @@
               <label class="control checkbox col-md-5">
                 <div class="col-xs-11 col-xxs-11 control-label">Alle leiding kan wijzigen</div>
                 <div class="col-xs-1 col-xxs-1">
-                  <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema[$index].kanLeidingWijzigen" />
+                  <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema.velden[$index].kanLeidingWijzigen" />
                   <span class="control-indicator"></span>
                 </div>
               </label>
               <label class=" control checkbox col-md-5 col-md-offset-2">
                 <div class="col-xs-11 col-xxs-11 control-label">Persoon zelf kan wijzigen</div>
                 <div class="col-xs-1 col-xxs-1">
-                  <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema[$index].kanLidWijzigen" />
+                  <input type="checkbox" ng-model="activegroup.groepseigenGegevens.schema.velden[$index].kanLidWijzigen" />
                   <span class="control-indicator"></span>
                 </div>
               </label>
@@ -385,7 +385,7 @@
             <div class="form-group col-xs-6" ng-hide="!showme">
               <label class="col-xs-12 col-xxs-12">Helpinstructie</label>
               <div class="col-xs-12 col-xxs-12">
-                <textarea class="form-control" ng-model="activegroup.groepseigenGegevens.schema[$index].beschrijving">
+                <textarea class="form-control" ng-model="activegroup.groepseigenGegevens.schema.velden[$index].beschrijving">
                 </textarea>
               </div>
             </div>
@@ -394,7 +394,7 @@
         </fieldset>
       </div>
 
-      <div ng-if="!activegroup.groepseigenGegevens.schema.length">
+      <div ng-if="!activegroup.groepseigenGegevens.schema.velden.length">
         <i>Geen groepseigen gegevens beschikbaar voor deze groep.</i>
         <a ng-click="addGroepseigenGegeven()">Nieuw groepseigen gegeven aanmaken.</a>
       </div>
