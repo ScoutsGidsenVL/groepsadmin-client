@@ -30,7 +30,7 @@
       );
 
     // steekkaart ophalen.
-    RestService.LidIndividueleSteekkaart.get().$promise.then(
+    RestService.LidIndividueleSteekkaart.get({id:$routeParams.id}).$promise.then(
         function(result) {
           $scope.individueleSteekkaartWaarden = [];
           //compare functie
@@ -41,7 +41,7 @@
               return 1;
             return 0;
           }
-          var individueleSteekkaartLayout = result.groepseigenGegevens.schema.sort(compare);
+          var individueleSteekkaartLayout = result.gegevens.schema.sort(compare);
 
           // bevat de groepering van de layout van input velden.
           // de teruggave van de API beschrijft enkel waar een groepstart en niet waar een groep stopt.

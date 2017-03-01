@@ -48,7 +48,8 @@
         }
       ),
       LidIndividueleSteekkaart: $resource(
-        basejson + 'medischesteekkaart.json',
+        base + 'lid/:id/steekkaart',
+        {id: '@id'},
         {get: {method: 'GET'}}
       ),
       Functie: $resource(
