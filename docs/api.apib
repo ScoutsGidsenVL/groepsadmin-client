@@ -86,53 +86,56 @@ door andere partijen te wijzigen dan de structuur.
 
 Hieronder een voorbeeld bij een GET op een lid. Bij een GET op een groep wordt enkel het schema getoond.
 ```json
-"schema": [
-    {
-        "links": [],
-        "id": "d5f75b320dc7de39010dca243a830129",
-        "aangepast": "2016-03-10T12:36:45.132+01:00",
-        "type": "tekst",
-        "label": "Opmerkingen",
-        "beschrijving": "",
-        "kanGebruikerWijzigen": true,
-        "kanLeidingWijzigen": false,
-        "verplicht": false,
-        "kanLidWijzigen": false,
-        "sort": 0,
-        "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
-    },
-    {
-        "links": [],
-        "id": "d5f75e2340fc9dac014102187b4e2a68",
-        "aangepast": "2016-03-10T12:36:45.132+01:00",
-        "type": "vinkje",
-        "label": "helpen op evenementen",
-        "beschrijving": "",
-        "kanGebruikerWijzigen": false,
-        "kanLeidingWijzigen": false,
-        "verplicht": false,
-        "kanLidWijzigen": false,
-        "sort": 0,
-        "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
-    },
-    {
-        "links": [],
-        "id": "40288144535b694a01535b6adb2c0003",
-        "aangepast": "2016-03-10T12:36:45.132+01:00",
-        "type": "lijst",
-        "label": "Dit is een lijst",
-        "kanGebruikerWijzigen": false,
-        "kanLeidingWijzigen": false,
-        "verplicht": false,
-        "kanLidWijzigen": false,
-        "sort": 0,
-        "keuzes": [
-            "Lijstwaarde1",
-            "Lijstwaarde2"
-        ],
-        "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
-    }
-],
+"schema": {
+    "velden": [
+        {
+            "links": [],
+            "id": "d5f75b320dc7de39010dca243a830129",
+            "aangepast": "2016-03-10T12:36:45.132+01:00",
+            "type": "tekst",
+            "label": "Opmerkingen",
+            "beschrijving": "",
+            "kanGebruikerWijzigen": true,
+            "kanLeidingWijzigen": false,
+            "verplicht": false,
+            "kanLidWijzigen": false,
+            "sort": 0,
+            "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+        },
+        {
+            "links": [],
+            "id": "d5f75e2340fc9dac014102187b4e2a68",
+            "aangepast": "2016-03-10T12:36:45.132+01:00",
+            "type": "vinkje",
+            "label": "helpen op evenementen",
+            "beschrijving": "",
+            "kanGebruikerWijzigen": false,
+            "kanLeidingWijzigen": false,
+            "verplicht": false,
+            "kanLidWijzigen": false,
+            "sort": 0,
+            "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+        },
+        {
+            "links": [],
+            "id": "40288144535b694a01535b6adb2c0003",
+            "aangepast": "2016-03-10T12:36:45.132+01:00",
+            "type": "lijst",
+            "label": "Dit is een lijst",
+            "kanGebruikerWijzigen": false,
+            "kanLeidingWijzigen": false,
+            "verplicht": false,
+            "kanLidWijzigen": false,
+            "sort": 0,
+            "keuzes": [
+                "Lijstwaarde1",
+                "Lijstwaarde2"
+            ],
+            "deletedTimestamp": "2016-03-10T12:36:45.132+01:00"
+        }
+    ],
+    "aanpasbaarDoorGebruiker": "false"
+},
 "waarden": {
     "d5f75b320dc7de39010dca243a830129": "",
     "d5f75e2340fc9dac014102187b4e2a68": "true",
@@ -522,8 +525,7 @@ Dit is nog niet geïmplementeerd.
 
     + Body
 
-            // De inhoud van deze response is hetzelfde als bij `GET` op `/lid/{id}`,
-            // met als `{id}` het id van de ingelogde gebruiker.
+            // De inhoud van deze response is hetzelfde als bij `GET` op `/lid/{id}`.
 
 + Response 400 (application/json)
 
@@ -533,6 +535,691 @@ Dit is nog niet geïmplementeerd.
 
             // TODO
 
+## Individuele steekkaart [/lid/{id}/steekkaart]
+
++ Parameters
+    + id (string) - ID van het lid - Het id `profiel` kan gebruikt worden om te verwijzen naar het lid dat overeenkomt met de ingelogde gebruiker: `/lid/profiel/steekkaart`
+
+### Individuele steekkaart opvragen [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "links":[
+                    {
+                        "rel":"self",
+                        "href":"/groepsadmin/rest-ga/lid/d5f75b320db2ee17010db2f429ef0a97/steekkaart",
+                        "method":"GET",
+                        "secties":{
+                        }
+                    },
+                    {
+                        "rel":"self",
+                        "href":"/groepsadmin/rest-ga/lid/d5f75b320db2ee17010db2f429ef0a97/steekkaart",
+                        "method":"PATCH",
+                        "secties":{
+                        }
+                    },
+                    {
+                        "rel":"lid",
+                        "href":"/groepsadmin/rest-ga/lid/d5f75b320db2ee17010db2f429ef0a97",
+                        "method":"GET",
+                        "secties":{
+                        }
+                    }
+                ],
+                "id":"d5f75b320db2ee17010db2f429ef0a97",
+                "aangepast":"2017-03-02T12:05:12.916+01:00",
+                "gegevens":{
+                    "schema":{
+                        "velden":[
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463a56ef01463cedcdb00003",
+                                "aangepast":"2017-03-02T12:05:12.916+01:00",
+                                "type":"lijst",
+                                "label":"Ouder of voogd?",
+                                "beschrijving":"* bij leden die verblijven in een instelling kan het moeilijk zijn om deze formulieren door ouders of voogd te laten invullen; in dat geval kan ook een opvoeder de gegevens invullen.",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":139,
+                                "keuzes":[
+                                    "ouder",
+                                    "voogd",
+                                    "ikzelf (voor meerderjarigen)",
+                                    "opvoeder*"
+                                ]
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e4610ed0201461f1523c6001c",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst_meerdere_lijnen",
+                                "label":"Andere beperkingen of zorgen:",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":17
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de01463916d21b00e8",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"lijst",
+                                "label":"Bloedgroep:",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":29,
+                                "keuzes":[
+                                    "O+",
+                                    "O-",
+                                    "A+",
+                                    "A-",
+                                    "B+",
+                                    "B-",
+                                    "AB+",
+                                    "AB-",
+                                    "onbekend"
+                                ]
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de0146391a3b4800ed",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst_meerdere_lijnen",
+                                "label":"Zo ja, op vlak van voeding (vb. vegetariër, halal):",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":34
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de0146391b5df600ef",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"groep",
+                                "label":"Als er iets verandert aan de gezondheidstoestand van uw zoon of dochter na de invuldatum van deze steekkaart, dan vragen wij uitdrukkelijk dit zo snel mogelijk hier aan te passen.",
+                                "beschrijving":"Vergeet niet de Kids-Id, EID of ISI-kaart, mee te brengen bij vertrek op meerdaagse activiteiten.",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":136,
+                                "keuzes":[
+                                    ""
+                                ]
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de014639188d5400ea",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"groep",
+                                "label":"Aanvullende opmerkingen",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":31
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e4610ed0201461f01ebc70012",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"groep",
+                                "label":"Adres en bereikbaarheid",
+                                "beschrijving":"Wie contacteren als de ouders niet bereikbaar zijn (zoals op kinderpas -12 jarigen)?",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":3
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463a56ef01463cebc8be0001",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"groep",
+                                "label":"Bevestiging",
+                                "beschrijving":"Ik verklaar dat de ingevulde gegevens volledig en correct zijn. Het is raadzaam deze steekkaart voor elk kamp na te kijken.",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":137
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e4610ed0201461f0312090014",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"groep",
+                                "label":"Deelname aan activiteiten",
+                                "beschrijving":"Zaken om rekening mee te houden bij organisatie van activiteiten. Onze zoon of dochter kan en mag deelnemen aan alle gewone scoutingactiviteiten op maat van de leeftijdstak (op tocht gaan, spelen, kamperen, … ).",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":10
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463a56ef01463d07711e000f",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"groep",
+                                "label":"INDIVIDUELE STEEKKAART",
+                                "beschrijving":"Met deze individuele steekkaart geven ouders jaarlijks aan de takleiding alle noodzakelijke inlichtingen over hun kind(eren) aangesloten bij een plaatselijke groep van Scouts en Gidsen Vlaanderen. <br>Deze informatie draagt bij aan een veilige en persoonlijke begeleiding van alle leden en wordt vertrouwelijk behandeld door de leidingsploeg. <br>Wanneer er wijzigingen zijn in deze gegevens is het belangrijk om deze onmiddellijk aan te passen. <br><br>Het is noodzakelijk om deze steekkaart op te maken voor iedereen actief in Scouts en Gidsen Vlaanderen binnen de drie eerste weken van het lidmaatschap en te laten invullen door de ouders of voogd van alle leden. Jaarlijks binnen de eerste drie maanden van elk nieuw werkjaar opnieuw na te kijken. Leid(st)ers kunnen hun eigen gegevens op deze steekkaart zelf invullen en ondertekenen indien meerderjarig.",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":1
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e4610ed0201461f119f740016",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst_meerdere_lijnen",
+                                "label":"Zo neen, deze activiteiten zijn onmogelijk of niet toegestaan:",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":11
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463a56ef01463cfac643000c",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"groep",
+                                "label":"Engagement",
+                                "beschrijving":"Leiding engageert er zich toe om samen zorg te dragen voor de veiligheid en het welzijn van alle leden. Bij twijfels of vragen hieromtrent is het absoluut wenselijk dat ouders en leiding contact met elkaar opnemen.Wij danken u voor het vertrouwen in Scouts en Gidsen Vlaanderen.",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":134
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e4610ed0201461f15b3fe001d",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"groep",
+                                "label":"Medische informatie",
+                                "beschrijving":"Het is verboden om als leid(st)er, behalve EHBO, op eigen initiatief medische handelingen uit te voeren. Ook het verstrekken van lichte pijnstillende en koortswerende medicatie zoals Perdolan, Dafalgan of Aspirine is, zonder toelating van de ouders, voorbehouden aan een arts. Daarom is het noodzakelijk om via het onderstaande kader op deze steekkaart vooraf toestemming van ouders te hebben voor het eventueel toedienen van dergelijke hulp.",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":18
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de0146391abdd000ee",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst_meerdere_lijnen",
+                                "label":"Zo ja, andere aandachtspunten die belang kunnen hebben bij de omgang met ons kind:",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":35
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e4610ed0201461f1464ef001a",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst_meerdere_lijnen",
+                                "label":"Bij hygiëne:",
+                                "beschrijving":"(vb. zelfstandigheid, allergie, bedwateren, …)",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":15
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e4610ed0201461f14d9de001b",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst_meerdere_lijnen",
+                                "label":"Bij sociale omgang:",
+                                "beschrijving":"(vb. pesten, heimwee, angsten, slaapwandelen, …)",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":16
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de0146390e395900e2",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"lijst",
+                                "label":"Wij geven toestemming aan de leiding om bij hoogdringendheid aan onze zoon of dochter een dosis via de apotheek vrij verkrijgbare pijnstillende en koortswerende medicatie toe te dienen: *",
+                                "beschrijving":"* gebaseerd op aanbeveling Kind&Gezin 09.12.2009 – Aanpak van koorts / Toedienen van geneesmiddelen in de kinderopvang",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":19,
+                                "keuzes":[
+                                    "nee",
+                                    "ja"
+                                ]
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e4610ed0201461f026f8e0013",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst_meerdere_lijnen",
+                                "label":"Eventueel belangrijke afspraken vanuit de gezinssituatie:",
+                                "beschrijving":"(vb. regeling echtscheiding)",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":8
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463a56ef01463d0240f5000d",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst",
+                                "label":"Eventueel naam van verblijfsinstelling:",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":9
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e4610ed0201461f1204140017",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst_meerdere_lijnen",
+                                "label":"eventuele reden:",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":12
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de0146390f8cb000e3",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst_meerdere_lijnen",
+                                "label":"Info over noodzakelijke aanpak bij deze aandoening:",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":24
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de0146391800f100e9",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst",
+                                "label":"Onze huisarts: naam en telefoon:",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":30
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de014639190ebb00eb",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"lijst",
+                                "label":"Onze zoon of dochter mag tijdens de activiteiten worden gefotografeerd voor publicatie in het groepsblad, op een website van scouting, ...:",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":32,
+                                "keuzes":[
+                                    "ja",
+                                    "nee"
+                                ]
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de01463912fadd00e6",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"lijst",
+                                "label":"Onze zoon of dochter werd ingeënt tegen klem (tetanus):",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":27,
+                                "keuzes":[
+                                    "ja",
+                                    "nee"
+                                ]
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de01463907763900e1",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst",
+                                "label":"Telefoon/gsm:",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":5
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de01463913fa7600e7",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst",
+                                "label":"Zo ja, in welk jaar?",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":28
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de0146391124af00e5",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst_meerdere_lijnen",
+                                "label":"Zo ja, welk?",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":26
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de01463905280100de",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst_meerdere_lijnen",
+                                "label":"Zo ja, welke?",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":23
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463a56ef01463cec788d0002",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst",
+                                "label":"Voornaam en naam:",
+                                "beschrijving":"Wie vult deze steekkaart in?",
+                                "verplicht":true,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":138
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e46f060b2014720df14c607c2",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst_meerdere_lijnen",
+                                "label":"Voornaam, naam en tak van broers of zussen in dezelfde groep:",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":7
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e46f060b2014720e22ec507c3",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"groep",
+                                "label":"Attest van de arts",
+                                "beschrijving":"Dit is een bijlage aan de individuele steekkaart voor het toedienen van medicatie: <a href="https://www.scoutsengidsenvlaanderen.be/files/paginas/publicaties/virtueel_boekenrek/individuele_steekkaart_extras/individuele_steekkaart_dokterattest_medicatie_20110210.pdf">hier downloaden </a>",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":21
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e46f060b201473541be3907e9",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"groep",
+                                "label":"",
+                                "beschrijving":"Is er bijzondere aandacht nodig om risico's te voorkomen? Zo ja, onderstaande velden invullen:",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":13
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e46f060b201473544c5fd07ea",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"groep",
+                                "label":"",
+                                "beschrijving":"Zijn er ziekten te melden? (vb. astma, suikerziekte , hooikoorts, epilepsie, hart, …)?",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":22
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e46f060b2014735469a1b07eb",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"groep",
+                                "label":"",
+                                "beschrijving":"Onze zoon of dochter moet een bepaald dieet volgen.",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":25
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e46f060b2014735529c5007ec",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"groep",
+                                "label":"",
+                                "beschrijving":"Zijn er bepaalde aspecten waarmee leiding rekening kan houden als de omstandigheden dat toestaan binnen de visie van scouting?",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":33
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e480b9aa901480c7fb70100de",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst_meerdere_lijnen",
+                                "label":"Bij sporten:",
+                                "beschrijving":"(vb. zwemmen, fietsen, hoogte, rust, …)",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":14
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e480b9aa901481224fea601cd",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst",
+                                "label":"Functie (indien van toepassing)",
+                                "beschrijving":"Eventueel voor kinderen die in een instelling verblijven.",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":6
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e480b9aa901481227773101cf",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"tekst",
+                                "label":"Naam:",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":false,
+                                "kanGebruikerWijzigen":true,
+                                "sort":4
+                            },
+                            {
+                                "links":{
+                                },
+                                "id":"d5f75e1e463384de01463901e13c00dc",
+                                "aangepast":"2017-03-02T12:05:12.917+01:00",
+                                "type":"lijst",
+                                "label":"Onze zoon of dochter moet specifieke medicatie krijgen:",
+                                "beschrijving":"",
+                                "verplicht":false,
+                                "kanLeidingWijzigen":false,
+                                "kanLidWijzigen":true,
+                                "kanGebruikerWijzigen":true,
+                                "sort":20,
+                                "keuzes":[
+                                    "nee",
+                                    "ja: zeker bijlage doktersattest medicatie aan de leiding bezorgen!"
+                                ]
+                            }
+                        ],
+                        "aanpasbaarDoorGebruiker":false
+                    },
+                    "waarden":{
+                        "d5f75e1e463384de0146390e395900e2":null,
+                        "d5f75e1e463a56ef01463cfac643000c":null,
+                        "d5f75e1e4610ed0201461f1204140017":null,
+                        "d5f75e1e4610ed0201461f026f8e0013":null,
+                        "d5f75e1e463384de01463913fa7600e7":null,
+                        "d5f75e1e480b9aa901480c7fb70100de":null,
+                        "d5f75e1e463384de0146391b5df600ef":null,
+                        "d5f75e1e463384de01463901e13c00dc":null,
+                        "d5f75e1e463384de0146391124af00e5":null,
+                        "d5f75e1e463384de01463907763900e1":null,
+                        "d5f75e1e463384de01463912fadd00e6":null,
+                        "d5f75e1e46f060b201473544c5fd07ea":null,
+                        "d5f75e1e463a56ef01463cebc8be0001":null,
+                        "d5f75e1e463384de0146391800f100e9":null,
+                        "d5f75e1e46f060b2014720df14c607c2":null,
+                        "d5f75e1e463384de014639188d5400ea":null,
+                        "d5f75e1e4610ed0201461f0312090014":null,
+                        "d5f75e1e46f060b2014720e22ec507c3":null,
+                        "d5f75e1e480b9aa901481227773101cf":null,
+                        "d5f75e1e463384de0146391a3b4800ed":null,
+                        "d5f75e1e463384de0146390f8cb000e3":null,
+                        "d5f75e1e46f060b2014735469a1b07eb":null,
+                        "d5f75e1e46f060b2014735529c5007ec":null,
+                        "d5f75e1e4610ed0201461f14d9de001b":null,
+                        "d5f75e1e4610ed0201461f01ebc70012":null,
+                        "d5f75e1e4610ed0201461f1464ef001a":null,
+                        "d5f75e1e463384de0146391abdd000ee":null,
+                        "d5f75e1e4610ed0201461f1523c6001c":null,
+                        "d5f75e1e4610ed0201461f15b3fe001d":null,
+                        "d5f75e1e463384de01463916d21b00e8":null,
+                        "d5f75e1e4610ed0201461f119f740016":null,
+                        "d5f75e1e463384de014639190ebb00eb":null,
+                        "d5f75e1e463a56ef01463cec788d0002":"Tinus (via de API)",
+                        "d5f75e1e46f060b201473541be3907e9":null,
+                        "d5f75e1e480b9aa901481224fea601cd":null,
+                        "d5f75e1e463a56ef01463cedcdb00003":null,
+                        "d5f75e1e463a56ef01463d0240f5000d":null,
+                        "d5f75e1e463a56ef01463d07711e000f":null,
+                        "d5f75e1e463384de01463905280100de":null
+                    }
+                }
+            }
+
+### Individuele steekkaart bewerken [PATCH]
+
+Gebruikers kunnen enkel hu eigen individuele steekkaart aanpassen.
+
++ Request (application/json)
+
+    + Body
+
+            // De inhoud van deze request is hetzelfde als bij de response voor `GET`
+            // op `/lid/{id}/steekkaart`.
+
++ Response 200 (application/json)
+
+    + Body
+
+            // De inhoud van deze response is hetzelfde als bij `GET` op `/lid/{id}/steekkaart`.
 
 ## Lidaanvragen [/lid/aanvraag]
 
@@ -561,6 +1248,8 @@ Dit is nog niet geïmplementeerd.
 
 :::note
 Dit enpoint is publiek. Er is hier geen *Authentication*-header nodig.
+
+Omdat de gebruiker in de meeste gevallen niet het recht heeft om de lidaanvraag op te halen, wordt er een lege response gegeven.
 :::
 
 + Request (application/json)
@@ -571,11 +1260,6 @@ Dit enpoint is publiek. Er is hier geen *Authentication*-header nodig.
             // `/lid/aanvraag/{id}`.
 
 + Response 204
-
-    :::note
-    Omdat de gebruiker in de meeste gevallen niet het recht heeft om de lidaanvraag op te halen,
-    wordt er een lege response gegeven.
-    :::
 
 ## Lidaanvraag [/lid/aanvraag/{id}]
 
