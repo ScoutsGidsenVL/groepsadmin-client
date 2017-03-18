@@ -71,12 +71,9 @@
         {get: {method: 'GET'}}
       ),
       Orakel: $resource(
-        // base + group/:id/orakel
-        //basejson + 'orakel:groepsnummer.json',
-        basejson + 'orakel.json',
-
-        {groepsnummer: '@id'},
-        {get: {method: 'GET'}}
+        base + 'groep/:groepsnummer/statistieken',
+        {groepsnummer: '@groepsnummer'},
+        {get: {method: 'GET', cache: $cacheFactory('orakelCache')}}
       ),
       Leden: $resource(
         base + 'ledenlijst?aantal=:aantal&offset=:offset',
