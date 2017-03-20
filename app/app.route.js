@@ -34,13 +34,8 @@
       // Groepsinstellingen
       .when('/groepsinstellingen', {
         templateUrl: 'partials/groepsinstellingen.html',
-          controller: 'GroepController'
-      })
-
-      // Groepsinstellingen
-      .when('/groepsinstellingen', {
-        templateUrl: 'partials/groepsinstellingen.html',
-          controller: 'GroepController'
+        controller: 'GroepController',
+        activeTab: 'groepsinstellingen'
       })
 
       // Orakel

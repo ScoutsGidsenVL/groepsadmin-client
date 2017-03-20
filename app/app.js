@@ -17,6 +17,7 @@
     'ga.dynamischveld',
     'ga.dynamischevelden',
     'ga.dynamischformulier',
+    'ga.actievelink',
     'ga.searchcontroller',
     'ga.ui.selectpicker',
     'ga.ui.alert',
