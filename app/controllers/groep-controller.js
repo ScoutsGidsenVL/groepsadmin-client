@@ -5,17 +5,18 @@
     .module('ga.groepcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('GroepController', GroepController);
 
-  GroepController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'keycloak'];
+  GroepController.$inject = ['$scope', '$routeParams', '$window', '$location', '$log' , 'RestService', 'AlertService', 'DialogService', '$rootScope', 'keycloak'];
 
-  function GroepController($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, keycloak) {
+  function GroepController($scope, $routeParams, $window, $location, $log, RestService, AlertService, DialogService, $rootScope, keycloak) {
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var tempId = 1;
     // groepen ophalen
     RestService.Groepen.get().$promise.then(
       function (result) {
-        $scope.groepenlijst = [];
+        $scope.data = {};
+        $scope.data.groepenlijst = [];
         //tijdelijk extra velden toevoegen aan het resultaat
-        /*angular.forEach(result.groepen, function(value){
+        angular.forEach(result.groepen, function(value){
           value.vga = {
             "naam": "Nathan Wuyts",
             "email": "vga@scoutslatem.be"
@@ -24,27 +25,22 @@
             {
               "naam": "Joke Scheerder",
               "email": "joke@scheerder.be"
-                         },
+            },
             {
               "naam": "Bram Scheerder",
               "email": "bram@scheerder.be"
-                         }
-                       ];
-            //temp fix positie
-            value.adres.positie = {
-              latitude: 51.209229,
-              longitude: 4.438130
-            }
+            }];
+            
           value.adres = [
             value.adres
           ];
-          $scope.groepenlijst.push(value);
-        })*/
-        if($scope.activegroup == undefined){
-          $scope.activegroup = result.groepen[0];
-          loadGoogleMap(result.groepen[0]);
-        }
+          $scope.data.groepenlijst.push(value);
+        })
+
+        // by default is de eerste groep actief
+        $scope.data.activegroup = $scope.data.groepenlijst[0];
         maakSorteerbaar();
+        loadGoogleMap();
       },
       function (Error){
       }
@@ -55,18 +51,18 @@
      * ----------------------------------
      */
     // initialize Google Map
-    var loadGoogleMap = function(groep){
-      //var adressen = groep ? groep.adres : $scope.activegroup.adres;
+    var loadGoogleMap = function(){
       if(!$scope.googleMap){
         var mapOptions = {
           zoom: 15,
-          center: berekenCenter(groep.adressen)
+          center: berekenCenter($scope.data.activegroup.adressen)
         }
         $scope.googleMap = new google.maps.Map(document.getElementById("lokalen-kaart"), mapOptions);
-        markersTekenen($scope.googleMap, groep.adressen);
+        markersTekenen($scope.googleMap, $scope.data.activegroup.adressen);
       } else {
-        $scope.googleMap.setCenter(berekenCenter(groep.adressen));
-        markersTekenen($scope.googleMap, groep.adressen);
+
+        $scope.googleMap.setCenter(berekenCenter($scope.data.activegroup.adressen));
+        markersTekenen($scope.googleMap, $scope.data.activegroup.adressen);
       }
 
     }
@@ -168,7 +164,7 @@
      * ----------------------------------
      */
     //dropdown verander van groep
-    $scope.ChangeGroep = function () {
+    $scope.changeGroep = function () {
       loadGoogleMap();
       maakSorteerbaar();
     }
