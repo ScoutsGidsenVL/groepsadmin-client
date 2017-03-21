@@ -10,7 +10,7 @@ var getClient = function(){
   */
 
   var returnClient = {
-    url: 'https://login.scoutsengidsenvlaanderen.be/auth',
+    url: 'https://login-dev.scoutsengidsenvlaanderen.be/auth',
     realm: 'scouts',
     clientId: null,
     redirectUri: window.location.href
