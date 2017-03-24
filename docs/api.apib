@@ -2264,7 +2264,10 @@ Het veld `groepen` bevat alle groepen waarbij deze functie kan voorkomen en waar
               "leden": [
                 {
                   "id": "d5f75b320b812440010b8127f95f4db4",
-                  "waarden": ["Baden", true], //voor volgorde zie filter kolommen
+                  "waarden": {
+                    "id voornaam": "Baden",
+                    "id groepseigen veld oprichter": true
+                  },
                   "links":[
                     {
                       "href": "/groepsadmin/rest-ga/lid/d5f75b320b812440010b8127f95f4db4?positie=foo", //Merk op extra paramter, de server kan ervoor kiezen om hier een extra parameter mee te geven, om zo prev en next correct te berekenen als lid meerdere keren in de lijst zit.

@@ -2,7 +2,7 @@
 <div class="panel-heading clearfix">
   <div class="pull-left">
     <a class="btn btn-default btn-toggle" ng-init="isFilterCollapsed = true " ng-class="{ 'active' : !isFilterCollapsed }" href ng-click="isFilterCollapsed = !isFilterCollapsed"><span class="glyphicon glyphicon-filter"></span>&nbsp; Filter</a>
-    
+
     <!-- Single button -->
     <div class="btn-group selectpicker" uib-dropdown is-open="status.isopen">
       <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
@@ -12,7 +12,7 @@
         <li role="menuitem" ng-repeat="filter in filters"><a href ng-click="setFilter(filter)">{{ filter.naam }}</a></li>
       </ul>
     </div>
-    
+
     <button class="btn btn-default" ng-init="showSaveOptions = false" ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
     <form ng-show="showSaveOptions" class="form-inline">
       <input type="text" placeholder="Naam van de filter" class="form-control">
@@ -120,7 +120,7 @@
   <tbody>
     <tr  ng-repeat="lid in leden" ga-lid="{{lid.id}}" ng-init="meerLaden($last)" >
       <td ng-repeat="kolom in currentFilter.kolommen">
-        <div class="fade-in slide-in">{{lid.waarden[$index]}}</div>
+        <div class="fade-in slide-in">{{lid.waarden[kolom.id]}}</div>
       </td>
       <td class="t-caret" role="button"><span class="caret"></span></td>
     </tr>
