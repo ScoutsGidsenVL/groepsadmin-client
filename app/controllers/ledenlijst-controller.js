@@ -45,29 +45,30 @@
 
       // functies ophalen
       RestService.Functies.get().$promise.then(
-      function(result){
-        $log.debug("------ get functies", result.functies);
-        var functies = result.functies;
-        var functieGroepen = [];
-        angular.forEach(functies, function(value){
-          if(!LFS.bestaatFunctieGroep(value, functieGroepen)){
-            //nieuwe functie groep maken
-            functieGroepen = LFS.voegFunctieGroepToeAan(value, functieGroepen);
-          }
-          // functie toevoegen
-          functieGroepen = LFS.voegItemToeAanFunctieGroep(value, functieGroepen);
-        });
+        function(result){
+          var functies = result.functies;
+          var functieGroepen = [];
+          angular.forEach(functies, function(value){
+            $log.debug('functie', value);   
+            if(!LFS.bestaatFunctieGroep(value, functieGroepen)){
+              //nieuwe functie groep maken
+              functieGroepen = LFS.voegFunctieGroepToeAan(value, functieGroepen);
+            }
+            // functie toevoegen
+            functieGroepen = LFS.voegItemToeAanFunctieGroep(value, functieGroepen);
+          });
 
-        // functie groepen toevoegen aan de criteria.
-        angular.forEach(functieGroepen, function(value){
-          $scope.criteria.push(value);
-        })
-      });
+          // functie groepen toevoegen aan de criteria.
+          angular.forEach(functieGroepen, function(value){
+            $scope.criteria.push(value);
+          })
+
+        });
 
       // groepen ophalen
       RestService.Groepen.get().$promise.then(
         function(result){
-          $log.debug("------ get groepen", result.groepen);
+          //$log.debug("------ get groepen", result.groepen);
           var groepen = result.groepen;
           var groepenCriteria = {
                           title : "Groepen",
@@ -83,7 +84,7 @@
             groepenCriteria.items.push(groep);
           });
           $scope.criteria.push(groepenCriteria);
-      });
+        });
 
       // groepseigenfuncties ophalen
 
@@ -152,13 +153,13 @@
           //$log.debug('FilterDetails', filterId, response);
           $scope.geselecteerdeCriteria = [];
           $scope.currentFilter = response;
-          $log.debug('filter-----',filterId , 'filterDetails response----', $scope.currentFilter);
+          //$log.debug('filter-----',filterId , 'filterDetails response----', $scope.currentFilter);
 
           angular.forEach($scope.currentFilter.criteria, function(value, key){
             if(key === "functies") {
               RestService.Functies.get().$promise.then(
                 function (response) {
-                  $log.debug("Functies---", response);
+                  //$log.debug("Functies---", response);
                   angular.forEach(value, function(functieID) {
                     angular.forEach(response.functies, function(apiFunctie) {
                       if (apiFunctie.id == functieID) {
@@ -448,7 +449,7 @@
     // uitvoeren van van een sortering.
     $scope.addSort = function(kolomId, volgorde){
       var originalSort = $scope.currentFilter.sortering;
-      $log.debug("originalSort --- ",originalSort);
+      //$log.debug("originalSort --- ",originalSort);
 
       // controle werd er geclicked op een sort die reeds in de sortering zit => delete from sortering
       var deleteFromSort = false;

@@ -51,6 +51,25 @@ module.exports = function(grunt) {
       server: {
         livereload: true
       }
+    },
+    wiredep: {
+
+      target: {
+        src: 'index.html'
+      },
+
+      task: {
+
+        // Point to the files that should be updated when
+        // you run `grunt wiredep`
+        // https://github.com/stephenplusplus/grunt-wiredep
+        src: [
+          'js/**/*.js'
+        ],
+
+        options: {
+        }
+      }
     }
 
   });
@@ -59,10 +78,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-wiredep');
 
   // Task definitions
   grunt.registerTask('default', ['watch']);
   grunt.registerTask('serve', [
+    'wiredep',
     'connect:server',
     'watch'
   ]);

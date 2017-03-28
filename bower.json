@@ -15,6 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "keycloak": "2.3.*"
+    "keycloak": "2.3.*",
+    "lodash": "~4.17.4"
   }
 }
