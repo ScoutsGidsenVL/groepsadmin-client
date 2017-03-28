@@ -6,6 +6,7 @@
     'ga.services.rest',
     'ga.services.http',
     'ga.services.alert',
+    'ga.services.ledenfilter',
     'ga.ledenlijstcontroller',
     'ga.lidcontroller',
     'ga.usercontroller',
