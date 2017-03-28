@@ -5,12 +5,12 @@
     .module('ga.services.ledenfilter', [])
     .factory('LedenFilterService', LedenFilterService);
 
-  LedenFilterService.$inject = ['$log','$rootScope', '$timeout'];
+  LedenFilterService.$inject = ['$log'];
 
   // Deze service bevat een aantal helper functies die voornamelijk worden gebruikt door de LedenlijstController
   // bvb. voor het samenstellen van filters en criteria
 
-  function LedenFilterService($log, $rootScope, $timeout) {
+  function LedenFilterService($log) {
     var ledenFilterService = {};
 
     ledenFilterService.functieGroepNaamMaken = function(functie){
