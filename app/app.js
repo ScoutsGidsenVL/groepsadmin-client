@@ -1,14 +1,6 @@
 (function() {
   'use strict';
 
-  angular.module('ga', [])
-    // lodash for use in controllers, unit tests
-    .constant('_', window._)
-    // for use in views, f.e. ng-repeat="x in _.range(3)"
-    .run(function ($rootScope) {
-       $rootScope._ = window._;
-    });
-
   angular.module('ga', [
     'ga.route',
     'ga.services.rest',
@@ -36,7 +28,13 @@
     'ga.utils',
     'infinite-scroll',
     'ngSanitize'
-  ]);
+  ])
+  // lodash for use in controllers, unit tests
+  .constant('_', window._)
+  // for use in views, f.e. ng-repeat="x in _.range(3)"
+  .run(function ($rootScope) {
+     $rootScope._ = window._;
+  });
 
   angular.module('ga')
     .directive('gaLid', ['$location', function ($location) {
