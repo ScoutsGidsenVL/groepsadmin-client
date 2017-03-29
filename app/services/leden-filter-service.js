@@ -44,6 +44,84 @@
       return functieGroepen;
     }
 
+    ledenFilterService.maakFunctieGroep = function(arrFuncties, titel){
+      var functieGroep = {
+                               title : titel.charAt(0).toUpperCase() + titel.slice(1),
+                               criteriaKey : "functies",
+                               multiplePossible : true,
+                               items: arrFuncties
+                             }
+      return functieGroep;
+    }
+
+    // maak functiegroep van het type verbond
+    ledenFilterService.maakFunctieGroepVerbond = function(arrFuncties){
+      var titel = 'verbond';
+      // met lodash zoeken we alle functie objecten met als property type:'verbond'
+      var verbondFuncties = _.filter(arrFuncties, function(o) { return o.type == titel; });
+
+      // Voor ieder object in de array passen we de mapping toe
+      var resVerbondFuncties = [];
+      _.each(verbondFuncties, function(v, k){
+        var resVerbondFunctie = {};
+        resVerbondFunctie = ledenFilterService.mapObj(verbondFuncties[k]);
+        resVerbondFuncties.push(resVerbondFunctie);
+      });
+
+      var functieGroep = ledenFilterService.maakFunctieGroep(resVerbondFuncties, titel);
+      return functieGroep;
+    };
+
+    // maak de groepspecifieke functiegroepen
+    ledenFilterService.maakGroepSpecifiekeFunctieGroepen = function(arrFuncties){
+      var titel = 'groep';
+      var groepSpecifiekeFunctieGroepen = [];
+
+      // met lodash zoeken we alle functie objecten met als property type:'groep'
+      var groepFuncties = _.filter(arrFuncties, function(o) { return o.type == titel; });
+
+      // neem eerst alle groepnummers van de functies die behoren tot het type 'groep'
+      var arrGroepFunctieGroepen = [];
+      _.each(groepFuncties, function(value,key){
+        arrGroepFunctieGroepen.push(value.groepen[0]);
+      });
+      // hou enkel de unieke waarden over
+      arrGroepFunctieGroepen = _.uniqWith(arrGroepFunctieGroepen, _.isEqual);
+
+      // per unieke waarde een functiegroep maken
+      _.each(arrGroepFunctieGroepen,function(v, k){
+        var arrUnmappedObjs = _.filter(groepFuncties, function(o) { return o.groepen[0] == v});
+        var arrMappedObjs = [];
+        var mappedObj = {};
+
+        _.each(arrUnmappedObjs, function(value,key){
+          mappedObj = ledenFilterService.mapObj(value);
+          arrMappedObjs.push(mappedObj);
+        });
+
+        var functieGroep = ledenFilterService.maakFunctieGroep(arrMappedObjs, 'Functies van '+v);
+        groepSpecifiekeFunctieGroepen.push(functieGroep);
+
+      });
+
+      return groepSpecifiekeFunctieGroepen;
+
+    }
+
+    ledenFilterService.mapObj = function(unmappedObj){
+      // Map de properties van ieder object (bvb. 'beschrijving' wordt 'label', 'id' wordt 'value')
+      var map = {
+          beschrijving : "label",
+          id : "value"
+      };
+      var mappedObj = {};
+      _.each(unmappedObj, function(value, key) {
+          key = map[key] || key;
+          mappedObj[key] = value;
+      });
+      return mappedObj;
+    }
+
     ledenFilterService.voegItemToeAanFunctieGroep = function(functie, functieGroepen){
       // voeg functie toe aan items van dat type
       var tempItem = {

@@ -48,20 +48,22 @@
         function(result){
           var functies = result.functies;
           var functieGroepen = [];
-          angular.forEach(functies, function(value){
-            $log.debug('functie', value);   
-            if(!LFS.bestaatFunctieGroep(value, functieGroepen)){
-              //nieuwe functie groep maken
-              functieGroepen = LFS.voegFunctieGroepToeAan(value, functieGroepen);
-            }
-            // functie toevoegen
-            functieGroepen = LFS.voegItemToeAanFunctieGroep(value, functieGroepen);
+
+          // functieGroep maken van functies met type 'verbond'
+          var functieGroepVerbond = LFS.maakFunctieGroepVerbond(functies);
+          // functieGroepen maken van functies met type 'groep'
+          var groepSpecifiekeFunctieGroepen = LFS.maakGroepSpecifiekeFunctieGroepen(functies);
+
+          var functieGroepen = [];
+          functieGroepen.push(functieGroepVerbond);
+          _.each(groepSpecifiekeFunctieGroepen,function(value,key){
+            functieGroepen.push(value);
           });
 
-          // functie groepen toevoegen aan de criteria.
-          angular.forEach(functieGroepen, function(value){
+          // aangemaakte functieGroepen toevoegen aan de criteria.
+          _.each(functieGroepen, function(value){
             $scope.criteria.push(value);
-          })
+          });
 
         });
 
