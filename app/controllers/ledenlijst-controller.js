@@ -38,8 +38,7 @@
     stelFilterSamen();
 
     function stelFilterSamen(id){
-      // if there is no id provided, we'll go with the id 'huidige'
-      var filterId = id ? id : 'huidige';
+
 
       $scope.criteria = [];
 
@@ -70,27 +69,20 @@
       // groepen ophalen
       RestService.Groepen.get().$promise.then(
         function(result){
-          //$log.debug("------ get groepen", result.groepen);
-          var groepen = result.groepen;
-          var groepenCriteria = {
-                          title : "Groepen",
-                          criteriaKey : "groepen",
-                          multiplePossible : true,
-                          items: []
-                          };
-          angular.forEach(groepen, function(value){
-            var groep = {
-                      value : value.groepsnummer,
-                      label : value.naam + " [" + value.groepsnummer + "]"
-            }
-            groepenCriteria.items.push(groep);
-          });
+          var groepenCriteria = LFS.getCriteriaGroepen(result);
           $scope.criteria.push(groepenCriteria);
         });
 
+      // kolomen ophalen;
+      RestService.Kolomen.get({}).$promise.then(
+        function(result){
+          $scope.kolommen = result.kolommen;
+        }
+      );
+
       // groepseigenfuncties ophalen
 
-      // filters ophalen
+      // Filters ophalen
       RestService.Filters.get().$promise.then(
         function (result){
           $scope.filters = result.filters;
@@ -110,6 +102,9 @@
 
 
       // huidige filter ophalen en verwerken;
+      // als er geen filterId is, neem 'huidige'
+      var filterId = id ? id : 'huidige';
+
       RestService.FilterDetails.get({id: filterId}).$promise.then(
         function (response) {
           //$log.debug('FilterDetails', filterId, response);
@@ -249,13 +244,6 @@
       return label;
     }
 
-    // kolomen ophalen;
-    RestService.Kolomen.get({}).$promise.then(
-      function(result){
-        $scope.kolommen = result.kolommen;
-      }
-    );
-
     $scope.kolomInFilter = function(kolom){
       var returnVal = false;
       angular.forEach($scope.currentFilter.kolommen, function(val){
@@ -265,6 +253,7 @@
       })
       return returnVal;
     }
+
     $scope.changeKolomInFilter = function(kolom){
       // controle zit kolom reeds in filter => wis
       var kolomInFilterIndex;

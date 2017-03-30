@@ -132,7 +132,26 @@
       return functieGroepen;
     }
 
-    // statische criteria
+    // criteria ophalen
+    ledenFilterService.getCriteriaGroepen = function(data){
+
+      var groepen = data.groepen;
+      var groepenCriteria = {
+                      title : "Groepen",
+                      criteriaKey : "groepen",
+                      multiplePossible : true,
+                      items: []
+                      };
+      angular.forEach(groepen, function(value){
+        var groep = {
+                  value : value.groepsnummer,
+                  label : value.naam + " [" + value.groepsnummer + "]"
+        }
+        groepenCriteria.items.push(groep);
+      });
+      return groepenCriteria;
+    }
+
     ledenFilterService.getCriteriaGeslacht = function(){
       var geslacht = {
                         title : "Geslacht",
