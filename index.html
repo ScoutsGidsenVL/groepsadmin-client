@@ -224,7 +224,8 @@
 
         window._keycloak
           .init({
-            onLoad: 'login-required'
+            onLoad: 'login-required',
+            checkLoginIframe: false
           })
           .success(function() {
             angular.bootstrap(document, ['ga']); // manually bootstrap Angular
