@@ -28,7 +28,7 @@ Open steeds de browser-console (`F12`) om te zien wat er mis gaat.
 
 * Er draait bij jou waarschijnlijk geen kopie van de _back_-end op [http://localhost:**8080**](http://localhost:8080). ;-)
 * Open `app/services/rest-service.js` in een editor.
-* Stel rond regel 10 `apiHost` in op het alternatief (en zet de oorspronkelijke lijn in commentaar).
+* Stel rond regel 12 `apiHost` in op 'groepsadmin-develop' (en zet de oorspronkelijke lijn in commentaar).
 * Laad <http://localhost:8000> opnieuw in Chrome.
 
 **Zie je bij sommige URLs foutmeldingen over een onveilige verbinding?**

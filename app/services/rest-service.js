@@ -9,8 +9,9 @@
 
   function RestService($resource, $cacheFactory) {
 
-    // Alteratief:
     var apiHost = 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net';
+    // Alteratieven:
+    //var apiHost = 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be';
     //var apiHost = window.location.origin.replace('localhost:8000', 'localhost:8080');
 
     // Alteratief:
