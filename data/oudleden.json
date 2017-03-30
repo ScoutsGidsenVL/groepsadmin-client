@@ -1,0 +1,15 @@
+{
+  "title" : "Oudleden",
+  "creteriaKey" : "oudleden",
+  "multiplePossible" : false,
+  "items" : [
+            {
+              "value" : true,
+              "label" : "Ja"
+            },
+            {
+              "value" : false,
+              "label" : "Nee"
+            }
+          ]
+}

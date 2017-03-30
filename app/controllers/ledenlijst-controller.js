@@ -5,9 +5,9 @@
     .module('ga.ledenlijstcontroller', [])
     .controller('LedenlijstController', LedenlijstController);
 
-  LedenlijstController.$inject = ['$log', '$scope', 'LedenFilterService', 'RestService', '$window', 'keycloak'];
+  LedenlijstController.$inject = ['$q','$log', '$scope', 'LedenFilterService', 'RestService', '$window', 'keycloak'];
 
-  function LedenlijstController($log, $scope, LFS, RestService, $window, keycloak) {
+  function LedenlijstController($q, $log, $scope, LFS, RestService, $window, keycloak) {
     // Kolommen sortable maken
     var index;
     $( ".sortable" ).sortable({
@@ -30,20 +30,27 @@
       }
     });
 
-    /*
-     * Filter samenstellen
-     * -------------------------------------------------------
-     */
+    // controle on resize
+    angular.element($window).bind('resize', function () {
+     if($(window).height() > $("#leden").height() && !$scope.busy){
+       $scope.nextPage();
+     }
+    });
 
     stelFilterSamen();
 
     function stelFilterSamen(id){
 
-
       $scope.criteria = [];
+      // huidige filter ophalen en verwerken;
+      // als er geen filterId is, neem 'huidige'
+      var filterId = id ? id : 'huidige';
 
-      // functies ophalen
-      RestService.Functies.get().$promise.then(
+      // functies ophalen om functiegroepen van het 'verbond' en de 'groep' samen te stellen
+      // TODO: Resultaten van deze calls opslaan in localstorage
+
+      var promises = [];
+      promises[0] = RestService.Functies.get().$promise.then(
         function(result){
           var functies = result.functies;
           var functieGroepen = [];
@@ -65,55 +72,73 @@
           });
 
         });
-
-      // groepen ophalen
-      RestService.Groepen.get().$promise.then(
+      promises[1] = RestService.Groepen.get().$promise.then(
+          function(result){
+            var groepenCriteria = LFS.getCriteriaGroepen(result);
+            $scope.criteria.push(groepenCriteria);
+          });
+      promises[2] = RestService.Geslacht.get().$promise.then(
         function(result){
-          var groepenCriteria = LFS.getCriteriaGroepen(result);
-          $scope.criteria.push(groepenCriteria);
+          var geslacht = result;
+          $scope.criteria.push(geslacht);
         });
-
-      // kolomen ophalen;
-      RestService.Kolomen.get({}).$promise.then(
+      promises[3] = RestService.Oudleden.get().$promise.then(
+        function(result){
+            var oudleden = result;
+            $scope.criteria.push(oudleden);
+        });
+      promises[4] = RestService.GeblokkeerdAdres.get().$promise.then(
+        function(result){
+          var geblokkeerdAdres = result;
+          $scope.criteria.push(geblokkeerdAdres);
+        }
+      );
+      promises[5] = RestService.Kolommen.get().$promise.then(
         function(result){
           $scope.kolommen = result.kolommen;
         }
       );
-
-      // groepseigenfuncties ophalen
-
-      // Filters ophalen
-      RestService.Filters.get().$promise.then(
+      promises[6] = RestService.Filters.get().$promise.then(
         function (result){
           $scope.filters = result.filters;
         }
-      )
-
-      // statische criteria toevoegen.
-      var geslacht = LFS.getCriteriaGeslacht();
-      $scope.criteria.push(geslacht);
-
-      var geblokeerdAdres = LFS.getCriteriaGeblokkeerdAdres();
-      $scope.criteria.push(geblokeerdAdres);
-
-      var oudleden = LFS.getCriteriaOudleden();
-      $scope.criteria.push(oudleden);
+      );
+      promises[7] = RestService.FilterDetails.get({id: filterId}).$promise.then(
+        function (response) {
+          $log.debug('FilterDetails', filterId, response);
+          $scope.currentFilter = response;
+        });
 
 
+      $q.all(promises).then(function () {
+        // hier zijn alle calls (promises) resolved
+        // alle criteria werden op de scope geplaatst
+        // Roep nu filter op, op basis daarvan kunnen we criteria aan/uit zetten
+        $scope.geselecteerdeCriteria = [];
+        selecteerCriteria();
+        $log.debug('criteria',$scope.criteria);
 
-      // huidige filter ophalen en verwerken;
-      // als er geen filterId is, neem 'huidige'
-      var filterId = id ? id : 'huidige';
+      });
+
+      // Filter ophalen adhv filterId
+      // Adhv deze Filter de geselecteerde criteria bepalen
 
       RestService.FilterDetails.get({id: filterId}).$promise.then(
         function (response) {
-          //$log.debug('FilterDetails', filterId, response);
+          $log.debug('criteria',$scope.criteria);
+
           $scope.geselecteerdeCriteria = [];
           $scope.currentFilter = response;
-          //$log.debug('filter-----',filterId , 'filterDetails response----', $scope.currentFilter);
 
           angular.forEach($scope.currentFilter.criteria, function(value, key){
+
+            // neem alle functies uit criteria.functie 'functie' criteria
+            // activeer alle functies
+
+
             if(key === "functies") {
+
+
               RestService.Functies.get().$promise.then(
                 function (response) {
                   //$log.debug("Functies---", response);
@@ -129,7 +154,9 @@
                   });
                 }
               );
-            } else if(key === "groepen") {
+
+            }
+            else if(key === "groepen") {
                 var items = [];
                 angular.forEach(value, function(groepsnummer){
                   RestService.Groep.get({id:groepsnummer}).$promise.then(
@@ -150,7 +177,8 @@
                 }
                 $scope.geselecteerdeCriteria.push(tempselectedCriteria);
 
-            } else {
+            }
+            else {
                 var tempselectedCriteria = {
                   title : key.charAt(0).toUpperCase() + key.slice(1),
                   items : value
@@ -158,10 +186,14 @@
                 $scope.geselecteerdeCriteria.push(tempselectedCriteria);
             }
           });
+
+          $log.debug('selected criteria----', $scope.geselecteerdeCriteria);
         }
       );
     }
+    function selecteerCriteria(){
 
+    }
     // returnt de key/index van een criteria a.d.h.v. de titel
     $scope.getKeyInCriteriaBytitle = function(title){
       var criteriaKey;
@@ -361,12 +393,7 @@
       }
     }
 
-    // controle on resize
-    angular.element($window).bind('resize', function () {
-      if($(window).height() > $("#leden").height() && !$scope.busy){
-        $scope.nextPage();
-      }
-    });
+
 
     /*
      * Sortering

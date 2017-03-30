@@ -1,0 +1,15 @@
+{
+  "title" : "Adresgeblokeerd",
+  "criteriaKey" : "adresgeblokeerd",
+  "multiplePossible" : false,
+  "items" : [
+            {
+              "value": true,
+              "label": "Ja"
+            },
+            {
+              "value": false,
+              "label": "Nee"
+            }
+          ]
+}

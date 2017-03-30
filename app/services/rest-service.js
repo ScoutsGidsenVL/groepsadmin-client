@@ -10,8 +10,8 @@
   function RestService($resource, $cacheFactory) {
 
     // Alteratief:
-    //var apiHost = 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net';
-    var apiHost = window.location.origin.replace('localhost:8000', 'localhost:8080');
+    var apiHost = 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net';
+    //var apiHost = window.location.origin.replace('localhost:8000', 'localhost:8080');
 
     // Alteratief:
     //var apiRoot = apiHost + '/ga';
@@ -19,7 +19,7 @@
 
     var base = apiRoot + '/rest-ga/';
     var baseGis = apiRoot + '/rest/gis/';
-    var basejson = "/";
+    var basejson = "/data/";
 
     return {
       Lid: $resource(
@@ -61,6 +61,14 @@
         base + 'functie/',
         {get: {method: 'GET', cache: $cacheFactory('allFunctiesCache')}}
       ),
+      GeblokkeerdAdres: $resource(
+        basejson + 'geblokkeerdadres.json',
+        {get: {method: 'GET'}}
+      ),
+      Geslacht: $resource(
+        basejson + 'geslacht.json',
+        {get: {method: 'GET'}}
+      ),
       Groep: $resource(
         base + 'groep/:id',
         {groepsnummer: '@id'},
@@ -74,6 +82,10 @@
         base + 'groep/:groepsnummer/statistieken',
         {groepsnummer: '@groepsnummer'},
         {get: {method: 'GET', cache: $cacheFactory('orakelCache')}}
+      ),
+      Oudleden: $resource(
+        basejson + 'oudleden.json',
+        {get: {method: 'GET'}}
       ),
       Leden: $resource(
         base + 'ledenlijst?aantal=:aantal&offset=:offset',
@@ -90,7 +102,7 @@
         {},
         {'get': {method: 'GET', cache: false}}
       ),
-      Kolomen: $resource(
+      Kolommen: $resource(
         base + 'ledenlijst/kolom-type',
         {},
         {'get': {method: 'GET', cache: false}}

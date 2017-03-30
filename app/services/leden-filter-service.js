@@ -152,61 +152,6 @@
       return groepenCriteria;
     }
 
-    ledenFilterService.getCriteriaGeslacht = function(){
-      var geslacht = {
-                        title : "Geslacht",
-                        creteriaKey : "geslacht",
-                        multiplePossible : false,
-                        items : [
-                                  {
-                                    value: "Mannelijk",
-                                    label: "man"
-                                  },
-                                  {
-                                    value: "Vrouwlijk",
-                                    label: "vrouw"
-                                  }
-                                ]
-                    }
-      return geslacht;
-    }
-    ledenFilterService.getCriteriaGeblokkeerdAdres = function(){
-      var geblokkeerdAdres = {
-                              title : "Adresgeblokeerd",
-                              creteriaKey : "adresgeblokeerd",
-                              multiplePossible : false,
-                              items : [
-                                        {
-                                          value: true,
-                                          label: "Ja"
-                                        },
-                                        {
-                                          value: false,
-                                          label: "Nee"
-                                        }
-                                      ]
-                              }
-      return geblokkeerdAdres;
-    }
-    ledenFilterService.getCriteriaOudleden = function(){
-      var oudleden = {
-                              title : "Oudleden",
-                              creteriaKey : "oudleden",
-                              multiplePossible : false,
-                              items : [
-                                        {
-                                          value: true,
-                                          label: "Ja"
-                                        },
-                                        {
-                                          value: false,
-                                          label: "Nee"
-                                        }
-                                      ]
-                              };
-     return oudleden;
-    }
-
     ledenFilterService.functieGroepKey = function(functie, functieGroepen){
       var tempKey;
       angular.forEach(functieGroepen, function(functieGroep, key){

@@ -1,0 +1,19 @@
+{
+    "title" : "Geslacht",
+    "criteriaKey" : "geslacht",
+    "multiplePossible" : false,
+    "items" : [
+              {
+                "value": "Mannelijk",
+                "label": "man"
+              },
+              {
+                "value": "Vrouwelijk",
+                "label": "vrouw"
+              },
+              {
+                "value": "Geslachtsneutraal",
+                "label": "neutraal"
+              }
+            ]
+}
