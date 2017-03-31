@@ -9,10 +9,14 @@
 
   function RestService($resource, $cacheFactory) {
 
-    var apiHost = 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net';
-    // Alteratieven:
-    //var apiHost = 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be';
-    //var apiHost = window.location.origin.replace('localhost:8000', 'localhost:8080');
+    var apiHost;
+    if (window.location.protocol === "https:") {
+        apiHost = window.location.origin;
+    } else {
+        apiHost = 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net';
+        // Alternatief als de groepsadmin lokaal draait:
+        //apiHost = 'http://localhost:8080';
+    }
 
     // Alteratief:
     //var apiRoot = apiHost + '/ga';
