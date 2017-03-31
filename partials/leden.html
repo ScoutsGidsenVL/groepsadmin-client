@@ -99,6 +99,14 @@
       <!-- <a href="#" class="btn btn-filter btn-filter-columns"><span class="glyphicon glyphicon-th-list"></span></a> -->
 </div>
 
+
+<div class="panel-filter row-fluid clearfix collapse" uib-collapse="isFilterCollapsed">
+  <div ng-repeat="criteriaItem in criteria | filter: { activated: true } " class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
+    {{ criteriaItem.title }}
+    <div ng-repeat="criteriaItemProp in criteriaItem.items">{{ criteriaItemProp.label }}</div>
+  </div>
+</div>
+
 <!-- Table -->
 <table id="leden" class="table table-responsive table-hover" infinite-scroll="nextPage()" infinite-scroll-disabled="(busy || end )" infinite-scroll-distance="1" infinite-scroll-immediate-check="true">
   <thead>

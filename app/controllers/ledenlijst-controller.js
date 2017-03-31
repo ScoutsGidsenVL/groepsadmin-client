@@ -46,6 +46,7 @@
       // als er geen filterId is, neem 'huidige'
       var filterId = id ? id : 'huidige';
 
+      // Alle criteria ophalen waarmee de gebruiker kan filteren
       // functies ophalen om functiegroepen van het 'verbond' en de 'groep' samen te stellen
       // TODO: Resultaten van deze calls opslaan in localstorage
 
@@ -105,7 +106,7 @@
       );
       promises[7] = RestService.FilterDetails.get({id: filterId}).$promise.then(
         function (response) {
-          $log.debug('FilterDetails', filterId, response);
+
           $scope.currentFilter = response;
         });
 
@@ -115,7 +116,7 @@
         // alle criteria werden op de scope geplaatst
         // Roep nu filter op, op basis daarvan kunnen we criteria aan/uit zetten
         $scope.geselecteerdeCriteria = [];
-        selecteerCriteria();
+        $scope.selecteerCriteria();
         $log.debug('criteria',$scope.criteria);
 
       });
@@ -125,7 +126,6 @@
 
       RestService.FilterDetails.get({id: filterId}).$promise.then(
         function (response) {
-          $log.debug('criteria',$scope.criteria);
 
           $scope.geselecteerdeCriteria = [];
           $scope.currentFilter = response;
@@ -187,13 +187,30 @@
             }
           });
 
-          $log.debug('selected criteria----', $scope.geselecteerdeCriteria);
+          //$log.debug('selected criteria----', $scope.geselecteerdeCriteria);
         }
       );
     }
-    function selecteerCriteria(){
+
+    // Zet adhv de ingestelde filter, iedere criteriaCategorie en elk item in de criteriaCategorie op actief
+    // Actieve criteriaGroepen worden getoond, Inactieve kunnen worden toegevoegd/geactiveerd
+    // Actieve criteriaItems worden getoond, Inactieve kunnen worden toegevoegd/geactiveerd
+    $scope.selecteerCriteria = function(){
+      // haal alle criteriaGroepen keys uit de geselecteerde filter
+      //$log.debug('currentFilter.criteria', $scope.currentFilter.criteria);
+      _.each($scope.currentFilter.criteria,function(value, key){
+        //$log.debug('actieve filter criteria',key);
+        _.each($scope.criteria, function(v,k){
+          if (v.criteriaKey == key){
+            v.activated = true;
+          }
+        });
+
+      });
 
     }
+
+
     // returnt de key/index van een criteria a.d.h.v. de titel
     $scope.getKeyInCriteriaBytitle = function(title){
       var criteriaKey;
