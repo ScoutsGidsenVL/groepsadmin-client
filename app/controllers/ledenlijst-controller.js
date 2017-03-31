@@ -106,7 +106,7 @@
       );
       promises[7] = RestService.FilterDetails.get({id: filterId}).$promise.then(
         function (response) {
-
+          $log.debug('id', filterId);
           $scope.currentFilter = response;
         });
 
@@ -116,7 +116,7 @@
         // alle criteria werden op de scope geplaatst
         // Roep nu filter op, op basis daarvan kunnen we criteria aan/uit zetten
         $scope.geselecteerdeCriteria = [];
-        $scope.selecteerCriteria();
+        $scope.activeerCriteria();
         $log.debug('criteria',$scope.criteria);
 
       });
@@ -195,16 +195,24 @@
     // Zet adhv de ingestelde filter, iedere criteriaCategorie en elk item in de criteriaCategorie op actief
     // Actieve criteriaGroepen worden getoond, Inactieve kunnen worden toegevoegd/geactiveerd
     // Actieve criteriaItems worden getoond, Inactieve kunnen worden toegevoegd/geactiveerd
-    $scope.selecteerCriteria = function(){
+    $scope.activeerCriteria = function(){
       // haal alle criteriaGroepen keys uit de geselecteerde filter
-      //$log.debug('currentFilter.criteria', $scope.currentFilter.criteria);
       _.each($scope.currentFilter.criteria,function(value, key){
-        //$log.debug('actieve filter criteria',key);
-        _.each($scope.criteria, function(v,k){
-          if (v.criteriaKey == key){
-            v.activated = true;
+        // indien de key overeenkomt, activeren we de criteriaGroep
+        var criteriaGroep = _.find($scope.criteria, {'criteriaKey': key });
+        if(criteriaGroep){
+          criteriaGroep.activated = true;
+          // zoek binnen de criteriaGroep naar values uit de opgehaalde filter
+          // indien item wordt gevonden, zet het actief
+          if(!criteriaGroep.multiplePossible){
+            _.find(criteriaGroep.items, {'value' : value}).activated = true;
+          } else {
+            _.each(value, function(v,k){
+                var item = _.find(criteriaGroep.items, {'value' : v});
+                if(item){item.activated = true;}
+            });
           }
-        });
+        }
 
       });
 
@@ -212,6 +220,7 @@
 
 
     // returnt de key/index van een criteria a.d.h.v. de titel
+/*
     $scope.getKeyInCriteriaBytitle = function(title){
       var criteriaKey;
       angular.forEach($scope.criteria, function(value, key){
@@ -221,7 +230,7 @@
         }
       })
       return criteriaKey;
-    }
+    }*/
 
     // controle is de criteria geselecteerd a.d.h.v. de titel
     $scope.inSelectedCriteria = function(title){
@@ -277,6 +286,7 @@
     }
 
     // label
+    /*
     $scope.getLabelForValue = function(value, selectedCriteria){
       var label = '';
       angular.forEach($scope.criteria, function(criteria){
@@ -292,6 +302,7 @@
       });
       return label;
     }
+    */
 
     $scope.kolomInFilter = function(kolom){
       var returnVal = false;

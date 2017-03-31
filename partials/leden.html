@@ -100,10 +100,53 @@
 </div>
 
 
-<div class="panel-filter row-fluid clearfix collapse" uib-collapse="isFilterCollapsed">
-  <div ng-repeat="criteriaItem in criteria | filter: { activated: true } " class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
-    {{ criteriaItem.title }}
-    <div ng-repeat="criteriaItemProp in criteriaItem.items">{{ criteriaItemProp.label }}</div>
+<div style="background-color:black !important;" class="panel-filter row-fluid clearfix collapse" uib-collapse="isFilterCollapsed">
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12" ng-repeat="criterium in criteria | filter:{activated:true}">
+    <!-- Filter options/criteria -->
+    <div class="btn-group filter-option" uib-dropdown keyboard-nav="true" auto-close="disabled">
+      <button type="button" class="btn btn-filter dropdown-toggle" uib-dropdown-toggle>
+        <span class="filter-option-title">{{ criterium.title }}</span>
+        <span class="filter-option-subtitle" ng-if="criterium.multiplePossible">
+          <span ng-repeat="selectedCriteriaItem in selectedCriteria.items">{{selectedCriteriaItem.label}}
+            <span ng-if="!$last">,&nbsp;</span>
+          </span>
+          <span ng-if="!selectedCriteria.items.lenght">
+            &nbsp;
+          </span>
+        </span>
+        <span class="filter-option-subtitle" ng-if="!criterium.multiplePossible">
+         {{ _.find(criterium.items, {'activated' : true}).label }}
+        </span>
+        <a ng-click="criterium.activated = false" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
+      </button>
+
+      <div class="dropdown-menu" uib-dropdown-menu>
+        <ul class="checklist">
+
+          <!-- alle items weergeven -->
+          <li ng-repeat="criteriaItem in criteria[getKeyInCriteriaBytitle(selectedCriteria.title)].items | orderBy:'label'" ng-if="selectedCriteria.multiplePossible">
+            <label ng-if="isCriteriaItemSelected(criteriaItem, selectedCriteria)" ng-click="filterCriteriaVerwijderen(criteriaItem, selectedCriteria)"><input type="checkbox" checked>{{ criteriaItem.label }}</label>
+            <label ng-if="!isCriteriaItemSelected(criteriaItem, selectedCriteria)" ng-click="filterCriteriaToevoegen(criteriaItem, selectedCriteria)"><input type="checkbox" >{{ criteriaItem.label }}</label>
+          </li>
+
+          <!-- items waarvan er maar één geselecteerd kan worden -->
+          <li ng-if="!selectedCriteria.multiplePossible">
+            <label ng-repeat="criteriumItem in criterium.items | orderBy:'label'" ng-click="filterCriteriaAanpassen(criteriaItem,selectedCriteria)"><input type="radio" name="selectedCriteria.title" ng-checked="selectedCriteria.items == criteriaItem.value">{{ criteriumItem.label }}</label>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter options/criteria toevoegen-->
+  <div class="btn-group" ng-hide="geselecteerdeCriteria.length == criteria.length">
+    <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown" title="Filtercriteria toevoegen">
+      <span class="glyphicon glyphicon-plus"></span>
+      <span class="hidden-label">Filtercriteria toevoegen</span>
+    </button>
+    <ul class="dropdown-menu">
+      <li ng-repeat="criteriaItem in criteria" ng-if="!inSelectedCriteria(criteriaItem.title)"><a ng-click="addSelectedCriteria(criteriaItem)">{{ criteriaItem.title }}</a></li>
+    </ul>
   </div>
 </div>
 
