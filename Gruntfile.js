@@ -15,10 +15,9 @@ module.exports = function(grunt) {
           yuicompress: true,
           optimization: 2,
           sourceMap: true,
-          sourceMapFilename: 'css/bootstrap.css.map', // where Grunt should put the file
-          sourceMapURL: 'bootstrap.css.map', // the complete url and filename put in the compiled css file
-          sourceMapBasepath: 'css', // Sets sourcemap base path, defaults to current working directory.
-          //sourceMapRootpath: '/', // adds this path onto the sourcemap filename and less file paths
+          sourceMapURL: 'bootstrap.css.map', // relative to css/bootstrap.css
+          sourceMapFilename: 'css/bootstrap.css.map', // relative to this Gruntfile.js
+          sourceMapRootpath: '..' // relative to the path in sourceMapFilename
         }
       }
     },
