@@ -5,9 +5,9 @@
     .module('ga.ledenlijstcontroller', [])
     .controller('LedenlijstController', LedenlijstController);
 
-  LedenlijstController.$inject = ['$q','$log', '$scope', 'LedenFilterService', 'RestService', '$window', 'keycloak'];
+  LedenlijstController.$inject = ['$q','$filter','$log', '$scope', 'LedenFilterService', 'RestService', '$window', 'keycloak'];
 
-  function LedenlijstController($q, $log, $scope, LFS, RestService, $window, keycloak) {
+  function LedenlijstController($q, $filter, $log, $scope, LFS, RestService, $window, keycloak) {
     // Kolommen sortable maken
     var index;
     $( ".sortable" ).sortable({
@@ -78,11 +78,11 @@
             var groepenCriteria = LFS.getCriteriaGroepen(result);
             $scope.criteria.push(groepenCriteria);
           });
-      promises[2] = RestService.Geslacht.get().$promise.then(
-        function(result){
-          var geslacht = result;
-          $scope.criteria.push(geslacht);
-        });
+      // promises[2] = RestService.Geslacht.get().$promise.then(
+      //   function(result){
+      //     var geslacht = result;
+      //     $scope.criteria.push(geslacht);
+      //   });
       promises[3] = RestService.Oudleden.get().$promise.then(
         function(result){
             var oudleden = result;
@@ -106,7 +106,7 @@
       );
       promises[7] = RestService.FilterDetails.get({id: filterId}).$promise.then(
         function (response) {
-          $log.debug('id', filterId);
+          $log.debug('filter: ' + filterId, response);
           $scope.currentFilter = response;
         });
 
@@ -116,8 +116,9 @@
         // alle criteria werden op de scope geplaatst
         // Roep nu filter op, op basis daarvan kunnen we criteria aan/uit zetten
         $scope.geselecteerdeCriteria = [];
-        $scope.activeerCriteria();
         $log.debug('criteria',$scope.criteria);
+        $scope.activeerCriteria();
+
 
       });
 
@@ -199,18 +200,16 @@
       // haal alle criteriaGroepen keys uit de geselecteerde filter
       _.each($scope.currentFilter.criteria,function(value, key){
         // indien de key overeenkomt, activeren we de criteriaGroep
-        var criteriaGroep = _.find($scope.criteria, {'criteriaKey': key });
+        // meerdere criteriaGroepen kunnen een zelfde key hebben
+        // (bvb. groepspecifieke functies hebben de criteriaKey 'functies')
+        var criteriaGroep = _.filter($scope.criteria, {'criteriaKey': key });
         if(criteriaGroep){
-          criteriaGroep.activated = true;
-          // zoek binnen de criteriaGroep naar values uit de opgehaalde filter
-          // indien item wordt gevonden, zet het actief
-          if(!criteriaGroep.multiplePossible){
-            _.find(criteriaGroep.items, {'value' : value}).activated = true;
-          } else {
-            _.each(value, function(v,k){
-                var item = _.find(criteriaGroep.items, {'value' : v});
-                if(item){item.activated = true;}
-            });
+          if(criteriaGroep.length>1){
+            _.each(criteriaGroep,function(v, k){
+              LFS.activeerGroepEnItems(v,value);
+            })
+          }else if(criteriaGroep.length == 1){
+            LFS.activeerGroepEnItems(criteriaGroep[0],value);
           }
         }
 
@@ -218,19 +217,15 @@
 
     }
 
-
-    // returnt de key/index van een criteria a.d.h.v. de titel
-/*
-    $scope.getKeyInCriteriaBytitle = function(title){
-      var criteriaKey;
-      angular.forEach($scope.criteria, function(value, key){
-        if(value.title == title){
-          criteriaKey =  key;
-          return
-        }
-      })
-      return criteriaKey;
-    }*/
+    $scope.isAllCriteriaActive = function(){
+      return $scope.criteria.length == $filter('filter')($scope.criteria, {activated: true}).length;
+    }
+    $scope.addLastCriteriumIfThereIsOnlyOneLeft = function(){
+      var deactivatedCriteria = $filter('filter')($scope.criteria, {activated: false});
+      if(deactivatedCriteria.length == 1){
+        deactivatedCriteria[0].activated = true;
+      }
+    }
 
     // controle is de criteria geselecteerd a.d.h.v. de titel
     $scope.inSelectedCriteria = function(title){

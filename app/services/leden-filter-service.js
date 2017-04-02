@@ -44,6 +44,21 @@
       return functieGroepen;
     }
 
+    ledenFilterService.activeerGroepEnItems = function(criteriaGroep,value){
+      criteriaGroep.activated = true;
+      // zoek binnen de criteriaGroep naar values uit de opgehaalde filter
+      // indien item wordt gevonden, zet het actief
+      if(!criteriaGroep.multiplePossible){
+        _.find(criteriaGroep.items, {'value' : value}).activated = true;
+      } else {
+        _.each(value, function(v,k){
+            var item = _.find(criteriaGroep.items, {'value' : v});
+            if(item){item.activated = true;}
+        });
+      }
+
+    }
+
     ledenFilterService.maakFunctieGroep = function(arrFuncties, titel){
       var functieGroep = {
                                title : titel.charAt(0).toUpperCase() + titel.slice(1),

@@ -122,16 +122,20 @@
 
       <div class="dropdown-menu" uib-dropdown-menu>
         <ul class="checklist">
-
           <!-- alle items weergeven -->
-          <li ng-repeat="criteriaItem in criteria[getKeyInCriteriaBytitle(selectedCriteria.title)].items | orderBy:'label'" ng-if="selectedCriteria.multiplePossible">
-            <label ng-if="isCriteriaItemSelected(criteriaItem, selectedCriteria)" ng-click="filterCriteriaVerwijderen(criteriaItem, selectedCriteria)"><input type="checkbox" checked>{{ criteriaItem.label }}</label>
-            <label ng-if="!isCriteriaItemSelected(criteriaItem, selectedCriteria)" ng-click="filterCriteriaToevoegen(criteriaItem, selectedCriteria)"><input type="checkbox" >{{ criteriaItem.label }}</label>
+          <li ng-if="criterium.multiplePossible" ng-repeat="criteriumItem in criterium.items | orderBy:'label'">
+            <label ng-click="filterCriteriaVerwijderen(criteriaItem, selectedCriteria)">
+              <input type="checkbox" ng-checked="criteriumItem.activated">
+              {{ criteriumItem.label }}
+            </label>
           </li>
 
           <!-- items waarvan er maar één geselecteerd kan worden -->
-          <li ng-if="!selectedCriteria.multiplePossible">
-            <label ng-repeat="criteriumItem in criterium.items | orderBy:'label'" ng-click="filterCriteriaAanpassen(criteriaItem,selectedCriteria)"><input type="radio" name="selectedCriteria.title" ng-checked="selectedCriteria.items == criteriaItem.value">{{ criteriumItem.label }}</label>
+          <li ng-if="!criterium.multiplePossible">
+            <label ng-repeat="criteriumItem in criterium.items | orderBy:'label'" ng-click="filterCriteriaAanpassen(criteriaItem,selectedCriteria)">
+              <input type="radio" name="selectedCriteria.title" ng-model="_.find(criterium.items, {'activated' : true}).value" value="criteriumItem.value">
+              {{ criteriumItem.label }}
+            </label>
           </li>
         </ul>
       </div>
@@ -139,13 +143,15 @@
   </div>
 
   <!-- Filter options/criteria toevoegen-->
-  <div class="btn-group" ng-hide="geselecteerdeCriteria.length == criteria.length">
-    <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown" title="Filtercriteria toevoegen">
+  <div class="btn-group" ng-hide="isAllCriteriaActive()">
+    <button type="button" ng-click="addLastCriteriumIfThereIsOnlyOneLeft()" class="btn btn-filter dropdown-toggle" data-toggle="dropdown" title="Filtercriteria toevoegen">
       <span class="glyphicon glyphicon-plus"></span>
       <span class="hidden-label">Filtercriteria toevoegen</span>
     </button>
     <ul class="dropdown-menu">
-      <li ng-repeat="criteriaItem in criteria" ng-if="!inSelectedCriteria(criteriaItem.title)"><a ng-click="addSelectedCriteria(criteriaItem)">{{ criteriaItem.title }}</a></li>
+      <li ng-repeat="criterium in criteria | filter : { activated : false}">
+        <a ng-click="criterium.activated = true">{{ criterium.title }}</a>
+      </li>
     </ul>
   </div>
 </div>
