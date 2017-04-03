@@ -284,10 +284,6 @@
       script.src = "https://maps.googleapis.com/maps/api/js?key=" + googleMapsKey;
       document.body.appendChild(script);
 
-      // Prevent filter-option-dropdowns from closing
-      $('#filterCollapse .dropdown-menu').on('click', function(e) {
-        e.stopPropagation();
-      });
 
       angular.element(document).ready(function() {
         window._keycloak = Keycloak(getClient());

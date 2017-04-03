@@ -14,8 +14,10 @@
     margin: 0 ;
     margin-bottom: 10px;
   }
-  .btn-group{
-    margin-bottom: 20px;
+
+  > .loading-filter-container{
+    color:white;
+    height: initial;
   }
 
 }
@@ -78,6 +80,10 @@
 
     &:hover .filter-option-close {
       display: inline;
+      color:@brand-primary;
+      &:hover{
+        color:white;
+      }
     }
   }
 }
@@ -98,7 +104,6 @@
   position: absolute;
   top: 16px;
   right: 15px;
-  color: #fff !important;
 }
 
 // Open-state for the dropdown
@@ -113,7 +118,6 @@
     text-shadow: none;
     background-color: #d9d9d9;
     border-bottom: 0;
-    .border-bottom-radius(0);
 
     &:hover {
       #gradient .vertical(rgba(0,0,0,0.12), rgba(0,0,0,0));
@@ -123,19 +127,14 @@
       }
     }
   }
-
-  .filter-option-subtitle {
-    height: 0;
-  }
 }
 
 .filter-option .dropdown-menu {
   width: 100%;
   margin: 0;
-  padding: 0 4px 4px 4px;
-  background-color: #d9d9d9;
-  border-top: 0;
-  .border-top-radius(0);
+  background-color: #fff;
+  margin-top: 1px;
+  padding:0;
 }
 
 .checklist {
