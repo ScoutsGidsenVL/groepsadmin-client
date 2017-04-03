@@ -228,7 +228,6 @@
     }
 
     $scope.toggleCriteriumItem = function(criterium){
-      console.log("Toggle criterium", criterium);
       if(criterium && !criterium.activated){
         criterium.activated = true;
       }else{
@@ -238,7 +237,6 @@
 
     $scope.getCriteriumSubtitleSuffix = function(criterium){
       var actCritLength = _.filter(criterium.items, {'activated' : true}).length;
-      console.log("actCritLength-----",actCritLength);
       var str = '';
       if( actCritLength > 3){
         str = ', ...';
