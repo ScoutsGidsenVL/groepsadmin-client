@@ -10,25 +10,25 @@
   function LedenlijstController($q, $filter, $log, $scope, LFS, RestService, $window, keycloak) {
     // Kolommen sortable maken
     var index;
-    $( ".sortable" ).sortable({
-      placeholder: "placeholder-kolom-kop",
-      helper: "clone",
-      start : function(event, ui){
-        index =  ui.item.index();
-      },
-      stop : function(event, ui){
-        $(".placeholder-body").remove();
-        // To-Do filter aanpassen
-        // To-Do Leden wissen
-        // TO-Do nieuwe leden ophalen
-        console.log(ui.item.index());
-      },
-      change : function(){
-        $( "table tbody tr td:nth-child(" + (index + 1) + ")" ).hide();
-        $(".placeholder-body").remove();
-        $("table tbody tr td:nth-child(" + $('.placeholder-kolom-kop').index() + ")" ).after('<td class="placeholder-body" style="background-color: #A9C593;"></td>');
-      }
-    });
+    // $( ".sortable" ).sortable({
+    //   placeholder: "placeholder-kolom-kop",
+    //   helper: "clone",
+    //   start : function(event, ui){
+    //     index =  ui.item.index();
+    //   },
+    //   stop : function(event, ui){
+    //     $(".placeholder-body").remove();
+    //     // To-Do filter aanpassen
+    //     // To-Do Leden wissen
+    //     // TO-Do nieuwe leden ophalen
+    //     console.log(ui.item.index());
+    //   },
+    //   change : function(){
+    //     $( "table tbody tr td:nth-child(" + (index + 1) + ")" ).hide();
+    //     $(".placeholder-body").remove();
+    //     $("table tbody tr td:nth-child(" + $('.placeholder-kolom-kop').index() + ")" ).after('<td class="placeholder-body" style="background-color: #A9C593;"></td>');
+    //   }
+    // });
 
     // controle on resize
     angular.element($window).bind('resize', function () {
@@ -225,6 +225,28 @@
       if(deactivatedCriteria.length == 1){
         deactivatedCriteria[0].activated = true;
       }
+    }
+
+    $scope.toggleCriteriumItem = function(criterium){
+      console.log("Toggle criterium", criterium);
+      if(criterium && !criterium.activated){
+        criterium.activated = true;
+      }else{
+        criterium.activated = false;
+      }
+    }
+
+    $scope.getCriteriumSubtitleSuffix = function(criterium){
+      var actCritLength = _.filter(criterium.items, {'activated' : true}).length;
+      console.log("actCritLength-----",actCritLength);
+      var str = '';
+      if( actCritLength > 3){
+        str = ', ...';
+      }
+      if(actCritLength == 0){
+        str = '\u00A0';
+      }
+      return str;
     }
 
     // controle is de criteria geselecteerd a.d.h.v. de titel

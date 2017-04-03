@@ -106,6 +106,7 @@
     <div class="btn-group filter-option" uib-dropdown keyboard-nav="true" auto-close="disabled">
       <button type="button" class="btn btn-filter dropdown-toggle" uib-dropdown-toggle>
         <span class="filter-option-title">{{ criterium.title }}</span>
+        <!--
         <span class="filter-option-subtitle" ng-if="criterium.multiplePossible">
           <span ng-repeat="selectedCriteriaItem in selectedCriteria.items">{{selectedCriteriaItem.label}}
             <span ng-if="!$last">,&nbsp;</span>
@@ -114,30 +115,58 @@
             &nbsp;
           </span>
         </span>
-        <span class="filter-option-subtitle" ng-if="!criterium.multiplePossible">
-         {{ _.find(criterium.items, {'activated' : true}).label }}
+        -->
+        <span class="filter-option-subtitle">
+          <span ng-repeat="criteriumItem in criterium.items | filter:{activated:true} | orderBy:'label' | limitTo : 3">
+             {{ criteriumItem.label }}
+             <span ng-if="!$last">,</span>
+          </span>
+          <span>{{ getCriteriumSubtitleSuffix(criterium) }}</span>
         </span>
         <a ng-click="criterium.activated = false" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
       </button>
 
       <div class="dropdown-menu" uib-dropdown-menu>
+        <!-- New checkbox-->
+        <div class="control-group">
+          <label
+            ng-if="criterium.multiplePossible"
+            ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
+            class="control control--checkbox">
+            {{ criteriumItem.label }}
+            <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem)" ng-checked="criteriumItem.activated"/>
+            <div class="control__indicator"></div>
+          </label>
+
+          <label
+            ng-if="!criterium.multiplePossible"
+            ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
+            class="control control--radio">
+            {{ criteriumItem.label }}
+            <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem)" ng-checked="criteriumItem.activated">
+            <div class="control__indicator"></div>
+          </label>
+        </div>
+        <!-- alle items weergeven
         <ul class="checklist">
-          <!-- alle items weergeven -->
+
           <li ng-if="criterium.multiplePossible" ng-repeat="criteriumItem in criterium.items | orderBy:'label'">
-            <label ng-click="filterCriteriaVerwijderen(criteriaItem, selectedCriteria)">
-              <input type="checkbox" ng-checked="criteriumItem.activated">
-              {{ criteriumItem.label }}
+            <label ng-click="toggleCriteriumItem(criteriumItem)">
+              <div class="criteriumlabel criteriumlabel--checkbox" ng-class="{'act' : criteriumItem.activated }">
+                {{ criteriumItem.label }}
+              </div>
             </label>
           </li>
 
-          <!-- items waarvan er maar één geselecteerd kan worden -->
           <li ng-if="!criterium.multiplePossible">
-            <label ng-repeat="criteriumItem in criterium.items | orderBy:'label'" ng-click="filterCriteriaAanpassen(criteriaItem,selectedCriteria)">
-              <input type="radio" name="selectedCriteria.title" ng-model="_.find(criterium.items, {'activated' : true}).value" value="criteriumItem.value">
-              {{ criteriumItem.label }}
+            <label ng-repeat="criteriumItem in criterium.items | orderBy:'label'">
+              <div class="criteriumlabel criteriumlabel--radio" ng-class="{'act' : criteriumItem.activated }">
+                {{ criteriumItem.label }}
+              </div>
             </label>
           </li>
         </ul>
+        -->
       </div>
     </div>
   </div>
