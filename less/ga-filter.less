@@ -14,8 +14,10 @@
     margin: 0 ;
     margin-bottom: 10px;
   }
-  .btn-group{
-    margin-bottom: 20px;
+
+  > .loading-filter-container{
+    color:white;
+    height: initial;
   }
 
 }
@@ -78,6 +80,10 @@
 
     &:hover .filter-option-close {
       display: inline;
+      color:@brand-primary;
+      &:hover{
+        color:white;
+      }
     }
   }
 }
@@ -98,7 +104,6 @@
   position: absolute;
   top: 16px;
   right: 15px;
-  color: #fff !important;
 }
 
 // Open-state for the dropdown

@@ -10,6 +10,14 @@
   function LedenlijstController($q, $filter, $log, $scope, LFS, RestService, $window, keycloak) {
     // Kolommen sortable maken
     var index;
+
+    $scope.isLoadingFilters = true;
+
+    $scope.busy = false;
+    $scope.end = false;
+    $scope.aantalPerPagina = 10;
+    $scope.leden = [];
+
     // $( ".sortable" ).sortable({
     //   placeholder: "placeholder-kolom-kop",
     //   helper: "clone",
@@ -40,6 +48,8 @@
     stelFilterSamen();
 
     function stelFilterSamen(id){
+      // loading spinner van Filters
+      $scope.isLoadingFilters = true;
 
       $scope.criteria = [];
       // huidige filter ophalen en verwerken;
@@ -210,6 +220,7 @@
         }
 
       });
+      $scope.isLoadingFilters = false;
 
     }
 
@@ -305,6 +316,7 @@
      */
 
     $scope.setFilter = function(filter){
+
       stelFilterSamen(filter.id)
       // resultaat wissen,
 
@@ -346,10 +358,6 @@
      * Infinity scroll
      * -----------------------------------------------------------
      */
-    $scope.busy = false;
-    $scope.end = false;
-    $scope.aantalPerPagina = 10;
-    $scope.leden = [];
 
     // controle moet er meer leden ingeladen worden
     $scope.meerLaden = function(last){

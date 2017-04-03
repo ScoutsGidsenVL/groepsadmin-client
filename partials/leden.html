@@ -10,7 +10,7 @@
       </button>
       <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
         <li ng-if="!(filters.length > 0)">Geen filters</li>
-        <li role="menuitem" ng-repeat="filter in filters"><a href ng-click="setFilter(filter)">{{ filter.naam }}</a></li>
+        <li role="menuitem" ng-repeat="filter in filters | orderBy:'naam'"><a href ng-click="setFilter(filter)">{{ filter.naam }}</a></li>
       </ul>
     </div>
 
@@ -31,7 +31,12 @@
 </div>
 
 <div class="panel-filter row-fluid clearfix collapse" uib-collapse="isFilterCollapsed">
-  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12" ng-repeat="criterium in criteria | filter:{activated:true}">
+  <div ng-if="isLoadingFilters" class="loading-filter-container">
+    <i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria aan het laden...
+  </div>
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12"
+  ng-repeat="criterium in criteria | filter:{activated:true} | orderBy:'title'"
+  ng-if="!isLoadingFilters">
     <!-- Filter options/criteria -->
     <div class="btn-group filter-option" uib-dropdown keyboard-nav="true" auto-close="disabled">
       <button type="button" class="btn btn-filter dropdown-toggle" uib-dropdown-toggle>
@@ -67,38 +72,20 @@
             <div class="control__indicator"></div>
           </label>
         </div>
-        <!-- alle items weergeven
-        <ul class="checklist">
-
-          <li ng-if="criterium.multiplePossible" ng-repeat="criteriumItem in criterium.items | orderBy:'label'">
-            <label ng-click="toggleCriteriumItem(criteriumItem)">
-              <div class="criteriumlabel criteriumlabel--checkbox" ng-class="{'act' : criteriumItem.activated }">
-                {{ criteriumItem.label }}
-              </div>
-            </label>
-          </li>
-
-          <li ng-if="!criterium.multiplePossible">
-            <label ng-repeat="criteriumItem in criterium.items | orderBy:'label'">
-              <div class="criteriumlabel criteriumlabel--radio" ng-class="{'act' : criteriumItem.activated }">
-                {{ criteriumItem.label }}
-              </div>
-            </label>
-          </li>
-        </ul>
-        -->
       </div>
     </div>
   </div>
 
   <!-- Filter options/criteria toevoegen-->
-  <div class="btn-group" ng-hide="isAllCriteriaActive()">
+  <div class="btn-group"
+  ng-hide="isAllCriteriaActive()"
+  ng-if="!isLoadingFilters">
     <button type="button" ng-click="addLastCriteriumIfThereIsOnlyOneLeft()" class="btn btn-filter dropdown-toggle" data-toggle="dropdown" title="Filtercriteria toevoegen">
       <span class="glyphicon glyphicon-plus"></span>
       <span class="hidden-label">Filtercriteria toevoegen</span>
     </button>
     <ul class="dropdown-menu">
-      <li ng-repeat="criterium in criteria | filter : { activated : false}">
+      <li ng-repeat="criterium in criteria | filter : { activated : false} | orderBy:'title'">
         <a ng-click="criterium.activated = true">{{ criterium.title }}</a>
       </li>
     </ul>

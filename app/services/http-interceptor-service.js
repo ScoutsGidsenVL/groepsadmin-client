@@ -33,7 +33,7 @@
         else if (rejection.data) {
           console.log(rejection);
           // Tijdelijke server errors (Todo)
-          AlertService.add('danger', "<b>" + rejection.data.title + "</b><br/>" + rejection.data.details[0].veld + " " + rejection.data.details[0].titel);
+          AlertService.add('danger', "<b>" + JSON.stringify(rejection.data) + "</b><br/>" );
         }
         else{
           console.log(rejection);
