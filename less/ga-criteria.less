@@ -19,9 +19,10 @@
   display: block;
   position: relative;
   padding-left: 30px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   cursor: pointer;
   font-weight:normal;
+  line-height:1.6em;
 }
 .control input {
   position: absolute;
@@ -60,6 +61,10 @@
   content: '';
   position: absolute;
   display: none;
+  // hack to undo the defaults of scaffolding.less
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: content-box;
 }
 .control input:checked ~ .control__indicator:after {
   display: block;
