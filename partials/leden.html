@@ -54,7 +54,7 @@
             ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
             class="control control--checkbox">
             {{ criteriumItem.label }}
-            <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem)" ng-checked="criteriumItem.activated"/>
+            <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'checkbox')" ng-checked="criteriumItem.activated"/>
             <div class="control__indicator"></div>
           </label>
 
@@ -63,7 +63,7 @@
             ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
             class="control control--radio">
             {{ criteriumItem.label }}
-            <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem)" ng-checked="criteriumItem.activated">
+            <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'radio',criterium.items)" ng-checked="criteriumItem.activated">
             <div class="control__indicator"></div>
           </label>
         </div>

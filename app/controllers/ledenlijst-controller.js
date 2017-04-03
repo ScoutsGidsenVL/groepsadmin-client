@@ -58,12 +58,15 @@
 
           // functieGroep maken van functies met type 'verbond'
           var functieGroepVerbond = LFS.maakFunctieGroepVerbond(functies);
+          functieGroepVerbond.activated = false;
           // functieGroepen maken van functies met type 'groep'
           var groepSpecifiekeFunctieGroepen = LFS.maakGroepSpecifiekeFunctieGroepen(functies);
 
           var functieGroepen = [];
+
           functieGroepen.push(functieGroepVerbond);
           _.each(groepSpecifiekeFunctieGroepen,function(value,key){
+            value.activated = false;
             functieGroepen.push(value);
           });
 
@@ -76,21 +79,25 @@
       promises[1] = RestService.Groepen.get().$promise.then(
           function(result){
             var groepenCriteria = LFS.getCriteriaGroepen(result);
+            groepenCriteria.activated = false;
             $scope.criteria.push(groepenCriteria);
           });
-      // promises[2] = RestService.Geslacht.get().$promise.then(
-      //   function(result){
-      //     var geslacht = result;
-      //     $scope.criteria.push(geslacht);
-      //   });
+      promises[2] = RestService.Geslacht.get().$promise.then(
+        function(result){
+          var geslacht = result;
+          geslacht.activated = false;
+          $scope.criteria.push(geslacht);
+        });
       promises[3] = RestService.Oudleden.get().$promise.then(
         function(result){
             var oudleden = result;
+            oudleden.activated = false;
             $scope.criteria.push(oudleden);
         });
       promises[4] = RestService.GeblokkeerdAdres.get().$promise.then(
         function(result){
           var geblokkeerdAdres = result;
+          geblokkeerdAdres.activated = false;
           $scope.criteria.push(geblokkeerdAdres);
         }
       );
@@ -110,7 +117,6 @@
           $scope.currentFilter = response;
         });
 
-
       $q.all(promises).then(function () {
         // hier zijn alle calls (promises) resolved
         // alle criteria werden op de scope geplaatst
@@ -118,8 +124,6 @@
         $scope.geselecteerdeCriteria = [];
         $log.debug('criteria',$scope.criteria);
         $scope.activeerCriteria();
-
-
       });
 
       // Filter ophalen adhv filterId
@@ -127,7 +131,6 @@
 
       RestService.FilterDetails.get({id: filterId}).$promise.then(
         function (response) {
-
           $scope.geselecteerdeCriteria = [];
           $scope.currentFilter = response;
 
@@ -135,11 +138,7 @@
 
             // neem alle functies uit criteria.functie 'functie' criteria
             // activeer alle functies
-
-
             if(key === "functies") {
-
-
               RestService.Functies.get().$promise.then(
                 function (response) {
                   //$log.debug("Functies---", response);
@@ -155,7 +154,6 @@
                   });
                 }
               );
-
             }
             else if(key === "groepen") {
                 var items = [];
@@ -187,8 +185,6 @@
                 $scope.geselecteerdeCriteria.push(tempselectedCriteria);
             }
           });
-
-          //$log.debug('selected criteria----', $scope.geselecteerdeCriteria);
         }
       );
     }
@@ -227,11 +223,19 @@
       }
     }
 
-    $scope.toggleCriteriumItem = function(criterium){
-      if(criterium && !criterium.activated){
-        criterium.activated = true;
-      }else{
-        criterium.activated = false;
+    $scope.toggleCriteriumItem = function(criteriumItem, type, criteriumItems){
+      if(type == 'checkbox'){
+        if(criteriumItem && !criteriumItem.activated){
+          criteriumItem.activated = true;
+        }else{
+          criteriumItem.activated = false;
+        }
+      }else if(type == 'radio'){
+        _.each(criteriumItems,function(value, key){
+          //console.log('radio------ criteriumItems' , value, key)
+          value.activated = false;
+        })
+        criteriumItem.activated = true;
       }
     }
 
@@ -261,63 +265,6 @@
       }
       return false;
     }
-
-    // criteria  toevoegen aan de geselecteerde criteria
-    $scope.addSelectedCriteria =function(criteriaItem){
-      $scope.geselecteerdeCriteria.push({
-                                        title : criteriaItem.title,
-                                        creteriaKey : criteriaItem.creteriaKey,
-                                        multiplePossible : criteriaItem.multiplePossible,
-                                        items : []
-                                        });
-    }
-
-    // criteria  wissen uit de geselecteerde criteria
-    $scope.closeCriteria = function(selectedCriteria){
-      var criteriaKey;
-      angular.forEach($scope.geselecteerdeCriteria, function(value, key){
-        if(value.title == selectedCriteria.title){
-          criteriaKey =  key;
-          return;
-        }
-      })
-      $scope.geselecteerdeCriteria.splice(criteriaKey,1);
-
-      //TO-DO: delete from filtermodel
-      //TO-DO: nieuwe leden ophalen
-    }
-
-
-    // controle is het criteriaitem geselecteerd
-    $scope.isCriteriaItemSelected= function(criteriaItem, selectedCriteria){
-      var itemsLength = selectedCriteria.items.length
-      for(var i = 0; i < itemsLength; i++){
-        if(selectedCriteria.items[i].value == criteriaItem.value){
-          return true;
-        }
-      }
-      return false;
-
-    }
-
-    // label
-    /*
-    $scope.getLabelForValue = function(value, selectedCriteria){
-      var label = '';
-      angular.forEach($scope.criteria, function(criteria){
-        if(criteria.title == selectedCriteria.title){
-          angular.forEach(criteria.items, function(item){
-            if(item.value == value){
-              label = item.label;
-              return
-            }
-          });
-          return
-        }
-      });
-      return label;
-    }
-    */
 
     $scope.kolomInFilter = function(kolom){
       var returnVal = false;
