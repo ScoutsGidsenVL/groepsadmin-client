@@ -292,7 +292,7 @@
 
       var filterObj = {};
       filterObj.criteria = {};
-      filterObj.criteria.oudleden = false;
+      filterObj.criteria.oudleden = true;
 
       RestService.UpdateFilter.update({id: 'huidige'}, filterObj).$promise.then(
         function(response){
