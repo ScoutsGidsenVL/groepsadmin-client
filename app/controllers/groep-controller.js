@@ -18,19 +18,19 @@
         //tijdelijk extra velden toevoegen aan het resultaat
         angular.forEach(result.groepen, function(value){
           value.vga = {
-            "naam": "Nathan Wuyts",
-            "email": "vga@scoutslatem.be"
+            "naam": "Luke Skywalker",
+            "email": "luke@walkingin.sky"
           };
           value.groepsleiding = [
             {
-              "naam": "Joke Scheerder",
-              "email": "joke@scheerder.be"
+              "naam": "Foo bar",
+              "email": "foo@bar.com"
             },
             {
-              "naam": "Bram Scheerder",
-              "email": "bram@scheerder.be"
+              "naam": "John doe",
+              "email": "john@doe.com"
             }];
-            
+
           value.adres = [
             value.adres
           ];

@@ -1,7 +1,7 @@
 {
   "title" : "Oudleden",
   "criteriaKey" : "oudleden",
-  "multiplePossible" : false,
+  "multiplePossible" : true,
   "items" : [
             {
               "value" : true,

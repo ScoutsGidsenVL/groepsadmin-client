@@ -277,6 +277,39 @@
       return false;
     }
 
+    $scope.applyFilter = function(){
+      // $scope.patchFilter();
+      // $scope.getPatchedFilter();
+      // get leden mbh gepatchete filter
+      console.log('apply Filter criteria : ', $scope.criteria);
+      //console.log('activated', _.filter($scope.criteria, {"activated":true}));
+      var actFilterCrit  = _.filter($scope.criteria, {"activated":true});
+      var oudLeden = _.find(actFilterCrit, {"criteriaKey":"oudleden"});
+      var oudLedenActivatedItems = _.filter(oudLeden.items, {"activated": true } );
+
+
+      console.log('oudeLeden actief criterium', oudLedenActivatedItems);
+
+      var filterObj = {};
+      filterObj.criteria = {};
+      filterObj.criteria.oudleden = false;
+
+      RestService.UpdateFilter.update({id: 'huidige'}, filterObj).$promise.then(
+        function(response){
+          console.log("response of patch", response);
+          RestService.FilterDetails.get({id: 'huidige'}).$promise.then(
+            function (response) {
+              $log.debug('nieuwe filter huidige: ', response);
+            });
+        }
+
+      );
+
+
+
+
+    }
+
     $scope.kolomInFilter = function(kolom){
       var returnVal = false;
       angular.forEach($scope.currentFilter.kolommen, function(val){

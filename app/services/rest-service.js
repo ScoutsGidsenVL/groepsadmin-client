@@ -102,6 +102,15 @@
         {id: '@id'},
         {'get': {method: 'GET', cache: false}}
       ),
+      UpdateFilter: $resource(
+        base + 'ledenlijst/filter/:id',
+        {id: '@id'},
+        {
+          'update': {
+            method: 'PATCH', cache: false
+          }
+        }
+      ),
       Filters: $resource(
         base + 'ledenlijst/filter',
         {},
@@ -132,6 +141,7 @@
   }
 
   function changesOnly(data) {
+    console.log('changesOnly --- ', data)
     if(data.changes) {
       var changes = new Object();
       //changes.id = data.id;  // id verplicht meesturen
