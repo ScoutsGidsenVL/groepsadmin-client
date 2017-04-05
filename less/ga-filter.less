@@ -5,7 +5,7 @@
 .panel-filter {
   position: relative;
   background-color: @brand-primary;
-  padding: @fluid-grid-gutter-width/2 75px @fluid-grid-gutter-width/2 @fluid-grid-gutter-width/2;
+  padding: @fluid-grid-gutter-width/2 @fluid-grid-gutter-width/2 @fluid-grid-gutter-width/2;
 
   > div {
     float: left;
@@ -24,26 +24,17 @@
 
 // Customized button design in filter bar
 // -------------------------
-.btn-filter {
-  color: #fff;
-  text-shadow: 0 1px 1px rgba(0,0,0,0.5);
-  background-color: darken(@brand-primary, 5%);
-  border: 1px solid darken(@brand-primary, 10%);
-
-  &:hover {
-    background-color: darken(@brand-primary, 8%);
-    border-color: darken(@brand-primary, 13%);
-  }
-  &:hover,
-  &:active,
-  &:focus {
-    color: #fff;
-  }
+.btn-filter{
+  .filter-button(@brand-primary);
+}
+.btn-apply{
+  .filter-button(@brand-warning);
 }
 
 // New Filter button
 // -------------------------
-.btn-filter .glyphicon-plus {
+.btn-filter .glyphicon-plus,
+.btn-apply .glyphicon-ok {
   padding: 9px 5px 14px 6px;
 }
 
@@ -132,9 +123,11 @@
 .filter-option .dropdown-menu {
   width: 100%;
   margin: 0;
-  background-color: #fff;
-  margin-top: 1px;
+  background-color: #fafafa;
   padding:0;
+  border-top:none;
+  -webkit-box-shadow: inset 0 3px -5px rgba(0,0,0,0.125);
+  box-shadow: inset 0 3px -5px rgba(0,0,0,0.125);
 }
 
 .checklist {
@@ -182,5 +175,23 @@
 
   &:not(:first-child) {
     padding-top: 9px;
+  }
+}
+
+//Filter button mixin
+.filter-button(@colour: @brand-primary){
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+  background-color: darken(@colour, 5%);
+  border: 1px solid darken(@colour, 10%);
+
+  &:hover {
+    background-color: darken(@colour, 8%);
+    border-color: darken(@colour, 13%);
+  }
+  &:hover,
+  &:active,
+  &:focus {
+    color: #fff;
   }
 }

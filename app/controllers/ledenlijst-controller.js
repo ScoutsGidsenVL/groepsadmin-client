@@ -51,7 +51,7 @@
       // loading spinner van Filters
       $scope.isLoadingFilters = true;
 
-      $scope.criteria = [];
+      var arrCriteria = [];
       // huidige filter ophalen en verwerken;
       // als er geen filterId is, neem 'huidige'
       var filterId = id ? id : 'huidige';
@@ -82,7 +82,7 @@
 
           // aangemaakte functieGroepen toevoegen aan de criteria.
           _.each(functieGroepen, function(value){
-            $scope.criteria.push(value);
+            arrCriteria.push(value);
           });
 
         });
@@ -90,25 +90,25 @@
           function(result){
             var groepenCriteria = LFS.getCriteriaGroepen(result);
             groepenCriteria.activated = false;
-            $scope.criteria.push(groepenCriteria);
+            arrCriteria.push(groepenCriteria);
           });
       promises[2] = RestService.Geslacht.get().$promise.then(
         function(result){
           var geslacht = result;
           geslacht.activated = false;
-          $scope.criteria.push(geslacht);
+          arrCriteria.push(geslacht);
         });
       promises[3] = RestService.Oudleden.get().$promise.then(
         function(result){
             var oudleden = result;
             oudleden.activated = false;
-            $scope.criteria.push(oudleden);
+            arrCriteria.push(oudleden);
         });
       promises[4] = RestService.GeblokkeerdAdres.get().$promise.then(
         function(result){
           var geblokkeerdAdres = result;
           geblokkeerdAdres.activated = false;
-          $scope.criteria.push(geblokkeerdAdres);
+          arrCriteria.push(geblokkeerdAdres);
         }
       );
       promises[5] = RestService.Kolommen.get().$promise.then(
@@ -132,7 +132,8 @@
         // alle criteria werden op de scope geplaatst
         // Roep nu filter op, op basis daarvan kunnen we criteria aan/uit zetten
         $scope.geselecteerdeCriteria = [];
-        $log.debug('criteria',$scope.criteria);
+        $log.debug('criteria',arrCriteria);
+        $scope.criteria = arrCriteria;
         $scope.activeerCriteria();
       });
 
@@ -278,23 +279,11 @@
     }
 
     $scope.applyFilter = function(){
-      // $scope.patchFilter();
-      // $scope.getPatchedFilter();
-      // get leden mbh gepatchete filter
-      console.log('apply Filter criteria : ', $scope.criteria);
-      //console.log('activated', _.filter($scope.criteria, {"activated":true}));
-      var actFilterCrit  = _.filter($scope.criteria, {"activated":true});
-      var oudLeden = _.find(actFilterCrit, {"criteriaKey":"oudleden"});
-      var oudLedenActivatedItems = _.filter(oudLeden.items, {"activated": true } );
 
-
-      console.log('oudeLeden actief criterium', oudLedenActivatedItems);
-
-      var filterObj = {};
-      filterObj.criteria = {};
-      filterObj.criteria.oudleden = true;
-
-      RestService.UpdateFilter.update({id: 'huidige'}, filterObj).$promise.then(
+      var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
+      var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, $scope.currentFilter);
+      $log.debug(reconstructedFilterObj, '<------ reconstructedFilterObj');
+      RestService.UpdateFilter.update({id: 'huidige'}, reconstructedFilterObj).$promise.then(
         function(response){
           console.log("response of patch", response);
           RestService.FilterDetails.get({id: 'huidige'}).$promise.then(
@@ -302,12 +291,7 @@
               $log.debug('nieuwe filter huidige: ', response);
             });
         }
-
       );
-
-
-
-
     }
 
     $scope.kolomInFilter = function(kolom){

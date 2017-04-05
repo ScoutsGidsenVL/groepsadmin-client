@@ -24,7 +24,7 @@
 
     var base = apiRoot + '/rest-ga/';
     var baseGis = apiRoot + '/rest/gis/';
-    var basejson = "data/"; // relatief pad
+    var basejson = "/data/";
 
     return {
       Lid: $resource(
@@ -107,7 +107,7 @@
         {id: '@id'},
         {
           'update': {
-            method: 'PATCH', cache: false
+            method: 'PATCH', transformRequest: changesOnly, cache: false
           }
         }
       ),

@@ -178,6 +178,62 @@
       return tempKey;
     }
 
+    ledenFilterService.getReconstructedFilterObject = function(activeCriteria, currentFilter){
+      // reconstrueer het Filter object:
+      // TODO: rewrite to be more generic, using multiplePossible property, for 'functies' some extra logic will be needed
+
+      var patchedFilterObj = currentFilter;
+      patchedFilterObj.criteria = {};
+
+      var reconstructedFilterObj = {};
+      reconstructedFilterObj.criteria = {};
+      // maak het criteria object adhv geactiveerde criteria en criteriaItems
+      // groepen
+      reconstructedFilterObj.criteria.groepen = [];
+      var temp = _.filter(_.find(activeCriteria, {"criteriaKey":"groepen"}).items, {'activated': true});
+      if(temp && temp.length > 0){
+        var arrTemp = [];
+        _.each(temp, function(val){
+          arrTemp.push(val.value);
+        });
+        reconstructedFilterObj.criteria.groepen = arrTemp;
+      }
+
+      // functies
+      reconstructedFilterObj.criteria.functies = [];
+      _.each(_.filter(activeCriteria, {"criteriaKey":"functies"}), function(value, key){
+        var temp = _.filter(value.items, {'activated': true});
+        if(temp && temp.length > 0){
+          var arrTemp = [];
+          _.each(temp, function(val){
+            reconstructedFilterObj.criteria.functies.push(val.value);
+          });
+        }
+      });
+
+      // adresgeblokeerd
+      reconstructedFilterObj.criteria.adresgeblokeerd = _.find(_.find(activeCriteria, {"criteriaKey":"adresgeblokeerd"}).items, {'activated': true}).value;
+
+      // oudleden (idem groepen)
+      reconstructedFilterObj.criteria.oudleden = false;
+      // temp = _.filter(_.find(activeCriteria, {"criteriaKey":"oudleden"}).items, {'activated': true});
+      // if(temp && temp.length > 0){
+      //   var arrTemp = [];
+      //   _.each(temp, function(val){
+      //     arrTemp.push(val.value);
+      //   });
+      //   reconstructedFilterObj.criteria.oudleden = arrTemp;
+      // }
+
+      reconstructedFilterObj.kolommen = patchedFilterObj.kolommen;
+      reconstructedFilterObj.groepen = patchedFilterObj.groepen;
+      reconstructedFilterObj.sortering = patchedFilterObj.sortering;
+      reconstructedFilterObj.type = patchedFilterObj.type;
+      reconstructedFilterObj.links = patchedFilterObj.links;
+
+      return reconstructedFilterObj;
+    }
+
 
     return ledenFilterService;
   };

@@ -91,8 +91,13 @@
     </ul>
   </div>
 
-  <div class="apply">
-    <button ng-click="applyFilter()">Filter Toepassen</button>
+  <div class="pull-right col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12" ng-show="!isLoadingFilters">
+    <div class="btn-group filter-option">
+      <button type="button" ng-click="applyFilter()" class="btn btn-apply" title="Criteria toepassen">
+        <span class="glyphicon glyphicon-ok"></span>
+        <span class="hidden-label">Criteria toepassen</span>
+      </button>
+    </div>
   </div>
 </div>
 
