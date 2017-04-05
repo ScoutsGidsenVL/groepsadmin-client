@@ -5,13 +5,91 @@
     .module('ga.services.ledenfilter', [])
     .factory('LedenFilterService', LedenFilterService);
 
-  LedenFilterService.$inject = ['$log'];
+  LedenFilterService.$inject = ['$log','RestService'];
 
   // Deze service bevat een aantal helper functies die voornamelijk worden gebruikt door de LedenlijstController
   // bvb. voor het samenstellen van filters en criteria
 
-  function LedenFilterService($log) {
+  function LedenFilterService($log, RestService) {
     var ledenFilterService = {};
+
+
+    ledenFilterService.getCriteriaAndFilters = function(filterId){
+      var returnObj = {};
+      returnObj.kolommen = [];
+      returnObj.filters = [];
+      returnObj.currentFilter = {};
+      returnObj.arrCriteria = [];
+
+      returnObj.promises = [];
+      returnObj.promises[0] = RestService.Functies.get().$promise.then(
+        function(result){
+          var functies = result.functies;
+          var functieGroepen = [];
+
+          // functieGroep maken van functies met type 'verbond'
+          var functieGroepVerbond = ledenFilterService.maakFunctieGroepVerbond(functies);
+          functieGroepVerbond.activated = false;
+          // functieGroepen maken van functies met type 'groep'
+          var groepSpecifiekeFunctieGroepen = ledenFilterService.maakGroepSpecifiekeFunctieGroepen(functies);
+
+          var functieGroepen = [];
+
+          functieGroepen.push(functieGroepVerbond);
+          _.each(groepSpecifiekeFunctieGroepen,function(value,key){
+            value.activated = false;
+            functieGroepen.push(value);
+          });
+
+          // aangemaakte functieGroepen toevoegen aan de criteria.
+          _.each(functieGroepen, function(value){
+            returnObj.arrCriteria.push(value);
+          });
+
+        });
+      returnObj.promises[1] = RestService.Groepen.get().$promise.then(
+          function(result){
+            var groepenCriteria = ledenFilterService.getCriteriaGroepen(result);
+            groepenCriteria.activated = false;
+            returnObj.arrCriteria.push(groepenCriteria);
+          });
+      returnObj.promises[2] = RestService.Geslacht.get().$promise.then(
+        function(result){
+          var geslacht = result;
+          geslacht.activated = false;
+          returnObj.arrCriteria.push(geslacht);
+        });
+      returnObj.promises[3] = RestService.Oudleden.get().$promise.then(
+        function(result){
+            var oudleden = result;
+            oudleden.activated = false;
+            returnObj.arrCriteria.push(oudleden);
+        });
+      returnObj.promises[4] = RestService.GeblokkeerdAdres.get().$promise.then(
+        function(result){
+          var geblokkeerdAdres = result;
+          geblokkeerdAdres.activated = false;
+          returnObj.arrCriteria.push(geblokkeerdAdres);
+        }
+      );
+      returnObj.promises[5] = RestService.Kolommen.get().$promise.then(
+        function(result){
+          returnObj.kolommen = result.kolommen;
+        }
+      );
+      returnObj.promises[6] = RestService.Filters.get().$promise.then(
+        function (result){
+          returnObj.filters = result.filters;
+        }
+      );
+      returnObj.promises[7] = RestService.FilterDetails.get({id: filterId}).$promise.then(
+        function (response) {
+          $log.debug('filter: ' + filterId, response);
+          returnObj.currentFilter = response;
+        });
+
+      return returnObj;
+    }
 
     ledenFilterService.functieGroepNaamMaken = function(functie){
       if (functie.type == "groep"){
@@ -199,14 +277,18 @@
       // maak het criteria object adhv geactiveerde criteria en criteriaItems
       // groepen
       reconstructedFilterObj.criteria.groepen = [];
-      var temp = _.filter(_.find(activeCriteria, {"criteriaKey":"groepen"}).items, {'activated': true});
-      if(temp && temp.length > 0){
-        var arrTemp = [];
-        _.each(temp, function(val){
-          arrTemp.push(val.value);
-        });
-        reconstructedFilterObj.criteria.groepen = arrTemp;
+      var actieveGroepen = _.find(activeCriteria, {"criteriaKey":"groepen"});
+      if(actieveGroepen){
+        var temp = _.filter(actieveGroepen.items, {'activated': true});
+        if(temp && temp.length > 0){
+          var arrTemp = [];
+          _.each(temp, function(val){
+            arrTemp.push(val.value);
+          });
+          reconstructedFilterObj.criteria.groepen = arrTemp;
+        }
       }
+
 
       // functies
       reconstructedFilterObj.criteria.functies = [];

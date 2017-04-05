@@ -5,9 +5,9 @@
     .module('ga.ledenlijstcontroller', [])
     .controller('LedenlijstController', LedenlijstController);
 
-  LedenlijstController.$inject = ['$q','$filter','$log', '$scope', 'LedenFilterService', 'RestService', '$window', 'keycloak'];
+  LedenlijstController.$inject = ['$q','$filter','$log', '$scope', 'LedenFilterService', 'LedenLijstService', 'RestService', '$window', 'keycloak'];
 
-  function LedenlijstController($q, $filter, $log, $scope, LFS, RestService, $window, keycloak) {
+  function LedenlijstController($q, $filter, $log, $scope, LFS, LLS, RestService, $window, keycloak) {
     // Kolommen sortable maken
     var index;
 
@@ -60,80 +60,17 @@
       // functies ophalen om functiegroepen van het 'verbond' en de 'groep' samen te stellen
       // TODO: Resultaten van deze calls opslaan in localstorage
 
-      var promises = [];
-      promises[0] = RestService.Functies.get().$promise.then(
-        function(result){
-          var functies = result.functies;
-          var functieGroepen = [];
-
-          // functieGroep maken van functies met type 'verbond'
-          var functieGroepVerbond = LFS.maakFunctieGroepVerbond(functies);
-          functieGroepVerbond.activated = false;
-          // functieGroepen maken van functies met type 'groep'
-          var groepSpecifiekeFunctieGroepen = LFS.maakGroepSpecifiekeFunctieGroepen(functies);
-
-          var functieGroepen = [];
-
-          functieGroepen.push(functieGroepVerbond);
-          _.each(groepSpecifiekeFunctieGroepen,function(value,key){
-            value.activated = false;
-            functieGroepen.push(value);
-          });
-
-          // aangemaakte functieGroepen toevoegen aan de criteria.
-          _.each(functieGroepen, function(value){
-            arrCriteria.push(value);
-          });
-
-        });
-      promises[1] = RestService.Groepen.get().$promise.then(
-          function(result){
-            var groepenCriteria = LFS.getCriteriaGroepen(result);
-            groepenCriteria.activated = false;
-            arrCriteria.push(groepenCriteria);
-          });
-      promises[2] = RestService.Geslacht.get().$promise.then(
-        function(result){
-          var geslacht = result;
-          geslacht.activated = false;
-          arrCriteria.push(geslacht);
-        });
-      promises[3] = RestService.Oudleden.get().$promise.then(
-        function(result){
-            var oudleden = result;
-            oudleden.activated = false;
-            arrCriteria.push(oudleden);
-        });
-      promises[4] = RestService.GeblokkeerdAdres.get().$promise.then(
-        function(result){
-          var geblokkeerdAdres = result;
-          geblokkeerdAdres.activated = false;
-          arrCriteria.push(geblokkeerdAdres);
-        }
-      );
-      promises[5] = RestService.Kolommen.get().$promise.then(
-        function(result){
-          $scope.kolommen = result.kolommen;
-        }
-      );
-      promises[6] = RestService.Filters.get().$promise.then(
-        function (result){
-          $scope.filters = result.filters;
-        }
-      );
-      promises[7] = RestService.FilterDetails.get({id: filterId}).$promise.then(
-        function (response) {
-          $log.debug('filter: ' + filterId, response);
-          $scope.currentFilter = response;
-        });
-
-      $q.all(promises).then(function () {
+      var criteriaAndFilters = LFS.getCriteriaAndFilters(filterId);
+      $q.all(criteriaAndFilters.promises).then(function () {
         // hier zijn alle calls (promises) resolved
         // alle criteria werden op de scope geplaatst
         // Roep nu filter op, op basis daarvan kunnen we criteria aan/uit zetten
         $scope.geselecteerdeCriteria = [];
-        $log.debug('criteria',arrCriteria);
-        $scope.criteria = arrCriteria;
+        $log.debug('criteria',criteriaAndFilters.arrCriteria);
+        $scope.criteria = criteriaAndFilters.arrCriteria;
+        $scope.kolommen = criteriaAndFilters.kolommen;
+        $scope.filters = criteriaAndFilters.filters;
+        $scope.currentFilter = criteriaAndFilters.currentFilter;
         $scope.activeerCriteria();
       });
 

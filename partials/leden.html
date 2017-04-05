@@ -9,7 +9,8 @@
         Opgeslagen filters <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-        <li ng-if="!(filters.length > 0)">Geen filters</li>
+        <li ng-if="isLoadingFilters"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filters aan het laden...</a></li>
+        <li ng-if="!isLoadingFilters && !(filters.length > 0)"><a href='javascript:void(0)'>Geen filters</a></li>
         <li role="menuitem" ng-repeat="filter in filters | orderBy:'naam'"><a href ng-click="setFilter(filter)">{{ filter.naam }}</a></li>
       </ul>
     </div>
