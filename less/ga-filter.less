@@ -16,7 +16,7 @@
   }
 
   > .loading-filter-container{
-    color:white;
+    color:@brand-primary;
     height: initial;
   }
 
@@ -60,10 +60,7 @@
 // Filter option (criteria)
 // -------------------------
 
-
-
-.filter-option {
-  width: 100%;
+.btn-group.filter-option.dropdown{
   // use on overlay for appear-animation
   &:before{
     content: '';
@@ -74,8 +71,21 @@
     left: 0;
     background-color: @sgv-lichtgroen;
     z-index: 10;
+    opacity: 0;
+    pointer-events: none;
     .fade-out;
   }
+  > button > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+}
+
+.filter-option {
+  width: 100%;
+
 
  .btn {
     width: 100%;
