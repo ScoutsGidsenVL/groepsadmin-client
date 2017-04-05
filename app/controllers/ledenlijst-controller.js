@@ -263,6 +263,30 @@
       return str;
     }
 
+    $scope.isAllCriteriumItemsSelected = function(criterium){
+      if(_.filter(criterium.items, {'activated' : true}).length == criterium.items.length){
+        return 'all';
+      }else{
+        if(_.filter(criterium.items, {'activated' : true}).length >=1){
+          return 'some';
+        }else{
+          return 'none';
+        }
+      }
+    }
+
+    $scope.toggleAllCriteriumItems = function(criterium){
+      if($scope.isAllCriteriumItemsSelected(criterium) == 'all'){
+        _.each(criterium.items,function(value, key){
+          value.activated  = false;
+        });
+      }else{
+        _.each(criterium.items,function(value, key){
+          value.activated  = true;
+        });
+      }
+    }
+
     // controle is de criteria geselecteerd a.d.h.v. de titel
     $scope.inSelectedCriteria = function(title){
       var criteriaKey;
@@ -282,10 +306,10 @@
 
       var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
       var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, $scope.currentFilter);
-      $log.debug(reconstructedFilterObj, '<------ reconstructedFilterObj');
+      //$log.debug(reconstructedFilterObj, '<------ reconstructedFilterObj');
       RestService.UpdateFilter.update({id: 'huidige'}, reconstructedFilterObj).$promise.then(
         function(response){
-          console.log("response of patch", response);
+          //console.log("response of patch", response);
           RestService.FilterDetails.get({id: 'huidige'}).$promise.then(
             function (response) {
               $log.debug('nieuwe filter huidige: ', response);

@@ -45,17 +45,26 @@
     }
 
     ledenFilterService.activeerGroepEnItems = function(criteriaGroep,value){
-      criteriaGroep.activated = true;
+
+      var hasActiveItems = false;
       // zoek binnen de criteriaGroep naar values uit de opgehaalde filter
       // indien item wordt gevonden, zet het actief
+
       if(!criteriaGroep.multiplePossible){
-        _.find(criteriaGroep.items, {'value' : value}).activated = true;
+        var foundElem = _.find(criteriaGroep.items, {'value' : value});
+        foundElem.activated = true;
+        if(foundElem){hasActiveItems = true;}
       } else {
         _.each(value, function(v,k){
             var item = _.find(criteriaGroep.items, {'value' : v});
-            if(item){item.activated = true;}
+            if(item){
+              item.activated = true;
+              hasActiveItems = true;
+            }
         });
       }
+
+      criteriaGroep.activated = hasActiveItems ? true : false;
 
     }
 

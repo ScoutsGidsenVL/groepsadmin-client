@@ -9,11 +9,16 @@
   display: inline-block;
   vertical-align: top;
   text-align: left;
-  padding-top: 10px;
+  padding-top: 3px;
   padding-right: 4px;
   max-height: 210px;
   overflow-y:auto;
   width: 100%;
+}
+.control-selectall{
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.125);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.125);
+  padding-top:5px;
 }
 .control {
   display: block;
@@ -38,6 +43,24 @@
   width: 20px;
   background: #e6e6e6;
 }
+// omg, important! hacks
+// could not find an immediate workaround, sorry folks!
+.control__indicator--some-selected:after{
+  left: 50% !important;
+  top: 50% !important;
+  width: 3px !important;
+  height: 3px !important;
+  border: solid @brand-primary !important;
+  background-color:@brand-primary !important;
+  border-width: 2px !important;
+  transform: rotate(45deg) !important;
+  display:block !important;
+  transform:translateX(-50%) translateY(-50%) !important;
+  content: '' !important;
+  position: absolute !important;
+  display: block !important;
+}
+
 .control--radio .control__indicator {
   border-radius: 50%;
 }
@@ -46,11 +69,11 @@
   background: #ccc;
 }
 .control input:checked ~ .control__indicator {
-  background: #2aa1c0;
+  background: @brand-primary;
 }
 .control:hover input:not([disabled]):checked ~ .control__indicator//,.control input:checked:focus ~ .control__indicator
 {
-  background: #0e647d;
+  background: darken(@brand-primary,10%);
 }
 .control input:disabled ~ .control__indicator {
   background: #e6e6e6;

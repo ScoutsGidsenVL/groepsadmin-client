@@ -4,7 +4,7 @@
 
 .panel-filter {
   position: relative;
-  background-color: @brand-primary;
+  background-color: #e6e6e6;
   padding: @fluid-grid-gutter-width/2 @fluid-grid-gutter-width/2 @fluid-grid-gutter-width/2;
 
   > div {
@@ -107,14 +107,14 @@
   &.filter-option .btn {
     color: @gray-darker;
     text-shadow: none;
-    background-color: #d9d9d9;
-    border-bottom: 0;
+    background-color: @sgv-lichtgroen;
+    border: none;
 
     &:hover {
       #gradient .vertical(rgba(0,0,0,0.12), rgba(0,0,0,0));
 
       .filter-option-close {
-        display: none;
+        //display: none;
       }
     }
   }
@@ -125,9 +125,7 @@
   margin: 0;
   background-color: #fafafa;
   padding:0;
-  border-top:none;
-  -webkit-box-shadow: inset 0 3px -5px rgba(0,0,0,0.125);
-  box-shadow: inset 0 3px -5px rgba(0,0,0,0.125);
+  border:none;
 }
 
 .checklist {

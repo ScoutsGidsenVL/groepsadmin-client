@@ -72,6 +72,14 @@
             <div class="control__indicator"></div>
           </label>
         </div>
+        <div class="control-selectall" ng-if="criterium.multiplePossible && criterium.items.length > 1">
+          <label
+            class="control control--checkbox">
+            Selecteer alles
+            <input type="checkbox" ng-click="toggleAllCriteriumItems(criterium)" ng-checked="isAllCriteriumItemsSelected(criterium) == 'all'"/>
+            <div class="control__indicator" ng-class="{'control__indicator--some-selected' : isAllCriteriumItemsSelected(criterium) == 'some'}"></div>
+          </label>
+        </div>
       </div>
     </div>
   </div>
@@ -91,7 +99,7 @@
     </ul>
   </div>
 
-  <div class="pull-right col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12" ng-show="!isLoadingFilters">
+  <div class="pull-right" ng-show="!isLoadingFilters">
     <div class="btn-group filter-option">
       <button type="button" ng-click="applyFilter()" class="btn btn-apply" title="Criteria toepassen">
         <span class="glyphicon glyphicon-ok"></span>
