@@ -303,7 +303,11 @@
       });
 
       // adresgeblokeerd
-      reconstructedFilterObj.criteria.adresgeblokeerd = _.find(_.find(activeCriteria, {"criteriaKey":"adresgeblokeerd"}).items, {'activated': true}).value;
+      var actieveGeblokkeerdeAdressen = _.find(activeCriteria, {"criteriaKey":"adresgeblokeerd"});
+      if(actieveGeblokkeerdeAdressen){
+          reconstructedFilterObj.criteria.adresgeblokeerd = _.find(actieveGeblokkeerdeAdressen.items, {'activated': true}).value;
+      }
+
 
       // oudleden (idem groepen)
       reconstructedFilterObj.criteria.oudleden = false;
