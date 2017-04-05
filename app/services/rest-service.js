@@ -24,7 +24,7 @@
 
     var base = apiRoot + '/rest-ga/';
     var baseGis = apiRoot + '/rest/gis/';
-    var basejson = "/data/";
+    var basejson = "data/";
 
     return {
       Lid: $resource(
