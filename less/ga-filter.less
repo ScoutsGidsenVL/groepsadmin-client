@@ -64,6 +64,18 @@
 
 .filter-option {
   width: 100%;
+  // use on overlay for appear-animation
+  &:before{
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-color: @sgv-lichtgroen;
+    z-index: 10;
+    .fade-out;
+  }
 
  .btn {
     width: 100%;
