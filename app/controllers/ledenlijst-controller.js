@@ -253,13 +253,10 @@
     }
 
     $scope.applyFilter = function(){
-
       var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
       var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, $scope.currentFilter);
-      //$log.debug(reconstructedFilterObj, '<------ reconstructedFilterObj');
       RestService.UpdateFilter.update({id: 'huidige'}, reconstructedFilterObj).$promise.then(
         function(response){
-          //console.log("response of patch", response);
           RestService.FilterDetails.get({id: 'huidige'}).$promise.then(
             function (response) {
               $log.debug('nieuwe filter huidige: ', response);

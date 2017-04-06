@@ -84,7 +84,7 @@
 
     &:hover .filter-option-close {
       display: inline;
-      color:@brand-primary;
+      color:darken(@brand-primary,10%);
       &:hover{
         color:white;
       }
@@ -104,10 +104,15 @@
 }
 
 .filter-option-close {
-  display: none;
   position: absolute;
   top: 6px;
   right: 15px;
+  color:darken(@brand-primary,10%);
+}
+@media (min-width: @screen-sm-min) {
+  .filter-option-close {
+    display:none;
+  }
 }
 
 // Open-state for the dropdown
@@ -166,13 +171,13 @@
 //Filter button mixin
 .filter-button(@colour: @brand-primary){
   color: #fff;
-  text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+  //text-shadow: 0 1px 1px rgba(0,0,0,0.5);
   background-color: darken(@colour, 5%);
-  border: 1px solid darken(@colour, 10%);
+  //border: 1px solid darken(@colour, 10%);
 
   &:hover {
     background-color: darken(@colour, 8%);
-    border-color: darken(@colour, 13%);
+    //border-color: darken(@colour, 13%);
   }
   &:hover,
   &:active,
