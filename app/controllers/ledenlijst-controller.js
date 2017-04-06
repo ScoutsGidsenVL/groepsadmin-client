@@ -169,7 +169,7 @@
     $scope.addLastCriteriumIfThereIsOnlyOneLeft = function(){
       var deactivatedCriteria = $filter('filter')($scope.criteria, {activated: false});
       if(deactivatedCriteria.length == 1){
-        deactivatedCriteria[0].activated = true;
+        $scope.activateCriterium(deactivatedCriteria[0]);
       }
     }
 
@@ -223,6 +223,13 @@
           value.activated  = true;
         });
       }
+    }
+
+    $scope.activateCriterium = function(crit){
+      crit.activated = true;
+      _.each(crit.items, function(value,key){
+        value.activated = true;
+      });
     }
 
     // controle is de criteria geselecteerd a.d.h.v. de titel

@@ -95,7 +95,7 @@
     </button>
     <ul class="dropdown-menu">
       <li ng-repeat="criterium in criteria | filter : { activated : false} | orderBy:'title'">
-        <a ng-click="criterium.activated = true">{{ criterium.title }}</a>
+        <a ng-click="activateCriterium(criterium)">{{ criterium.title }}</a>
       </li>
     </ul>
   </div>
