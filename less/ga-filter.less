@@ -62,18 +62,8 @@
 
 .btn-group.filter-option.dropdown{
   // use on overlay for appear-animation
-  &:before{
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    background-color: @sgv-lichtgroen;
-    z-index: 10;
-    opacity: 0;
-    pointer-events: none;
-    .fade-out;
+  > button {
+    .fade-bg;
   }
   > button > span {
     overflow: hidden;
@@ -81,6 +71,7 @@
     white-space: nowrap;
     width: 100%;
   }
+
 }
 
 .filter-option {
@@ -140,6 +131,9 @@
       }
     }
   }
+}
+.btn-group.filter-option.dropdown.open button{
+  background-color:@sgv-lichtgroen;
 }
 
 .filter-option .dropdown-menu {

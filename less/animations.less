@@ -47,6 +47,25 @@
     }
   }
 
+  // background filterButtons
+  .fade-bg{
+    background-color:@brand-primary;
+    animation-name:bgFilterBtnFade;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+  }
+
+  // have to include k
+  @keyframes bgFilterBtnFade {
+    from {
+      background-color: @sgv-lichtgroen;
+    }
+    to {
+      background-color: @brand-primary;
+    }
+  }
+
   // slide in
   .slide-in {
     overflow: hidden;
