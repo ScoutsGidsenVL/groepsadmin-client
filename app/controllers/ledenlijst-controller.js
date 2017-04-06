@@ -18,25 +18,25 @@
     $scope.aantalPerPagina = 10;
     $scope.leden = [];
 
-    // $( ".sortable" ).sortable({
-    //   placeholder: "placeholder-kolom-kop",
-    //   helper: "clone",
-    //   start : function(event, ui){
-    //     index =  ui.item.index();
-    //   },
-    //   stop : function(event, ui){
-    //     $(".placeholder-body").remove();
-    //     // To-Do filter aanpassen
-    //     // To-Do Leden wissen
-    //     // TO-Do nieuwe leden ophalen
-    //     console.log(ui.item.index());
-    //   },
-    //   change : function(){
-    //     $( "table tbody tr td:nth-child(" + (index + 1) + ")" ).hide();
-    //     $(".placeholder-body").remove();
-    //     $("table tbody tr td:nth-child(" + $('.placeholder-kolom-kop').index() + ")" ).after('<td class="placeholder-body" style="background-color: #A9C593;"></td>');
-    //   }
-    // });
+    $( ".sortable" ).sortable({
+      placeholder: "placeholder-kolom-kop",
+      helper: "clone",
+      start : function(event, ui){
+        index =  ui.item.index();
+      },
+      stop : function(event, ui){
+        $(".placeholder-body").remove();
+        // To-Do filter aanpassen
+        // To-Do Leden wissen
+        // TO-Do nieuwe leden ophalen
+        console.log(ui.item.index());
+      },
+      change : function(){
+        $( "table tbody tr td:nth-child(" + (index + 1) + ")" ).hide();
+        $(".placeholder-body").remove();
+        $("table tbody tr td:nth-child(" + $('.placeholder-kolom-kop').index() + ")" ).after('<td class="placeholder-body" style="background-color: #A9C593;"></td>');
+      }
+    });
 
     // controle on resize
     angular.element($window).bind('resize', function () {
@@ -72,6 +72,7 @@
         $scope.filters = criteriaAndFilters.filters;
         $scope.currentFilter = criteriaAndFilters.currentFilter;
         $scope.activeerCriteria();
+        $scope.activeerKolommen();
       });
 
       // Filter ophalen adhv filterId
@@ -225,18 +226,30 @@
     }
 
     // controle is de criteria geselecteerd a.d.h.v. de titel
-    $scope.inSelectedCriteria = function(title){
-      var criteriaKey;
-      angular.forEach($scope.geselecteerdeCriteria, function(value, key){
-        if(value.title == title){
-          criteriaKey =  key;
-          return
+    $scope.activeerKolommen = function(){
+      // neem alle kolommen uit de toegepaste filter
+      _.each($scope.currentFilter.kolommen, function(value, key){
+        var kolom = _.find($scope.kolommen, {'id': value.id});
+        if(kolom){
+          kolom.activated = true;
+          kolom.kolomIndex = value.kolomIndex;
         }
-      })
-      if(criteriaKey >= 0 ){
-        return true;
-      }
-      return false;
+      });
+    }
+
+    $scope.toggleKolom = function(kol){
+      if(kol.activated == undefined || kol.activated == false){
+        kol.kolomIndex = _.filter($scope.kolommen, {"activated":true}).length + 1;
+        kol.activated = true;
+      }else{
+        kol.activated = false;
+        // loop over alle activated kolommen in scope en geef nieuwe index
+        // !! sortBy niet vergeten want ordering gebeurt in template met directive,
+        // maar de objecten hebben eigenlijk een andere volgorde!
+        _.each(_.filter(_.sortBy($scope.kolommen, 'kolomIndex'), {"activated":true}), function(value,key){
+          value.kolomIndex = key + 1;
+        });
+      };
     }
 
     $scope.applyFilter = function(){
