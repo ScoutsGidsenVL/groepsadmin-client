@@ -18,23 +18,36 @@
     $scope.aantalPerPagina = 10;
     $scope.leden = [];
 
-    $( ".sortable" ).sortable({
-      placeholder: "placeholder-kolom-kop",
-      helper: "clone",
-      start : function(event, ui){
-        index =  ui.item.index();
-      },
+    $("#mySortableList").sortable({
+      placeholder: "my-sortable-placeholder",
       stop : function(event, ui){
-        $(".placeholder-body").remove();
-        // To-Do filter aanpassen
-        // To-Do Leden wissen
-        // TO-Do nieuwe leden ophalen
-        console.log(ui.item.index());
-      },
-      change : function(){
-        $( "table tbody tr td:nth-child(" + (index + 1) + ")" ).hide();
-        $(".placeholder-body").remove();
-        $("table tbody tr td:nth-child(" + $('.placeholder-kolom-kop').index() + ")" ).after('<td class="placeholder-body" style="background-color: #A9C593;"></td>');
+        // zoek element mbv data-kolom-id en geef het de nieuwe index
+        var kolId = $(ui.item[0]).attr('data-kolom-id');
+        var foundKolom = _.find($scope.kolommen, {'id': kolId});
+        var oldKolomIndex = foundKolom.kolomIndex;
+        var newKolomIndex = ui.item.index();
+
+        // alle kolomIndexen van de kolommen die achter het zonet gesleepte element komen, moeten met 1 worden verhoogd
+        // (tot de kolommen die reeds achter het gesleepte element kwamen, want die behouden hun index)
+        if(oldKolomIndex > newKolomIndex){
+          var cols = _.filter($scope.kolommen, function(o){return o.kolomIndex >= newKolomIndex && o.kolomIndex < oldKolomIndex });
+          _.each(cols,function(value,key){
+            value.kolomIndex++;
+          });
+        }
+        // alle kolomIndexen van de kolommen die voor het zonet gesleepte element komen, moeten met 1 worden verlaagd
+        // (tot de kolommen die reeds voor het gesleepte element kwamen, want deze behouden hun index)
+        if(oldKolomIndex < newKolomIndex){
+          var cols = _.filter($scope.kolommen, function(o){return o.kolomIndex <= newKolomIndex && o.kolomIndex > oldKolomIndex });
+          _.each(cols,function(value,key){
+            value.kolomIndex--;
+          });
+        }
+
+        // zet de nieuwe index op de gesleepte kolom
+        foundKolom.kolomIndex = newKolomIndex;
+
+        $scope.$apply();
       }
     });
 
@@ -72,7 +85,7 @@
         $scope.filters = criteriaAndFilters.filters;
         $scope.currentFilter = criteriaAndFilters.currentFilter;
         $scope.activeerCriteria();
-        $scope.activeerKolommen();
+        $scope.activeerEnIndexeerKolommen();
       });
 
       // Filter ophalen adhv filterId
@@ -233,29 +246,40 @@
     }
 
     // controle is de criteria geselecteerd a.d.h.v. de titel
-    $scope.activeerKolommen = function(){
-      // neem alle kolommen uit de toegepaste filter
+    $scope.activeerEnIndexeerKolommen = function(){
+      // activeer alle kolommen uit de toegepaste filter
+      // en geef er een kolomIndex aan
+
+      var counter = 0;
       _.each($scope.currentFilter.kolommen, function(value, key){
         var kolom = _.find($scope.kolommen, {'id': value.id});
+
         if(kolom){
           kolom.activated = true;
-          kolom.kolomIndex = value.kolomIndex;
+          kolom.kolomIndex = counter;
+          counter++;
         }
       });
+      $scope.indexeerNietActieveKolommen(counter);
+
+    }
+
+    $scope.indexeerNietActieveKolommen = function(startCounter){
+      // alle niet actieve kolommen krijgen ook een kolomIndex
+      // deze zal door de gebruiker nog aangepast kunnen worden door de kolommen te verslepen
+      var counter = startCounter;
+      var nonActieveKolommen = _.filter($scope.kolommen, function(o){return !o.activated});
+      _.each(nonActieveKolommen,function(value,key){
+        value.kolomIndex = counter;
+        counter++;
+      })
     }
 
     $scope.toggleKolom = function(kol){
       if(kol.activated == undefined || kol.activated == false){
-        kol.kolomIndex = _.filter($scope.kolommen, {"activated":true}).length + 1;
         kol.activated = true;
       }else{
         kol.activated = false;
-        // loop over alle activated kolommen in scope en geef nieuwe index
-        // !! sortBy niet vergeten want ordering gebeurt in template met directive,
-        // maar de objecten hebben eigenlijk een andere volgorde!
-        _.each(_.filter(_.sortBy($scope.kolommen, 'kolomIndex'), {"activated":true}), function(value,key){
-          value.kolomIndex = key + 1;
-        });
       };
     }
 

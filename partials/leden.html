@@ -113,19 +113,20 @@
 <!-- Table -->
 <table id="leden" class="table table-responsive table-hover" infinite-scroll="nextPage()" infinite-scroll-disabled="(busy || end )" infinite-scroll-distance="1" infinite-scroll-immediate-check="true">
   <thead>
-    <tr class="sortable">
+    <tr>
       <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'" id="kolom.label">{{ kolom.label }}
       <i class="fa fa-sort-alpha-asc sort" ng-class="{'first-sort' : sortering(kolom.id, true) == 1, 'second-sort' : sortering(kolom.id, true) == 2, 'third-sort' : sortering(kolom.id, true) == 3 }" aria-hidden="true" ng-click="addSort(kolom.id, true)"></i>
       <i class="fa fa-sort-alpha-desc sort" ng-class="{'first-sort' : sortering(kolom.id, false) == 1, 'second-sort' : sortering(kolom.id, false) == 2, 'third-sort' : sortering(kolom.id, false) == 3 }" aria-hidden="true" ng-click="addSort(kolom.id, false)"></i></th>
       <th class="sortable-disabled" uib-dropdown keyboard-nav="true" auto-close="outsideClick">
         <i class="fa fa-table dropdown-toggle"  aria-hidden="true" uib-dropdown-toggle></i>
-        <div class="dropdown-menu kolomlijst pull-right" uib-dropdown-menu>
+        <div class="dropdown-menu kolomlijst pull-right" id="mySortableList" uib-dropdown-menu>
           <label
-            ng-repeat="kolom in kolommen | orderBy:'label'"
-            class="control control--checkbox"
+            ng-repeat="kolom in kolommen | orderBy: 'kolomIndex'"
+            class="control control--checkbox noselect"
+            data-kolom-id="{{kolom.id}}"
             >
             {{ kolom.label }}
-            <input type="checkbox" ng-click="toggleKolom(kolom);setKolomIndex(kolom);" ng-checked="kolom.activated" />
+            <input type="checkbox" ng-click="toggleKolom(kolom)" ng-checked="kolom.activated" />
             <div class="control__indicator"></div>
           </label>
         </ul>
@@ -134,8 +135,8 @@
   </thead>
   <tbody>
     <tr  ng-repeat="lid in leden" ga-lid="{{lid.id}}" ng-init="meerLaden($last)" >
-      <td ng-repeat="kolom in currentFilter.kolommen">
-        <div class="fade-in slide-in">{{lid.waarden[kolom.id]}}</div>
+      <td ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy: 'kolomIndex'">
+        <div class="fade-in slide-in">{{ lid.waarden[kolom.id] }}</div>
       </td>
       <td class="t-caret" role="button"><span class="caret"></span></td>
     </tr>

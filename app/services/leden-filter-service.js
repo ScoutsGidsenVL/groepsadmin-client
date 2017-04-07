@@ -84,9 +84,6 @@
       );
       returnObj.promises[7] = RestService.FilterDetails.get({id: filterId}).$promise.then(
         function (result) {
-          _.each(result.kolommen, function(value,key){
-            value.kolomIndex = key+1;
-          });
           $log.debug('filter: ' + filterId, result);
           returnObj.currentFilter = result;
         });
