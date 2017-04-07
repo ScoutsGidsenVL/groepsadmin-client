@@ -7,6 +7,9 @@
     <link href="css/bootstrap.css" rel="stylesheet">
 
     <style>
+      body {
+        padding-top: 0;
+      }
       #access_token,
       #refresh_token,
       #id_token {
@@ -19,10 +22,13 @@
       #access_token_details,
       #refresh_token_details,
       #id_token_details,
+      #clientId,
       #urlToTest,
       #method,
+      #acceptHeader,
       #requestBody,
-      #status {
+      #status,
+      #contentType {
         margin-bottom: 10px;
       }
       span.col {
@@ -74,6 +80,8 @@
         <option value="OPTIONS">OPTIONS</option>
         <option value="TRACE">TRACE</option>
       </select>
+      <label>Accept</label>
+      <input type="text" id="acceptHeader" class="form-control">
       <label class='requestBody'>Body</label>
       <textarea id="requestBody" class="form-control requestBody"></textarea>
       <input type="submit" value="Verstuur">
@@ -82,6 +90,8 @@
     <h2>Response</h2>
     <label>Status</label>
     <div id="status">Nog geen request verstuurd</div>
+    <label>Content type</label>
+    <div id="contentType">Nog geen request verstuurd</div>
     <label>Content</label>
     <iframe id="result" src='data:text/plain,Nog geen request verstuurd'></iframe>
 
@@ -92,6 +102,7 @@
       $('#clientId').val(localStorage.getItem("client"));
       $('#urlToTest').val(localStorage.getItem("url"));
       $('#method').val(localStorage.getItem("method"));
+      $('#acceptHeader').val(localStorage.getItem("acceptHeader"));
       $('#requestBody').val(localStorage.getItem("body"));
 
       if (!$('#clientId').val()) {
@@ -101,18 +112,18 @@
         }
       }
 
-      function writeResult(result, statusCode, statusText) {
+      function writeResult(contentType, result, statusCode, statusText) {
 
         $('#status').html(statusCode + ' - ' + statusText);
+        $('#contentType').html(contentType);
 
-        var content_type = 'text/plain';
-        if (result.match(/^[{\["]/)) {
-          content_type = 'application/json'
-        } else if (result[0] == '<') {
-          content_type = 'text/html';
+        if (contentType === 'application/pdf') {
+          contentType += ";base64";
+        } else {
+          result = encodeURIComponent(result);
         }
 
-        document.getElementById('result').src = 'data:' + content_type + ',' + encodeURIComponent(result);
+        document.getElementById('result').src = 'data:' + contentType + ',' + result;
       }
 
       var keycloak;
@@ -123,13 +134,14 @@
           var resultBody = document.getElementById('result').contentDocument.body;
           if (resultBody) {
             document.getElementById('result').style.height
-              = parseFloat(window.getComputedStyle(resultBody).height) + 64 + 'px';
+              = Math.min(parseFloat(window.getComputedStyle(resultBody).height) + 64, 2000) + 'px';
           }
         }
 
         localStorage.setItem("client", $('#clientId').val());
         localStorage.setItem("url", $('#urlToTest').val());
         localStorage.setItem("method", $('#method').val());
+        localStorage.setItem("acceptHeader", $('#acceptHeader').val());
         localStorage.setItem("body", $('#requestBody').val());
 
         if (keycloak && keycloak.refreshTokenParsed) {
@@ -201,12 +213,13 @@
                 $('#status').html('Nog geen resultaat gekregen...');
                 $('#result').get()[0].src = 'data:text/plain,Nog geen resultaat gekregen...';
                 xhr.setRequestHeader("Authorization", "Bearer " +  keycloak.token);
+                xhr.setRequestHeader('Accept', $('#acceptHeader').val());
               },
               error: function (jqXHR, textStatus, errorThrown) {
-                writeResult(jqXHR.responseText, jqXHR.status, errorThrown || textStatus);
+                writeResult(jqXHR.getResponseHeader('Content-Type'), jqXHR.responseText, jqXHR.status, errorThrown || textStatus);
               },
               success: function (data, textStatus, jqXHR) {
-                writeResult(jqXHR.responseText, jqXHR.status, textStatus);
+                writeResult(jqXHR.getResponseHeader('Content-Type'), jqXHR.responseText, jqXHR.status, textStatus);
               }
             }
           );
