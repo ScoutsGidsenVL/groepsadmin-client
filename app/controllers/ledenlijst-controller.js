@@ -255,6 +255,7 @@
         var kolom = _.find($scope.kolommen, {'id': value.id});
 
         if(kolom){
+          kolom.isLoaded = true;
           kolom.activated = true;
           kolom.kolomIndex = counter;
           counter++;
@@ -402,6 +403,7 @@
             $scope.totaalAantalLeden = res.totaal;
             $scope.offset = res.offset;
             $scope.busy = false;
+
           }
         );
       }

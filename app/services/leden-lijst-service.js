@@ -23,6 +23,7 @@
           function (response) {
             ledenFilterService.loadingLeden = false;
             resolve(response);
+            //console.log('leden', response);
           }
         );
       })

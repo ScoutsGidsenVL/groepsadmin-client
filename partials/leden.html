@@ -139,7 +139,10 @@
   <tbody>
     <tr  ng-repeat="lid in leden" ga-lid="{{lid.id}}" ng-init="meerLaden($last)" >
       <td ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy: 'kolomIndex'">
-        <div class="fade-in slide-in">{{ lid.waarden[kolom.id] }}</div>
+        <div class="fade-in slide-in">
+          <div ng-if="!lid.waarden[kolom.id] && !kolom.isLoaded" class="data-placeholder"></div>
+          {{ lid.waarden[kolom.id] }}
+        </div>
       </td>
       <td class="t-caret" role="button"><span class="caret"></span></td>
     </tr>
