@@ -202,16 +202,21 @@
       }
     }
 
-    $scope.getCriteriumSubtitleSuffix = function(criterium){
-      var actCritLength = _.filter(criterium.items, {'activated' : true}).length;
-      var str = '';
-      if( actCritLength > 3){
-        str = ', ...';
+    $scope.getButtonSubtitleSuffix = function(obj){
+      if(obj){
+        if(obj.items!== undefined){
+          obj = obj.items;
+        }
+        var actCritLength = _.filter(obj, {'activated' : true}).length;
+        var str = '';
+        if( actCritLength > 3){
+          str = ', ...';
+        }
+        if(actCritLength == 0){
+          str = '\u00A0';
+        }
+        return str;
       }
-      if(actCritLength == 0){
-        str = '\u00A0';
-      }
-      return str;
     }
 
     $scope.isAllCriteriumItemsSelected = function(criterium){
@@ -291,6 +296,7 @@
       var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
       RestService.UpdateFilter.update({id: 'huidige'}, reconstructedFilterObj).$promise.then(
         function(response){
+          stelFilterSamen();
           $scope.isSavingFilters = false;
           // resultaten leegmaken
           $scope.leden = [];

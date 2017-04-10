@@ -25,7 +25,12 @@
 // Customized button design in filter bar
 // -------------------------
 .btn-filter{
-  .filter-button(@brand-primary);
+  &--criteria{
+    .filter-button(@brand-primary);
+  }
+  &--kolommen{
+    .filter-button(@sgv-bruin);
+  }
 }
 .btn-apply{
   .filter-button(@brand-warning);
@@ -66,16 +71,23 @@
 
 .btn-group.filter-option.dropdown{
   // use on overlay for appear-animation
-  > button {
-    .fade-bg;
-  }
   > button > span {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
   }
+}
 
+.btn-group.filter-option--criteria.dropdown{
+  > button {
+    .fade-bg;
+  }
+}
+.btn-group.filter-option--kolommen.dropdown{
+  > button {
+    .fade-bgbrown;
+  }
 }
 
 .filter-option {
@@ -141,8 +153,11 @@
     }
   }
 }
-.btn-group.filter-option.dropdown.open button{
+.btn-group.filter-option--criteria.dropdown.open button{
   background-color:@sgv-lichtgroen;
+}
+.btn-group.filter-option--kolommen.dropdown.open button{
+  background-color:fade(@sgv-bruin,30%);
 }
 
 .btn-group .dropdown-menu{
