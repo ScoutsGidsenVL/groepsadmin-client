@@ -284,14 +284,17 @@
     }
 
     $scope.applyFilter = function(){
+      $scope.isSavingFilters = true;
       var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
-      var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, $scope.currentFilter);
+      var actKolommen  = _.filter($scope.kolommen, {"activated":true});
+      var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
       RestService.UpdateFilter.update({id: 'huidige'}, reconstructedFilterObj).$promise.then(
         function(response){
-          RestService.FilterDetails.get({id: 'huidige'}).$promise.then(
-            function (response) {
-              $log.debug('nieuwe filter huidige: ', response);
-            });
+          $scope.isSavingFilters = false;
+          // resultaten leegmaken
+          $scope.leden = [];
+          $scope.meerLaden(true);
+          console.log('response of update', response);
         }
       );
     }
@@ -381,10 +384,10 @@
     // controle moet er meer leden ingeladen worden
     $scope.meerLaden = function(last){
       if(last && $(window).height() > $("#leden").height()){
+        console.log('nextPage()');
         $scope.nextPage();
       }
     }
-
 
     // functie die aangeroepen word om (meer) leden op te halen via de api
     $scope.nextPage = function(){
@@ -392,15 +395,13 @@
       $scope.busy = true;
       // voorkom dat er request gedaanworden wanneer alle resultaaten geladen zijn
       if($scope.leden.length !== $scope.totaalAantalLeden){
-        RestService.Leden.get({aantal: $scope.aantalPerPagina, offset: ($scope.leden.length == 0) ? 0 : ($scope.leden.length) }).$promise.then(
-          function (response) {
-            // voeg de leden toe aan de leden Array;
-            $scope.leden.push.apply($scope.leden,response.leden);
-            $scope.totaalAantalLeden = response.totaal;
-            $scope.offset = response.offset;
+        var offset = $scope.leden.length == 0 ? 0 : $scope.leden.length;
+        LLS.getLeden($scope.aantalPerPagina, offset).then(
+          function(res){
+            $scope.leden.push.apply($scope.leden,res.leden);
+            $scope.totaalAantalLeden = res.totaal;
+            $scope.offset = res.offset;
             $scope.busy = false;
-          },
-          function (error) {
           }
         );
       }

@@ -265,7 +265,7 @@
       return tempKey;
     }
 
-    ledenFilterService.getReconstructedFilterObject = function(activeCriteria, currentFilter){
+    ledenFilterService.getReconstructedFilterObject = function(activeCriteria, activeKolommen, currentFilter){
       // reconstrueer het Filter object:
       // TODO: rewrite to be more generic, using multiplePossible property, for 'functies' some extra logic will be needed
 
@@ -320,9 +320,11 @@
       //   reconstructedFilterObj.criteria.oudleden = arrTemp;
       // }
 
-      reconstructedFilterObj.kolommen = patchedFilterObj.kolommen;
+      //reconstructedFilterObj.kolommen = patchedFilterObj.kolommen;
+      reconstructedFilterObj.kolommen = activeKolommen;
       reconstructedFilterObj.groepen = patchedFilterObj.groepen;
       reconstructedFilterObj.sortering = patchedFilterObj.sortering;
+      reconstructedFilterObj.sortering = [];
       reconstructedFilterObj.type = patchedFilterObj.type;
       reconstructedFilterObj.links = patchedFilterObj.links;
 

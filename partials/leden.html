@@ -35,6 +35,7 @@
   <div ng-if="isLoadingFilters" class="loading-filter-container">
     <i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria aan het laden...
   </div>
+
   <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12"
   ng-repeat="criterium in criteria | filter:{activated:true} | orderBy:'title'"
   ng-if="!isLoadingFilters">
@@ -102,9 +103,11 @@
 
   <div class="pull-right" ng-show="!isLoadingFilters">
     <div class="btn-group filter-option">
-      <button type="button" ng-click="applyFilter()" class="btn btn-apply" title="Criteria toepassen">
-        <span class="glyphicon glyphicon-ok"></span>
-        <span class="hidden-label">Criteria toepassen</span>
+      <button ng-if="isSavingFilters" type="button" class="btn btn-apply disabled" title="Criteria opslaan">
+        <div class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria opslaan...</div>
+      </button>
+      <button ng-if="!isSavingFilters" type="button" ng-click="applyFilter()" class="btn btn-apply" title="Filter toepassen">
+        <div><span class="glyphicon glyphicon-ok"></span><span class="hidden-label">Filter toepassen</span></div>
       </button>
     </div>
   </div>
