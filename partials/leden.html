@@ -115,7 +115,7 @@
 
     <!-- GROUP BUTTONS -->
 
-    <div ng-if="hasLoadedFilters" class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
+    <div ng-show="hasLoadedFilters" class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
       <div class="btn-group filter-option filter-option--kolommen" uib-dropdown keyboard-nav="true" auto-close="outsideClick">
         <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" class="btn btn-filter btn-filter--kolommen dropdown-toggle" uib-dropdown-toggle>
           <span class="filter-option-title">Kolommen</span>
