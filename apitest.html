@@ -198,7 +198,8 @@
 
         keycloak
           .init({
-            onLoad: 'login-required'
+            onLoad: 'login-required',
+            checkLoginIframe: false
           })
           .success(function () {
             console.log(keycloak.token);
