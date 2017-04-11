@@ -32,13 +32,13 @@
 </div>
 
 <div class="panel-filter row-fluid clearfix collapse" uib-collapse="isFilterCollapsed">
-  <div ng-if="isLoadingFilters" class="loading-filter-container">
+  <div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container">
     <i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria aan het laden...
   </div>
 
   <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12"
   ng-repeat="criterium in criteria | filter:{activated:true} | orderBy:'title'"
-  ng-if="!isLoadingFilters">
+  ng-if="hasLoadedFilters">
     <!-- Filter options/criteria -->
     <div class="btn-group filter-option filter-option--criteria" uib-dropdown keyboard-nav="true" auto-close="outsideClick">
       <button type="button" class="btn btn-filter btn-filter--criteria dropdown-toggle" uib-dropdown-toggle>
@@ -89,7 +89,7 @@
   <!-- Filter options/criteria toevoegen-->
   <div class="btn-group"
   ng-hide="isAllCriteriaActive()"
-  ng-if="!isLoadingFilters">
+  ng-if="hasLoadedFilters">
     <button type="button" ng-click="addLastCriteriumIfThereIsOnlyOneLeft()" class="btn btn-filter btn-filter--criteria dropdown-toggle" data-toggle="dropdown" title="Filtercriteria toevoegen">
       <span class="glyphicon glyphicon-plus"></span>
       <span class="hidden-label">Filtercriteria toevoegen</span>
@@ -147,11 +147,11 @@
 </div>
 
 <!-- Table -->
-<table id="leden" class="table table-responsive table-hover" infinite-scroll="nextPage()" infinite-scroll-disabled="(busy || end )" infinite-scroll-distance="1" infinite-scroll-immediate-check="true">
+<table id="leden" class="table table-responsive table-leden table-hover" infinite-scroll="nextPage()" infinite-scroll-disabled="(busy || end )" infinite-scroll-distance="1" infinite-scroll-immediate-check="true">
   <thead>
     <tr>
 
-      <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'" id="kolom.label">{{ kolom.label }}
+      <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'">{{ kolom.label }}
         <!--<i class="fa fa-sort-alpha-asc sort" ng-class="{'first-sort' : sortering(kolom.id, true) == 1, 'second-sort' : sortering(kolom.id, true) == 2, 'third-sort' : sortering(kolom.id, true) == 3 }" aria-hidden="true" ng-click="addSort(kolom.id, true)"></i>
         <i class="fa fa-sort-alpha-desc sort" ng-class="{'first-sort' : sortering(kolom.id, false) == 1, 'second-sort' : sortering(kolom.id, false) == 2, 'third-sort' : sortering(kolom.id, false) == 3 }" aria-hidden="true" ng-click="addSort(kolom.id, false)"></i>-->
       </th>

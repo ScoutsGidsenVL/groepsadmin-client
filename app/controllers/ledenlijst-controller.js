@@ -12,6 +12,7 @@
     var index;
 
     $scope.isLoadingFilters = true;
+    $scope.hasLoadedFilters = false;
 
     $scope.busy = false;
     $scope.end = false;
@@ -173,6 +174,7 @@
 
       });
       $scope.isLoadingFilters = false;
+      $scope.hasLoadedFilters = true;
 
     }
 
