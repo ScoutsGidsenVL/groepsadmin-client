@@ -24,16 +24,13 @@ pipeline {
     stage('deploy') {
       steps {
         sshagent(credentials: ['jenkins']) {
-          sh "scripts/deploy_jenkins.sh"
+          sh "scripts/deploy_jenkins.sh ${BRANCH_NAME}"
         }
       }
     }
   }
 
   post {
-    always {
-      junit 'build/test-results/**/*.xml'
-    }
     failure {
       mail(
         to:"tvl@scoutsengidsenvlaanderen.be",

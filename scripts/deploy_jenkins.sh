@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-BRANCH=$(git rev-parse --abbrev-ref HEAD)
+BRANCH=${1}
 case "${BRANCH}" in
+  '')
+    >&2 echo Geen branch opgegeven
+    exit 1
+    ;;
   'tvl/dev')
     DEPLOY_HOST='192.168.1.137'
     ;;
