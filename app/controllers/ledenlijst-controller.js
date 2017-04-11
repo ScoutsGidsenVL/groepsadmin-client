@@ -59,7 +59,8 @@
     //  }
     // });
 
-    stelFilterSamen();
+
+
 
     function stelFilterSamen(id){
       // loading spinner van Filters
@@ -85,7 +86,13 @@
         $scope.kolommen = criteriaAndFilters.kolommen;
         $scope.filters = criteriaAndFilters.filters;
         $scope.currentFilter = criteriaAndFilters.currentFilter;
+        $scope.isLoadingFilters = false;
+        // variable om te voorkomen dat content flikkert
+        $scope.hasLoadedFilters = true;
+
         $scope.activeerCriteria();
+
+
         $scope.activeerEnIndexeerKolommen();
       });
 
@@ -173,9 +180,6 @@
         }
 
       });
-      $scope.isLoadingFilters = false;
-      $scope.hasLoadedFilters = true;
-
     }
 
     $scope.isAllCriteriaActive = function(){
@@ -298,20 +302,31 @@
       var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
 
       if(filter){
-        if(filter.id !== undefined){
-          // indien filter werd geselecteerd doen we een update op basis van filter.id
-          var postableReconstructedFilterObj = reconstructedFilterObj;
-          postableReconstructedFilterObj.naam = filter.naam;
-          RestService.UpdateFilter.update({id: filter.id}, reconstructedFilterObj).$promise.then(
-            function(response){
-              console.log('response of UPDATE of filter:'+ filter.id, response);
-            }
-          );
+        if(filter.id !== undefined || filter == 'huidige'){
+          var fObj = reconstructedFilterObj;
+          var fId;
+          if(filter == 'huidige'){
+            fObj.id = 'huidige';
+          }else{
+            fObj.naam = filter.naam;
+            fObj.id = filter.id;
+            RestService.UpdateFilter.update({id: fObj.id}, fObj).$promise.then(
+              function(response){
+                console.log('response of UPDATE of filter:'+ fObj.id, response);
+              }
+            );
+          }
+
+          // indien filter werd geselecteerd doen we een UPDATE op basis van filter.id
+
+          console.log("UPDATE THE FILTER:", fObj);
+
         }else{
-          // indien filter.id niet bestaat, maken we een nieuwe filter aan op basis van filter
-          var postableReconstructedFilterObj = reconstructedFilterObj;
-          postableReconstructedFilterObj.naam = filter;
-          RestService.createNewFilter.post(postableReconstructedFilterObj).$promise.then(
+          // indien filter.id niet bestaat, maken we een NIEUWE filter aan op basis van filter
+          var fObj = reconstructedFilterObj;
+          fObj.naam = filter;
+          console.log("POSTING THE FILTER:", fObj);
+          RestService.createNewFilter.post(fObj).$promise.then(
             function(response){
               console.log('response of POST:'+ filter, response);
             }
@@ -540,6 +555,8 @@
       }
 
     }
+    stelFilterSamen();
+    $scope.ledenLaden();
 }
 
 })();
