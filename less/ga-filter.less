@@ -7,12 +7,22 @@
   background-color: #e6e6e6;
   padding: @fluid-grid-gutter-width/2 @fluid-grid-gutter-width/2 @fluid-grid-gutter-width/2;
 
-  > div {
-    float: left;
-    height: 55px; //fixes a box-model bug in FF
-    padding: @fluid-grid-gutter-width/2;
-    margin: 0 ;
-    margin-bottom: 10px;
+  .row-criteria  {
+    > div {
+      float: left;
+      height: 55px; //fixes a box-model bug in FF
+      padding: @fluid-grid-gutter-width/2;
+      margin: 0 ;
+      margin-bottom: 10px;
+    }
+  }
+  .row-filters  {
+    > div {
+      float: left;
+      padding: @fluid-grid-gutter-width/2;
+      margin: 0 ;
+      margin-bottom: 10px;
+    }
   }
 
   > .loading-filter-container{
