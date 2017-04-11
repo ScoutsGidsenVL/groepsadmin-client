@@ -26,21 +26,26 @@
           <li role="menuitem" ng-repeat="filter in filters | orderBy:'naam'"><a href ng-click="setFilter(filter)">{{ filter.naam }}</a></li>
         </ul>
       </div>
-      <div class="pull-left">
-        <button class="btn btn-default" ng-init="showSaveOptions = false" ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
+      <div ng-show="!showSaveOptions" class="pull-left">
+        <button class="btn btn-default"  ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Filter maken</button>
       </div>
-      <div class="pull-left">
-      <form ng-show="showSaveOptions" class="form-inline">
-        <input type="text" placeholder="Naam van de filter" class="form-control">
-        <select class="selectpicker" title="Beschikbaar voor" ng-model="currentFilter" >
+      <div ng-show="showSaveOptions" class="pull-left">
+      <form class="form-inline typeahead-demo">
+        <!-- <pre>Model: {{selectedFilter | json}}</pre> -->
+        <input type="text" ng-model="selectedFilter"
+        placeholder="Naam van filter"
+        uib-typeahead="filter as filter.naam for filter in filters | filter:{naam:$viewValue}"
+        typeahead-popup-template-url="customPopupTemplate.html" class="form-control">
+        <!--<select class="selectpicker" title="Beschikbaar voor" ng-model="currentFilter" >
           <option>Groep x</option>
-        </select>
-        <button class="btn btn-default" ng-init="showSaveOptions = false"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
+        </select>-->
+        <button class="btn btn-apply" ng-click="saveAndApplyFilter(selectedFilter)">
+          <span ng-if="!selectedFilter.id"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan</span>
+          <span ng-if="selectedFilter.id"><span class="glyphicon glyphicon-floppy-open" aria-hidden="true"></span>&nbsp;Overschrijven</span>
+        </button>
       </form>
       </div>
     </div>
-
-
   </div>
   <div class="row row-criteria">
     <div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container">
@@ -150,7 +155,7 @@
         <button ng-if="isSavingFilters" type="button" class="btn btn-apply disabled" title="Criteria opslaan">
           <div class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria opslaan...</div>
         </button>
-        <button ng-if="!isSavingFilters" type="button" ng-click="applyFilter()" class="btn btn-apply" title="Filter toepassen">
+        <button ng-if="!isSavingFilters" type="button" ng-click="saveAndApplyFilter()" class="btn btn-apply" title="Filter toepassen">
           <div><span class="glyphicon glyphicon-ok"></span><span class="hidden-label">Filter toepassen</span></div>
         </button>
       </div>
@@ -186,6 +191,21 @@
 </footer>
 
 
+<script type="text/ng-template" id="customPopupTemplate.html">
+  <div class="custom-popup-wrapper"
+     ng-style="{top: position().top+'px', left: position().left+'px'}"
+     style="display: block;"
+     ng-show="isOpen() && !moveInProgress"
+     aria-hidden="{{!isOpen()}}">
+    <p class="message">Selecteer een bestaande filter</p>
+    <ul class="dropdown-menu" role="listbox">
+      <li ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
+          ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+          <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+      </li>
+    </ul>
+  </div>
+</script>
 <!-- Panel footer -->
 <!--
 <footer class="panel-footer clearfix">

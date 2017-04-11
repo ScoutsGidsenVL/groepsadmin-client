@@ -291,11 +291,39 @@
       };
     }
 
-    $scope.applyFilter = function(){
+    $scope.saveAndApplyFilter = function(filter){
+
       $scope.isSavingFilters = true;
       var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
       var actKolommen  = _.filter($scope.kolommen, {"activated":true});
       var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
+
+      if(filter){
+        if(filter.id !== undefined){
+          // indien filter werd geselecteerd doen we een update op basis van filter.id
+          var postableReconstructedFilterObj = reconstructedFilterObj;
+          postableReconstructedFilterObj.naam = filter.naam;
+          RestService.UpdateFilter.update({id: filter.id}, reconstructedFilterObj).$promise.then(
+            function(response){
+              console.log('response of UPDATE of filter:'+ filter.id, response);
+            }
+          );
+        }else{
+          // indien filter.id niet bestaat, maken we een nieuwe filter aan op basis van filter
+          var postableReconstructedFilterObj = reconstructedFilterObj;
+          postableReconstructedFilterObj.naam = filter;
+          RestService.createNewFilter.post(postableReconstructedFilterObj).$promise.then(
+            function(response){
+              console.log('response of POST:'+ filter, response);
+            }
+          );
+        }
+      }
+
+
+
+
+      // sowieso 'huidige' filter opslaan
       RestService.UpdateFilter.update({id: 'huidige'}, reconstructedFilterObj).$promise.then(
         function(response){
           stelFilterSamen();
@@ -384,6 +412,7 @@
     $scope.filterCriteriaAanpassen = function(criteriaItem, selectedCriteria){
       selectedCriteria.items = criteriaItem.value;
     }
+
 
     /*
      * Infinity scroll

@@ -111,6 +111,15 @@
           }
         }
       ),
+      createNewFilter: $resource(
+        base + 'ledenlijst/filter/',
+        {},
+        {
+          'post': {
+            method: 'POST', transformRequest: changesOnly, cache: false
+          }
+        }
+      ),
       Filters: $resource(
         base + 'ledenlijst/filter',
         {},
