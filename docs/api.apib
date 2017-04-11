@@ -264,7 +264,7 @@ Sectie              | Omschrijving
 `functies`          | De functies van het lid (zowel groepseigenfuncties als verbondsfuncties)
 `links`             | Verwijzingen naar gerelateerde resources
 
-## Leden algemeen [/lid]
+## Leden [/lid]
 
 ### Overzicht opvragen [GET]
 
@@ -307,7 +307,8 @@ Dit is nog niet geïmplementeerd.
 
     + Body
 
-            // TODO
+            // De inhoud van deze request is hetzelfde als bij de response voor `GET` op
+            // `/lid/{id}` voor het aangemaakte lid.
 
 + Response 200 (application/json)
 
@@ -530,6 +531,41 @@ Dit is nog niet geïmplementeerd.
 + Response 400 (application/json)
 
     Als de ingelogde gebruiker niet bevestigd heeft (bij het aanpassen van functies).
+
+    + Body
+
+            // TODO
+
+## E-mail [/lid/{id}/mail]
+
++ Parameters
+    + id (string) - ID van het lid - Het id `profiel` kan gebruikt worden om te verwijzen naar het lid dat overeenkomt met de ingelogde gebruiker: `/lid/profiel/mail`
+
+### E-mail sturen [POST]
+
++ Request
+
+    + Headers
+
+            Content-Type: multipart/form-data, boundary=------AaB03x
+
+    + Body
+
+            ------AaB03x
+            Content-Disposition: form-data; name="sjabloon"
+            Content-Type: application/json
+
+            {
+                "bcc": "bp@gmail.com",
+                "vanGroep": "X1234Y",
+                "replyTo": "bp@sgv.be",
+                "inhoud": "Hello world!",
+                "onderwerp": "Test",
+                "van": "BP"
+            }
+
+
++ Response 200 (application/json)
 
     + Body
 
@@ -1324,7 +1360,7 @@ Omdat de gebruiker in de meeste gevallen niet het recht heeft om de lidaanvraag 
 
 # Group Groepen
 
-## Groepen algemeen [/groep]
+## Groepen [/groep]
 
 ::: note
 Het is niet mogelijk om zelf een groep aan te maken. Om een groep aan te laten maken, neem je best contact op met [groepsadministratie@scoutsengidsenvlaanderen.be](mailto:groepsadministratie@scoutsengidsenvlaanderen.be).
@@ -2138,7 +2174,7 @@ Alle functies die gebruikt worden binnen de opgegeven groepen, waar je recht op 
 
             // TODO
 
-## Functies algemeen [/functie]
+## Functies [/functie]
 
 ### Functie aanmaken [POST]
 
@@ -2245,6 +2281,8 @@ Het veld `groepen` bevat alle groepen waarbij deze functie kan voorkomen en waar
 * `offset`: bij het hoeveelste lid de ledenlijst moet starten (Inclusief startend van 0)
 * `aantal`: maximum aantal leden server mag teruggeven.  (de server mag minder teruggeven)
 
+// TODO: 'Accept: text/csv' en 'Accept: application/pdf'
+
 + Response 200 (application/json)
 
     + Body
@@ -2294,7 +2332,24 @@ Het veld `groepen` bevat alle groepen waarbij deze functie kan voorkomen en waar
               ]
             }
 
-## Filters algemeen [/ledenlijst/filter]
+
+## Etiket [/ledenlijst/etiket]
+
+### Etiketten maken [POST]
+
++ Request
+
+    + Body
+
+            // TODO
+
++ Response 200 (application/json)
+
+    + Body
+
+            // TODO
+
+## Filterlijst [/ledenlijst/filter]
 
 ### Filterlijst opvragen [GET]
 
@@ -2505,6 +2560,32 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
               ]
             }
 
+## E-mail [/ledenlijst/mail]
+
+### E-mail sturen [POST]
+
++ Request
+
+    + Body
+
+            // TODO
+
++ Response 200 (application/json)
+
+    + Body
+
+            // TODO
+
+
+## Steekkaart [/ledenlijst/steekkaart]
+
+### Steekkaarten exporteren [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            // TODO
 
 # Group Zoeken
 
@@ -2545,3 +2626,127 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
                 "geboortedatum": "1889-02-22",
               }]
             }
+
+# Group Sjablonen
+
+## Etiketsjablonen [/sjabloon/etiket]
+
+### Etiketsjablonen opvragen [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            // TODO
+
+### Etiketsjabloon aanmaken [POST]
+
+##### Request
+
++ Request (application/json)
+
+    + Body
+
+            // De inhoud van deze request is hetzelfde als de response bij `GET` op
+            // `/sjabloon/etiket/{id}`.
+
++ Response 200 (application/json)
+
+    + Body
+
+            // De inhoud van deze response is hetzelfde als bij `GET` op `/sjabloon/etiket/{id}`
+            // voor het aangemaakte etiketsjabloon.
+
+## Etiketsjabloon [/sjabloon/etiket/{id}]
+
++ Parameters
+    + id (string) - Het id van het etiketsjabloon
+
+### Etiketsjabloon opvragen [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            // TODO
+
+### Etiketsjabloon bewerken [PATCH]
+
++ Request (application/json)
+
+    + Body
+
+            // De inhoud van deze request is hetzelfde als de response bij `GET` op
+            // `/sjabloon/etiket/{id}`.
+
++ Response 200 (application/json)
+
+    + Body
+
+            // De inhoud van deze response is hetzelfde als bij `GET` op `/sjabloon/etiket/{id}`
+            // voor het aangemaakte etiketsjabloon.
+
+### Etiketsjabloon verwijderen [DELETE]
+
++ Response 204
+
+## E-mailsjablonen [/sjabloon/mail]
+
+### E-mailsjablonen opvragen [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            // TODO
+
+### E-mailsjabloon aanmaken [POST]
+
+##### Request
+
++ Request (application/json)
+
+    + Body
+
+            // De inhoud van deze request is hetzelfde als de response bij `GET` op
+            // `/sjabloon/mail/{id}`.
+
++ Response 200 (application/json)
+
+    + Body
+
+            // De inhoud van deze response is hetzelfde als bij `GET` op `/sjabloon/mail/{id}`
+            // voor het aangemaakte e-mailsjabloon.
+
+## E-mailsjabloon [/sjabloon/mail/{id}]
+
++ Parameters
+    + id (string) - Het id van het e-mailsjabloon
+
+### E-mailsjabloon opvragen [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            // TODO
+
+### E-mailsjabloon bewerken [PATCH]
+
++ Request (application/json)
+
+    + Body
+
+            // De inhoud van deze request is hetzelfde als de response bij `GET` op
+            // `/sjabloon/mail/{id}`.
+
++ Response 200 (application/json)
+
+    + Body
+
+            // De inhoud van deze response is hetzelfde als bij `GET` op `/sjabloon/mail/{id}`
+            // voor het aangemaakte e-mailsjabloon.
+
+### E-mailsjabloon verwijderen [DELETE]
+
++ Response 204
