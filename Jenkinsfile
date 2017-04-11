@@ -11,7 +11,7 @@ pipeline {
         sh "node_modules/.bin/grunt wiredep"
         sh "node_modules/.bin/grunt less"
         sh "node_modules/.bin/aglio --theme-condense-nav=false -i docs/api.apib -o docs/api.html"
-        sh "zip -r client.zip \*.html app bower_components css data fonts img js less"
+        sh "zip -r client.zip \\*.html app bower_components css data fonts img js less"
       }
     }
 
