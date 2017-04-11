@@ -164,7 +164,7 @@
 </div>
 
 <!-- Table -->
-<table id="leden" class="table table-responsive table-leden table-hover" infinite-scroll="nextPage()" infinite-scroll-disabled="(busy || end )" infinite-scroll-distance="1" infinite-scroll-immediate-check="true">
+<table id="leden" class="table table-responsive table-leden table-hover" >
   <thead>
     <tr>
 
@@ -175,7 +175,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr  ng-repeat="lid in leden" ga-lid="{{lid.id}}" ng-init="meerLaden($last)" >
+    <tr  ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
       <td ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy: 'kolomIndex'">
         <div class="fade-in slide-in">
           <div ng-if="!kolom.isLoaded" class="data-placeholder"></div>

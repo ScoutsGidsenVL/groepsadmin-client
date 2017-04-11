@@ -53,11 +53,11 @@
     });
 
     // controle on resize
-    angular.element($window).bind('resize', function () {
-     if($(window).height() > $("#leden").height() && !$scope.busy){
-       $scope.nextPage();
-     }
-    });
+    // angular.element($window).bind('resize', function () {
+    //  if($(window).height() > $("#leden").height() && !$scope.busy){
+    //    $scope.nextPage();
+    //  }
+    // });
 
     stelFilterSamen();
 
@@ -197,7 +197,6 @@
         }
       }else if(type == 'radio'){
         _.each(criteriumItems,function(value, key){
-          //console.log('radio------ criteriumItems' , value, key)
           value.activated = false;
         })
         criteriumItem.activated = true;
@@ -320,9 +319,6 @@
         }
       }
 
-
-
-
       // sowieso 'huidige' filter opslaan
       RestService.UpdateFilter.update({id: 'huidige'}, reconstructedFilterObj).$promise.then(
         function(response){
@@ -330,8 +326,10 @@
           $scope.isSavingFilters = false;
           // resultaten leegmaken
           $scope.leden = [];
-          $scope.meerLaden(true);
-          console.log('response of update', response);
+
+          //$scope.meerLaden(true);
+          //console.log('response of update', response);
+          $scope.ledenLaden();
         }
       );
     }
@@ -376,7 +374,7 @@
 
     $scope.setFilter = function(filter){
 
-      stelFilterSamen(filter.id)
+      stelFilterSamen(filter.id);
       // resultaat wissen,
 
     }
@@ -420,6 +418,20 @@
      */
 
     // controle moet er meer leden ingeladen worden
+    $scope.ledenLaden = function(){
+      var offset = 0;
+      var aantalPerPagina = 1000
+      LLS.getLeden(aantalPerPagina, 0).then(
+        function(res){
+          console.log('----- got leden', res);
+          $scope.leden.push.apply($scope.leden,res.leden);
+          $scope.totaalAantalLeden = res.totaal;
+          $scope.offset = res.offset;
+          $scope.busy = false;
+        }
+      );
+    }
+
     $scope.meerLaden = function(last){
       if(last && $(window).height() > $("#leden").height()){
         console.log('nextPage()');
@@ -446,7 +458,7 @@
       }
       else{
         $scope.busy = false;
-        $scope.end = true;
+        //$scope.end = true;
       }
     }
 
