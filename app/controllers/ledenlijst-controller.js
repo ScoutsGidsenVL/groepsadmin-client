@@ -304,18 +304,18 @@
       if(filter){
         if(filter.id !== undefined || filter == 'huidige'){
           var fObj = reconstructedFilterObj;
-          var fId;
           if(filter == 'huidige'){
             fObj.id = 'huidige';
           }else{
             fObj.naam = filter.naam;
             fObj.id = filter.id;
-            RestService.UpdateFilter.update({id: fObj.id}, fObj).$promise.then(
-              function(response){
-                console.log('response of UPDATE of filter:'+ fObj.id, response);
-              }
-            );
+
           }
+          RestService.UpdateFilter.update({id: fObj.id}, fObj).$promise.then(
+            function(response){
+              console.log('response of UPDATE of filter:'+ fObj.id, response);
+            }
+          );
 
           // indien filter werd geselecteerd doen we een UPDATE op basis van filter.id
 
