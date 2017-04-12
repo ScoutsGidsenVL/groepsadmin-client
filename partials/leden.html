@@ -125,7 +125,7 @@
         <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" class="btn btn-filter btn-filter--kolommen dropdown-toggle" uib-dropdown-toggle>
           <span class="filter-option-title">Kolommen</span>
           <span class="filter-option-subtitle">
-            <span ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy:'label' | limitTo : 3">
+            <span ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy:'kolomIndex' | limitTo : 3">
                {{ kolom.label }}
                <span ng-if="!$last">,</span>
             </span>
