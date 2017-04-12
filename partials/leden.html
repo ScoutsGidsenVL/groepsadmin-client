@@ -1,14 +1,12 @@
 <!-- Panel header -->
 <div class="panel-heading clearfix">
   <div class="pull-left">
-    <a class="btn btn-default btn-toggle" ng-init="isFilterCollapsed = true " ng-class="{ 'active' : !isFilterCollapsed }" href ng-click="isFilterCollapsed = !isFilterCollapsed"><span class="glyphicon glyphicon-filter"></span>&nbsp; Filter</a>
-
-
+    <button class="btn btn-default btn-toggle" ng-class="{ 'active' : !isFilterCollapsed }" ng-click="isFilterCollapsed = !isFilterCollapsed"><i class="glyphicon glyphicon-filter"></i> Filter</button>
   </div>
 
   <div class="pull-right">
     <!-- <a href="#/lid/toevoegen" class="btn-minimal"><span class="glyphicon glyphicon-plus"></span>&nbsp; Nieuw lid toevoegen</a> -->
-    <a class="btn-minimal" href="https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/src.14.afdrukken_downloaden.jsp" target="_blank"><span class="glyphicon glyphicon-share-alt"></span>&nbsp; Exporteren</a>
+    <a class="btn btn-minimal" href="https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/src.14.afdrukken_downloaden.jsp" target="_blank"><i class="glyphicon glyphicon-share-alt"></i>&nbsp; Exporteren</a>
   </div>
 </div>
 
@@ -39,7 +37,7 @@
         <!--<select class="selectpicker" title="Beschikbaar voor" ng-model="currentFilter" >
           <option>Groep x</option>
         </select>-->
-        <button class="btn btn-apply" ng-click="saveAndApplyFilter(selectedFilter)">
+        <button class="btn btn-apply" ng-click="">
           <span ng-if="!selectedFilter.id"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan</span>
           <span ng-if="selectedFilter.id"><span class="glyphicon glyphicon-floppy-open" aria-hidden="true"></span>&nbsp;Overschrijven</span>
         </button>
@@ -158,7 +156,7 @@
         <button ng-if="isSavingFilters" type="button" class="btn btn-apply disabled" title="Criteria opslaan">
           <div class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria opslaan...</div>
         </button>
-        <button ng-if="!isSavingFilters" type="button" ng-click="saveAndApplyFilter('huidige')" class="btn btn-apply" title="Filter toepassen">
+        <button ng-if="!isSavingFilters" type="button" ng-click="" class="btn btn-apply" title="Filter toepassen">
           <div><span class="glyphicon glyphicon-ok"></span><span class="hidden-label">Filter toepassen</span></div>
         </button>
       </div>
@@ -180,7 +178,7 @@
   <tbody>
     <tr  ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
       <td ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy: 'kolomIndex'">
-        <div class="fade-in">
+        <div>
           <div ng-if="!kolom.isLoaded" class="data-placeholder"></div>
           {{ lid.waarden[kolom.id] }}
         </div>

@@ -13,12 +13,8 @@
   function LedenFilterService($log, RestService) {
     var ledenFilterService = {};
 
-
-    ledenFilterService.getCriteriaAndFilters = function(filterId){
+    ledenFilterService.getCriteria = function(){
       var returnObj = {};
-      returnObj.kolommen = [];
-      returnObj.filters = [];
-      returnObj.currentFilter = {};
       returnObj.arrCriteria = [];
 
       returnObj.promises = [];
@@ -72,22 +68,43 @@
           returnObj.arrCriteria.push(geblokkeerdAdres);
         }
       );
-      returnObj.promises[5] = RestService.Kolommen.get().$promise.then(
-        function(result){
-          returnObj.kolommen = result.kolommen;
-        }
-      );
-      returnObj.promises[6] = RestService.Filters.get().$promise.then(
+
+      return returnObj;
+    }
+
+    ledenFilterService.getFilters = function(){
+      var returnObj = {};
+      returnObj.filters = [];
+      returnObj.promises = [];
+      returnObj.promises[0] = RestService.Filters.get().$promise.then(
         function (result){
           returnObj.filters = result.filters;
         }
       );
-      returnObj.promises[7] = RestService.FilterDetails.get({id: filterId}).$promise.then(
-        function (result) {
-          $log.debug('filter: ' + filterId, result);
-          returnObj.currentFilter = result;
-        });
+      return returnObj;
+    }
 
+    ledenFilterService.getKolommen = function(){
+      var returnObj = {};
+      returnObj.kolommen = [];
+      returnObj.promises = [];
+      returnObj.promises[0] = RestService.Kolommen.get().$promise.then(
+        function(result){
+          returnObj.kolommen = result.kolommen;
+        }
+      );
+      return returnObj;
+    }
+
+    ledenFilterService.getFilter = function(filterId){
+      var returnObj = {};
+      returnObj.currentFilter = {};
+      returnObj.promises = [];
+      returnObj.promises[0] = RestService.FilterDetails.get({id: filterId}).$promise.then(
+      function (result) {
+        $log.debug('filter: ' + filterId, result);
+        returnObj.currentFilter = result;
+      });
       return returnObj;
     }
 
