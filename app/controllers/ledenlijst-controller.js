@@ -62,7 +62,7 @@
 
 
 
-    function stelFilterSamen(id){
+    function stelFilterSamen(id,saa){
       // loading spinner van Filters
       $scope.isLoadingFilters = true;
 
@@ -94,6 +94,9 @@
 
 
         $scope.activeerEnIndexeerKolommen();
+        if(saa == true){
+          $scope.saveAndApplyFilter($scope.currentFilter.naam,true);
+        }
       });
 
       // Filter ophalen adhv filterId
@@ -294,24 +297,25 @@
       };
     }
 
-    $scope.saveAndApplyFilter = function(filter){
+    $scope.saveAndApplyFilter = function(filter,noComposeFilter){
 
       $scope.isSavingFilters = true;
       var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
-      var actKolommen  = _.filter($scope.kolommen, {"activated":true});
+      var actKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
       var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
 
       if(filter){
         if(filter.id !== undefined || filter == 'huidige'){
           var fObj = reconstructedFilterObj;
+          var fId;
           if(filter == 'huidige'){
-            fObj.id = 'huidige';
+            fId = 'huidige';
           }else{
             fObj.naam = filter.naam;
             fObj.id = filter.id;
-
+            fId = fObj.id;
           }
-          RestService.UpdateFilter.update({id: fObj.id}, fObj).$promise.then(
+          RestService.UpdateFilter.update({id: fId}, fObj).$promise.then(
             function(response){
               console.log('response of UPDATE of filter:'+ fObj.id, response);
             }
@@ -337,7 +341,9 @@
       // sowieso 'huidige' filter opslaan
       RestService.UpdateFilter.update({id: 'huidige'}, reconstructedFilterObj).$promise.then(
         function(response){
-          stelFilterSamen();
+          if(!noComposeFilter){
+            stelFilterSamen();
+          }
           $scope.isSavingFilters = false;
           // resultaten leegmaken
           $scope.leden = [];
@@ -389,7 +395,7 @@
 
     $scope.setFilter = function(filter){
 
-      stelFilterSamen(filter.id);
+      stelFilterSamen(filter.id, true);
       // resultaat wissen,
 
     }
@@ -434,6 +440,7 @@
 
     // controle moet er meer leden ingeladen worden
     $scope.ledenLaden = function(){
+      $scope.isLoadingLeden = true;
       var offset = 0;
       var aantalPerPagina = 1000
       LLS.getLeden(aantalPerPagina, 0).then(
@@ -443,6 +450,7 @@
           $scope.totaalAantalLeden = res.totaal;
           $scope.offset = res.offset;
           $scope.busy = false;
+          $scope.isLoadingLeden = false;
         }
       );
     }

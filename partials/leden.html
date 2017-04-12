@@ -135,11 +135,13 @@
 
         <div class="dropdown-menu" uib-dropdown-menu>
           <div class="control-group"  id="mySortableList">
+
             <label
               ng-repeat="kolom in kolommen | orderBy: 'kolomIndex'"
               class="control control--checkbox noselect"
               data-kolom-id="{{kolom.id}}"
               >
+              <span class="glyphicon glyphicon-move pull-right"></span>
               {{ kolom.label }}
               <input type="checkbox" ng-click="toggleKolom(kolom)" ng-checked="kolom.activated" />
               <div class="control__indicator"></div>
@@ -177,7 +179,7 @@
   <tbody>
     <tr  ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
       <td ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy: 'kolomIndex'">
-        <div class="fade-in slide-in">
+        <div class="fade-in">
           <div ng-if="!kolom.isLoaded" class="data-placeholder"></div>
           {{ lid.waarden[kolom.id] }}
         </div>
@@ -186,8 +188,8 @@
     </tr>
   </tbody>
 </table>
-<footer class="panel-footer clearfix" in-view="test($inview)">
-  <div ng-show='busy && !end ' class="loading" in-view="test($inview)"><i class="fa fa-spinner fa-pulse"></i>Leden aan het ophalen... </div>
+<footer class="panel-footer clearfix">
+  <div ng-show='isLoadingLeden' class="loading"><i class="fa fa-spinner fa-pulse"></i>Leden aan het ophalen... </div>
 </footer>
 
 
