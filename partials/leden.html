@@ -30,7 +30,7 @@
         <button class="btn btn-default"  ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Filter maken</button>
       </div>
       <div ng-show="showSaveOptions" class="pull-left">
-      <form class="form-inline typeahead-demo">
+      <form class="form-inline typeahead-filter">
         <!-- <pre>Model: {{selectedFilter | json}}</pre> -->
         <input type="text" ng-model="selectedFilter"
         placeholder="Naam van filter"
@@ -43,6 +43,7 @@
           <span ng-if="!selectedFilter.id"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan</span>
           <span ng-if="selectedFilter.id"><span class="glyphicon glyphicon-floppy-open" aria-hidden="true"></span>&nbsp;Overschrijven</span>
         </button>
+        <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions;selectedFilter='';"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span>&nbsp;Annuleren</button>
       </form>
       </div>
     </div>
