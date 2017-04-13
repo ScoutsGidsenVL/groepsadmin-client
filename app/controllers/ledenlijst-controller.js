@@ -94,71 +94,72 @@
     }
 
     function stelFilterSamen(filterId){
+      var currFilter = LFS.getFilter(filterId);
 
-      var currentFilter = LFS.getFilter(filterId);
 
       // Filter ophalen adhv filterId
       // Adhv deze Filter de geselecteerde criteria bepalen
 
-      $q.all(currentFilter.promises).then(function(){
-        $scope.currentFilter = currentFilter.currentFilter;
-        $scope.geselecteerdeCriteria = [];
+        $q.all(currFilter.promises).then(function(){
+          //$log.debug('LFS -- getFilter by id: ' + filterId, currentFilter.currentFilter);
+          $scope.currentFilter = currFilter.currentFilter;
+          $scope.geselecteerdeCriteria = [];
 
-        angular.forEach($scope.currentFilter.criteria, function(value, key){
+          angular.forEach($scope.currentFilter.criteria, function(value, key){
 
-          // neem alle functies uit criteria.functie 'functie' criteria
-          // activeer alle functies
-          if(key === "functies") {
-            RestService.Functies.get().$promise.then(
-              function (response) {
-                //$log.debug("Functies---", response);
-                angular.forEach(value, function(functieID) {
-                  angular.forEach(response.functies, function(apiFunctie) {
-                    if (apiFunctie.id == functieID) {
-                      if(!LFS.bestaatFunctieGroep(apiFunctie, $scope.geselecteerdeCriteria)){
-                        $scope.geselecteerdeCriteria = LFS.voegFunctieGroepToeAan(apiFunctie, $scope.geselecteerdeCriteria);
+            // neem alle functies uit criteria.functie 'functie' criteria
+            // activeer alle functies
+            if(key === "functies") {
+              RestService.Functies.get().$promise.then(
+                function (response) {
+                  //$log.debug("Functies---", response);
+                  angular.forEach(value, function(functieID) {
+                    angular.forEach(response.functies, function(apiFunctie) {
+                      if (apiFunctie.id == functieID) {
+                        if(!LFS.bestaatFunctieGroep(apiFunctie, $scope.geselecteerdeCriteria)){
+                          $scope.geselecteerdeCriteria = LFS.voegFunctieGroepToeAan(apiFunctie, $scope.geselecteerdeCriteria);
+                        }
+                        $scope.geselecteerdeCriteria = LFS.voegItemToeAanFunctieGroep(apiFunctie, $scope.geselecteerdeCriteria);
                       }
-                      $scope.geselecteerdeCriteria = LFS.voegItemToeAanFunctieGroep(apiFunctie, $scope.geselecteerdeCriteria);
-                    }
+                    });
                   });
+                }
+              );
+            }
+            else if(key === "groepen") {
+                var items = [];
+                angular.forEach(value, function(groepsnummer){
+                  RestService.Groep.get({id:groepsnummer}).$promise.then(
+                    function(result){
+                      var groep  = result;
+                     items.push({
+                          value : groep.groepsnummer,
+                          label :  groep.naam + " [" + groep.groepsnummer + "]"
+                        });
+                    }
+                  );
                 });
-              }
-            );
-          }
-          else if(key === "groepen") {
-              var items = [];
-              angular.forEach(value, function(groepsnummer){
-                RestService.Groep.get({id:groepsnummer}).$promise.then(
-                  function(result){
-                    var groep  = result;
-                   items.push({
-                        value : groep.groepsnummer,
-                        label :  groep.naam + " [" + groep.groepsnummer + "]"
-                      });
-                  }
-                );
-              });
-              var tempselectedCriteria = {
-                title : key.charAt(0).toUpperCase() + key.slice(1),
-                criteriaKey : "groepen",
-                multiplePossible : true,
-                items: items
-              }
-              $scope.geselecteerdeCriteria.push(tempselectedCriteria);
+                var tempselectedCriteria = {
+                  title : key.charAt(0).toUpperCase() + key.slice(1),
+                  criteriaKey : "groepen",
+                  multiplePossible : true,
+                  items: items
+                }
+                $scope.geselecteerdeCriteria.push(tempselectedCriteria);
 
-          }
-          else {
-              var tempselectedCriteria = {
-                title : key.charAt(0).toUpperCase() + key.slice(1),
-                items : value
-              }
-              $scope.geselecteerdeCriteria.push(tempselectedCriteria);
-          }
+            }
+            else {
+                var tempselectedCriteria = {
+                  title : key.charAt(0).toUpperCase() + key.slice(1),
+                  items : value
+                }
+                $scope.geselecteerdeCriteria.push(tempselectedCriteria);
+            }
+          });
+
+
+
         });
-
-        $scope.activeerCriteria();
-        $scope.activeerEnIndexeerKolommen();
-      });
     }
 
     // Zet adhv de ingestelde filter, iedere criteriaCategorie en elk item in de criteriaCategorie op actief
@@ -327,6 +328,20 @@
       });
     }
 
+    $scope.saveFilter = function(filterId, reconstructedFilterObj){
+      return $q(function(resolve,reject){
+        if(filterId){
+          if(filterId == 'huidige'){
+            RestService.UpdateFilter.update({id: filterId}, reconstructedFilterObj).$promise.then(
+              function(response){
+                resolve(response);
+              }
+            );
+          }
+        }
+      });
+    }
+
     $scope.saveAndApplyFilter = function(filter,noComposeFilter){
 
       $scope.isSavingFilters = true;
@@ -441,6 +456,26 @@
     $scope.setFilter = function(filter){
 
       stelFilterSamen(filter.id);
+
+      // .then(function(){
+      //
+      //   $scope.activeerCriteria();
+      //   $scope.activeerEnIndexeerKolommen();
+      //
+      //   var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
+      //   var actKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
+      //   var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
+      //
+      //   $scope.isSavingFilters = true;
+      //   $scope.saveFilter('huidige', reconstructedFilterObj).then(function(response){
+      //     $scope.isSavingFilters = false;
+      //     // ledenlijst leegmaken
+      //     $scope.leden = [];
+      //     console.log('response of save', response);
+      //     $scope.ledenLaden();
+      //   });
+      //
+      // });
       // resultaat wissen,
 
     }
@@ -490,7 +525,7 @@
       var aantalPerPagina = 1000
       LLS.getLeden(aantalPerPagina, 0).then(
         function(res){
-          console.log('----- got leden', res);
+          //console.log('----- got leden', res);
           $scope.leden.push.apply($scope.leden,res.leden);
           $scope.totaalAantalLeden = res.totaal;
           $scope.offset = res.offset;

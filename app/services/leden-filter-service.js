@@ -101,9 +101,20 @@
       returnObj.currentFilter = {};
       returnObj.promises = [];
       returnObj.promises[0] = RestService.FilterDetails.get({id: filterId}).$promise.then(
-      function (result) {
-        $log.debug('filter: ' + filterId, result);
-        returnObj.currentFilter = result;
+      function (res) {
+        $log.debug('LFS -- getFilter by id: ' + filterId, res);
+        returnObj.currentFilter = res;
+      });
+      return returnObj;
+    }
+    ledenFilterService.getFiltera = function(filterId){
+      var returnObj = {};
+      returnObj.currentFilter = {};
+      returnObj.promises = [];
+      returnObj.promises[0] = RestService.FilterDetails.get({id: filterId}).$promise.then(
+      function (res) {
+        $log.debug('LFS ** getFilterA *** by id: ' + filterId, res);
+        returnObj.currentFilter = res;
       });
       return returnObj;
     }
