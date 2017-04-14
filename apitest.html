@@ -132,6 +132,14 @@
         $('#status').html(statusCode + ' - ' + statusText);
         $('#type').html(contentType);
 
+        if (contentType === 'application/json') {
+          try {
+            result = JSON.stringify(JSON.parse(result), undefined, 2);
+          } catch(e) {
+            // invalid syntax? Display as-is
+          }
+        }
+
         if (contentType === 'application/pdf') {
           contentType += ";base64";
         } else {
@@ -148,8 +156,7 @@
         if (document.getElementById('result').contentDocument) {
           var resultBody = document.getElementById('result').contentDocument.body;
           if (resultBody) {
-            document.getElementById('result').style.height
-              = Math.min(parseFloat(window.getComputedStyle(resultBody).height) + 64, 2000) + 'px';
+            document.getElementById('result').style.height = parseFloat(resultBody.scrollHeight) + 'px';
           }
         }
 
