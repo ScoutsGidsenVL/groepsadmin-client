@@ -345,19 +345,7 @@
       });
     }
 
-    $scope.saveFilter = function(filterId, reconstructedFilterObj){
-      return $q(function(resolve,reject){
-        if(filterId){
-          if(filterId == 'huidige'){
-            RestService.UpdateFilter.update({id: filterId}, reconstructedFilterObj).$promise.then(
-              function(response){
-                resolve(response);
-              }
-            );
-          }
-        }
-      });
-    }
+
 
     $scope.saveAndApplyFilter = function(filter,noComposeFilter){
 
@@ -486,23 +474,34 @@
 
         // voor de patch van de filter hebben we enkel de kolom id's nodig
         _.each(tmpactKolommen, function(value){
-          actKolommen.push(_.pick(value, 'id'));
+          actKolommen.push(value.id);
         });
 
 
         var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
 
-        $log.debug("setFilter- actKolommen ", actKolommen);
+        $log.debug("reconstructedFilterObj - ", reconstructedFilterObj);
+        $log.debug("Nieuwe filter ", JSON.stringify(reconstructedFilterObj));
 
         $scope.isSavingFilters = true;
 
-        // $scope.saveFilter('huidige', reconstructedFilterObj).then(function(response){
-        //   $scope.isSavingFilters = false;
-        //   // ledenlijst leegmaken
-        //   $scope.leden = [];
-        //   console.log('response of save ', response);
-        //   $scope.ledenLaden();
-        // });
+        LFS.saveFilter('huidige', reconstructedFilterObj).then(
+        function(response){
+          $scope.isSavingFilters = false;
+          // ledenlijst leegmaken
+          $scope.leden = [];
+          console.log('response of save ', response);
+          $scope.ledenLaden();
+        }, function(error){
+          $scope.isSavingFilters = false;
+          console.log("ERR", error);
+          // ledenlijst leegmaken
+          $scope.leden = [];
+          console.log('response of save ', response);
+          $scope.ledenLaden();
+
+
+        });
 
       });
 

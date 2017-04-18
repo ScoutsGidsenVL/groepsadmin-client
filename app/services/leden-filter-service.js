@@ -5,12 +5,12 @@
     .module('ga.services.ledenfilter', [])
     .factory('LedenFilterService', LedenFilterService);
 
-  LedenFilterService.$inject = ['$log','RestService'];
+  LedenFilterService.$inject = ['$q','$log','RestService'];
 
   // Deze service bevat een aantal helper functies die voornamelijk worden gebruikt door de LedenlijstController
   // bvb. voor het samenstellen van filters en criteria
 
-  function LedenFilterService($log, RestService) {
+  function LedenFilterService($q, $log, RestService) {
     var ledenFilterService = {};
 
     ledenFilterService.getCriteria = function(){
@@ -292,6 +292,21 @@
       });
       return tempKey;
     }
+
+    ledenFilterService.saveFilter = function(filterId, reconstructedFilterObj){
+      return $q(function(resolve,reject){
+        if(filterId){
+          if(filterId == 'huidige'){
+            RestService.UpdateFilter.update({id: filterId}, reconstructedFilterObj).$promise.then(
+              function(response){
+                resolve(response);
+              }
+            );
+          }
+        }
+      });
+    }
+
 
     ledenFilterService.getReconstructedFilterObject = function(activeCriteria, activeKolommen, currentFilter){
       // reconstrueer het Filter object:
