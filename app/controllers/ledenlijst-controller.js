@@ -479,19 +479,30 @@
         $scope.activeerEnIndexeerKolommen();
 
         var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
-        var actKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
+
+        // seleecteer alle actieve kolommen, gesorteerd op kolomIndex
+        var tmpactKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
+        var actKolommen = [];
+
+        // voor de patch van de filter hebben we enkel de kolom id's nodig
+        _.each(tmpactKolommen, function(value){
+          actKolommen.push(_.pick(value, 'id'));
+        });
+
+
         var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
 
-        $log.debug("setFilter, ", actKolommen);
+        $log.debug("setFilter- actKolommen ", actKolommen);
 
         $scope.isSavingFilters = true;
-        $scope.saveFilter('huidige', reconstructedFilterObj).then(function(response){
-          $scope.isSavingFilters = false;
-          // ledenlijst leegmaken
-          $scope.leden = [];
-          console.log('response of save ', response);
-          $scope.ledenLaden();
-        });
+
+        // $scope.saveFilter('huidige', reconstructedFilterObj).then(function(response){
+        //   $scope.isSavingFilters = false;
+        //   // ledenlijst leegmaken
+        //   $scope.leden = [];
+        //   console.log('response of save ', response);
+        //   $scope.ledenLaden();
+        // });
 
       });
 
