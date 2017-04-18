@@ -13,7 +13,7 @@
     if (window.location.protocol === "https:") {
         apiHost = window.location.origin;
     } else {
-        apiHost = 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net';
+        apiHost = 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be';
         // Alternatief als de groepsadmin lokaal draait:
         //apiHost = 'http://localhost:8080';
     }

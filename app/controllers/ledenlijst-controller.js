@@ -458,7 +458,7 @@
      * -------------------------------------------------------
      */
 
-    $scope.setFilter = function(filter){
+    $scope.changeFilter = function(filter){
       $scope.isLoadingFilters = true;
       stelFilterSamen(filter.id).then(function(){
         $scope.isLoadingFilters = false;
@@ -477,11 +477,9 @@
           actKolommen.push(value.id);
         });
 
-
         var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
 
-        $log.debug("reconstructedFilterObj - ", reconstructedFilterObj);
-        $log.debug("Nieuwe filter ", JSON.stringify(reconstructedFilterObj));
+        //$log.debug("reconstructedFilterObj - ", reconstructedFilterObj);
 
         $scope.isSavingFilters = true;
 
@@ -504,6 +502,46 @@
         });
 
       });
+
+
+      $scope.applyFilter = function(){
+
+        // TODO : centralize code, because now same code is used in $scope.saveFilter()
+        var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
+
+        // seleecteer alle actieve kolommen, gesorteerd op kolomIndex
+        var tmpactKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
+        var actKolommen = [];
+
+        // voor de patch van de filter hebben we enkel de kolom id's nodig
+        _.each(tmpactKolommen, function(value){
+          actKolommen.push(value.id);
+        });
+
+        var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
+
+        //$log.debug("reconstructedFilterObj - ", reconstructedFilterObj);
+
+        $scope.isSavingFilters = true;
+
+        LFS.saveFilter('huidige', reconstructedFilterObj).then(
+        function(response){
+          $scope.isSavingFilters = false;
+          // ledenlijst leegmaken
+          $scope.leden = [];
+          console.log('response of save ', response);
+          $scope.ledenLaden();
+        }, function(error){
+          $scope.isSavingFilters = false;
+          console.log("ERR", error);
+          // ledenlijst leegmaken
+          $scope.leden = [];
+          console.log('response of save ', response);
+          $scope.ledenLaden();
+
+
+        });
+      }
 
       // .then(function(){
       //
