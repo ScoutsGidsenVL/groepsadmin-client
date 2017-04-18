@@ -113,6 +113,46 @@
     <script src="bower_components/keycloak/dist/keycloak.js"></script>
     <script src="js/keycloak-config.js"></script>
     <script>
+      // Gekopieerd van http://www.henryalgus.com/reading-binary-files-using-jquery-ajax/
+      // use this transport for "binary" data type
+      $.ajaxTransport("+binary", function(options, originalOptions, jqXHR){
+        // check for conditions and support for blob / arraybuffer response type
+        if (window.FormData && ((options.dataType && (options.dataType == 'binary')) || (options.data && ((window.ArrayBuffer && options.data instanceof ArrayBuffer) || (window.Blob && options.data instanceof Blob))))) {
+          return {
+            send: function(headers, callback){
+              var xhr = new XMLHttpRequest(),
+              url = options.url,
+              type = options.type,
+              async = options.async || true,
+              // blob or arraybuffer. Default is blob
+              dataType = options.responseType || "blob",
+              data = options.data || null,
+              username = options.username || null,
+              password = options.password || null;
+
+              xhr.addEventListener('load', function(){
+                var data = {};
+                data[options.dataType] = xhr.response;
+                // make callback and send data
+                callback(xhr.status, xhr.statusText, data, xhr.getAllResponseHeaders());
+              });
+
+              xhr.open(type, url, async, username, password);
+
+              for (var i in headers) {
+                xhr.setRequestHeader(i, headers[i]);
+              }
+
+              xhr.responseType = dataType;
+              xhr.send(data);
+            },
+            abort: function(){
+              jqXHR.abort();
+            }
+          };
+        }
+      });
+
       $('#clientId').val(localStorage.getItem("client"));
       $('#urlToTest').val(localStorage.getItem("url"));
       $('#method').val(localStorage.getItem("method"));
@@ -127,26 +167,30 @@
         }
       }
 
-      function writeResult(contentType, result, statusCode, statusText) {
+      function processResult(jqXHR, statusText, data) {
 
-        $('#status').html(statusCode + ' - ' + statusText);
-        $('#type').html(contentType);
+        var contentType = jqXHR.getResponseHeader('Content-Type');
+
+        $('#status').val(jqXHR.status + ' - ' + statusText);
+        $('#type').val(contentType);
+
+        if (contentType === 'application/pdf') {
+          document.getElementById('result').src = URL.createObjectURL(data);
+          document.getElementById('result').style.height = '1000px';
+          return;
+        }
+
+        var content = jqXHR.responseText;
 
         if (contentType === 'application/json') {
           try {
-            result = JSON.stringify(JSON.parse(result), undefined, 2);
-          } catch(e) {
+            content = JSON.stringify(JSON.parse(content), undefined, 2);
+          } catch (e) {
             // invalid syntax? Display as-is
           }
         }
 
-        if (contentType === 'application/pdf') {
-          contentType += ";base64";
-        } else {
-          result = encodeURIComponent(result);
-        }
-
-        document.getElementById('result').src = 'data:' + contentType + ',' + result;
+        document.getElementById('result').src = 'data:' + contentType + ',' + encodeURIComponent(content);
       }
 
       var keycloak;
@@ -209,7 +253,6 @@
             checkLoginIframe: false
           })
           .success(function () {
-            console.log(keycloak.token);
             $('#access_token').text(keycloak.token);
             $('#access_token_details').html(getDetails(keycloak.tokenParsed));
             $('#refresh_token').text(keycloak.refreshToken);
@@ -230,11 +273,16 @@
 
           e.preventDefault(); // Pagina niet refreshen
 
-          $.ajax($('#urlToTest').val(),
+          var binary = ($('#acceptHeader').val() === 'application/pdf');
+
+          $.ajax(
+            $('#urlToTest').val(),
             {
               method: $('#method').val(),
               contentType: $('#contentType').val(),
               data: $('#requestBody:visible').val() || '',
+              dataType: binary ? 'binary' : null,
+              processData: !binary,
               beforeSend: function (xhr) {
                 $('#status').html('Nog geen resultaat gekregen...');
                 $('#result').get()[0].src = 'data:text/plain,Nog geen resultaat gekregen...';
@@ -242,10 +290,10 @@
                 xhr.setRequestHeader('Accept', $('#acceptHeader').val());
               },
               error: function (jqXHR, textStatus, errorThrown) {
-                writeResult(jqXHR.getResponseHeader('Content-Type'), jqXHR.responseText, jqXHR.status, errorThrown || textStatus);
+                processResult(jqXHR, errorThrown || textStatus, null);
               },
               success: function (data, textStatus, jqXHR) {
-                writeResult(jqXHR.getResponseHeader('Content-Type'), jqXHR.responseText, jqXHR.status, textStatus);
+                processResult(jqXHR, textStatus, data);
               }
             }
           );
