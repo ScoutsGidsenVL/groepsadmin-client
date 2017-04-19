@@ -277,9 +277,6 @@
     $scope.activeerEnIndexeerKolommen = function(){
       // activeer alle kolommen uit de toegepaste filter
       // en geef er een kolomIndex aan
-      console.log('ACTIVEER EN INDEXEER KOLOMMEN', $scope.currentFilter.kolommen);
-      console.log('ACTIVEER EN INDEXEER KOLOMMEN', $scope.kolommen);
-
       var counter = 0;
       _.each($scope.currentFilter.kolommen, function(value, key){
         var kolom = _.find($scope.kolommen, {'id': value});
@@ -496,9 +493,8 @@
 
 
     $scope.applyfilter = function(){
-      console.log('applyFilter');
 
-      // TODO : centralize code, because now same code is used in $scope.saveFilter()
+      // TODO : centralize code, because now same code is used in $scope.changeFilter()
       var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
 
       // seleecteer alle actieve kolommen, gesorteerd op kolomIndex
@@ -581,7 +577,6 @@
       var aantalPerPagina = 1000
       LLS.getLeden(aantalPerPagina, 0).then(
         function(res){
-          console.log('----- got leden', res.leden);
           _.each(res.leden, function(val,key){
             $scope.leden.push(val);
           })
@@ -590,7 +585,6 @@
           $scope.offset = res.offset;
           $scope.busy = false;
           $scope.isLoadingLeden = false;
-          console.log('----- $scope leden', $scope.leden);
 
         }
       );
@@ -709,13 +703,11 @@
 
       //console.log("initCriteriaKolommenFilters!");
       stelFilterSamen('huidige').then(function(){
-        console.log('---- filter samengesteld!', $scope.currentFilter);
         $scope.isLoadingFilters = false;
         // variable om te voorkomen dat content flikkert
         $scope.hasLoadedFilters = true;
         $scope.activeerCriteria();
         $scope.activeerEnIndexeerKolommen();
-
         $scope.ledenLaden();
 
       });
