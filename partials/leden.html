@@ -134,7 +134,6 @@
 
         <div class="dropdown-menu" uib-dropdown-menu>
           <div class="control-group"  id="mySortableList">
-
             <label
               ng-repeat="kolom in kolommen | orderBy: 'kolomIndex'"
               class="control control--checkbox noselect"
@@ -165,10 +164,9 @@
 </div>
 
 <!-- Table -->
-<table id="leden" class="table table-responsive table-leden table-hover" >
+<table id="leden" class="table table-responsive table-leden" >
   <thead>
     <tr>
-
       <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'">{{ kolom.label }}
         <!--<i class="fa fa-sort-alpha-asc sort" ng-class="{'first-sort' : sortering(kolom.id, true) == 1, 'second-sort' : sortering(kolom.id, true) == 2, 'third-sort' : sortering(kolom.id, true) == 3 }" aria-hidden="true" ng-click="addSort(kolom.id, true)"></i>
         <i class="fa fa-sort-alpha-desc sort" ng-class="{'first-sort' : sortering(kolom.id, false) == 1, 'second-sort' : sortering(kolom.id, false) == 2, 'third-sort' : sortering(kolom.id, false) == 3 }" aria-hidden="true" ng-click="addSort(kolom.id, false)"></i>-->

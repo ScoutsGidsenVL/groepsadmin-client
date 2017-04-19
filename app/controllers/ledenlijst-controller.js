@@ -410,21 +410,7 @@
         activeerCriteria();
         activeerEnIndexeerKolommen();
 
-        var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
-
-        // seleecteer alle actieve kolommen, gesorteerd op kolomIndex
-        var tmpactKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
-        var actKolommen = [];
-
-        // voor de patch van de filter hebben we enkel de kolom id's nodig
-        _.each(tmpactKolommen, function(value){
-          actKolommen.push(value.id);
-        });
-
-        var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
-
-        //$log.debug("reconstructedFilterObj - ", reconstructedFilterObj);
-
+        var reconstructedFilterObj = createFilterObject();
         $scope.isSavingFilters = true;
 
         LFS.saveFilter('huidige', reconstructedFilterObj).then(
@@ -441,20 +427,7 @@
 
     $scope.applyFilter = function(){
 
-      // TODO : centralize code, because now same code is used in $scope.changeFilter()
-      var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
-
-      // seleecteer alle actieve kolommen, gesorteerd op kolomIndex
-      var tmpactKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
-      var actKolommen = [];
-
-      // voor de patch van de filter hebben we enkel de kolom id's nodig
-      _.each(tmpactKolommen, function(value){
-        actKolommen.push(value.id);
-      });
-
-      var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
-
+      var reconstructedFilterObj = createFilterObject();
       $scope.isSavingFilters = true;
 
       LFS.saveFilter('huidige', reconstructedFilterObj).then(
@@ -464,51 +437,9 @@
         $scope.leden = [];
         console.log('response of save ', response);
         $scope.ledenLaden();
-      }, function(error){
-        $scope.isSavingFilters = false;
-        console.log("ERR", error);
-        // ledenlijst leegmaken
-        $scope.leden = [];
-        console.log('response of save ', response);
-        $scope.ledenLaden();
-
-
       });
 
     }
-
-    /*
-     * Filter aanpassen
-     * -------------------------------------------------------
-     */
-    // item toevoegen aan een criteria waar er meerdere items geselecteerd mogen worden.
-    $scope.filterCriteriaToevoegen = function(criteriaItem, selectedCriteria){
-      selectedCriteria.items.push(criteriaItem);
-
-      //TO-DO: toevoegenen aan filtermodel
-      //TO-DO: nieuwe leden ophalen
-    }
-
-    // item verwijderen uit een criteria waar er meerdere items geselecteerd mogen worden.
-    $scope.filterCriteriaVerwijderen = function(criteriaItem, selectedCriteria){
-      // verwijderen uit geselecteerdeCriteria
-      var itemsLength = selectedCriteria.items.length
-      for(var i = 0; i < itemsLength; i++){
-        if(selectedCriteria.items[i].value == criteriaItem.value){
-           selectedCriteria.items.splice(i, 1);
-           break;
-        }
-      }
-
-      //TO-DO: toevoegenen aan filtermodel
-      //TO-DO: nieuwe leden ophalen
-    }
-
-    // nieuwe waarde voor een criteria waarvan maar één item geselecteerd magworden aanpassen
-    $scope.filterCriteriaAanpassen = function(criteriaItem, selectedCriteria){
-      selectedCriteria.items = criteriaItem.value;
-    }
-
 
     /*
      * Infinity scroll
