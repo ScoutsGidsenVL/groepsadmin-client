@@ -83,8 +83,6 @@
               $scope.filters = filters.filters;
               deferred.resolve();
 
-
-
             });
         });
 
@@ -311,19 +309,33 @@
       };
     }
 
-    $scope.updateFilter = function(filterId){
-
+    var createFilterObject = function(){
       var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
-      var actKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
-      var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
+      // seleecteer alle actieve kolommen, gesorteerd op kolomIndex
+      var tmpactKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
+      var actKolommen = [];
 
-      return $q(function(resolve,reject){
-        RestService.UpdateFilter.update({id: filterId}, reconstructedFilterObj).$promise.then(
-          function(response){
-            resolve(response);
-          }
-        );
+      // voor de patch van de filter hebben we enkel de kolom id's nodig
+      _.each(tmpactKolommen, function(value){
+        actKolommen.push(value.id);
       });
+
+      var currentFilter = $scope.currentFilter;
+      return LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, currentFilter);
+    }
+
+    var overwriteFilter = function(filter, obj){
+      var deferred = $q.defer();
+      console.log("===== overwriteFilter was called");
+      obj.naam = filter.naam;
+
+      LFS.saveFilter(filter.id, obj).then(
+      function(result){
+        console.log('response of overwriteFilter ', result);
+        deferred.resolve(result);
+      });
+
+      return deferred.promise;
 
     }
 
@@ -342,6 +354,34 @@
       });
     }
 
+    $scope.saveOrOverwriteFilter = function(selectedFilter){
+      $scope.isSavingFilters = true;
+
+      if(selectedFilter.id){
+        var reconstructedFilterObj = createFilterObject();
+        var tmpObj = JSON.parse(JSON.stringify(reconstructedFilterObj));
+        // bestaande filter overschrijven
+        overwriteFilter(selectedFilter, tmpObj).then(function(response){
+          console.log("saveOrOverwriteFilter", response);
+          $scope.isSavingFilters = false;
+
+          // instellen als huidige
+          LFS.saveFilter('huidige', reconstructedFilterObj).then(
+          function(res){
+            // TODO: selecteer 'huidige' in dropdown
+            console.log('response of save ', res);
+          });
+
+        });
+
+      }else{
+        // eerst checken of de getrimde naam niet overeenkomt met bestaande filter
+        // indien overeenkomt, eigen functie opnieuw aanroepen met functie id
+        // nieuwe filter maken
+
+      }
+
+    }
 
 
     $scope.saveAndApplyFilter = function(filter,noComposeFilter){
@@ -492,7 +532,7 @@
     }
 
 
-    $scope.applyfilter = function(){
+    $scope.applyFilter = function(){
 
       // TODO : centralize code, because now same code is used in $scope.changeFilter()
       var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});

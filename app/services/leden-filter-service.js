@@ -293,18 +293,17 @@
       return tempKey;
     }
 
-    ledenFilterService.saveFilter = function(filterId, reconstructedFilterObj){
-      return $q(function(resolve,reject){
-        if(filterId){
-          if(filterId == 'huidige'){
-            RestService.UpdateFilter.update({id: filterId}, reconstructedFilterObj).$promise.then(
-              function(response){
-                resolve(response);
-              }
-            );
+    ledenFilterService.saveFilter = function(filterId, fObj){
+      console.log('LFS.saveFilter filterId:',filterId, ' -- filterObject:  ', fObj);
+      var deferred = $q.defer();
+      if(filterId){
+        RestService.UpdateFilter.update({id: filterId}, fObj).$promise.then(
+          function(res){
+            deferred.resolve(res);
           }
-        }
-      });
+        );
+      }
+      return deferred.promise;
     }
 
 
