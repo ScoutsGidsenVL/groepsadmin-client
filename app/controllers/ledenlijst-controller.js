@@ -433,6 +433,7 @@
       LFS.saveFilter('huidige', reconstructedFilterObj).then(
       function(response){
         $scope.isSavingFilters = false;
+        _.each($scope.kolommen, function(val){val.isLoaded = true;});
         // ledenlijst leegmaken
         $scope.leden = [];
         console.log('response of save ', response);
