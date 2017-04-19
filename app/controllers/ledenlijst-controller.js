@@ -115,7 +115,6 @@
 
               var promiseFunctie = RestService.Functies.get().$promise.then(
                 function (response) {
-                  $log.debug("Functie  ---", response);
                   angular.forEach(value, function(functieID) {
                     angular.forEach(response.functies, function(apiFunctie) {
                       if (apiFunctie.id == functieID) {
@@ -142,7 +141,6 @@
                           value : groep.groepsnummer,
                           label :  groep.naam + " [" + groep.groepsnummer + "]"
                         });
-                      console.log('groep -- ', result);
                     }
                   );
                   arrPromises.push(promiseGroep);
@@ -279,10 +277,12 @@
     $scope.activeerEnIndexeerKolommen = function(){
       // activeer alle kolommen uit de toegepaste filter
       // en geef er een kolomIndex aan
+      console.log('ACTIVEER EN INDEXEER KOLOMMEN', $scope.currentFilter.kolommen);
+      console.log('ACTIVEER EN INDEXEER KOLOMMEN', $scope.kolommen);
 
       var counter = 0;
       _.each($scope.currentFilter.kolommen, function(value, key){
-        var kolom = _.find($scope.kolommen, {'id': value.id});
+        var kolom = _.find($scope.kolommen, {'id': value});
 
         if(kolom){
           kolom.isLoaded = true;
@@ -452,7 +452,6 @@
       // kolom nog niet in de filer => voeg toe
 
     }
-
     /*
      * Filter samenstellen
      * -------------------------------------------------------
@@ -490,79 +489,50 @@
           $scope.leden = [];
           console.log('response of save ', response);
           $scope.ledenLaden();
-        }, function(error){
-          $scope.isSavingFilters = false;
-          console.log("ERR", error);
-          // ledenlijst leegmaken
-          $scope.leden = [];
-          console.log('response of save ', response);
-          $scope.ledenLaden();
-
-
         });
 
       });
+    }
 
 
-      $scope.applyFilter = function(){
+    $scope.applyfilter = function(){
+      console.log('applyFilter');
 
-        // TODO : centralize code, because now same code is used in $scope.saveFilter()
-        var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
+      // TODO : centralize code, because now same code is used in $scope.saveFilter()
+      var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
 
-        // seleecteer alle actieve kolommen, gesorteerd op kolomIndex
-        var tmpactKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
-        var actKolommen = [];
+      // seleecteer alle actieve kolommen, gesorteerd op kolomIndex
+      var tmpactKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
+      var actKolommen = [];
 
-        // voor de patch van de filter hebben we enkel de kolom id's nodig
-        _.each(tmpactKolommen, function(value){
-          actKolommen.push(value.id);
-        });
+      // voor de patch van de filter hebben we enkel de kolom id's nodig
+      _.each(tmpactKolommen, function(value){
+        actKolommen.push(value.id);
+      });
 
-        var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
+      var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
 
-        //$log.debug("reconstructedFilterObj - ", reconstructedFilterObj);
+      $log.debug("APPLY FILTER ---- reconstructedFilterObj - ", reconstructedFilterObj);
 
-        $scope.isSavingFilters = true;
+      $scope.isSavingFilters = true;
 
-        LFS.saveFilter('huidige', reconstructedFilterObj).then(
-        function(response){
-          $scope.isSavingFilters = false;
-          // ledenlijst leegmaken
-          $scope.leden = [];
-          console.log('response of save ', response);
-          $scope.ledenLaden();
-        }, function(error){
-          $scope.isSavingFilters = false;
-          console.log("ERR", error);
-          // ledenlijst leegmaken
-          $scope.leden = [];
-          console.log('response of save ', response);
-          $scope.ledenLaden();
+      LFS.saveFilter('huidige', reconstructedFilterObj).then(
+      function(response){
+        $scope.isSavingFilters = false;
+        // ledenlijst leegmaken
+        $scope.leden = [];
+        console.log('response of save ', response);
+        $scope.ledenLaden();
+      }, function(error){
+        $scope.isSavingFilters = false;
+        console.log("ERR", error);
+        // ledenlijst leegmaken
+        $scope.leden = [];
+        console.log('response of save ', response);
+        $scope.ledenLaden();
 
 
-        });
-      }
-
-      // .then(function(){
-      //
-      //   $scope.activeerCriteria();
-      //   $scope.activeerEnIndexeerKolommen();
-      //
-      //   var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
-      //   var actKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
-      //   var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
-      //
-      //   $scope.isSavingFilters = true;
-      //   $scope.saveFilter('huidige', reconstructedFilterObj).then(function(response){
-      //     $scope.isSavingFilters = false;
-      //     // ledenlijst leegmaken
-      //     $scope.leden = [];
-      //     console.log('response of save', response);
-      //     $scope.ledenLaden();
-      //   });
-      //
-      // });
-      // resultaat wissen,
+      });
 
     }
 
@@ -611,12 +581,17 @@
       var aantalPerPagina = 1000
       LLS.getLeden(aantalPerPagina, 0).then(
         function(res){
-          //console.log('----- got leden', res);
-          $scope.leden.push.apply($scope.leden,res.leden);
+          console.log('----- got leden', res.leden);
+          _.each(res.leden, function(val,key){
+            $scope.leden.push(val);
+          })
+
           $scope.totaalAantalLeden = res.totaal;
           $scope.offset = res.offset;
           $scope.busy = false;
           $scope.isLoadingLeden = false;
+          console.log('----- $scope leden', $scope.leden);
+
         }
       );
     }

@@ -156,7 +156,7 @@
         <button ng-if="isSavingFilters" type="button" class="btn btn-apply disabled" title="Criteria opslaan">
           <div class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria opslaan...</div>
         </button>
-        <button ng-if="!isSavingFilters" type="button" ng-click="applyFilter()" class="btn btn-apply" title="Filter toepassen">
+        <button ng-click="applyfilter()" ng-if="!isSavingFilters" type="button" class="btn btn-apply" title="Filter toepassen">
           <div><span class="glyphicon glyphicon-ok"></span><span class="hidden-label">Filter toepassen</span></div>
         </button>
       </div>
