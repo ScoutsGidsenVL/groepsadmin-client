@@ -339,14 +339,15 @@
 
     }
 
-    $scope.createNewFilter = function(filterId){
-      var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
-      var actKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
-      var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
+    $scope.createNewFilter = function(filterNaam){
+
+      var reconstructedFilterObj = createFilterObject();
+      reconstructedFilterObj.naam = filterNaam;
+
       return $q(function(resolve,reject){
-        RestService.createNewFilter.post(fObj).$promise.then(
+        RestService.createNewFilter.post(reconstructedFilterObj).$promise.then(
           function(response){
-            console.log('response of POST:'+ filter, response);
+            console.log('response of POST:'+ filterNaam, response);
             // 'huidige' filter opslaan
             resolve(response);
           }
@@ -356,28 +357,46 @@
 
     $scope.saveOrOverwriteFilter = function(selectedFilter){
       $scope.isSavingFilters = true;
+      var reconstructedFilterObj = createFilterObject();
 
       if(selectedFilter.id){
-        var reconstructedFilterObj = createFilterObject();
         var tmpObj = JSON.parse(JSON.stringify(reconstructedFilterObj));
         // bestaande filter overschrijven
         overwriteFilter(selectedFilter, tmpObj).then(function(response){
           console.log("saveOrOverwriteFilter", response);
           $scope.isSavingFilters = false;
+          $scope.showSaveOptions = false;
 
           // instellen als huidige
-          LFS.saveFilter('huidige', reconstructedFilterObj).then(
-          function(res){
-            // TODO: selecteer 'huidige' in dropdown
-            console.log('response of save ', res);
-          });
+          LFS.saveFilter('huidige', reconstructedFilterObj);
 
         });
-
       }else{
-        // eerst checken of de getrimde naam niet overeenkomt met bestaande filter
-        // indien overeenkomt, eigen functie opnieuw aanroepen met functie id
-        // nieuwe filter maken
+        // voor de zekerheid leading en trailing whitespaces trimmen
+        selectedFilter = selectedFilter.trim();
+        var filters = LFS.getFilters();
+        var tmpObj = JSON.parse(JSON.stringify(reconstructedFilterObj));
+        $q.all(filters.promises).then(function(){
+          // eerst checken of de naam niet overeenkomt met bestaande filter
+          // TODO: check op lowercased
+          var foundElem = _.find(filters.filters, {'naam' : selectedFilter});
+          if(foundElem !== undefined){
+            var filterObj = {};
+            filterObj.naam = foundElem.naam;
+            filterObj.id = foundElem.id;
+            // indien overeenkomt, eigen functie opnieuw aanroepen met filter naam en id
+            $scope.saveOrOverwriteFilter(filterObj);
+          }else{
+          // indien de naam niet bestaat, maak nieuwe filterObj
+            $scope.createNewFilter(selectedFilter).then(function(res){
+              $scope.isSavingFilters = false;
+              $scope.showSaveOptions = false;
+              console.log("new filter created in 'saveOrOverwriteFilter' ", res);
+            });
+          }
+
+
+        });
 
       }
 
