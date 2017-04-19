@@ -178,7 +178,7 @@
     // Zet adhv de ingestelde filter, iedere criteriaCategorie en elk item in de criteriaCategorie op actief
     // Actieve criteriaGroepen worden getoond, Inactieve kunnen worden toegevoegd/geactiveerd
     // Actieve criteriaItems worden getoond, Inactieve kunnen worden toegevoegd/geactiveerd
-    $scope.activeerCriteria = function(){
+    var activeerCriteria = function(){
       // haal alle criteriaGroepen keys uit de geselecteerde filter
       _.each($scope.currentFilter.criteria,function(value, key){
         // indien de key overeenkomt, activeren we de criteriaGroep
@@ -272,7 +272,7 @@
     }
 
     // controle is de criteria geselecteerd a.d.h.v. de titel
-    $scope.activeerEnIndexeerKolommen = function(){
+    var activeerEnIndexeerKolommen = function(){
       // activeer alle kolommen uit de toegepaste filter
       // en geef er een kolomIndex aan
       var counter = 0;
@@ -286,11 +286,11 @@
           counter++;
         }
       });
-      $scope.indexeerNietActieveKolommen(counter);
+      indexeerNietActieveKolommen(counter);
 
     }
 
-    $scope.indexeerNietActieveKolommen = function(startCounter){
+    var indexeerNietActieveKolommen = function(startCounter){
       // alle niet actieve kolommen krijgen ook een kolomIndex
       // deze zal door de gebruiker nog aangepast kunnen worden door de kolommen te verslepen
       var counter = startCounter;
@@ -339,7 +339,7 @@
 
     }
 
-    $scope.createNewFilter = function(filterNaam){
+    var createNewFilter = function(filterNaam){
 
       var reconstructedFilterObj = createFilterObject();
       reconstructedFilterObj.naam = filterNaam;
@@ -388,7 +388,7 @@
             $scope.saveOrOverwriteFilter(filterObj);
           }else{
           // indien de naam niet bestaat, maak nieuwe filterObj
-            $scope.createNewFilter(selectedFilter).then(function(res){
+            createNewFilter(selectedFilter).then(function(res){
               $scope.isSavingFilters = false;
               $scope.showSaveOptions = false;
               console.log("new filter created in 'saveOrOverwriteFilter' ", res);
@@ -402,50 +402,13 @@
 
     }
 
-    $scope.kolomInFilter = function(kolom){
-      var returnVal = false;
-      angular.forEach($scope.currentFilter.kolommen, function(val){
-        if(val.id == kolom.id){
-          returnVal = true;
-        }
-      })
-      return returnVal;
-    }
-
-    $scope.changeKolomInFilter = function(kolom){
-      // controle zit kolom reeds in filter => wis
-      var kolomInFilterIndex;
-      angular.forEach($scope.currentFilter.kolommen, function(value, key){
-        if(value.id == kolom.id){
-          kolomInFilterIndex = key;
-        }
-      });
-      if(kolomInFilterIndex){
-        //wis de kolom
-        $scope.currentFilter.kolommen.splice(kolomInFilterIndex, 1);
-        // huidige filter aanpasen via API
-      }
-      else {
-        // voeg de kolom toe
-        $scope.currentFilter.kolommen.push(kolom);
-        // huidige filter aanpasen via API
-      }
-
-      // kolom nog niet in de filer => voeg toe
-
-    }
-    /*
-     * Filter samenstellen
-     * -------------------------------------------------------
-     */
-
     $scope.changeFilter = function(filter){
       $scope.isLoadingFilters = true;
       stelFilterSamen(filter.id).then(function(){
         $scope.isLoadingFilters = false;
 
-        $scope.activeerCriteria();
-        $scope.activeerEnIndexeerKolommen();
+        activeerCriteria();
+        activeerEnIndexeerKolommen();
 
         var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
 
@@ -476,7 +439,6 @@
       });
     }
 
-
     $scope.applyFilter = function(){
 
       // TODO : centralize code, because now same code is used in $scope.changeFilter()
@@ -492,8 +454,6 @@
       });
 
       var reconstructedFilterObj = LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, $scope.currentFilter);
-
-      $log.debug("APPLY FILTER ---- reconstructedFilterObj - ", reconstructedFilterObj);
 
       $scope.isSavingFilters = true;
 
@@ -605,8 +565,6 @@
       }
     }
 
-
-
     /*
      * Sortering
      * ------------------------------------------------------------------
@@ -691,8 +649,8 @@
         $scope.isLoadingFilters = false;
         // variable om te voorkomen dat content flikkert
         $scope.hasLoadedFilters = true;
-        $scope.activeerCriteria();
-        $scope.activeerEnIndexeerKolommen();
+        activeerCriteria();
+        activeerEnIndexeerKolommen();
         $scope.ledenLaden();
 
       });
