@@ -2430,19 +2430,8 @@ De `huidige` filter moet niet perse een opgeslagen filter zijn.
               "type":"verbond",  // Niet aanwezig voor `huidige` als niet opgeslagen.  Mogelijkheden ['verbond', 'groep', 'lid']
               "groep": "A3143G", // Enkel aanwezig indien type groep
               "kolommen": [
-                {
-                   "type" : "vinkje", // Zie dynamische velden
-                   "id" : "c81e728d9d4c2f636f067f89cc14862c", // leesbare id voor verbondsvelden
-                   "label": "tekst veld",
-                   "beschrijving": "voor hover",
-                   "van": "groep"
-                }, {
-                   "type" : "tekst", // Zie dynamische velden
-                   "id" : "persoonsgegevens.voornaam", //pad naar veld in lid json structuur (zie foutmeldingen)
-                   "label": "Voornaam",
-                   "beschrijving": "voor hover",
-                   "van": "verbond"
-                }
+                "c81e728d9d4c2f636f067f89cc14862c", // leesbare id voor verbondsvelden
+                "persoonsgegevens.voornaam" //pad naar veld in lid json structuur (zie
               ],
               "criteria": { // per filtertype een attribuut, mag afwezig zijn als niet belangrijk
                 "functies": ["d5f75e23385c5e6e0139493b8546035e"], // Lijst van functieid's
@@ -2462,10 +2451,7 @@ De `huidige` filter moet niet perse een opgeslagen filter zijn.
                 ]
               },
               "sortering": [  // Moet in aanwezig zijn in de kolommen
-                {
-                  "kolom": "c81e728d9d4c2f636f067f89cc14862c",
-                  "oplopend": true
-                }
+                "c81e728d9d4c2f636f067f89cc14862c"
               ],
               "links":[
                 {
@@ -2483,32 +2469,6 @@ De `huidige` filter moet niet perse een opgeslagen filter zijn.
             }
 
 ### Filter bewerken [PATCH]
-
-De kolommen mogen een lijst zijn met id's ipv een lijst met objecten.
-
-Dus ipv:
-```javascript
-  "kolommen": [
-    {
-       "type" : "vinkje", // Zie dynamische velden
-       "id" : "c81e728d9d4c2f636f067f89cc14862c", // leesbare id voor verbondsvelden
-       "label": "tekst veld",
-       "beschrijving": "voor hover",
-       "van": "groep"
-    }, {
-       "type" : "tekst", // Zie dynamische velden
-       "id" : "persoonsgegevens.voornaam", //pad naar veld in lid json structuur (zie foutmeldingen)
-       "label": "Voornaam",
-       "beschrijving": "voor hover",
-       "van": "verbond"
-    }
-  ]
-```
-Mag de client ook het volgende opsturen
-```javascript
-  "kolommen": ["c81e728d9d4c2f636f067f89cc14862c","persoonsgegevens.voornaam"]
-```
-Voor de objecten zal de server enkel naar de waarden van de `id` velden kijken.
 
 + Response 200
 
