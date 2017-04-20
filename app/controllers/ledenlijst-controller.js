@@ -411,14 +411,12 @@
         activeerEnIndexeerKolommen();
 
         var reconstructedFilterObj = createFilterObject();
-        $scope.isSavingFilters = true;
 
         LFS.saveFilter('huidige', reconstructedFilterObj).then(
         function(response){
-          $scope.isSavingFilters = false;
           // ledenlijst leegmaken
           $scope.leden = [];
-          console.log('response of save ', response);
+          //console.log('response of save ', response);
           $scope.ledenLaden();
         });
 

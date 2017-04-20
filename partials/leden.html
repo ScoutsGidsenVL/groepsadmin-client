@@ -21,7 +21,7 @@
         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
           <li ng-if="isLoadingFilters"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filters aan het laden...</a></li>
           <li ng-if="!isLoadingFilters && !(filters.length > 0)"><a href='javascript:void(0)'>Geen filters</a></li>
-          <li role="menuitem" ng-repeat="filter in filters | orderBy:'naam'"><a href ng-click="changeFilter(filter)">{{ filter.naam }}</a></li>
+          <li ng-if="!isLoadingFilters" role="menuitem" ng-repeat="filter in filters | orderBy:'naam'"><a href ng-click="changeFilter(filter)">{{ filter.naam }}</a></li>
         </ul>
       </div>
       <div ng-show="!showSaveOptions" class="pull-left">
@@ -137,8 +137,7 @@
             <label
               ng-repeat="kolom in kolommen | orderBy: 'kolomIndex'"
               class="control control--checkbox noselect"
-              data-kolom-id="{{kolom.id}}"
-              >
+              data-kolom-id="{{kolom.id}}">
               <span class="glyphicon glyphicon-move pull-right"></span>
               {{ kolom.label }}
               <input type="checkbox" ng-click="toggleKolom(kolom)" ng-checked="kolom.activated" />
@@ -166,14 +165,14 @@
 <!-- Table -->
 <table id="leden" class="table table-responsive table-leden" >
   <thead>
-    <tr>
+    <tr  ng-show='!isLoadingLeden && !isLoadingFilters'>
       <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'">{{ kolom.label }}
         <!--<i class="fa fa-sort-alpha-asc sort" ng-class="{'first-sort' : sortering(kolom.id, true) == 1, 'second-sort' : sortering(kolom.id, true) == 2, 'third-sort' : sortering(kolom.id, true) == 3 }" aria-hidden="true" ng-click="addSort(kolom.id, true)"></i>
         <i class="fa fa-sort-alpha-desc sort" ng-class="{'first-sort' : sortering(kolom.id, false) == 1, 'second-sort' : sortering(kolom.id, false) == 2, 'third-sort' : sortering(kolom.id, false) == 3 }" aria-hidden="true" ng-click="addSort(kolom.id, false)"></i>-->
       </th>
     </tr>
   </thead>
-  <tbody>
+  <tbody ng-show="!isLoadingFilters && !isLoadingLeden">
     <tr  ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
       <td ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy: 'kolomIndex'">
         <div>
@@ -186,7 +185,7 @@
   </tbody>
 </table>
 <footer class="panel-footer clearfix">
-  <div ng-show='isLoadingLeden' class="loading"><i class="fa fa-spinner fa-pulse"></i>Leden aan het ophalen... </div>
+  <div ng-show='isLoadingLeden || isLoadingFilters' class="loading"><i class="fa fa-spinner fa-pulse"></i>Leden aan het ophalen... </div>
 </footer>
 
 
