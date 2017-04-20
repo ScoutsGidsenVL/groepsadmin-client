@@ -11,8 +11,10 @@
         padding-top: 0;
       }
       .long {
-        word-break: break-all;
         font-size: 0.8rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
       #api {
         float: right;
@@ -29,6 +31,7 @@
       span.col {
         display: inline-block;
         width: 15%;
+        font-size: 1rem;
       }
       span.value {
         width: 70%;
@@ -51,12 +54,12 @@
     <label>Access token (keycloak token)</label>
     <div id="access_token" class="long">Niet beschikbaar</div>
     <div id="access_token_details" class="bottom-space"></div>
-    <!--label>Refresh token</label>
-    <div id="refresh_token"></div>
-    <div id="refresh_token_details" class="long bottom-space"></div>
+    <label>Refresh token</label>
+    <div id="refresh_token" class="long">Niet beschikbaar<</div>
+    <div id="refresh_token_details" class="bottom-space"></div>
     <label>ID token</label>
-    <div id="id_token"></div>
-    <div id="id_token_details" class="long bottom-space"></div-->
+    <div id="id_token" class="long">Niet beschikbaar<</div>
+    <div id="id_token_details" class="bottom-space"></div>
     <form id='form'>
       <div style="float: right; font-weight: bold;">
         <a href="javascript:history.go(0)">&#x21bb;</a>
@@ -211,22 +214,35 @@
         localStorage.setItem("contentType", $('#contentType').val());
         localStorage.setItem("body", $('#requestBody').val());
 
-        if (keycloak && keycloak.refreshTokenParsed) {
-          $('#left').html(parseInt(keycloak.refreshTokenParsed['exp']) - Math.round(new Date().getTime() / 1000) - keycloak.timeSkew);
+        if (keycloak) {
+          $('#access_token').text(keycloak.token);
+          $('#access_token_details').html(getDetails(keycloak.tokenParsed));
+          $('#refresh_token').text(keycloak.refreshToken);
+          $('#refresh_token_details').html(getDetails(keycloak.refreshTokenParsed));
+          $('#id_token').text(keycloak.idToken);
+          $('#id_token_details').html(getDetails(keycloak.idTokenParsed));
+
+          if (keycloak.refreshTokenParsed) {
+            $('#left').html(parseInt(keycloak.refreshTokenParsed['exp']) - Math.round(new Date().getTime() / 1000) - keycloak.timeSkew);
+          }
         }
       }, 100);
 
-      function getDetails(parsedToken) {
+      function getDetails(token) {
+
+        if (!token) {
+          return 'Niet beschikbaar';
+        }
 
         function row(name, key, extra) {
-          return '<span class="col">' + name + '</span><span class="col">' + key + '</span><span class="col value">' + parsedToken[key] + (extra ? ' - ' + extra : '') + '</span><br/>'
+          return '<span class="col">' + name + '</span><span class="col">' + key + '</span><span class="col value">' + token[key] + (extra ? ' - ' + extra : '') + '</span><br/>'
         }
 
         var result = row('Type', 'typ');
 
-        if (parsedToken['typ'] == 'Bearer') {
+        if (token['typ'] == 'Bearer') {
           result += row('Client', 'aud');
-          result += row('Expires', 'exp', new Date(parsedToken['exp'] * 1000) + ' - Left: <span id="left"></span> s');
+          result += row('Expires', 'exp', new Date(token['exp'] * 1000) + ' - Left: <span id="left"></span> s');
           result += row('Gebruikersnaam', 'preferred_username');
           result += row('GA id', 'sub');
           result += row('Session state', 'session_state');
@@ -247,19 +263,10 @@
 
         keycloak = Keycloak(clientConfig);
 
-        keycloak
-          .init({
-            onLoad: 'login-required',
-            checkLoginIframe: true
-          })
-          .success(function () {
-            $('#access_token').text(keycloak.token);
-            $('#access_token_details').html(getDetails(keycloak.tokenParsed));
-            $('#refresh_token').text(keycloak.refreshToken);
-            $('#refresh_token_details').html(getDetails(keycloak.refreshTokenParsed));
-            $('#id_token').text(keycloak.idToken);
-            $('#id_token_details').html(getDetails(keycloak.idTokenParsed));
-          });
+        keycloak.init({
+          onLoad: 'login-required',
+          checkLoginIframe: true
+        });
 
         function onMethodChange(e) {
           var body = 0 <= ['POST', 'PATCH', 'OPTIONS'].indexOf($('#method').val())
