@@ -10,33 +10,29 @@
       body {
         padding-top: 0;
       }
-      #access_token,
-      #refresh_token,
-      #id_token {
+      .long {
         word-break: break-all;
         font-size: 0.8rem;
       }
       #api {
         float: right;
       }
-      #access_token_details,
-      #refresh_token_details,
-      #id_token_details,
-      #clientId,
-      #urlToTest,
-      #method,
-      #acceptHeader,
-      #requestBody,
-      #status,
-      #contentType {
+      .form-control,
+      .bottom-space {
         margin-bottom: 10px;
+      }
+      .column {
+        display: inline-block;
+        width: 24.5%;
+        padding-right: 20px;
       }
       span.col {
         display: inline-block;
-        width: 12em;
+        width: 15%;
       }
       span.value {
-        width: 50em;
+        width: 70%;
+        word-break: break-all;
       }
       #result {
         width: 100%;
@@ -44,7 +40,7 @@
       }
     </style>
   </head>
-  <body class="container">
+  <body class="container-fluid">
     <h1>API Tester</h1>
 
     <div id='api'>
@@ -53,45 +49,63 @@
 
     <h2>Request</h2>
     <label>Access token (keycloak token)</label>
-    <div id="access_token">Niet beschikbaar</div>
-    <div id="access_token_details"></div>
+    <div id="access_token" class="long">Niet beschikbaar</div>
+    <div id="access_token_details" class="bottom-space"></div>
     <!--label>Refresh token</label>
     <div id="refresh_token"></div>
-    <div id="refresh_token_details"></div>
+    <div id="refresh_token_details" class="long bottom-space"></div>
     <label>ID token</label>
     <div id="id_token"></div>
-    <div id="id_token_details"></div-->
+    <div id="id_token_details" class="long bottom-space"></div-->
     <form id='form'>
       <div style="float: right; font-weight: bold;">
         <a href="javascript:history.go(0)">&#x21bb;</a>
       </div>
-      <label>Client id</label>
-      <input type="text" id="clientId" class="form-control">
       <label>Url</label>
       <input type="text" id="urlToTest" class="form-control">
-      <label>Methode</label>
-      <select id="method" class="form-control">
-        <option value="GET" selected>GET</option>
-        <option value="POST">POST</option>
-        <option value="PATCH">PATCH</option>
-        <option value="DELETE">DELETE</option>
-        <option disabled>---</option>
-        <option value="HEAD">HEAD</option>
-        <option value="OPTIONS">OPTIONS</option>
-        <option value="TRACE">TRACE</option>
-      </select>
-      <label>Accept</label>
-      <input type="text" id="acceptHeader" class="form-control">
+      <div>
+        <div class="column">
+          <label>Client id</label>
+          <input type="text" id="clientId" class="form-control">
+        </div>
+        <div class="column">
+          <label>Methode</label>
+          <select id="method" class="form-control">
+            <option value="GET" selected>GET</option>
+            <option value="POST">POST</option>
+            <option value="PATCH">PATCH</option>
+            <option value="DELETE">DELETE</option>
+            <option disabled>---</option>
+            <option value="HEAD">HEAD</option>
+            <option value="OPTIONS">OPTIONS</option>
+            <option value="TRACE">TRACE</option>
+          </select>
+        </div>
+        <div class="column">
+          <label>Accept</label>
+          <input id="acceptHeader" class="form-control">
+        </div>
+        <div class="column contentType">
+          <label>Content-Type</label>
+          <input id="contentType" class="form-control">
+        </div>
+      </div>
       <label class='requestBody'>Body</label>
       <textarea id="requestBody" class="form-control requestBody"></textarea>
       <input type="submit" value="Verstuur">
     </form>
 
     <h2>Response</h2>
-    <label>Status</label>
-    <div id="status">Nog geen request verstuurd</div>
-    <label>Content type</label>
-    <div id="contentType">Nog geen request verstuurd</div>
+    <div>
+      <div class="column">
+        <label>Status</label>
+        <input id="status" class="form-control" disabled="disabled" value="Nog geen request verstuurd">
+      </div>
+      <div class="column">
+        <label>Content type</label>
+        <input id="type" class="form-control" disabled="disabled" value="Nog geen request verstuurd">
+      </div>
+    </div>
     <label>Content</label>
     <iframe id="result" src='data:text/plain,Nog geen request verstuurd'></iframe>
 
@@ -103,6 +117,7 @@
       $('#urlToTest').val(localStorage.getItem("url"));
       $('#method').val(localStorage.getItem("method"));
       $('#acceptHeader').val(localStorage.getItem("acceptHeader"));
+      $('#contentType').val(localStorage.getItem("contentType"));
       $('#requestBody').val(localStorage.getItem("body"));
 
       if (!$('#clientId').val()) {
@@ -115,7 +130,7 @@
       function writeResult(contentType, result, statusCode, statusText) {
 
         $('#status').html(statusCode + ' - ' + statusText);
-        $('#contentType').html(contentType);
+        $('#type').html(contentType);
 
         if (contentType === 'application/pdf') {
           contentType += ";base64";
@@ -142,6 +157,7 @@
         localStorage.setItem("url", $('#urlToTest').val());
         localStorage.setItem("method", $('#method').val());
         localStorage.setItem("acceptHeader", $('#acceptHeader').val());
+        localStorage.setItem("contentType", $('#contentType').val());
         localStorage.setItem("body", $('#requestBody').val());
 
         if (keycloak && keycloak.refreshTokenParsed) {
@@ -182,7 +198,8 @@
 
         keycloak
           .init({
-            onLoad: 'login-required'
+            onLoad: 'login-required',
+            checkLoginIframe: false
           })
           .success(function () {
             console.log(keycloak.token);
@@ -195,7 +212,9 @@
           });
 
         function onMethodChange(e) {
-          $('.requestBody').toggle(0 <= ['POST', 'PATCH', 'OPTIONS'].indexOf($('#method').val()));
+          var body = 0 <= ['POST', 'PATCH', 'OPTIONS'].indexOf($('#method').val())
+          $('.requestBody').toggle(body);
+          $('.contentType').toggle(body);
         }
         $('#method').on('change', onMethodChange);
         onMethodChange();
@@ -207,7 +226,7 @@
           $.ajax($('#urlToTest').val(),
             {
               method: $('#method').val(),
-              contentType: 'application/json; charset=UTF-8',
+              contentType: $('#contentType').val(),
               data: $('#requestBody:visible').val() || '',
               beforeSend: function (xhr) {
                 $('#status').html('Nog geen resultaat gekregen...');
