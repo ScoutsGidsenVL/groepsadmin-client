@@ -16,7 +16,7 @@
     <div class="col-lg-6 col-xxs-12">
       <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
         <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
-          Opgeslagen filters <span class="caret"></span>
+          {{ currentFilter.naam ? currentFilter.naam : 'Huidige'  }} <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
           <li ng-if="isLoadingFilters"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filters aan het laden...</a></li>

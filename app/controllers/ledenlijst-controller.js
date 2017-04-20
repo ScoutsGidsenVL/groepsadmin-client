@@ -20,38 +20,42 @@
     $scope.aantalPerPagina = 10;
     $scope.leden = [];
 
-    $("#mySortableList").sortable({
-      placeholder: "my-sortable-placeholder",
-      stop : function(event, ui){
-        // zoek element mbv data-kolom-id en geef het de nieuwe index
-        var kolId = $(ui.item[0]).attr('data-kolom-id');
-        var foundKolom = _.find($scope.kolommen, {'id': kolId});
-        var oldKolomIndex = foundKolom.kolomIndex;
-        var newKolomIndex = ui.item.index();
+    $(function() {
+      $("#mySortableList").sortable({
+        placeholder: "my-sortable-placeholder",
+        stop : function(event, ui){
+          // zoek element mbv data-kolom-id en geef het de nieuwe index
+          var kolId = $(ui.item[0]).attr('data-kolom-id');
+          var foundKolom = _.find($scope.kolommen, {'id': kolId});
+          var oldKolomIndex = foundKolom.kolomIndex;
+          var newKolomIndex = ui.item.index();
 
-        // alle kolomIndexen van de kolommen die achter het zonet gesleepte element komen, moeten met 1 worden verhoogd
-        // (tot de kolommen die reeds achter het gesleepte element kwamen, want die behouden hun index)
-        if(oldKolomIndex > newKolomIndex){
-          var cols = _.filter($scope.kolommen, function(o){return o.kolomIndex >= newKolomIndex && o.kolomIndex < oldKolomIndex });
-          _.each(cols,function(value,key){
-            value.kolomIndex++;
-          });
+          // alle kolomIndexen van de kolommen die achter het zonet gesleepte element komen, moeten met 1 worden verhoogd
+          // (tot de kolommen die reeds achter het gesleepte element kwamen, want die behouden hun index)
+          if(oldKolomIndex > newKolomIndex){
+            var cols = _.filter($scope.kolommen, function(o){return o.kolomIndex >= newKolomIndex && o.kolomIndex < oldKolomIndex });
+            _.each(cols,function(value,key){
+              value.kolomIndex++;
+            });
+          }
+          // alle kolomIndexen van de kolommen die voor het zonet gesleepte element komen, moeten met 1 worden verlaagd
+          // (tot de kolommen die reeds voor het gesleepte element kwamen, want deze behouden hun index)
+          if(oldKolomIndex < newKolomIndex){
+            var cols = _.filter($scope.kolommen, function(o){return o.kolomIndex <= newKolomIndex && o.kolomIndex > oldKolomIndex });
+            _.each(cols,function(value,key){
+              value.kolomIndex--;
+            });
+          }
+
+          // zet de nieuwe index op de gesleepte kolom
+          foundKolom.kolomIndex = newKolomIndex;
+
+          $scope.$apply();
         }
-        // alle kolomIndexen van de kolommen die voor het zonet gesleepte element komen, moeten met 1 worden verlaagd
-        // (tot de kolommen die reeds voor het gesleepte element kwamen, want deze behouden hun index)
-        if(oldKolomIndex < newKolomIndex){
-          var cols = _.filter($scope.kolommen, function(o){return o.kolomIndex <= newKolomIndex && o.kolomIndex > oldKolomIndex });
-          _.each(cols,function(value,key){
-            value.kolomIndex--;
-          });
-        }
-
-        // zet de nieuwe index op de gesleepte kolom
-        foundKolom.kolomIndex = newKolomIndex;
-
-        $scope.$apply();
-      }
+      });
     });
+
+
 
     // controle on resize
     // angular.element($window).bind('resize', function () {
@@ -101,7 +105,6 @@
 
         $q.all(currFilter.promises).then(function(){
           var arrPromises = [];
-          //$log.debug('LFS -- getFilter by id: ' + filterId, currentFilter.currentFilter);
           $scope.currentFilter = currFilter.currentFilter;
           $scope.geselecteerdeCriteria = [];
 

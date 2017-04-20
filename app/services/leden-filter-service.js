@@ -102,7 +102,7 @@
       returnObj.promises = [];
       returnObj.promises[0] = RestService.FilterDetails.get({id: filterId}).$promise.then(
       function (res) {
-        $log.debug('LFS -- getFilter by id: ' + filterId, res);
+        //$log.debug('LFS -- getFilter by id: ' + filterId, res);
         returnObj.currentFilter = res;
       });
       return returnObj;
