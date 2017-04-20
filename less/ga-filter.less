@@ -108,12 +108,13 @@
     width: 100%;
     text-align: left;
 
-    &:hover .filter-option-close {
-      display: inline;
-      color:darken(@brand-primary,10%);
-      &:hover{
-        color:white;
-      }
+
+  }
+  &:hover .filter-option-close {
+    display: inline;
+    color:darken(@brand-primary,10%);
+    &:hover{
+      color:white;
     }
   }
 }
@@ -130,10 +131,12 @@
 }
 
 .filter-option-close {
+  cursor:pointer;
   position: absolute;
   top: 6px;
   right: 15px;
   color:darken(@brand-primary,10%);
+  z-index:@zIndexClose;
 }
 @media (min-width: @screen-sm-min) {
   .filter-option-close {
