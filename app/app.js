@@ -103,7 +103,7 @@
     window._keycloak
       .init({
         onLoad: 'login-required',
-        checkLoginIframe: false
+        checkLoginIframe: true
       })
       .success(function() {
 
