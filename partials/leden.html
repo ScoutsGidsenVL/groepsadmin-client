@@ -78,11 +78,24 @@
                 ng-class="{ 'control-group-section--collapsed': criteriumItemGroup.collapsed, 'control-group-section--takken': criteriumItemGroup.category == 'takken', 'control-group-section--type': criteriumItemGroup.category == 'type' }"
                 class="control-group-section">
                 <div class="control-group-subheader"
-                ng-click="toggleCriteriumSection(criteriumItemGroup)"><span class="control-group-subheader-label">{{ criteriumItemGroup.label }}<i class="glyphicon pull-right glyphicon-chevron-down"></i>
+                ng-click="toggleCriteriumSection(criteriumItemGroup)">
+                <span class="control-group-subheader-label">
+
+                  <div class="control-selectall" >
+                    <label
+                      class="control control--checkbox control--header">
+                      {{ criteriumItemGroup.label }}
+                      <input type="checkbox"/>
+                      <div class="control__indicator"></div>
+                    </label>
+                  </div>
+
+
+                  <i class="glyphicon pull-right glyphicon-chevron-down"></i>
                 </div>
                 <label
                   ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'"
-                  class="control control--checkbox">
+                  class="control control--checkbox control--collapsible">
                   {{ criteriumItem.label }}
                   <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'checkbox')" ng-checked="criteriumItem.activated"/>
                   <div class="control__indicator"></div>

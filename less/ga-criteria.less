@@ -49,16 +49,16 @@
       }
 
       &-label{
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        display: block;
+        display: inline-block;
+        .control-selectall{
+          box-shadow:none;
+          padding:0;
+        }
       }
 
     }
     .control-group-subheader{
       position:relative;
-      padding:4px;
       // too much work to work around an important
       background-color:@control-group-subheader-bg;
       &:hover{
@@ -68,17 +68,22 @@
     .control-group-subheader i{
       position: absolute;
       right: 5px;
-      top: 5px;
+      top: 9px;
       transition: all .3s ease;
       color:darken(@brand-primary,10%);
+    }
+    .control--header{
+      // needs to be equal to margin-bottom of .control!
+      margin-top:5px;
     }
     &--collapsed{
       .control-group-subheader i {
         transform:rotate(-90deg);
       }
-      label{
+      .control--collapsible{
         display:none;
       }
+
     }
   }
 }
