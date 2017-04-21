@@ -81,16 +81,15 @@
                 ng-click="toggleCriteriumSection(criteriumItemGroup)">
                 <span class="control-group-subheader-label">
 
-                  <div class="control-selectall" >
+                  <div class="control-selectall"  >
                     <label
                       class="control control--checkbox control--header">
                       {{ criteriumItemGroup.label }}
-                      <input type="checkbox"/>
+                      <input type="checkbox" ng-click="toggleAllCriteriumItems(criteriumItemGroup)" ng-checked="isAllCriteriumItemsSelected(criteriumItemGroup) == 'all'"/>
+                      <div class="control__indicator" ng-class="{'control__indicator--some-selected' : isAllCriteriumItemsSelected(criteriumItemGroup) == 'some'}"></div>
                       <div class="control__indicator"></div>
                     </label>
                   </div>
-
-
                   <i class="glyphicon pull-right glyphicon-chevron-down"></i>
                 </div>
                 <label
