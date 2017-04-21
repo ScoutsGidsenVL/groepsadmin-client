@@ -72,23 +72,23 @@
         <div class="dropdown-menu" uib-dropdown-menu>
           <!-- New checkbox-->
           <div class="control-group">
+            <div class="control-group-sectiongroup">
+              <div ng-if="criterium.criteriaKey == 'functies' && criterium.criteriaSubKey == 'verbonds'"
+                ng-repeat="criteriumItemGroup in criterium.itemgroups"
+                ng-class="{ 'control-group-section--collapsed': criteriumItemGroup.collapsed, 'control-group-section--takken': criteriumItemGroup.category == 'takken', 'control-group-section--type': criteriumItemGroup.category == 'type' }"
+                class="control-group-section">
+                <div class="control-group-subheader"
+                ng-click="toggleCriteriumSection(criteriumItemGroup)"><span class="control-group-subheader-label">{{ criteriumItemGroup.label }}<i class="glyphicon pull-right glyphicon-chevron-down"></i>
+                </div>
+                <label
+                  ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'"
+                  class="control control--checkbox">
+                  {{ criteriumItem.label }}
+                  <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'checkbox')" ng-checked="criteriumItem.activated"/>
+                  <div class="control__indicator"></div>
+                </label>
 
-            <div ng-if="criterium.criteriaKey == 'functies' && criterium.criteriaSubKey == 'verbonds'"
-              ng-repeat="criteriumItemGroup in criterium.itemgroups"
-              ng-class="{ 'control-group-section--collapsed': criteriumItemGroup.collapsed }"
-              class="control-group-section">
-
-              <div class="control-group-subheader"
-              ng-click="toggleCriteriumSection(criteriumItemGroup)"><span class="control-group-subheader-label">{{ criteriumItemGroup.label }}<i class="glyphicon pull-right glyphicon-chevron-down"></i>
               </div>
-              <label
-                ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'"
-                class="control control--checkbox">
-                {{ criteriumItem.label }}
-                <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'checkbox')" ng-checked="criteriumItem.activated"/>
-                <div class="control__indicator"></div>
-              </label>
-
             </div>
 
             <label

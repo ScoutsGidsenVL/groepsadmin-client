@@ -14,6 +14,32 @@
   overflow-y:auto;
   width: 100%;
   &-section{
+    &--type{
+      &:before{
+        content:'Type';
+        padding: 4px;
+        display:block;
+        font-weight:bold;
+      }
+      & ~ .control-group-section--type{
+        &:before{
+          display:none;
+        }
+      }
+    }
+    &--takken{
+      &:before{
+        content:'Takken';
+        padding: 4px;
+        display:block;
+        font-weight:bold;
+      }
+      & ~ .control-group-section--takken{
+        &:before{
+          display:none;
+        }
+      }
+    }
     .control-group-subheader{
       margin:1px 0;
       cursor:pointer;
@@ -21,6 +47,7 @@
       &:first-child{
         margin-top:0;
       }
+
       &-label{
         overflow: hidden;
         text-overflow: ellipsis;
@@ -34,12 +61,16 @@
       padding:4px;
       // too much work to work around an important
       background-color:@control-group-subheader-bg;
+      &:hover{
+        background-color:darken(@control-group-subheader-bg,10%);
+      }
     }
     .control-group-subheader i{
       position: absolute;
       right: 5px;
       top: 5px;
       transition: all .3s ease;
+      color:darken(@brand-primary,10%);
     }
     &--collapsed{
       .control-group-subheader i {

@@ -216,7 +216,10 @@
       arrTakSort[5] = "Akabe-Leden";
       arrTakSort[6] = "Andere";
 
+      console.log("resverbondresVerbondFuncties",resVerbondFuncties);
+
       var verbondsFunctiesOrderedPerLeeftijdsTak = ledenFilterService.groupBy(resVerbondFuncties, 'leeftijdsTak', 'leeftijdsTak', 'functies');
+      var verbondsFunctiesOrderedPerVerbondsType = ledenFilterService.groupBy(resVerbondFuncties, 'verbondstype', 'verbondstype', 'functies');
 
 
       //var functieGroep = ledenFilterService.maakFunctieGroep(resVerbondFuncties, titel);
@@ -232,6 +235,7 @@
         //console.log("000000, ",val);
         if(val.leeftijdsTak){
           var itemGroupObj = {};
+          itemGroupObj.category = 'takken';
           itemGroupObj.label = val.leeftijdsTak;
           itemGroupObj.items = [];
           itemGroupObj.collapsed = true;
@@ -242,6 +246,22 @@
           functieGroep.itemgroups.push(itemGroupObj);
         }
 
+
+      });
+      _.each(verbondsFunctiesOrderedPerVerbondsType, function(val,key){
+        //console.log("000000, ",val);
+        if(val.verbondstype){
+          var itemGroupObj = {};
+          itemGroupObj.category = 'type';
+          itemGroupObj.label = val.verbondstype;
+          itemGroupObj.items = [];
+          itemGroupObj.collapsed = true;
+
+          _.each(val.functies,function(v,k){
+            itemGroupObj.items.push(v);
+          });
+          functieGroep.itemgroups.push(itemGroupObj);
+        }
 
       });
 
