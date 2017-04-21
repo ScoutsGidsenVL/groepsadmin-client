@@ -575,6 +575,10 @@
 
     }
 
+    $scope.toggleCriteriumSection = function(obj){
+      obj.collapsed = !obj.collapsed;
+    }
+
     initCriteriaKolommenFilters().then(function(){
 
       //console.log("initCriteriaKolommenFilters!");

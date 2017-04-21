@@ -10,11 +10,52 @@
   vertical-align: top;
   text-align: left;
   padding-top: 3px;
-  padding-right: 4px;
-  max-height: 210px;
+  max-height: 50vh;
   overflow-y:auto;
   width: 100%;
+  &-section{
+    .control-group-subheader{
+      margin:1px 0;
+      cursor:pointer;
+      width:100%;
+      &:first-child{
+        margin-top:0;
+      }
+      &-label{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 80%;
+        display: block;
+        margin: auto;
+      }
+
+    }
+    button{
+      position:relative;
+      padding:4px;
+      border:none;
+      outline:0;
+      // too much work to work around an important
+      background-color:@control-group-subheader-bg !important;
+    }
+    button i{
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      transition: all .3s ease;
+    }
+    &--collapsed{
+      button i {
+        transform:rotate(-90deg);
+      }
+      label{
+        display:none;
+      }
+    }
+  }
 }
+
 .control-selectall{
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.125);
   box-shadow: inset 0 1px 1px rgba(0,0,0,0.125);
@@ -24,6 +65,7 @@
   display: block;
   position: relative;
   padding-left: 30px;
+  padding-right: 4px;
   margin-bottom: 5px;
   cursor: pointer;
   font-weight:normal;

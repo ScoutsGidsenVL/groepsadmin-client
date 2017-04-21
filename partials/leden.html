@@ -72,8 +72,27 @@
         <div class="dropdown-menu" uib-dropdown-menu>
           <!-- New checkbox-->
           <div class="control-group">
+
+            <div ng-if="criterium.criteriaKey == 'functies' && criterium.criteriaSubKey == 'verbonds'"
+              ng-repeat="criteriumItemGroup in criterium.itemgroups"
+              ng-class="{ 'control-group-section--collapsed': criteriumItemGroup.collapsed }"
+              class="control-group-section">
+
+              <button class="control-group-subheader"
+              ng-click="toggleCriteriumSection(criteriumItemGroup)"><span class="control-group-subheader-label">{{ criteriumItemGroup.label }}<i class="glyphicon pull-right glyphicon-chevron-down"></i>
+              </button>
+              <label
+                ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'"
+                class="control control--checkbox">
+                {{ criteriumItem.label }}
+                <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'checkbox')" ng-checked="criteriumItem.activated"/>
+                <div class="control__indicator"></div>
+              </label>
+
+            </div>
+
             <label
-              ng-if="criterium.multiplePossible"
+              ng-if="criterium.multiplePossible && criterium.criteriaSubKey !== 'verbonds'"
               ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
               class="control control--checkbox">
               {{ criteriumItem.label }}
@@ -89,6 +108,7 @@
               <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'radio',criterium.items)" ng-checked="criteriumItem.activated">
               <div class="control__indicator"></div>
             </label>
+
           </div>
           <div class="control-selectall" ng-if="criterium.multiplePossible && criterium.items.length > 1">
             <label
