@@ -25,28 +25,24 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        width: 80%;
         display: block;
-        margin: auto;
       }
 
     }
-    button{
+    .control-group-subheader{
       position:relative;
       padding:4px;
-      border:none;
-      outline:0;
       // too much work to work around an important
-      background-color:@control-group-subheader-bg !important;
+      background-color:@control-group-subheader-bg;
     }
-    button i{
+    .control-group-subheader i{
       position: absolute;
       right: 5px;
       top: 5px;
       transition: all .3s ease;
     }
     &--collapsed{
-      button i {
+      .control-group-subheader i {
         transform:rotate(-90deg);
       }
       label{

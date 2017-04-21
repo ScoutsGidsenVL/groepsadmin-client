@@ -78,9 +78,9 @@
               ng-class="{ 'control-group-section--collapsed': criteriumItemGroup.collapsed }"
               class="control-group-section">
 
-              <button class="control-group-subheader"
+              <div class="control-group-subheader"
               ng-click="toggleCriteriumSection(criteriumItemGroup)"><span class="control-group-subheader-label">{{ criteriumItemGroup.label }}<i class="glyphicon pull-right glyphicon-chevron-down"></i>
-              </button>
+              </div>
               <label
                 ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'"
                 class="control control--checkbox">
