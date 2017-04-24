@@ -270,7 +270,11 @@
       // de itemgroep objecten sorteren volgens arrTakSort
       functieGroep.itemgroups = [];
       _.each(arrTakSort,function(val,key){
-        functieGroep.itemgroups.push(_.find(itemGroupObjs,{"label":val}));
+        var foundItem = _.find(itemGroupObjs,{"label":val});
+        if(foundItem){
+          functieGroep.itemgroups.push(foundItem);
+        };
+
       });
 
       _.each(verbondsFunctiesOrderedPerVerbondsType, function(val,key){
@@ -292,7 +296,10 @@
 
       // de itemgroep objecten sorteren volgens arrTakSort
       _.each(arrTypeSort,function(val,key){
-        functieGroep.itemgroups.push(_.find(itemGroupObjs,{"label":val}));
+        var foundItem = _.find(itemGroupObjs,{"label":val});
+        if(foundItem){
+          functieGroep.itemgroups.push(foundItem);
+        };
       });
 
       return functieGroep;
