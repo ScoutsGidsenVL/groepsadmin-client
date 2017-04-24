@@ -189,12 +189,14 @@
         // (bvb. groepspecifieke functies hebben de criteriaKey 'functies')
         var criteriaGroep = _.filter($scope.criteria, {'criteriaKey': key });
         if(criteriaGroep){
-          if(criteriaGroep.length>1){
+          if(criteriaGroep.length>0){
             _.each(criteriaGroep,function(v, k){
-              LFS.activeerGroepEnItems(v,value);
+              var bIsGroupedCriterium = false;
+              if(v.criteriaSubKey == 'verbonds'){
+                bIsGroupedCriterium = true;
+              }
+              LFS.activeerGroepEnItems(v,value,bIsGroupedCriterium);
             })
-          }else if(criteriaGroep.length == 1){
-            LFS.activeerGroepEnItems(criteriaGroep[0],value);
           }
         }
 

@@ -108,7 +108,7 @@
       returnObj.promises = [];
       returnObj.promises[0] = RestService.FilterDetails.get({id: filterId}).$promise.then(
       function (res) {
-        //$log.debug('LFS -- getFilter by id: ' + filterId, res);
+        $log.debug('LFS -- getFilter by id: ' + filterId, res);
         returnObj.currentFilter = res;
       });
       return returnObj;
@@ -156,7 +156,7 @@
       return functieGroepen;
     }
 
-    ledenFilterService.activeerGroepEnItems = function(criteriaGroep,value){
+    ledenFilterService.activeerGroepEnItems = function(criteriaGroep,value,bGrouped){
 
       var hasActiveItems = false;
       // zoek binnen de criteriaGroep naar values uit de opgehaalde filter
@@ -167,13 +167,28 @@
         foundElem.activated = true;
         if(foundElem){hasActiveItems = true;}
       } else {
-        _.each(value, function(v,k){
+
+        if(!bGrouped){
+          _.each(value, function(v,k){
             var item = _.find(criteriaGroep.items, {'value' : v});
             if(item){
               item.activated = true;
               hasActiveItems = true;
             }
-        });
+          });
+        }else{
+          // bvb. bij verbondsfuncties, zijn alle functies gegroepeerd
+          _.each(value, function(v,k){
+            _.each(criteriaGroep.itemgroups, function(vv,kk){
+              var item = _.find(vv.items, {'value' : v});
+              if(item){
+                item.activated = true;
+                hasActiveItems = true;
+              }
+            })
+          });
+        }
+
       }
 
       criteriaGroep.activated = hasActiveItems ? true : false;
@@ -217,8 +232,6 @@
       arrTakSort[5] = "Leiding";
       arrTakSort[6] = "Akabe-Leden";
       arrTakSort[7] = "Andere";
-
-      console.log("resverbondresVerbondFuncties",resVerbondFuncties);
 
       var verbondsFunctiesOrderedPerLeeftijdsTak = ledenFilterService.groupBy(resVerbondFuncties, 'leeftijdsTak', 'leeftijdsTak', 'functies');
       var verbondsFunctiesOrderedPerVerbondsType = ledenFilterService.groupBy(resVerbondFuncties, 'verbondstype', 'verbondstype', 'functies');
@@ -271,8 +284,6 @@
         }
 
       });
-
-      console.log("------- ==== ", functieGroep);
 
       return functieGroep;
     };
@@ -422,13 +433,28 @@
       // functies
       reconstructedFilterObj.criteria.functies = [];
       _.each(_.filter(activeCriteria, {"criteriaKey":"functies"}), function(value, key){
-        var temp = _.filter(value.items, {'activated': true});
-        if(temp && temp.length > 0){
-          var arrTemp = [];
-          _.each(temp, function(val){
-            reconstructedFilterObj.criteria.functies.push(val.value);
+        //console.log("Value!!!!", value);
+        if(value.criteriaSubKey == "verbonds"){
+          _.each(value.itemgroups,function(v,k){
+            var temp = _.filter(v.items, {'activated': true});
+            if(temp && temp.length > 0){
+              _.each(temp, function(val){
+                reconstructedFilterObj.criteria.functies.push(val.value);
+              });
+            }
           });
+
+        }else{
+          var temp = _.filter(value.items, {'activated': true});
+          if(temp && temp.length > 0){
+            _.each(temp, function(val){
+              reconstructedFilterObj.criteria.functies.push(val.value);
+            });
+          }
         }
+
+
+
       });
 
       // adresgeblokeerd
