@@ -206,6 +206,7 @@
       });
 
       // Sorteren op basis van array van waarden
+      // OPGELET: bij een nieuwe tak, moet deze array worden aangevuld, anders zal ie niet verschijnen in de filter
       // TODO: volgorde komt van backend
       var arrTakSort = [];
       arrTakSort[0] = "Kapoenen";
@@ -213,8 +214,9 @@
       arrTakSort[2] = "Jong Gidsen/Jong Verkenners";
       arrTakSort[3] = "Gidsen/Verkenners";
       arrTakSort[4] = "Jin";
-      arrTakSort[5] = "Akabe-Leden";
-      arrTakSort[6] = "Andere";
+      arrTakSort[5] = "Leiding";
+      arrTakSort[6] = "Akabe-Leden";
+      arrTakSort[7] = "Andere";
 
       console.log("resverbondresVerbondFuncties",resVerbondFuncties);
 
@@ -230,9 +232,9 @@
       functieGroep.multiplePossible = true;
 
       //maak array's met als key de leeftijdsTak
-      functieGroep.itemgroups = [];
+      var itemGroupObjs = [];
+
       _.each(verbondsFunctiesOrderedPerLeeftijdsTak, function(val,key){
-        //console.log("000000, ",val);
         if(val.leeftijdsTak){
           var itemGroupObj = {};
           itemGroupObj.category = 'takken';
@@ -243,11 +245,16 @@
           _.each(val.functies,function(v,k){
             itemGroupObj.items.push(v);
           });
-          functieGroep.itemgroups.push(itemGroupObj);
+          itemGroupObjs.push(itemGroupObj);
         }
-
-
       });
+
+      // de itemgroep objecten sorteren volgens arrTakSort
+      functieGroep.itemgroups = [];
+      _.each(arrTakSort,function(val,key){
+        functieGroep.itemgroups.push(_.find(itemGroupObjs,{"label":val}));
+      });
+
       _.each(verbondsFunctiesOrderedPerVerbondsType, function(val,key){
         //console.log("000000, ",val);
         if(val.verbondstype){
