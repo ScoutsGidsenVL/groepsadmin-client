@@ -233,6 +233,11 @@
       arrTakSort[6] = "Akabe-Leden";
       arrTakSort[7] = "Andere";
 
+      var arrTypeSort = [];
+      arrTypeSort[0] = "leden";
+      arrTypeSort[1] = "leiding";
+      arrTypeSort[2] = "andere";
+
       var verbondsFunctiesOrderedPerLeeftijdsTak = ledenFilterService.groupBy(resVerbondFuncties, 'leeftijdsTak', 'leeftijdsTak', 'functies');
       var verbondsFunctiesOrderedPerVerbondsType = ledenFilterService.groupBy(resVerbondFuncties, 'verbondstype', 'verbondstype', 'functies');
 
@@ -280,9 +285,14 @@
           _.each(val.functies,function(v,k){
             itemGroupObj.items.push(v);
           });
-          functieGroep.itemgroups.push(itemGroupObj);
+          itemGroupObjs.push(itemGroupObj);
         }
 
+      });
+
+      // de itemgroep objecten sorteren volgens arrTakSort
+      _.each(arrTypeSort,function(val,key){
+        functieGroep.itemgroups.push(_.find(itemGroupObjs,{"label":val}));
       });
 
       return functieGroep;

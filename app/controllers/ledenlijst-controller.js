@@ -110,8 +110,7 @@
 
           angular.forEach($scope.currentFilter.criteria, function(value, key){
 
-            // neem alle functies uit criteria.functie 'functie' criteria
-            // activeer alle functies
+            // neem alle functies uit criteria met key 'functies'
             if(key === "functies") {
 
               var promiseFunctie = RestService.Functies.get().$promise.then(
@@ -271,9 +270,18 @@
 
     $scope.activateCriterium = function(crit){
       crit.activated = true;
-      _.each(crit.items, function(value,key){
-        value.activated = true;
-      });
+      if(!crit.criteriaSubKey == "verbonds"){
+        _.each(crit.items, function(value,key){
+          value.activated = true;
+        });
+      }else{
+        _.each(crit.itemgroups,function(value,key){
+          _.each(value.items,function(v,k){
+            v.activated = true;
+          })
+        })
+      }
+
     }
 
     // controle is de criteria geselecteerd a.d.h.v. de titel
