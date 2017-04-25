@@ -5,15 +5,15 @@
     .module('ga.services.rest', ['ngResource'])
     .factory('RestService', RestService);
 
-  RestService.$inject = ['$resource', '$cacheFactory'];
+  RestService.$inject = ['$resource', '$cacheFactory','ApiUrl'];
 
-  function RestService($resource, $cacheFactory) {
+  function RestService($resource, $cacheFactory, ApiUrl) {
 
     var apiHost;
     if (window.location.protocol === "https:") {
         apiHost = window.location.origin;
     } else {
-        apiHost = 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net';
+        apiHost = ApiUrl;
         // Alternatief als de groepsadmin lokaal draait:
         //apiHost = 'http://localhost:8080';
     }

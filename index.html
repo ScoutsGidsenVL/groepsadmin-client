@@ -242,6 +242,8 @@
     <script src="app/controllers/groep-controller.js"></script>
     <script src="app/controllers/orakel-controller.js"></script>
 
+    <script src="app/services/user-access-service.js"></script>
+    <script src="app/services/user-profile-service.js"></script>
     <script src="app/services/rest-service.js"></script>
     <script src="app/services/http-interceptor-service.js"></script>
     <script src="app/services/alert-service.js"></script>
@@ -270,36 +272,5 @@
     <script src="js/bootstrap/bootstrap-select.min.js"></script>
     <script src="js/Chart.min.js"></script>
 
-    <script>
-      var googleMapsKey = '';
-      switch (window.location.origin){
-        case 'http://localhost:8000':
-          googleMapsKey = 'AIzaSyBQRUONtrmAcJ96_NILKeRvj5F5nXRh2MM';
-          break;
-        case 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be':
-          googleMapsKey = 'AIzaSyBiKzCCqMUyu4mW0rKk777CU3pW86FZiJ8';
-          break;
-        case 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net':
-          googleMapsKey = 'AIzaSyBZU1SgLDbOfAlROSnR_cb_wWQGlQRqMqc';
-          break;
-      }
-      var script = document.createElement('script');
-      script.src = "https://maps.googleapis.com/maps/api/js?key=" + googleMapsKey;
-      document.body.appendChild(script);
-
-
-      angular.element(document).ready(function() {
-        window._keycloak = Keycloak(getClient());
-
-        window._keycloak
-          .init({
-            onLoad: 'login-required',
-            checkLoginIframe: false
-          })
-          .success(function() {
-            angular.bootstrap(document, ['ga']); // manually bootstrap Angular
-        });
-      });
-    </script>
   </body>
 </html>

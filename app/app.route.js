@@ -13,7 +13,10 @@
     // Leden tabel
       .when('/', {
         templateUrl: 'partials/leden.html',
-        controller: 'LedenlijstController'
+        controller: 'LedenlijstController',
+        resolve : {
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasRole("ROLE_ADMIN"); }]
+        }
       })
       // Lid toevoegen
       .when('/lid/toevoegen', {
