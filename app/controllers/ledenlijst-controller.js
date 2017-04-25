@@ -296,6 +296,13 @@
       // activeer alle kolommen uit de toegepaste filter
       // en geef er een kolomIndex aan
       var counter = 0;
+      // eerst alle kolommen resetten
+      _.each($scope.kolommen, function(val,key){
+        val.activated = false;
+        val.kolomIndex = 0;
+        val.isLoaded = false;
+      })
+
       _.each($scope.currentFilter.kolommen, function(value, key){
         var kolom = _.find($scope.kolommen, {'id': value});
 
