@@ -16,6 +16,14 @@
       ]
     },
     {
+      "rel": "groepen",
+      "href": "http:\/\/185.41.237.134\/groepsadmin\/rest-ga\/groep",
+      "method": "GET",
+      "secties": [
+
+      ]
+    },
+    {
       "rel": "functies",
       "href": "http:\/\/185.41.237.134\/groepsadmin\/rest-ga\/functie",
       "method": "GET",
