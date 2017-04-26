@@ -17,6 +17,7 @@
     'ga.usercontroller',
     'ga.lidtoevoegencontroller',
     'ga.lidindividuelesteekkaartcontroller',
+    'ga.menucontroller',
     'ga.groepcontroller',
     'ga.orakelcontroller',
     'ga.lid.velden',
@@ -46,6 +47,7 @@
 
       case UserAccess.FORBIDDEN:
         $log.warn("$stateChangeError event catched", UserAccess.FORBIDDEN);
+        $location.path("/lid/profiel");
         break;
 
       default:
@@ -108,34 +110,43 @@
 
         angular.module('ga').constant('ApiUrl', APIURL);
 
+        // comment block below if userdata should come from localstorage
+        getUserData().then(function(res){
+          setUserData(res);
+          bootstrapApp();
+        });
 
-
+        // TODO: to AVOID a first call before app starts, we could use cookie or localstorage
+        // code below not tested, but should not be hard to adapt/debug :)
         // see if there's already some data stored in localstorage
         // if not, we'll first need to fetch and store data
         // but first, check if localstorage is supported
 
-        if (typeof(Storage) !== "undefined") {
-            // if localhostorage has data
-            // defineconstant using localstorage data
-
-
-            //-- else getUserData() AND defineconstant AND save in localstorage
-            getUserData().then(function(res){
-              console.log('wijoo', res);
-              bootstrapApp();
-            });
-
-
-
-        } else {
-            // Sorry! No Web Storage support..
-            // -- getUserData() and defineconstant
-
-
-        }
-
-
-
+        // var localUserData = JSON.parse(localStorage.getItem('userdata'));
+        //
+        // // check if localStorage is supported in this browser
+        // if (typeof(Storage) !== "undefined") {
+        //     if(localUserData!==null){
+        //       console.log('there was user info in localStorage!',localUserData)
+        //       setUserData(localUserData);
+        //       bootstrapApp();
+        //     }else{
+        //       //-- else getUserData() AND defineconstant AND save in localstorage
+        //       getUserData().then(function(res){
+        //         console.log('no data in localstorage, got data from API', res);
+        //         localStorage.setItem('userdata', JSON.stringify(res));
+        //         setUserData(res);
+        //         bootstrapApp();
+        //       });
+        //     }
+        // } else {
+        //     // when there's No Web Storage support
+        //     getUserData().then(function(res){
+        //       console.log('no localstorage support!!!', res);
+        //       setUserData(res);
+        //       bootstrapApp();
+        //     });
+        // }
     });
   });
 
@@ -143,7 +154,9 @@
     return new Promise(function(resolve, reject){
       var initInjector = angular.injector(['ng']);
       var $http = initInjector.get('$http');
-      $http.get(APIURL + '/groepsadmin/rest-ga/').then(function(success) {
+
+      //$http.get(APIURL + '/groepsadmin/rest-ga/').then(function(success) {
+      $http.get('../data/userdata.json').then(function(success) {
         resolve(success.data);
       },function(err){
         console.log("FAIL--", err);
@@ -153,9 +166,9 @@
 
   }
 
-  var defineConstants = function(data){
-    console.log('defineConstants : ', data);
-    angular.module('ga').constant('userInfo', 'USERINFOOOOOOOO');
+  var setUserData = function(data){
+    console.log('setUserData setting constant "userInfo" to ', data);
+    angular.module('ga').constant('userInfo', data);
   }
 
   var bootstrapApp = function(){

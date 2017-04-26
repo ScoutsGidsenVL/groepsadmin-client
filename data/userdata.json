@@ -1,0 +1,34 @@
+[
+    {
+      "rel": "profiel",
+      "href": "http:\/\/185.41.237.134\/groepsadmin\/rest-ga\/lid\/profiel",
+      "method": "GET",
+      "secties": [
+
+      ]
+    },
+    {
+      "rel": "aanvragen",
+      "href": "http:\/\/185.41.237.134\/groepsadmin\/rest-ga\/lid\/aanvraag",
+      "method": "GET",
+      "secties": [
+
+      ]
+    },
+    {
+      "rel": "functies",
+      "href": "http:\/\/185.41.237.134\/groepsadmin\/rest-ga\/functie",
+      "method": "GET",
+      "secties": [
+
+      ]
+    },
+    {
+      "rel": "ledenlijst",
+      "href": "http:\/\/185.41.237.134\/groepsadmin\/rest-ga\/ledenlijst",
+      "method": "GET",
+      "secties": [
+
+      ]
+    }
+  ]

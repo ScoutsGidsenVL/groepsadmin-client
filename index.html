@@ -89,14 +89,14 @@
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand visible-md-block visible-lg-block" href="#/"><img class='navbar-logo' src="img/ga-logo.svg" alt="Logo Groepsadministratie" /></a>
-        <ul class="nav navbar-nav">
-          <li active-link="active"><a href="#/" >
+        <ul class="nav navbar-nav" ng-controller="MenuController">
+          <li ng-if="accessLeden" active-link="active"><a href="#/" >
             <i class="fa fa-users" aria-hidden="true"></i>&nbsp; <span class="hidden-xs">Leden</span>
           </a></li>
-          <li active-link="active"><a href="#/groepsinstellingen">
+          <li ng-if="accessGroepen" active-link="active"><a href="#/groepsinstellingen">
             <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp; <span class="hidden-xs">Groepsinstellingen</span>
           </a></li>
-          <li active-link="active"><a href="#/orakel">
+          <li ng-if="accessGroepen" active-link="active"><a href="#/orakel">
             <span class="glyphicon glyphicon-stats"></span>&nbsp; <span class="hidden-xs">Groepsstatistieken</span>
           </a></li>
         </ul>
@@ -237,6 +237,7 @@
     <script src="app/controllers/lid-controller.js"></script>
     <script src="app/controllers/lid-individuele-steekkaart-controller.js"></script>
     <script src="app/controllers/lid-toevoegen-controller.js"></script>
+    <script src="app/controllers/menu-controller.js"></script>
     <script src="app/controllers/search-controller.js"></script>
     <script src="app/controllers/user-controller.js"></script>
     <script src="app/controllers/groep-controller.js"></script>

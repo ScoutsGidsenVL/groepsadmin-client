@@ -15,13 +15,16 @@
         templateUrl: 'partials/leden.html',
         controller: 'LedenlijstController',
         resolve : {
-          access: ["UserAccess", function (UserAccess) { return UserAccess.hasRole("ROLE_ADMIN"); }]
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("ledenlijst"); }]
         }
       })
       // Lid toevoegen
       .when('/lid/toevoegen', {
         templateUrl: 'partials/lid-toevoegen.html',
-        controller: 'LidToevoegenController'
+        controller: 'LidToevoegenController',
+        resolve : {
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("groepen"); }]
+        }
       })
       // Lid individuelestekkaart
       .when('/lid/individuelesteekkaart/:id', {
@@ -37,13 +40,19 @@
       // Groepsinstellingen
       .when('/groepsinstellingen', {
         templateUrl: 'partials/groepsinstellingen.html',
-        controller: 'GroepController'
+        controller: 'GroepController',
+        resolve : {
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("groepen"); }]
+        }
       })
 
       // Orakel
       .when('/orakel', {
         templateUrl: 'partials/orakel.html',
-          controller: 'OrakelController'
+        controller: 'OrakelController',
+        resolve : {
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("groepen"); }]
+        }
       })
 
       .otherwise({
