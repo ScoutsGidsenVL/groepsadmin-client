@@ -155,8 +155,7 @@
       var initInjector = angular.injector(['ng']);
       var $http = initInjector.get('$http');
 
-      //$http.get(APIURL + '/groepsadmin/rest-ga/').then(function(success) {
-      $http.get('../data/userdata.json').then(function(success) {
+      $http.get(APIURL + '/groepsadmin/rest-ga/').then(function(success) {
         resolve(success.data);
       },function(err){
         console.log("FAIL--", err);
