@@ -53,10 +53,6 @@
         resolve : {
           access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("groepen"); }]
         }
-      })
-
-      .otherwise({
-        redirectTo: '/'
       });
 
     //$locationProvider.html5Mode(true).hashPrefix('!');
