@@ -3,6 +3,8 @@ HOST: https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/rest-
 
 # Groepsadmin API
 
+# Group Algemeen
+
 ## Authentication request headers
 
 Bij elke(*) request moet een *Authentication*-header worden meegegeven:
@@ -11,7 +13,7 @@ Bij elke(*) request moet een *Authentication*-header worden meegegeven:
 
 `{access token}` is een OAuth-2.0 access token. Dit kan verkregen worden door in te loggen op [keycloak](https://login.scoutsengidsenvlaanderen.be).
 
-(*) Enkele endpoints zijn publiek. Hierbij is geen *Authentication*-header nodig.
+(*) Enkele endpoints zijn publiek. Hierbij is geen *Authentication*-header noodzakelijk. Het resultaat kan wel afhangen van de *Authentication*-header.
 
 ## Etag response headers
 
@@ -213,6 +215,8 @@ De structuur velden zorgen dat de input-velden gestructureerd kunnen worden.
 Dit enpoint is publiek. Er is hier geen *Authentication*-header nodig.
 :::
 
+De endpoints in de response worden bepaald door de algemene rechten van de gebruiker. "ledenlijst" wordt enkel teruggegeven voor gebruikers met leesrecht op anderen.
+
 + Response 200 (application/json)
 
     + Body
@@ -323,6 +327,8 @@ Dit is nog niet geïmplementeerd.
     + id (string) - ID van het lid - Het id `profiel` kan gebruikt worden om te verwijzen naar het lid dat overeenkomt met de ingelogde gebruiker: `/lid/profiel`
 
 ### Lid opvragen [GET]
+
+Als een lid in een ledenlijst of in een zoekresultaat van een gebruiker staat, dan mag je aannemen dat de gebruiker ook leesrechten heeft op dat lid. Elke ingelogde gebruik heeft ook leesrechten op zijn eigen profiel.
 
 + Response 200 (application/json)
 
@@ -481,41 +487,39 @@ Dit is nog niet geïmplementeerd.
 
 ### Lid bewerken [PATCH]
 
+* In de secties (van de link met `"rel": "update"`) in het `GET` request van een lid wordt opgelijst welke secties aangepast mogen worden door de ingelogde gebruiker.
+* Weggelaten secties worden als niet aangepast beschouwd.
+* Het opladen van een sectie die niet kan bewerkt worden door de ingelogde gebruiker resulteert in een foutmelding van de server.
+
+**Optionele secties:** `gebruikersnaam`, `persoonsgegevens`, `adressen`, `contacten`, `email`, `functies`, `groepseigen`, `vgagegevens` en `groepseigenVelden.*`
+
+**Genegeerde secties:** `id`, `aangepast` en `links`
+
+Voor de sectie `adressen`:
+* Adressen worden gecorreleerd aan de hand van de id.
+* Een id niet opladen is een adres verwijderen.
+* Een adres zonder id toevoegen is een nieuw adres.
+* Belgische adressen moeten een gis code hebben. (Hoe giscode ophalen???)
+* De status kan niet ingesteld worden.
+
+Voor de sectie `email`:
+* Is soms wijzigbaar en soms niet, goed kijken naar de secties in de links topic.
+
+Voor de sectie `functies`:
+* Een functie-instantie heeft geen `id` veld.  Het wordt uniek gekenmerkt door de combinatie van de velden `functie`, `groep` en `begin`.
+* Een functie-instantie toevoegen kan door een functie-instatie toe te voegen met `begin` != `null`. `begin` zal door de server worden ingevuld op de huidige timestamp maar je geeft best een datetime mee.
+* Een functie-instantie stopzetten kan door een bestaande niet beeindigde functie-instantie opladen met `einde` != `null`. Je mag dus datum invullen, maar de server zal hier geen rekening mee houden.
+* Om te bevestigen dat de functie-instantie stopgezet wordt moeten we een parameter `bevestig` met daarin een boolean toevoegen aan de request URL.
+* Er word dus enkel naar de combinatie van `functie`, `groep` en `begin` gekeken.  Alle andere velden worden genegeerd. Je bent dus niet verplicht om telkens alle functies terug te sturen naar de server als je er een enkele wil aanpassen.
+
+Voor de sectie `groepseigenVelden`:
+* Groepseigen velden worden gecorreleerd aan de hand van een id.
+* Er wordt enkel gekeken naar het `id` veld en het `waarde` veld.  Alle andere velden worden genegeerd.
+* Een veld dat niet schrijfbaaris en toch opgeladen wordt, wordt genegeerd.
+* Als een gegeven niet opgeladen wordt wordt het als onveranderd beschouwd.
+* Meer info over de eigenschappen van groepseigen velden kan gevonden worden in de documentatie van de [dynamische velden](#header-dynamische-velden).
+
 + Request (application/json)
-
-    ::: note
-    * In de secties (van de link met `"rel": "update"`) in het `GET` request van een lid wordt opgelijst welke secties aangepast mogen worden door de ingelogde gebruiker.
-    * Weggelaten secties worden als niet aangepast beschouwd.
-    * Het opladen van een sectie die niet kan bewerkt worden door de ingelogde gebruiker resulteert in een foutmelding van de server.
-
-    **Optionele secties:** `gebruikersnaam`, `persoonsgegevens`, `adressen`, `contacten`, `email`, `functies`, `groepseigen`, `vgagegevens` en `groepseigenVelden.*`
-
-    **Genegeerde secties:** `id`, `aangepast` en `links`
-
-    Voor de sectie `adressen`:
-    * Adressen worden gecorreleerd aan de hand van de id.
-    * Een id niet opladen is een adres verwijderen.
-    * Een adres zonder id toevoegen is een nieuw adres.
-    * Belgische adressen moeten een gis code hebben. (Hoe giscode ophalen???)
-    * De status kan niet ingesteld worden.
-
-    Voor de sectie `email`:
-    * Is soms wijzigbaar en soms niet, goed kijken naar de secties in de links topic.
-
-    Voor de sectie `functies`:
-    * Een functie-instantie heeft geen `id` veld.  Het wordt uniek gekenmerkt door de combinatie van de velden `functie`, `groep` en `begin`.
-    * Een functie-instantie toevoegen kan door een functie-instatie toe te voegen met `begin` != `null`. `begin` zal door de server worden ingevuld op de huidige timestamp maar je geeft best een datetime mee.
-    * Een functie-instantie stopzetten kan door een bestaande niet beeindigde functie-instantie opladen met `einde` != `null`. Je mag dus datum invullen, maar de server zal hier geen rekening mee houden.
-    * Om te bevestigen dat de functie-instantie stopgezet wordt moeten we een parameter `bevestig` met daarin een boolean toevoegen aan de request URL.
-    * Er word dus enkel naar de combinatie van `functie`, `groep` en `begin` gekeken.  Alle andere velden worden genegeerd. Je bent dus niet verplicht om telkens alle functies terug te sturen naar de server als je er een enkele wil aanpassen.
-
-    Voor de sectie `groepseigenVelden`:
-    * Groepseigen velden worden gecorreleerd aan de hand van een id.
-    * Er wordt enkel gekeken naar het `id` veld en het `waarde` veld.  Alle andere velden worden genegeerd.
-    * Een veld dat niet schrijfbaaris en toch opgeladen wordt, wordt genegeerd.
-    * Als een gegeven niet opgeladen wordt wordt het als onveranderd beschouwd.
-    * Meer info over de eigenschappen van groepseigen velden kan gevonden worden in de documentatie van de [dynamische velden](#header-dynamische-velden).
-    :::
 
     + Body
 
@@ -537,6 +541,8 @@ Dit is nog niet geïmplementeerd.
             // TODO
 
 ## E-mail [/lid/{id}/mail]
+
+Als voor een gebruiker in het resultaat van het opvragen van een lid een verwijzing staat naar het e-mailen, mag je aannemen dat die gebruiker dat lid mag e-mailen.
 
 + Parameters
     + id (string) - ID van het lid - Het id `profiel` kan gebruikt worden om te verwijzen naar het lid dat overeenkomt met de ingelogde gebruiker: `/lid/profiel/mail`
@@ -577,6 +583,8 @@ Dit is nog niet geïmplementeerd.
     + id (string) - ID van het lid - Het id `profiel` kan gebruikt worden om te verwijzen naar het lid dat overeenkomt met de ingelogde gebruiker: `/lid/profiel/steekkaart`
 
 ### Individuele steekkaart opvragen [GET]
+
+Als voor een gebruiker in het resultaat van het opvragen van een lid een link staat naar de individuele steekkaart, mag je aannemen dat die gebruiker de individuele steekakaart mag opvragen.
 
 + Response 200 (application/json)
 
@@ -2163,7 +2171,7 @@ Groepseigen functies | `groep`                       | Nooit
 
 ### Functielijst opvragen [GET]
 
-Alle functies die gebruikt worden binnen de opgegeven groepen, waar je recht op hebt.
+Alle functies die gebruikt worden binnen de opgegeven groepen, waar de gebruiker recht op hebt.
 
 + Parameters
     + startGroepsnummer (optional, string) - Dit duidt op alle groepen waarvan het groepsnummer hiermee begint.
@@ -2549,11 +2557,10 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
 
 # Group Zoeken
 
-## Zoeken [/zoeken?query={query}&token={token}]
+## Zoeken [/zoeken?query={query}]
 
 + Parameters
     + query (string) - query waarop gezocht moet worden
-    + token (string, optional) - token warmee de client de request kan identificeren (transparant terug gegeven door de server).
 
 ### Leden zoeken [GET]
 
@@ -2564,7 +2571,7 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
     + Body
 
             {
-              "token": "foobar",
+              "query": "powell",
               leden: [{
                 "link": {
                   "rel": "self",
