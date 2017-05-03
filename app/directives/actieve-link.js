@@ -8,8 +8,12 @@
           restrict: 'A',
           link: function(scope, element, attrs, controller) {
               var clazz = attrs.activeLink;
-              var path = element[0].firstElementChild.hash;
-              path = path.substring(1); //hack because path does bot return including hashbang
+              var path;
+              if (element[0].id == 'search') {
+                  path = 'zoeken';
+              } else {
+                  path = element[0].firstElementChild.hash.substring(1);
+              }
               scope.location = location;
               scope.$watch('location.path()', function(newPath) {
                   if (path === newPath) {
@@ -23,6 +27,5 @@
       };
 
   }]);
-
 
 })();

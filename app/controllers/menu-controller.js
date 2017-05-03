@@ -8,8 +8,8 @@
   MenuController.$inject = ['$scope', 'UserAccess'  ];
 
   function MenuController ($scope, UserAccess) {
-    $scope.accessLeden = UserAccess.hasAccessTo("ledenlijst") == "200";
-    $scope.accessGroepen = UserAccess.hasAccessTo("groepen") == "200";
+    $scope.accessLeden = UserAccess.hasAccessTo("ledenlijst");
+    $scope.accessGroepen = UserAccess.hasAccessTo("groepen");
   }
 
 })();

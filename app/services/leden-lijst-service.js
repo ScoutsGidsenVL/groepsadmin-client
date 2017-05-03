@@ -31,10 +31,6 @@
 
     }
 
-
-
-
-
     return ledenFilterService;
   };
 })();
