@@ -1,0 +1,38 @@
+@nav-width: 300px;
+
+@import "../node_modules/aglio-theme-olio/styles/layout-default.less";
+
+nav {
+    /* Use the same padding at the top and bottom of the index. */
+    bottom: @padding * 2;
+
+    .collapse-content {
+        /* Never collapse the index. */
+        max-height: initial !important;
+    }
+
+    .chevron {
+        /* Hide the collapse icons in the index. */
+        display: none;
+    }
+
+    > p {
+        /* Hide the url at the bottom of the index. */
+        display: none;
+    }
+}
+
+/* Make the action names more visible. */
+.action h4.action-heading .name.name {
+    float: none;
+}
+
+/* Make the title for example uris smaller. */
+.action h4:not(.action-heading) {
+    font-size: 80%;
+}
+
+/* Make the host in the example uris smaller. */
+.definition .hostname {
+    font-size: 80%;
+}

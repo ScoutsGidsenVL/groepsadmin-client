@@ -101,7 +101,7 @@
               <i class="fa fa-bars"></i>
             </a>
             <ul class="dropdown-menu pull-right" uib-dropdown-menu aria-labelledby="simple-dropdown">
-              <li ng-repeat="menuItem in menuItems">
+              <li ng-repeat="menuItem in menuItems" ng-show="{{ menuItem.condition }}">
                 <a ng-href="{{menuItem.href}}"><i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; {{menuItem.label}}</a>
               </li>
             </ul>
@@ -113,13 +113,15 @@
           <div class="col-xs-7 col-xxs-2">
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" id="_zoekenWrap" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
-              <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken "><i class="fa fa-spinner fa-pulse"></i></div>
-              <div ng-show="noResults" class="input-group-addon" title="Geen resultaten gevonden"><i class="fa fa-ban"></i></div>
-
+              <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">
+                <i class="fa fa-spinner fa-pulse"></i>
+              </div>
+              <div ng-show="noResults" class="input-group-addon" title="Geen resultaten gevonden">
+                <i class="fa fa-ban"></i>
+              </div>
             </div>
           </div>
         </div>
-
 
 
       </div>
@@ -248,7 +250,6 @@
     <script src="app/controllers/orakel-controller.js"></script>
 
     <script src="app/services/user-access-service.js"></script>
-    <script src="app/services/user-profile-service.js"></script>
     <script src="app/services/rest-service.js"></script>
     <script src="app/services/http-interceptor-service.js"></script>
     <script src="app/services/alert-service.js"></script>

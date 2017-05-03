@@ -15,21 +15,21 @@
       var MenuObjs = [
         {
           label: 'Leden',
-          condition: UserAccess.hasAccessTo("ledenlijst") == "200",
+          condition: UserAccess.hasAccessTo("ledenlijst"),
           iconclasses : 'fa fa-users',
           href: '#/',
           desktop: true
         },
         {
           label: 'Groepsinstellingen',
-          condition: UserAccess.hasAccessTo("groepen") == "200",
+          condition: UserAccess.hasAccessTo("groepen"),
           iconclasses : 'fa fa-cogs',
           href: '#/groepsinstellingen',
           desktop: true
         },
         {
           label: 'Groepsstatistieken',
-          condition: UserAccess.hasAccessTo("groepen") == "200",
+          condition: UserAccess.hasAccessTo("groepen"),
           iconclasses : 'fa fa-area-chart',
           href: '#/orakel',
           desktop: true
@@ -49,7 +49,6 @@
 
 
     $scope.menuItems = createMenuItems();
-
 
   }
 

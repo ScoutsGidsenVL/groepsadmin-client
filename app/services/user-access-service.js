@@ -5,30 +5,17 @@
     .module('ga.services.useraccess', [])
     .factory('UserAccess', UserAccess);
 
-  UserAccess.$inject = ['$log','$q','RestService','UserProfile'];
+  UserAccess.$inject = ['RestService'];
 
   // Deze service bevat logica om te bepalen of een gebruiker ergens wel/geen toegang tot heeft
 
-  function UserAccess($log,$q,RestService, UserProfile) {
-    var Access = {
-      OK:200,
-      FORBIDDEN:403,
-      hasRole : function(role){
-          if(UserProfile.hasRole(role)){
-            return Access.OK;
-          } else {
-            return $q.reject(Access.FORBIDDEN);
-          }
-      },
+  function UserAccess(RestService) {
+    return {
       hasAccessTo : function(term){
-          if(UserProfile.hasPermission(term)){
-            return Access.OK;
-          } else {
-            return $q.reject(Access.FORBIDDEN);
-          }
+        return RestService.Root.get().$promise.then(function (response) {
+          return _.has(response, {'rel' : term });
+        });
       }
     };
-
-    return Access;
   };
 })();
