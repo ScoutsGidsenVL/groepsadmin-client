@@ -90,19 +90,26 @@
       <div class="container-fluid">
         <a class="navbar-brand visible-md-block visible-lg-block" href="#/"><img class='navbar-logo' src="img/ga-logo.svg" alt="Logo Groepsadministratie" /></a>
         <ul class="nav navbar-nav" ng-controller="MenuController">
-          <li ng-if="accessLeden" active-link="active"><a href="#/" >
-            <i class="fa fa-users" aria-hidden="true"></i>&nbsp; <span class="hidden-xs">Leden</span>
-          </a></li>
-          <li ng-if="accessGroepen" active-link="active"><a href="#/groepsinstellingen">
-            <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp; <span class="hidden-xs">Groepsinstellingen</span>
-          </a></li>
-          <li ng-if="accessGroepen" active-link="active"><a href="#/orakel">
-            <span class="glyphicon glyphicon-stats"></span>&nbsp; <span class="hidden-xs">Groepsstatistieken</span>
+          <li ng-repeat="menuItem in _.filter(menuItems,{'desktop':true})" ng-show="{{ menuItem.condition }}" active-link="active"><a ng-href="{{menuItem.href}}" >
+            <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="hidden-xs">{{menuItem.label}}</span>
           </a></li>
         </ul>
 
+        <div class="mobile-nav pull-right">
+          <span uib-dropdown on-toggle="toggled(open)" ng-controller="MenuController">
+            <a href id="simple-dropdown" uib-dropdown-toggle>
+              <i class="fa fa-bars"></i>
+            </a>
+            <ul class="dropdown-menu pull-right" uib-dropdown-menu aria-labelledby="simple-dropdown">
+              <li ng-repeat="menuItem in menuItems">
+                <a ng-href="{{menuItem.href}}"><i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; {{menuItem.label}}</a>
+              </li>
+            </ul>
+          </span>
+        </div>
+        <div class="link-old navbar-nav pull-right "><a href="/groepsadmin" target="_blank">Naar de oude<br/>groepsadmin</a></div>
         <!-- Zoekveld -->
-        <div class="navbar-form navbar-left" ng-controller="SearchController" role="search" id="search">
+        <div class="navbar-form pull-right" ng-controller="SearchController" role="search" id="search">
           <div class="col-xs-7 col-xxs-2">
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" id="_zoekenWrap" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
@@ -113,11 +120,8 @@
           </div>
         </div>
 
-        <ul class="nav navbar-nav navbar-right">
-          <li class="nav-oude-ga" active-link="active">
-            <a href="/groepsadmin" target="_blank">Naar de vorige<br/>groepsadmin</a>
-          </li>
-         </ul>
+
+
       </div>
     </nav>
 

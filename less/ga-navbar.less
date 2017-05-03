@@ -1,5 +1,7 @@
 .navbar {
   box-shadow: @schaduw-onder;
+  font-size: 2.2rem;
+  line-height: 20px;
 }
 
 //Navbar alignment fix
@@ -8,9 +10,12 @@
 }
 
 .navbar-nav {
-  font-size: 2.2rem;
   font-family: DCCAsh, sans-serif;
   letter-spacing: 1px;
+  display:none;
+  @media (min-width: @screen-xxs){
+    display:inline-block;
+  }
 }
 
 .navbar-nav .glyphicon {
@@ -93,5 +98,30 @@
 
   .pull-right {
     opacity: 0.6;
+  }
+}
+
+.mobile-nav{
+  margin:16px;
+
+  @media (min-width: @screen-xxs){
+    display:none;
+  }
+  a{
+    color:@navbar-default-link-color;
+    &:hover{
+      color:@navbar-default-link-hover-color;
+    }
+  }
+
+}
+.link-old{
+  margin: 12px 1%;
+  a{
+    color:@navbar-default-link-color;
+  }
+  a:hover{
+    text-decoration: none;
+    color:@navbar-default-link-hover-color;
   }
 }
