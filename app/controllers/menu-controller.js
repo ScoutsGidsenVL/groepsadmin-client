@@ -38,7 +38,7 @@
           label: 'Oude Groepsadmin',
           condition: true,
           iconclasses : 'fa fa-institution',
-          href: '#/orakel',
+          href: 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/',
           desktop: false
         }
       ];

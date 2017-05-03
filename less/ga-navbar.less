@@ -21,12 +21,26 @@
 .navbar-nav .glyphicon {
   font-size: initial;
 }
-
+.navbar-brand{
+  @media (min-width: @screen-xxs){
+    display:none;
+  }
+  @media(min-width: @screen-tablet){
+    display: inline-block;
+  }
+}
 .navbar-logo {
+  padding:5px;
   background-color: @sgv-donkergroen;
-  height: calc(100% + 20px);
-  padding: 10px;
-  box-shadow: @schaduw-onder;
+  width:60px;
+  height:60px;
+  @media (min-width: @screen-tablet){
+    width:initial;
+    height: calc(100% + 20px);
+    padding: 10px;
+    box-shadow: @schaduw-onder;
+  }
+
 }
 
 .nav-oude-ga {
