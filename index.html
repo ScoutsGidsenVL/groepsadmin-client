@@ -62,7 +62,7 @@
             <a id="gm_aanmelden" class="item_link" href="/user">Aanmelden</a> of <a class="item_link" href="https://groepsadmin.scoutsengidsenvlaanderen.be">Registreren</a>
           </span>
 
-          <span id="item_username" active-link="active" class="dropdown" ng-controller="UserController">
+          <span id="item_username" class="dropdown" ng-controller="UserController">
             <a href="#/lid/profiel" class="mijn_profiel" rel="nofollow">
               <i class="fa fa-user"></i>
               {{ username }}
@@ -90,9 +90,11 @@
       <div class="container-fluid">
         <a class="navbar-brand" href="#/"><img class='navbar-logo' src="img/ga-logo.svg" alt="Logo Groepsadministratie" /></a>
         <ul class="nav navbar-nav" ng-controller="MenuController">
-          <li ng-repeat="menuItem in _.filter(menuItems,{'desktop':true})" ng-show="{{ menuItem.condition }}" active-link="active"><a ng-href="{{menuItem.href}}" >
-            <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="hidden-xs">{{menuItem.label}}</span>
-          </a></li>
+          <li ng-repeat="menuItem in _.filter(menuItems,{'desktop':true})" ng-show="{{ menuItem.condition }}" active-link="active">
+            <a ng-href="{{menuItem.href}}">
+              <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="navbar-nav-menulabel">{{menuItem.label}}</span>
+            </a>
+          </li>
         </ul>
 
         <div class="mobile-nav pull-right">
@@ -101,7 +103,7 @@
               <i class="fa fa-bars"></i>
             </a>
             <ul class="dropdown-menu pull-right" uib-dropdown-menu aria-labelledby="simple-dropdown">
-              <li ng-repeat="menuItem in menuItems" ng-show="{{ menuItem.condition }}">
+              <li ng-repeat="menuItem in menuItems" ng-show="{{ menuItem.condition }}" active-link="active">
                 <a ng-href="{{menuItem.href}}"><i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; {{menuItem.label}}</a>
               </li>
             </ul>
