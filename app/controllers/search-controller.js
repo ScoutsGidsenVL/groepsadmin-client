@@ -8,16 +8,10 @@
   SearchController.$inject = ['$scope', '$location', 'RestService'];
 
   function SearchController($scope, $location, RestService) {
-    var rencentsteToken = 0;
-    // zoek leden via api
     $scope.zoekLid = function(zoekterm){
-      rencentsteToken++;
-      return RestService.Zoeken.get({zoekterm:zoekterm, token:rencentsteToken}).$promise.then(
+      return RestService.Zoeken.get({zoekterm:zoekterm}).$promise.then(
           function(result){
-            // controle is dit de meest recente request
-            if (result.token == rencentsteToken){
-              console.log("Meest recent request.");
-              console.log(result.zoekLeden);
+            if (result.query == zoekterm){
               return result.zoekLeden;
             }
             return null;
