@@ -88,33 +88,22 @@
 
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#/"><img class='navbar-logo' src="img/ga-logo.svg" alt="Logo Groepsadministratie" /></a>
-        <ul class="nav navbar-nav" ng-controller="MenuController">
-          <li ng-repeat="menuItem in _.filter(menuItems,{'desktop':true})" ng-show="{{ menuItem.condition }}" active-link="active">
-            <a ng-href="{{menuItem.href}}">
-              <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="navbar-nav-menulabel">{{menuItem.label}}</span>
-            </a>
-          </li>
-        </ul>
-
-        <div class="mobile-nav pull-right">
-          <span uib-dropdown on-toggle="toggled(open)" ng-controller="MenuController">
-            <a href id="simple-dropdown" uib-dropdown-toggle>
-              <i class="fa fa-bars"></i>
-            </a>
-            <ul class="dropdown-menu pull-right" uib-dropdown-menu aria-labelledby="simple-dropdown">
-              <li ng-repeat="menuItem in menuItems" ng-show="{{ menuItem.condition }}" active-link="active">
-                <a ng-href="{{menuItem.href}}"><i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; {{menuItem.label}}</a>
-              </li>
-            </ul>
-          </span>
+        <div class="col-xs-2 col-md-1">
+          <a class="navbar-brand" href="#/"><img class='navbar-logo' src="img/ga-logo.svg" alt="Logo Groepsadministratie" /></a>
         </div>
-        <div class="link-old navbar-nav pull-right "><a href="https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/" target="_blank">Naar de oude<br/>groepsadmin</a></div>
-        <!-- Zoekveld -->
-        <div class="navbar-form pull-right" ng-controller="SearchController" role="search" id="search">
-          <div class="col-xs-7 col-xxs-2">
+        <div class="col-xs-7 hidden-xs hidden-sm">
+          <ul class="nav navbar-nav" ng-controller="MenuController">
+            <li ng-repeat="menuItem in _.filter(menuItems,{'desktop':true})" ng-show="{{ menuItem.condition }}" active-link="active">
+              <a ng-href="{{menuItem.href}}">
+                <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="navbar-nav-menulabel">{{menuItem.label}}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-2 col-xs-3 hidden-xs hidden-sm">
+          <div class="navbar-form pull-right" ng-controller="SearchController" role="search" id="search">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" id="_zoekenWrap" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
+              <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
               <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">
                 <i class="fa fa-spinner fa-pulse"></i>
               </div>
@@ -126,8 +115,59 @@
         </div>
 
 
+        <!-- Zoekveld -->
+        <div class="col-md-2 col-xs-1 hidden-xs hidden-sm ">
+          <div class="link-old navbar-nav pull-right "><a href="https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/" target="_blank">Naar de oude<br/>groepsadmin</a></div>
+        </div>
+
+
+        <div class="mobile-margin col-xs-4 hidden-md hidden-lg pull-right">
+          <span uib-dropdown on-toggle="toggled(open)" ng-controller="MenuController" class=" pull-right">
+            <!--<a href id="simple-dropdown" uib-dropdown-toggle>
+              <i class="fa fa-bars"></i>
+            </a>-->
+            <button type="button" class="btn btn-primary" uib-dropdown-toggle>
+              <i class="fa fa-bars"></i>
+            </button>
+
+            <ul class="dropdown-menu pull-right" uib-dropdown-menu aria-labelledby="simple-dropdown">
+              <li ng-repeat="menuItem in menuItems" ng-show="{{ menuItem.condition }}" active-link="active">
+                <a ng-href="{{menuItem.href}}"><i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; {{menuItem.label}}</a>
+              </li>
+            </ul>
+          </span>
+          <div>
+            <button id="btnOpenMobSearch" type="button" class="btn btn-primary pull-right mr-10">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+          </div>
+
+
+        </div>
       </div>
     </nav>
+    <div class="mobile-search-container">
+      <div class="container-fluid">
+        <div class="col-xs-offset-1 col-xs-10 hidden-md hidden-lg">
+          <div class="navbar-form pull-right" ng-controller="SearchController" role="search">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" id="_zoekenWrap" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
+              <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">
+                <i class="fa fa-spinner fa-pulse"></i>
+              </div>
+              <div ng-show="noResults" class="input-group-addon" title="Geen resultaten gevonden">
+                <i class="fa fa-ban"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-1 hidden-md hidden-lg" ng-controller="MobileSearchController">
+          <button id="btnCloseMobSearch" type="button" class="btn btn-default pull-right" uib-dropdown-toggle >
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Include the rendered template -->
     <div class="main-content">
@@ -221,7 +261,8 @@
     <!-- Scripts -->
     <script src="js/jquery-1.10.2.min.js"></script>
     <script src="js/jquery-ui-1.10.4.custom.min.js"></script>
-    <script src="js/responsive-navbar.js"></script>
+    <script src="js/mobsearch.js"></script>
+    <!--script src="js/responsive-navbar.js"></script-->
 
     <!-- Keycloak -->
     <script src="js/keycloak-config.js"></script>
@@ -250,6 +291,7 @@
     <script src="app/controllers/user-controller.js"></script>
     <script src="app/controllers/groep-controller.js"></script>
     <script src="app/controllers/orakel-controller.js"></script>
+    <script src="app/controllers/mobile-search-controller.js"></script>
 
     <script src="app/services/user-access-service.js"></script>
     <script src="app/services/rest-service.js"></script>

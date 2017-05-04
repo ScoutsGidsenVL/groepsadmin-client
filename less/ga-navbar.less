@@ -4,48 +4,20 @@
   line-height: 20px;
 }
 
-//Navbar alignment fix
-.navbar .container-fluid {
-  padding: 0;
-}
-
 .navbar-nav {
   font-family: DCCAsh, sans-serif;
   letter-spacing: 1px;
-  display:none;
-  @media (min-width: @screen-xxs){
-    display:inline-block;
-  }
-  &-menulabel{
-    display:none;
-    @media (min-width: @screen-desktop){
-      display:inline-block;
-    }
-  }
 }
 
 .navbar-nav .glyphicon {
   font-size: initial;
 }
-.navbar-brand{
-  @media (min-width: @screen-xxs){
-    display:none;
-  }
-  @media(min-width: @screen-tablet){
-    display: inline-block;
-  }
-}
+
 .navbar-logo {
-  padding:5px;
+  padding:10px;
   background-color: @sgv-donkergroen;
-  width:60px;
-  height:60px;
-  @media (min-width: @screen-tablet){
-    width:initial;
-    height: calc(100% + 20px);
-    padding: 10px;
-    box-shadow: @schaduw-onder;
-  }
+  width:80px;
+  height:80px;
 
 }
 
@@ -60,10 +32,7 @@
 
 // Navbar search
 .navbar-form {
-  width: 250px;
-  margin: 12px 0;
-  padding: 0 15px;
-  font-family: "open sans", sans-serif;
+  width:100%;
 
   .input-group {
     width: 100%;
@@ -123,19 +92,8 @@
   }
 }
 
-.mobile-nav{
-  margin:16px;
-
-  @media (min-width: @screen-xxs){
-    display:none;
-  }
-  a{
-    color:@navbar-default-link-color;
-    &:hover{
-      color:@navbar-default-link-hover-color;
-    }
-  }
-
+.mobile-margin{
+  margin:16px 0;
 }
 .link-old{
   margin: 11px 1%;

@@ -11,7 +11,6 @@
     // Kolommen sortable maken
     var index;
 
-
     $scope.isLoadingFilters = true;
     $scope.hasLoadedFilters = false;
 
