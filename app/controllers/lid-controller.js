@@ -181,7 +181,7 @@
       });
       getPostadresString();
     }
-          
+
     var getPostadresString = function(){
       angular.forEach($scope.lid.adressen, function(value){
         if(value.postadres){
@@ -531,8 +531,8 @@
         }
       );
     }
-    
-    
+
+
     // kan de gebruiker functie stoppen van het lid?
     $scope.kanSchrappen = function() {
       var returnVal = false;
@@ -543,7 +543,7 @@
       })
       return returnVal;
     }
-    
+
 
     // alle aanpassingen opslaan
     $scope.opslaan = function() {

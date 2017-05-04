@@ -287,7 +287,6 @@
           })
         })
       }
-
     }
 
     // controle is de criteria geselecteerd a.d.h.v. de titel
@@ -336,9 +335,9 @@
     }
 
     var createFilterObject = function(){
-      var actFilterCriteria  = _.filter($scope.criteria, {"activated":true});
+      var actFilterCriteria  = _.filter($scope.criteria, {"activated": true});
       // seleecteer alle actieve kolommen, gesorteerd op kolomIndex
-      var tmpactKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated":true}),'kolomIndex','asc');
+      var tmpactKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated": true}), 'kolomIndex', 'asc');
       var actKolommen = [];
 
       // voor de patch van de filter hebben we enkel de kolom id's nodig
@@ -392,10 +391,13 @@
           console.log("saveOrOverwriteFilter", response);
           $scope.isSavingFilters = false;
           $scope.showSaveOptions = false;
-
-          // instellen als huidige
-          LFS.saveFilter('huidige', reconstructedFilterObj);
-
+          _.find($scope.filters, function(f) {
+            if (f.id == selectedFilter.id) {
+              // De filter id kan veranderd zijn door de API.
+              f.id = response.id;
+            }
+          });
+          $scope.currentFilter = response;
         });
       }else{
         // voor de zekerheid leading en trailing whitespaces trimmen
@@ -418,6 +420,7 @@
               $scope.isSavingFilters = false;
               $scope.showSaveOptions = false;
               console.log("new filter created in 'saveOrOverwriteFilter' ", res);
+              $scope.currentFilter = res;
             });
           }
 
@@ -435,17 +438,6 @@
 
         activeerCriteria();
         activeerEnIndexeerKolommen();
-
-        var reconstructedFilterObj = createFilterObject();
-
-        /*LFS.saveFilter('huidige', reconstructedFilterObj).then(
-        function(response){
-          // ledenlijst leegmaken
-          $scope.leden = [];
-          //console.log('response of save ', response);
-          $scope.ledenLaden();
-        });*/
-
       });
     }
 

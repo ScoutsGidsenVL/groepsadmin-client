@@ -16,7 +16,7 @@
     <div class="col-lg-6 col-xxs-12">
       <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
         <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
-          {{ currentFilter.naam ? currentFilter.naam : 'Huidige'  }} <span class="caret"></span>
+          {{ currentFilter.naam ? currentFilter.naam : 'Huidige' }} <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
           <li ng-if="isLoadingFilters"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filters aan het laden...</a></li>
@@ -25,7 +25,7 @@
         </ul>
       </div>
       <div ng-show="!showSaveOptions" class="pull-left">
-        <button class="btn btn-default"  ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Filter maken</button>
+        <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Filter opslaan</button>
       </div>
       <div ng-show="showSaveOptions" class="pull-left">
       <form class="form-inline typeahead-filter">
@@ -81,7 +81,7 @@
                 ng-click="toggleCriteriumSection(criteriumItemGroup)">
                 <span class="control-group-subheader-label">
 
-                  <div class="control-selectall"  >
+                  <div class="control-selectall">
                     <label
                       class="control control--checkbox control--header">
 
@@ -140,7 +140,7 @@
     <div class="btn-group"
     ng-hide="isAllCriteriaActive()"
     ng-if="hasLoadedFilters">
-      <button  ng-disabled="isLoadingFilters || isSavingFilters" type="button" ng-click="addLastCriteriumIfThereIsOnlyOneLeft()" class="btn btn-filter btn-filter--criteria dropdown-toggle" data-toggle="dropdown" title="Filtercriteria toevoegen">
+      <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" ng-click="addLastCriteriumIfThereIsOnlyOneLeft()" class="btn btn-filter btn-filter--criteria dropdown-toggle" data-toggle="dropdown" title="Filtercriteria toevoegen">
         <span class="glyphicon glyphicon-plus"></span>
         <span class="hidden-label">Filtercriteria toevoegen</span>
       </button>
@@ -168,7 +168,7 @@
         </button>
 
         <div class="dropdown-menu" uib-dropdown-menu>
-          <div class="control-group"  id="mySortableList">
+          <div class="control-group" id="mySortableList">
             <label
               ng-repeat="kolom in kolommen | orderBy: 'kolomIndex'"
               class="control control--checkbox noselect"
@@ -200,7 +200,7 @@
 <!-- Table -->
 <table id="leden" class="table table-responsive table-leden" >
   <thead>
-    <tr  ng-show='!isLoadingLeden'>
+    <tr ng-show='!isLoadingLeden'>
       <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'">{{ kolom.label }}
         <!--<i class="fa fa-sort-alpha-asc sort" ng-class="{'first-sort' : sortering(kolom.id, true) == 1, 'second-sort' : sortering(kolom.id, true) == 2, 'third-sort' : sortering(kolom.id, true) == 3 }" aria-hidden="true" ng-click="addSort(kolom.id, true)"></i>
         <i class="fa fa-sort-alpha-desc sort" ng-class="{'first-sort' : sortering(kolom.id, false) == 1, 'second-sort' : sortering(kolom.id, false) == 2, 'third-sort' : sortering(kolom.id, false) == 3 }" aria-hidden="true" ng-click="addSort(kolom.id, false)"></i>-->
@@ -208,7 +208,7 @@
     </tr>
   </thead>
   <tbody ng-show="!isLoadingLeden">
-    <tr  ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
+    <tr ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
       <td ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy: 'kolomIndex'">
         <div>
           <div ng-if="!kolom.isLoaded" class="data-placeholder"></div>
