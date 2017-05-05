@@ -1,12 +1,23 @@
 .mobile-search-container{
   display: none;
   padding:10px 0;
-  background-color:gray;
+  background-color:@sgv-lichtgroen;
   &.act{
     display: block;
   }
   .navbar-form{
+    width:90%;
     margin-top:0;
     margin-bottom:0;
+  }
+}
+
+.close-search{
+  width:10%;
+  text-align: center;
+  cursor:pointer;
+  color:@sgv-bijna-zwart;
+  &:hover{
+    color:@sgv-bruin;
   }
 }

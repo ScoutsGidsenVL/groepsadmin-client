@@ -100,7 +100,7 @@
             </li>
           </ul>
         </div>
-        <div class="col-md-2 col-xs-3 hidden-xs hidden-sm">
+        <div class="col-md-3 col-xs-3 hidden-xs hidden-sm">
           <div class="navbar-form pull-right" ng-controller="SearchController" role="search" id="search">
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
@@ -116,7 +116,7 @@
 
 
         <!-- Zoekveld -->
-        <div class="col-md-2 col-xs-1 hidden-xs hidden-sm ">
+        <div class="col-md-1 col-xs-1 hidden-xs hidden-sm ">
           <div class="link-old navbar-nav pull-right "><a href="https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/" target="_blank">Naar de oude<br/>groepsadmin</a></div>
         </div>
 
@@ -148,7 +148,10 @@
     </nav>
     <div class="mobile-search-container">
       <div class="container-fluid">
-        <div class="col-xs-offset-1 col-xs-10 hidden-md hidden-lg">
+        <div class="col-xs-offset-3 col-xs-9 hidden-md hidden-lg">
+          <div id="btnCloseMobSearch" class="close-search pull-right" uib-dropdown-toggle >
+            <i class="fa fa-close"></i>
+          </div>
           <div class="navbar-form pull-right" ng-controller="SearchController" role="search">
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" id="_zoekenWrap" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
@@ -160,11 +163,7 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-xs-1 hidden-md hidden-lg" ng-controller="MobileSearchController">
-          <button id="btnCloseMobSearch" type="button" class="btn btn-default pull-right" uib-dropdown-toggle >
-            <i class="fa fa-close"></i>
-          </button>
+
         </div>
       </div>
     </div>
@@ -291,7 +290,6 @@
     <script src="app/controllers/user-controller.js"></script>
     <script src="app/controllers/groep-controller.js"></script>
     <script src="app/controllers/orakel-controller.js"></script>
-    <script src="app/controllers/mobile-search-controller.js"></script>
 
     <script src="app/services/user-access-service.js"></script>
     <script src="app/services/rest-service.js"></script>

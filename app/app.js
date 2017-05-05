@@ -17,7 +17,6 @@
     'ga.menucontroller',
     'ga.groepcontroller',
     'ga.orakelcontroller',
-    'ga.mobsearchcontroller',
     'ga.lid.velden',
     'ga.dynamischveld',
     'ga.dynamischevelden',
