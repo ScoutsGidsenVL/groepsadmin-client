@@ -46,6 +46,10 @@ Open steeds de browser-console (`F12`) om te zien wat er mis gaat.
 
 Stuur een e-mail naar [informatica@scoutsengidsenvlaanderen.be](email:informatica@scoutsengidsenvlaanderen.be).
 
+## Wireframes
+
+[Wireframes voor het inloggen en de nieuwe groepsadmin](https://xd.adobe.com/view/f7e66441-128f-4885-aecd-ef33ba1f869e/)
+
 ## API
 
 De [documentatie](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/client/docs/api.html) van de REST-API staat mee online. Deze documentatie is aangemaakt met [Aglio](#aglio-optioneel).
