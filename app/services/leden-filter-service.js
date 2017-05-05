@@ -198,7 +198,7 @@
     ledenFilterService.maakFunctieGroepVerbond = function(arrFuncties){
       var titel = 'Functies';
       // met lodash zoeken we alle functie objecten met als property type:'verbond'
-      var verbondFuncties = _.filter(arrFuncties, function(o) { return o.type == titel; });
+      var verbondFuncties = _.filter(arrFuncties, function(o) { return o.type == 'verbond'; });
 
 
       // Voor ieder object in de array passen we de mapping toe
