@@ -13,7 +13,7 @@
     return {
       hasAccessTo : function(term){
         return RestService.Root.get().$promise.then(function (response) {
-          return _.has(response, {'rel' : term });
+          return _.has(response.links, {'rel' : term});
         });
       }
     };

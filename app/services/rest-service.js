@@ -33,8 +33,7 @@
         {
           get: {
             method: 'GET',
-            cache: $cacheFactory('rootCache'),
-            isArray: true
+            cache: $cacheFactory('rootCache')
           }
         },
         {
