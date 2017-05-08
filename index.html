@@ -101,7 +101,7 @@
           </ul>
         </div>
         <div class="col-md-3 col-xs-3 hidden-xs hidden-sm">
-          <div class="navbar-form pull-right" ng-controller="SearchController" role="search" id="search">
+          <div class="navbar-form pull-right searchresults" ng-controller="SearchController" role="search" id="search">
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
               <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">
@@ -152,7 +152,7 @@
           <div id="btnCloseMobSearch" class="close-search pull-right" uib-dropdown-toggle >
             <i class="fa fa-close"></i>
           </div>
-          <div class="navbar-form pull-right" ng-controller="SearchController" role="search">
+          <div class="navbar-form pull-right searchresults" ng-controller="SearchController" role="search">
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" id="_zoekenWrap" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
               <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">

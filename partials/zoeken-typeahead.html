@@ -1,9 +1,4 @@
-<a ng-click="gaNaarLid(match.model)">
-  {{match.model.voornaam + ' ' + match.model.naam}}
-  <br>
-  <span ng-if="match.model.telefoon || match.model.email">
-    <i ng-if="match.model.telefoon && match.model.email">{{match.model.telefoon + ' - ' + match.model.email}}</i>
-    <i ng-if="match.model.telefoon && !match.model.email">{{match.model.telefoon}}</i>
-    <i ng-if="!match.model.telefoon && match.model.email">{{match.model.email}}</i>
-  </span>
+<a ng-click="gaNaarLid(match.model)" class="clearfix">
+  <div class="zoeken-naam">{{ match.model.voornaam + ' ' + match.model.naam }}</div>
+  <div class="zoeken-geboortedatum">{{ match.model.geboorteDatum.substr(8,2) + '-' + match.model.geboorteDatum.substr(5,2) + '-' + match.model.geboorteDatum.substr(0,4) }}</div>
 </a>

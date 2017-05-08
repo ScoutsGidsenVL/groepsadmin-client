@@ -1,4 +1,8 @@
 // Hover/Focus state
+.dropdown-menu{
+  width:100%;
+}
+
 .dropdown-menu > li {
     cursor: pointer;
 }
@@ -7,6 +11,30 @@
   padding: 10px 20px;
   &:focus {
     background-color: @component-active-bg;
+  }
+}
+
+
+.searchresults{
+  .dropdown-menu>li>a{
+    padding: 5px 10px;
+    @media (min-width: @screen-md-min){
+      padding: 10px 20px;
+    }
+
+  }
+  .zoeken-naam{
+    width: ~"calc(100% - 90px)";
+    margin-right:10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    float:left;
+
+  }
+  .zoeken-geboortedatum{
+    width:80px;
+    float:right;
   }
 }
 
