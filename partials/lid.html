@@ -378,7 +378,7 @@
 <footer class="panel-footer clearfix">
   <ul class="pagination pull-left responsive-footer">
     <li>
-      <a href="" ng-click="opslaan()" ng-show="lid">Opslaan
+      <a href="" ng-click="opslaan()" ng-show="lid && canSave()">Opslaan
         <div class="pull-right" ng-show="saving">
           <i class="fa fa-spinner fa-pulse"> </i>
         </div>
@@ -391,7 +391,7 @@
       <a class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
         <li>
-          <a href="" ng-click="opslaan()" ng-show="lid">Opslaan
+          <a href="" ng-click="opslaan()" ng-show="lid && canSave()">Opslaan
             <div class="pull-right" ng-show="saving">
               <i class="fa fa-spinner fa-pulse"> </i>
             </div>

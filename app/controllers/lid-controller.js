@@ -137,26 +137,21 @@
                 })
                 $scope.groepEnfuncties.push(tempGroep);
               });
+              $scope.showFunctieToevoegen = false;
               // controle of de functies weergegeven mogen worden
               angular.forEach($scope.groepEnfuncties, function(groepFuncties){
-                if($scope.patchObj.secties.indexOf('functies.'+groepFuncties.groepsnummer) > -1){
-                  $scope.showFunctieToevoegen =  true
-                }
+                $scope.showFunctieToevoegen |= $scope.hasPermission('functies.'+groepFuncties.groepsnummer);
               });
             }
           );
         }
       );
-
     }
-
 
     // Schrijfrechten kunnen per sectie ingesteld zijn. Controlleer als sectienaam voorkomt in PATCH opties.
     // Mogelijke sectienamen van een lid zijn "persoonsgegevens", "adressen", "email", "functies.*", "groepseigen.*".
     $scope.hasPermission = function(val) {
-      if ($scope.patchObj) {
-        return $scope.patchObj.secties.indexOf(val) > -1;
-      }
+      return $scope.patchObj && $scope.patchObj.secties.indexOf(val) > -1;
     }
 
     // nieuw lid initialiseren na update.
@@ -532,18 +527,17 @@
       );
     }
 
-
     // kan de gebruiker functie stoppen van het lid?
     $scope.kanSchrappen = function() {
-      var returnVal = false;
-      angular.forEach($scope.patchObj.secties, function(value){
-        if (value.indexOf('functies.') != -1){
-          returnVal = true;
-        }
-      })
-      return returnVal;
+      return $scope.patchObj && _.some($scope.patchObj.secties, function(value){
+        return value.indexOf('functies.') != -1;
+      });
     }
 
+    // kan de gebruiker functie stoppen van het lid?
+    $scope.canSave = function() {
+      return $scope.patchObj;
+    }
 
     // alle aanpassingen opslaan
     $scope.opslaan = function() {
