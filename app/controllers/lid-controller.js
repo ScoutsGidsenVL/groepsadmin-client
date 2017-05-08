@@ -17,15 +17,9 @@
     // Voorstel: UUID genereren aan client-side. http://stackoverflow.com/a/2117523
     var tempAdresId = 1;
     var tempContactId = 1;
-    RestService.LidAdd.options().$promise.then(
-      function(result) {
-        console.log('data:', result.data);
-        console.log('post?', result.data.indexOf('POST') > -1);
-        if(result.data.indexOf('POST') > -1){
-          $scope.canPost = true;
-        }
-      }
-    )
+
+    $scope.canPost = UserAccess.hasAccessTo("nieuw lid");
+
     RestService.Lid.get({id:$routeParams.id}).$promise.then(
         function(result) {
           $scope.lid = result;
@@ -94,8 +88,6 @@
 
     }
 
-
-    //
     function loadSuccess(data) {
       initModel();
 
