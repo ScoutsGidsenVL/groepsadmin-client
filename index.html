@@ -63,7 +63,7 @@
           </span>
 
           <span id="item_username" class="dropdown" ng-controller="UserController">
-            <a href="#/lid/profiel" class="mijn_profiel" rel="nofollow">
+            <a href="#/lid/profiel" class="mijn_profiel" rel="nofollow" ng-cloak>
               <i class="fa fa-user"></i>
               {{ username }}
             </a>
@@ -95,7 +95,7 @@
           <ul class="nav navbar-nav" ng-controller="MenuController">
             <li ng-repeat="menuItem in _.filter(menuItems,{'desktop':true})" ng-show="{{ menuItem.condition }}" active-link="active">
               <a ng-href="{{menuItem.href}}">
-                <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="navbar-nav-menulabel">{{menuItem.label}}</span>
+                <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="navbar-nav-menulabel" ng-cloak>{{menuItem.label}}</span>
               </a>
             </li>
           </ul>

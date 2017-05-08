@@ -195,7 +195,7 @@
 
       var functieGroep = {};
       functieGroep.criteriaSubKey = "groepspecifiek";
-      functieGroep.title = 'Groepspecifieke functies';
+      functieGroep.title = 'Groepseigen functies';
       functieGroep.criteriaKey = "functies";
       functieGroep.multiplePossible = true;
       functieGroep.itemgroups = [];
