@@ -5,9 +5,9 @@
     .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('LidController', LidController);
 
-  LidController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'keycloak' ];
+  LidController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'UserAccess', 'keycloak' ];
 
-  function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, keycloak) {
+  function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, UserAccess, keycloak) {
     console.log('login = ' + keycloak.authenticated);
 
     $scope.validationErrors = [];
@@ -18,7 +18,10 @@
     var tempAdresId = 1;
     var tempContactId = 1;
 
-    $scope.canPost = UserAccess.hasAccessTo("nieuw lid");
+    UserAccess.hasAccessTo("nieuw lid").then(function(response) {
+      $scope.canPost = response;
+      console.log('can post', $scope.canPost);
+    });
 
     RestService.Lid.get({id:$routeParams.id}).$promise.then(
         function(result) {
@@ -39,8 +42,6 @@
           }
         }
       );
-
-
 
     /*
     * Algemeen
