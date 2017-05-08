@@ -77,7 +77,6 @@
       // functies ophalen om functiegroepen van het 'verbond' en de 'groep' samen te stellen
 
       $q.all(filterCriteria.promises).then(function () {
-        //console.log("filterCriteria.arrCriteria",filterCriteria.arrCriteria);
         $scope.criteria = filterCriteria.arrCriteria;
 
         $q.all(filterKolommen.promises).then(function(){
@@ -190,7 +189,6 @@
     var activeerCriteria = function(){
       // haal alle criteriaGroepen keys uit de geselecteerde filter
       _.each($scope.currentFilter.criteria,function(value, key){
-        console.log("$scope.criteria",value,key);
         // indien de key overeenkomt, activeren we de criteriaGroep
         // meerdere criteriaGroepen kunnen een zelfde key hebben
         // (bvb. groepspecifieke functies hebben de criteriaKey 'functies')
@@ -208,6 +206,26 @@
         }
 
       });
+    }
+
+    var deactiveerCriteriaAndItems = function(){
+      _.each($scope.criteria,function(value,key){
+        value.activated = false;
+        if(value.items){
+          _.each(value.items,function(v,k){
+            v.activated = false;
+          });
+        }
+        if(value.itemgroups && value.itemgroups.length > 0){
+          _.each(value.itemgroups,function(v,k){
+            _.each(v.items,function(vv,kk){
+              vv.activated = false;
+            })
+          })
+        }
+
+
+      })
     }
 
     $scope.isAllCriteriaActive = function(){
@@ -357,7 +375,6 @@
 
       LFS.saveFilter(filter.id, obj).then(
       function(result){
-        console.log('response of overwriteFilter ', result);
         deferred.resolve(result);
       });
 
@@ -373,7 +390,6 @@
       return $q(function(resolve,reject){
         RestService.createNewFilter.post(reconstructedFilterObj).$promise.then(
           function(response){
-            console.log('response of POST:'+ filterNaam, response);
             // 'huidige' filter opslaan
             resolve(response);
           }
@@ -389,7 +405,6 @@
         var tmpObj = JSON.parse(JSON.stringify(reconstructedFilterObj));
         // bestaande filter overschrijven
         overwriteFilter(selectedFilter, tmpObj).then(function(response){
-          console.log("saveOrOverwriteFilter", response);
           $scope.isSavingFilters = false;
           $scope.showSaveOptions = false;
           _.find($scope.filters, function(f) {
@@ -420,7 +435,6 @@
             createNewFilter(selectedFilter).then(function(res){
               $scope.isSavingFilters = false;
               $scope.showSaveOptions = false;
-              console.log("new filter created in 'saveOrOverwriteFilter' ", res);
               $scope.currentFilter = res;
             });
           }
@@ -434,7 +448,7 @@
       $scope.isLoadingFilters = true;
       stelFilterSamen(filter.id).then(function(){
         $scope.isLoadingFilters = false;
-
+        deactiveerCriteriaAndItems();
         activeerCriteria();
         activeerEnIndexeerKolommen();
       });
@@ -451,7 +465,6 @@
         _.each($scope.kolommen, function(val){val.isLoaded = true;});
         // ledenlijst leegmaken
         $scope.leden = [];
-        console.log('response of save ', response);
         $scope.ledenLaden();
       });
 
@@ -594,8 +607,6 @@
     }
 
     initCriteriaKolommenFilters().then(function(){
-
-      console.log("initCriteriaKolommenFilters!");
       stelFilterSamen('huidige').then(function(){
         $scope.isLoadingFilters = false;
         // variable om te voorkomen dat content flikkert

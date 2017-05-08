@@ -20,7 +20,6 @@
       returnObj.promises = [];
       returnObj.promises[0] = RestService.Functies.get().$promise.then(
         function(result){
-          // console.log("ledenFilterService getCriteria, Functies:" , result);
           var arrTakken = [];
           _.each(result.functies,function(val){
             arrTakken.push(val.leeftijdsTak);
@@ -33,19 +32,12 @@
           var functieGroepVerbond = ledenFilterService.maakFunctieGroepVerbond(functies);
           functieGroepVerbond.activated = false;
 
-          console.log('functieGroepVerbond', functieGroepVerbond);
-          //functieGroepGroepspecifiek.activated = false;
-
           // functieGroepen maken van functies met type 'groep'
           var groepSpecifiekeFunctieGroepen = ledenFilterService.maakGroepSpecifiekeFunctieGroepen(functies);
-          //console.log('groepSpecifiekeFunctieGroepen', groepSpecifiekeFunctieGroepen)
-
           var functieGroepGroepspecifiek = ledenFilterService.maakFunctieGroepGroepspecifiek(groepSpecifiekeFunctieGroepen);
-
 
           functieGroepen.push(functieGroepVerbond);
           functieGroepen.push(functieGroepGroepspecifiek);
-
 
           // aangemaakte functieGroepen toevoegen aan de criteria.
           _.each(functieGroepen, function(value){
@@ -234,7 +226,6 @@
         resVerbondFunctie = ledenFilterService.mapObj(verbondFuncties[k]);
         resVerbondFuncties.push(resVerbondFunctie);
       });
-      //console.log('verbondFuncties', resVerbondFuncties);
 
       // Sorteren op basis van array van waarden
       // OPGELET: bij een nieuwe tak, moet deze array worden aangevuld, anders zal ie niet verschijnen in de filter
@@ -292,7 +283,6 @@
       });
 
       _.each(verbondsFunctiesOrderedPerVerbondsType, function(val,key){
-        //console.log("000000, ",val);
         if(val.verbondstype){
           var itemGroupObj = {};
           itemGroupObj.category = 'type';
@@ -464,7 +454,6 @@
       // functies
       reconstructedFilterObj.criteria.functies = [];
       _.each(_.filter(activeCriteria, {"criteriaKey":"functies"}), function(value, key){
-        //console.log("Value!!!!", value);
         if(value.criteriaSubKey == "verbonds" || value.criteriaSubKey == "groepspecifiek"){
           _.each(value.itemgroups,function(v,k){
             var temp = _.filter(v.items, {'activated': true});

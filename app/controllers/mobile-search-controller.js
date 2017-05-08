@@ -12,10 +12,7 @@
 
     $scope.toggleMobileSearch = function(){
       $scope.isMobileSearchVisible = !$scope.isMobileSearchVisible;
-      console.log($scope.isMobileSearchVisible, ')))))))))-------');
     }
-
-
   }
 
 

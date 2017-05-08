@@ -163,7 +163,6 @@
   }
 
   function changesOnly(data) {
-    //console.log('changesOnly --- ', data)
     if(data.changes) {
       var changes = new Object();
       //changes.id = data.id;  // id verplicht meesturen
