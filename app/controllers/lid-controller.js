@@ -5,9 +5,9 @@
     .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('LidController', LidController);
 
-  LidController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'keycloak' ];
+  LidController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'UserAccess', 'keycloak' ];
 
-  function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, keycloak) {
+  function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, UserAccess, keycloak) {
     console.log('login = ' + keycloak.authenticated);
 
     $scope.validationErrors = [];
@@ -17,15 +17,12 @@
     // Voorstel: UUID genereren aan client-side. http://stackoverflow.com/a/2117523
     var tempAdresId = 1;
     var tempContactId = 1;
-    RestService.LidAdd.options().$promise.then(
-      function(result) {
-        console.log('data:', result.data);
-        console.log('post?', result.data.indexOf('POST') > -1);
-        if(result.data.indexOf('POST') > -1){
-          $scope.canPost = true;
-        }
-      }
-    )
+
+    UserAccess.hasAccessTo("nieuw lid").then(function(response) {
+      $scope.canPost = response;
+      console.log('can post', $scope.canPost);
+    });
+
     RestService.Lid.get({id:$routeParams.id}).$promise.then(
         function(result) {
           $scope.lid = result;
@@ -45,8 +42,6 @@
           }
         }
       );
-
-
 
     /*
     * Algemeen
@@ -94,8 +89,6 @@
 
     }
 
-
-    //
     function loadSuccess(data) {
       initModel();
 
@@ -137,26 +130,21 @@
                 })
                 $scope.groepEnfuncties.push(tempGroep);
               });
+              $scope.showFunctieToevoegen = false;
               // controle of de functies weergegeven mogen worden
               angular.forEach($scope.groepEnfuncties, function(groepFuncties){
-                if($scope.patchObj.secties.indexOf('functies.'+groepFuncties.groepsnummer) > -1){
-                  $scope.showFunctieToevoegen =  true
-                }
+                $scope.showFunctieToevoegen |= $scope.hasPermission('functies.'+groepFuncties.groepsnummer);
               });
             }
           );
         }
       );
-
     }
-
 
     // Schrijfrechten kunnen per sectie ingesteld zijn. Controlleer als sectienaam voorkomt in PATCH opties.
     // Mogelijke sectienamen van een lid zijn "persoonsgegevens", "adressen", "email", "functies.*", "groepseigen.*".
     $scope.hasPermission = function(val) {
-      if ($scope.patchObj) {
-        return $scope.patchObj.secties.indexOf(val) > -1;
-      }
+      return _.has($scope, 'patchObj.secties') && $scope.patchObj.secties.indexOf(val) > -1;
     }
 
     // nieuw lid initialiseren na update.
@@ -515,7 +503,7 @@
           AlertService.add('danger ', "Aanpassing niet doorgevoerd", 5000);
         }
       }
-      RestService.Lid.update({id:lid.id, bevestiging: false}, lid).$promise.then(
+      RestService.Lid.update({id: lid.id, bevestiging: false}, lid).$promise.then(
         function(response) {
           //toon confirmvenster
           DialogService.new("Bevestig","Weet u zeker dat u alle actieve functies van " + $scope.lid.persoonsgegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
@@ -532,18 +520,17 @@
       );
     }
 
-
     // kan de gebruiker functie stoppen van het lid?
     $scope.kanSchrappen = function() {
-      var returnVal = false;
-      angular.forEach($scope.patchObj.secties, function(value){
-        if (value.indexOf('functies.') != -1){
-          returnVal = true;
-        }
-      })
-      return returnVal;
+      return _.has($scope, 'patchObj.secties') && _.some($scope.patchObj.secties, function(value){
+        return value.indexOf('functies.') != -1;
+      });
     }
 
+    // kan de gebruiker functie stoppen van het lid?
+    $scope.canSave = function() {
+      return _.has($scope, 'patchObj.secties');
+    }
 
     // alle aanpassingen opslaan
     $scope.opslaan = function() {
