@@ -151,7 +151,7 @@
     // Schrijfrechten kunnen per sectie ingesteld zijn. Controlleer als sectienaam voorkomt in PATCH opties.
     // Mogelijke sectienamen van een lid zijn "persoonsgegevens", "adressen", "email", "functies.*", "groepseigen.*".
     $scope.hasPermission = function(val) {
-      return _.has($scope, 'patchObj') && $scope.patchObj.secties.indexOf(val) > -1;
+      return _.has($scope, 'patchObj.secties') && $scope.patchObj.secties.indexOf(val) > -1;
     }
 
     // nieuw lid initialiseren na update.
@@ -529,14 +529,14 @@
 
     // kan de gebruiker functie stoppen van het lid?
     $scope.kanSchrappen = function() {
-      return _.has($scope, 'patchObj') && _.some($scope.patchObj.secties, function(value){
+      return _.has($scope, 'patchObj.secties') && _.some($scope.patchObj.secties, function(value){
         return value.indexOf('functies.') != -1;
       });
     }
 
     // kan de gebruiker functie stoppen van het lid?
     $scope.canSave = function() {
-      return _.has($scope, 'patchObj');
+      return _.has($scope, 'patchObj.secties');
     }
 
     // alle aanpassingen opslaan
