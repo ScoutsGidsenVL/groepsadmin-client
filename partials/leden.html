@@ -73,7 +73,7 @@
           <!-- New checkbox-->
           <div class="control-group">
             <div class="control-group-sectiongroup">
-              <div ng-if="criterium.criteriaKey == 'functies' && criterium.criteriaSubKey == 'verbonds'"
+              <div ng-if="criterium.criteriaKey == 'functies' && (criterium.criteriaSubKey == 'verbonds' || criterium.criteriaSubKey == 'groepspecifiek')"
                 ng-repeat="criteriumItemGroup in criterium.itemgroups"
                 ng-class="{ 'control-group-section--collapsed': criteriumItemGroup.collapsed, 'control-group-section--takken': criteriumItemGroup.category == 'takken', 'control-group-section--type': criteriumItemGroup.category == 'type' }"
                 class="control-group-section">
@@ -106,7 +106,7 @@
             </div>
 
             <label
-              ng-if="criterium.multiplePossible && criterium.criteriaSubKey !== 'verbonds'"
+              ng-if="criterium.multiplePossible && (criterium.criteriaSubKey !== 'verbonds' || criterium.criteriaSubKey !== 'groepspecifiek')"
               ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
               class="control control--checkbox">
               {{ criteriumItem.label }}

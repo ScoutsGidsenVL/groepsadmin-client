@@ -77,6 +77,7 @@
       // functies ophalen om functiegroepen van het 'verbond' en de 'groep' samen te stellen
 
       $q.all(filterCriteria.promises).then(function () {
+        //console.log("filterCriteria.arrCriteria",filterCriteria.arrCriteria);
         $scope.criteria = filterCriteria.arrCriteria;
 
         $q.all(filterKolommen.promises).then(function(){
@@ -189,6 +190,7 @@
     var activeerCriteria = function(){
       // haal alle criteriaGroepen keys uit de geselecteerde filter
       _.each($scope.currentFilter.criteria,function(value, key){
+        console.log("$scope.criteria",value,key);
         // indien de key overeenkomt, activeren we de criteriaGroep
         // meerdere criteriaGroepen kunnen een zelfde key hebben
         // (bvb. groepspecifieke functies hebben de criteriaKey 'functies')
@@ -197,7 +199,7 @@
           if(criteriaGroep.length>0){
             _.each(criteriaGroep,function(v, k){
               var bIsGroupedCriterium = false;
-              if(v.criteriaSubKey == 'verbonds'){
+              if(v.criteriaSubKey == 'verbonds' || v.criteriaSubKey == 'groepspecifiek'){
                 bIsGroupedCriterium = true;
               }
               LFS.activeerGroepEnItems(v,value,bIsGroupedCriterium);
@@ -276,7 +278,7 @@
 
     $scope.activateCriterium = function(crit){
       crit.activated = true;
-      if(!crit.criteriaSubKey == "verbonds"){
+      if(!(crit.criteriaSubKey == "verbonds" || crit.criteriaSubKey == "groepspecifiek")){
         _.each(crit.items, function(value,key){
           value.activated = true;
         });
@@ -351,7 +353,6 @@
 
     var overwriteFilter = function(filter, obj){
       var deferred = $q.defer();
-      console.log("===== overwriteFilter was called");
       obj.naam = filter.naam;
 
       LFS.saveFilter(filter.id, obj).then(
@@ -423,8 +424,6 @@
               $scope.currentFilter = res;
             });
           }
-
-
         });
 
       }

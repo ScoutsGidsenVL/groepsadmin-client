@@ -32,21 +32,26 @@
           // functieGroep maken van functies met type 'verbond'
           var functieGroepVerbond = ledenFilterService.maakFunctieGroepVerbond(functies);
           functieGroepVerbond.activated = false;
+
+          console.log('functieGroepVerbond', functieGroepVerbond);
+          //functieGroepGroepspecifiek.activated = false;
+
           // functieGroepen maken van functies met type 'groep'
           var groepSpecifiekeFunctieGroepen = ledenFilterService.maakGroepSpecifiekeFunctieGroepen(functies);
+          //console.log('groepSpecifiekeFunctieGroepen', groepSpecifiekeFunctieGroepen)
 
-          var functieGroepen = [];
+          var functieGroepGroepspecifiek = ledenFilterService.maakFunctieGroepGroepspecifiek(groepSpecifiekeFunctieGroepen);
+
 
           functieGroepen.push(functieGroepVerbond);
-          _.each(groepSpecifiekeFunctieGroepen,function(value,key){
-            value.activated = false;
-            functieGroepen.push(value);
-          });
+          functieGroepen.push(functieGroepGroepspecifiek);
+
 
           // aangemaakte functieGroepen toevoegen aan de criteria.
           _.each(functieGroepen, function(value){
             returnObj.arrCriteria.push(value);
           });
+
 
         });
       returnObj.promises[1] = RestService.Groepen.get().$promise.then(
@@ -194,12 +199,33 @@
       return functieGroep;
     }
 
+    ledenFilterService.maakFunctieGroepGroepspecifiek = function(arrGroupedFuncties){
+
+      var functieGroep = {};
+      functieGroep.criteriaSubKey = "groepspecifiek";
+      functieGroep.title = 'Groepspecifieke functies';
+      functieGroep.criteriaKey = "functies";
+      functieGroep.multiplePossible = true;
+      functieGroep.itemgroups = [];
+
+      _.each(arrGroupedFuncties,function(value,key){
+        var obj = {};
+        obj.collapsed = true;
+        obj.items = value.items;
+        obj.label = value.title;
+        functieGroep.itemgroups.push(obj);
+
+      });
+
+      return functieGroep;
+
+    }
+
     // maak functiegroep van het type verbond
     ledenFilterService.maakFunctieGroepVerbond = function(arrFuncties){
-      var titel = 'Functies';
+
       // met lodash zoeken we alle functie objecten met als property type:'verbond'
       var verbondFuncties = _.filter(arrFuncties, function(o) { return o.type == 'verbond'; });
-
 
       // Voor ieder object in de array passen we de mapping toe
       var resVerbondFuncties = [];
@@ -208,6 +234,7 @@
         resVerbondFunctie = ledenFilterService.mapObj(verbondFuncties[k]);
         resVerbondFuncties.push(resVerbondFunctie);
       });
+      //console.log('verbondFuncties', resVerbondFuncties);
 
       // Sorteren op basis van array van waarden
       // OPGELET: bij een nieuwe tak, moet deze array worden aangevuld, anders zal ie niet verschijnen in de filter
@@ -230,11 +257,9 @@
       var verbondsFunctiesOrderedPerLeeftijdsTak = ledenFilterService.groupBy(resVerbondFuncties, 'leeftijdsTak', 'leeftijdsTak', 'functies');
       var verbondsFunctiesOrderedPerVerbondsType = ledenFilterService.groupBy(resVerbondFuncties, 'verbondstype', 'verbondstype', 'functies');
 
-
-      //var functieGroep = ledenFilterService.maakFunctieGroep(resVerbondFuncties, titel);
       var functieGroep = {};
       functieGroep.criteriaSubKey = "verbonds";
-      functieGroep.title = titel.charAt(0).toUpperCase() + titel.slice(1);
+      functieGroep.title = 'Functies';
       functieGroep.criteriaKey = "functies";
       functieGroep.multiplePossible = true;
 
@@ -440,7 +465,7 @@
       reconstructedFilterObj.criteria.functies = [];
       _.each(_.filter(activeCriteria, {"criteriaKey":"functies"}), function(value, key){
         //console.log("Value!!!!", value);
-        if(value.criteriaSubKey == "verbonds"){
+        if(value.criteriaSubKey == "verbonds" || value.criteriaSubKey == "groepspecifiek"){
           _.each(value.itemgroups,function(v,k){
             var temp = _.filter(v.items, {'activated': true});
             if(temp && temp.length > 0){
