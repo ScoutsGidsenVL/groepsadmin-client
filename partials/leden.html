@@ -83,7 +83,7 @@
 
                   <div class="control-selectall">
                     <label
-                      class="control control--checkbox control--header">
+                      class="jcontrol control--checkbox control--header">
 
                       <input type="checkbox" ng-click="toggleAllCriteriumItems(criteriumItemGroup)" ng-checked="isAllCriteriumItemsSelected(criteriumItemGroup) == 'all'"/>
                       <div class="control__indicator" ng-class="{'control__indicator--some-selected' : isAllCriteriumItemsSelected(criteriumItemGroup) == 'some'}"></div>
@@ -96,7 +96,7 @@
                 </div>
                 <label
                   ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'"
-                  class="control control--checkbox control--collapsible">
+                  class="jcontrol control--checkbox control--collapsible">
                   {{ criteriumItem.label }}
                   <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'checkbox')" ng-checked="criteriumItem.activated"/>
                   <div class="control__indicator"></div>
@@ -108,7 +108,7 @@
             <label
               ng-if="criterium.multiplePossible && (criterium.criteriaSubKey !== 'verbonds' || criterium.criteriaSubKey !== 'groepspecifiek')"
               ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
-              class="control control--checkbox">
+              class="jcontrol control--checkbox">
               {{ criteriumItem.label }}
               <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'checkbox')" ng-checked="criteriumItem.activated"/>
               <div class="control__indicator"></div>
@@ -117,7 +117,7 @@
             <label
               ng-if="!criterium.multiplePossible"
               ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
-              class="control control--radio">
+              class="jcontrol control--radio">
               {{ criteriumItem.label }}
               <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'radio',criterium.items)" ng-checked="criteriumItem.activated">
               <div class="control__indicator"></div>
@@ -126,7 +126,7 @@
           </div>
           <div class="control-selectall" ng-if="criterium.multiplePossible && criterium.items.length > 1">
             <label
-              class="control control--checkbox">
+              class="jcontrol control--checkbox">
               Selecteer alles
               <input type="checkbox" ng-click="toggleAllCriteriumItems(criterium)" ng-checked="isAllCriteriumItemsSelected(criterium) == 'all'"/>
               <div class="control__indicator" ng-class="{'control__indicator--some-selected' : isAllCriteriumItemsSelected(criterium) == 'some'}"></div>
@@ -171,7 +171,7 @@
           <div class="control-group" id="mySortableList">
             <label
               ng-repeat="kolom in kolommen | orderBy: 'kolomIndex'"
-              class="control control--checkbox noselect"
+              class="jcontrol control--checkbox noselect"
               data-kolom-id="{{kolom.id}}">
               <span class="glyphicon glyphicon-move pull-right"></span>
               {{ kolom.label }}

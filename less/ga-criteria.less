@@ -103,7 +103,7 @@
     margin-bottom:5px;
   }
 }
-.control {
+.jcontrol {
   display: block;
   position: relative;
   padding-left: 30px;
@@ -117,7 +117,7 @@
     color:#444;
   }
 }
-.control input {
+.jcontrol input {
   position: absolute;
   z-index: -1;
   opacity: 0;
@@ -153,18 +153,18 @@
 .control--radio .control__indicator {
   border-radius: 50%;
 }
-.control:hover input ~ .control__indicator//,.control input:focus ~ .control__indicator
+.jcontrol:hover input ~ .control__indicator//,.control input:focus ~ .control__indicator
 {
   background: #ccc;
 }
-.control input:checked ~ .control__indicator {
+.jcontrol input:checked ~ .control__indicator {
   background: @brand-primary;
 }
-.control:hover input:not([disabled]):checked ~ .control__indicator//,.control input:checked:focus ~ .control__indicator
+.jcontrol:hover input:not([disabled]):checked ~ .control__indicator//,.control input:checked:focus ~ .control__indicator
 {
   background: darken(@brand-primary,10%);
 }
-.control input:disabled ~ .control__indicator {
+.jcontrol input:disabled ~ .control__indicator {
   background: #e6e6e6;
   opacity: 0.6;
   pointer-events: none;
@@ -178,7 +178,7 @@
   -moz-box-sizing: border-box;
   box-sizing: content-box;
 }
-.control input:checked ~ .control__indicator:after {
+.jcontrol input:checked ~ .control__indicator:after {
   display: block;
 }
 .control--checkbox .control__indicator:after {

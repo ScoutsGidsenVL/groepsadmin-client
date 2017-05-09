@@ -158,9 +158,12 @@ textarea {
     // Note: the following block could be simplified if IE8 supported the ':not()' pseudo-class
     &:hover {
       background-color: #f6f6f6;
-      
+
       .form-control {
         border-color: @input-border;
+        &[disabled]{
+          border-color:transparent;
+        }
       }
     }
 
@@ -220,7 +223,7 @@ textarea {
     }
 
   }
-  
+
   .control-indicator,
   .form-control {
     .transition(~"border-color ease-in-out .15s, box-shadow ease-in-out .15s");
@@ -237,38 +240,38 @@ textarea {
       border-color: transparent;
     }
   }
-  
+
   .selectpicker {
     border-color: transparent
   }
   .caret {
     display: none;
   }
-  
+
   .form-group:hover,
   .bootstrap-select.open {
     .selectpicker {
       border-color: @btn-default-border;
     }
     .caret {
-      display: block; 
+      display: block;
     }
   }
 
   .btn-default {
     border-radius: @input-border-radius;
-    
+
     &:focus {
       border-color: @input-border;
       box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
     }
   }
-  
+
   // The clickable button for toggling the menu
   .btn-group.open .dropdown-toggle {
     box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
   }
-  
+
   // Layout fix for Bootstrap Collapsible components
   // (Nieuwe functie starten)
   div[collapse] {
@@ -277,7 +280,7 @@ textarea {
     padding-left: 0.5em;
     background-color: #f6f6f6;
     border-bottom: 1px solid #e0e0e0;
-    
+
     > div {
       margin-top: 0.5em;
       margin-bottom: 0.5em;
@@ -297,4 +300,3 @@ fieldset fieldset legend {
     color: #dc5353;
   }
 }
-
