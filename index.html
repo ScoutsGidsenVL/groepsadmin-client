@@ -88,19 +88,25 @@
 
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
-        <div class="col-xs-2 col-md-1">
+
+        <!-- Logo -->
+        <div class="col-xs-1">
           <a class="navbar-brand" href="#/"><img class='navbar-logo' src="img/ga-logo.svg" alt="Logo Groepsadministratie" /></a>
         </div>
-        <div class="col-xs-7 hidden-xs hidden-sm">
+
+        <!-- Desktop-menu -->
+        <div class="col-xs-8 hidden-xs hidden-sm">
           <ul class="nav navbar-nav" ng-controller="MenuController">
-            <li ng-repeat="menuItem in _.filter(menuItems,{'desktop':true})" ng-show="{{ menuItem.condition }}" active-link="active">
+            <li ng-repeat="menuItem in menuItems" ng-show="menuItem.condition" active-link="active">
               <a ng-href="{{menuItem.href}}">
                 <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="navbar-nav-menulabel" ng-cloak>{{menuItem.label}}</span>
               </a>
             </li>
           </ul>
         </div>
-        <div class="col-md-3 col-xs-3 hidden-xs hidden-sm">
+
+        <!-- Desktop-zoekveld -->
+        <div class="col-xs-3 hidden-xs hidden-sm">
           <div class="navbar-form pull-right searchresults" ng-controller="SearchController" role="search" id="search">
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
@@ -114,24 +120,15 @@
           </div>
         </div>
 
-
-        <!-- Zoekveld -->
-        <div class="col-md-1 col-xs-1 hidden-xs hidden-sm ">
-          <div class="link-old navbar-nav pull-right "><a href="https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/" target="_blank">Naar de oude<br/>groepsadmin</a></div>
-        </div>
-
-
+        <!-- Mobiele menu -->
         <div class="mobile-margin col-xs-4 hidden-md hidden-lg pull-right">
           <span uib-dropdown on-toggle="toggled(open)" ng-controller="MenuController" class=" pull-right">
-            <!--<a href id="simple-dropdown" uib-dropdown-toggle>
-              <i class="fa fa-bars"></i>
-            </a>-->
             <button type="button" class="btn btn-primary" uib-dropdown-toggle>
               <i class="fa fa-bars"></i>
             </button>
 
             <ul class="dropdown-menu pull-right" uib-dropdown-menu aria-labelledby="simple-dropdown">
-              <li ng-repeat="menuItem in menuItems" ng-show="{{ menuItem.condition }}" active-link="active">
+              <li ng-repeat="menuItem in menuItems" ng-show="menuItem.condition" active-link="active">
                 <a ng-href="{{menuItem.href}}"><i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; {{menuItem.label}}</a>
               </li>
             </ul>
@@ -141,11 +138,11 @@
               <i class="fa fa-search" aria-hidden="true"></i>
             </button>
           </div>
-
-
         </div>
       </div>
     </nav>
+
+    <!-- Mobiel zoekveld -->
     <div class="mobile-search-container">
       <div class="container-fluid">
         <div class="col-xs-offset-3 col-xs-9 hidden-md hidden-lg">
@@ -163,7 +160,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

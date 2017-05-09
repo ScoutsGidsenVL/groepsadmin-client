@@ -178,17 +178,15 @@
       }
 
       criteriaGroep.activated = hasActiveItems ? true : false;
-
     }
 
     ledenFilterService.maakFunctieGroep = function(arrFuncties, titel){
-      var functieGroep = {
-                               title : titel.charAt(0).toUpperCase() + titel.slice(1),
-                               criteriaKey : "functies",
-                               multiplePossible : true,
-                               items: arrFuncties
-                             }
-      return functieGroep;
+      return {
+        title : titel.charAt(0).toUpperCase() + titel.slice(1),
+        criteriaKey : "functies",
+        multiplePossible : true,
+        items: arrFuncties
+      };
     }
 
     ledenFilterService.maakFunctieGroepGroepspecifiek = function(arrGroupedFuncties){
@@ -210,7 +208,6 @@
       });
 
       return functieGroep;
-
     }
 
     // maak functiegroep van het type verbond

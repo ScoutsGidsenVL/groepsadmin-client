@@ -9,49 +9,37 @@
 
   function MenuController ($scope, UserAccess) {
 
-    var createMenuItems = function(){
+    $scope.menuItems = [
+      {
+        label: 'Leden',
+        condition: UserAccess.hasAccessTo("ledenlijst"),
+        iconclasses : 'fa fa-users',
+        href: '#/'
+      },
+      {
+        label: 'Groepsinstellingen',
+        condition: UserAccess.hasAccessTo("groepen"),
+        iconclasses : 'fa fa-cogs',
+        href: '#/groepsinstellingen'
+      },
+      {
+        label: 'Ledenaantallen',
+        condition: UserAccess.hasAccessTo("groepen"),
+        iconclasses : 'fa fa-area-chart',
+        href: '#/orakel'
+      },
+      {
+        label: 'Oude Groepsadmin',
+        condition: UserAccess.hasAccessTo("profiel"),
+        iconclasses : 'fa fa-institution',
+        href: 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/'
+      }
+    ];
 
-      // Create menu items here
-      var MenuObjs = [
-        {
-          label: 'Leden',
-          condition: UserAccess.hasAccessTo("ledenlijst"),
-          iconclasses : 'fa fa-users',
-          href: '#/',
-          desktop: true
-        },
-        {
-          label: 'Groepsinstellingen',
-          condition: UserAccess.hasAccessTo("groepen"),
-          iconclasses : 'fa fa-cogs',
-          href: '#/groepsinstellingen',
-          desktop: true
-        },
-        {
-          label: 'Groepsstatistieken',
-          condition: UserAccess.hasAccessTo("groepen"),
-          iconclasses : 'fa fa-area-chart',
-          href: '#/orakel',
-          desktop: true
-        },
-        {
-          label: 'Oude Groepsadmin',
-          condition: true,
-          iconclasses : 'fa fa-institution',
-          href: 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/',
-          desktop: false
-        }
-      ];
-
-      return MenuObjs;
-
-    }
-
-
-    $scope.menuItems = createMenuItems();
-
+    _.forEach($scope.menuItems, function(menuItem) {
+      menuItem.condition.then(function (reponse) {
+        menuItem.condition = reponse;
+      });
+    });
   }
-
-
-
 })();
