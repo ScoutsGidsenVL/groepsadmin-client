@@ -15,6 +15,11 @@
         return RestService.Root.get().$promise.then(function (response) {
           return _.some(response.links, {'rel' : term});
         });
+      },
+      hasAccessToGroepen : function(){
+        return RestService.Groepen.get().$promise.then(function (response) {
+          return _.some(response.groepen,'contacten');
+        });
       }
     };
   };

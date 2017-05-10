@@ -5,9 +5,12 @@
     .module('ga.groepcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('GroepController', GroepController);
 
-  GroepController.$inject = ['$scope', '$routeParams', '$window', '$location', '$log' , 'RestService', 'AlertService', 'DialogService', '$rootScope', 'keycloak'];
+  GroepController.$inject = ['$scope', '$routeParams', '$window', '$location', '$log' , 'RestService', 'AlertService', 'DialogService', '$rootScope', 'access', 'keycloak'];
 
-  function GroepController($scope, $routeParams, $window, $location, $log, RestService, AlertService, DialogService, $rootScope, keycloak) {
+  function GroepController($scope, $routeParams, $window, $location, $log, RestService, AlertService, DialogService, $rootScope, access, keycloak) {
+    if(!access){
+      $location.path("/lid/profiel");
+    }
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var tempId = 1;
     // groepen ophalen

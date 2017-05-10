@@ -11,7 +11,7 @@
     // Configure the routes
     $routeProvider
     // Leden tabel
-      .when('/', {
+      .when('/ledenlijst', {
         templateUrl: 'partials/leden.html',
         controller: 'LedenlijstController',
         resolve : {
@@ -23,7 +23,7 @@
         templateUrl: 'partials/lid-toevoegen.html',
         controller: 'LidToevoegenController',
         resolve : {
-          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("groepen").then(function(res){ return res }); }]
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessToGroepen().then(function(res){ return res }); }]
         }
       })
       // Lid individuelestekkaart
@@ -42,7 +42,7 @@
         templateUrl: 'partials/groepsinstellingen.html',
         controller: 'GroepController',
         resolve : {
-          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("groepen").then(function(res){ return res }); }]
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessToGroepen().then(function(res){ return res }); }]
         }
       })
 
@@ -55,7 +55,7 @@
         }
       })
       .otherwise({
-        redirectTo: '/lid/profiel'
+        redirectTo: '/ledenlijst'
       });
 
 

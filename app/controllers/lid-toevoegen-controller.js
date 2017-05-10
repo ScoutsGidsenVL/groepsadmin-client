@@ -5,11 +5,14 @@
     .module('ga.lidtoevoegencontroller', ['ga.services.alert', 'ga.services.dialog'])
     .controller('LidToevoegenController', LidToevoegenController);
 
-  LidToevoegenController.$inject = ['$scope', '$location', '$window', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route', 'keycloak'];
+  LidToevoegenController.$inject = ['$scope', '$location', '$window', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route', 'access', 'keycloak'];
 
-  function LidToevoegenController ($scope, $location, $window, RestService, AlertService, DialogService, $rootScope, $route, keycloak) {
+  function LidToevoegenController ($scope, $location, $window, RestService, AlertService, DialogService, $rootScope, $route, access, keycloak) {
     console.log('login = ' + keycloak.authenticated);
 
+    if(!access){
+      $location.path("/lid/profiel");
+    }
 
 
     // Nieuwe adressen hebben geen id. Tijdelijk opgelost met tempAdresId.

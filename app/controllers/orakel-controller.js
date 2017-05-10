@@ -5,9 +5,12 @@
     .module('ga.orakelcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('OrakelController', OrakelController);
 
-  OrakelController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'keycloak'];
+  OrakelController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'access', 'keycloak'];
 
-  function OrakelController($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, keycloak) {
+  function OrakelController($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, access, keycloak) {
+    if(!access) {
+      $location.path("/lid/profiel");
+    }
     // Scope variabele
     $scope.showLedenAantallen = false;
     $scope.showEigenschappen = false;

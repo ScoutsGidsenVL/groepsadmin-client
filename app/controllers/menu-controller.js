@@ -18,13 +18,13 @@
       },
       {
         label: 'Groepsinstellingen',
-        condition: UserAccess.hasAccessTo("groepen"),
+        condition: UserAccess.hasAccessToGroepen(),
         iconclasses : 'fa fa-cogs',
         href: '#/groepsinstellingen'
       },
       {
         label: 'Ledenaantallen',
-        condition: UserAccess.hasAccessTo("groepen"),
+        condition: UserAccess.hasAccessToGroepen(),
         iconclasses : 'fa fa-area-chart',
         href: '#/orakel'
       },

@@ -5,9 +5,9 @@
     .module('ga.ledenlijstcontroller', [])
     .controller('LedenlijstController', LedenlijstController);
 
-  LedenlijstController.$inject = ['$q','$filter','$log', '$scope', 'LedenFilterService', 'LedenLijstService', 'RestService', '$window', 'keycloak'];
+  LedenlijstController.$inject = ['$q','$filter','$log', '$location', '$scope', 'LedenFilterService', 'LedenLijstService', 'RestService', '$window', 'keycloak','access'];
 
-  function LedenlijstController($q, $filter, $log, $scope, LFS, LLS, RestService, $window, keycloak) {
+  function LedenlijstController($q, $filter, $log, $location, $scope, LFS, LLS, RestService, $window, keycloak,access) {
     // Kolommen sortable maken
     var index;
 
@@ -18,6 +18,10 @@
     $scope.end = false;
     $scope.aantalPerPagina = 10;
     $scope.leden = [];
+
+    if(!access){
+      $location.path("/lid/profiel");
+    }
 
     $(function() {
       $("#mySortableList").sortable({
