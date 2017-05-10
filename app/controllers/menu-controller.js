@@ -29,6 +29,12 @@
         href: '#/orakel'
       },
       {
+        label: 'Profiel',
+        iconclasses : 'fa fa-user',
+        condition: UserAccess.hasAccessTo("profiel"),
+        href: '#/lid/profiel'
+      },
+      {
         label: 'Oude Groepsadmin',
         condition: UserAccess.hasAccessTo("profiel"),
         iconclasses : 'fa fa-institution',
