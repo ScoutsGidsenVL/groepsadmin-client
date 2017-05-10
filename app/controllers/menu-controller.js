@@ -14,7 +14,7 @@
         label: 'Leden',
         condition: UserAccess.hasAccessTo("ledenlijst"),
         iconclasses : 'fa fa-users',
-        href: '#/'
+        href: '#/ledenlijst'
       },
       {
         label: 'Groepsinstellingen',

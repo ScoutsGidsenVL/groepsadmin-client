@@ -15,7 +15,7 @@
         templateUrl: 'partials/leden.html',
         controller: 'LedenlijstController',
         resolve : {
-          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("ledenlijst"); }]
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("ledenlijst").then(function(res){ return res }); }]
         }
       })
       // Lid toevoegen
@@ -23,7 +23,7 @@
         templateUrl: 'partials/lid-toevoegen.html',
         controller: 'LidToevoegenController',
         resolve : {
-          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("groepen"); }]
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("groepen").then(function(res){ return res }); }]
         }
       })
       // Lid individuelestekkaart
@@ -42,7 +42,7 @@
         templateUrl: 'partials/groepsinstellingen.html',
         controller: 'GroepController',
         resolve : {
-          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("groepen"); }]
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("groepen").then(function(res){ return res }); }]
         }
       })
 
@@ -51,9 +51,14 @@
         templateUrl: 'partials/orakel.html',
         controller: 'OrakelController',
         resolve : {
-          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("groepen"); }]
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("ledenlijst").then(function(res){ return res }); }]
         }
+      })
+      .otherwise({
+        redirectTo: '/lid/profiel'
       });
+
+
 
     //$locationProvider.html5Mode(true).hashPrefix('!');
   }
