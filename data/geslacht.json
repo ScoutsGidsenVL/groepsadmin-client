@@ -4,16 +4,12 @@
     "multiplePossible" : true,
     "items" : [
               {
-                "value": "Mannelijk",
-                "label": "man"
+                "value": "meisje",
+                "label": "Meisje"
               },
               {
-                "value": "Vrouwelijk",
-                "label": "vrouw"
-              },
-              {
-                "value": "Geslachtsneutraal",
-                "label": "neutraal"
+                "value": "jongen",
+                "label": "Jongen"
               }
             ]
 }

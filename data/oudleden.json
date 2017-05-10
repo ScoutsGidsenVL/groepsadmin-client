@@ -4,12 +4,12 @@
   "multiplePossible" : true,
   "items" : [
             {
-              "value" : true,
-              "label" : "Ja"
+              "value" : "is nu lid",
+              "label" : "Is nu lid"
             },
             {
-              "value" : false,
-              "label" : "Nee"
+              "value" : "was ooit lid",
+              "label" : "Was ooit lid"
             }
           ]
 }

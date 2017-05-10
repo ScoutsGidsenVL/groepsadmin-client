@@ -70,7 +70,15 @@
         <a ng-click="criterium.activated = false" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
 
         <div class="dropdown-menu" uib-dropdown-menu>
-          <!-- New checkbox-->
+          <div class="control-selectall" ng-if="criterium.multiplePossible && criterium.items.length > 1">
+            <label
+              class="jcontrol control--checkbox">
+              Selecteer alles
+              <input type="checkbox" ng-click="toggleAllCriteriumItems(criterium)" ng-checked="isAllCriteriumItemsSelected(criterium) == 'all'"/>
+              <div class="control__indicator" ng-class="{'control__indicator--some-selected' : isAllCriteriumItemsSelected(criterium) == 'some'}"></div>
+            </label>
+          </div>
+
           <div class="control-group">
             <div class="control-group-sectiongroup">
               <div ng-if="criterium.criteriaKey == 'functies' && (criterium.criteriaSubKey == 'verbonds' || criterium.criteriaSubKey == 'groepspecifiek')"
@@ -124,14 +132,7 @@
             </label>
 
           </div>
-          <div class="control-selectall" ng-if="criterium.multiplePossible && criterium.items.length > 1">
-            <label
-              class="jcontrol control--checkbox">
-              Selecteer alles
-              <input type="checkbox" ng-click="toggleAllCriteriumItems(criterium)" ng-checked="isAllCriteriumItemsSelected(criterium) == 'all'"/>
-              <div class="control__indicator" ng-class="{'control__indicator--some-selected' : isAllCriteriumItemsSelected(criterium) == 'some'}"></div>
-            </label>
-          </div>
+
         </div>
       </div>
     </div>
