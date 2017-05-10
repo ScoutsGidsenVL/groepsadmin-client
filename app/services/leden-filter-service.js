@@ -31,13 +31,14 @@
           // functieGroep maken van functies met type 'verbond'
           var functieGroepVerbond = ledenFilterService.maakFunctieGroepVerbond(functies);
           functieGroepVerbond.activated = false;
+          functieGroepen.push(functieGroepVerbond);
 
           // functieGroepen maken van functies met type 'groep'
           var groepSpecifiekeFunctieGroepen = ledenFilterService.maakGroepSpecifiekeFunctieGroepen(functies);
-          var functieGroepGroepspecifiek = ledenFilterService.maakFunctieGroepGroepspecifiek(groepSpecifiekeFunctieGroepen);
-
-          functieGroepen.push(functieGroepVerbond);
-          functieGroepen.push(functieGroepGroepspecifiek);
+          if(groepSpecifiekeFunctieGroepen.length>=1){
+            var functieGroepGroepspecifiek = ledenFilterService.maakFunctieGroepGroepspecifiek(groepSpecifiekeFunctieGroepen);
+            functieGroepen.push(functieGroepGroepspecifiek);
+          }
 
           // aangemaakte functieGroepen toevoegen aan de criteria.
           _.each(functieGroepen, function(value){
@@ -190,6 +191,8 @@
     }
 
     ledenFilterService.maakFunctieGroepGroepspecifiek = function(arrGroupedFuncties){
+
+      console.log("arrGroupedFuncties",arrGroupedFuncties);
 
       var functieGroep = {};
       functieGroep.criteriaSubKey = "groepspecifiek";
