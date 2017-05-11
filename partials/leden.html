@@ -1,7 +1,7 @@
 <!-- Panel header -->
 <div class="panel-heading panel-heading--leden clearfix">
   <div class="pull-left">
-    <button class="btn btn-default btn-toggle" ng-class="{ 'active' : !isFilterCollapsed }" ng-click="isFilterCollapsed = !isFilterCollapsed"><i class="glyphicon glyphicon-filter"></i> Filter</button>
+    <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : !isFilterCollapsed }" ng-click="isFilterCollapsed = !isFilterCollapsed">Filter <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i></button>
   </div>
 
   <div class="pull-right">
@@ -67,7 +67,7 @@
           </span>
 
         </button>
-        <a ng-click="criterium.activated = false" class="filter-option-close"><span class="glyphicon glyphicon-remove"></span></a>
+        <a ng-click="criterium.activated = false" class="filter-option-close"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
         <div class="dropdown-menu" uib-dropdown-menu>
           <div class="control-selectall" ng-if="criterium.multiplePossible && criterium.items.length > 1 && criterium.criteriaKey == 'groepen' ">
@@ -151,7 +151,7 @@
     ng-if="hasLoadedFilters">
       <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" ng-click="addLastCriteriumIfThereIsOnlyOneLeft()" class="btn btn-filter btn-filter--criteria dropdown-toggle" data-toggle="dropdown" title="Filtercriteria toevoegen">
         <span class="glyphicon glyphicon-plus"></span>
-        <span class="hidden-label">Filtercriteria toevoegen</span>
+        <span class="hidden-label">Criterium toevoegen</span>
       </button>
       <ul class="dropdown-menu">
         <li ng-repeat="criterium in criteria | filter : { activated : false} | orderBy:'title'">

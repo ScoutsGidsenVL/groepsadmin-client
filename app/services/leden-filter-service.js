@@ -151,8 +151,10 @@
 
       if(!criteriaGroep.multiplePossible){
         var foundElem = _.find(criteriaGroep.items, {'value' : value});
-        foundElem.activated = true;
-        if(foundElem){hasActiveItems = true;}
+        if(foundElem){
+          foundElem.activated = true;
+          hasActiveItems = true;
+        }
       } else {
 
         if(!bGrouped){
@@ -429,13 +431,8 @@
     ledenFilterService.getReconstructedFilterObject = function(activeCriteria, activeKolommen, currentFilter){
       // reconstrueer het Filter object:
       // TODO: rewrite to be more generic, using multiplePossible property, for 'functies' some extra logic will be needed
-
-      console.log('---- activeCriteria', activeCriteria);
-
       var patchedFilterObj = currentFilter;
       patchedFilterObj.criteria = {};
-
-      console.log('---- patchedFilterObj', patchedFilterObj);
 
       var reconstructedFilterObj = {};
       reconstructedFilterObj.criteria = {};
@@ -482,26 +479,28 @@
 
       });
 
+
+
+      // geslacht
+      // indien enkel 'jongen' of 'meisje' aangeduid werd, geven we een lege waarde mee
+      var activatedGeslacht = _.find(activeCriteria, {"criteriaKey":"geslacht"});
+      if(activatedGeslacht){
+        var ag = _.filter(activatedGeslacht.items, {'activated':true});
+        if(_.size(ag) == 1){
+          reconstructedFilterObj.criteria.geslacht = ag[0].value;
+        }
+      }
+
+      // oudleden (idem geslacht)
+      reconstructedFilterObj.criteria.oudleden = false;
+
       // adresgeblokeerd
       var actieveGeblokkeerdeAdressen = _.find(activeCriteria, {"criteriaKey":"adresgeblokeerd"});
       if(actieveGeblokkeerdeAdressen){
           reconstructedFilterObj.criteria.adresgeblokeerd = _.find(actieveGeblokkeerdeAdressen.items, {'activated': true}).value;
       }
 
-      // geslacht
-      // indien enkel 'jongen' of 'meisje' aangeduid werd, geven we een lege waarde mee
-      var actieveGeslacht = _.find(activeCriteria, {"criteriaKey":"geslacht"});
-      if(actieveGeslacht){
-        var activeGeslacht = _.filter(actieveGeslacht.items, {'activated':true});
-        console.log('activeGeslacht',activeGeslacht);
-        if(_.size(activeGeslacht) == 1){
-          reconstructedFilterObj.criteria.geslacht = activeGeslacht[0].value;
-        }
-      }
 
-
-      // oudleden (idem groepen)
-      reconstructedFilterObj.criteria.oudleden = false;
       // temp = _.filter(_.find(activeCriteria, {"criteriaKey":"oudleden"}).items, {'activated': true});
       // if(temp && temp.length > 0){
       //   var arrTemp = [];

@@ -4,7 +4,7 @@
 
 .panel-filter {
   position: relative;
-  background-color: #e6e6e6;
+  background-color: @bg-panel-filter;
   padding: @fluid-grid-gutter-width/2 @fluid-grid-gutter-width/2 @fluid-grid-gutter-width/2;
 
   .row-criteria  {
@@ -57,11 +57,6 @@
   padding:9px;
 }
 
-// hide the descriptive label
-.btn-group:not(:first-child) .hidden-label {
-    display: none;
-}
-
 // Columns button
 // -------------------------
 .btn-filter-columns {
@@ -112,7 +107,7 @@
   }
   &:hover .filter-option-close {
     display: inline;
-    color:darken(@brand-primary,10%);
+    color:darken(@brand-primary,17%);
     &:hover{
       color:white;
     }
@@ -135,13 +130,8 @@
   position: absolute;
   top: 6px;
   right: 15px;
-  color:darken(@brand-primary,10%);
+  color:darken(@brand-primary,17%);
   z-index:@zIndexClose;
-}
-@media (min-width: @screen-sm-min) {
-  .filter-option-close {
-    display:none;
-  }
 }
 
 // Open-state for the dropdown
