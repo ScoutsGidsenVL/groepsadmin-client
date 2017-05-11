@@ -286,17 +286,54 @@
       }
     }
 
+    $scope.isAllCriteriumItemGroupsSelected = function(criterium){
+      // wat is het totale aantal items
+      var countItems = 0 , countActItems = 0;
+      _.each(criterium.itemgroups, function(itemgroup, k){
+        countItems += _.size(itemgroup.items);
+      })
+
+      _.each(criterium.itemgroups, function(itemgroup, k){
+        countActItems += _.size(_.filter(itemgroup.items,{'activated':true}));
+      });
+
+      // is dat aantal gelijk aan het aantal geactiveerde?
+      if(countItems == countActItems ){
+        return 'all';
+      }else{
+        if(countActItems >=1){
+          return 'some';
+        }else{
+          return 'none';
+        }
+      }
+    }
+    var setItemsActivated = function(arr,b){
+      _.each(arr,function(value, key){
+        value.activated = b;
+      })
+    }
+
     $scope.toggleAllCriteriumItems = function(criterium){
       if($scope.isAllCriteriumItemsSelected(criterium) == 'all'){
-        _.each(criterium.items,function(value, key){
-          value.activated  = false;
+        setItemsActivated(criterium.items, false);
+      }else{
+        setItemsActivated(criterium.items, true);
+      }
+    }
+
+    $scope.toggleAllCriteriumItemGroups = function(criterium) {
+      if($scope.isAllCriteriumItemGroupsSelected(criterium) == 'all'){
+        _.each(criterium.itemgroups,function(itemgroup, key){
+          setItemsActivated(itemgroup.items, false);
         });
       }else{
-        _.each(criterium.items,function(value, key){
-          value.activated  = true;
+        _.each(criterium.itemgroups,function(itemgroup, key){
+          setItemsActivated(itemgroup.items, true);
         });
       }
     }
+
 
     $scope.activateCriterium = function(crit){
       crit.activated = true;
