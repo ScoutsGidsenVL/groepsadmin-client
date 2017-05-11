@@ -338,9 +338,13 @@
     $scope.activateCriterium = function(crit){
       crit.activated = true;
       if(!(crit.criteriaSubKey == "verbonds" || crit.criteriaSubKey == "groepspecifiek")){
-        _.each(crit.items, function(value,key){
-          value.activated = true;
-        });
+        if(crit.multiplePossible){
+          _.each(crit.items, function(value,key){
+            value.activated = true;
+          });
+        }else{
+          crit.items[0].activated = true;
+        }
       }else{
         _.each(crit.itemgroups,function(value,key){
           _.each(value.items,function(v,k){
