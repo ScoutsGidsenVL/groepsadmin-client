@@ -401,6 +401,7 @@
 
     var createFilterObject = function(){
       var actFilterCriteria  = _.filter($scope.criteria, {"activated": true});
+
       // seleecteer alle actieve kolommen, gesorteerd op kolomIndex
       var tmpactKolommen  = _.orderBy(_.filter($scope.kolommen, {"activated": true}), 'kolomIndex', 'asc');
       var actKolommen = [];

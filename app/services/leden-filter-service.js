@@ -430,12 +430,17 @@
       // reconstrueer het Filter object:
       // TODO: rewrite to be more generic, using multiplePossible property, for 'functies' some extra logic will be needed
 
+      console.log('---- activeCriteria', activeCriteria);
+
       var patchedFilterObj = currentFilter;
       patchedFilterObj.criteria = {};
+
+      console.log('---- patchedFilterObj', patchedFilterObj);
 
       var reconstructedFilterObj = {};
       reconstructedFilterObj.criteria = {};
       // maak het criteria object adhv geactiveerde criteria en criteriaItems
+
       // groepen
       reconstructedFilterObj.criteria.groepen = [];
       var actieveGroepen = _.find(activeCriteria, {"criteriaKey":"groepen"});
@@ -481,6 +486,17 @@
       var actieveGeblokkeerdeAdressen = _.find(activeCriteria, {"criteriaKey":"adresgeblokeerd"});
       if(actieveGeblokkeerdeAdressen){
           reconstructedFilterObj.criteria.adresgeblokeerd = _.find(actieveGeblokkeerdeAdressen.items, {'activated': true}).value;
+      }
+
+      // geslacht
+      // indien enkel 'jongen' of 'meisje' aangeduid werd, geven we een lege waarde mee
+      var actieveGeslacht = _.find(activeCriteria, {"criteriaKey":"geslacht"});
+      if(actieveGeslacht){
+        var activeGeslacht = _.filter(actieveGeslacht.items, {'activated':true});
+        console.log('activeGeslacht',activeGeslacht);
+        if(_.size(activeGeslacht) == 1){
+          reconstructedFilterObj.criteria.geslacht = activeGeslacht[0].value;
+        }
       }
 
 
