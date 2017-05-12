@@ -221,92 +221,35 @@
       // met lodash zoeken we alle functie objecten met als property type:'verbond'
       var verbondFuncties = _.filter(arrFuncties, function(o) { return o.type == 'verbond'; });
 
-      // Voor ieder object in de array passen we de mapping toe
-      var resVerbondFuncties = [];
-      _.each(verbondFuncties, function(v, k){
-        var resVerbondFunctie = {};
-        resVerbondFunctie = ledenFilterService.mapObj(verbondFuncties[k]);
-        resVerbondFuncties.push(resVerbondFunctie);
-      });
-
-      // Sorteren op basis van array van waarden
-      // OPGELET: bij een nieuwe tak, moet deze array worden aangevuld, anders zal ie niet verschijnen in de filter
-      // TODO: volgorde komt van backend
-      var arrTakSort = [];
-      arrTakSort[0] = "Kapoenen";
-      arrTakSort[1] = "Welpen/Kabouters";
-      arrTakSort[2] = "Jong Gidsen/Jong Verkenners";
-      arrTakSort[3] = "Gidsen/Verkenners";
-      arrTakSort[4] = "Jin";
-      arrTakSort[5] = "Leiding";
-      arrTakSort[6] = "Akabe-Leden";
-      arrTakSort[7] = "Andere";
-
-      var arrTypeSort = [];
-      arrTypeSort[0] = "leden";
-      arrTypeSort[1] = "leiding";
-      arrTypeSort[2] = "andere";
-
-      var verbondsFunctiesOrderedPerLeeftijdsTak = ledenFilterService.groupBy(resVerbondFuncties, 'leeftijdsTak', 'leeftijdsTak', 'functies');
-      var verbondsFunctiesOrderedPerVerbondsType = ledenFilterService.groupBy(resVerbondFuncties, 'verbondstype', 'verbondstype', 'functies');
-
       var functieGroep = {};
       functieGroep.criteriaSubKey = "verbonds";
       functieGroep.title = 'Functies';
       functieGroep.criteriaKey = "functies";
       functieGroep.multiplePossible = true;
-
-      //maak array's met als key de leeftijdsTak
-      var itemGroupObjs = [];
-
-      _.each(verbondsFunctiesOrderedPerLeeftijdsTak, function(val,key){
-        if(val.leeftijdsTak){
-          var itemGroupObj = {};
-          itemGroupObj.category = 'takken';
-          itemGroupObj.label = val.leeftijdsTak;
-          itemGroupObj.items = [];
-          itemGroupObj.collapsed = true;
-
-          _.each(val.functies,function(v,k){
-            itemGroupObj.items.push(v);
-          });
-          itemGroupObjs.push(itemGroupObj);
-        }
-      });
-
-      // de itemgroep objecten sorteren volgens arrTakSort
       functieGroep.itemgroups = [];
-      _.each(arrTakSort,function(val,key){
-        var foundItem = _.find(itemGroupObjs,{"label":val});
-        if(foundItem){
-          functieGroep.itemgroups.push(foundItem);
-        };
 
+      _.forEach(verbondFuncties, function(verbondFunctie) {
+        var functieMapObj = ledenFilterService.mapObj(verbondFunctie);
+
+        _.forEach(verbondFunctie.groeperingen, function(groepering) {
+
+          var itemGroupObj = _.find(functieGroep.itemgroups, {'label': groepering.naam});
+
+          if (!itemGroupObj) {
+            itemGroupObj = {};
+            itemGroupObj.label = groepering.naam;
+            itemGroupObj.items = [];
+            itemGroupObj.collapsed = true;
+            itemGroupObj.volgorde = groepering.volgorde;
+
+            functieGroep.itemgroups.push(itemGroupObj);
+          }
+
+          itemGroupObj.items.push(functieMapObj);
+        });
       });
 
-      _.each(verbondsFunctiesOrderedPerVerbondsType, function(val,key){
-        if(val.verbondstype){
-          var itemGroupObj = {};
-          itemGroupObj.category = 'type';
-          itemGroupObj.label = val.verbondstype;
-          itemGroupObj.items = [];
-          itemGroupObj.collapsed = true;
-
-          _.each(val.functies,function(v,k){
-            itemGroupObj.items.push(v);
-          });
-          itemGroupObjs.push(itemGroupObj);
-        }
-
-      });
-
-      // de itemgroep objecten sorteren volgens arrTakSort
-      _.each(arrTypeSort,function(val,key){
-        var foundItem = _.find(itemGroupObjs,{"label":val});
-        if(foundItem){
-          functieGroep.itemgroups.push(foundItem);
-        };
-      });
+      functieGroep.itemgroups = _.sortBy(functieGroep.itemgroups, ['volgorde']);
 
       return functieGroep;
     };
@@ -414,19 +357,6 @@
       }
       return deferred.promise;
     }
-
-    // this code was kindly taken from http://bit.ly/2oTyeqZ
-    ledenFilterService.groupBy = function(dataToGroupOn, fieldNameToGroupOn, fieldNameForGroupName, fieldNameForChildren) {
-            var result = _.chain(dataToGroupOn)
-             .groupBy(fieldNameToGroupOn)
-             .toPairs()
-             .map(function (currentItem) {
-                 return _.zipObject([fieldNameForGroupName, fieldNameForChildren], currentItem);
-             })
-             .value();
-            return result;
-        }
-
 
     ledenFilterService.getReconstructedFilterObject = function(activeCriteria, activeKolommen, currentFilter){
       // reconstrueer het Filter object:
