@@ -521,6 +521,39 @@
       return reconstructedFilterObj;
     }
 
+    ledenFilterService.getSelectionSummary = function(crit,amount){
+      var str= "";
+      var items = new Array();
+      if(crit.criteriaKey !== 'functies' ){
+        // geen gegroepeerde items
+        items = crit.items;
+      }else{
+        // gegroepeerde items
+        _.each(crit.itemgroups,function(group){
+          _.each(group.items,function(item){
+            items.push(item);
+          })
+        })
+      }
+
+      var activated = _.filter(items, {'activated':true});
+      activated = _.uniq(activated, function(x){
+          return x.label;
+      });
+      activated = _.orderBy(activated,'label','asc');
+
+      var filtered = activated.slice(0,amount);
+      _.each(filtered, function(v,k){
+        str += v.label;
+        str += k < filtered.length-1 ? ', ' : '' ;
+      });
+      if(activated.length > amount){
+        str += '...';
+      }
+      return str;
+
+    }
+
 
     return ledenFilterService;
   };

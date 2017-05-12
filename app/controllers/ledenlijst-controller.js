@@ -343,7 +343,13 @@
             value.activated = true;
           });
         }else{
-          crit.items[0].activated = true;
+          if(crit.criteriaKey == 'geslacht'){
+            // meisje selecteren by default
+            _.find(crit.items, {'value': 'v'}).activated = true;
+          }else{
+            crit.items[0].activated = true;
+          }
+
         }
       }else{
         _.each(crit.itemgroups,function(value,key){
@@ -650,6 +656,10 @@
 
     $scope.toggleCriteriumSection = function(obj){
       obj.collapsed = !obj.collapsed;
+    }
+
+    $scope.getButtonSubtitle = function(crit,b){
+      return LFS.getSelectionSummary(crit,b);
     }
 
     initCriteriaKolommenFilters().then(function(){

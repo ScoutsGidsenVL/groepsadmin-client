@@ -1,7 +1,7 @@
 <!-- Panel header -->
 <div class="panel-heading panel-heading--leden clearfix">
   <div class="pull-left">
-    <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : !isFilterCollapsed }" ng-click="isFilterCollapsed = !isFilterCollapsed">Filter <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i></button>
+    <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : !isFilterCollapsed }" ng-click="isFilterCollapsed = !isFilterCollapsed"><div class="pull-left">Filter</div> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i></button>
   </div>
 
   <div class="pull-right">
@@ -59,11 +59,7 @@
         <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" class="btn btn-filter btn-filter--criteria dropdown-toggle" uib-dropdown-toggle>
           <span class="filter-option-title">{{ criterium.title }}</span>
           <span class="filter-option-subtitle">
-            <span ng-repeat="criteriumItem in criterium.items | filter:{activated:true} | orderBy:'label' | limitTo : 3">
-               {{ criteriumItem.label }}
-               <span ng-if="!$last">,</span>
-            </span>
-            <span>{{ getButtonSubtitleSuffix(criterium) }}</span>
+            <span>{{ getButtonSubtitle(criterium,3) }}</span>
           </span>
 
         </button>
