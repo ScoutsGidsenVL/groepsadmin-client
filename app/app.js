@@ -17,6 +17,7 @@
     'ga.menucontroller',
     'ga.groepcontroller',
     'ga.orakelcontroller',
+    'ga.lid',
     'ga.lid.velden',
     'ga.dynamischveld',
     'ga.dynamischevelden',
@@ -55,18 +56,6 @@
     });
   }]);
 
-  angular.module('ga')
-    .directive('gaLid', ['$location', function ($location) {
-      return {
-        restrict: 'A',
-        link: function (scope, elem, attr) {
-          elem.click(function () {
-            $location.path('/lid/' + attr.gaLid);
-            scope.$apply();
-          });
-        }
-      }
-    }])
   angular.module('ga').factory('keycloak', function($window) {
     return $window._keycloak;
   });

@@ -5,9 +5,9 @@
     .module('ga.menucontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('MenuController', MenuController);
 
-  MenuController.$inject = ['$scope', 'UserAccess'  ];
+  MenuController.$inject = ['$scope', '$window', 'UserAccess'  ];
 
-  function MenuController ($scope, UserAccess) {
+  function MenuController ($scope, $window, UserAccess) {
 
     $scope.menuItems = [
       {
@@ -38,14 +38,22 @@
         label: 'Oude Groepsadmin',
         condition: UserAccess.hasAccessTo("profiel"),
         iconclasses : 'fa fa-institution',
-        href: 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/'
+        href: 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/',
+        targetBlank: true
       }
     ];
 
-    _.forEach($scope.menuItems, function(menuItem) {
+
+    _.forEach($scope.menuItems, function(menuItem,k) {
       menuItem.condition.then(function (reponse) {
         menuItem.condition = reponse;
+        // when last menu item is resolved (and thus rendered), we will add padding to the body
+        // so the content can't become hidden by the fixed positioned menu
+        if(k == $scope.menuItems.length-1){
+            window.app.positionBody();
+        }
       });
+
     });
   }
 })();
