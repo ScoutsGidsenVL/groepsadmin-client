@@ -38,8 +38,7 @@
         label: 'Oude Groepsadmin',
         condition: UserAccess.hasAccessTo("profiel"),
         iconclasses : 'fa fa-institution',
-        href: 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/',
-        targetBlank: true
+        href: 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/'
       }
     ];
 
