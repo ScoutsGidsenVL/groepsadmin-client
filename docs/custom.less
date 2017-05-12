@@ -22,6 +22,26 @@ nav {
     }
 }
 
+@media (max-width: 1200px) {
+    .container {
+        max-width: 630px + @nav-width * 0.9;
+
+        .row .content {
+            margin-left: @nav-width * 0.9 + (@padding * 2);
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .container {
+        max-width: 550px + @nav-width * 0.77;
+
+        .row .content {
+            margin-left: @nav-width * 0.77 + (@padding * 2);
+        }
+    }
+}
+
 /* Make the action names more visible. */
 .action h4.action-heading .name.name {
     float: none;
