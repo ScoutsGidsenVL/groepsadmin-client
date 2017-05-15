@@ -10,9 +10,9 @@ pipeline {
         sh "node_modules/.bin/bower install"
         sh "node_modules/.bin/grunt wiredep"
         sh "node_modules/.bin/grunt less"
-        sh "node_modules/.bin/aglio --theme-condense-nav=false --theme-style docs/custom.less -i docs/api.apib -o docs/api.html"
+        sh "node_modules/.bin/aglio --theme-condense-nav=false --theme-style default --theme-style docs/custom.less -i docs/api.apib -o docs/api.html"
         sh "rm -rf client.zip"
-        sh "zip -r client.zip index.html apitest.html logintest.html app bower_components css data fonts img js less partials"
+        sh "zip -r client.zip index.html apitest.html logintest.html app bower_components css data docs/api.html fonts img js less partials"
       }
     }
 
