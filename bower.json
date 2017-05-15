@@ -3,7 +3,8 @@
   "description": "Front end van de nieuwe groepsadministratie",
   "main": "",
   "authors": [
-    "Steven Aerts <steven.aerts@gmail.com>"
+    "Steven Aerts <steven.aerts@gmail.com>",
+    "Johan Degrieck <johandegrieck@gmail.com>"
   ],
   "homepage": "https://github.com/ScoutsGidsenVL/groepsadmin-client",
   "moduleType": [],
@@ -15,8 +16,14 @@
     "tests"
   ],
   "dependencies": {
+    "angular": "1.5.5",
+    "angular-route": "1.5.5",
+    "angular-sanitize": "1.5.5",
+    "angular-resource": "1.5.5",
+    "angular-messages": "1.5.5",
     "keycloak": "2.3.*",
     "lodash": "~4.17.4",
-    "components-font-awesome": "~4.7.0"
+    "components-font-awesome": "~4.7.0",
+    "chart.js": "~2.5.0"
   }
 }

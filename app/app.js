@@ -31,7 +31,8 @@
     'ui.bootstrap',
     'ga.utils',
     'infinite-scroll',
-    'ngSanitize'
+    'ngSanitize',
+    'ngMessages'
   ])
   // lodash for use in controllers, unit tests
   .constant('_', window._)

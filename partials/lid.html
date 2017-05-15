@@ -17,6 +17,7 @@
 
 <!-- Persoonsinfo -->
 <div class="panel-body form-hover clearfix">
+<form name="lidForm" ng-submit="submitForm(lidForm.$valid)" novalidate>
   <div class="row">
     <div class="col-lg-4 col-sm-6 col-xs-12">
       <!-- Persoonlijk-->
@@ -27,40 +28,43 @@
               <i class="fa fa-spinner fa-pulse"> </i>
             </div>
           </legend>
-          <div class="form-group {{  'persoonsgegevens.voornaam' | formValidator:validationErrors  }}" ng-show="lid">
+          <div class="form-group" ng-class="{ 'has-error': lidForm.voornaam.$touched && lidForm.voornaam.$invalid }" ng-show="lid">
             <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input  type="text" class="form-control"    id="_voornaam" ng-model="lid.persoonsgegevens.voornaam" ng-disabled="!hasPermission('persoonsgegevens')"/>
-              <div ng-if="'persoonsgegevens.voornaam' | formValidator:validationErrors">
-                <i class="validation-error-details">{{ 'persoonsgegevens.voornaam' | formValidatorError:validationErrors }}</i>
+              <input type="text" class="form-control" name="voornaam" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam" ng-disabled="!hasPermission('persoonsgegevens')" required>
+              <div ng-messages="lidForm.voornaam.$error" ng-show="lidForm.voornaam.$touched" class="help-block">
+                  <div ng-messages-include="partials/messages.html"></div>
               </div>
             </div>
           </div>
-          <div class="form-group {{  'persoonsgegevens.achternaam' | formValidator:validationErrors  }}" ng-show="lid">
+          <div class="form-group" ng-class="{ 'has-error': lidForm.naam.$touched && lidForm.naam.$invalid }" ng-show="lid">
             <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input  type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam" ng-disabled="!hasPermission('persoonsgegevens')"/>
-              <div ng-if="'persoonsgegevens.achternaam' | formValidator:validationErrors">
-                <i class="validation-error-details">{{ 'persoonsgegevens.achternaam' | formValidatorError:validationErrors }}</i>
+              <input  type="text" class="form-control" name="naam" id="_naam" ng-model="lid.persoonsgegevens.naam" ng-disabled="!hasPermission('persoonsgegevens')" required>
+              <div ng-messages="lidForm.naam.$error" ng-show="lidForm.naam.$touched" class="help-block">
+                  <div ng-messages-include="partials/messages.html"></div>
               </div>
             </div>
           </div>
           <div class="form-group" ng-show="lid">
             <label for="_geslacht" class="col-xs-5 col-xxs-12 control-label">Geslacht</label>
             <div class="col-xs-7 col-xxs-12">
-              <select class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht" ng-disabled="!hasPermission('persoonsgegevens')">
+              <select class="selectpicker" name="geslacht" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht" ng-disabled="!hasPermission('persoonsgegevens')" required>
                 <option value="man">Mannelijk</option>
                 <option value="vrouw">Vrouwelijk</option>
               </select>
+              <div ng-messages="lidForm.geslacht.$error" ng-show="lidForm.geslacht.$touched" class="help-block">
+                  <div ng-messages-include="partials/messages.html"></div>
+              </div>
             </div>
           </div>
-          <div class="form-group {{  'persoonsgegevens.geboortedatum' | formValidator:validationErrors  }}" ng-show="lid">
+          <div class="form-group" ng-show="lid">
             <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
             <div class="col-xs-7 col-xxs-12">
               <!-- fix date-parse -->
-              <input type="date" class="form-control" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date ng-disabled="!hasPermission('persoonsgegevens')"/>
-              <div ng-if="'persoonsgegevens.geboortedatum' | formValidator:validationErrors">
-                <i class="validation-error-details">{{ 'persoonsgegevens.geboortedatum' | formValidatorError:validationErrors }}</i>
+              <input type="date" class="form-control" name="geboortedatum" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date ng-disabled="!hasPermission('persoonsgegevens')" required>
+              <div ng-messages="lidForm.geboortedatum.$error" ng-show="lidForm.geboortedatum.$touched" class="help-block">
+                  <div ng-messages-include="partials/messages.html"></div>
               </div>
             </div>
           </div>
@@ -81,13 +85,13 @@
           <div class="form-group" ng-show="lid">
             <label for="_gebruikersnaam" class="col-xs-5 col-xxs-12 control-label">Gebruikersnaam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_gebruikersnaam" ng-model="lid.gebruikersnaam"/>
+              <input type="text" class="form-control" id="_gebruikersnaam" ng-model="lid.gebruikersnaam" required/>
             </div>
           </div>
           <div class="form-group" ng-class="{ 'readonly' : !hasPermission('email') }" ng-show="lid">
             <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_email" ng-model="lid.email" ng-disabled="!hasPermission('email')"/>
+              <input type="email" class="form-control" id="_email" ng-model="lid.email" ng-disabled="!hasPermission('email')" required/>
             </div>
           </div>
           <div class="form-group {{  'persoonsgegevens.gsm' | formValidator:validationErrors  }}" ng-show="lid">
@@ -371,17 +375,20 @@
       </section>
     </div>
   </div>
+</form>
 </div>
 
 <!-- Panel footer -->
 <footer class="panel-footer clearfix">
   <ul class="pagination pull-left responsive-footer">
     <li>
-      <a href="" ng-click="opslaan()" ng-show="lid && canSave()">Opslaan
-        <div class="pull-right" ng-show="saving">
-          <i class="fa fa-spinner fa-pulse"> </i>
-        </div>
-      </a>
+      <button type="submit" class="btn btn-primary" ng-disabled="lidForm.$invalid" ng-show="lid && canSave()">
+        <i class="fa fa-spinner fa-pulse" ng-show="saving"></i>
+        <span ng-hide="saving">Opslaan</span>
+      </button>
+
+      <!--a href="" ng-click="opslaan()" ng-show="lid && canSave()">Opslaan</a-->
+
     </li>
     <li><a href="" ng-click="schrap()" ng-show="kanSchrappen()">Stop alle functies</a></li>
     <li><a href="" ng-click="nieuw()" ng-show="canPost">Nieuw</a></li>
@@ -392,7 +399,7 @@
         <li>
           <a href="" ng-click="opslaan()" ng-show="lid && canSave()">Opslaan
             <div class="pull-right" ng-show="saving">
-              <i class="fa fa-spinner fa-pulse"> </i>
+              <i class="fa fa-spinner fa-pulse"></i>
             </div>
           </a>
         </li>

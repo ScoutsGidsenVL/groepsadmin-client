@@ -207,7 +207,7 @@
       </div>
     </footer>
 
-    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()">{{alert.msg}}</alert>
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()" ng-bind="alert.msg"></alert>
 
     <dialog ng-if="dialog" close="dialog.close()" confirm="dialog.confirm()" dismiss="dialog.confirm()" title="{{dialog.title}}" >
     {{dialog.msg}}
@@ -263,15 +263,17 @@
     <script src="js/keycloak-config.js"></script>
 
     <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
     <script src="bower_components/keycloak/dist/keycloak.js"></script>
     <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/chart.js/dist/Chart.js"></script>
     <!-- endbower -->
 
     <!-- Angular -->
-    <script src="js/angular/angular.js"></script>
-    <script src="js/angular/angular-route.min.js"></script>
-    <script src="js/angular/angular-resource.min.js"></script>
-    <script src="js/angular/angular-sanitize.js"></script>
 
     <script src="app/app.js"></script>
     <script src="app/app.route.js"></script>
@@ -315,7 +317,6 @@
     <script src="js/bootstrap/dropdown.js"></script>
     <script src="js/bootstrap/alert.js"></script>
     <script src="js/bootstrap/bootstrap-select.min.js"></script>
-    <script src="js/Chart.min.js"></script>
 
   </body>
 </html>
