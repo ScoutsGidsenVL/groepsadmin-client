@@ -309,7 +309,7 @@
         origineelLid.functies = [];
       }
       //zend post met basis informaitie(persoonsgegevesn, adressen, 1 functieinstantie)
-      origineelLid.persoonsgegevens.geboortedatum =  '2016-01-01T00:00:00.000+01:00'; // set static date;
+      origineelLid.vgagegevens.geboortedatum =  '2016-01-01T00:00:00.000+01:00'; // set static date;
       RestService.LidAdd.save(origineelLid).$promise.then(
         function(response) {
           console.log(response);

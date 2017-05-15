@@ -373,7 +373,7 @@
         function(response) {
           //toon confirmvenster
           var currentFunctieName= $scope.functieslijst[functie.functie].beschrijving;
-          DialogService.new("Bevestig","Weet u zeker dat u " + $scope.lid.persoonsgegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
+          DialogService.new("Bevestig","Weet u zeker dat u " + $scope.lid.vgagegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
           initAangepastLid();
           $window.onbeforeunload = null;
 
@@ -442,9 +442,9 @@
     $scope.gezinslid = function() {
       //bereid lid voor om doorgegeven te worden.
       var familielid = {
-        persoonsgegevens: {
-            achternaam: $scope.lid.persoonsgegevens.achternaam
-          },
+        vgagegevens: {
+          achternaam: $scope.lid.vgagegevens.achternaam
+        },
         adressen: $scope.lid.adressen,
         contacten: $scope.lid.contacten,
         functies: []
@@ -503,7 +503,7 @@
       RestService.Lid.update({id: lid.id, bevestiging: false}, lid).$promise.then(
         function(response) {
           //toon confirmvenster
-          DialogService.new("Bevestig","Weet u zeker dat u alle actieve functies van " + $scope.lid.persoonsgegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
+          DialogService.new("Bevestig","Weet u zeker dat u alle actieve functies van " + $scope.lid.vgagegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
 
         },
         function(error) {
