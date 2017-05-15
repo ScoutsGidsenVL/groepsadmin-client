@@ -13,9 +13,20 @@
 
         // add keycloak header if request goes to groepsadmin API
         if (config.url.lastIndexOf('/groepsadmin/rest-ga/') >= 0) {
-          config.headers.Authorization = "Bearer " + keycloak.token;
-          config.timeout = 20000;
+            config.timeout = 20000;
+
+            var deferred = $q.defer();
+            keycloak.updateToken().success(function() {
+              config.headers = config.headers || {};
+              config.headers.Authorization = 'Bearer ' + keycloak.token;
+              deferred.resolve(config);
+            }).error(function(err) {
+              deferred.reject('Failed to refresh token', err);
+            });
+
+            return deferred.promise;
         }
+
         return config;
       },
       'response': function(response) {
