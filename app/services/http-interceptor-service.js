@@ -13,8 +13,6 @@
 
         // add keycloak header if request goes to groepsadmin API
         if (config.url.lastIndexOf('/groepsadmin/rest-ga/') >= 0) {
-            config.timeout = 20000;
-
             var deferred = $q.defer();
             keycloak.updateToken().success(function() {
               config.headers = config.headers || {};
@@ -23,7 +21,6 @@
             }).error(function(err) {
               deferred.reject('Failed to refresh token', err);
             });
-
             return deferred.promise;
         }
 
