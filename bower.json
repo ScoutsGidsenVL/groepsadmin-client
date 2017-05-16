@@ -16,11 +16,13 @@
     "tests"
   ],
   "dependencies": {
+    "jquery": "1.10.2",
     "angular": "1.5.5",
     "angular-route": "1.5.5",
     "angular-sanitize": "1.5.5",
     "angular-resource": "1.5.5",
     "angular-messages": "1.5.5",
+    "jquery-ui": "1.10.4",
     "keycloak": "2.3.*",
     "lodash": "~4.17.4",
     "components-font-awesome": "~4.7.0",

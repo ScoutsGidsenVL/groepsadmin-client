@@ -5,19 +5,19 @@ Dit is een front-end voor de nieuwe groepsadministratie van [Scouts en Gidsen Vl
 Je kan deze front-end op twee manieren gebruiken:
 
 * Ofwel gebruik je de [test-versie](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/client/) van de Groepsadministratie. Je krijgt deze front-end daar, na het inloggen, te zien.
-* Ofwel draai je deze front-end op je eigen computer. Zo kan je zelf aanpassingen doen.
+* Ofwel draai je deze front-end op je eigen computer (localhost), zodat je zelf aanpassingen kan doen.
 
 Lees in beide gevallen ook de [handleiding](https://wiki.scoutsengidsenvlaanderen.be/doku.php?id=handleidingen:groepsadmin:nieuwe_versie_testen) over het testen van de nieuwe groepsadministratie.
 
-## Zelf opzetten
+## Zelf opzetten in localhost
 
 1. Installeer [Git](https://git-scm.com/).
 1. Voer `git clone https://github.com/ScoutsGidsenVL/groepsadmin-client` uit.
 1. Installeer [NPM en Bower](#npm-en-bower)
 1. Voer [`grunt serve`](#grunt-serve) uit.
 1. Schakel de CORS-beveiling uit in je browser:
-  * Chrome: Start Chrome met de argumenten `--disable-web-security --user-data-dir`. Deze opties werken enkel als Chrome volledig afgesloten is.
-  * Firefox: Installeer de extensie [cors everywhere](https://addons.mozilla.org/firefox/addon/cors-everywhere) en activeer dit door er op te klikken in de werkbalk. Schakel
+  * Chrome: Sluit Chrome eerst volledig af en zorg dat het niet meer in de achtergrond loopt. Vanuit de command prompt, start je Chrome met de argumenten die websecurity uitschakelen `open -a Google\ Chrome --args --disable-web-security --user-data-dir`.
+  * Firefox: Installeer de extensie [cors everywhere](https://addons.mozilla.org/firefox/addon/cors-everywhere) en activeer dit door er op te klikken in de werkbalk.
   * Andere browsers: Deze beveiliging afzetten is erg moeilijk.
 1. Open <http://localhost:8000> in je browser.
 
@@ -89,15 +89,22 @@ Voor de front-end worden volgende technologieën gebruikt:
 5. [Aglio](#aglio-optioneel)
 6. [AngularJS](#angularjs)
 
-### NPM en Bower
+### NPM
 
-[NPM](https://nodejs.org/)  en [Bower](https://bower.io/) worden gebruikt om dependencies te beheren.
+[NPM](https://nodejs.org/) (node package manager) beheert de packages die NodeJS gebruikt. Bijvoorbeeld voor het compileren van LESS naar CSS gebruiken we de package 'grunt-contrib-less', voor het versiebeheer van de libraries gebruiken we de package 'bower' (angularJS, bootstrap, JQuery, keyCloak, lodash enz.), voor  het injecteren van de nodige scripts in de index.html 'grunt-wiredep'.
 
-* Installeer eerst node.js, dit bevat NPM.
-* Installeer Bower en Grunt via NPM: `npm install -g` als administrator/root (zie `package.json`)
-  * Alternatief zonder extra rechten: `npm install` - Gebruik daarna `node_modules/bower/bin/bower` en `node_modules/grunt-cli/bin/grunt`
+Als er nieuwe libraries of dependencies worden toegevoegd aan het project, doen we dit steeds met 'npm install ...' of 'bower install ...'. Op die manier worden ze mooi verzameld in de file 'package.json' en/of 'bower.json' en kunnen we alles gemakkelijker up to date houden alsook conflicten vermijden met verouderde versies van (een) bepaalde librarie(s).
+
+* Installeer eerst NodeJS, dit is een platform dat ons toelaat het Groepsadmin-project gemakkelijker te beheren en een aantal taken te automatiseren. NodeJS heeft NPM voorgeïnstalleerd. Heb je al een versie van node en/of npm dan doe je er vast goed aan alles een keer te updaten.
+* Installeer Bower en Grunt via NPM: bvb.`npm install -g bower` als administrator/root (zie `package.json`)
+  * Alternatief zonder extra rechten: bvb. `npm install bower`
   * Mogelijk krijg je foutmeldingen over de installatie van *protagonist*, deze meldingen mag je negeren.
-* Gebruik dan Bower om Keycloak te installeren: `bower install` (zie `bower.json`)
+* Gebruik dan Bower om de benodigde libraries te installeren: `bower install` (zie `bower.json`)
+
+### Bower
+
+[Bower](https://bower.io/) Is een package manager, alle dependencies die je met 'bower install' installeert staan genoteerd in 'bower.json'.
+LET OP: de volgorde van de dependencies in deze file is belangrijk, want ze worden ook in deze volgorde geïnjecteerd in index.html.  
 
 ### Grunt
 
