@@ -14,12 +14,6 @@
       $location.path("/lid/profiel");
     }
 
-
-    // Nieuwe adressen hebben geen id. Tijdelijk opgelost met tempAdresId.
-    // Voorstel: UUID genereren aan client-side. http://stackoverflow.com/a/2117523
-    var tempAdresId = 1;
-    var tempContactId = 1;
-
     // TODO - controle of de gebruiker wel nieuwe leden kan maken
     //        => anders redirect naar leden lijst
 
@@ -71,27 +65,22 @@
       delete $rootScope.familielid;
       // controle of er adressen e.d. aanwezig zijn. => temp id's geven.
       angular.forEach(lid.adressen, function(adres, key){
+        var randomId = "" + Math.random();
         angular.forEach(lid.contacten, function(contact, key){
             if(adres.id == contact.adres){
-              contact.adres = tempAdresId;
+              contact.adres = randomId;
             }
             contact.id = key;
         });
-        adres.id = tempAdresId;
-        tempAdresId++;
+        adres.id = randomId;
       });
     }
 
     $scope.lid = lid;
 
-
     function setChanges(newVal, oldVal, scope) {
       $window.onbeforeunload = unload;
     }
-
-
-
-
 
     angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies'], function(value, key) {
       $scope.$watch(value, setChanges, true);

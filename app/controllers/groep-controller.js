@@ -12,7 +12,7 @@
       $location.path("/lid/profiel");
     }
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    var tempId = 1;
+
     // groepen ophalen
     RestService.Groepen.get().$promise.then(
       function (result) {
@@ -190,11 +190,10 @@
     // nieuw adres toeveogen
     $scope.addAdres = function () {
       var newAdres = {
-        id: 'tempadres' + tempId,
+        id: 'tempadres' + Math.random(),
         bus: null,
 
       }
-      tempId++;
       $scope.activegroup.adres.push(newAdres);
       addMarkerFromNewAdres($scope.googleMap, newAdres)
     }
@@ -269,10 +268,9 @@
 
     $scope.addGroepseigenFunctie = function () {
       var newFunction = {
-        id: 'tempFunctie' + tempId,
+        id: 'tempFunctie' + Math.random(),
         beschrijving: null
       }
-      tempId++;
       $scope.activegroup.groepseigenFuncties.push(newFunction);
     }
 
@@ -313,7 +311,7 @@
 
     $scope.addGroepseigenGegeven = function () {
       var newGegeven = {
-        id: 'tempGegeven' + tempId,
+        id: 'tempGegeven' + Math.random(),
         beschrijving: null,
         kanLeidingWijzigen: false,
         kanLidWijzigen: false,
@@ -322,7 +320,6 @@
         status: "nieuw",
         label: ""
       }
-      tempId++;
       $scope.activegroup.groepseigenGegevens.schema.velden.push(newGegeven);
     }
 
