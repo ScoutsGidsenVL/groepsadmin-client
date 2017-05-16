@@ -15,11 +15,11 @@
 
     ledenFilterService.loadingLeden = false;
 
-    ledenFilterService.getLeden = function(aantalPerPagina, offset){
+    ledenFilterService.getLeden = function(offset){
       ledenFilterService.loadingLeden = true;
 
       return $q(function(resolve,reject){
-        RestService.Leden.get({aantal: aantalPerPagina, offset: offset}).$promise.then(
+        RestService.Leden.get({offset: offset}).$promise.then(
           function (response) {
             ledenFilterService.loadingLeden = false;
             resolve(response);

@@ -16,8 +16,12 @@
 
     $scope.busy = false;
     $scope.end = false;
+
+    $scope.aantalLedenGeladen = 0;
     $scope.aantalPerPagina = 10;
     $scope.leden = [];
+
+    $scope.isLoadingMore = false;
 
     if(!access){
       $location.path("/lid/profiel");
@@ -61,11 +65,11 @@
 
 
     // controle on resize
-    // angular.element($window).bind('resize', function () {
-    //  if($(window).height() > $("#leden").height() && !$scope.busy){
-    //    $scope.nextPage();
-    //  }
-    // });
+    angular.element($window).bind('resize', function () {
+     if($(window).height() > $("#leden").height() && !$scope.isLoadingMore && !$scope.isLoadingLeden){
+       $scope.ledenLaden();
+     }
+    });
 
     function initCriteriaKolommenFilters(){
       var deferred = $q.defer();
@@ -503,6 +507,7 @@
         deactiveerCriteriaAndItems();
         activeerCriteria();
         activeerEnIndexeerKolommen();
+        $scope.applyFilter();
       });
     }
 
@@ -517,6 +522,7 @@
         _.each($scope.kolommen, function(val){val.isLoaded = true;});
         // ledenlijst leegmaken
         $scope.leden = [];
+        $scope.totaalAantalLeden = -1;
         $scope.ledenLaden();
       });
 
@@ -529,53 +535,32 @@
 
     // controle moet er meer leden ingeladen worden
     $scope.ledenLaden = function(){
-      $scope.isLoadingLeden = true;
-      var offset = 0;
-      var aantalPerPagina = 1000
-      LLS.getLeden(aantalPerPagina, 0).then(
-        function(res){
-          _.each(res.leden, function(val,key){
-            $scope.leden.push(val);
-          })
+      if ($scope.isLoadingLeden || $scope.isLoadingMore) return;
 
-          $scope.totaalAantalLeden = res.totaal;
-          $scope.offset = res.offset;
-          $scope.busy = false;
-          $scope.isLoadingLeden = false;
+      var offset = $scope.leden.length ? $scope.leden.length : 0;
+      offset == 0 ? $scope.isLoadingLeden = true : $scope.isLoadingMore = true;
 
-        }
-      );
-    }
-
-    $scope.meerLaden = function(last){
-      if(last && $(window).height() > $("#leden").height()){
-        console.log('nextPage()');
-        $scope.nextPage();
-      }
-    }
-
-    // functie die aangeroepen word om (meer) leden op te halen via de api
-    $scope.nextPage = function(){
-      if ($scope.busy) return;
-      $scope.busy = true;
-      // voorkom dat er request gedaanworden wanneer alle resultaaten geladen zijn
       if($scope.leden.length !== $scope.totaalAantalLeden){
-        var offset = $scope.leden.length == 0 ? 0 : $scope.leden.length;
-        LLS.getLeden($scope.aantalPerPagina, offset).then(
+
+        LLS.getLeden(offset).then(
           function(res){
-            $scope.leden.push.apply($scope.leden,res.leden);
+            console.log("ledenLaden : ", res );
+            $scope.aantalLedenGeladen = $scope.aantalPerPagina;
+            _.each(res.leden, function(val,key){
+              $scope.leden.push(val);
+            })
             $scope.totaalAantalLeden = res.totaal;
             $scope.offset = res.offset;
-            $scope.busy = false;
-
+            $scope.isLoadingLeden = false;
+            $scope.isLoadingMore = false;
           }
         );
-      }
-      else{
-        $scope.busy = false;
-        //$scope.end = true;
+      } else {
+        $scope.isLoadingLeden = false;
+        $scope.isLoadingMore = false;
       }
     }
+
 
     /*
      * Sortering
