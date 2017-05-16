@@ -92,7 +92,7 @@
       // init watch, naar welke objecten/delen van het lid object moet er gekeken worden om aanpassingen bij te houden?
       angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies'], function(value, key) {
         $scope.$watch(value, function(newVal, oldVal, scope) {
-            console.log(value);
+            //console.log(value);
             if (newVal == oldVal) return;
             sectie = value.split(".").pop();
             if($scope.lid.changes.indexOf(sectie) < 0) {
@@ -552,7 +552,7 @@
           angular.forEach(contacten, function(contact, index){
             contact.adres = adressenIndex[contact.adres];
           });
-          console.log(contacten);
+          //console.log(contacten);
           $scope.lid.contacten = contacten;
           $scope.lid.changes = Array();
           $scope.lid.changes.push("contacten");
@@ -579,7 +579,7 @@
           },
           function(error){
             $scope.saving = false;
-            console.log(error);
+            console.log('error in opslaan', error);
             if (error.data.titel == "Validatie faalde voor Lid"){
               $scope.validationErrors = error.data.details;
             }
@@ -604,7 +604,6 @@
         }
         DialogService.new("Pagina verlaten","U staat op het punt om deze pagina te verlaten, niet opgeslagen aanpassignen zullen verloren gaan. Bent u zeker dat u wilt verdergaan?", $scope.locationChange, paramObj );
       }
-
     });
 
     // return functie voor de bevestiging na het veranderen van pagina
@@ -614,6 +613,16 @@
         $scope.lid.changes = new Array();
         $window.location.href = url;
       }
+    }
+
+    $scope.submitForm = function(form) {
+      //console.log(form);
+      if(form.voornaam.$modelValue == "Johan"){
+        form.voornaam.$setValidity('validationErrorVoornaam', false);
+      }else{
+        form.voornaam.$setValidity('validationErrorVoornaam', true);
+      }
+
     }
     // refresh of navigatie naar een andere pagina.
     var unload = function (e) {
