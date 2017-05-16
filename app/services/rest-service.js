@@ -154,8 +154,8 @@
         {'query': {method: 'GET', isArray:true, cache: false}}
       ),
       Zoeken: $resource(
-        base + 'zoeken?query=:zoekterm&token=:token',
-        {zoekterm: '@zoekterm', token: '@token'},
+        base + 'zoeken?query=:zoekterm',
+        {zoekterm: '@zoekterm'},
         {'query': {method: 'GET', isArray:true, cache: false}}
       )
 
