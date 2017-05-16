@@ -18,7 +18,10 @@
     var tempAdresId = 1;
     var tempContactId = 1;
 
-    $scope.canPost = UserAccess.hasAccessTo("nieuw lid");
+    $scope.canPost = false;
+    UserAccess.hasAccessTo("nieuw lid").then(function(res){
+      $scope.canPost = res;
+    });
 
     RestService.Lid.get({id:$routeParams.id}).$promise.then(
         function(result) {
