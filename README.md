@@ -12,13 +12,16 @@ Lees in beide gevallen ook de [handleiding](https://wiki.scoutsengidsenvlaandere
 ## Zelf opzetten
 
 1. Installeer [Git](https://git-scm.com/).
-2. Voer `git clone https://github.com/ScoutsGidsenVL/groepsadmin-client` uit.
-3. Installeer [NPM en Bower](#npm-en-bower)
-4. Voer [`grunt serve`](#grunt-serve) uit.
-5. Start Chrome met de argumenten `--disable-web-security --user-data-dir`. Deze opties werken enkel als Chrome volledig afgesloten is. Deze beveiliging in andere browsers afzetten is erg moeilijk.
-6. Open <http://localhost:8000> in Chrome.
+1. Voer `git clone https://github.com/ScoutsGidsenVL/groepsadmin-client` uit.
+1. Installeer [NPM en Bower](#npm-en-bower)
+1. Voer [`grunt serve`](#grunt-serve) uit.
+1. Schakel de CORS-beveiling uit in je browser:
+  * Chrome: Start Chrome met de argumenten `--disable-web-security --user-data-dir`. Deze opties werken enkel als Chrome volledig afgesloten is.
+  * Firefox: Installeer de extensie [cors everywhere](https://addons.mozilla.org/firefox/addon/cors-everywhere) en activeer dit door er op te klikken in de werkbalk. Schakel
+  * Andere browsers: Deze beveiliging afzetten is erg moeilijk.
+1. Open <http://localhost:8000> in je browser.
 
-Zorg achteraf dat Chrome niet telkens wordt opgestart met bovenstaande argumenten. Het is voor de beveiliging van je browser geen goed idee om deze opties altijd aan te laten staan.
+Zet achteraf de CORS-beveiling in je browser weer aan. Het is geen goed idee om de CORS-beveiling altijd uit te schakelen.
 
 ### Gaat er iets mis?
 
@@ -29,13 +32,13 @@ Open steeds de browser-console (`F12`) om te zien wat er mis gaat.
 * Er draait bij jou waarschijnlijk geen kopie van de _back_-end op [http://localhost:**8080**](http://localhost:8080). ;-)
 * Open `app/services/rest-service.js` in een editor.
 * Stel rond regel 12 `apiHost` in op 'groepsadmin-develop' (en zet de oorspronkelijke lijn in commentaar).
-* Laad <http://localhost:8000> opnieuw in Chrome.
+* Laad <http://localhost:8000> opnieuw in je browser.
 
 **Zie je bij sommige URLs foutmeldingen over een onveilige verbinding?**
 
 * Open één van deze URLs en voeg hiervoor een uitzondering toe.
 * Je krijgt nu `401 Unauthorized`, maar dat is ok.
-* Laad <http://localhost:8000> opnieuw in Chrome.
+* Laad <http://localhost:8000> opnieuw in je browser.
 
 **Is er iets mis met je token?**
 
@@ -56,10 +59,21 @@ De [documentatie](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groep
 
 ### Testen
 
-Je kan de API testen op `apitest.html`:
+Op `apitest.html` kan je API calls doen, waarbij het access/keycloak token wordt meegegeven in de header `Authorization`.
 
-* Ofwel open je lokaal [apitest.html](http://localhost:8000/apitest.html) in Chrome, zoals hierboven.
+* Ofwel open je lokaal [apitest.html](http://localhost:8000/apitest.html) in je browser, zoals hierboven.
 * Ofwel open [apitest.html](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/client/apitest.html) je op de test-versie van de groepsadmin.
+
+Velden:
+
+* Url: de volledige url, bijvoorbeeld `https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/rest-ga/lid/profiel`
+* Client id: Een id van een client die ingesteld is in keycloak. In deze client is ingesteld in keycloak bepaalt of de url van de huidige pagina toegelaten is.
+  * `groepsadmin-localhost-8000-client` voor [localhost:8000](http://localhost:8000)
+  * `groepsadmin-dev-tvl-client` voor [groepsadmin-dev-tvl](https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be)
+  * `groepsadmin-staging-client` voor [groepsadmin-develop](https://groepsadmin-develop.scoutsengidsenvlaanderen.net)
+* Accept: Dit stelt de header `Accept` in. Dit geeft aan welke content-types jij aanvaardt.
+* Content-Type: (Enkel bij POST en PATCH) Dit stelt de header `Content-Type` in. Dit is het content-type van de body in je request.
+* Body: (Enkel bij POST en PATCH) De inhoud van je request
 
 ## Technisch
 

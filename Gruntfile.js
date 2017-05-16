@@ -82,6 +82,7 @@ module.exports = function(grunt) {
   // Task definitions
   grunt.registerTask('default', ['watch']);
   grunt.registerTask('serve', [
+    'less',
     'wiredep',
     'connect:server',
     'watch'

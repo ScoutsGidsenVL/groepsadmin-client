@@ -86,11 +86,26 @@
         </div>
         <div class="column">
           <label>Accept</label>
-          <input id="acceptHeader" class="form-control">
+          <select id="acceptHeader" class="form-control">
+            <option value="*/*" selected>*/*</option>
+            <option value="application/json">application/json</option>
+            <option value="application/pdf">application/pdf</option>
+            <option value="text/csv">text/csv</option>
+            <option disabled>---</option>
+            <option value="text/plain">text/plain (ongebruikt)</option>
+            <option value="abc">abc (ongeldig)</option>
+          </select>
         </div>
         <div class="column contentType">
           <label>Content-Type</label>
-          <input id="contentType" class="form-control">
+          <select id="contentType" class="form-control">
+            <option value="application/json" selected>application/json</option>
+            <option disabled>---</option>
+            <option value="application/pdf">application/pdf (ongebruikt)</option>
+            <option value="text/csv">text/csv (ongebruikt)</option>
+            <option value="text/plain">text/plain (ongebruikt)</option>
+            <option value="abc">abc (ongeldig)</option>
+          </select>
         </div>
       </div>
       <label class='requestBody'>Body</label>
@@ -126,12 +141,8 @@
               var xhr = new XMLHttpRequest(),
               url = options.url,
               type = options.type,
-              async = options.async || true,
-              // blob or arraybuffer. Default is blob
               dataType = options.responseType || "blob",
-              data = options.data || null,
-              username = options.username || null,
-              password = options.password || null;
+              data = options.data || null;
 
               xhr.addEventListener('load', function(){
                 var data = {};
@@ -140,7 +151,7 @@
                 callback(xhr.status, xhr.statusText, data, xhr.getAllResponseHeaders());
               });
 
-              xhr.open(type, url, async, username, password);
+              xhr.open(type, url, true);
 
               for (var i in headers) {
                 xhr.setRequestHeader(i, headers[i]);
@@ -183,7 +194,7 @@
           return;
         }
 
-        var content = jqXHR.responseText;
+        var content = jqXHR.responseText || '"(response ontbreekt)"';
 
         if (contentType === 'application/json') {
           try {
@@ -225,6 +236,8 @@
           if (keycloak.refreshTokenParsed) {
             $('#left').html(parseInt(keycloak.refreshTokenParsed['exp']) - Math.round(new Date().getTime() / 1000) - keycloak.timeSkew);
           }
+
+          keycloak.updateToken();
         }
       }, 100);
 
