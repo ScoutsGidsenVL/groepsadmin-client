@@ -95,7 +95,7 @@ textarea {
   background-size: 70%;
   background-position: center center;
   background-repeat: no-repeat;
-  border: 1px solid @panel-bg;
+  border: 1px solid @input-border;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -158,9 +158,6 @@ textarea {
 
       .form-control {
         border-color: @input-border;
-        &[disabled]{
-          border-color:transparent;
-        }
       }
     }
 
@@ -296,5 +293,13 @@ fieldset fieldset legend {
   background: #f3d8d8;
   .validation-error-details {
     color: #dc5353;
+  }
+}
+
+.form-control{
+  &[disabled],
+  &[readonly],
+  fieldset[disabled] & {
+    background-color:@disabled-form-field-bg;
   }
 }

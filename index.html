@@ -41,15 +41,7 @@
     <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
     <!-- endbower -->
 
-    <style type="text/css">
-      /* Dynamically generated CSS for small phones */
-      @media all and (max-width: 640px) {
-          #leden td:nth-child(4):before {  content: 'Straat';  }
-          #leden td:nth-child(5):before {  content: 'Nr';  }
-          #leden td:nth-child(6):before {  content: 'Postcode';  }
-          #leden td:nth-child(7):before {  content: 'Gemeente';  }
-        }
-    </style>
+
   </head>
 
   <body>
@@ -70,7 +62,7 @@
           </span>
 
           <span id="item_help">
-            <a href="http://wiki.scoutsengidsenvlaanderen.be" rel="nofollow">
+            <a href="http://wiki.scoutsengidsenvlaanderen.be" target="_blank" rel="nofollow">
               <i class="fa fa-question"></i>
               Help
             </a>
@@ -252,26 +244,27 @@
         </div>
       </div>
     </script>
+    <!-- bower:js -->
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
+    <script src="bower_components/keycloak/dist/keycloak.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/chart.js/dist/Chart.js"></script>
+    <!-- endbower -->
 
     <!-- Scripts -->
-    <script src="js/jquery-1.10.2.min.js"></script>
-    <script src="js/jquery-ui-1.10.4.custom.min.js"></script>
     <script src="js/mobsearch.js"></script>
     <script src="js/responsive-navbar.js"></script>
 
     <!-- Keycloak -->
     <script src="js/keycloak-config.js"></script>
 
-    <!-- bower:js -->
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-messages/angular-messages.js"></script>
-    <script src="bower_components/keycloak/dist/keycloak.js"></script>
-    <script src="bower_components/lodash/lodash.js"></script>
-    <script src="bower_components/chart.js/dist/Chart.js"></script>
-    <!-- endbower -->
+
 
     <!-- Angular -->
 

@@ -5,20 +5,23 @@ Dit is een front-end voor de nieuwe groepsadministratie van [Scouts en Gidsen Vl
 Je kan deze front-end op twee manieren gebruiken:
 
 * Ofwel gebruik je de [test-versie](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/client/) van de Groepsadministratie. Je krijgt deze front-end daar, na het inloggen, te zien.
-* Ofwel draai je deze front-end op je eigen computer. Zo kan je zelf aanpassingen doen.
+* Ofwel draai je deze front-end op je eigen computer (localhost), zodat je zelf aanpassingen kan doen.
 
 Lees in beide gevallen ook de [handleiding](https://wiki.scoutsengidsenvlaanderen.be/doku.php?id=handleidingen:groepsadmin:nieuwe_versie_testen) over het testen van de nieuwe groepsadministratie.
 
-## Zelf opzetten
+## Zelf opzetten in localhost
 
 1. Installeer [Git](https://git-scm.com/).
-2. Voer `git clone https://github.com/ScoutsGidsenVL/groepsadmin-client` uit.
-3. Installeer [NPM en Bower](#npm-en-bower)
-4. Voer [`grunt serve`](#grunt-serve) uit.
-5. Start Chrome met de argumenten `--disable-web-security --user-data-dir`. Deze opties werken enkel als Chrome volledig afgesloten is. Deze beveiliging in andere browsers afzetten is erg moeilijk.
-6. Open <http://localhost:8000> in Chrome.
+1. Voer `git clone https://github.com/ScoutsGidsenVL/groepsadmin-client` uit.
+1. Installeer [NPM en Bower](#npm-en-bower)
+1. Voer [`grunt serve`](#grunt-serve) uit.
+1. Schakel de CORS-beveiling uit in je browser:
+  * Chrome: Sluit Chrome eerst volledig af en zorg dat het niet meer in de achtergrond loopt. Vanuit de command prompt, start je Chrome met de argumenten die websecurity uitschakelen `open -a Google\ Chrome --args --disable-web-security --user-data-dir`.
+  * Firefox: Installeer de extensie [cors everywhere](https://addons.mozilla.org/firefox/addon/cors-everywhere) en activeer dit door er op te klikken in de werkbalk.
+  * Andere browsers: Deze beveiliging afzetten is erg moeilijk.
+1. Open <http://localhost:8000> in je browser.
 
-Zorg achteraf dat Chrome niet telkens wordt opgestart met bovenstaande argumenten. Het is voor de beveiliging van je browser geen goed idee om deze opties altijd aan te laten staan.
+Zet achteraf de CORS-beveiling in je browser weer aan. Het is geen goed idee om de CORS-beveiling altijd uit te schakelen.
 
 ### Gaat er iets mis?
 
@@ -29,13 +32,13 @@ Open steeds de browser-console (`F12`) om te zien wat er mis gaat.
 * Er draait bij jou waarschijnlijk geen kopie van de _back_-end op [http://localhost:**8080**](http://localhost:8080). ;-)
 * Open `app/services/rest-service.js` in een editor.
 * Stel rond regel 12 `apiHost` in op 'groepsadmin-develop' (en zet de oorspronkelijke lijn in commentaar).
-* Laad <http://localhost:8000> opnieuw in Chrome.
+* Laad <http://localhost:8000> opnieuw in je browser.
 
 **Zie je bij sommige URLs foutmeldingen over een onveilige verbinding?**
 
 * Open één van deze URLs en voeg hiervoor een uitzondering toe.
 * Je krijgt nu `401 Unauthorized`, maar dat is ok.
-* Laad <http://localhost:8000> opnieuw in Chrome.
+* Laad <http://localhost:8000> opnieuw in je browser.
 
 **Is er iets mis met je token?**
 
@@ -56,10 +59,21 @@ De [documentatie](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groep
 
 ### Testen
 
-Je kan de API testen op `apitest.html`:
+Op `apitest.html` kan je API calls doen, waarbij het access/keycloak token wordt meegegeven in de header `Authorization`.
 
-* Ofwel open je lokaal [apitest.html](http://localhost:8000/apitest.html) in Chrome, zoals hierboven.
+* Ofwel open je lokaal [apitest.html](http://localhost:8000/apitest.html) in je browser, zoals hierboven.
 * Ofwel open [apitest.html](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/client/apitest.html) je op de test-versie van de groepsadmin.
+
+Velden:
+
+* Url: de volledige url, bijvoorbeeld `https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/rest-ga/lid/profiel`
+* Client id: Een id van een client die ingesteld is in keycloak. In deze client is ingesteld in keycloak bepaalt of de url van de huidige pagina toegelaten is.
+  * `groepsadmin-localhost-8000-client` voor [localhost:8000](http://localhost:8000)
+  * `groepsadmin-dev-tvl-client` voor [groepsadmin-dev-tvl](https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be)
+  * `groepsadmin-staging-client` voor [groepsadmin-develop](https://groepsadmin-develop.scoutsengidsenvlaanderen.net)
+* Accept: Dit stelt de header `Accept` in. Dit geeft aan welke content-types jij aanvaardt.
+* Content-Type: (Enkel bij POST en PATCH) Dit stelt de header `Content-Type` in. Dit is het content-type van de body in je request.
+* Body: (Enkel bij POST en PATCH) De inhoud van je request
 
 ## Technisch
 
@@ -75,15 +89,22 @@ Voor de front-end worden volgende technologieën gebruikt:
 5. [Aglio](#aglio-optioneel)
 6. [AngularJS](#angularjs)
 
-### NPM en Bower
+### NPM
 
-[NPM](https://nodejs.org/)  en [Bower](https://bower.io/) worden gebruikt om dependencies te beheren.
+[NPM](https://nodejs.org/) (node package manager) beheert de packages die NodeJS gebruikt. Bijvoorbeeld voor het compileren van LESS naar CSS gebruiken we de package 'grunt-contrib-less', voor het versiebeheer van de libraries gebruiken we de package 'bower' (angularJS, bootstrap, JQuery, keyCloak, lodash enz.), voor  het injecteren van de nodige scripts in de index.html 'grunt-wiredep'.
 
-* Installeer eerst node.js, dit bevat NPM.
-* Installeer Bower en Grunt via NPM: `npm install -g` als administrator/root (zie `package.json`)
-  * Alternatief zonder extra rechten: `npm install` - Gebruik daarna `node_modules/bower/bin/bower` en `node_modules/grunt-cli/bin/grunt`
+Als er nieuwe libraries of dependencies worden toegevoegd aan het project, doen we dit steeds met 'npm install ...' of 'bower install ...'. Op die manier worden ze mooi verzameld in de file 'package.json' en/of 'bower.json' en kunnen we alles gemakkelijker up to date houden alsook conflicten vermijden met verouderde versies van (een) bepaalde librarie(s).
+
+* Installeer eerst NodeJS, dit is een platform dat ons toelaat het Groepsadmin-project gemakkelijker te beheren en een aantal taken te automatiseren. NodeJS heeft NPM voorgeïnstalleerd. Heb je al een versie van node en/of npm dan doe je er vast goed aan alles een keer te updaten.
+* Installeer Bower en Grunt via NPM: bvb.`npm install -g bower` als administrator/root (zie `package.json`)
+  * Alternatief zonder extra rechten: bvb. `npm install bower`
   * Mogelijk krijg je foutmeldingen over de installatie van *protagonist*, deze meldingen mag je negeren.
-* Gebruik dan Bower om Keycloak te installeren: `bower install` (zie `bower.json`)
+* Gebruik dan Bower om de benodigde libraries te installeren: `bower install` (zie `bower.json`)
+
+### Bower
+
+[Bower](https://bower.io/) Is een package manager, alle dependencies die je met 'bower install' installeert staan genoteerd in 'bower.json'.
+LET OP: de volgorde van de dependencies in deze file is belangrijk, want ze worden ook in deze volgorde geïnjecteerd in index.html.  
 
 ### Grunt
 

@@ -16,13 +16,20 @@
           <div class="form-group">
             <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_voornaam" ng-model="lid.persoonsgegevens.voornaam" />
+              <input type="text" class="form-control" id="_voornaam" ng-model="lid.vgagegevens.voornaam" />
             </div>
           </div>
           <div class="form-group">
             <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_naam" ng-model="lid.persoonsgegevens.achternaam" />
+              <input type="text" class="form-control" id="_naam" ng-model="lid.vgagegevens.achternaam" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
+            <div class="col-xs-7 col-xxs-12">
+              <!-- fix date-parse -->
+              <input type="date" class="form-control" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" ga-parse-date/>
             </div>
           </div>
           <div class="form-group">
@@ -32,13 +39,6 @@
                 <option value="man">Mannelijk</option>
                 <option value="vrouw">Vrouwelijk</option>
               </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
-            <div class="col-xs-7 col-xxs-12">
-              <!-- fix date-parse -->
-              <input type="date" class="form-control" id="_geboortedatum" ng-model="lid.persoonsgegevens.geboortedatum" ga-parse-date/>
             </div>
           </div>
           <label class="form-group control checkbox">

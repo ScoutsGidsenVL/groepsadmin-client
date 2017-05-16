@@ -13,32 +13,29 @@
     $scope.validationErrors = [];
     var sectie
 
-    // Nieuwe adressen hebben geen id. Tijdelijk opgelost met tempAdresId.
-    // Voorstel: UUID genereren aan client-side. http://stackoverflow.com/a/2117523
-    var tempAdresId = 1;
-    var tempContactId = 1;
-
-    $scope.canPost = UserAccess.hasAccessTo("nieuw lid");
+    $scope.canPost = false;
+    UserAccess.hasAccessTo("nieuw lid").then(function(res){
+      $scope.canPost = res;
+    });
 
     RestService.Lid.get({id:$routeParams.id}).$promise.then(
-        function(result) {
-          $scope.lid = result;
-          loadSuccess($scope.lid);
-          getPostadresString();
-
-        },
-        function(error) {
-          console.log(error);
-          if(error.data && error.data.beschrijving =="Geen leesrechten op dit lid"){
-            //redirect to lid overzicht.
-            $location.path('/');
-            AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
-          }
-          else{
-            AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
-          }
+      function(result) {
+        $scope.lid = result;
+        loadSuccess($scope.lid);
+        getPostadresString();
+      },
+      function(error) {
+        console.log(error);
+        if(error.data && error.data.beschrijving == "Geen leesrechten op dit lid"){
+          //redirect to lid overzicht.
+          $location.path('/');
+          AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
         }
-      );
+        else{
+          AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+        }
+      }
+    );
 
     /*
     * Algemeen
@@ -46,7 +43,7 @@
     */
 
     // initialisatie
-     function initModel() {
+    function initModel() {
       // Changes object bijhouden: enkel de gewijzigde properties meesturen met PATCH
       $scope.lid.changes = new Array();
 
@@ -78,12 +75,11 @@
       });
 
       $scope.postadres;
-      angular.forEach($scope.lid.adressen, function(value, key){
+      angular.forEach($scope.lid.adressen, function(value, key) {
         if(value.postadres == true){
           $scope.postadres = value.id;
         }
       });
-
     }
 
     function loadSuccess(data) {
@@ -141,7 +137,9 @@
     // Schrijfrechten kunnen per sectie ingesteld zijn. Controlleer als sectienaam voorkomt in PATCH opties.
     // Mogelijke sectienamen van een lid zijn "persoonsgegevens", "adressen", "email", "functies.*", "groepseigen.*".
     $scope.hasPermission = function(val) {
-      return _.has($scope, 'patchObj.secties') && $scope.patchObj.secties.indexOf(val) > -1;
+      var res = _.has($scope, 'patchObj.secties') && $scope.patchObj.secties.indexOf(val) > -1;
+      //console.log('hasPermission', res, '$scope.patchObj.secties', $scope.patchObj.secties );
+      return res;
     }
 
     // nieuw lid initialiseren na update.
@@ -215,9 +213,7 @@
       if($scope.lid.contacten.length < 2){
         var newcontact = {};
         $scope.lid.contacten.push(newcontact);
-        tempContactId++;
       }
-
     }
 
 
@@ -227,14 +223,13 @@
     */
 
     // een adres toevoegen aan het lid model
-    $scope.addAdres= function(){
+    $scope.addAdres = function() {
       var newadres = {
         postadres: false,
         omschrijving: "",
-        id: 'tempadres' + tempAdresId,
+        id: 'tempadres' + Math.random(),
         bus: null
       }
-      tempAdresId++;
       var lid = {};
       lid.id = $scope.lid.id;
       lid.adressen = $scope.lid.adressen;
@@ -267,8 +262,6 @@
           }
         }
       });
-
-
     }
 
     // zoek gemeentes
@@ -373,7 +366,7 @@
         function(response) {
           //toon confirmvenster
           var currentFunctieName= $scope.functieslijst[functie.functie].beschrijving;
-          DialogService.new("Bevestig","Weet u zeker dat u " + $scope.lid.persoonsgegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
+          DialogService.new("Bevestig","Weet u zeker dat u " + $scope.lid.vgagegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
           initAangepastLid();
           $window.onbeforeunload = null;
 
@@ -442,9 +435,9 @@
     $scope.gezinslid = function() {
       //bereid lid voor om doorgegeven te worden.
       var familielid = {
-        persoonsgegevens: {
-            achternaam: $scope.lid.persoonsgegevens.achternaam
-          },
+        vgagegevens: {
+          achternaam: $scope.lid.vgagegevens.achternaam
+        },
         adressen: $scope.lid.adressen,
         contacten: $scope.lid.contacten,
         functies: []
@@ -503,7 +496,7 @@
       RestService.Lid.update({id: lid.id, bevestiging: false}, lid).$promise.then(
         function(response) {
           //toon confirmvenster
-          DialogService.new("Bevestig","Weet u zeker dat u alle actieve functies van " + $scope.lid.persoonsgegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
+          DialogService.new("Bevestig","Weet u zeker dat u alle actieve functies van " + $scope.lid.vgagegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
 
         },
         function(error) {
@@ -588,8 +581,6 @@
       }
     }
 
-
-
     /*
     * Pagina event listeners
     * ---------------------------------------
@@ -617,10 +608,10 @@
 
     $scope.submitForm = function(form) {
       //console.log(form);
-      if(form.voornaam.$modelValue == "Johan"){
-        form.voornaam.$setValidity('validationErrorVoornaam', false);
+      if(form.gebruikersnaam.$modelValue == "Johan"){
+        form.gebruikersnaam.$setValidity('validationErrorGebruikersnaam', false);
       }else{
-        form.voornaam.$setValidity('validationErrorVoornaam', true);
+        form.gebruikersnaam.$setValidity('validationErrorGebruikersnaam', true);
       }
 
     }

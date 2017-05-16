@@ -346,14 +346,16 @@ Als een lid in een ledenlijst of in een zoekresultaat van een gebruiker staat, d
               "id": "d5f75b320b812440010b8127f95f4db4",
               "aangepast": "2014-04-30T13:16:34+00:00",
               "persoonsgegevens" : {
-                "voornaam": "Baden",
-                "achternaam": "Powell",
                 "geslacht": "m",
                 "GSM": "0123/456.789",
-                "geboortedatum": "1857-02-22",
                 "beperking": false,
                 "verminderdlidgeld": false,
                 "rekeningnummer": "BE68 5390 0754 7034"
+              },
+              "vgagegevens" : {
+                "voornaam": "Baden",
+                "achternaam": "Powell",
+                "geboortedatum": "1857-02-22"
               },
               "verbondsgegevens": {
                 "lidnummer": "1857012301234",
@@ -1340,12 +1342,14 @@ Omdat de gebruiker in de meeste gevallen niet het recht heeft om de lidaanvraag 
                 "opmerkingen": ":-)",
                 "gebruikersnaam": "",
                 "persoonsgegevens": {
-                    "voornaam": "Baden",
-                    "achternaam": "Powell",
                     "geslacht": "man",
                     "gsm": "04",
-                    "geboortedatum": "2000-01-01",
                     "rekeningnummer": "BE12 3456 7890 1234"
+                },
+                "vgagegevens": {
+                    "voornaam": "Baden",
+                    "achternaam": "Powell",
+                    "geboortedatum": "2000-01-01"
                 },
                 "email": "tvl@s.be",
                 "adres": {
@@ -2439,7 +2443,7 @@ De `huidige` filter moet niet perse een opgeslagen filter zijn.
               "groep": "A3143G", // Enkel aanwezig indien type groep
               "kolommen": [
                 "c81e728d9d4c2f636f067f89cc14862c", // leesbare id voor verbondsvelden
-                "persoonsgegevens.voornaam" //pad naar veld in lid json structuur (zie
+                "vgagegevens.voornaam" //pad naar veld in lid json structuur (zie
               ],
               "criteria": { // per filtertype een attribuut, mag afwezig zijn als niet belangrijk
                 "functies": ["d5f75e23385c5e6e0139493b8546035e"], // Lijst van functieid's
@@ -2512,7 +2516,7 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
                    "van": "groep"
                 }, {
                    "type" : "tekst", // Zie dynamische velden
-                   "id" : "persoonsgegevens.voornaam", //pad naar veld in lid json structuur (zie foutmeldingen)
+                   "id" : "vgagegevens.voornaam", //pad naar veld in lid json structuur (zie foutmeldingen)
                    "label": "Voornaam",
                    "beschrijving": "voor hover",
                    "van": "verbond"
