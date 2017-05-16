@@ -14,7 +14,7 @@ Lees in beide gevallen ook de [handleiding](https://wiki.scoutsengidsenvlaandere
 1. Installeer [Git](https://git-scm.com/).
 1. Voer `git clone https://github.com/ScoutsGidsenVL/groepsadmin-client` uit.
 1. Installeer [NPM en Bower](#npm-en-bower)
-1. Voer [`grunt`](#grunt) uit.
+1. Voer [`grunt serve`](#grunt-serve) uit.
 1. Schakel de CORS-beveiling uit in je browser:
   * Chrome: Start Chrome met de argumenten `--disable-web-security --user-data-dir`. Deze opties werken enkel als Chrome volledig afgesloten is.
   * Firefox: Installeer de extensie [cors everywhere](https://addons.mozilla.org/firefox/addon/cors-everywhere) en activeer dit door er op te klikken in de werkbalk. Schakel
