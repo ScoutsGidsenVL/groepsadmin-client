@@ -41,7 +41,6 @@
     <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
     <!-- endbower -->
 
-
   </head>
 
   <body>
@@ -101,7 +100,7 @@
         <div class="col-xs-3 hidden-xs hidden-sm">
           <div class="navbar-form pull-right searchresults" ng-controller="SearchController" role="search" id="search">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
+              <input type="text" class="form-control" placeholder="Zoeken op naam, gsm of e-mail" ng-model="zoekterm" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
               <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">
                 <i class="fa fa-spinner fa-pulse"></i>
               </div>
@@ -143,7 +142,7 @@
           </div>
           <div class="navbar-form pull-right searchresults" ng-controller="SearchController" role="search">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Zoeken" ng-model="zoekterm" id="_zoekenWrap" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
+              <input type="text" class="form-control" placeholder="Zoeken op naam, gsm of e-mail" ng-model="zoekterm" id="_zoekenWrap" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
               <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">
                 <i class="fa fa-spinner fa-pulse"></i>
               </div>
