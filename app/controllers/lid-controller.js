@@ -5,9 +5,9 @@
     .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('LidController', LidController);
 
-  LidController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'UserAccess', 'keycloak' ];
+  LidController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'UserAccess', 'keycloak', 'FormValidationService' ];
 
-  function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, UserAccess, keycloak) {
+  function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, UserAccess, keycloak, FVS) {
     console.log('login = ' + keycloak.authenticated);
 
     $scope.validationErrors = [];
@@ -606,14 +606,14 @@
       }
     }
 
-    $scope.submitForm = function(form) {
-      //console.log(form);
-      if(form.gebruikersnaam.$modelValue == "Johan"){
-        form.gebruikersnaam.$setValidity('validationErrorGebruikersnaam', false);
-      }else{
-        form.gebruikersnaam.$setValidity('validationErrorGebruikersnaam', true);
-      }
+    $scope.submitForm = function(form){
+      console.log('submitForm', form);
+      $scope.opslaan();
 
+    }
+
+    $scope.checkField = function(formfield) {
+      formfield.$setValidity(formfield.$name,FVS.checkField(formfield));
     }
     // refresh of navigatie naar een andere pagina.
     var unload = function (e) {

@@ -18,7 +18,9 @@ Lees in beide gevallen ook de [handleiding](https://wiki.scoutsengidsenvlaandere
 1. Schakel de CORS-beveiling uit in je browser:
   * Chrome: Sluit Chrome eerst volledig af en zorg dat het niet meer in de achtergrond loopt. Vanuit de command prompt, start je Chrome met de argumenten die websecurity uitschakelen `open -a Google\ Chrome --args --disable-web-security --user-data-dir`.
   * Firefox: Installeer de extensie [cors everywhere](https://addons.mozilla.org/firefox/addon/cors-everywhere) en activeer dit door er op te klikken in de werkbalk.
-  * Andere browsers: Deze beveiliging afzetten is erg moeilijk.
+  * Safari: Zorg er eerst voor dat het develop menu geactiveerd is: Safari > Preferences > 'Advanced' > 'Show Develop menu in menu bar'. Vervolgens selecteer je in Safari 'Develop menu' > 'Disable Cross-Origin Restrictions'
+  * Andere browsers: zodra de 'same origin policy' uitgeschakeld is zou de groepsadmin locaal moeten kunnen werken.
+
 1. Open <http://localhost:8000> in je browser.
 
 Zet achteraf de CORS-beveiling in je browser weer aan. Het is geen goed idee om de CORS-beveiling altijd uit te schakelen.

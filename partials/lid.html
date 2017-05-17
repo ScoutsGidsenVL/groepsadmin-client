@@ -9,8 +9,8 @@
   </div>
   <!--
   <div class="pull-right btn-group">
-      <button class="btn btn-default" title="vorig lid"><span class="glyphicon glyphicon-chevron-left"></span></button>
-      <button class="btn btn-default" title="volgend lid"><span class="glyphicon glyphicon-chevron-right"></span></button>
+      <button type="button" class="btn btn-default" title="vorig lid"><span class="glyphicon glyphicon-chevron-left"></span></button>
+      <button type="button" class="btn btn-default" title="volgend lid"><span class="glyphicon glyphicon-chevron-right"></span></button>
   </div>
   -->
 </div>
@@ -89,8 +89,8 @@
           <div class="form-group" ng-class="{ 'has-error': lidForm.gebruikersnaam.$touched && lidForm.gebruikersnaam.$invalid }" ng-show="lid">
             <label for="_gebruikersnaam" class="col-xs-5 col-xxs-12 control-label">Gebruikersnaam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" name="gebruikersnaam" id="_gebruikersnaam" ng-model="lid.gebruikersnaam" ng-change="lidForm.gebruikersnaam.$setValidity('validationError', true);" required>
-              <div ng-messages="lidForm.gebruikersnaam.$error" ng-show="lidForm.gebruikersnaam.$touched">
+              <input type="text" class="form-control" name="gebruikersnaam" id="_gebruikersnaam" ng-model="lid.gebruikersnaam" ng-keyup="checkField(lidForm.gebruikersnaam);" required>
+              <div ng-messages="lidForm.gebruikersnaam.$error">
                   <div ng-messages-include="partials/messages.html"></div>
               </div>
             </div>
@@ -99,7 +99,7 @@
             <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
             <div class="col-xs-7 col-xxs-12">
               <input type="email" class="form-control" name="email" id="_email" ng-model="lid.email" ng-disabled="!hasPermission('email')" required>
-              <div ng-messages="lidForm.email.$error" ng-show="lidForm.email.$touched">
+              <div ng-messages="lidForm.email.$error">
                   <div ng-messages-include="partials/messages.html"></div>
               </div>
             </div>
@@ -113,12 +113,12 @@
               </div>
             </div>
           </div>
-          <div class="form-group {{  'persoonsgegevens.rekeningnummer' | formValidator:validationErrors  }}" ng-show="lid">
+          <div class="form-group" ng-class="{ 'has-error': lidForm.rekeningnummer.$touched && lidForm.rekeningnummer.$invalid }" ng-show="lid">
             <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" ng-disabled="!hasPermission('persoonsgegevens')"/>
-              <div ng-if="'persoonsgegevens.rekeningnummer' | formValidator:validationErrors">
-                <i class="validation-error-details">{{ 'persoonsgegevens.rekeningnummer' | formValidatorError:validationErrors }}</i>
+              <input type="text" name="rekeningnummer" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" ng-disabled="!hasPermission('persoonsgegevens')"  ng-keyup="checkField(lidForm.rekeningnummer);"/>
+              <div ng-messages="lidForm.rekeningnummer.$error">
+                  <div ng-messages-include="partials/messages.html"></div>
               </div>
             </div>
           </div>
@@ -155,7 +155,7 @@
               <i class="fa fa-spinner fa-pulse"> </i>
             </div>
            <div class="pull-right" ng-if="hasPermission('adressen')">
-            <button ng-click="addAdres()" class="btn-minimal" title="Adres toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
+            <button type="button" ng-click="addAdres()" class="btn-minimal" title="Adres toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
           </div>
         </legend>
           <fieldset ng-repeat="adres in lid.adressen" ng-show="lid">
@@ -167,11 +167,11 @@
                   Nieuw adres
                 </div>
                 <div class="pull-right"  class="pull-left">
-                  <button  class="btn-minimal">
+                  <button type="button"  class="btn-minimal">
                     <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
                     <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
                   </button>
-                  <button ng-click="deleteAdres(adres.id)" class="btn-minimal" ng-if="hasPermission('adressen')"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
+                  <button type="button" ng-click="deleteAdres(adres.id)" class="btn-minimal" ng-if="hasPermission('adressen')"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
                 </div>
             </legend>
             <fieldset class="ga-functie-list" ng-hide="!showme">
@@ -226,7 +226,7 @@
               <i class="fa fa-spinner fa-pulse" > </i>
             </div>
             <div class="pull-right" ng-if="hasPermission('contacten')">
-              <button ng-click="contactToevoegen()" class="btn-minimal" title="Contact toevoegen" ng-show="lid.contacten.length < 2"><span class="glyphicon glyphicon-plus"></span></button>
+              <button type="button" ng-click="contactToevoegen()" class="btn-minimal" title="Contact toevoegen" ng-show="lid.contacten.length < 2"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
           </legend>
           <fieldset ng-repeat="contact in lid.contacten" ng-show="lid">
@@ -238,11 +238,11 @@
                 Nieuw contact
               </div>
               <div class="pull-right"  class="pull-left">
-                <button  class="btn-minimal">
+                <button type="button"  class="btn-minimal">
                   <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Contact tonen"></span>
                   <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Contact verbergen"></span>
                 </button>
-                <button ng-click="deleteContact(contact.id)" ng-show="hasPermission('contacten')" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
+                <button type="button" ng-click="deleteContact(contact.id)" ng-show="hasPermission('contacten')" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
               </div>
             </legend>
             <fieldset class="ga-functie-list" ng-hide="!showme">
@@ -300,7 +300,7 @@
           <fieldset ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden" ng-if="groepseigenVeldenVerzameling.schema.velden.length > 0">
             <legend ng-click="showgroepseigenvelden = showgroepseigenvelden ? false : true">{{ key }} {{ groepenlijst[key].naam }}
               <div class="pull-right" ng-init="showgroepseigenvelden=true;" >
-                <button class="btn-minimal">
+                <button type="button" class="btn-minimal">
                   <span ng-hide="showgroepseigenvelden" class="glyphicon glyphicon-chevron-up"></span>
                   <span ng-hide="!showgroepseigenvelden" class="glyphicon glyphicon-chevron-down"></span>
                 </button>
@@ -342,7 +342,7 @@
                 <legend ng-init="showverbondfuncties=true;" ng-click="showverbondfuncties = showverbondfuncties ? false : true">
                   Functies
                   <div class="pull-right">
-                    <button  class="btn-minimal">
+                    <button type="button"  class="btn-minimal">
                       <span ng-hide="showverbondfuncties" class="glyphicon glyphicon-chevron-down" title="Verbondsfuncties tonen"></span>
                       <span ng-hide="!showverbondfuncties" class="glyphicon glyphicon-chevron-up" title="Verbondsfuncties verbergen"></span>
                     </button>
@@ -363,7 +363,7 @@
                 <legend ng-init="showgroepfuncties=true;" ng-click="showgroepfuncties = showgroepfuncties ? false : true">
                   Groepseigen functies
                   <div class="pull-right" ng-init="showgroepfuncties=true;">
-                    <button  class="btn-minimal">
+                    <button type="button"  class="btn-minimal">
                       <span ng-hide="showgroepfuncties" class="glyphicon glyphicon-chevron-down" title="Groepseigen functies tonen"></span>
                       <span ng-hide="!showgroepfuncties" class="glyphicon glyphicon-chevron-up" title="Groepseigen functies verbergen"></span>
                     </button>

@@ -7,6 +7,7 @@
     'ga.services.useraccess',
     'ga.services.http',
     'ga.services.alert',
+    'ga.services.formvalidation',
     'ga.services.ledenfilter',
     'ga.services.ledenlijst',
     'ga.ledenlijstcontroller',

@@ -28,7 +28,7 @@
     }
 
     $(function() {
-      $("#mySortableList").sortable({
+      angular.element("#mySortableList").sortable({
         placeholder: "my-sortable-placeholder",
         stop : function(event, ui){
           // zoek element mbv data-kolom-id en geef het de nieuwe index
