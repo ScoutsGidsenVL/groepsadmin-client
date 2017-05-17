@@ -47,7 +47,6 @@
               </div>
             </div>
           </div>
-
           <div class="form-group" ng-show="lid">
             <label for="_geslacht" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
             <div class="col-xs-7 col-xxs-12">
@@ -56,6 +55,12 @@
               <div ng-messages="lidForm.geboortedatum.$error" ng-show="lidForm.geboortedatum.$touched">
                   <div ng-messages-include="partials/messages.html"></div>
               </div>
+            </div>
+          </div>
+          <div class="form-group" ng-show="lid">
+            <label for="_gebruikersnaam" class="col-xs-5 col-xxs-12 control-label">Gebruikersnaam</label>
+            <div class="col-xs-7 col-xxs-12">
+              <input type="text" name="gebruikersnaam" class="form-control" id="_gebruikersnaam" ng-model="lid.gebruikersnaam" disabled="disabled">
             </div>
           </div>
 
@@ -86,15 +91,6 @@
               <span class="control-indicator"></span>
             </div>
           </label>
-          <div class="form-group" ng-class="{ 'has-error': lidForm.gebruikersnaam.$touched && lidForm.gebruikersnaam.$invalid }" ng-show="lid">
-            <label for="_gebruikersnaam" class="col-xs-5 col-xxs-12 control-label">Gebruikersnaam</label>
-            <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" name="gebruikersnaam" id="_gebruikersnaam" ng-model="lid.gebruikersnaam" ng-keyup="checkField(lidForm.gebruikersnaam);" required>
-              <div ng-messages="lidForm.gebruikersnaam.$error">
-                  <div ng-messages-include="partials/messages.html"></div>
-              </div>
-            </div>
-          </div>
           <div class="form-group" ng-class="{ 'has-error': lidForm.email.$touched && lidForm.email.$invalid }" ng-class="{ 'readonly' : !hasPermission('email') }" ng-show="lid">
             <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
             <div class="col-xs-7 col-xxs-12">
@@ -116,7 +112,7 @@
           <div class="form-group" ng-class="{ 'has-error': lidForm.rekeningnummer.$touched && lidForm.rekeningnummer.$invalid }" ng-show="lid">
             <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" name="rekeningnummer" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" ng-disabled="!hasPermission('persoonsgegevens')"  ng-keyup="checkField(lidForm.rekeningnummer);"/>
+              <input type="text" name="rekeningnummer" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" ng-disabled="!hasPermission('persoonsgegevens')"  ng-keyup="checkField(lidForm.rekeningnummer);" required/>
               <div ng-messages="lidForm.rekeningnummer.$error">
                   <div ng-messages-include="partials/messages.html"></div>
               </div>
@@ -188,16 +184,22 @@
                   </select>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" ng-class="{ 'has-error': lidForm.woonplaats.$invalid }">
                 <label for="_woonplaats" class="col-xs-5 col-xxs-12 control-label">Woonplaats</label>
                 <div class="col-xs-7 col-xxs-2">
-                  <input type="text" class="form-control ga-functie-list" ng-init="gemeenteWrap = adres.postcode + ' ' + adres.gemeente" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" typeahead-show-hint="true"/>
+                  <input type="text" name="woonplaats" class="form-control ga-functie-list" ng-init="gemeenteWrap = adres.postcode + ' ' + adres.gemeente" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" typeahead-show-hint="true" required/>
+                  <div ng-messages="lidForm.woonplaats.$error" ng-show="lidForm.woonplaats.$touched">
+                      <div ng-messages-include="partials/messages.html"></div>
+                  </div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" ng-class="{ 'has-error': lidForm.straatnaam.$invalid }">
                 <label for="_straatnaam" class="col-xs-5 col-xxs-12 control-label">Straat</label>
                 <div class="col-xs-5 col-xxs-12">
-                  <input type="text" class="form-control" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"  placeholder="Straatnaam" id="_straatnaam" ng-model="adres.straat" uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres) "  typeahead-on-select="bevestigStraat($item, adres)" typeahead-show-hint="true"/>
+                  <input type="text" name="straatnaam" class="form-control" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"  placeholder="Straatnaam" id="_straatnaam" ng-model="adres.straat" uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres) "  typeahead-on-select="bevestigStraat($item, adres)" typeahead-show-hint="true" required/>
+                  <div ng-messages="lidForm.straatnaam.$error" ng-show="lidForm.straatnaam.$touched">
+                      <div ng-messages-include="partials/messages.html"></div>
+                  </div>
                 </div>
                 <div class="col-xs-1 col-xxs-12">
                   <input type="text" class="form-control" id="_huisnummer" maxlength="5" ng-model="adres.nummer"  placeholder="Nr." ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
@@ -246,41 +248,56 @@
               </div>
             </legend>
             <fieldset class="ga-functie-list" ng-hide="!showme">
-            <div class="form-group" >
+            <div class="form-group " ng-class="{ 'has-error': lidForm['rol'+$index].$touched && lidForm['rol'+$index].$invalid }">
               <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
               <div class="col-xs-7 col-xxs-12">
-                <select class="selectpicker" id="_rol" ng-model="contact.rol" ng-disabled="!hasPermission('contacten')">>
+                <select name="rol{{$index}}"class="selectpicker" id="_rol" ng-model="contact.rol" ng-disabled="!hasPermission('contacten')" required>
                   <option value="vader">Vader</option>
                   <option value="moeder">Moeder</option>
                   <option value="voogd">Voogd</option>
                 </select>
+                <div ng-messages="lidForm['rol' + $index].$error">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
               </div>
             </div>
-            <div class="form-group" >
+            <div class="form-group" ng-class="{ 'has-error': lidForm['contactvoornaam'+$index].$touched && lidForm['contactvoornaam'+$index].$invalid }">
               <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
               <div class="col-xs-7 col-xxs-12">
-                <input type="text" class="form-control" id="_voornaam" ng-model="contact.voornaam" ng-disabled="!hasPermission('contacten')"/>
+                <input type="text" name="contactvoornaam{{ $index }}" class="form-control" id="_voornaam" ng-model="contact.voornaam" ng-disabled="!hasPermission('contacten')" required/>
+                <div ng-messages="lidForm['contactvoornaam' + $index].$error">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
               </div>
             </div>
-            <div class="form-group" >
+            <div class="form-group" ng-class="{ 'has-error': lidForm['contactachternaam'+$index].$touched && lidForm['contactachternaam' + $index].$invalid }">
               <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Naam</label>
               <div class="col-xs-7 col-xxs-12">
-                <input type="text" class="form-control" id="_naam" ng-model="contact.achternaam" ng-disabled="!hasPermission('contacten')"/>
+                <input type="text" name="contactachternaam{{ $index }}" class="form-control" id="_naam" ng-model="contact.achternaam" ng-disabled="!hasPermission('contacten')" required/>
+                <div ng-messages="lidForm['contactachternaam' + $index].$error">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
               </div>
             </div>
-            <div class="form-group" >
+            <div class="form-group" ng-class="{ 'has-error': lidForm['contactemail' + $index].$touched && lidForm['contactemail' + $index].$invalid }">
               <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
               <div class="col-xs-7 col-xxs-12">
-                <input type="text" class="form-control" id="_email" ng-model="contact.email" ng-disabled="!hasPermission('contacten')"/>
+                <input type="email" name="contactemail{{ $index }}" class="form-control" id="_email" ng-model="contact.email" ng-disabled="!hasPermission('contacten')" required/>
+                <div ng-messages="lidForm['contactemail'+$index].$error">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
               </div>
             </div>
-            <div class="form-group" >
+            <div class="form-group" ng-class="{ 'has-error': lidForm['contactgsm' + $index].$touched && lidForm['contactgsm' + $index].$invalid }">
               <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
               <div class="col-xs-7 col-xxs-12">
-                <input type="text" class="form-control" id="_gsm" ng-model="contact.gsm" ng-disabled="!hasPermission('contacten')"/>
+                <input type="text" name="contactgsm{{ $index }}" class="form-control" id="_gsm" ng-model="contact.gsm" ng-disabled="!hasPermission('contacten')" required/>
+                <div ng-messages="lidForm['contactgsm' + $index].$error">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
               </div>
             </div>
-            <div class="form-group" >
+            <div class="form-group">
                <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
                <div class="col-xs-7 col-xxs-12">
                  <select  id="_adres" ng-model="contact.adres" ng-disabled="!hasPermission('contacten')">
