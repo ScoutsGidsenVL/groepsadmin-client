@@ -152,15 +152,6 @@ textarea {
 
     .transition(~"background-color ease-in-out .15s");
 
-    // Note: the following block could be simplified if IE8 supported the ':not()' pseudo-class
-    &:hover {
-      background-color: #f6f6f6;
-
-      .form-control {
-        border-color: @input-border;
-      }
-    }
-
     // Disabled and read-only fields
     &.readonly:hover {
       background-color: @panel-bg;
@@ -229,15 +220,13 @@ textarea {
 
     .btn {
       padding: 0.35714285714em; // 5/14
-      line-height: 1.28571429; // 18/14
-      background-color: @panel-bg;
-      border-color: transparent;
+      //line-height: 1.28571429; // 18/14
+      //background-color: @panel-bg;
+      //border-color: transparent;
     }
   }
 
-  .selectpicker {
-    border-color: transparent
-  }
+
   .caret {
     display: none;
   }
@@ -250,6 +239,10 @@ textarea {
     .caret {
       display: block;
     }
+  }
+
+  .btn-group>.btn:first-child[disabled=disabled] .caret {
+      display:none;
   }
 
   .btn-default {
@@ -301,5 +294,8 @@ fieldset fieldset legend {
   &[readonly],
   fieldset[disabled] & {
     background-color:@disabled-form-field-bg;
+  }
+  &-bus{
+    padding:2px;
   }
 }

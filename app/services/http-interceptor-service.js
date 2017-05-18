@@ -33,7 +33,7 @@
         if (!navigator.onLine || rejection.status == 0) {
           // Note: Browsers implement the NavigatorOnLine.onLine property differently.
           // See the docs: https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/onLine
-          AlertService.add('danger', "Er kon geen verbinding gemaakt worden met de Groepsadministratie.");
+          AlertService.add('danger', "Er kon geen verbinding gemaakt worden met de Groepsadministratie.", 100000);
         }
         else if (rejection.status == 403) {
           AlertService.add('danger', "Je bent niet ingelogd");
@@ -41,11 +41,11 @@
         else if (rejection.data) {
           console.log(rejection);
           // Tijdelijke server errors (Todo)
-          AlertService.add('danger', "<b>" + JSON.stringify(rejection.data) + "</b><br/>" );
+          AlertService.add('danger', "<b>" + JSON.stringify(rejection.data) + "</b><br/>", 100000 );
         }
         else{
           console.log(rejection);
-          AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.");
+          AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.", 100000);
         }
         return $q.reject(rejection);
       }

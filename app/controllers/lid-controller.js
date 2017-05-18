@@ -5,9 +5,9 @@
     .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('LidController', LidController);
 
-  LidController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'UserAccess', 'keycloak', 'FormValidationService' ];
+  LidController.$inject = ['$scope', '$routeParams', '$window', '$timeout', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'UserAccess', 'keycloak', 'FormValidationService' ];
 
-  function LidController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, UserAccess, keycloak, FVS) {
+  function LidController ($scope, $routeParams, $window, $timeout, $location, RestService, AlertService, DialogService, $rootScope, UserAccess, keycloak, FVS) {
     console.log('login = ' + keycloak.authenticated);
 
     $scope.validationErrors = [];
@@ -573,6 +573,17 @@
           function(error){
             $scope.saving = false;
             console.log('error in opslaan', error);
+
+            if(error.data.fouten && error.data.fouten.length >=1 ){
+              _.each(error.data.fouten,function(fout,key){
+                var formElemName = FVS.getFormElemByErrData(fout);
+                console.log("******* ----- rootScope.lidForm", $scope.lidForm[formElemName]);
+                //var formElem = angular.element('form[name="lidForm"]')[0].elements[formElemName];
+                $scope.lidForm[formElemName].$setValidity('required', false);
+              })
+            }
+
+
             if (error.data.titel == "Validatie faalde voor Lid"){
               $scope.validationErrors = error.data.details;
             }
@@ -609,12 +620,24 @@
     $scope.submitForm = function(form){
       console.log('submitForm', form);
       $scope.opslaan();
-
     }
 
     $scope.checkField = function(formfield) {
+      console.log(formfield);
       formfield.$setValidity(formfield.$name,FVS.checkField(formfield));
     }
+
+    $scope.$watch('lidForm.$valid', function (validity) {
+        var invalidContacten = _.filter($scope.lidForm.$error.required,function(o){return o.$name.indexOf('contacten') > -1 });
+        _.each(invalidContacten, function(contact){
+          // get index from fieldname
+          var str = contact.$name.match(/\d+/g, "")+'';
+          var s = str.split(',').join('');
+          // expand corresponding contact
+          $scope.lid.contacten[s].showme = true;
+        });
+    });
+
     // refresh of navigatie naar een andere pagina.
     var unload = function (e) {
        return "U staat op het punt deze pagina te verlaten, Niet opgeslagen aanpassingen zullen verloren gaan!!";

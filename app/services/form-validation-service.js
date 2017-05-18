@@ -39,6 +39,12 @@
       return IBAN.isValid(field.$modelValue);
     }
 
+    formValidationService.getFormElemByErrData = function(data){
+      console.log("FOUT------", data, data.veld.replace('contacten.',''));
+      return data.veld.replace('contacten.','');
+
+    }
+
     return formValidationService;
   };
 })();
