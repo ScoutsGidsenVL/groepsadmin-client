@@ -11,16 +11,10 @@
 
     $scope.menuItems = [
       {
-        label: 'Leden',
+        label: 'Ledenlijst',
         condition: UserAccess.hasAccessTo("ledenlijst"),
         iconclasses : 'fa fa-users',
         href: '#/ledenlijst'
-      },
-      {
-        label: 'Groepsinstellingen',
-        condition: UserAccess.hasAccessToGroepen(),
-        iconclasses : 'fa fa-cogs',
-        href: '#/groepsinstellingen'
       },
       {
         label: 'Ledenaantallen',
@@ -29,9 +23,15 @@
         href: '#/orakel'
       },
       {
+        label: 'Groepsinstellingen',
+        condition: UserAccess.hasAccessToGroepen(),
+        iconclasses : 'fa fa-cogs',
+        href: '#/groepsinstellingen'
+      },
+      {
         label: 'Profiel',
-        iconclasses : 'fa fa-user',
         condition: UserAccess.hasAccessTo("profiel"),
+        iconclasses : 'fa fa-user',
         href: '#/lid/profiel'
       },
       {

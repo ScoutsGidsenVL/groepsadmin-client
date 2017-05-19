@@ -178,7 +178,7 @@
               ng-repeat="kolom in kolommen | orderBy: 'kolomIndex'"
               class="jcontrol control--checkbox noselect"
               data-kolom-id="{{kolom.id}}">
-              <span class="glyphicon glyphicon-move pull-right"></span>
+              <span class="fa  fa-arrows-v pull-right kolom-drag-v"></span>
               {{ kolom.label }}
               <input type="checkbox" ng-click="toggleKolom(kolom)" ng-checked="kolom.activated" />
               <div class="control__indicator"></div>
@@ -187,7 +187,6 @@
         </div>
       </div>
     </div>
-
 
     <div class="pull-right" ng-show="!isLoadingFilters">
       <div class="btn-group filter-option">
