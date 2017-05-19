@@ -97,7 +97,7 @@
         {get: {method: 'GET'}}
       ),
       Orakel: $resource(
-        base + 'groep/:groepsnummer/statistieken',
+        base + 'groep/:groepsnummer/ledenaantallen',
         {groepsnummer: '@groepsnummer'},
         {get: {method: 'GET', cache: $cacheFactory('orakelCache')}}
       ),

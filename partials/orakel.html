@@ -1,103 +1,96 @@
 <div class="panel panel-default">
-<!-- Panel header -->
-<div class="panel-heading clearfix">
-  <div class="pull-left">
-    <span style="margin-right: 5px;"><b>Orakel van:</b></span>
-    <select ng-options="groep.groepsnummer for groep in groepen track by groep.id" ng-change="ChangeGroep()" ng-model="activegroup"></select>
-  </div>
-</div>
 
-<!-- Persoonsinfo -->
-<div class="panel-body form-hover clearfix">
-  <div class="btn-group col-md-8 col-md-offset-2" role="group" >
-    <button type="button" class="btn btn-default" ng-class="( currentView == 'LedenAantallen') ? 'active': ''" ng-click="tekenLedenaantallen()">Ledenaantallen</button>
-    <button type="button" class="btn btn-default" ng-class="( currentView == 'Eigenschappen') ? 'active': ''" ng-click="tekenEigenschappen()">Eigenschappen</button>
-    <button type="button" class="btn btn-default" ng-class="( currentView == 'Groepsevolutie') ? 'active': ''" ng-click="tekenGroepsevolutie()">Groepsevolutie</button>
-    <button type="button" class="btn btn-default" ng-class="( currentView == 'LedenaantalPerLeeftijd') ? 'active': ''" ng-click="tekenLedenaantalPerLeeftijd()">Ledenaantal per leeftijd</button>
-    <button type="button" class="btn btn-default" ng-class="( currentView == 'HuidigeLeidingsErvaring') ? 'active': ''" ng-click="tekenHuidigeLeidingsErvaring()">Huidige leidingservaring</button>
-    <button type="button" class="btn btn-default" ng-class="( currentView == 'InEnUitstroom') ? 'active': ''" ng-click="tekenInEnUitstroom()">Instroom en uitstroom per leeftijd</button>
+  <!-- Panel header -->
+  <div class="panel-heading clearfix">
+    <div class="pull-left">
+      <span style="margin-right: 5px;"><b>Orakel van:</b></span>
+      <select ng-options="groep.groepsnummer for groep in groepen track by groep.id" ng-change="ChangeGroep()" ng-model="activegroup"></select>
+    </div>
   </div>
-  <div class="col-md-6 col-md-offset-3" ng-show="showGrafiek">
-    <canvas id="grafiek" width="700" height="500" style="width: 400px; height: 400px; display: block;" ></canvas>
-  </div>
-  <div class="col-md-8 col-md-offset-2" ng-show="showLedenAantallen">
-    <table class="table" ng-set>
-      <thead>
-       <tr>
-         <th>
-          Tak
-        </th>
-        <th>
-          Aantal Leden
-        </th>
-        <th>
-          Historiek
-        </th>
-        <th>
-          % Vrouwen
-        </th>
-        <th>
-          Aantal Leiding
-        </th>
-        <th>
-          Historiek
-        </th>
-        <th>
-          Omkaderingscijfer
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="dataset in orakelData.ledenaantallen.datasets">
-          <td>{{ dataset.tak }}</td>
-          <td>{{ dataset.leden[dataset.leden.length-1] }}</td>
-          <td ng-attr-id="{{ dataset.tak + '-leden'}}" ng-init="tekenSparkline( dataset.tak  + '-leden', dataset.leden )">
-            <canvas width="10" height="30"  > </canvas>
-          </td>
-          <td>{{ dataset.percentageVrouwen }}</td>
-          <td>{{ dataset.leiding[dataset.leiding.length-1] }}</td>
-          <td></td>
-          <td>{{ dataset.leden[dataset.leden.length-1] / dataset.leiding[dataset.leiding.length-1] | roundToOne}}</td>
-        </tr>
-      </tbody>
 
-      <tfoot>
-        <tr>
-          <td>{{ totaalLedenAantallen.tak }}</td>
-          <td>{{ totaalLedenAantallen.leden[totaalLedenAantallen.leden.length-1] }}</td>
-          <td></td>
-          <td>{{ totaalLedenAantallen.percentageVrouwen | round }}</td>
-          <td>{{ totaalLedenAantallen.leiding[totaalLedenAantallen.leiding.length-1] }}</td>
-          <td></td>
-          <td>{{ totaalLedenAantallen.leden[totaalLedenAantallen.leden.length-1] / totaalLedenAantallen.leiding[totaalLedenAantallen.leiding.length-1] | roundToOne }}</td>
+  <!-- Persoonsinfo -->
+  <div class="panel-body form-hover clearfix">
+    <div class="btn-group col-md-8 col-md-offset-2" role="group" >
+      <button type="button" class="btn btn-default" ng-class="( currentView == 'LedenAantallen') ? 'active': ''" ng-click="tekenLedenaantallen()">Ledenaantallen</button>
+      <button type="button" class="btn btn-default" ng-class="( currentView == 'Eigenschappen') ? 'active': ''" ng-click="tekenEigenschappen()">Eigenschappen</button>
+      <button type="button" class="btn btn-default" ng-class="( currentView == 'Groepsevolutie') ? 'active': ''" ng-click="tekenGroepsevolutie()">Groepsevolutie</button>
+      <button type="button" class="btn btn-default" ng-class="( currentView == 'LedenaantalPerLeeftijd') ? 'active': ''" ng-click="tekenLedenaantalPerLeeftijd()">Ledenaantal per leeftijd</button>
+      <button type="button" class="btn btn-default" ng-class="( currentView == 'HuidigeLeidingsErvaring') ? 'active': ''" ng-click="tekenHuidigeLeidingsErvaring()">Huidige leidingservaring</button>
+      <button type="button" class="btn btn-default" ng-class="( currentView == 'InEnUitstroom') ? 'active': ''" ng-click="tekenInEnUitstroom()">Instroom en uitstroom per leeftijd</button>
+    </div>
+    <div class="col-md-6 col-md-offset-3" ng-show="showGrafiek">
+      <canvas id="grafiek" width="700" height="500" style="width: 400px; height: 400px; display: block;" ></canvas>
+    </div>
+    <div class="col-md-8 col-md-offset-2" ng-show="showLedenAantallen">
+      <table class="table" ng-set>
+        <thead>
+         <tr>
+           <th>
+            Tak
+          </th>
+          <th>
+            Aantal leden
+          </th>
+          <th>
+            Historiek
+          </th>
+          <th>
+            % Vrouwen
+          </th>
+          <th>
+            Aantal leiding
+          </th>
+          <th>
+            Historiek
+          </th>
+          <th>
+            Omkaderingscijfer
+          </th>
         </tr>
-      </tfoot>
-    </table>
-  </div>
-  <div class="col-md-6 col-md-offset-3" ng-show="showEigenschappen">
-    <table class="table">
-      <thead>
-       <tr>
-         <th>
-          Criteria
-        </th>
-        <th>
-          Waarde
-        </th>
-        <th>
-          Historiek
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="dataset in orakelData.eigenschappen.datasets">
-          <td>{{ dataset.criteria }}</td>
-          <td>{{ dataset.data[dataset.data.length-1] }} {{dataset.eenheid }}</td>
-          <td></td>
+        </thead>
+        <tbody>
+          <tr ng-repeat="takStatistiek in orakelData.takStatistieken">
+            <td>{{ takStatistiek.takNaam }}</td>
+            <td>{{ takStatistiek.aantalLeden['Nu'] }}</td>
+            <td ng-attr-id="{{ 'tak-' + takStatistiek.takNaam + '-leden' }}" ng-init="tekenSparkline(takStatistiek.aantalLeden)">
+              <canvas width="10" height="30"  > </canvas>
+            </td>
+            <td>{{ round(takStatistiek.percentageVrouwelijkeLeden, 0) }}</td>
+            <td>{{ takStatistiek.aantalLeiding['Nu'] }}</td>
+            <td ng-attr-id="{{ 'tak-' + takStatistiek.takNaam + '-leiding' }}" ng-init="tekenSparkline(takStatistiek.aantalLeiding)">
+              <canvas width="10" height="30"  > </canvas>
+            </td>
+            <td>{{ round(takStatistiek.omkaderingscijfer, 1) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-6 col-md-offset-3" ng-show="showEigenschappen">
+      <table class="table">
+        <thead>
+         <tr>
+           <th>
+            Criteria
+          </th>
+          <th>
+            Waarde
+          </th>
+          <th>
+            Historiek
+          </th>
         </tr>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <tr ng-repeat="criterium in orakelData.criteria">
+            <td>{{ criterium.naam }}</td>
+            <td>{{ format(criterium.waarden['Nu'], criterium.formaat) }}</td>
+            <td ng-attr-id="{{ 'criterium-' + criterium.naam}}" ng-init="tekenSparkline(criterium.waarden)">
+              <canvas width="10" height="30"  > </canvas>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 
 </div>
