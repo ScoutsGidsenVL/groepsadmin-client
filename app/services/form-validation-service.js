@@ -16,10 +16,6 @@
       var isValidField = false;
       switch (formfield.$name) {
 
-      case 'gebruikersnaam':
-        isValidField = formValidationService.validateGebruikersnaam(formfield);
-        break;
-
       case 'rekeningnummer':
         isValidField = formValidationService.validateIBAN(formfield);
         break;
@@ -31,18 +27,30 @@
       return isValidField;
     }
 
-    formValidationService.validateGebruikersnaam = function(field){
-      return field.$modelValue == "Johan" ? false : true;
-    }
-
     formValidationService.validateIBAN = function(field){
       return IBAN.isValid(field.$modelValue);
     }
 
     formValidationService.getFormElemByErrData = function(data){
-      console.log("FOUT------", data, data.veld.replace('contacten.',''));
+      console.log("FOUT element ------", data, data.veld.replace('contacten.',''));
       return data.veld.replace('contacten.','');
+    }
+    formValidationService.getErrType = function(data){
+      console.log("FOUT description------", data, data.beschrijving);
+      if(!data.beschrijving){
+        return 'required';
+      }
 
+      var errType = "";
+      switch (data.beschrijving) {
+        case 'is verplicht':
+          errType = "required";
+          break;
+        default:
+          errType = "required";
+          break;
+      }
+      return errType;
     }
 
     return formValidationService;

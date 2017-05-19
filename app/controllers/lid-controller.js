@@ -211,7 +211,9 @@
     // nieuw contact toevoegen aan het model
     $scope.contactToevoegen = function(){
       if($scope.lid.contacten.length < 2){
-        var newcontact = {};
+        var newcontact = {
+          'rol': 'moeder'
+        };
         $scope.lid.contacten.push(newcontact);
       }
     }
@@ -577,9 +579,8 @@
             if(error.data.fouten && error.data.fouten.length >=1 ){
               _.each(error.data.fouten,function(fout,key){
                 var formElemName = FVS.getFormElemByErrData(fout);
-                console.log("******* ----- rootScope.lidForm", $scope.lidForm[formElemName]);
-                //var formElem = angular.element('form[name="lidForm"]')[0].elements[formElemName];
                 $scope.lidForm[formElemName].$setValidity('required', false);
+                $scope.lidForm[formElemName].$setPristine();
               })
             }
 
@@ -628,15 +629,19 @@
     }
 
     $scope.$watch('lidForm.$valid', function (validity) {
-        var invalidContacten = _.filter($scope.lidForm.$error.required,function(o){return o.$name.indexOf('contacten') > -1 });
-        _.each(invalidContacten, function(contact){
-          // get index from fieldname
-          var str = contact.$name.match(/\d+/g, "")+'';
-          var s = str.split(',').join('');
-          // expand corresponding contact
-          $scope.lid.contacten[s].showme = true;
-        });
+        openCollapsedInvalidContacts();
     });
+
+    var openCollapsedInvalidContacts = function(){
+      var invalidContacten = _.filter($scope.lidForm.$error.required,function(o){return o.$name.indexOf('contacten') > -1 });
+      _.each(invalidContacten, function(contact){
+        // get index from fieldname
+        var str = contact.$name.match(/\d+/g, "")+'';
+        var s = str.split(',').join('');
+        // expand corresponding contact
+        $scope.lid.contacten[s].showme = true;
+      });
+    }
 
     // refresh of navigatie naar een andere pagina.
     var unload = function (e) {
