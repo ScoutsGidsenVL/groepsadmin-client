@@ -14,6 +14,22 @@
     var sectie
 
     $scope.canPost = false;
+    $scope.contactRollen = [
+      {
+        'value':'moeder',
+        'label':'Moeder'
+      },
+      {
+        'value':'vader',
+        'label':'Vader'
+      },
+      {
+        'value':'voogd',
+        'label':'Voogd'
+      },
+    ]
+
+
     UserAccess.hasAccessTo("nieuw lid").then(function(res){
       $scope.canPost = res;
     });
@@ -209,12 +225,15 @@
     }
 
     // nieuw contact toevoegen aan het model
-    $scope.contactToevoegen = function(){
-      if($scope.lid.contacten.length < 2){
+    $scope.contactToevoegen = function(formIsValid){
+      if(formIsValid){
         var newcontact = {
-          'rol': 'moeder'
+          'rol': 'moeder',
+          'adres': $scope.lid.adressen[0].id
         };
         $scope.lid.contacten.push(newcontact);
+      }else{
+        AlertService.add('danger', "Het eerste contact moet juist ingevuld zijn, vooraleer je een tweede contact kan toevoegen", 5000);
       }
     }
 
@@ -579,8 +598,11 @@
             if(error.data.fouten && error.data.fouten.length >=1 ){
               _.each(error.data.fouten,function(fout,key){
                 var formElemName = FVS.getFormElemByErrData(fout);
-                $scope.lidForm[formElemName].$setValidity('required', false);
-                $scope.lidForm[formElemName].$setPristine();
+
+                // de backend geeft om een nog onduidelijke reden soms 'veld is verplicht' terug op contactnamen terwijl ze niet verplicht zijn
+                // tijdelijk vangen we dit op met een isRequired property
+                // TODO: onderstaande lijn verwijderen en in de template 'ng-required' niet meer checken op isRequired zodra backend deze fout niet meer geeft
+                $scope.lidForm[formElemName].isRequired = true;
               })
             }
 
@@ -619,20 +641,22 @@
     }
 
     $scope.submitForm = function(form){
-      console.log('submitForm', form);
       $scope.opslaan();
     }
 
     $scope.checkField = function(formfield) {
-      console.log(formfield);
       formfield.$setValidity(formfield.$name,FVS.checkField(formfield));
     }
 
     $scope.$watch('lidForm.$valid', function (validity) {
-        openCollapsedInvalidContacts();
+        if(!validity){
+          openAndHighlightCollapsedInvalidContacts();
+        }else{
+          unHighlightInvalidContactsGroup();
+        }
     });
 
-    var openCollapsedInvalidContacts = function(){
+    var openAndHighlightCollapsedInvalidContacts = function(){
       var invalidContacten = _.filter($scope.lidForm.$error.required,function(o){return o.$name.indexOf('contacten') > -1 });
       _.each(invalidContacten, function(contact){
         // get index from fieldname
@@ -640,7 +664,15 @@
         var s = str.split(',').join('');
         // expand corresponding contact
         $scope.lid.contacten[s].showme = true;
+        // hilight error
+        $scope.lid.contacten[s].hasErrors = true;
       });
+    }
+
+    var unHighlightInvalidContactsGroup = function(){
+      if($scope.lid && $scope.lid.contacten){
+        _.each($scope.lid.contacten,function(contact){contact.hasErrors = false});
+      }
     }
 
     // refresh of navigatie naar een andere pagina.

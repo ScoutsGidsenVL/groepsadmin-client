@@ -32,6 +32,7 @@
     }
 
     formValidationService.getFormElemByErrData = function(data){
+      // TODO: dit moet ook werken met adressen
       console.log("FOUT element ------", data, data.veld.replace('contacten.',''));
       return data.veld.replace('contacten.','');
     }

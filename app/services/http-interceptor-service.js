@@ -33,19 +33,34 @@
         if (!navigator.onLine || rejection.status == 0) {
           // Note: Browsers implement the NavigatorOnLine.onLine property differently.
           // See the docs: https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/onLine
-          AlertService.add('danger', "Er kon geen verbinding gemaakt worden met de Groepsadministratie.", 100000);
+          AlertService.add('danger', "Er kon geen verbinding gemaakt worden met de Groepsadministratie.", 5000);
         }
         else if (rejection.status == 403) {
           AlertService.add('danger', "Je bent niet ingelogd");
         }
         else if (rejection.data) {
-          console.log(rejection);
-          // Tijdelijke server errors (Todo)
-          AlertService.add('danger', "<b>" + JSON.stringify(rejection.data) + "</b><br/>", 100000 );
+          //
+
+
+          if(rejection.data.fouten.length>0){
+
+            // check if there are errors on contacten
+            var checkField = "contacten.contacten";
+            var filteredCheck = _.filter(rejection.data.fouten, function(o){ return o.veld.indexOf(checkField) >= 0});
+
+            if(filteredCheck.length > 0){
+              return $q.reject(rejection);
+            }else{
+              AlertService.add('danger', "<b>" + JSON.stringify(rejection.data) + "</b><br/>", 5000 );
+            }
+
+          }else{
+              AlertService.add('danger', "<b>" + JSON.stringify(rejection.data) + "</b><br/>", 5000 );
+          }
         }
         else{
           console.log(rejection);
-          AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.", 100000);
+          AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.", 5000);
         }
         return $q.reject(rejection);
       }
