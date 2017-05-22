@@ -54,3 +54,21 @@ h1.panel-title {
 .panel-leden{
   overflow-x:auto;
 }
+.panel-profiel-body{
+  margin-top:80px;
+}
+
+.panel-fixed{
+  position: fixed;
+  border:1px solid @panel-default-border;
+  border-top:none;
+  width: 100%;
+  margin:-10px 0 0 0;
+  padding: 10px 10px;
+  background: white;
+  z-index: @zIndexStickyPanel;
+  .panel-title,
+  .panel-subtitle{
+    display: inline-block;
+  }
+}
