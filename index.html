@@ -130,30 +130,29 @@
             </button>
           </div>
         </div>
+        <div class="mobile-search-container">
+            <div class="col-xs-12 hidden-md hidden-lg">
+              <div class="navbar-form pull-right searchresults" ng-controller="SearchController" role="search">
+                <div id="btnCloseMobSearch" class="close-search pull-right" ng-hide="loadingLocations" uib-dropdown-toggle >
+                  <i class="fa fa-close"></i>
+                </div>
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Zoeken op naam, gsm of e-mail" ng-model="zoekterm" id="_zoekenWrap" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
+                  <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">
+                    <i class="fa fa-spinner fa-pulse"></i>
+                  </div>
+                  <div ng-show="noResults" class="input-group-addon" title="Geen resultaten gevonden">
+                    <i class="fa fa-ban"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
       </div>
     </nav>
 
     <!-- Mobiel zoekveld -->
-    <div class="mobile-search-container">
-      <div class="container-fluid">
-        <div class="col-xs-offset-3 col-xs-9 hidden-md hidden-lg">
-          <div id="btnCloseMobSearch" class="close-search pull-right" uib-dropdown-toggle >
-            <i class="fa fa-close"></i>
-          </div>
-          <div class="navbar-form pull-right searchresults" ng-controller="SearchController" role="search">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Zoeken op naam, gsm of e-mail" ng-model="zoekterm" id="_zoekenWrap" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
-              <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">
-                <i class="fa fa-spinner fa-pulse"></i>
-              </div>
-              <div ng-show="noResults" class="input-group-addon" title="Geen resultaten gevonden">
-                <i class="fa fa-ban"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Include the rendered template -->
     <div class="main-content">

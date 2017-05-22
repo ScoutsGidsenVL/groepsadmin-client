@@ -6,9 +6,15 @@
     display: block;
   }
   .navbar-form{
-    width:90%;
+    width:100%;
     margin-top:0;
     margin-bottom:0;
+    padding-bottom: .3em;
+    padding-top: 10px;
+
+  }
+  .dropdown-menu{
+    width:100%;
   }
 }
 
@@ -16,7 +22,12 @@
   width:10%;
   text-align: center;
   cursor:pointer;
-  color:@sgv-bijna-zwart;
+  color:@sgv-donkergroen;
+  position: absolute;
+    z-index: 3;
+    right: 0;
+    top: .8em;
+    font-size: .8em;
   &:hover{
     color:@sgv-bruin;
   }
