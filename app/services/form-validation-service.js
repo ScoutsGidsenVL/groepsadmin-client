@@ -31,11 +31,12 @@
       return IBAN.isValid(field.$modelValue);
     }
 
-    formValidationService.getFormElemByErrData = function(data){
+    formValidationService.getFormElemByErrData = function(prefix, data){
       // TODO: dit moet ook werken met adressen
-      console.log("FOUT element ------", data, data.veld.replace('contacten.',''));
-      return data.veld.replace('contacten.','');
+      console.log("FOUT element ------", data, data.veld.replace(prefix+'.',''));
+      return data.veld.replace(prefix+'.','');
     }
+
     formValidationService.getErrType = function(data){
       console.log("FOUT description------", data, data.beschrijving);
       if(!data.beschrijving){

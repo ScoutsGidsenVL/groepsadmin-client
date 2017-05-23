@@ -248,7 +248,7 @@
         };
         $scope.lid.contacten.push(newcontact);
       }else{
-        AlertService.add('danger', "Het eerste contact moet juist ingevuld zijn, vooraleer je een tweede contact kan toevoegen", 5000);
+        AlertService.add('danger', "Nieuwe contacten kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.", 5000);
       }
     }
 
@@ -257,19 +257,22 @@
     * Adressen
     * ---------------------------------------
     */
-
     // een adres toevoegen aan het lid model
-    $scope.addAdres = function() {
-      var newadres = {
-        postadres: false,
-        omschrijving: "",
-        id: 'tempadres' + Math.random(),
-        bus: null
+    $scope.addAdres = function(formIsValid) {
+      if(formIsValid){
+        var newadres = {
+          postadres: false,
+          omschrijving: "",
+          id: 'tempadres' + Math.random(),
+          bus: null
+        }
+        var lid = {};
+        lid.id = $scope.lid.id;
+        lid.adressen = $scope.lid.adressen;
+        lid.adressen.push(newadres);
+      }else{
+        AlertService.add('danger', "Nieuwe adressen kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.", 5000);
       }
-      var lid = {};
-      lid.id = $scope.lid.id;
-      lid.adressen = $scope.lid.adressen;
-      lid.adressen.push(newadres);
     }
 
     // een aders wissen in het lid model
@@ -386,8 +389,6 @@
               console.log(response);
               $scope.lid.functies = response.functies;
               initAangepastLid();
-
-
             },
             function(error) {
               AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
@@ -602,12 +603,21 @@
 
             if(error.data.fouten && error.data.fouten.length >=1 ){
               _.each(error.data.fouten,function(fout,key){
-                var formElemName = FVS.getFormElemByErrData(fout);
 
                 // de backend geeft om een nog onduidelijke reden soms 'veld is verplicht' terug op contactnamen terwijl ze niet verplicht zijn
                 // tijdelijk vangen we dit op met een isRequired property
                 // TODO: onderstaande lijn verwijderen en in de template 'ng-required' niet meer checken op isRequired zodra backend deze fout niet meer geeft
-                $scope.lidForm[formElemName].isRequired = true;
+
+                if(fout.veld.indexOf('contacten') > -1){
+                  var formElemNameCont = FVS.getFormElemByErrData('contacten', fout);
+                  $scope.lidForm[formElemNameCont].isRequired = true;
+                }
+
+                if(fout.veld.indexOf('adressen') > -1){
+                  var formElemNameAdr = FVS.getFormElemByErrData('adressen', fout);
+                  $scope.lidForm[formElemNameAdr].isRequired = true;
+                }
+
               })
             }
 
@@ -654,10 +664,13 @@
     }
 
     $scope.$watch('lidForm.$valid', function (validity) {
+      console.log(validity);
         if(!validity){
           openAndHighlightCollapsedInvalidContacts();
+          openAndHighlightCollapsedInvalidAdresses();
         }else{
           unHighlightInvalidContactsGroup();
+          unHighlightInvalidAddressesGroup();
         }
     });
 
@@ -673,10 +686,27 @@
         $scope.lid.contacten[s].hasErrors = true;
       });
     }
+    var openAndHighlightCollapsedInvalidAdresses = function(){
+      var invalidAddresses = _.filter($scope.lidForm.$error.required,function(o){return o.$name.indexOf('adressen') > -1 });
+      _.each(invalidAddresses, function(adres){
+        // get index from fieldname
+        var str = adres.$name.match(/\d+/g, "")+'';
+        var s = str.split(',').join('');
+        // expand corresponding adres
+        $scope.lid.adressen[s].showme = true;
+        // hilight error
+        $scope.lid.adressen[s].hasErrors = true;
+      });
+    }
 
     var unHighlightInvalidContactsGroup = function(){
       if($scope.lid && $scope.lid.contacten){
         _.each($scope.lid.contacten,function(contact){contact.hasErrors = false});
+      }
+    }
+    var unHighlightInvalidAddressesGroup = function(){
+      if($scope.lid && $scope.lid.adressen){
+        _.each($scope.lid.adressen,function(adres){adres.hasErrors = false});
       }
     }
 
