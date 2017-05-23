@@ -124,6 +124,17 @@
         return e.method == "PATCH";
       })[0];
 
+      // kan de gebruiker functie stoppen van het lid?
+      var someSect = _.some($scope.patchObj.secties, function(value){
+        return value.indexOf('functies.') != -1;
+      });
+      if( _.has($scope, 'patchObj.secties') &&  someSect){
+          $scope.kanSchrappen = true;
+      }
+
+      // kan de gebruiker functie stoppen van het lid?
+      $scope.canSave = _.has($scope, 'patchObj.secties');
+
       //init functies;
       RestService.Functies.get().$promise.then(
         function(result){
@@ -535,17 +546,7 @@
       );
     }
 
-    // kan de gebruiker functie stoppen van het lid?
-    $scope.kanSchrappen = function() {
-      return _.has($scope, 'patchObj.secties') && _.some($scope.patchObj.secties, function(value){
-        return value.indexOf('functies.') != -1;
-      });
-    }
 
-    // kan de gebruiker functie stoppen van het lid?
-    $scope.canSave = function() {
-      return _.has($scope, 'patchObj.secties');
-    }
 
     // alle aanpassingen opslaan
     $scope.opslaan = function() {
