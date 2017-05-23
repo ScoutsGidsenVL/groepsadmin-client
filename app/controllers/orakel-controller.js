@@ -42,7 +42,7 @@
       }
     };
 
-    function sortedKeys(obj) {
+    $scope.sortedKeys = function (obj) {
       return _.sortBy(Object.keys(obj), [function(key) {
         if (/^[0-9]+$/.test(key)) {
           return Number(key);
@@ -52,8 +52,8 @@
       }]);
     }
 
-    function sortedValues(obj) {
-      return _.map(sortedKeys(obj), function(key) {
+    $scope.sortedValues = function (obj) {
+      return _.map($scope.sortedKeys(obj), function(key) {
         return obj[key];
       });
     }
@@ -113,7 +113,7 @@
 
       var type = "line";
       var data = {
-        labels: sortedKeys($scope.orakelData.groepsevolutie[0].aantalPersonen),
+        labels: $scope.sortedKeys($scope.orakelData.groepsevolutie[0].aantalPersonen),
         datasets: []
       };
 
@@ -133,7 +133,7 @@
           pointHoverBorderWidth: 1,
           pointRadius: 4,
           pointHitRadius: 10,
-          data: sortedValues(value.aantalPersonen),
+          data: $scope.sortedValues(value.aantalPersonen),
         });
       });
 
@@ -199,7 +199,7 @@
         labels: alleJaren,
         datasets: []
       }
-      _.forEach(sortedKeys($scope.orakelData.ledenPerLeeftijd), function(keySoort, index) {
+      _.forEach($scope.sortedKeys($scope.orakelData.ledenPerLeeftijd), function(keySoort, index) {
         var values = _.fill(new Array(alleJaren.length), 0);
         _.forEach($scope.orakelData.ledenPerLeeftijd[keySoort], function(valueAantal, keyJaar) {
           values[alleJaren.indexOf(keyJaar)] = valueAantal;
@@ -258,11 +258,11 @@
 
       var type = "doughnut";
       var data = {
-        labels: sortedKeys($scope.orakelData.leidingservaring).map(function(jaar) {
+        labels: $scope.sortedKeys($scope.orakelData.leidingservaring).map(function(jaar) {
           return jaar + ' jaar';
         }),
         datasets : [{
-          data: sortedValues($scope.orakelData.leidingservaring),
+          data: $scope.sortedValues($scope.orakelData.leidingservaring),
           backgroundColor: chartColors,
          hoverBackgroundColor: chartHoverColors
         }]
@@ -321,9 +321,8 @@
       //console.log("uitstroom")
       //console.log($scope.orakelData.uitstroom)
 
-      //datavoorbereiden
       var data = {
-        labels: sortedKeys($scope.orakelData.uitstroom[0].aantalPerLeeftijd),
+        labels: $scope.sortedKeys($scope.orakelData.uitstroom[0].aantalPerLeeftijd),
         datasets : []
       }
       _.forEach($scope.orakelData.uitstroom, function(value, index) {
@@ -331,7 +330,7 @@
           label: value.werkjaar,
           backgroundColor: chartColors[index % 6].background,
           borderColor: chartColors[(index + 2 * Math.round(index / 6)) % 6].border,
-          data: sortedValues(value.aantalPerLeeftijd)
+          data: $scope.sortedValues(value.aantalPerLeeftijd)
         });
       });
 
@@ -363,13 +362,29 @@
     }
 
     $scope.round = function(value, digits) {
-      var factor = Math.pow(10, digits);
-      return Math.round(factor * value) / factor;
+      if (value) {
+        var factor = Math.pow(10, digits);
+        return Math.round(factor * value) / factor;
+      } else {
+        return value;
+      }
     }
 
     $scope.format = function(value, formaat) {
-      var value = $scope.round(factor, parseInt(formaat.substring(2)));
+      var value = $scope.round(value, parseInt(formaat.substring(2)));
       return formaat.replace(/[^f]+f/, value).replace('%%', '%');
+    }
+
+    $scope.sparklineData = function(obj) {
+      var result = '';
+      _.forEach($scope.sortedKeys(obj), function(key, index) {
+        if (key == 'Nu') {
+          result += '0:' + obj[key];
+        } else {
+          result += obj[key] + ':0,';
+        }
+      });
+      return result;
     }
 
     var wisGrafiek = function(){
@@ -389,7 +404,6 @@
       function (Error){
 
       }
-
     );
 
     var grafiekDataOphalen = function(){

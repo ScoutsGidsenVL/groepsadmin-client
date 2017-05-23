@@ -24,29 +24,15 @@
     <div class="col-md-8 col-md-offset-2" ng-show="showLedenAantallen">
       <table class="table" ng-set>
         <thead>
-         <tr>
-           <th>
-            Tak
-          </th>
-          <th>
-            Aantal leden
-          </th>
-          <th>
-            Historiek
-          </th>
-          <th>
-            % Vrouwen
-          </th>
-          <th>
-            Aantal leiding
-          </th>
-          <th>
-            Historiek
-          </th>
-          <th>
-            Omkaderingscijfer
-          </th>
-        </tr>
+          <tr>
+            <th>Tak</th>
+            <th>Aantal leden</th>
+            <th>Historiek</th>
+            <th>% Vrouwen</th>
+            <th>Aantal leiding</th>
+            <th>Historiek</th>
+            <th>Omkaderingscijfer</th>
+          </tr>
         </thead>
         <tbody>
           <tr ng-repeat="takStatistiek in orakelData.takStatistieken">
@@ -69,24 +55,16 @@
       <table class="table">
         <thead>
          <tr>
-           <th>
-            Criteria
-          </th>
-          <th>
-            Waarde
-          </th>
-          <th>
-            Historiek
-          </th>
+          <th>Criteria</th>
+          <th>Waarde</th>
+          <th>Historiek</th>
         </tr>
         </thead>
         <tbody>
           <tr ng-repeat="criterium in orakelData.criteria">
             <td>{{ criterium.naam }}</td>
             <td>{{ format(criterium.waarden['Nu'], criterium.formaat) }}</td>
-            <td ng-attr-id="{{ 'criterium-' + criterium.naam}}" ng-init="tekenSparkline(criterium.waarden)">
-              <canvas width="10" height="30"  > </canvas>
-            </td>
+            <td ng-attr-id="{{ 'criterium-' + criterium.naam }}" sparkline="" data-waarden="{{ sparklineData(criterium.waarden) }}" data-formaat='{{ criterium.formaat }}'></td>
           </tr>
         </tbody>
       </table>
