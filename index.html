@@ -90,7 +90,7 @@
           <ul class="nav navbar-nav" ng-controller="MenuController">
             <li ng-repeat="menuItem in menuItems" ng-show="menuItem.condition" active-link="active">
               <a ng-href="{{menuItem.href}}" ng-attr-target="{{(menuItem.targetBlank) ? '_blank' : undefined}}">
-                <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="navbar-nav-menulabel" ng-cloak>{{menuItem.label}}</span>
+                <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="navbar-nav-menulabel" ng-bind="menuItem.label" ng-cloak></span>
               </a>
             </li>
           </ul>

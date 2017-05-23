@@ -2,7 +2,8 @@
 <!-- Panel header -->
 <div class="panel-heading panel-heading--leden clearfix">
   <div class="pull-left">
-    <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : !isFilterCollapsed }" ng-click="isFilterCollapsed = !isFilterCollapsed"><div class="pull-left">Filter</div> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i></button>
+    <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : isFilterCollapsed}" ng-click="toggleFilter()"><span ng-if="!isLoadingFilters && hasLoadedFilters"><div class="pull-left">Filter</div> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i></span><div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria aan het laden...</div></button>
+
   </div>
 
   <div class="pull-right">
@@ -48,9 +49,7 @@
     </div>
   </div>
   <div class="row row-criteria">
-    <div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container">
-      <i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria aan het laden...
-    </div>
+
 
     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12"
     ng-repeat="criterium in criteria | filter:{activated:true} | orderBy:'title'"

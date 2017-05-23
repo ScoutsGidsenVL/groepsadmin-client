@@ -23,6 +23,8 @@
 
     $scope.isLoadingMore = false;
 
+    $scope.isFilterCollapsed = false;
+
     if(!access){
       $location.path("/lid/profiel");
     }
@@ -647,19 +649,46 @@
       return LFS.getSelectionSummary(crit,b);
     }
 
-    initCriteriaKolommenFilters().then(function(){
-      stelFilterSamen('huidige').then(function(){
-        $scope.isLoadingFilters = false;
-        // variable om te voorkomen dat content flikkert
-        $scope.hasLoadedFilters = true;
-        activeerCriteria();
-        activeerEnIndexeerKolommen();
-        $scope.ledenLaden();
+    $scope.toggleFilter = function(){
+      var value ='';
+      switch($window.localStorage.getItem('filterstate')){
+        case 'opened':
+          value = true;
+          break;
+        case 'closed':
+          value = false;
+          break;
+        default:
+          value = true;
+          break;
+      }
 
+      var state = value ? 'closed' : 'opened';
+      $window.localStorage.setItem('filterstate',state);
+      $scope.isFilterCollapsed = value;
+    }
+
+    function init(){
+      //
+      console.log('init filterstate',$window.localStorage.getItem('filterstate') );
+      $scope.isFilterCollapsed = $window.localStorage.getItem('filterstate') == "closed" ? true : false;
+      //
+      initCriteriaKolommenFilters().then(function(){
+        stelFilterSamen('huidige').then(function(){
+          $scope.isLoadingFilters = false;
+          // variable om te voorkomen dat content flikkert
+          $scope.hasLoadedFilters = true;
+          activeerCriteria();
+          activeerEnIndexeerKolommen();
+          $scope.ledenLaden();
+
+        });
       });
+    }
+
+    init();
 
 
-    });
 
 }
 
