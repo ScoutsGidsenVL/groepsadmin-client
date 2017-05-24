@@ -172,11 +172,10 @@
       var newadres = {
         postadres: postadres,
         omschrijving: "",
-        id: tempAdresId,
+        id: 'tempadres' + Math.random(),
         giscode: Math.floor((Math.random() * 100) + 1).toString(), //temp random giscode
         bus: ''
       }
-      tempAdresId++;
       var lid = {};
       lid.id = $scope.lid.id;
       lid.adressen = $scope.lid.adressen;
