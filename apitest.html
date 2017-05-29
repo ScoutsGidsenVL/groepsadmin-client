@@ -25,7 +25,7 @@
       }
       .column {
         display: inline-block;
-        width: 24.5%;
+        width: 19.5%;
         padding-right: 20px;
       }
       span.col {
@@ -96,6 +96,10 @@
             <option value="abc">abc (ongeldig)</option>
           </select>
         </div>
+        <div class="column">
+          <label>If-None-Match</label>
+          <input type="text" id="ifnonematch" class="form-control">
+        </div>
         <div class="column contentType">
           <label>Content-Type</label>
           <select id="contentType" class="form-control">
@@ -123,11 +127,15 @@
         <label>Content type</label>
         <input id="type" class="form-control" disabled="disabled" value="Nog geen request verstuurd">
       </div>
+      <div class="column">
+        <label>Etag</label>
+        <input id="etag" class="form-control" disabled="disabled" value="Nog geen request verstuurd">
+      </div>
     </div>
     <label>Content</label>
-    <iframe id="result" src='data:text/plain,Nog geen request verstuurd'></iframe>
+    <iframe id="result" scrolling="no" src='data:text/plain,Nog geen request verstuurd'></iframe>
 
-    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/keycloak/dist/keycloak.js"></script>
     <script src="js/keycloak-config.js"></script>
     <script>
@@ -171,6 +179,7 @@
       $('#urlToTest').val(localStorage.getItem("url"));
       $('#method').val(localStorage.getItem("method"));
       $('#acceptHeader').val(localStorage.getItem("acceptHeader"));
+      $('#ifnonematch').val(localStorage.getItem("ifnonematch"));
       $('#contentType').val(localStorage.getItem("contentType"));
       $('#requestBody').val(localStorage.getItem("body"));
 
@@ -183,10 +192,11 @@
 
       function processResult(jqXHR, statusText, data) {
 
-        var contentType = jqXHR.getResponseHeader('Content-Type');
+        var contentType = jqXHR.getResponseHeader('Content-Type') || "(Lege response?)";
 
         $('#status').val(jqXHR.status + ' - ' + statusText);
         $('#type').val(contentType);
+        $('#etag').val(jqXHR.getResponseHeader('Etag') || '(Niet opvraagbaar door CORS)');
 
         if (contentType === 'application/pdf') {
           document.getElementById('result').src = URL.createObjectURL(data);
@@ -222,6 +232,7 @@
         localStorage.setItem("url", $('#urlToTest').val());
         localStorage.setItem("method", $('#method').val());
         localStorage.setItem("acceptHeader", $('#acceptHeader').val());
+        localStorage.setItem("ifnonematch", $('#ifnonematch').val());
         localStorage.setItem("contentType", $('#contentType').val());
         localStorage.setItem("body", $('#requestBody').val());
 
@@ -308,6 +319,7 @@
                 $('#result').get()[0].src = 'data:text/plain,Nog geen resultaat gekregen...';
                 xhr.setRequestHeader("Authorization", "Bearer " +  keycloak.token);
                 xhr.setRequestHeader('Accept', $('#acceptHeader').val());
+                xhr.setRequestHeader('If-None-Match', $('#ifnonematch').val());
               },
               error: function (jqXHR, textStatus, errorThrown) {
                 processResult(jqXHR, errorThrown || textStatus, null);

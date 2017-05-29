@@ -26,6 +26,9 @@ var getClient = function(){
     case 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net':
       returnClient.clientId = 'groepsadmin-staging-client';
       break;
+    case 'https://groepsadmin.scoutsengidsenvlaanderen.be':
+      returnClient.clientId = 'groepsadmin-production-client';
+      break;
     default:
       returnClient.clientId = null;
       break;

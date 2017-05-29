@@ -172,11 +172,10 @@
       var newadres = {
         postadres: postadres,
         omschrijving: "",
-        id: tempAdresId,
+        id: 'tempadres' + Math.random(),
         giscode: Math.floor((Math.random() * 100) + 1).toString(), //temp random giscode
         bus: ''
       }
-      tempAdresId++;
       var lid = {};
       lid.id = $scope.lid.id;
       lid.adressen = $scope.lid.adressen;
@@ -298,7 +297,12 @@
         origineelLid.functies = [];
       }
       //zend post met basis informaitie(persoonsgegevesn, adressen, 1 functieinstantie)
-      origineelLid.vgagegevens.geboortedatum =  '2016-01-01T00:00:00.000+01:00'; // set static date;
+      lid.vgagegevens.geboortedatum =  '2010-01-01T00:00:00.000+01:00'; // set static date;
+
+      // Stel verplichte velden in die mogelijk ontbreken
+      origineelLid.vgagegevens.verminderdlidgeld = origineelLid.vgagegevens.verminderdlidgeld || false;
+      origineelLid.vgagegevens.beperking = origineelLid.vgagegevens.beperking || false;
+
       RestService.LidAdd.save(origineelLid).$promise.then(
         function(response) {
           console.log(response);
@@ -351,8 +355,6 @@
             $location.path("/lid/" + response.id);
           }
 
-
-
         },
         function(error) {
           if(error.status == 403){
@@ -386,7 +388,7 @@
         var paramObj = {
               trueVal:newUrl
         }
-        DialogService.new("Pagina verlaten","U staat op het punt om deze pagina te verlaten, niet opgeslagen aanpassignen zullen verloren gaan. Bent u zeker dat u wilt verdergaan?", $scope.locationChange, paramObj );
+        DialogService.new("Pagina verlaten","U staat op het punt om deze pagina te verlaten, niet opgeslagen aanpassingen zullen verloren gaan. Bent u zeker dat u wilt verdergaan?", $scope.locationChange, paramObj );
       }
 
     });
@@ -403,7 +405,5 @@
     var unload = function (e) {
        return "U staat op het punt deze pagina te verlaten, Niet opgeslagen aanpassingen zullen verloren gaan!!";
     };
-
-
   }
 })();
