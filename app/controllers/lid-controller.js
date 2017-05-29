@@ -261,6 +261,7 @@
     $scope.addAdres = function(formIsValid) {
       if(formIsValid){
         var newadres = {
+          land: "BE",
           postadres: false,
           omschrijving: "",
           id: 'tempadres' + Math.random(),
