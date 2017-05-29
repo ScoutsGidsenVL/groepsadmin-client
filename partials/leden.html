@@ -14,8 +14,8 @@
     </div>
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>
-        <button id="split-button" type="button" class="btn btn-secondary"s>
-          Exporteren naar PDF
+        <button id="split-button" type="button" class="btn btn-secondary" ng-click="export('pdf')">
+          <span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
         </button>
         <button type="button" class="btn btn-secondary" uib-dropdown-toggle>
           <span class="caret"></span>
@@ -250,11 +250,6 @@
     <div ng-show='isLoadingMore' class="loading"><i class="fa fa-spinner fa-pulse"></i>Meer leden aan het ophalen... </div>
   </footer>
 </div>
-
-<div class="background-color:red; width:1000px; height:1000px">
-  <object data="{{pdf}}" type="application/pdf"></object>
-</div>
-
 </div>
 <script type="text/ng-template" id="customPopupTemplate.html">
   <div class="custom-popup-wrapper"
