@@ -15,7 +15,7 @@
     }
 
     // TODO - controle of de gebruiker wel nieuwe leden kan maken
-    //        => anders redirect naar leden lijst
+    //        => anders redirect naar ledenlijst
 
     // huidige gebruiker opvragen, om de secties te kunnen bekijken die de gebruiker mag mee sturen
     var aangemeldeGebruiker;
@@ -40,7 +40,6 @@
     }
 
 
-
     /*
     * Initialisatie van het nieuwe lid model
     * ---------------------------------------
@@ -48,11 +47,14 @@
     var lid = {};
     lid.functies = [];
     lid.changes = [];
+    lid.persoonsgegevens = {};
+    lid.persoonsgegevens.geslacht = "vrouw";
     lid.email = null;
     lid.gebruikersnaam = null;
-    lid.persoonsgegevens= {};
-    lid.persoonsgegevens.verminderdlidgeld = false;
-    lid.persoonsgegevens.beperking = false;
+    lid.vgagegevens = {};
+    lid.vgagegevens.verminderdlidgeld = false;
+    lid.vgagegevens.beperking = false;
+
     if($rootScope.familielid == undefined && $rootScope.familielid == null){
       // geen broer of zus
       lid.contacten = Array();
@@ -152,8 +154,8 @@
     $scope.contactToevoegen = function(){
       if($scope.lid.contacten.length < 2){
         var newcontact = {};
+        newcontact.rol = "moeder"
         $scope.lid.contacten.push(newcontact);
-        tempContactId++;
       }
     }
 
@@ -170,6 +172,7 @@
         postadres = true;
       }
       var newadres = {
+        land: "BE",
         postadres: postadres,
         omschrijving: "",
         id: 'tempadres' + Math.random(),
@@ -298,10 +301,6 @@
       }
       //zend post met basis informaitie(persoonsgegevesn, adressen, 1 functieinstantie)
       lid.vgagegevens.geboortedatum =  '2010-01-01T00:00:00.000+01:00'; // set static date;
-
-      // Stel verplichte velden in die mogelijk ontbreken
-      origineelLid.vgagegevens.verminderdlidgeld = origineelLid.vgagegevens.verminderdlidgeld || false;
-      origineelLid.vgagegevens.beperking = origineelLid.vgagegevens.beperking || false;
 
       RestService.LidAdd.save(origineelLid).$promise.then(
         function(response) {
