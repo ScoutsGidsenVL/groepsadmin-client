@@ -26,8 +26,35 @@
           }
         );
       })
+    }
 
+    ledenFilterService.export = function(type){
+      var deferred = $q.defer();
+      var file, fileUrl;
 
+      if(type == 'csv'){
+        RestService.LedenCsv.get({offset:0}).$promise.then(function(res){
+          file = new Blob([res.response], {type: 'text/csv'});
+          fileUrl = URL.createObjectURL(file);
+          deferred.resolve(fileUrl);
+        });
+      }
+      if(type == 'pdf'){
+        RestService.LedenPdf.get({offset:0}).$promise.then(function(res){
+          file = new Blob([res.response], {type: 'application/pdf'});
+          fileUrl = URL.createObjectURL(file);
+          deferred.resolve(fileUrl);
+        });
+      }
+      if(type == 'steekkaarten'){
+        RestService.LedenSteekkaarten.get({offset:0}).$promise.then(function(res){
+          file = new Blob([res.response], {type: 'application/pdf'});
+          fileUrl = URL.createObjectURL(file);
+          deferred.resolve(fileUrl);
+        });
+      }
+
+      return deferred.promise;
     }
 
     return ledenFilterService;

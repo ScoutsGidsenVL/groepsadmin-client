@@ -668,10 +668,24 @@
       $scope.isFilterCollapsed = value;
     }
 
+    $scope.export = function(type){
+      $scope.exportButtons[type].isLoading = true;
+      LLS.export(type).then(function(res){
+        $scope.exportButtons[type].isLoading = false;
+        $window.open(res, '_blank', '');
+      })
+    }
+
     function init(){
-      //
-      console.log('init filterstate',$window.localStorage.getItem('filterstate') );
+
       $scope.isFilterCollapsed = $window.localStorage.getItem('filterstate') == "closed" ? true : false;
+
+      $scope.exportButtons = {
+        'pdf': { isLoading : false },
+        'csv': { isLoading : false },
+        'steekkaarten': { isLoading : false }
+      };
+
       //
       initCriteriaKolommenFilters().then(function(){
         stelFilterSamen('huidige').then(function(){

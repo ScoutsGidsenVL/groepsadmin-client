@@ -7,8 +7,28 @@
   </div>
 
   <div class="pull-right">
-    <!-- <a href="#/lid/toevoegen" class="btn-minimal"><span class="glyphicon glyphicon-plus"></span>&nbsp; Nieuw lid toevoegen</a> -->
-    <a class="btn btn-minimal" href="https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/src.14.afdrukken_downloaden.jsp" target="_blank"><i class="glyphicon glyphicon-share-alt"></i>&nbsp; Exporteren</a>
+    <div class="hidden-xs hidden-sm">
+      <button type="button" class="btn btn-secondary" ng-click="export('pdf')"><span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF</button>
+      <button type="button" class="btn btn-secondary" ng-click="export('csv')"><span ng-show="exportButtons['csv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)</button>
+      <button type="button" class="btn btn-secondary" ng-click="export('steekkaarten')"><span ng-show="exportButtons['steekkaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF</button>
+    </div>
+    <div class="hidden-md hidden-lg">
+      <div class="btn-group pull-right" uib-dropdown>
+        <button id="split-button" type="button" class="btn btn-secondary"s>
+          Exporteren naar PDF
+        </button>
+        <button type="button" class="btn btn-secondary" uib-dropdown-toggle>
+          <span class="caret"></span>
+          <span class="sr-only">Exporteren</span>
+        </button>
+        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+          <li role="menuitem"><a href="#" ng-click="export('pdf')"><span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF</a></li>
+          <li role="menuitem"><a href="#" ng-click="export('csv')"><span ng-show="exportButtons['csv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)</a></li>
+          <li role="menuitem"><a href="#" ng-click="export('steekkaarten')"><span ng-show="exportButtons['steekaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF</a></li>
+        </ul>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -224,11 +244,17 @@
       </tr>
     </tbody>
   </table>
+
   <footer class="panel-footer clearfix">
     <div ng-show='isLoadingLeden' class="loading"><i class="fa fa-spinner fa-pulse"></i>Leden aan het ophalen... </div>
     <div ng-show='isLoadingMore' class="loading"><i class="fa fa-spinner fa-pulse"></i>Meer leden aan het ophalen... </div>
   </footer>
 </div>
+
+<div class="background-color:red; width:1000px; height:1000px">
+  <object data="{{pdf}}" type="application/pdf"></object>
+</div>
+
 </div>
 <script type="text/ng-template" id="customPopupTemplate.html">
   <div class="custom-popup-wrapper"

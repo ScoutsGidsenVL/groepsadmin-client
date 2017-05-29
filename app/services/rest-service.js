@@ -110,6 +110,75 @@
         {aantal: '@aantal', offset: '@offset'},
         {'get': {method: 'GET', cache: false}}
       ),
+      LedenPdf: $resource(
+        base + 'ledenlijst?offset=:offset',
+        {offset: '@offset'},
+        {'get': {
+          method: 'GET',
+          headers: {
+              accept: 'application/pdf'
+          },
+          responseType: 'arraybuffer',
+          cache: true,
+          transformResponse: function (data) {
+              var pdf;
+              if (data) {
+                  pdf = new Blob([data], {
+                      type: 'application/pdf'
+                  });
+              }
+              return {
+                  response: pdf
+              };
+          }
+        }}
+      ),
+      LedenCsv: $resource(
+        base + 'ledenlijst?offset=:offset',
+        {offset: '@offset'},
+        {'get': {
+          method: 'GET',
+          headers: {
+              accept: 'text/csv'
+          },
+          responseType: 'arraybuffer',
+          cache: true,
+          transformResponse: function (data) {
+              var csv;
+              if (data) {
+                  csv = new Blob([data], {
+                      type: 'text/csv'
+                  });
+              }
+              return {
+                  response: csv
+              };
+          }
+        }}
+      ),
+      LedenSteekkaarten: $resource(
+        base + 'ledenlijst/steekkaart',
+        {offset: '@offset'},
+        {'get': {
+          method: 'GET',
+          headers: {
+              accept: 'application/pdf'
+          },
+          responseType: 'arraybuffer',
+          cache: true,
+          transformResponse: function (data) {
+              var pdf;
+              if (data) {
+                  pdf = new Blob([data], {
+                      type: 'application/pdf'
+                  });
+              }
+              return {
+                  response: pdf
+              };
+          }
+        }}
+      ),
       FilterDetails: $resource(
         base + 'ledenlijst/filter/:id',
         {id: '@id'},
