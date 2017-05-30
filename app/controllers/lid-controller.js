@@ -114,7 +114,7 @@
       initModel();
 
       // init watch, naar welke objecten/delen van het lid object moet er gekeken worden om aanpassingen bij te houden?
-      angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies'], function(value, key) {
+      angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies', 'lid.groepseigenVelden'], function(value, key) {
         $scope.$watch(value, function(newVal, oldVal, scope) {
             if(lidPropertiesWatchable){
               if (newVal == oldVal) return;
@@ -559,7 +559,24 @@
 
     // alle aanpassingen opslaan
     $scope.opslaan = function() {
-      if($scope.lid.changes.indexOf("adressen") != -1  && $scope.lid.changes.indexOf("contacten") != -1){
+
+      var origineleGroepseigenVelden = $scope.lid.groepseigenVelden;
+
+      if ($scope.lid.changes.indexOf("groepseigenVelden") != -1 ) {
+
+        // Deep copy - https://stackoverflow.com/a/5344074
+        $scope.lid.groepseigenVelden = JSON.parse(JSON.stringify($scope.lid.groepseigenVelden));
+
+        _.forOwn($scope.lid.groepseigenVelden, function(groepseigenVelden, groepsnummer){
+          _.forEach(groepseigenVelden.schema.velden, function(veld, index){
+            if(!veld.kanGebruikerWijzigen){
+              delete groepseigenVelden.waarden[veld.id];
+            }
+          });
+        });
+      }
+
+      if ($scope.lid.changes.indexOf("adressen") != -1  && $scope.lid.changes.indexOf("contacten") != -1){
         $scope.saving = true;
         //als er aanpassingen gebeurd zijn aan de contacten en tegelijk ook aan de adressen worden eerst de adressen toegevoegd en daarna de contacten.
         var adressen = $scope.lid.adressen;
@@ -583,24 +600,24 @@
           //console.log(contacten);
           $scope.lid.contacten = contacten;
           $scope.lid.changes = Array();
-          $scope.lid.changes.push("contacten");
+          $scope.lid.groepseigenVelden.push("contacten");
           //aangepaste contacten opsturen naar server.
           $scope.lid.$update(function(response) {
             $scope.saving = false;
             AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
+            $scope.lid.groepseigenVelden = origineleGroepseigenVelden;
             initAangepastLid();
             $window.onbeforeunload = null;
           });
           initAangepastLid();
         });
-
-      }
-      else {
+      } else {
         $scope.saving = true;
         $scope.lid.$update(
           function(response) {
             $scope.saving = false;
             AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
+            $scope.lid.groepseigenVelden = origineleGroepseigenVelden;
             initAangepastLid();
             $window.onbeforeunload = null;
             $scope.validationErrors = [];
@@ -628,7 +645,6 @@
 
               })
             }
-
 
             if (error.data.titel == "Validatie faalde voor Lid"){
               $scope.validationErrors = error.data.details;
