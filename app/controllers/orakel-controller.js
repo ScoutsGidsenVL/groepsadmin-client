@@ -26,8 +26,8 @@
 
     // Globale grafiek opties
     var globalOptions = {
-      maintainAspectRatio: false,
-      responsive: false,
+      maintainAspectRatio: true,
+      responsive: true,
       title: {
         display: true,
         fontSize: 20,
@@ -413,6 +413,7 @@
     );
 
     var grafiekDataOphalen = function(){
+      $scope.isLoadingData = true;
       // grafiek data ophalen
       RestService.Orakel.get({groepsnummer: $scope.activegroup.groepsnummer}).$promise.then(
         function (result) {
@@ -447,10 +448,13 @@
               $scope.tekenInEnUitstroom();
             break;
           }
+          $scope.isLoadingData = false;
         },
         function (error) {
           AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+          $scope.isLoadingData = false;
         }
+
       );
     }
 
@@ -462,6 +466,7 @@
      */
     $scope.ChangeGroep = function () {
       // nieuwe grafiekdata ophalen
+
       grafiekDataOphalen();
     }
 

@@ -1,14 +1,24 @@
-<div class="panel panel-default">
 <!-- Panel header -->
-<div class="panel-heading clearfix">
+<div class="panel-heading panel-fixed clearfix">
   <div class="pull-left">
+
+
     <form name="groepenFormulier" ng-if="data.groepenlijst.length != 1">
-      <label for="groepenSelect">Groep:</label>
-      <select name="groepenSelect" ng-options="groep as ( groep.groepsnummer + ' ' + groep.naam) for groep in data.groepenlijst track by groep.id" ng-change="changeGroep()" ng-model="data.activegroup"></select>
+
+      <div class="form-group form-group--groepsinstellingen">
+        <label class="groepsinstellingen-title" for="groepenSelect">Groep</label>
+        <select class="groepsinstellingen-select-group" name="groepenSelect" ng-options="groep as ( groep.groepsnummer + ' ' + groep.naam) for groep in data.groepenlijst track by groep.id" ng-change="changeGroep()" ng-model="data.activegroup"></select>
+      </div>
+
+
+
     </form>
     <h2 ng-if="data.groepenlijst.length == 1">{{ data.activegroup.groepsnummer + ' ' + data.activegroup.naam }}</h2>
   </div>
 </div>
+
+<div class="panel panel-default">
+
 
 <!-- Persoonsinfo -->
 <div class="panel-body form-hover clearfix">
