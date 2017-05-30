@@ -10,12 +10,14 @@
   function LidController ($scope, $routeParams, $window, $timeout, $location, RestService, AlertService, DialogService, $rootScope, UserAccess, keycloak, FVS) {
     console.log('login = ' + keycloak.authenticated);
 
+
     $(function() {
       window.app.setWidthStickyPanel();
     });
 
     $scope.validationErrors = [];
     var sectie
+    var lidPropertiesWatchable = false;
 
     $scope.canPost = false;
     $scope.contactRollen = [
@@ -43,6 +45,12 @@
         $scope.lid = result;
         loadSuccess($scope.lid);
         getPostadresString();
+
+        $timeout(function () {
+          // pas wanneer de lid gegevens geladen zijn mag $watch (in de loadSuccess() functie) controle toepassen op changes
+          lidPropertiesWatchable = true;
+        }, 2000);
+
       },
       function(error) {
         console.log(error);
@@ -108,13 +116,14 @@
       // init watch, naar welke objecten/delen van het lid object moet er gekeken worden om aanpassingen bij te houden?
       angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies'], function(value, key) {
         $scope.$watch(value, function(newVal, oldVal, scope) {
-            //console.log(value);
-            if (newVal == oldVal) return;
-            sectie = value.split(".").pop();
-            if($scope.lid.changes.indexOf(sectie) < 0) {
-              $scope.lid.changes.push(sectie);
+            if(lidPropertiesWatchable){
+              if (newVal == oldVal) return;
+              sectie = value.split(".").pop();
+              if($scope.lid.changes.indexOf(sectie) < 0) {
+                $scope.lid.changes.push(sectie);
+              }
+              $window.onbeforeunload = unload;
             }
-            $window.onbeforeunload = unload;
           },
           true);
       });
@@ -480,9 +489,7 @@
         contacten: $scope.lid.contacten,
         functies: []
       }
-      console.log(familielid);
       $rootScope.familielid = familielid;
-      console.log($scope.lid);
       $location.path("/lid/toevoegen");
     }
 
@@ -665,7 +672,6 @@
     }
 
     $scope.$watch('lidForm.$valid', function (validity) {
-      console.log(validity);
         if(!validity){
           openAndHighlightCollapsedInvalidContacts();
           openAndHighlightCollapsedInvalidAdresses();
