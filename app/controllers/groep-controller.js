@@ -24,25 +24,33 @@
         $scope.data = {};
         $scope.data.groepenlijst = [];
         //tijdelijk extra velden toevoegen aan het resultaat
-        angular.forEach(result.groepen, function(value){
-          value.vga = {
-            "naam": "Luke Skywalker",
-            "email": "luke@walkingin.sky"
-          };
-          value.groepsleiding = [
-            {
-              "naam": "Foo bar",
-              "email": "foo@bar.com"
-            },
-            {
-              "naam": "John doe",
-              "email": "john@doe.com"
-            }];
+        angular.forEach(result.groepen, function(groep){
+          groep.vga = [];
+          groep.fv = [];
+          groep.groepsleiding = [];
 
-          value.adres = [
-            value.adres
+          _.forEach(groep.contacten, function(contact) {
+            var groepering;
+            if (contact.functie == 'd5f75b320b812440010b812555970393') {
+              groepering = groep.vga;
+            } else if (contact.functie == 'd5f75b320b812440010b812553d5032e') {
+              groepering = groep.fv;
+            } else {
+              groepering = groep.groepsleiding
+            }
+
+            RestService.Lid.get({id: contact.lid}).$promise.then(function(res) {
+              groepering.push({
+                naam: res.vgagegevens.voornaam + ' ' + res.vgagegevens.achternaam,
+                email: res.email
+              });
+            });
+          });
+
+          groep.adres = [
+            groep.adres
           ];
-          $scope.data.groepenlijst.push(value);
+          $scope.data.groepenlijst.push(groep);
         })
 
         // by default is de eerste groep actief

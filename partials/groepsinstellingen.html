@@ -87,14 +87,21 @@
         <label>Groepsleiding</label>
         <ul>
           <!-- mail en Gsm moeten link zijn  -->
-          <li ng-repeat="groepsleiding in data.activegroup.groepsleiding">{{ groepsleiding.naam }} - <a href="mailto:{{ groepsleiding.email }}">{{ groepsleiding.email }}</a></li>
+          <li ng-repeat="groepsleiding in data.activegroup.groepsleiding">{{ groepsleiding.naam }}<br><a href="mailto:{{ groepsleiding.email }}">{{ groepsleiding.email }}</a></li>
         </ul>
       </div>
 
       <div class="form-group readonly" ng-if="data.activegroup.vga">
         <label>Verantwoordelijke Groepsadministratie</label>
         <ul>
-          <li>{{ data.activegroup.vga.naam }} - <a href="mailto:{{ data.activegroup.vga.email }}">{{ data.activegroup.vga.email }}</a></li>
+          <li ng-repeat="vga in data.activegroup.vga">{{ vga.naam }}<br><a href="mailto:{{ vga.email }}">{{ vga.email }}</a></li>
+        </ul>
+      </div>
+
+      <div class="form-group readonly" ng-if="data.activegroup.fv">
+        <label>Financieel Verantwoordelijke</label>
+        <ul>
+          <li ng-repeat="fv in data.activegroup.fv">{{ fv.naam }}<br><a href="mailto:{{ fv.email }}">{{ fv.email }}</a></li>
         </ul>
       </div>
     </div>
@@ -115,8 +122,8 @@
             <div ng-if="lokaal.beschrijving" class="pull-left">
               {{ lokaal.beschrijving }}
             </div>
-            <div ng-if="!lokaal.beschrijving && (lokaal.straat || lokaal.bus || lokaal.postcode || lokaal.gemeente)" class="pull-left" >
-              Naamloos lokaal
+            <div ng-if="!lokaal.beschrijving && (lokaal.straat || lokaal.postcode || lokaal.gemeente)" class="pull-left" >
+              {{ lokaal.straat }} - {{ lokaal.gemeente }}
             </div>
             <div ng-if="!lokaal.beschrijving && !(lokaal.straat || lokaal.bus || lokaal.postcode || lokaal.gemeente)" class="pull-left" >
               Nieuw lokaal

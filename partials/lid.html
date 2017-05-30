@@ -66,9 +66,9 @@
             </div>
           </div>
           <div class="form-group" ng-class="{ 'has-error': lidForm.naam.$touched && lidForm.naam.$invalid }" ng-show="lid">
-            <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Achternaam</label>
+            <label for="_achternaam" class="col-xs-5 col-xxs-12 control-label">Achternaam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input  type="text" class="form-control" name="naam" id="_naam" ng-model="lid.vgagegevens.achternaam" ng-disabled="!hasPermission('vgagegevens')" required>
+              <input  type="text" class="form-control" name="naam" id="_achternaam" ng-model="lid.vgagegevens.achternaam" ng-disabled="!hasPermission('vgagegevens')" required>
               <div ng-messages="lidForm.naam.$error" ng-show="lidForm.naam.$touched">
                   <div ng-messages-include="partials/messages.html"></div>
               </div>
