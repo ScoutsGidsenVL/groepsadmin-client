@@ -8,9 +8,15 @@
   OrakelController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'access', 'keycloak'];
 
   function OrakelController($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, access, keycloak) {
+
     if(!access) {
       $location.path("/lid/profiel");
     }
+
+    $(function() {
+      window.app.setWidthStickyPanel();
+    });
+
     // Scope variabele
     $scope.showLedenAantallen = false;
     $scope.showEigenschappen = false;

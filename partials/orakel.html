@@ -1,16 +1,18 @@
-<div class="panel panel-default">
+<!-- Panel header -->
+<div class="panel-heading panel-fixed clearfix">
+  <div class="pull-left">
 
-  <!-- Panel header -->
-  <div class="panel-heading clearfix">
-    <div class="pull-left">
-      <span style="margin-right: 5px;"><b>Orakel van:</b></span>
-      <select ng-options="groep.groepsnummer for groep in groepen track by groep.id" ng-change="ChangeGroep()" ng-model="activegroup"></select>
+    <div class="form-group">
+      <label for="sel1">Orakel van</label>
+      <select id="sel1" ng-options="groep.groepsnummer for groep in groepen track by groep.id" ng-change="ChangeGroep()" ng-model="activegroup"></select>
     </div>
   </div>
+</div>
 
+<div class="panel panel-default panel-orakel-body">
   <!-- Persoonsinfo -->
   <div class="panel-body form-hover clearfix">
-    <div class="btn-group col-md-8 col-md-offset-2" role="group" >
+    <div class="btn-group btn-group-orakel" role="group" >
       <button type="button" class="btn btn-default" ng-class="( currentView == 'LedenAantallen') ? 'active': ''" ng-click="tekenLedenaantallen()">Ledenaantallen</button>
       <button type="button" class="btn btn-default" ng-class="( currentView == 'Eigenschappen') ? 'active': ''" ng-click="tekenEigenschappen()">Eigenschappen</button>
       <button type="button" class="btn btn-default" ng-class="( currentView == 'Groepsevolutie') ? 'active': ''" ng-click="tekenGroepsevolutie()">Groepsevolutie</button>
