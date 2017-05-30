@@ -10,6 +10,10 @@
   function LidToevoegenController ($scope, $location, $window, RestService, AlertService, DialogService, $rootScope, $route, access, keycloak) {
     console.log('login = ' + keycloak.authenticated);
 
+    $(function() {
+      window.app.setWidthStickyPanel();
+    });
+
     if(!access){
       $location.path("/lid/profiel");
     }
