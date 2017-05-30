@@ -35,13 +35,18 @@
         href: '#/lid/profiel'
       },
       {
+        label: 'Feedback',
+        condition: UserAccess.hasAccessTo("profiel"),
+        iconclasses : 'fa fa-comments-o',
+        href: '#/feedback'
+      },
+      {
         label: 'Oude Groepsadmin',
         condition: UserAccess.hasAccessTo("profiel"),
         iconclasses : 'fa fa-institution',
         href: 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/'
       }
     ];
-
 
     _.forEach($scope.menuItems, function(menuItem,k) {
       menuItem.condition.then(function (reponse) {

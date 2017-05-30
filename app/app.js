@@ -18,6 +18,7 @@
     'ga.menucontroller',
     'ga.groepcontroller',
     'ga.orakelcontroller',
+    'ga.feedbackcontroller',
     'ga.lid',
     'ga.lid.velden',
     'ga.dynamischveld',
