@@ -50,7 +50,7 @@
           <li>
             <a href="https://www.scoutsengidsenvlaanderen.be" id="item_sgv">Scouts en Gidsen Vlaanderen</a>
           </li>
-          <li ng-repeat="website in websites">
+          <li ng-repeat="website in websites" ng-attr-class="{{ website.hasOwnProperty('afbeelding') && 'website-icon' || 'website-text' }}">
             <a ng-if="!website.hasOwnProperty('afbeelding')" ng-href="{{ website.url }}">{{ website.naam }}</a>
             <a ng-if="website.hasOwnProperty('afbeelding')" ng-href="{{ website.url }}" id="item_{{ website.naam | lowercase }}" style="background-image: url({{ website.afbeelding }});">&nbsp;</a>
           </li>
@@ -120,10 +120,10 @@
         </div>
 
         <!-- Mobiele menu -->
-        <div class="mobile-margin col-xs-4 hidden-md hidden-lg pull-right">
+        <div class="mobile-margin col-xs-8 hidden-md hidden-lg pull-right">
           <span uib-dropdown on-toggle="toggled(open)" ng-controller="MenuController" class=" pull-right">
             <button type="button" class="btn btn-primary" uib-dropdown-toggle>
-              <i class="fa fa-bars"></i>
+              <i class="fa fa-bars"></i>&nbsp; Menu
             </button>
 
             <ul class="dropdown-menu pull-right" uib-dropdown-menu aria-labelledby="simple-dropdown">
@@ -134,7 +134,7 @@
           </span>
           <div>
             <button id="btnOpenMobSearch" type="button" class="btn btn-primary pull-right mr-10">
-              <i class="fa fa-search" aria-hidden="true"></i>
+              <i class="fa fa-search" aria-hidden="true"></i>&nbsp; Zoeken
             </button>
           </div>
         </div>
