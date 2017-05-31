@@ -10,11 +10,6 @@
   function LidController ($scope, $routeParams, $window, $timeout, $location, RestService, AlertService, DialogService, $rootScope, UserAccess, keycloak, FVS) {
     console.log('login = ' + keycloak.authenticated);
 
-
-    $(function() {
-      window.app.setWidthStickyPanel();
-    });
-
     $scope.validationErrors = [];
     var sectie
     var lidPropertiesWatchable = false;

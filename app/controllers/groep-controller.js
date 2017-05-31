@@ -12,10 +12,6 @@
       $location.path("/lid/profiel");
     }
 
-    $(function() {
-      window.app.setWidthStickyPanel();
-    });
-
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     // groepen ophalen

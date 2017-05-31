@@ -51,13 +51,9 @@
     _.forEach($scope.menuItems, function(menuItem,k) {
       menuItem.condition.then(function (reponse) {
         menuItem.condition = reponse;
-        // when last menu item is resolved (and thus rendered), we will add padding to the body
-        // so the content can't become hidden by the fixed positioned menu
-        if(k == $scope.menuItems.length-1){
-            window.app.positionBody();
-        }
-      });
 
+        window.app.positionBody();
+      });
     });
   }
 })();

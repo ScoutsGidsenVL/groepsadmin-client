@@ -13,10 +13,6 @@
       $location.path("/lid/profiel");
     }
 
-    $(function() {
-      window.app.setWidthStickyPanel();
-    });
-
     // Scope variabele
     $scope.showLedenAantallen = false;
     $scope.showEigenschappen = false;
