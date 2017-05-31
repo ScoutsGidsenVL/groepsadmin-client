@@ -236,9 +236,13 @@ textarea {
     .selectpicker {
       border-color: @btn-default-border;
     }
-    .caret {
+  }
+  .bootstrap-select.open .caret {
       display: block;
-    }
+  }
+  .form-group:hover .caret{
+    display: inline-block;
+    margin-left:20px;
   }
 
   .btn-group>.btn:first-child[disabled=disabled] .caret {

@@ -5,9 +5,9 @@
     .module('ga.lidtoevoegencontroller', ['ga.services.alert', 'ga.services.dialog'])
     .controller('LidToevoegenController', LidToevoegenController);
 
-  LidToevoegenController.$inject = ['$scope', '$location', '$window', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route', 'access', 'keycloak'];
+  LidToevoegenController.$inject = ['$scope', '$location', '$window', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route', 'access', 'keycloak', 'FormValidationService'];
 
-  function LidToevoegenController ($scope, $location, $window, RestService, AlertService, DialogService, $rootScope, $route, access, keycloak) {
+  function LidToevoegenController ($scope, $location, $window, RestService, AlertService, DialogService, $rootScope, $route, access, keycloak, FVS) {
     console.log('login = ' + keycloak.authenticated);
 
     $(function() {
@@ -58,6 +58,14 @@
     lid.vgagegevens = {};
     lid.vgagegevens.verminderdlidgeld = false;
     lid.vgagegevens.beperking = false;
+
+
+    /// DELETE THIS!!!!
+    lid.persoonsgegevens.rekeningnummer = "BE52 0013 0402 0409";
+    lid.email = "j@v.be";
+    lid.vgagegevens.achternaam = "vermeulen";
+    lid.vgagegevens.voornaam = "joske";
+
 
     if($rootScope.familielid == undefined && $rootScope.familielid == null){
       // geen broer of zus
@@ -304,7 +312,8 @@
         origineelLid.functies = [];
       }
       //zend post met basis informaitie(persoonsgegevesn, adressen, 1 functieinstantie)
-      lid.vgagegevens.geboortedatum =  '2010-01-01T00:00:00.000+01:00'; // set static date;
+
+      origineelLid.vgagegevens.geboortedatum =  $scope.lid.vgagegevens.geboortedatum.toISOString().slice(0,10);// set static date;
 
       RestService.LidAdd.save(origineelLid).$promise.then(
         function(response) {
@@ -346,11 +355,11 @@
                 console.log(response);
                 $location.path("/lid/" + response.id);
                 $scope.saving = false;
-                AlertService.add('success ', "Lid teogeveogd", 5000);
+                AlertService.add('success ', "Lid toegevoegd", 5000);
               },
               function(error) {
                 $scope.saving = false;
-                AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
+                AlertService.add('danger', "Error " + error.status + ". " + error.statusText,5000);
               }
             );
           } else {
@@ -361,10 +370,10 @@
         },
         function(error) {
           if(error.status == 403){
-            AlertService.add('warning', error.data.beschrijving);
+            AlertService.add('warning', error.data.beschrijving,5000);
           }
           else{
-            AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+            AlertService.add('danger', "Error " + error.status + ". " + error.statusText,5000);
           }
         }
       );
@@ -402,6 +411,10 @@
         $scope.lid.changes = new Array();
         $window.location.href = url;
       }
+    }
+
+    $scope.checkField = function(formfield) {
+      formfield.$setValidity(formfield.$name,FVS.checkField(formfield));
     }
 
     // refresh of navigatie naar een andere pagina.

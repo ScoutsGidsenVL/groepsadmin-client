@@ -542,7 +542,6 @@
         function(response) {
           //toon confirmvenster
           DialogService.new("Bevestig","Weet u zeker dat u alle actieve functies van " + $scope.lid.vgagegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
-
         },
         function(error) {
           if(error.status == 403){
