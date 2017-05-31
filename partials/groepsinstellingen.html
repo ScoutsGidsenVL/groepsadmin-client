@@ -3,7 +3,7 @@
   <div class="pull-left">
     <form name="groepenFormulier" ng-if="data.groepenlijst.length != 1">
       <div class="form-group form-group--groepsinstellingen">
-        <label class="groepsinstellingen-title hidden-xs" for="groepenSelect">Orakel van</label>
+        <label class="groepsinstellingen-title hidden-xs" for="groepenSelect">Groepsinstellingen van</label>&nbsp;
         <select class="groepsinstellingen-select-group" name="groepenSelect" ng-options="groep as ( groep.groepsnummer + ' ' + groep.naam) for groep in data.groepenlijst track by groep.id" ng-change="changeGroep()" ng-model="data.activegroup"></select>
       </div>
     </form>
