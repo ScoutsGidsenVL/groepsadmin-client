@@ -38,7 +38,7 @@
         label: 'Feedback',
         condition: UserAccess.hasAccessTo("profiel"),
         iconclasses : 'fa fa-comments-o',
-        href: '#/feedback'
+        href: 'https://wiki.scoutsengidsenvlaanderen.be/doku.php?id=handleidingen:groepsadmin:betaversie_testen#feedback'
       },
       {
         label: 'Oude Groepsadmin',

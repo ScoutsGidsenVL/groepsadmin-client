@@ -18,7 +18,6 @@
     'ga.menucontroller',
     'ga.groepcontroller',
     'ga.orakelcontroller',
-    'ga.feedbackcontroller',
     'ga.websitecontroller',
     'ga.lid',
     'ga.lid.velden',
