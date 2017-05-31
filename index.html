@@ -46,7 +46,15 @@
   <body>
     <div id="global-menu" class="region">
       <div class="globale_menubalk">
-        <ul id="items"><li><a href="https://www.scoutsengidsenvlaanderen.be" id="item_sgv">Scouts en Gidsen Vlaanderen</a></li><li class="menu_item"><a href="https://www.scoutsengidsenvlaanderen.be/">Scouts en Gidsen Vlaanderen</a></li><li class="menu_item"><a href="http://www.hopper.be/winkel">Hopper Winkel</a></li><li class="menu_item"><a href="http://www.hopper.be/jeugdverblijf">Hopper Jeugdverblijven</a></li><li><a href="https://www.facebook.com/scoutsengidsenvlaanderen" id="item_facebook" style="background-image: url(https://www.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_fb.png);" title="Facebook">&nbsp;</a></li><li><a href="https://twitter.com/ScoutsGidsenVL" id="item_twitter" style="background-image: url(https://www.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_twitter.png);" title="Twitter">&nbsp;</a></li><li><a href="https://instagram.com/scoutsgidsenvl" id="item_instagram" style="background-image: url(https://www.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_instagram.png);" title="Instagram">&nbsp;</a></li></ul>
+        <ul id="items" ng-controller="WebsiteController">
+          <li>
+            <a href="https://www.scoutsengidsenvlaanderen.be" id="item_sgv">Scouts en Gidsen Vlaanderen</a>
+          </li>
+          <li ng-repeat="website in websites">
+            <a ng-if="!website.hasOwnProperty('afbeelding')" ng-href="{{ website.url }}">{{ website.naam }}</a>
+            <a ng-if="website.hasOwnProperty('afbeelding')" ng-href="{{ website.url }}" id="item_{{ website.naam | lowercase }}" style="background-image: url({{ website.afbeelding }});">&nbsp;</a>
+          </li>
+        </ul>
 
         <div id="account">
           <span id="item_aanmelden" style="display: none;">
@@ -280,6 +288,7 @@
     <script src="app/controllers/groep-controller.js"></script>
     <script src="app/controllers/orakel-controller.js"></script>
     <script src="app/controllers/feedback-controller.js"></script>
+    <script src="app/controllers/website-controller.js"></script>
 
     <script src="app/services/user-access-service.js"></script>
     <script src="app/services/rest-service.js"></script>
