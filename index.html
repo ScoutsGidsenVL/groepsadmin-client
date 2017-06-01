@@ -125,7 +125,6 @@
             <button type="button" class="btn btn-primary" uib-dropdown-toggle>
               <i class="fa fa-bars"></i>&nbsp; Menu
             </button>
-
             <ul class="dropdown-menu pull-right" uib-dropdown-menu aria-labelledby="simple-dropdown">
               <li ng-repeat="menuItem in menuItems" ng-show="menuItem.condition" active-link="active">
                 <a ng-href="{{menuItem.href}}" ng-attr-target="{{(menuItem.targetBlank) ? '_blank' : undefined}}"><i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; {{menuItem.label}}</a>
@@ -138,6 +137,8 @@
             </button>
           </div>
         </div>
+
+        <!-- Mobiel zoekveld -->
         <div class="mobile-search-container">
             <div class="col-xs-12 hidden-md hidden-lg">
               <div class="navbar-form pull-right searchresults" ng-controller="SearchController" role="search">
@@ -156,11 +157,9 @@
               </div>
             </div>
         </div>
-
       </div>
     </nav>
 
-    <!-- Mobiel zoekveld -->
 
     <!-- Include the rendered template -->
     <div class="main-content">
