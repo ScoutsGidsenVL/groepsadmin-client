@@ -10,7 +10,7 @@
   function configure($routeProvider, $locationProvider) {
     // Configure the routes
     $routeProvider
-    // Leden tabel
+
       .when('/ledenlijst', {
         templateUrl: 'partials/leden.html',
         controller: 'LedenlijstController',
@@ -18,7 +18,7 @@
           access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("ledenlijst").then(function(res){ return res }); }]
         }
       })
-      // Lid toevoegen
+
       .when('/lid/toevoegen', {
         templateUrl: 'partials/lid-toevoegen.html',
         controller: 'LidToevoegenController',
@@ -26,18 +26,17 @@
           access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessToGroepen().then(function(res){ return res }); }]
         }
       })
-      // Lid individuelestekkaart
-      .when('/lid/individuelesteekkaart/:id', {
-        templateUrl: 'partials/lid-individuele-steekkaart.html',
-        controller: 'LidIndividueleSteekkaartController'
-      })
-      // Lid detailpagina
+
       .when('/lid/:id', {
         templateUrl: 'partials/lid.html',
         controller: 'LidController'
       })
 
-      // Groepsinstellingen
+      .when('/lid/individuelesteekkaart/:id', {
+        templateUrl: 'partials/lid-individuele-steekkaart.html',
+        controller: 'LidIndividueleSteekkaartController'
+      })
+
       .when('/groepsinstellingen', {
         templateUrl: 'partials/groepsinstellingen.html',
         controller: 'GroepController',
@@ -46,7 +45,6 @@
         }
       })
 
-      // Orakel
       .when('/orakel', {
         templateUrl: 'partials/orakel.html',
         controller: 'OrakelController',
@@ -54,12 +52,14 @@
           access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("ledenlijst").then(function(res){ return res }); }]
         }
       })
+
+      .when('/feedback', {
+        templateUrl: 'partials/feedback.html',
+        controller: 'FeedbackController'
+      })
+
       .otherwise({
         redirectTo: '/ledenlijst'
       });
-
-
-
-    //$locationProvider.html5Mode(true).hashPrefix('!');
   }
 })();

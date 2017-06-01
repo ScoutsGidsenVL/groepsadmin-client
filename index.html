@@ -46,7 +46,15 @@
   <body>
     <div id="global-menu" class="region">
       <div class="globale_menubalk">
-        <ul id="items"><li><a href="https://www.scoutsengidsenvlaanderen.be" id="item_sgv">Scouts en Gidsen Vlaanderen</a></li><li class="menu_item"><a href="https://www.scoutsengidsenvlaanderen.be/">Scouts en Gidsen Vlaanderen</a></li><li class="menu_item"><a href="http://www.hopper.be/winkel">Hopper Winkel</a></li><li class="menu_item"><a href="http://www.hopper.be/jeugdverblijf">Hopper Jeugdverblijven</a></li><li><a href="https://www.facebook.com/scoutsengidsenvlaanderen" id="item_facebook" style="background-image: url(https://www.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_fb.png);" title="Facebook">&nbsp;</a></li><li><a href="https://twitter.com/ScoutsGidsenVL" id="item_twitter" style="background-image: url(https://www.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_twitter.png);" title="Twitter">&nbsp;</a></li><li><a href="https://instagram.com/scoutsgidsenvl" id="item_instagram" style="background-image: url(https://www.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_instagram.png);" title="Instagram">&nbsp;</a></li></ul>
+        <ul id="items" ng-controller="WebsiteController">
+          <li>
+            <a href="https://www.scoutsengidsenvlaanderen.be" id="item_sgv">Scouts en Gidsen Vlaanderen</a>
+          </li>
+          <li ng-repeat="website in websites" ng-attr-class="{{ website.hasOwnProperty('afbeelding') && 'website-icon' || 'website-text' }}">
+            <a ng-if="!website.hasOwnProperty('afbeelding')" ng-href="{{ website.url }}">{{ website.naam }}</a>
+            <a ng-if="website.hasOwnProperty('afbeelding')" ng-href="{{ website.url }}" id="item_{{ website.naam | lowercase }}" style="background-image: url({{ website.afbeelding }});">&nbsp;</a>
+          </li>
+        </ul>
 
         <div id="account">
           <span id="item_aanmelden" style="display: none;">
@@ -112,10 +120,10 @@
         </div>
 
         <!-- Mobiele menu -->
-        <div class="mobile-margin col-xs-4 hidden-md hidden-lg pull-right">
+        <div class="mobile-margin col-xs-8 hidden-md hidden-lg pull-right">
           <span uib-dropdown on-toggle="toggled(open)" ng-controller="MenuController" class=" pull-right">
             <button type="button" class="btn btn-primary" uib-dropdown-toggle>
-              <i class="fa fa-bars"></i>
+              <i class="fa fa-bars"></i>&nbsp; Menu
             </button>
 
             <ul class="dropdown-menu pull-right" uib-dropdown-menu aria-labelledby="simple-dropdown">
@@ -126,7 +134,7 @@
           </span>
           <div>
             <button id="btnOpenMobSearch" type="button" class="btn btn-primary pull-right mr-10">
-              <i class="fa fa-search" aria-hidden="true"></i>
+              <i class="fa fa-search" aria-hidden="true"></i>&nbsp; Zoeken
             </button>
           </div>
         </div>
@@ -279,6 +287,7 @@
     <script src="app/controllers/user-controller.js"></script>
     <script src="app/controllers/groep-controller.js"></script>
     <script src="app/controllers/orakel-controller.js"></script>
+    <script src="app/controllers/website-controller.js"></script>
 
     <script src="app/services/user-access-service.js"></script>
     <script src="app/services/rest-service.js"></script>

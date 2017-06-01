@@ -73,11 +73,11 @@
       Functie: $resource(
         base + 'functie/:functieId',
         {functieId: '@functieId'},
-        {get: {method: 'GET', cache: $cacheFactory('functiesCache')}}
+        {get: {method: 'GET', cache: true}}
       ),
       Functies: $resource(
         base + 'functie/',
-        {get: {method: 'GET', cache: $cacheFactory('allFunctiesCache')}}
+        {get: {method: 'GET', cache: true}}
       ),
       GeblokkeerdAdres: $resource(
         basejson + 'geblokkeerdadres.json',
@@ -99,7 +99,7 @@
       Orakel: $resource(
         base + 'groep/:groepsnummer/ledenaantallen',
         {groepsnummer: '@groepsnummer'},
-        {get: {method: 'GET', cache: $cacheFactory('orakelCache')}}
+        {get: {method: 'GET', cache: true}}
       ),
       Oudleden: $resource(
         basejson + 'oudleden.json',
@@ -210,24 +210,28 @@
       Kolommen: $resource(
         base + 'ledenlijst/kolom-type',
         {},
-        {'get': {method: 'GET', cache: false}}
+        {'get': {method: 'GET', cache: true}}
       ),
       Gemeente: $resource(
         baseGis + 'gemeente?term=:zoekterm',
         {zoekterm: '@zoekterm'},
-        {'get': {method: 'GET', cache: false}}
+        {'get': {method: 'GET', cache: true}}
       ),
       Code: $resource(
         baseGis + 'code?term=:zoekterm&postcode=:postcode',
         {zoekterm: '@zoekterm', postcode: '@postcode'},
-        {'query': {method: 'GET', isArray:true, cache: false}}
+        {'query': {method: 'GET', isArray: true, cache: true}}
+      ),
+      Websites: $resource(
+        base + 'website',
+        {},
+        {'query': {method: 'GET', isArray: true, cache: true}}
       ),
       Zoeken: $resource(
         base + 'zoeken?query=:zoekterm',
         {zoekterm: '@zoekterm'},
-        {'query': {method: 'GET', isArray:true, cache: false}}
+        {'query': {method: 'GET', isArray: true, cache: false}}
       )
-
     }
   }
 

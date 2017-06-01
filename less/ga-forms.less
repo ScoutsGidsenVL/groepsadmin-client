@@ -107,18 +107,23 @@ textarea {
   border-color: @input-border;
 }
 // Checked state
-.control input:checked ~ .control-indicator {
+.control input:checked:not([disabled]) ~ .control-indicator {
   background-color: @brand-primary;
 }
 // Active state
-.control input:active ~ .control-indicator {
+.control input:active:not([disabled]) ~ .control-indicator {
   background-color: lighten(@brand-primary, 25%);
+}
+// disabled
+.control input[disabled] ~ .control-indicator {
+  background-color: @disabled-form-field-bg;
 }
 
 /* Checkbox modifiers */
 .checkbox .control-indicator {
   border-radius: @border-radius-base;
 }
+
 .checkbox input:checked ~ .control-indicator {
   background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNy4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgOCA4IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA4IDgiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTYuNCwxTDUuNywxLjdMMi45LDQuNUwyLjEsMy43TDEuNCwzTDAsNC40bDAuNywwLjdsMS41LDEuNWwwLjcsMC43bDAuNy0wLjdsMy41LTMuNWwwLjctMC43TDYuNCwxTDYuNCwxeiINCgkvPg0KPC9zdmc+DQo=);
 }
@@ -297,7 +302,7 @@ fieldset fieldset legend {
   &[disabled],
   &[readonly],
   fieldset[disabled] & {
-    background-color:@disabled-form-field-bg;
+    background-color: @disabled-form-field-bg;
   }
   &-bus{
     padding:2px;

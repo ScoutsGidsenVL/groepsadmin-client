@@ -2559,45 +2559,6 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
 
             // TODO
 
-# Group Zoeken
-
-## Zoeken [/zoeken?query={query}]
-
-+ Parameters
-    + query (string) - query waarop gezocht moet worden
-
-### Leden zoeken [GET]
-
-+ Response 200
-
-    Een lijst van alle leden die in aanmerking komen voor de query.
-
-    + Body
-
-            {
-              "query": "powell",
-              leden: [{
-                "link": {
-                  "rel": "self",
-                  "href": "/groepsadmin/rest-ga/lid/d5f75b320b812440010b8127f95f4db4",
-                  "method": "GET"
-                },
-                "voornaam": "Baden",
-                "achternaam": "Powell",
-                "geboortedatum": "1857-02-22",
-              },
-              {
-                "link": {
-                  "rel": "self",
-                  "href": "/groepsadmin/rest-ga/lid/d5f75b320b812440010b8127f95f4db4",
-                  "method": "GET"
-                },
-                "voornaam": "Olave",
-                "achternaam": "Baden-Powell",
-                "geboortedatum": "1889-02-22",
-              }]
-            }
-
 # Group Sjablonen
 
 ## Etiketsjablonen [/sjabloon/etiket]
@@ -2721,3 +2682,129 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
 ### E-mailsjabloon verwijderen [DELETE]
 
 + Response 204
+
+# Group Websites
+
+## Websites [/website]
+
+### Websites opvragen [GET]
+
++ Response 200
+
+    Een lijst van websites die getoond moeten worden in de globale menubalk.
+
+    + Body
+
+            {
+              "links": [
+                {
+                  "rel": "self",
+                  "href": "http://localhost:8080/groepsadmin/rest-ga/websites",
+                  "method": "GET",
+                  "secties": [ ]
+                },
+                {
+                  "rel": "Scouts en Gidsen Vlaanderen",
+                  "href": "https://www.scoutsengidsenvlaanderen.be",
+                  "method": "GET",
+                  "secties": [ ]
+                },
+                ...,
+                {
+                  "rel": "Instagram",
+                  "href": "https://instagram.com/scoutsgidsenvl",
+                  "method": "GET",
+                  "secties": [ ]
+                }
+              ],
+              "websites": [
+                {
+                  "naam": "Scouts en Gidsen Vlaanderen",
+                  "url": "https://www.scoutsengidsenvlaanderen.be"
+                },
+                {
+                  "naam": "Hopper",
+                  "url": "http://www.hopper.be"
+                },
+                {
+                  "naam": "Groepsadministratie",
+                  "url": "https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin"
+                },
+                {
+                  "naam": ".Org",
+                  "url": "https://www.scoutsengidsenvlaanderen.org"
+                },
+                {
+                  "naam": "Onkosten",
+                  "url": "https://onkosten.scoutsengidsenvlaanderen.org"
+                },
+                {
+                  "naam": "Wiki",
+                  "url": "https://wiki.scoutsengidsenvlaanderen.be"
+                },
+                {
+                  "naam": "Vacatures",
+                  "url": "https://vacature.scoutsengidsenvlaanderen.be"
+                },
+                {
+                  "naam": "Evenementen",
+                  "url": "https://www.scoutsengidsenvlaanderen.be/evenementen"
+                },
+                {
+                  "afbeelding": "https://www.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_fb.png",
+                  "naam": "Facebook",
+                  "url": "https://www.facebook.com/scoutsengidsenvlaanderen"
+                },
+                {
+                  "afbeelding": "https://www.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_twitter.png",
+                  "naam": "Twitter",
+                  "url": "https://twitter.com/ScoutsGidsenVL"
+                },
+                {
+                  "afbeelding": "https://www.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_instagram.png",
+                  "naam": "Instagram",
+                  "url": "https://instagram.com/scoutsgidsenvl"
+                }
+              ]
+            }
+
+# Group Zoeken
+
+## Zoeken [/zoeken?query={query}]
+
++ Parameters
+    + query (string) - query waarop gezocht moet worden
+
+### Leden zoeken [GET]
+
++ Response 200
+
+    Een lijst van alle leden die in aanmerking komen voor de query.
+
+    + Body
+
+            {
+              "query": "powell",
+              leden: [
+                {
+                  "link": {
+                    "rel": "self",
+                    "href": "/groepsadmin/rest-ga/lid/d5f75b320b812440010b8127f95f4db4",
+                    "method": "GET"
+                  },
+                  "voornaam": "Baden",
+                  "achternaam": "Powell",
+                  "geboortedatum": "1857-02-22",
+                },
+                {
+                  "link": {
+                    "rel": "self",
+                    "href": "/groepsadmin/rest-ga/lid/d5f75b320b812440010b8127f95f4db4",
+                    "method": "GET"
+                  },
+                  "voornaam": "Olave",
+                  "achternaam": "Baden-Powell",
+                  "geboortedatum": "1889-02-22",
+                }
+              ]
+            }

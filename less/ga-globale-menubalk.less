@@ -11,26 +11,40 @@
     top: 25px;
 }
 
-.globale_menubalk #items .menu_item {
+.globale_menubalk #items .website-text {
     display: none;
 }
 
-@media screen and (min-width: 440px) {
-    .globale_menubalk #items li:nth-child(3), .globale_menubalk #items li:nth-child(4) {
+@media screen and (min-width: 520px) {
+
+    /* Hopper en Groepsamdin */
+    .globale_menubalk #items .website-text:nth-child(3),
+    .globale_menubalk #items .website-text:nth-child(4) {
         display: inline;
     }
 }
 
-@media screen and (min-width: 479px) {
-    .globale_menubalk {
-        height: initial;
-        padding: 0 1.6rem;
+@media screen and (min-width: 786px) {
+
+  /* .Be en .Org */
+  .globale_menubalk #items .website-text:nth-child(2),
+  .globale_menubalk #items .website-text:nth-child(5) {
+      display: inline;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+
+    /* Enkel personeels-links verbergen */
+    .globale_menubalk #items .website-text:nth-child(-n+9) {
+        display: inline;
     }
 }
 
-@media screen and (min-width: 940px) {
+@media screen and (min-width: 1100px) {
 
-    .globale_menubalk #items .menu_item {
+    /* Alle links tonen */
+    .globale_menubalk #items .website-text {
         display: inline;
     }
 }
@@ -43,7 +57,7 @@
 
 .globale_menubalk {
     height: auto;
-    padding: 0 1vw;
+    padding: 0 1.5vw;
     min-height: 25px;
 }
 
@@ -108,7 +122,7 @@
     margin-right: 0;
 }
 
-.globale_menubalk #items li:nth-child(2) a {
+.globale_menubalk #items li a[href^="https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin"] {
     font-weight: bold;
 }
 

@@ -35,6 +35,12 @@
         href: '#/lid/profiel'
       },
       {
+        label: 'Feedback',
+        condition: UserAccess.hasAccessTo("profiel"),
+        iconclasses : 'fa fa-comments-o',
+        href: 'https://wiki.scoutsengidsenvlaanderen.be/doku.php?id=handleidingen:groepsadmin:betaversie_testen#feedback'
+      },
+      {
         label: 'Oude Groepsadmin',
         condition: UserAccess.hasAccessTo("profiel"),
         iconclasses : 'fa fa-institution',
@@ -42,17 +48,12 @@
       }
     ];
 
-
     _.forEach($scope.menuItems, function(menuItem,k) {
       menuItem.condition.then(function (reponse) {
         menuItem.condition = reponse;
-        // when last menu item is resolved (and thus rendered), we will add padding to the body
-        // so the content can't become hidden by the fixed positioned menu
-        if(k == $scope.menuItems.length-1){
-            window.app.positionBody();
-        }
-      });
 
+        window.app.positionBody();
+      });
     });
   }
 })();
