@@ -35,8 +35,11 @@
     'ga.utils',
     'infinite-scroll',
     'ngSanitize',
-    'ngMessages'
+    'ngMessages',
+    'angulartics',
+    'angulartics.piwik'
   ])
+
   // lodash for use in controllers, unit tests
   .constant('_', window._)
 

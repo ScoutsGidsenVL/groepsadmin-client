@@ -263,6 +263,9 @@
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/chart.js/dist/Chart.js"></script>
     <script src="bower_components/iban/iban.js"></script>
+    <script src="bower_components/SHA-1/sha1.js"></script>
+    <script src="bower_components/angulartics/src/angulartics.js"></script>
+    <script src="bower_components/angulartics-piwik/src/angulartics-piwik.js"></script>
     <!-- endbower -->
 
     <!-- Scripts -->
@@ -319,6 +322,24 @@
     <script src="js/bootstrap/dropdown.js"></script>
     <script src="js/bootstrap/alert.js"></script>
     <script src="js/bootstrap/bootstrap-select.min.js"></script>
+
+    <!-- Piwik -->
+    <script>
+      var _paq = _paq || [];
+      // _paq.push(['trackPageView']); // Niet nodig door angulartics
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="https://piwik.scoutsengidsenvlaanderen.be/";
+        _paq.push(['setTrackerUrl', u + 'piwik.php']);
+        _paq.push(['setSiteId', 6]);
+        var g = document.createElement('script');
+        var s = document.getElementsByTagName('script')[0];
+        g.async = true;
+        g.defer = true;
+        g.src = u + 'piwik.js';
+        s.parentNode.insertBefore(g, s);
+      })();
+    </script>
 
   </body>
 </html>

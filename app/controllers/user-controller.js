@@ -5,13 +5,17 @@
     .module('ga.usercontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('UserController', UserController);
 
-  UserController.$inject = ['$scope', 'keycloak', '$window' ];
+  UserController.$inject = ['$analytics', '$scope', '$window', 'keycloak'];
 
-  function UserController ($scope, keycloak, $window) {
-    $scope.username = keycloak.idTokenParsed.name;
+  function UserController ($analytics, $scope, $window, keycloak) {
+    var username = keycloak.idTokenParsed.name;
     if(!keycloak.idTokenParsed.name){
-      $scope.username = keycloak.idTokenParsed.preferred_username;
+      username = keycloak.idTokenParsed.preferred_username;
     }
+
+    $scope.username = username;
+    $analytics.setUsername(username);
+
     $scope.logout = function(){
       keycloak.logout();
     }
