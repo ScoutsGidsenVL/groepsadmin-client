@@ -177,7 +177,7 @@
               <div class="form-group" ng-class="{ 'has-error': nieuwLidForm['adressen['+$index+'].gemeente'].$invalid }">
                 <label for="_gemeenteWrap" class="col-xs-4 col-xxs-12 control-label">Woonplaats</label>
                 <div class="col-xs-8 col-xxs-2">
-                  <input type="text" name="adressen[{{ $index }}].gemeente" class="form-control ga-functie-list" ng-init="adres.postcode && adres.gemeente ? gemeenteWrap = adres.postcode + ' ' + adres.gemeente" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" typeahead-show-hint="true" required/>
+                  <input type="text" name="adressen[{{ $index }}].gemeente" class="form-control ga-functie-list" ng-init="gemeenteWrap = adres.postcode && adres.gemeente ? adres.postcode + ' ' + adres.gemeente : ''" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" typeahead-show-hint="true" required/>
                   <div ng-messages="nieuwLidForm['adressen['+$index+'].gemeente'].$error">
                       <div ng-messages-include="partials/messages.html"></div>
                   </div>

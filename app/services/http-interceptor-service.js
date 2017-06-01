@@ -39,14 +39,12 @@
           AlertService.add('danger', "Je bent niet ingelogd");
         }
         else if (rejection.data) {
-          //
 
-
-          if(rejection.data.fouten.length>0){
+          if(rejection.data.fouten && rejection.data.fouten.length>0){
 
             // check if there are errors on contacten
             var checkField = "contacten.contacten";
-            var filteredCheck = _.filter(rejection.data.fouten, function(o){ return o.veld.indexOf(checkField) >= 0});
+            var filteredCheck = _.filter(rejection.data.fouten, function(o){ if(o.veld){ return o.veld.indexOf(checkField) >= 0 }});
 
             if(filteredCheck.length > 0){
               return $q.reject(rejection);

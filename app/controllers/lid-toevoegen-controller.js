@@ -417,6 +417,57 @@
       formfield.$setValidity(formfield.$name,FVS.checkField(formfield));
     }
 
+
+    // TODO: REMOVE CODE DUPLICATION  (lidcontroller)
+
+    $scope.$watch('nieuwLidForm.$valid', function (validity) {
+        if(!validity){
+          openAndHighlightCollapsedInvalidContacts();
+          openAndHighlightCollapsedInvalidAdresses();
+        }else{
+          unHighlightInvalidContactsGroup();
+          unHighlightInvalidAddressesGroup();
+        }
+    });
+
+    var openAndHighlightCollapsedInvalidContacts = function(){
+      var invalidContacten = _.filter($scope.nieuwLidForm.$error.required,function(o){return o.$name.indexOf('contacten') > -1 });
+      _.each(invalidContacten, function(contact){
+        // get index from fieldname
+        var str = contact.$name.match(/\d+/g, "")+'';
+        var s = str.split(',').join('');
+        // expand corresponding contact
+        $scope.lid.contacten[s].showme = true;
+        // hilight error
+        $scope.lid.contacten[s].hasErrors = true;
+      });
+    }
+    var openAndHighlightCollapsedInvalidAdresses = function(){
+      var invalidAddresses = _.filter($scope.nieuwLidForm.$error.required,function(o){return o.$name.indexOf('adressen') > -1 });
+      console.log('------', invalidAddresses);
+      _.each(invalidAddresses, function(adres){
+        // get index from fieldname
+        var str = adres.$name.match(/\d+/g, "")+'';
+        var s = str.split(',').join('');
+        // expand corresponding adres
+        $scope.lid.adressen[s].showme = true;
+        // hilight error
+        $scope.lid.adressen[s].hasErrors = true;
+      });
+    }
+    var unHighlightInvalidContactsGroup = function(){
+      if($scope.lid && $scope.lid.contacten){
+        _.each($scope.lid.contacten,function(contact){contact.hasErrors = false});
+      }
+    }
+    var unHighlightInvalidAddressesGroup = function(){
+      if($scope.lid && $scope.lid.adressen){
+        _.each($scope.lid.adressen,function(adres){adres.hasErrors = false});
+      }
+    }
+
+    // END TO DO REMOVE DUPLICATE
+
     // refresh of navigatie naar een andere pagina.
     var unload = function (e) {
        return "U staat op het punt deze pagina te verlaten, Niet opgeslagen aanpassingen zullen verloren gaan!!";
