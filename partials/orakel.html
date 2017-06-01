@@ -4,7 +4,7 @@
 
     <div class="form-group form-group--orakel">
       <label class="orakel-title hidden-xs" for="sel1">Ledenaantallen van</label>&nbsp;
-      <select class="orakel-select-group" id="sel1" ng-options="groep.groepsnummer for groep in groepen track by groep.id" ng-change="ChangeGroep()" ng-model="activegroup"></select>
+      <select class="orakel-select-group" id="sel1" ng-options="( groep.groepsnummer + ' ' + groep.naam) for groep in groepen track by groep.id" ng-change="ChangeGroep()" ng-model="activegroup"></select>
     </div>
   </div>
 </div>
