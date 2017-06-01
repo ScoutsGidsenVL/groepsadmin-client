@@ -4,7 +4,7 @@
   angular
     .module('ga.utils', [])
     .directive('gaParseDate', gaParseDate);
-  
+
   function gaParseDate() {
     // Datums moeten van type Date Object zijn in Angular
     // Moet geparsed worden vóór Model geüpdatet wordt
@@ -19,12 +19,12 @@
       }
     };
   }
-        
+
   function formatAsDate(input) {
     if (input == null) {
       return;
     }
     return new Date(input);
   }
-  
+
 })();

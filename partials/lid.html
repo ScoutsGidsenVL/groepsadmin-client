@@ -78,7 +78,12 @@
             <label for="_geslacht" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
             <div class="col-xs-7 col-xxs-12">
               <!-- fix date-parse -->
-              <input type="date" class="form-control" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" ga-parse-date ng-disabled="!hasPermission('vgagegevens')" required>
+              <div class="input-group">
+                <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" required close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="open1()"><i class="fa fa-calendar"></i></button>
+                </span>
+              </div>
               <div ng-messages="lidForm.geboortedatum.$error" ng-show="lidForm.geboortedatum.$touched">
                   <div ng-messages-include="partials/messages.html"></div>
               </div>
@@ -92,7 +97,7 @@
           </div>
 
           <div class="form-group" ng-class="{ 'has-error': lidForm.geslacht.$touched && lidForm.geslacht.$invalid }" ng-show="lid">
-            <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geslacht</label>
+            <label for="_geslacht" class="col-xs-5 col-xxs-12 control-label">Geslacht</label>
             <div class="col-xs-7 col-xxs-12">
               <select class="selectpicker" title="Kies het geslacht..." name="geslacht" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht" ng-disabled="!hasPermission('persoonsgegevens')" required>
                 <option value="man">Mannelijk</option>

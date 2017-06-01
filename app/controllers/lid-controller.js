@@ -28,8 +28,20 @@
         'value':'voogd',
         'label':'Voogd'
       },
-    ]
+    ];
 
+    $scope.dateOptions = {
+      formatYear: 'yy',
+      startingDay: 1
+    };
+    $scope.popup1 = {
+      opened: false
+    };
+    $scope.open1 = function() {
+      $scope.popup1.opened = true;
+    };
+    $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyy', 'dd.MM.yyyy'];
+    $scope.format = $scope.formats[0];
 
     UserAccess.hasAccessTo("nieuw lid").then(function(res){
       $scope.canPost = res;
