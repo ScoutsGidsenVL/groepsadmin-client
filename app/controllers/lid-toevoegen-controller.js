@@ -56,13 +56,6 @@
     lid.vgagegevens.beperking = false;
 
 
-    /// DELETE THIS!!!!
-    lid.persoonsgegevens.rekeningnummer = "BE52 0013 0402 0409";
-    lid.email = "j@v.be";
-    lid.vgagegevens.achternaam = "vermeulen";
-    lid.vgagegevens.voornaam = "joske";
-
-
     if($rootScope.familielid == undefined && $rootScope.familielid == null){
       // geen broer of zus
       lid.contacten = Array();
