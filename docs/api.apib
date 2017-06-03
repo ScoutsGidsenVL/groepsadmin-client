@@ -5,15 +5,15 @@ HOST: https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/rest-
 
 # Group Algemeen
 
-## Authentication request headers
+## Authorization request headers
 
-Bij elke(*) request moet een *Authentication*-header worden meegegeven:
+Bij elke(*) request moet een *Authorization*-header worden meegegeven:
 
-`Authentication: Bearer {access token}`
+`Authorization: Bearer {access token}`
 
 `{access token}` is een OAuth-2.0 access token. Dit kan verkregen worden door in te loggen op [keycloak](https://login.scoutsengidsenvlaanderen.be).
 
-(*) Enkele endpoints zijn publiek. Hierbij is geen *Authentication*-header noodzakelijk. Het resultaat kan wel afhangen van de *Authentication*-header.
+(*) Enkele endpoints zijn publiek. Hierbij is geen *Authorization*-header noodzakelijk. Het resultaat kan wel afhangen van de *Authorization*-header.
 
 ## Etag response headers
 
