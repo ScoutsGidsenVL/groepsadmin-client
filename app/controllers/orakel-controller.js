@@ -5,20 +5,107 @@
     .module('ga.orakelcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('OrakelController', OrakelController);
 
-  OrakelController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'access', 'keycloak'];
+  OrakelController.$inject = ['$compile', '$http', '$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'access', 'keycloak'];
 
-  function OrakelController($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, access, keycloak) {
+  function OrakelController($compile, $http, $scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, access, keycloak) {
 
     if(!access) {
       $location.path("/lid/profiel");
     }
 
-    // Scope variabele
-    $scope.showLedenAantallen = false;
-    $scope.showEigenschappen = false;
-    $scope.showGrafiek = false;
-    $scope.currentView = "";
-    $scope.activegroup = null;
+    $scope.changeGroep = function (groepsnummer) {
+      console.log("groepsnummer -----", groepsnummer);
+      $scope.isLoadingData = true;
+      // grafiek data ophalen
+      //$http.get("data/ledenaantallen.json").then(
+      RestService.Orakel.get({groepsnummer: groepsnummer}).$promise.then(
+        function (res) {
+          //var res = res.data;
+          $scope.tekenLedenaantallen(res);
+          $scope.tekenEigenschappen(res);
+          $scope.tekenGroepsevolutie(res);
+          $scope.tekenLedenaantalPerLeeftijd(res);
+          $scope.tekenHuidigeLeidingsErvaring(res);
+          $scope.tekenInEnUitstroom(res);
+          $scope.isLoadingData = false;
+        },
+        function (error) {
+          AlertService.add('danger', "Fout " + error.status + ". " + error.statusText,5000);
+          $scope.isLoadingData = false;
+        }
+
+      );
+    }
+
+    var init = function(){
+      $scope.tabs = initTabs();
+      // activeer eerste tab
+      $scope.activateTab("ledenaantallen");
+
+      //$scope.changeGroep('O1504G');
+      // groepen ophalen
+      RestService.Groepen.get().$promise.then(
+        function (result) {
+          $scope.groepen = result.groepen;
+          $scope.activegroup = result.groepen[0];
+          $scope.changeGroep($scope.activegroup.groepsnummer);
+        },
+        function (Error){
+
+        }
+      );
+    }
+
+    var initTabs = function(){
+      var tabs = {
+        ledenaantallen : {
+          'label': 'Ledenaantallen',
+          'activated' : false
+        },
+        eigenschappen : {
+          'label': 'Eigenschappen',
+          'activated' : false
+        },
+        groepsevolutie : {
+          'label': 'Groepsevolutie',
+          'activated' : false
+        },
+        ledenaantalperleeftijd : {
+          'label': 'Ledenaantal per leeftijd',
+          'activated' : false
+        },
+        huidigeleidingservaring : {
+          'label': 'Huidige leidingservaring',
+          'activated' : false
+        },
+        inuitstroomperleeftijd : {
+          'label': 'Instroom en uitstroom per leeftijd',
+          'activated' : false
+        }
+      };
+      return tabs;
+    }
+
+    var redrawGraph = function(graphParentId){
+      angular.element('#'+graphParentId+'Grafiek').remove();
+      var canvas_html = '<canvas id="'+graphParentId+'Grafiek"></canvas>';
+
+      var element = angular.element(canvas_html);
+      $compile(element)($scope);
+      angular.element('#'+graphParentId).append(element);
+      return $('#'+graphParentId+'Grafiek');
+
+    }
+
+    $scope.deactivateAllTabs = function(){
+      _.each($scope.tabs,function(val,k){
+        val.activated = false;
+      });
+    }
+    $scope.activateTab = function(tabKey){
+      $scope.deactivateAllTabs();
+      $scope.tabs[tabKey].activated = true;
+    }
 
     // Globale grafiek opties
     var globalOptions = {
@@ -60,26 +147,16 @@
       });
     }
 
-    /*
-     * Teken functies
-     * ------------------------------------
-     */
-
-    $scope.tekenLedenaantallen = function () {
-      wisGrafiek();
+    $scope.tekenLedenaantallen = function(orakelData) {
 
       $scope.showLedenAantallen = true;
-      $scope.currentView = "LedenAantallen";
     }
 
-    $scope.tekenEigenschappen = function (){
-      wisGrafiek();
+    $scope.tekenEigenschappen = function(orakelData){
       $scope.showEigenschappen = true;
-      $scope.currentView = "Eigenschappen";
     }
 
-    $scope.tekenGroepsevolutie = function () {
-      wisGrafiek();
+    $scope.tekenGroepsevolutie = function(orakelData) {
       $scope.showGrafiek = true;
 
       var chartColors = [
@@ -108,18 +185,16 @@
           background: "rgba(120, 97, 218, 0.59)"
         }
       ];
-      var ctx = $("#grafiek");
 
-      //console.log("groepsevolutie")
-      //console.log($scope.orakelData.groepsevolutie)
+      var ctx = redrawGraph('groepsevolutie');
 
       var type = "line";
       var data = {
-        labels: $scope.sortedKeys($scope.orakelData.groepsevolutie[0].aantalPersonen),
+        labels: $scope.sortedKeys(orakelData.groepsevolutie[0].aantalPersonen),
         datasets: []
       };
 
-      angular.forEach($scope.orakelData.groepsevolutie, function(value, index){
+      angular.forEach(orakelData.groepsevolutie, function(value, index){
         data.datasets.push({
           label: value.naam,
           fill: false,
@@ -149,14 +224,12 @@
         data: data,
         options: grafiekOpties
       });
-      $scope.currentView = "Groepsevolutie";
     }
 
-    $scope.tekenLedenaantalPerLeeftijd = function () {
-      wisGrafiek();
+    $scope.tekenLedenaantalPerLeeftijd = function(orakelData) {
       $scope.showGrafiek = true;
 
-      var ctx = $("#grafiek");
+      var ctx = redrawGraph('ledenaantalperleeftijd');
 
       // kleuren bepalen
       var chartColors = [
@@ -186,11 +259,8 @@
         }
       ];
 
-      //console.log("ledenPerLeeftijd")
-      //console.log($scope.orakelData.ledenPerLeeftijd)
-
       var alleJaren = [];
-      _.forEach($scope.orakelData.ledenPerLeeftijd, function(value, key) {
+      _.forEach(orakelData.ledenPerLeeftijd, function(value, key) {
         alleJaren = _.concat(alleJaren, Object.keys(value));
       });
       var alleJaren = _.uniq(alleJaren);
@@ -201,9 +271,9 @@
         labels: alleJaren,
         datasets: []
       }
-      _.forEach($scope.sortedKeys($scope.orakelData.ledenPerLeeftijd), function(keySoort, index) {
+      _.forEach($scope.sortedKeys(orakelData.ledenPerLeeftijd), function(keySoort, index) {
         var values = _.fill(new Array(alleJaren.length), 0);
-        _.forEach($scope.orakelData.ledenPerLeeftijd[keySoort], function(valueAantal, keyJaar) {
+        _.forEach(orakelData.ledenPerLeeftijd[keySoort], function(valueAantal, keyJaar) {
           values[alleJaren.indexOf(keyJaar)] = valueAantal;
         });
 
@@ -243,28 +313,23 @@
         data: data,
         options: grafiekOpties
       });
-      $scope.currentView = "LedenaantalPerLeeftijd";
     }
 
-    $scope.tekenHuidigeLeidingsErvaring = function() {
-      wisGrafiek();
+    $scope.tekenHuidigeLeidingsErvaring = function(orakelData) {
       $scope.showGrafiek = true;
 
       var chartHoverColors = ["rgba(232, 232, 96, 0.62)", "rgba(141, 221, 119, 0.62)", "rgba(236, 148, 76, 0.59)", "rgba(76, 83, 236, 0.59)", "rgba(212, 94, 94, 0.59)", "rgba(120, 97, 218, 0.59)"];
       var chartColors = ["rgba(232, 232, 96, 1)", "rgba(141, 221, 119, 1)", "rgba(236, 148, 76, 1)", "rgba(76, 83, 236, 1)", "rgba(212, 94, 94, 1)", "rgba(120, 97, 218, 1)"];
 
-      var ctx = $("#grafiek");
-
-      //console.log("leidingservaring")
-      //console.log($scope.orakelData.leidingservaring)
+      var ctx = redrawGraph('huidigeleidingservaring');
 
       var type = "doughnut";
       var data = {
-        labels: $scope.sortedKeys($scope.orakelData.leidingservaring).map(function(jaar) {
+        labels: $scope.sortedKeys(orakelData.leidingservaring).map(function(jaar) {
           return jaar + ' jaar';
         }),
         datasets : [{
-          data: $scope.sortedValues($scope.orakelData.leidingservaring),
+          data: $scope.sortedValues(orakelData.leidingservaring),
           backgroundColor: chartColors,
          hoverBackgroundColor: chartHoverColors
         }]
@@ -282,13 +347,13 @@
         animation: animation,
         options: grafiekOpties
       });
-      $scope.currentView = "HuidigeLeidingsErvaring";
     }
 
-    $scope.tekenInEnUitstroom = function() {
-      wisGrafiek();
+    $scope.tekenInEnUitstroom = function(orakelData) {
       $scope.showGrafiek = true;
-      var ctx = $("#grafiek");
+
+
+      var ctx = redrawGraph('inuitstroomperleeftijd');
       // kleuren bepalen
       var chartColors = [
         {
@@ -317,17 +382,11 @@
         }
       ];
 
-      //console.log("instroom")
-      //console.log($scope.orakelData.instroom)
-
-      //console.log("uitstroom")
-      //console.log($scope.orakelData.uitstroom)
-
       var data = {
-        labels: $scope.sortedKeys($scope.orakelData.uitstroom[0].aantalPerLeeftijd),
+        labels: $scope.sortedKeys(orakelData.uitstroom[0].aantalPerLeeftijd),
         datasets : []
       }
-      _.forEach($scope.orakelData.uitstroom, function(value, index) {
+      _.forEach(orakelData.uitstroom, function(value, index) {
         data.datasets.push({
           label: value.werkjaar,
           backgroundColor: chartColors[index % 6].background,
@@ -356,12 +415,8 @@
         data: data,
         options: grafiekOpties
       });
-      $scope.currentView = "InEnUitstroom";
     }
 
-    $scope.tekenSparkline = function (obj){
-      console.log('Sparkline TODO', obj);
-    }
 
     $scope.round = function(value, digits) {
       if (value) {
@@ -389,84 +444,8 @@
       return result;
     }
 
-    var wisGrafiek = function(){
-      $scope.grafiek ? $scope.grafiek.destroy() : "";
-      $scope.showLedenAantallen = false;
-      $scope.showEigenschappen = false;
-      $scope.showGrafiek = false;
-    }
 
-    // groepen ophalen
-    RestService.Groepen.get().$promise.then(
-      function (result) {
-        $scope.groepen = result.groepen;
-        $scope.activegroup = result.groepen[0];
-        grafiekDataOphalen();
-      },
-      function (Error){
-
-      }
-    );
-
-    var grafiekDataOphalen = function(){
-      $scope.isLoadingData = true;
-      // grafiek data ophalen
-      RestService.Orakel.get({groepsnummer: $scope.activegroup.groepsnummer}).$promise.then(
-        function (result) {
-          $scope.orakelData = result;
-
-          switch ($scope.currentView){
-            case "" :
-              $scope.tekenLedenaantallen();
-            break;
-
-            case "Ledenaantallen" :
-              $scope.tekenLedenaantallen();
-            break;
-
-            case "Eigenschappen" :
-              $scope.tekenEigenschappen();
-            break;
-
-            case "Groepsevolutie" :
-              $scope.tekenGroepsevolutie();
-            break;
-
-            case "LedenaantalPerLeeftijd" :
-              $scope.tekenLedenaantalPerLeeftijd();
-            break;
-
-            case "HuidigeLeidingsErvaring" :
-              $scope.tekenHuidigeLeidingsErvaring();
-            break;
-
-            case "InEnUitstroom" :
-              $scope.tekenInEnUitstroom();
-            break;
-          }
-          $scope.isLoadingData = false;
-        },
-        function (error) {
-          AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
-          $scope.isLoadingData = false;
-        }
-
-      );
-    }
-
-
-
-    /*
-     * event functies
-     * ----------------------------------
-     */
-    $scope.ChangeGroep = function () {
-      // nieuwe grafiekdata ophalen
-
-      grafiekDataOphalen();
-    }
-
-
+    init();
 
 }
 
