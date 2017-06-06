@@ -21,8 +21,7 @@
       RestService.Orakel.get({groepsnummer: groepsnummer}).$promise.then(
         function (res) {
           //var res = res.data;
-          $scope.tekenLedenaantallen(res);
-          $scope.tekenEigenschappen(res);
+          $scope.orakelData = res;
           $scope.tekenGroepsevolutie(res);
           $scope.tekenLedenaantalPerLeeftijd(res);
           $scope.tekenHuidigeLeidingsErvaring(res);
@@ -210,7 +209,7 @@
       grafiekOpties.scales.xAxes[0].display = true;
       grafiekOpties.scales.yAxes[0].display = true;
 
-      $scope.grafiek = new Chart(ctx, {
+      var chart = new Chart(ctx, {
         type: type,
         data: data,
         options: grafiekOpties
@@ -299,7 +298,7 @@
       };
 
       // Grafiek aanmaken
-      $scope.grafiek = new Chart(ctx, {
+      var chart = new Chart(ctx, {
         type: "bar",
         data: data,
         options: grafiekOpties
@@ -332,7 +331,7 @@
       grafiekOpties.scales.yAxes[0].display = false;
 
       var animation = { animateScale:true };
-      $scope.grafiek = new Chart(ctx, {
+      var chart = new Chart(ctx, {
         type: type,
         data: data,
         animation: animation,
@@ -401,7 +400,7 @@
           };
 
       // Grafiek aanmaken
-      $scope.grafiek = new Chart(ctx, {
+      var chart = new Chart(ctx, {
         type: "bar",
         data: data,
         options: grafiekOpties
