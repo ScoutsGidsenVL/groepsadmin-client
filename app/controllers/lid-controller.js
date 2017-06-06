@@ -464,12 +464,11 @@
 
 
     /*
-    * Panel footer functionaliteit
+    * Panel header functionaliteit
     * ---------------------------------------
     */
 
-    // nieuwlid
-    $scope.nieuw = function() {
+    $scope.nieuwlid = function() {
       $location.path("/lid/toevoegen");
     }
 
