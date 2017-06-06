@@ -1,19 +1,21 @@
 {
   "name": "Groepsadministratie",
-  "description": "Front end van de nieuwe groepsadministratie",
+  "description": "Front end van de betagroepsadministratie",
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git@tools.scoutsengidsenvlaanderen.net:groepsadmin-layout"
+    "url": "https://github.com/ScoutsGidsenVL/groepsadmin-client"
   },
-  "devDependencies": {
+  "dependencies": {
     "aglio": "^2.3.0",
     "bower": "^1.7.9",
     "grunt": "^0.4.4",
     "grunt-cli": "*",
-    "grunt-contrib-connect": "~0.8.0",
     "grunt-contrib-less": "^0.11.0",
-    "grunt-contrib-watch": "^0.6.1",
     "grunt-wiredep": "^3.0.1"
+  },
+  "devDependencies": {
+    "grunt-contrib-connect": "~0.8.0",
+    "grunt-contrib-watch": "^0.6.1"
   }
 }
