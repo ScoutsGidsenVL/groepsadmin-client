@@ -1,0 +1,77 @@
+<!-- Panel header -->
+<div class="panel-heading panel-heading--orakel panel-fixed clearfix">
+  <div class="pull-left">
+
+    <div class="form-group form-group--orakel">
+      <label class="orakel-title hidden-xs" for="sel1">Ledenaantallen van</label>&nbsp;
+      <select class="orakel-select-group" id="sel1" ng-options="( groep.groepsnummer + ' ' + groep.naam) for groep in groepen track by groep.id" ng-change="ChangeGroep()" ng-model="activegroup"></select>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default panel-orakel-body">
+  <!-- Persoonsinfo -->
+  <div class="panel-body form-hover clearfix">
+    <div class="row">
+      <div class="col-xs-12 col-md-8 col-md-offset-2">
+        <div class="btn-group btn-group-orakel" role="group" >
+          <button type="button" class="btn btn-default" ng-class="( currentView == 'LedenAantallen') ? 'active': ''" ng-click="tekenLedenaantallen()" ng-disabled="isLoadingData">Ledenaantallen</button>
+          <button type="button" class="btn btn-default" ng-class="( currentView == 'Eigenschappen') ? 'active': ''" ng-click="tekenEigenschappen()" ng-disabled="isLoadingData">Eigenschappen</button>
+          <button type="button" class="btn btn-default" ng-class="( currentView == 'Groepsevolutie') ? 'active': ''" ng-click="tekenGroepsevolutie()" ng-disabled="isLoadingData">Groepsevolutie</button>
+          <button type="button" class="btn btn-default" ng-class="( currentView == 'LedenaantalPerLeeftijd') ? 'active': ''" ng-click="tekenLedenaantalPerLeeftijd()" ng-disabled="isLoadingData">Ledenaantal per leeftijd</button>
+          <button type="button" class="btn btn-default" ng-class="( currentView == 'HuidigeLeidingsErvaring') ? 'active': ''" ng-click="tekenHuidigeLeidingsErvaring()" ng-disabled="isLoadingData">Huidige leidingservaring</button>
+          <button type="button" class="btn btn-default" ng-class="( currentView == 'InEnUitstroom') ? 'active': ''" ng-click="tekenInEnUitstroom()" ng-disabled="isLoadingData">Instroom en uitstroom per leeftijd</button>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="centeredcontent m20" ng-show="isLoadingData"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Data aan het laden, even geduld aub</div>
+        <canvas id="grafiek" ng-show="showGrafiek"></canvas>
+      </div>
+      <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 mt20" ng-show="showLedenAantallen && !isLoadingData">
+        <table class="table" ng-set>
+          <thead>
+            <tr>
+              <th>Tak</th>
+              <th>Aantal leden</th>
+              <th>Historiek</th>
+              <th>% Vrouwen</th>
+              <th>Aantal leiding</th>
+              <th>Historiek</th>
+              <th>Omkaderingscijfer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="takStatistiek in orakelData.takStatistieken">
+              <td>{{ takStatistiek.takNaam }}</td>
+              <td>{{ takStatistiek.aantalLeden['Nu'] }}</td>
+              <td ng-attr-id="{{ 'tak-' + takStatistiek.takNaam + '-leden' }}" sparkline="" data-waarden="{{ sparklineData(takStatistiek.aantalLeden) }}" data-formaat='%.0f'></td>
+              <td>{{ round(takStatistiek.percentageVrouwelijkeLeden, 0) }}</td>
+              <td>{{ takStatistiek.aantalLeiding['Nu'] }}</td>
+              <td ng-attr-id="{{ 'tak-' + takStatistiek.takNaam + '-leiding' }}" sparkline="" data-waarden="{{ sparklineData(takStatistiek.aantalLeiding) }}" data-formaat='{{ criterium.formaat }}'></td>
+              <td>{{ round(takStatistiek.omkaderingscijfer, 1) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 mt20" ng-show="showEigenschappen && !isLoadingData">
+        <table class="table">
+          <thead>
+           <tr>
+            <th>Criteria</th>
+            <th>Waarde</th>
+            <th>Historiek</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="criterium in orakelData.criteria">
+              <td>{{ criterium.naam }}</td>
+              <td>{{ format(criterium.waarden['Nu'], criterium.formaat) }}</td>
+              <td ng-attr-id="{{ 'criterium-' + criterium.naam }}" sparkline="" data-waarden="{{ sparklineData(criterium.waarden) }}" data-formaat='{{ criterium.formaat }}'></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>

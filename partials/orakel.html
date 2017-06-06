@@ -22,9 +22,51 @@
       <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
         <div class="centeredcontent m20" ng-show="isLoadingData"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Data aan het laden, even geduld aub</div>
 
-        <div id="ledenaantallen" ng-show="tabs['ledenaantallen'].activated"></div>
+        <div id="ledenaantallen" ng-show="tabs['ledenaantallen'].activated">
+          <table class="table" ng-set>
+            <thead>
+              <tr>
+                <th>Tak</th>
+                <th>Aantal leden</th>
+                <th>Historiek</th>
+                <th>% Vrouwen</th>
+                <th>Aantal leiding</th>
+                <th>Historiek</th>
+                <th>Omkaderingscijfer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="takStatistiek in orakelData.takStatistieken">
+                <td>{{ takStatistiek.takNaam }}</td>
+                <td>{{ takStatistiek.aantalLeden['Nu'] }}</td>
+                <td ng-attr-id="{{ 'tak-' + takStatistiek.takNaam + '-leden' }}" sparkline="" data-waarden="{{ sparklineData(takStatistiek.aantalLeden) }}" data-formaat='%.0f'></td>
+                <td>{{ round(takStatistiek.percentageVrouwelijkeLeden, 0) }}</td>
+                <td>{{ takStatistiek.aantalLeiding['Nu'] }}</td>
+                <td ng-attr-id="{{ 'tak-' + takStatistiek.takNaam + '-leiding' }}" sparkline="" data-waarden="{{ sparklineData(takStatistiek.aantalLeiding) }}" data-formaat='{{ criterium.formaat }}'></td>
+                <td>{{ round(takStatistiek.omkaderingscijfer, 1) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <div id="eigenschappen" ng-show="tabs['eigenschappen'].activated"></div>
+        <div id="eigenschappen" ng-show="tabs['eigenschappen'].activated">
+          <table class="table">
+            <thead>
+             <tr>
+              <th>Criteria</th>
+              <th>Waarde</th>
+              <th>Historiek</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="criterium in orakelData.criteria">
+                <td>{{ criterium.naam }}</td>
+                <td>{{ format(criterium.waarden['Nu'], criterium.formaat) }}</td>
+                <td ng-attr-id="{{ 'criterium-' + criterium.naam }}" sparkline="" data-waarden="{{ sparklineData(criterium.waarden) }}" data-formaat='{{ criterium.formaat }}'></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div id="groepsevolutie" ng-show="tabs['groepsevolutie'].activated"></div>
 
