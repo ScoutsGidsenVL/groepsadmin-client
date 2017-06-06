@@ -147,17 +147,8 @@
       });
     }
 
-    $scope.tekenLedenaantallen = function(orakelData) {
-
-      $scope.showLedenAantallen = true;
-    }
-
-    $scope.tekenEigenschappen = function(orakelData){
-      $scope.showEigenschappen = true;
-    }
-
     $scope.tekenGroepsevolutie = function(orakelData) {
-      $scope.showGrafiek = true;
+
 
       var chartColors = [
         {
@@ -227,7 +218,7 @@
     }
 
     $scope.tekenLedenaantalPerLeeftijd = function(orakelData) {
-      $scope.showGrafiek = true;
+
 
       var ctx = redrawGraph('ledenaantalperleeftijd');
 
@@ -316,7 +307,7 @@
     }
 
     $scope.tekenHuidigeLeidingsErvaring = function(orakelData) {
-      $scope.showGrafiek = true;
+
 
       var chartHoverColors = ["rgba(232, 232, 96, 0.62)", "rgba(141, 221, 119, 0.62)", "rgba(236, 148, 76, 0.59)", "rgba(76, 83, 236, 0.59)", "rgba(212, 94, 94, 0.59)", "rgba(120, 97, 218, 0.59)"];
       var chartColors = ["rgba(232, 232, 96, 1)", "rgba(141, 221, 119, 1)", "rgba(236, 148, 76, 1)", "rgba(76, 83, 236, 1)", "rgba(212, 94, 94, 1)", "rgba(120, 97, 218, 1)"];
@@ -350,7 +341,7 @@
     }
 
     $scope.tekenInEnUitstroom = function(orakelData) {
-      $scope.showGrafiek = true;
+
 
 
       var ctx = redrawGraph('inuitstroomperleeftijd');
