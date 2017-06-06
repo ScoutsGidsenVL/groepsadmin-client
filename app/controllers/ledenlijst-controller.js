@@ -37,6 +37,7 @@
 
     $(function() {
       angular.element("#mySortableList").sortable({
+        items: "> .filterDragKolom",
         placeholder: "my-sortable-placeholder",
         stop : function(event, ui){
           // zoek element mbv data-kolom-id en geef het de nieuwe index
@@ -94,7 +95,6 @@
         }),
         $q.all(filterKolommen.promises).then(function(){
           $scope.kolommen = filterKolommen.kolommen;
-          console.log("kolommen", $scope.kolommen);
         }),
         $q.all(filters.promises).then(function(){
           $scope.filters = filters.filters;
@@ -105,7 +105,6 @@
 
       return deferred.promise;
     }
-
 
     // In deze functie wordt een filter uit de backend gehaald
     // Ook worden alle mogelijke functies/ groepen waartoe de gebruiker toegang heeft opgehaald
@@ -368,16 +367,15 @@
     }
 
     // controle is de criteria geselecteerd a.d.h.v. de titel
-    var activeerEnIndexeerKolommen = function(){
-      // activeer alle kolommen uit de toegepaste filter
-      // en geef er een kolomIndex aan
-      var counter = 0;
-      // eerst alle kolommen resetten
-      _.each($scope.kolommen, function(val,key){
-        val.activated = false;
-        val.kolomIndex = 0;
-        val.isLoaded = false;
-      })
+    var activeerKolommen = function() {
+
+      var counter = 1000; // meer dan het aantal kolommen
+      _.each($scope.kolommen, function(kolom) {
+        kolom.activated = false;
+        kolom.isLoaded = false;
+        kolom.kolomIndexOrig = counter;
+        counter++;
+      });
 
       _.each($scope.currentFilter.kolommen, function(value, key){
         var kolom = _.find($scope.kolommen, {'id': value});
@@ -385,34 +383,46 @@
         if(kolom){
           kolom.isLoaded = true;
           kolom.activated = true;
-          kolom.kolomIndex = counter;
-          counter++;
         }
       });
-      indexeerNietActieveKolommen(counter);
 
+      $scope.indexeerEnGroepeerKolommen();
     }
 
-    var indexeerNietActieveKolommen = function(startCounter){
-      // alle niet actieve kolommen krijgen ook een kolomIndex
-      // deze zal door de gebruiker nog aangepast kunnen worden door de kolommen te verslepen
-      var counter = startCounter;
-      var nonActieveKolommen = _.filter($scope.kolommen, function(o){return !o.activated});
-      _.each(nonActieveKolommen,function(value,key){
-        value.kolomIndex = counter;
+    $scope.indexeerEnGroepeerKolommen = function() {
+
+      var counter = 0;
+      var actieveKolommen = _.filter($scope.kolommen, function(o) {return o.activated});
+      actieveKolommen = _.sortBy(actieveKolommen, ['kolomIndex']);
+      _.forEach(actieveKolommen, function(kolom) {
+        kolom.kolomIndex = counter;
         counter++;
-      })
-    }
+      });
 
-    $scope.toggleKolom = function(kol){
+      var nonActieveKolommen = _.filter($scope.kolommen, function(o) {return !o.activated});
+      _.forEach(nonActieveKolommen, function(kolom) {
+        kolom.kolomIndex = kolom.kolomIndexOrig;
+      });
+
+      // groepering
+      _.forEach($scope.kolommen, function(kolom) {
+        kolom.groepering = kolom.groeperingOrig || kolom.groepering; // reset
+        if (kolom.activated) {
+          kolom.groeperingOrig = kolom.groepering; // backup
+          kolom.groepering = undefined; // override
+        }
+      });
+    };
+
+    $scope.toggleKolom = function(kol) {
       if(kol.activated == undefined || kol.activated == false){
         kol.activated = true;
       }else{
         kol.activated = false;
       };
-    }
+    };
 
-    var createFilterObject = function(){
+    var createFilterObject = function() {
       var actFilterCriteria  = _.filter($scope.criteria, {"activated": true});
 
       // seleecteer alle actieve kolommen, gesorteerd op kolomIndex
@@ -426,9 +436,9 @@
 
       var currentFilter = $scope.currentFilter;
       return LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, currentFilter);
-    }
+    };
 
-    var overwriteFilter = function(filter, obj){
+    var overwriteFilter = function(filter, obj) {
       var deferred = $q.defer();
       obj.naam = filter.naam;
 
@@ -438,8 +448,7 @@
       });
 
       return deferred.promise;
-
-    }
+    };
 
     var createNewFilter = function(filterNaam){
 
@@ -509,7 +518,7 @@
         $scope.isLoadingFilters = false;
         deactiveerCriteriaAndItems();
         activeerCriteria();
-        activeerEnIndexeerKolommen();
+        activeerKolommen();
         $scope.applyFilter();
       });
     }
@@ -645,7 +654,6 @@
       if($scope.totaalAantalLeden == $scope.leden.length){
         // lokaal hersorteren.
       }
-
     }
 
     $scope.toggleCriteriumSection = function(obj){
@@ -688,7 +696,7 @@
           // variable om te voorkomen dat content flikkert
           $scope.hasLoadedFilters = true;
           activeerCriteria();
-          activeerEnIndexeerKolommen();
+          activeerKolommen();
         });
       });
 

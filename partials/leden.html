@@ -1,268 +1,266 @@
 <div class="panel panel-default">
-<!-- Panel header -->
-<div class="panel-heading panel-heading--leden clearfix">
-  <div class="pull-left">
-    <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : isFilterCollapsed}" ng-click="toggleFilter()"><span ng-if="!isLoadingFilters && hasLoadedFilters"><div class="pull-left">Filter</div> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i></span><div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filter aan het laden...</div></button>
 
-  </div>
+  <!-- Panel header -->
+  <div class="panel-heading panel-heading--leden clearfix">
+    <div class="pull-left">
+      <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : isFilterCollapsed}" ng-click="toggleFilter()"><span ng-if="!isLoadingFilters && hasLoadedFilters"><div class="pull-left">Filter</div> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i></span><div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filter aan het laden...</div></button>
 
-  <div class="pull-right">
-    <div class="hidden-sm">
-      <button type="button" class="btn btn-secondary" ng-show="canPost" ng-click="nieuwlid()">
-        <i class="fa fa-plus"></i>&nbsp;Nieuw lid
-      </button>
-      <button type="button" class="btn btn-secondary" ng-click="export('pdf')">
-        <span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
-      </button>
-      <button type="button" class="btn btn-secondary" ng-click="export('csv')">
-        <span ng-show="exportButtons['csv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)
-      </button>
-      <button type="button" class="btn btn-secondary" ng-click="export('steekkaarten')">
-        <span ng-show="exportButtons['steekkaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF
-      </button>
     </div>
-    <div class="hidden-md hidden-lg">
-      <div class="btn-group pull-right" uib-dropdown>
-        <button id="split-button" type="button" class="btn btn-secondary" ng-click="export('pdf')">
+
+    <div class="pull-right">
+      <div class="hidden-sm">
+        <button type="button" class="btn btn-secondary" ng-show="canPost" ng-click="nieuwlid()">
+          <i class="fa fa-plus"></i>&nbsp;Nieuw lid
+        </button>
+        <button type="button" class="btn btn-secondary" ng-click="export('pdf')">
           <span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
         </button>
-        <button type="button" class="btn btn-secondary" uib-dropdown-toggle>
-          <span class="caret"></span>
-          <span class="sr-only">Acties</span>
+        <button type="button" class="btn btn-secondary" ng-click="export('csv')">
+          <span ng-show="exportButtons['csv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)
         </button>
-        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-          <li role="menuitem" ng-show="canPost"><a href="#" ng-click="nieuwlid()"><i class="fa fa-spinner fa-plus"></i>&nbsp;Nieuw lid</a></li>
-          <li role="menuitem"><a href="#" ng-click="export('pdf')"><span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF</a></li>
-          <li role="menuitem"><a href="#" ng-click="export('csv')"><span ng-show="exportButtons['csv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)</a></li>
-          <li role="menuitem"><a href="#" ng-click="export('steekkaarten')"><span ng-show="exportButtons['steekaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF</a></li>
-        </ul>
+        <button type="button" class="btn btn-secondary" ng-click="export('steekkaarten')">
+          <span ng-show="exportButtons['steekkaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF
+        </button>
       </div>
-    </div>
+      <div class="hidden-md hidden-lg">
+        <div class="btn-group pull-right" uib-dropdown>
+          <button id="split-button" type="button" class="btn btn-secondary" ng-click="export('pdf')">
+            <span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
+          </button>
+          <button type="button" class="btn btn-secondary" uib-dropdown-toggle>
+            <span class="caret"></span>
+            <span class="sr-only">Acties</span>
+          </button>
+          <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+            <li role="menuitem" ng-show="canPost"><a href="#" ng-click="nieuwlid()"><i class="fa fa-spinner fa-plus"></i>&nbsp;Nieuw lid</a></li>
+            <li role="menuitem"><a href="#" ng-click="export('pdf')"><span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF</a></li>
+            <li role="menuitem"><a href="#" ng-click="export('csv')"><span ng-show="exportButtons['csv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)</a></li>
+            <li role="menuitem"><a href="#" ng-click="export('steekkaarten')"><span ng-show="exportButtons['steekaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF</a></li>
+          </ul>
+        </div>
+      </div>
 
-  </div>
-</div>
-
-<div class="panel-filter row-fluid clearfix collapse" uib-collapse="isFilterCollapsed">
-  <div class="row row-filters">
-    <!-- Single button -->
-    <div class="col-lg-6 col-xxs-12">
-      <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
-        <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
-          {{ currentFilter.naam ? currentFilter.naam : 'Huidige' }} <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-          <li ng-if="isLoadingFilters"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filters aan het laden...</a></li>
-          <li ng-if="!isLoadingFilters && !(filters.length > 0)"><a href='javascript:void(0)'>Geen filters</a></li>
-          <li ng-if="!isLoadingFilters" role="menuitem" ng-repeat="filter in filters | orderBy:'naam'"><a href ng-click="changeFilter(filter)">{{ filter.naam }}</a></li>
-        </ul>
-      </div>
-      <div ng-show="!showSaveOptions" class="pull-left">
-        <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Filter opslaan</button>
-      </div>
-      <div ng-show="showSaveOptions" class="pull-left">
-      <form class="form-inline typeahead-filter">
-        <!-- <pre>Model: {{selectedFilter | json}}</pre> -->
-        <input type="text" ng-model="selectedFilter"
-        placeholder="Naam van filter"
-        uib-typeahead="filter as filter.naam for filter in filters | filter:{naam:$viewValue}"
-        typeahead-popup-template-url="customPopupTemplate.html" class="form-control">
-        <!--<select class="selectpicker" title="Beschikbaar voor" ng-model="currentFilter" >
-          <option>Groep x</option>
-        </select>-->
-        <button class="btn btn-apply" ng-click="saveOrOverwriteFilter(selectedFilter)">
-          <span ng-if="!selectedFilter.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan</span>
-          <span ng-if="selectedFilter.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Overschrijven</span>
-        </button>
-        <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions;selectedFilter='';"><span class="fa fa-remove" aria-hidden="true" ></span>&nbsp;Annuleren</button>
-      </form>
-      </div>
     </div>
   </div>
-  <div class="row row-criteria">
+
+  <div class="panel-filter row-fluid clearfix collapse" uib-collapse="isFilterCollapsed">
+    <div class="row row-filters">
+      <!-- Single button -->
+      <div class="col-lg-6 col-xxs-12">
+        <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
+          <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+            {{ currentFilter.naam ? currentFilter.naam : 'Huidige' }} <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+            <li ng-if="isLoadingFilters"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filters aan het laden...</a></li>
+            <li ng-if="!isLoadingFilters && !(filters.length > 0)"><a href='javascript:void(0)'>Geen filters</a></li>
+            <li ng-if="!isLoadingFilters" role="menuitem" ng-repeat="filter in filters | orderBy:'naam'"><a href ng-click="changeFilter(filter)">{{ filter.naam }}</a></li>
+          </ul>
+        </div>
+        <div ng-show="!showSaveOptions" class="pull-left">
+          <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Filter opslaan</button>
+        </div>
+        <div ng-show="showSaveOptions" class="pull-left">
+        <form class="form-inline typeahead-filter">
+          <!-- <pre>Model: {{selectedFilter | json}}</pre> -->
+          <input type="text" ng-model="selectedFilter"
+          placeholder="Naam van filter"
+          uib-typeahead="filter as filter.naam for filter in filters | filter:{naam:$viewValue}"
+          typeahead-popup-template-url="customPopupTemplate.html" class="form-control">
+          <!--<select class="selectpicker" title="Beschikbaar voor" ng-model="currentFilter" >
+            <option>Groep x</option>
+          </select>-->
+          <button class="btn btn-apply" ng-click="saveOrOverwriteFilter(selectedFilter)">
+            <span ng-if="!selectedFilter.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan</span>
+            <span ng-if="selectedFilter.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Overschrijven</span>
+          </button>
+          <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions;selectedFilter='';"><span class="fa fa-remove" aria-hidden="true" ></span>&nbsp;Annuleren</button>
+        </form>
+        </div>
+      </div>
+    </div>
+    <div class="row row-criteria">
 
 
-    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12"
-    ng-repeat="criterium in criteria | filter:{activated:true} | orderBy:'title'"
-    ng-if="hasLoadedFilters">
-      <!-- Filter options/criteria -->
-      <div class="btn-group filter-option filter-option--criteria" uib-dropdown keyboard-nav="true" auto-close="outsideClick">
-        <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" class="btn btn-filter btn-filter--criteria dropdown-toggle" uib-dropdown-toggle>
-          <span class="filter-option-title">{{ criterium.title }}</span>
-          <span class="filter-option-subtitle">
-            <span>{{ getButtonSubtitle(criterium,3) }}</span>
-          </span>
+      <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12"
+      ng-repeat="criterium in criteria | filter:{activated:true} | orderBy:'title'"
+      ng-if="hasLoadedFilters">
+        <!-- Filter options/criteria -->
+        <div class="btn-group filter-option filter-option--criteria" uib-dropdown keyboard-nav="true" auto-close="outsideClick">
+          <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" class="btn btn-filter btn-filter--criteria dropdown-toggle" uib-dropdown-toggle>
+            <span class="filter-option-title">{{ criterium.title }}</span>
+            <span class="filter-option-subtitle">
+              <span>{{ getButtonSubtitle(criterium,3) }}</span>
+            </span>
 
-        </button>
-        <a ng-click="criterium.activated = false" class="filter-option-close"><i class="fa fa-trash" aria-hidden="true"></i></a>
+          </button>
+          <a ng-click="criterium.activated = false" class="filter-option-close"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
-        <div class="dropdown-menu" uib-dropdown-menu>
-          <div class="control-selectall" ng-if="criterium.multiplePossible && criterium.items.length > 1 && criterium.criteriaKey == 'groepen' ">
-            <label
-              class="jcontrol control--checkbox">
-              Selecteer alle groepen
-              <input type="checkbox" ng-click="toggleAllCriteriumItems(criterium)" ng-checked="isAllCriteriumItemsSelected(criterium) == 'all'"/>
-              <div class="control__indicator" ng-class="{'control__indicator--some-selected' : isAllCriteriumItemsSelected(criterium) == 'some'}"></div>
-            </label>
-          </div>
-          <div class="control-selectall" ng-if="criterium.multiplePossible && criterium.itemgroups.length > 1 && criterium.criteriaKey == 'functies' ">
-            <label
-              class="jcontrol control--checkbox">
-              Selecteer alle functies
-              <input type="checkbox" ng-click="toggleAllCriteriumItemGroups(criterium); $scope.$apply();" ng-checked="isAllCriteriumItemGroupsSelected(criterium) == 'all'"/>
-              <div class="control__indicator" ng-class="{'control__indicator--some-selected' : isAllCriteriumItemGroupsSelected(criterium) == 'some'}"></div>
-            </label>
-          </div>
-
-          <div class="control-group">
-            <div class="control-group-sectiongroup">
-              <div ng-if="criterium.criteriaKey == 'functies' && (criterium.criteriaSubKey == 'verbonds' || criterium.criteriaSubKey == 'groepspecifiek')"
-                ng-repeat="criteriumItemGroup in criterium.itemgroups"
-                ng-class="{ 'control-group-section--collapsed': criteriumItemGroup.collapsed }"
-                class="control-group-section">
-                <div class="control-group-subheader"
-                ng-click="toggleCriteriumSection(criteriumItemGroup)">
-                <span class="control-group-subheader-label">
-
-                  <div class="control-selectall">
-                    <label
-                      class="jcontrol control--checkbox control--header">
-
-                      <input type="checkbox" ng-click="toggleAllCriteriumItems(criteriumItemGroup)" ng-checked="isAllCriteriumItemsSelected(criteriumItemGroup) == 'all'"/>
-                      <div class="control__indicator" ng-class="{'control__indicator--some-selected' : isAllCriteriumItemsSelected(criteriumItemGroup) == 'some'}"></div>
-                      <div class="control__indicator"></div>
-                    </label>
-                    <div class="control-label-value">{{ criteriumItemGroup.label }}</div>
-                  </div>
-
-                  <i class="glyphicon pull-right glyphicon-chevron-down"></i>
-                </div>
-                <label
-                  ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'"
-                  class="jcontrol control--checkbox control--collapsible">
-                  {{ criteriumItem.label }}
-                  <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'checkbox')" ng-checked="criteriumItem.activated"/>
-                  <div class="control__indicator"></div>
-                </label>
-
-              </div>
+          <div class="dropdown-menu" uib-dropdown-menu>
+            <div class="control-selectall" ng-if="criterium.multiplePossible && criterium.items.length > 1 && criterium.criteriaKey == 'groepen' ">
+              <label
+                class="jcontrol control--checkbox">
+                Selecteer alle groepen
+                <input type="checkbox" ng-click="toggleAllCriteriumItems(criterium)" ng-checked="isAllCriteriumItemsSelected(criterium) == 'all'"/>
+                <div class="control__indicator" ng-class="{'control__indicator--some-selected' : isAllCriteriumItemsSelected(criterium) == 'some'}"></div>
+              </label>
+            </div>
+            <div class="control-selectall" ng-if="criterium.multiplePossible && criterium.itemgroups.length > 1 && criterium.criteriaKey == 'functies' ">
+              <label
+                class="jcontrol control--checkbox">
+                Selecteer alle functies
+                <input type="checkbox" ng-click="toggleAllCriteriumItemGroups(criterium); $scope.$apply();" ng-checked="isAllCriteriumItemGroupsSelected(criterium) == 'all'"/>
+                <div class="control__indicator" ng-class="{'control__indicator--some-selected' : isAllCriteriumItemGroupsSelected(criterium) == 'some'}"></div>
+              </label>
             </div>
 
-            <label
-              ng-if="criterium.multiplePossible && (criterium.criteriaSubKey !== 'verbonds' || criterium.criteriaSubKey !== 'groepspecifiek')"
-              ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
-              class="jcontrol control--checkbox">
-              {{ criteriumItem.label }}
-              <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'checkbox')" ng-checked="criteriumItem.activated"/>
-              <div class="control__indicator"></div>
-            </label>
+            <div class="control-group">
+              <div class="control-group-sectiongroup">
+                <div ng-if="criterium.criteriaKey == 'functies' && (criterium.criteriaSubKey == 'verbonds' || criterium.criteriaSubKey == 'groepspecifiek')" ng-repeat="criteriumItemGroup in criterium.itemgroups" ng-class="{ 'control-group-section--collapsed': criteriumItemGroup.collapsed }" class="control-group-section">
+                  <div class="control-group-subheader" ng-click="toggleCriteriumSection(criteriumItemGroup)">
+                  <span class="control-group-subheader-label">
 
-            <label
-              ng-if="!criterium.multiplePossible"
-              ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
-              class="jcontrol control--radio">
-              {{ criteriumItem.label }}
-              <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'radio',criterium.items)" ng-checked="criteriumItem.activated">
-              <div class="control__indicator"></div>
-            </label>
+                    <div class="control-selectall">
+                      <label class="jcontrol control--checkbox control--header">
+
+                        <input type="checkbox" ng-click="toggleAllCriteriumItems(criteriumItemGroup)" ng-checked="isAllCriteriumItemsSelected(criteriumItemGroup) == 'all'"/>
+                        <div class="control__indicator" ng-class="{'control__indicator--some-selected' : isAllCriteriumItemsSelected(criteriumItemGroup) == 'some'}"></div>
+                        <div class="control__indicator"></div>
+                      </label>
+                      <div class="control-label-value">{{ criteriumItemGroup.label }}</div>
+                    </div>
+
+                    <i class="glyphicon pull-right glyphicon-chevron-down"></i>
+                  </div>
+                  <label
+                    ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'"
+                    class="jcontrol control--checkbox control--collapsible">
+                    {{ criteriumItem.label }}
+                    <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'checkbox')" ng-checked="criteriumItem.activated"/>
+                    <div class="control__indicator"></div>
+                  </label>
+
+                </div>
+              </div>
+
+              <label
+                ng-if="criterium.multiplePossible && (criterium.criteriaSubKey !== 'verbonds' || criterium.criteriaSubKey !== 'groepspecifiek')"
+                ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
+                class="jcontrol control--checkbox">
+                {{ criteriumItem.label }}
+                <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'checkbox')" ng-checked="criteriumItem.activated"/>
+                <div class="control__indicator"></div>
+              </label>
+
+              <label
+                ng-if="!criterium.multiplePossible"
+                ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
+                class="jcontrol control--radio">
+                {{ criteriumItem.label }}
+                <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'radio',criterium.items)" ng-checked="criteriumItem.activated">
+                <div class="control__indicator"></div>
+              </label>
+
+            </div>
 
           </div>
-
         </div>
       </div>
-    </div>
 
-    <!-- Filter options/criteria toevoegen-->
-    <div class="btn-group"
-    ng-hide="isAllCriteriaActive()"
-    ng-if="hasLoadedFilters">
-      <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" ng-click="addLastCriteriumIfThereIsOnlyOneLeft()" class="btn btn-filter btn-filter--criteria dropdown-toggle" data-toggle="dropdown" title="Filtercriteria toevoegen">
-        <span class="glyphicon glyphicon-plus"></span>
-        <span class="hidden-label">Criterium toevoegen</span>
-      </button>
-      <ul class="dropdown-menu">
-        <li ng-repeat="criterium in criteria | filter : { activated : false} | orderBy:'title'">
-          <a ng-click="activateCriterium(criterium)">{{ criterium.title }}</a>
-        </li>
-      </ul>
-    </div>
+      <!-- Filter options/criteria toevoegen-->
+      <div class="btn-group"
+      ng-hide="isAllCriteriaActive()"
+      ng-if="hasLoadedFilters">
+        <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" ng-click="addLastCriteriumIfThereIsOnlyOneLeft()" class="btn btn-filter btn-filter--criteria dropdown-toggle" data-toggle="dropdown" title="Filtercriteria toevoegen">
+          <span class="glyphicon glyphicon-plus"></span>
+          <span class="hidden-label">Criterium toevoegen</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li ng-repeat="criterium in criteria | filter : { activated : false} | orderBy:'title'">
+            <a ng-click="activateCriterium(criterium)">{{ criterium.title }}</a>
+          </li>
+        </ul>
+      </div>
 
 
-    <!-- GROUP BUTTONS -->
+      <!-- GROUP BUTTONS -->
 
-    <div ng-show="hasLoadedFilters" class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
-      <div class="btn-group filter-option filter-option--kolommen" uib-dropdown keyboard-nav="true" auto-close="outsideClick">
-        <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" class="btn btn-filter btn-filter--kolommen dropdown-toggle" uib-dropdown-toggle>
-          <span class="filter-option-title">Kolommen</span>
-          <span class="filter-option-subtitle">
-            <span ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy:'kolomIndex'">
-               {{ kolom.label }}
-               <span ng-if="!$last">,</span>
+      <div ng-show="hasLoadedFilters" class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12">
+        <div class="btn-group filter-option filter-option--kolommen" uib-dropdown keyboard-nav="true" auto-close="outsideClick" on-toggle="indexeerEnGroepeerKolommen()">
+
+          <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" class="btn btn-filter btn-filter--kolommen dropdown-toggle" uib-dropdown-toggle>
+            <span class="filter-option-title">Kolommen</span>
+            <span class="filter-option-subtitle">
+              <span ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy:'kolomIndex'">
+                 {{ kolom.label }}<span ng-if="!$last">,</span>
+              </span>
+              <span>{{ getButtonSubtitleSuffix(kolommen) }}</span>
             </span>
-            <span>{{ getButtonSubtitleSuffix(kolommen) }}</span>
-          </span>
-        </button>
+          </button>
 
-        <div class="dropdown-menu" uib-dropdown-menu>
-          <div class="control-group" id="mySortableList">
-            <label
-              ng-repeat="kolom in kolommen | orderBy: 'kolomIndex'"
-              class="jcontrol control--checkbox noselect"
-              data-kolom-id="{{kolom.id}}">
-              <span class="fa fa-arrows-v pull-right kolom-drag-v" ng-if="kolom.activated"></span>
-              {{ kolom.label }}
-              <input type="checkbox" ng-click="toggleKolom(kolom)" ng-checked="kolom.activated" />
-              <div class="control__indicator"></div>
-            </label>
+          <div class="dropdown-menu" uib-dropdown-menu>
+            <div id="mySortableList" class="control-group control-group-section control-group-sectiongroup">
+              <div ng-repeat-start="(key, groepering) in kolommen | orderBy : 'kolomIndex' | groupBy: 'groepering'" ng-if="!$first" class="control-group-subheader" style="cursor: initial;">
+                 <div class="control-group-title" style="padding: 4px 10px;">{{key}}</div>
+              </div>
+              <div ng-repeat-end ng-hide="groepering | isEmpty" ng-repeat="kolom in groepering | orderBy: 'kolomIndex'" ng-class="{ 'filterDragKolom': kolom.activated }" data-kolom-id="{{kolom.id}}">
+                <label class="jcontrol control--checkbox control--collapsible noselect">
+                  <span class="fa fa-arrows-v pull-right kolom-drag-v" ng-if="kolom.activated"></span>
+                  {{ kolom.label }}
+                  <input type="checkbox" ng-click="toggleKolom(kolom)" ng-checked="kolom.activated" />
+                  <div class="control__indicator"></div>
+                </label>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
-    </div>
 
-    <div class="pull-right" ng-show="!isLoadingFilters">
-      <div class="btn-group filter-option">
-        <button ng-if="isSavingFilters" type="button" class="btn btn-apply disabled" title="Criteria opslaan">
-          <div class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria opslaan...</div>
-        </button>
-        <button ng-click="applyFilter()" ng-if="!isSavingFilters" type="button" class="btn btn-apply" title="Filter toepassen">
-          <div><span class="glyphicon glyphicon-ok"></span><span class="hidden-label">Filter toepassen</span></div>
-        </button>
+      <div class="pull-right" ng-show="!isLoadingFilters">
+        <div class="btn-group filter-option">
+          <button ng-if="isSavingFilters" type="button" class="btn btn-apply disabled" title="Criteria opslaan">
+            <div class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria opslaan...</div>
+          </button>
+          <button ng-click="applyFilter()" ng-if="!isSavingFilters" type="button" class="btn btn-apply" title="Filter toepassen">
+            <div><span class="glyphicon glyphicon-ok"></span><span class="hidden-label">Filter toepassen</span></div>
+          </button>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- Table -->
+  <div class="panel-leden">
+    <table id="leden" class="table table-responsive table-leden" >
+      <thead>
+        <tr ng-show='!isLoadingLeden'>
+          <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'">{{ kolom.label }}</th>
+        </tr>
+      </thead>
+      <tbody ng-show="!isLoadingLeden" infinite-scroll='ledenLaden()' infinite-scroll-distance='1'>
+        <tr ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
+          <td ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'" style="position: relative;">
+            <div ng-if="!kolom.isLoaded" class="data-placeholder"></div>
+            <div ng-if="kolom.isLoaded && kolom.type == 'vinkje'" class="control noselect">
+              <input type="checkbox" ng-checked="{{ 0 <= lid.waarden[kolom.id].indexOf('checked') }}" disabled='disabled' />
+              <div class="control-indicator"></div>
+            </div>
+            <div ng-if="kolom.isLoaded && kolom.type != 'vinkje'">{{ lid.waarden[kolom.id] }}</div>
+          </td>
+          <td class="t-caret" role="button"><span class="caret"></span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <footer class="panel-footer clearfix">
+      <div ng-show='isLoadingLeden' class="loading"><i class="fa fa-spinner fa-pulse"></i>Leden aan het ophalen... </div>
+      <div ng-show='isLoadingMore' class="loading"><i class="fa fa-spinner fa-pulse"></i>Meer leden aan het ophalen... </div>
+    </footer>
+  </div>
+
 </div>
 
-<!-- Table -->
-<div class="panel-leden">
-  <table id="leden" class="table table-responsive table-leden" >
-    <thead>
-      <tr ng-show='!isLoadingLeden'>
-        <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'">{{ kolom.label }}
-          <!--<i class="fa fa-sort-alpha-asc sort" ng-class="{'first-sort' : sortering(kolom.id, true) == 1, 'second-sort' : sortering(kolom.id, true) == 2, 'third-sort' : sortering(kolom.id, true) == 3 }" aria-hidden="true" ng-click="addSort(kolom.id, true)"></i>
-          <i class="fa fa-sort-alpha-desc sort" ng-class="{'first-sort' : sortering(kolom.id, false) == 1, 'second-sort' : sortering(kolom.id, false) == 2, 'third-sort' : sortering(kolom.id, false) == 3 }" aria-hidden="true" ng-click="addSort(kolom.id, false)"></i>-->
-        </th>
-      </tr>
-    </thead>
-    <tbody ng-show="!isLoadingLeden" infinite-scroll='ledenLaden()' infinite-scroll-distance='1'>
-      <tr ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
-        <td ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'" style="position: relative;">
-          <div ng-if="!kolom.isLoaded" class="data-placeholder"></div>
-          <div ng-if="kolom.isLoaded && kolom.type == 'vinkje'" class="control noselect">
-            <input type="checkbox" ng-checked="{{ 0 <= lid.waarden[kolom.id].indexOf('checked') }}" disabled='disabled' />
-            <div class="control-indicator"></div>
-          </div>
-          <div ng-if="kolom.isLoaded && kolom.type != 'vinkje'">{{ lid.waarden[kolom.id] }}</div>
-        </td>
-        <td class="t-caret" role="button"><span class="caret"></span></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <footer class="panel-footer clearfix">
-    <div ng-show='isLoadingLeden' class="loading"><i class="fa fa-spinner fa-pulse"></i>Leden aan het ophalen... </div>
-    <div ng-show='isLoadingMore' class="loading"><i class="fa fa-spinner fa-pulse"></i>Meer leden aan het ophalen... </div>
-  </footer>
-</div>
-</div>
 <script type="text/ng-template" id="customPopupTemplate.html">
   <div class="custom-popup-wrapper"
      ng-style="{top: position().top+'px', left: position().left+'px'}"
@@ -278,19 +276,3 @@
     </ul>
   </div>
 </script>
-
-<!-- Panel footer -->
-<!--
-<footer class="panel-footer clearfix">
-  <small class="pagination-info pull-left">{{ offset + 1 }} tot {{ offset + aantalPerPagina }} van {{ totaalAantalLeden }}</small>
-  <ul class="pagination pull-right" >
-    <li><a href="#">«</a></li>
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li><a href="#">»</a></li>
-  </ul>
-</footer>
--->
