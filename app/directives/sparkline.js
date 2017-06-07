@@ -7,15 +7,10 @@
       console.log('spark!');
       return {
           link: function(scope, element, attrs) {
-
-              console.log('scope', scope);
-              console.log('element, attrs', element, attrs);
-
               var values = attrs['waarden'].split(',').map(function(x) {
                 return x.split(':').map(parseFloat);
               });
               var formaat = attrs['formaat'];
-              console.log('values, formaat', values, formaat);
 
               $(element.context).sparkline(values, {
                   type: 'bar',
