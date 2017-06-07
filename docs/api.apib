@@ -5,15 +5,15 @@ HOST: https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/rest-
 
 # Group Algemeen
 
-## Authentication request headers
+## Authorization request headers
 
-Bij elke(*) request moet een *Authentication*-header worden meegegeven:
+Bij elke(*) request moet een *Authorization*-header worden meegegeven:
 
-`Authentication: Bearer {access token}`
+`Authorization: Bearer {access token}`
 
 `{access token}` is een OAuth-2.0 access token. Dit kan verkregen worden door in te loggen op [keycloak](https://login.scoutsengidsenvlaanderen.be).
 
-(*) Enkele endpoints zijn publiek. Hierbij is geen *Authentication*-header noodzakelijk. Het resultaat kan wel afhangen van de *Authentication*-header.
+(*) Enkele endpoints zijn publiek. Hierbij is geen *Authorization*-header noodzakelijk. Het resultaat kan wel afhangen van de *Authorization*-header.
 
 ## Etag response headers
 
@@ -540,7 +540,11 @@ Voor de sectie `groepseigenVelden`:
 
     + Body
 
-            // TODO
+            {
+                "boodschap": "De functie Open Kamp Leiding schrappen voor Tinus Van Langendonck",
+                "vraag": "Ben je zeker?",
+                "link": "https://ga.be/groepsadmin/rest-ga/lid/profiel?bevestig=true"
+            }
 
 ## E-mail [/lid/{id}/mail]
 
@@ -555,11 +559,11 @@ Als voor een gebruiker in het resultaat van het opvragen van een lid een verwijz
 
     + Headers
 
-            Content-Type: multipart/form-data, boundary=------AaB03x
+            Content-Type: multipart/form-data, boundary=AaB03x
 
     + Body
 
-            ------AaB03x
+            --AaB03x
             Content-Disposition: form-data; name="sjabloon"
             Content-Type: application/json
 
@@ -569,8 +573,11 @@ Als voor een gebruiker in het resultaat van het opvragen van een lid een verwijz
                 "replyTo": "bp@sgv.be",
                 "inhoud": "Hello world!",
                 "onderwerp": "Test",
-                "van": "BP"
+                "van": "BP",
+                "stuurNaarStandaardEmailAdressen": true
             }
+
+            --AaB03x--
 
 
 + Response 200 (application/json)
@@ -578,6 +585,16 @@ Als voor een gebruiker in het resultaat van het opvragen van een lid een verwijz
     + Body
 
             // TODO
+
+
++ Response 202 (application/json)
+
+    + Body
+
+            {
+              "boodschap": "Je staat op het punt te e-mailen naar Tinus Van Langendonck.",
+              "vraag": "Ben je zeker?"
+            }
 
 ## Individuele steekkaart [/lid/{id}/steekkaart]
 

@@ -5,9 +5,9 @@
     .module('ga.ledenlijstcontroller', [])
     .controller('LedenlijstController', LedenlijstController);
 
-  LedenlijstController.$inject = ['$q','$filter','$log', '$location', '$scope', 'LedenFilterService', 'LedenLijstService', 'RestService', '$window', 'keycloak','access'];
+  LedenlijstController.$inject = ['$q','$filter','$log', '$location', '$scope', 'LedenFilterService', 'LedenLijstService', 'RestService', '$window', 'keycloak','access', 'UserAccess'];
 
-  function LedenlijstController($q, $filter, $log, $location, $scope, LFS, LLS, RestService, $window, keycloak,access) {
+  function LedenlijstController($q, $filter, $log, $location, $scope, LFS, LLS, RestService, $window, keycloak, access, UserAccess) {
     // Kolommen sortable maken
     var index;
 
@@ -25,9 +25,15 @@
 
     $scope.isFilterCollapsed = false;
 
+    $scope.canPost = false;
+
     if(!access){
       $location.path("/lid/profiel");
     }
+
+    UserAccess.hasAccessTo("nieuw lid").then(function(res){
+      $scope.canPost = res;
+    });
 
     $(function() {
       angular.element("#mySortableList").sortable({
@@ -63,8 +69,6 @@
         }
       });
     });
-
-
 
     // controle on resize
     angular.element($window).bind('resize', function () {
@@ -676,6 +680,10 @@
       })
     }
 
+    $scope.nieuwlid = function() {
+      $location.path("/lid/toevoegen");
+    }
+
     function init(){
 
       $scope.isFilterCollapsed = $window.localStorage.getItem('filterstate') == "closed" ? true : false;
@@ -701,9 +709,5 @@
     }
 
     init();
-
-
-
-}
-
+  }
 })();

@@ -4,15 +4,15 @@
   <div class="pull-left">
     <h1 class="panel-title" ng-bind="lid.vgagegevens.voornaam + ' ' + lid.vgagegevens.achternaam"></h1>
     <h2 class="panel-subtitle" ng-bind="lid.verbondsgegevens.lidnummer"></h2>
-    <p><a href="#/lid/individuelesteekkaart/{{lid.id}}"><i class="fa fa-medkit" aria-hidden="true"></i> Individuele steekkaart</a></p>
+    <p><a href="#/lid/individuelesteekkaart/{{lid.id}}"><i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele steekkaart</a></p>
 
   </div>
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
-      <button type="submit" class="btn btn-apply" ng-disabled="lidForm.$invalid" ng-click="opslaan()" ng-show="lid && canSave"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
-      <button type="button" class="btn btn-secondary" ng-click="schrap()" ng-show="kanSchrappen">Stop alle functies</button>
-      <button type="button" class="btn btn-secondary" ng-click="nieuw()" ng-show="canPost">Nieuw</button>
-      <button type="button" class="btn btn-secondary" ng-click="gezinslid()" ng-show="lid && canPost">Broer/zus toevoegen</button>
+      <button type="submit" class="btn btn-apply" ng-disabled="lidForm.$invalid" ng-click="opslaan()" ng-show="lid && canSave"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
+      <button type="button" class="btn btn-secondary" ng-click="schrap()" ng-show="kanSchrappen"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop alle functies</button>
+      <button type="button" class="btn btn-secondary" ng-click="nieuwlid()" ng-show="canPost"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Nieuw lid</button>
+      <button type="button" class="btn btn-secondary" ng-click="gezinslid()" ng-show="lid && canPost"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Broer/zus toevoegen</button>
     </div>
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>
@@ -26,7 +26,7 @@
         <ul class="dropdown-menu" ng-show="kanSchrappen || canPost" uib-dropdown-menu role="menu" aria-labelledby="split-button">
           <li role="menuitem" ng-show="lid && canSave"><a href="#" ng-click="opslaan()" >Opslaan</a></li>
           <li role="menuitem" ng-show="kanSchrappen"><a href="#" ng-click="schrap()" >Stop alle functies</a></li>
-          <li role="menuitem" ng-show="canPost"><a href="#" ng-click="nieuw()">Nieuw</a></li>
+          <li role="menuitem" ng-show="canPost"><a href="#" ng-click="nieuwlid()">Nieuw lid</a></li>
           <li role="menuitem"><a href="#" ng-click="gezinslid()" ng-show="lid && canPost">Broer/zus toevoegen</a></li>
         </ul>
       </div>

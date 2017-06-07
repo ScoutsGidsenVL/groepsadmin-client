@@ -1,6 +1,7 @@
 .*
 !.git*
 !.idea/
+test.html
 /bower_components/
 /node_modules/
 /css/
