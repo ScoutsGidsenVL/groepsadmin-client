@@ -79,9 +79,9 @@
             <div class="col-xs-7 col-xxs-12">
               <!-- fix date-parse -->
               <div class="input-group">
-                <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" required close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date />
+                <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" ng-model="dt" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date  ng-disabled="!hasPermission('vgagegevens')"/>
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="open1()"><i class="fa fa-calendar"></i></button>
+                  <button type="button" class="btn btn-default" ng-click="popupCal()"><i class="fa fa-calendar"></i></button>
                 </span>
               </div>
               <div ng-messages="lidForm.geboortedatum.$error" ng-show="lidForm.geboortedatum.$touched">

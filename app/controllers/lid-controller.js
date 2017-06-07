@@ -34,11 +34,11 @@
       formatYear: 'yy',
       startingDay: 1
     };
-    $scope.popup1 = {
+    $scope.popupCal = {
       opened: false
     };
-    $scope.open1 = function() {
-      $scope.popup1.opened = true;
+    $scope.popupCal = function() {
+      $scope.popupCal.opened = true;
     };
     $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyy', 'dd.MM.yyyy'];
     $scope.format = $scope.formats[0];
@@ -121,7 +121,7 @@
       initModel();
 
       // init watch, naar welke objecten/delen van het lid object moet er gekeken worden om aanpassingen bij te houden?
-      angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies', 'lid.groepseigenVelden'], function(value, key) {
+      angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies', 'lid.groepseigenVelden','lid.vgagegevens'], function(value, key) {
         $scope.$watch(value, function(newVal, oldVal, scope) {
             if(lidPropertiesWatchable){
               if (newVal == oldVal) return;

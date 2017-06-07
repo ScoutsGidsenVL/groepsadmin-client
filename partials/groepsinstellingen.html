@@ -13,7 +13,7 @@
   <!-- NEW ACTIONS -->
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
-      <button type="submit" class="btn btn-apply" disabled ng-click="opslaan()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
+      <button type="submit" class="btn btn-apply" ng-click="opslaan()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
     </div>
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>
@@ -79,10 +79,15 @@
         </div>
       </div>
 
-      <div class="form-group readonly">
+      <div class="form-group ">
         <label for="_oprichtingsDatum" class="col-xs-6 col-xxs-12 control-label">Oprichtingsdatum</label>
         <div class="col-xs-6 col-xxs-12">
-          <input type="text" class="form-control" id="_oprichtingsDatum" ng-model="data.activegroup.opgericht" disabled/>
+          <div class="input-group">
+            <input type="text" name="oprichtingsdatum" id="_oprichtingsDatum" ng-model="data.activegroup.opgericht" class="form-control" ng-model="dt" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date/>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="popupCal()"><i class="fa fa-calendar"></i></button>
+            </span>
+          </div>
         </div>
       </div>
 

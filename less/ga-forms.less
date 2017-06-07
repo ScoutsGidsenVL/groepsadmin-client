@@ -314,8 +314,11 @@ fieldset fieldset legend {
     color:@state-danger-text;
   }
 }
-legend.has-error{
-  background:lighten(@state-danger-text,30%);
+.form-group,
+legend{
+  &.has-error{
+    background:lighten(@state-danger-text,30%);
+  }
 }
 
 .form-group--orakel,

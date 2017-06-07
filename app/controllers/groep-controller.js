@@ -58,6 +58,20 @@
       }
     );
 
+
+    $scope.dateOptions = {
+      formatYear: 'yy',
+      startingDay: 1
+    };
+    $scope.popupCal = {
+      opened: false
+    };
+    $scope.popupCal = function() {
+      $scope.popupCal.opened = true;
+    };
+    $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyy', 'dd.MM.yyyy'];
+    $scope.format = $scope.formats[0];
+
     /*
      * Google Maps Functies
      * ----------------------------------
