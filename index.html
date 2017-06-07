@@ -89,32 +89,28 @@
       <div class="container-fluid">
 
         <!-- Logo -->
-        <div class="col-xs-1">
-          <a class="navbar-brand" href="#/"><img class='navbar-logo' src="img/ga-logo.svg" alt="Logo Groepsadministratie" /></a>
-        </div>
+        <a class="navbar-brand" href="#/">
+          <img class='navbar-logo' src="img/ga-logo.svg" alt="Logo Groepsadministratie" />
+        </a>
 
         <!-- Desktop-menu -->
-        <div class="col-xs-8 hidden-xs hidden-sm">
-          <ul class="nav navbar-nav" ng-controller="MenuController">
-            <li ng-repeat="menuItem in menuItems" ng-show="menuItem.condition" active-link="active">
-              <a ng-href="{{menuItem.href}}" ng-attr-target="{{(menuItem.targetBlank) ? '_blank' : undefined}}">
-                <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="navbar-nav-menulabel" ng-bind="menuItem.label" ng-cloak></span>
-              </a>
-            </li>
-          </ul>
-        </div>
+        <ul class="nav navbar-nav hidden-sm nav-menu" ng-controller="MenuController">
+          <li ng-repeat="menuItem in menuItems" ng-show="menuItem.condition" active-link="active">
+            <a ng-href="{{menuItem.href}}" ng-attr-target="{{(menuItem.targetBlank) ? '_blank' : undefined}}">
+              <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="navbar-nav-menulabel" ng-bind="menuItem.label" ng-cloak></span>
+            </a>
+          </li>
+        </ul>
 
         <!-- Desktop-zoekveld -->
-        <div class="col-xs-3 hidden-xs hidden-sm">
-          <div class="navbar-form pull-right searchresults" ng-controller="SearchController" role="search" id="search">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Zoeken op naam, gsm of e-mail" ng-model="zoekterm" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
-              <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">
-                <i class="fa fa-spinner fa-pulse"></i>
-              </div>
-              <div ng-show="noResults" class="input-group-addon" title="Geen resultaten gevonden">
-                <i class="fa fa-ban"></i>
-              </div>
+        <div class="navbar-form hidden-sm pull-right searchresults" ng-controller="SearchController" role="search" id="search">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Zoeken op naam, gsm of e-mail" ng-model="zoekterm" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
+            <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">
+              <i class="fa fa-spinner fa-pulse"></i>
+            </div>
+            <div ng-show="noResults" class="input-group-addon" title="Geen resultaten gevonden">
+              <i class="fa fa-ban"></i>
             </div>
           </div>
         </div>
