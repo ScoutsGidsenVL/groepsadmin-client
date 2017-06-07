@@ -2,7 +2,7 @@
 <!-- Panel header -->
 <div class="panel-heading panel-heading--leden clearfix">
   <div class="pull-left">
-    <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : isFilterCollapsed}" ng-click="toggleFilter()"><span ng-if="!isLoadingFilters && hasLoadedFilters"><div class="pull-left">Filter</div> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i></span><div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria aan het laden...</div></button>
+    <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : isFilterCollapsed}" ng-click="toggleFilter()"><span ng-if="!isLoadingFilters && hasLoadedFilters"><div class="pull-left">Filter</div> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i></span><div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filter aan het laden...</div></button>
 
   </div>
 
@@ -244,13 +244,13 @@
     </thead>
     <tbody ng-show="!isLoadingLeden" infinite-scroll='ledenLaden()' infinite-scroll-distance='1'>
       <tr ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
-        <td ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy: 'kolomIndex'" style="position: relative;">
+        <td ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'" style="position: relative;">
           <div ng-if="!kolom.isLoaded" class="data-placeholder"></div>
-          <label ng-if="kolom.type == 'vinkje'" class="control noselect">
-            <input type="checkbox" ng-checked="{{ 0 <= lid.waarden[kolom.id].indexOf('checked') }}" disabled='disabled' ng-data-ch="{{ lid.waarden[kolom.id] }}" ng-data-che="{{ lid.waarden[kolom.id].indexOf('checked') }}" ng-data-chec="{{ 0 <= lid.waarden[kolom.id].indexOf('checked') }}" />
+          <div ng-if="kolom.isLoaded && kolom.type == 'vinkje'" class="control noselect">
+            <input type="checkbox" ng-checked="{{ 0 <= lid.waarden[kolom.id].indexOf('checked') }}" disabled='disabled' />
             <div class="control-indicator"></div>
-          </label>
-          <div ng-if="kolom.type != 'vinkje'">{{ lid.waarden[kolom.id] }}</div>
+          </div>
+          <div ng-if="kolom.isLoaded && kolom.type != 'vinkje'">{{ lid.waarden[kolom.id] }}</div>
         </td>
         <td class="t-caret" role="button"><span class="caret"></span></td>
       </tr>
