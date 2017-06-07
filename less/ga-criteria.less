@@ -1,9 +1,8 @@
 // TODO : replace with base colors
 
 .criteriumlabel.act{
-  background-color:green;
+  background-color: green;
 }
-
 
 .control-group {
   display: inline-block;
@@ -103,7 +102,7 @@
   left: 4px;
   height: 20px;
   width: 20px;
-  background: #e6e6e6;
+  border: 1px solid #ccc;
 }
 // omg, important! hacks
 // could not find an immediate workaround, sorry folks!
@@ -127,16 +126,15 @@
 .control--radio .control__indicator {
   border-radius: 50%;
 }
-.jcontrol:hover input ~ .control__indicator//,.control input:focus ~ .control__indicator
-{
+.jcontrol:hover input ~ .control__indicator {
   background: #ccc;
 }
 .jcontrol input:checked ~ .control__indicator {
   background: @brand-primary;
+  border: 0;
 }
-.jcontrol:hover input:not([disabled]):checked ~ .control__indicator//,.control input:checked:focus ~ .control__indicator
-{
-  background: darken(@brand-primary,10%);
+.jcontrol:hover input:not([disabled]):checked ~ .control__indicator {
+  background: darken(@brand-primary, 10%);
 }
 .jcontrol input:disabled ~ .control__indicator {
   background: #e6e6e6;

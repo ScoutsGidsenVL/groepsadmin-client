@@ -194,7 +194,7 @@
         <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" class="btn btn-filter btn-filter--kolommen dropdown-toggle" uib-dropdown-toggle>
           <span class="filter-option-title">Kolommen</span>
           <span class="filter-option-subtitle">
-            <span ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy:'kolomIndex' | limitTo : 3">
+            <span ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy:'kolomIndex'">
                {{ kolom.label }}
                <span ng-if="!$last">,</span>
             </span>
@@ -208,7 +208,7 @@
               ng-repeat="kolom in kolommen | orderBy: 'kolomIndex'"
               class="jcontrol control--checkbox noselect"
               data-kolom-id="{{kolom.id}}">
-              <span class="fa  fa-arrows-v pull-right kolom-drag-v"></span>
+              <span class="fa fa-arrows-v pull-right kolom-drag-v" ng-if="kolom.activated"></span>
               {{ kolom.label }}
               <input type="checkbox" ng-click="toggleKolom(kolom)" ng-checked="kolom.activated" />
               <div class="control__indicator"></div>
@@ -244,11 +244,13 @@
     </thead>
     <tbody ng-show="!isLoadingLeden" infinite-scroll='ledenLaden()' infinite-scroll-distance='1'>
       <tr ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
-        <td ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy: 'kolomIndex'">
-          <div>
-            <div ng-if="!kolom.isLoaded" class="data-placeholder"></div>
-            {{ lid.waarden[kolom.id] }}
-          </div>
+        <td ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy: 'kolomIndex'" style="position: relative;">
+          <div ng-if="!kolom.isLoaded" class="data-placeholder"></div>
+          <label ng-if="kolom.type == 'vinkje'" class="control noselect">
+            <input type="checkbox" ng-checked="{{ 0 <= lid.waarden[kolom.id].indexOf('checked') }}" disabled='disabled' ng-data-ch="{{ lid.waarden[kolom.id] }}" ng-data-che="{{ lid.waarden[kolom.id].indexOf('checked') }}" ng-data-chec="{{ 0 <= lid.waarden[kolom.id].indexOf('checked') }}" />
+            <div class="control-indicator"></div>
+          </label>
+          <div ng-if="kolom.type != 'vinkje'">{{ lid.waarden[kolom.id] }}</div>
         </td>
         <td class="t-caret" role="button"><span class="caret"></span></td>
       </tr>
