@@ -62,7 +62,12 @@
             <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
             <div class="col-xs-7 col-xxs-12">
               <!-- fix date-parse -->
-              <input type="date" class="form-control" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" required ga-parse-date/>
+              <div class="input-group">
+                <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" ng-model="dt" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date  ng-disabled="!hasPermission('vgagegevens')"/>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="popupCal()"><i class="fa fa-calendar"></i></button>
+                </span>
+              </div>
               <div ng-messages="nieuwLidForm.geboortedatum.$error" ng-show="nieuwLidForm.geboortedatum.$touched">
                   <div ng-messages-include="partials/messages.html"></div>
               </div>
@@ -191,7 +196,7 @@
                 </div>
                 <div class="col-xs-2 col-xxs-12">
                   <input type="text" class="form-control" id="_straatnummer" name="adressen[{{ $index }}].nummer"  maxlength="5" ng-model="adres.nummer"  placeholder="Nr." ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
-                  <div ng-messages="lidForm['adressen['+$index+'].huisnummer'].$error">
+                  <div ng-messages="nieuwLidForm['adressen['+$index+'].huisnummer'].$error">
                       <div ng-messages-include="partials/messages.html"></div>
                   </div>
                 </div>
