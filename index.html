@@ -94,7 +94,7 @@
         </a>
 
         <!-- Desktop-menu -->
-        <ul class="nav navbar-nav hidden-sm nav-menu" ng-controller="MenuController">
+        <ul class="nav navbar-nav hidden-sm hidden-xs nav-menu" ng-controller="MenuController">
           <li ng-repeat="menuItem in menuItems" ng-show="menuItem.condition" active-link="active">
             <a ng-href="{{menuItem.href}}" ng-attr-target="{{(menuItem.targetBlank) ? '_blank' : undefined}}">
               <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="navbar-nav-menulabel" ng-bind="menuItem.label" ng-cloak></span>
@@ -103,7 +103,7 @@
         </ul>
 
         <!-- Desktop-zoekveld -->
-        <div class="navbar-form hidden-sm pull-right searchresults" ng-controller="SearchController" role="search" id="search">
+        <div class="navbar-form hidden-sm hidden-xs pull-right searchresults" ng-controller="SearchController" role="search" id="search">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Zoeken op naam, gsm of e-mail" ng-model="zoekterm" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
             <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">
