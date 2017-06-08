@@ -41,11 +41,7 @@
     $scope.popupCal = function() {
       $scope.popupCal.opened = true;
     };
-<<<<<<< HEAD
-    $scope.formats = ['dd/MM/yyyy', 'dd.MM.yyyy', 'dd-MM-yyyy'];
-=======
     $scope.formats = ['dd/MM/yyyy'];
->>>>>>> 55592b91e6dd2782564dcbf7f766fcfeecd69633
     $scope.format = $scope.formats[0];
 
     UserAccess.hasAccessTo("nieuw lid").then(function(res){
