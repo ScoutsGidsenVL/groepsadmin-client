@@ -31,8 +31,9 @@
     ];
 
     $scope.dateOptions = {
-      formatYear: 'yy',
-      startingDay: 1
+      formatYear: 'yyyy',
+      startingDay: 1,
+      datepickerMode: 'year'
     };
     $scope.popupCal = {
       opened: false
@@ -40,7 +41,7 @@
     $scope.popupCal = function() {
       $scope.popupCal.opened = true;
     };
-    $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyy', 'dd.MM.yyyy'];
+    $scope.formats = ['dd/MM/yyyy'];
     $scope.format = $scope.formats[0];
 
     UserAccess.hasAccessTo("nieuw lid").then(function(res){
