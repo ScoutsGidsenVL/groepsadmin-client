@@ -63,7 +63,7 @@
             <div class="col-xs-7 col-xxs-12">
               <!-- fix date-parse -->
               <div class="input-group">
-                <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" ng-model="dt" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date  ng-disabled="!hasPermission('vgagegevens')"/>
+                <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" ng-model="dt" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date  ng-disabled="!hasPermission('vgagegevens')" required/>
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default" ng-click="popupCal()"><i class="fa fa-calendar"></i></button>
                 </span>
@@ -144,7 +144,7 @@
         </legend>
         <fieldset>
           <fieldset ng-repeat="adres in lid.adressen">
-            <legend class="clearfix" ng-class="{'has-error': adres.hasErrors}" ng-init="adres.showme = false; " ng-click="adres.showme = !adres.showme">
+            <legend class="clearfix" ng-class="{'has-error': adres.hasErrors}" ng-click="adres.showme = !adres.showme">
                 <div ng-if="adres.straat || adres.bus || adres.postcode || adres.gemeente" class="pull-left">
                   {{ adres.straat }} {{ adres.nummer }} {{ adres.bus }}, {{adres.postcode}} {{adres.gemeente}}
                 </div>
@@ -177,7 +177,7 @@
                 </div>
               </div>
 
-              <div class="form-group" ng-class="{ 'has-error': nieuwLidForm['adressen['+$index+'].gemeente'].$invalid }">
+              <div class="form-group" ng-class="{ 'has-error': nieuwLidForm['adressen['+$index+'].gemeente'].$touched && nieuwLidForm['adressen['+$index+'].gemeente'].$invalid }">
                 <label for="_gemeenteWrap" class="col-xs-4 col-xxs-12 control-label">Woonplaats</label>
                 <div class="col-xs-8 col-xxs-2">
                   <input type="text" name="adressen[{{ $index }}].gemeente" class="form-control ga-functie-list" ng-init="gemeenteWrap = adres.postcode && adres.gemeente ? adres.postcode + ' ' + adres.gemeente : ''" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" typeahead-show-hint="true" required/>
@@ -186,7 +186,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group" ng-class="{ 'has-error': nieuwLidForm['adressen['+$index+'].straatnaam'].$invalid }">
+              <div class="form-group" ng-class="{ 'has-error': nieuwLidForm['adressen['+$index+'].straatnaam'].$touched && nieuwLidForm['adressen['+$index+'].straatnaam'].$invalid }">
                 <label for="_straatnaam" class="col-xs-4 col-xxs-12 control-label">Straat</label>
                 <div class="col-xs-5 col-xxs-12">
                   <input type="text" name="adressen[{{ $index }}].straatnaam"  class="form-control" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"  placeholder="Straatnaam" id="_straatnaam" ng-model="adres.straat" uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres)"  typeahead-on-select="bevestigStraat($item, adres)" typeahead-show-hint="true" required/>
@@ -228,7 +228,7 @@
           <fieldset ng-repeat="contact in lid.contacten">
             <legend class="clearfix" ng-init="showme = false; " ng-click="showme = showme ? false : true">
               <div ng-if="contact.rol || contact.naam || contact.voornaam" class="pull-left">
-                {{ contact.voornaam }} {{ contact.achternaam }}
+                {{ contact.rol }} {{ contact.voornaam }} {{ contact.achternaam }}
               </div>
               <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left" >
                 Nieuw contact
