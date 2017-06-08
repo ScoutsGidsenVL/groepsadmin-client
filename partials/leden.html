@@ -2,12 +2,15 @@
 <!-- Panel header -->
 <div class="panel-heading panel-heading--leden clearfix">
   <div class="pull-left">
-    <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : isFilterCollapsed}" ng-click="toggleFilter()"><span ng-if="!isLoadingFilters && hasLoadedFilters"><div class="pull-left">Filter</div> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i></span><div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria aan het laden...</div></button>
+    <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : isFilterCollapsed}" ng-click="toggleFilter()"><span ng-if="!isLoadingFilters && hasLoadedFilters"><div class="pull-left">Filter</div> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i></span><div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filter aan het laden...</div></button>
 
   </div>
 
   <div class="pull-right">
-    <div class="hidden-xs hidden-sm">
+    <div class="hidden-sm">
+      <button type="button" class="btn btn-secondary" ng-show="canPost" ng-click="nieuwlid()">
+        <i class="fa fa-plus"></i>&nbsp;Nieuw lid
+      </button>
       <button type="button" class="btn btn-secondary" ng-click="export('pdf')">
         <span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
       </button>
@@ -16,9 +19,6 @@
       </button>
       <button type="button" class="btn btn-secondary" ng-click="export('steekkaarten')">
         <span ng-show="exportButtons['steekkaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF
-      </button>
-      <button type="button" class="btn btn-secondary" ng-show="canPost" ng-click="nieuwlid()">
-        <i class="fa fa-plus"></i>&nbsp;Nieuw lid
       </button>
     </div>
     <div class="hidden-md hidden-lg">
@@ -31,10 +31,10 @@
           <span class="sr-only">Acties</span>
         </button>
         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+          <li role="menuitem" ng-show="canPost"><a href="#" ng-click="nieuwlid()"><i class="fa fa-spinner fa-plus"></i>&nbsp;Nieuw lid</a></li>
           <li role="menuitem"><a href="#" ng-click="export('pdf')"><span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF</a></li>
           <li role="menuitem"><a href="#" ng-click="export('csv')"><span ng-show="exportButtons['csv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)</a></li>
           <li role="menuitem"><a href="#" ng-click="export('steekkaarten')"><span ng-show="exportButtons['steekaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF</a></li>
-          <li role="menuitem" ng-show="canPost"><a href="#" ng-click="nieuwlid()"><i class="fa fa-spinner fa-plus"></i>&nbsp;Nieuw lid</a></li>
         </ul>
       </div>
     </div>
@@ -194,7 +194,7 @@
         <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" class="btn btn-filter btn-filter--kolommen dropdown-toggle" uib-dropdown-toggle>
           <span class="filter-option-title">Kolommen</span>
           <span class="filter-option-subtitle">
-            <span ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy:'kolomIndex' | limitTo : 3">
+            <span ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy:'kolomIndex'">
                {{ kolom.label }}
                <span ng-if="!$last">,</span>
             </span>
@@ -208,7 +208,7 @@
               ng-repeat="kolom in kolommen | orderBy: 'kolomIndex'"
               class="jcontrol control--checkbox noselect"
               data-kolom-id="{{kolom.id}}">
-              <span class="fa  fa-arrows-v pull-right kolom-drag-v"></span>
+              <span class="fa fa-arrows-v pull-right kolom-drag-v" ng-if="kolom.activated"></span>
               {{ kolom.label }}
               <input type="checkbox" ng-click="toggleKolom(kolom)" ng-checked="kolom.activated" />
               <div class="control__indicator"></div>
@@ -244,11 +244,13 @@
     </thead>
     <tbody ng-show="!isLoadingLeden" infinite-scroll='ledenLaden()' infinite-scroll-distance='1'>
       <tr ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
-        <td ng-repeat="kolom in kolommen | filter:{activated:true} | orderBy: 'kolomIndex'">
-          <div>
-            <div ng-if="!kolom.isLoaded" class="data-placeholder"></div>
-            {{ lid.waarden[kolom.id] }}
+        <td ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'" style="position: relative;">
+          <div ng-if="!kolom.isLoaded" class="data-placeholder"></div>
+          <div ng-if="kolom.isLoaded && kolom.type == 'vinkje'" class="control noselect">
+            <input type="checkbox" ng-checked="{{ 0 <= lid.waarden[kolom.id].indexOf('checked') }}" disabled='disabled' />
+            <div class="control-indicator"></div>
           </div>
+          <div ng-if="kolom.isLoaded && kolom.type != 'vinkje'">{{ lid.waarden[kolom.id] }}</div>
         </td>
         <td class="t-caret" role="button"><span class="caret"></span></td>
       </tr>

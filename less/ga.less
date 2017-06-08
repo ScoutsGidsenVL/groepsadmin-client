@@ -2,15 +2,18 @@ body {
     padding-top: 92px;
 }
 
-// Scouts en Gidsen Vlaanderen logo
-.navbar-brand {
-  //position: relative;
-  //margin: 0 15px -4px 0;
-  padding:0;
-  margin:0;
+.navbar-brand,
+.nav-menu,
+#search {
+  padding: 0 @fluid-grid-gutter-width / 2;
 }
-.navbar{
-  z-index: @zIndexNavbar;
+
+.nav-menu {
+  width: ~"calc(100% - 340px - 1vw)";
+}
+
+#search {
+  width: 260px;
 }
 
 // Display fix for icons and caret in Navbar
@@ -32,12 +35,6 @@ body {
 
 // Fully responisve, no fixed-width containers
 .container-fluid {
-  margin-right: @fluid-grid-gutter-width; //@gridGutterWidth;
-  margin-left: @fluid-grid-gutter-width; //@gridGutterWidth;
+  margin-right: @fluid-grid-gutter-width;
+  margin-left: @fluid-grid-gutter-width;
 }
-
-// Table alignment fix
-// .table thead > tr > th:first-child,
-// .table tbody > tr > td:first-child {
-//   padding-left: @grid-gutter-width * 1.3;
-// }

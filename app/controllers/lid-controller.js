@@ -41,7 +41,11 @@
     $scope.popupCal = function() {
       $scope.popupCal.opened = true;
     };
+<<<<<<< HEAD
     $scope.formats = ['dd/MM/yyyy', 'dd.MM.yyyy', 'dd-MM-yyyy'];
+=======
+    $scope.formats = ['dd/MM/yyyy'];
+>>>>>>> 55592b91e6dd2782564dcbf7f766fcfeecd69633
     $scope.format = $scope.formats[0];
 
     UserAccess.hasAccessTo("nieuw lid").then(function(res){
@@ -672,7 +676,7 @@
         var paramObj = {
               trueVal:newUrl
         }
-        DialogService.new("Pagina verlaten","U staat op het punt om deze pagina te verlaten, niet opgeslagen aanpassingen zullen verloren gaan. Bent u zeker dat u wilt verdergaan?", $scope.locationChange, paramObj );
+        DialogService.new("Pagina verlaten", "Er zijn nog niet opgeslagen wijzigingen. Ben je zeker dat je wil verdergaan?", $scope.locationChange, paramObj );
       }
     });
 
@@ -741,7 +745,9 @@
 
     // refresh of navigatie naar een andere pagina.
     var unload = function (e) {
-       return "U staat op het punt deze pagina te verlaten, Niet opgeslagen aanpassingen zullen verloren gaan!!";
+      var waarschuwing = "Er zijn nog niet opgeslagen wijzigingen. Ben je zeker dat je wil verdergaan?";
+      e.returnValue = waarschuwing;
+      return e.returnValue;
     };
   }
 })();

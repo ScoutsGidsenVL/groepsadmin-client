@@ -78,35 +78,32 @@
     });
 
     function initCriteriaKolommenFilters(){
-      var deferred = $q.defer();
-      var filterCriteria, filterKolommen, currentFilter, filters;
       $scope.isLoadingFilters = true;
 
-      filterCriteria = LFS.getCriteria();
-      filterKolommen = LFS.getKolommen();
-      filters  = LFS.getFilters();
-      //currentFilter = LFS.getFilter('huidige');
+      var deferred = $q.defer();
+
+      var filterCriteria = LFS.getCriteria();
+      var filterKolommen = LFS.getKolommen();
+      var filters = LFS.getFilters();
 
       // Alle criteria, kolommen, filters ophalen waarmee de gebruiker kan filteren
       // functies ophalen om functiegroepen van het 'verbond' en de 'groep' samen te stellen
-
-      $q.all(filterCriteria.promises).then(function () {
-        $scope.criteria = filterCriteria.arrCriteria;
-
+      $q.all([
+        $q.all(filterCriteria.promises).then(function () {
+          $scope.criteria = filterCriteria.arrCriteria;
+        }),
         $q.all(filterKolommen.promises).then(function(){
           $scope.kolommen = filterKolommen.kolommen;
-
-            $q.all(filters.promises).then(function(){
-              $scope.filters = filters.filters;
-              deferred.resolve();
-
-            });
-        });
-
+          console.log("kolommen", $scope.kolommen);
+        }),
+        $q.all(filters.promises).then(function(){
+          $scope.filters = filters.filters;
+        })
+      ]).then(function(values) {
+        deferred.resolve();
       });
 
       return deferred.promise;
-
     }
 
 
@@ -541,10 +538,16 @@
 
     // controle moet er meer leden ingeladen worden
     $scope.ledenLaden = function(){
-      if ($scope.isLoadingLeden || $scope.isLoadingMore) return;
+      if ($scope.isLoadingLeden || $scope.isLoadingMore) {
+        return;
+      }
 
       var offset = $scope.leden.length ? $scope.leden.length : 0;
-      offset == 0 ? $scope.isLoadingLeden = true : $scope.isLoadingMore = true;
+      if (offset == 0) {
+        $scope.isLoadingLeden = true;
+      } else {
+        $scope.isLoadingMore = true;
+      }
 
       if($scope.leden.length !== $scope.totaalAantalLeden){
 
@@ -654,22 +657,7 @@
     }
 
     $scope.toggleFilter = function(){
-      var value ='';
-      switch($window.localStorage.getItem('filterstate')){
-        case 'opened':
-          value = true;
-          break;
-        case 'closed':
-          value = false;
-          break;
-        default:
-          value = true;
-          break;
-      }
-
-      var state = value ? 'closed' : 'opened';
-      $window.localStorage.setItem('filterstate',state);
-      $scope.isFilterCollapsed = value;
+      $scope.isFilterCollapsed = !$scope.isFilterCollapsed;
     }
 
     $scope.export = function(type){
@@ -686,7 +674,7 @@
 
     function init(){
 
-      $scope.isFilterCollapsed = $window.localStorage.getItem('filterstate') == "closed" ? true : false;
+      $scope.isFilterCollapsed = true;
 
       $scope.exportButtons = {
         'pdf': { isLoading : false },
@@ -694,7 +682,6 @@
         'steekkaarten': { isLoading : false }
       };
 
-      //
       initCriteriaKolommenFilters().then(function(){
         stelFilterSamen('huidige').then(function(){
           $scope.isLoadingFilters = false;
@@ -702,10 +689,10 @@
           $scope.hasLoadedFilters = true;
           activeerCriteria();
           activeerEnIndexeerKolommen();
-          $scope.ledenLaden();
-
         });
       });
+
+      $scope.ledenLaden();
     }
 
     init();
