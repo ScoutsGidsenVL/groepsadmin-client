@@ -8,6 +8,9 @@
 
   <div class="pull-right">
     <div class="hidden-sm">
+      <button type="button" class="btn btn-secondary" ng-show="canPost" ng-click="nieuwlid()">
+        <i class="fa fa-plus"></i>&nbsp;Nieuw lid
+      </button>
       <button type="button" class="btn btn-secondary" ng-click="export('pdf')">
         <span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
       </button>
@@ -16,9 +19,6 @@
       </button>
       <button type="button" class="btn btn-secondary" ng-click="export('steekkaarten')">
         <span ng-show="exportButtons['steekkaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF
-      </button>
-      <button type="button" class="btn btn-secondary" ng-show="canPost" ng-click="nieuwlid()">
-        <i class="fa fa-plus"></i>&nbsp;Nieuw lid
       </button>
     </div>
     <div class="hidden-md hidden-lg">
@@ -31,10 +31,10 @@
           <span class="sr-only">Acties</span>
         </button>
         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+          <li role="menuitem" ng-show="canPost"><a href="#" ng-click="nieuwlid()"><i class="fa fa-spinner fa-plus"></i>&nbsp;Nieuw lid</a></li>
           <li role="menuitem"><a href="#" ng-click="export('pdf')"><span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF</a></li>
           <li role="menuitem"><a href="#" ng-click="export('csv')"><span ng-show="exportButtons['csv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)</a></li>
           <li role="menuitem"><a href="#" ng-click="export('steekkaarten')"><span ng-show="exportButtons['steekaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF</a></li>
-          <li role="menuitem" ng-show="canPost"><a href="#" ng-click="nieuwlid()"><i class="fa fa-spinner fa-plus"></i>&nbsp;Nieuw lid</a></li>
         </ul>
       </div>
     </div>
