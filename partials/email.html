@@ -1,0 +1,57 @@
+<div class="panel panel-default">
+  <form name="emailForm" ng-submit="submitForm(emailForm)" novalidate>
+  <div class="panel-body form-hover clearfix">
+
+    <div class="row">
+      <div class="col-lg-6 col-xs-12">
+        <!-- Persoonlijk-->
+        <section>
+          <fieldset>
+            <legend>Email instellingen
+               <div class="pull-right" ng-hide="lid">
+                <i class="fa fa-spinner fa-pulse"> </i>
+              </div>
+            </legend>
+            <div class="form-group" ng-class="{ 'has-error': emailForm.fromname.$touched && emailForm.fromname.$invalid }">
+              <label for="fromname" class="col-xs-5 col-xxs-12 control-label">Van</label>
+              <div class="col-xs-7 col-xxs-12">
+                <input type="text" class="form-control" name="fromname" id="fromName" ng-model="email.fromName" required>
+                <div ng-messages="emailForm.fromname.$error" ng-show="emailForm.fromname.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error': emailForm.fromaddress.$touched && emailForm.fromaddress.$invalid }">
+              <label for="email" class="col-xs-5 col-xxs-12 control-label">Van</label>
+              <div class="col-xs-7 col-xxs-12">
+                <input type="text" class="form-control" name="fromaddress" id="fromaddress" ng-model="email.fromaddress" required>
+                <div ng-messages="emailForm.fromaddress.$error" ng-show="emailForm.fromaddress.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-group control checkbox">
+                <div class="col-xxs-12 control-label">Ontvangers : <span>{{ email.ontvangers }} leden</span></div>
+                <div class="col-xxs-2">
+                  <input type="checkbox" id="_beperking" ng-model="lid.vgagegevens.beperking" ng-disabled="!hasPermission('vgagegevens')" disabled="disabled">
+                  <span class="control-indicator"></span>
+                </div>
+                <div class="col-xxs-10">stuur naar standaard emailadressen</div>
+              </label>
+            </div>
+
+
+
+          </fieldset>
+        </section>
+      </div>
+
+
+    </div>
+  </div>
+  </form>
+
+</div>

@@ -19,6 +19,7 @@
     'ga.groepcontroller',
     'ga.orakelcontroller',
     'ga.websitecontroller',
+    'ga.emailcontroller',
     'ga.lid',
     'ga.lid.velden',
     'ga.dynamischveld',

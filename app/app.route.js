@@ -58,6 +58,11 @@
         controller: 'FeedbackController'
       })
 
+      .when('/email', {
+        templateUrl: 'partials/email.html',
+        controller: 'EmailController'
+      })
+
       .otherwise({
         redirectTo: '/ledenlijst'
       });
