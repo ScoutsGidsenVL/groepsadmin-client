@@ -34,6 +34,7 @@
 
   </div>
   <!--
+  TODO:
   <div class="pull-right btn-group">
       <button type="button" class="btn btn-default" title="vorig lid"><span class="glyphicon glyphicon-chevron-left"></span></button>
       <button type="button" class="btn btn-default" title="volgend lid"><span class="glyphicon glyphicon-chevron-right"></span></button>
@@ -79,7 +80,7 @@
             <div class="col-xs-7 col-xxs-12">
               <!-- fix date-parse -->
               <div class="input-group">
-                <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" ng-model="dt" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date  ng-disabled="!hasPermission('vgagegevens')"/>
+                <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" ng-model="dt" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date  ng-disabled="!hasPermission('vgagegevens')" placeholder="DD/MM/JJJJ"/>
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default" ng-click="popupCal()"><i class="fa fa-calendar"></i></button>
                 </span>
