@@ -9,7 +9,7 @@
 
   // Deze service wordt gebruikt door lid-controller
 
-  function FormValidationService($log,$q,RestService) {
+  function FormValidationService($log,$q) {
     var formValidationService = {};
 
     formValidationService.checkField = function(formfield){

@@ -28,6 +28,7 @@
     "components-font-awesome": "~4.7.0",
     "chart.js": "~2.5.0",
     "iban": "~0.0.8",
-    "angulartics-piwik": "^1.0.6"
+    "angulartics-piwik": "^1.0.6",
+    "angular-ui-tinymce": "~0.0.18"
   }
 }

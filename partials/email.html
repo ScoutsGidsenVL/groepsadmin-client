@@ -1,20 +1,85 @@
+<!-- header -->
+<!-- Panel header -->
+<div class="panel-heading panel-fixed clearfix">
+
+
+  <!-- NEW ACTIONS -->
+  <div class="pull-right">
+    <div class="hidden-xs hidden-sm">
+      <button type="submit" class="btn btn-apply"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;Verzenden&nbsp;
+    </div>
+    <div class="hidden-md hidden-lg">
+      <div class="btn-group pull-right" uib-dropdown>
+        <button id="split-button" type="submit" disabled class="btn btn-apply">
+          <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;Verzenden&nbsp;
+        </button>
+        <button type="button" class="btn btn-apply" disabled uib-dropdown-toggle>
+          <span class="caret"></span>
+          <span class="sr-only">Opslaan</span>
+        </button>
+        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+          <li role="menuitem"><a href="#" ng-click="opslaan()">Opslaan</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="pull-left">
+      <div ng-show="!showSaveOptions" class="pull-left">
+        <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Sjabloon opslaan</button>
+      </div>
+      <div ng-show="showSaveOptions" class="pull-left">
+        <form class="form-inline typeahead-filter">
+          <input type="text" ng-model="selectedFilter"
+          placeholder="Naam van filter"
+          uib-typeahead="filter as filter.naam for filter in filters | filter:{naam:$viewValue}"
+          typeahead-popup-template-url="customPopupTemplate.html" class="form-control">
+          <button class="btn btn-apply" ng-click="saveOrOverwriteFilter(selectedFilter)">
+            <span ng-if="!selectedFilter.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan</span>
+            <span ng-if="selectedFilter.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Overschrijven</span>
+          </button>
+          <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions;selectedFilter='';"><span class="fa fa-remove" aria-hidden="true" ></span>&nbsp;Annuleren</button>
+        </form>
+      </div>
+  </div>
+</div>
+
+<!-- end header -->
+
 <div class="panel panel-default">
   <form name="emailForm" ng-submit="submitForm(emailForm)" novalidate>
   <div class="panel-body form-hover clearfix">
 
     <div class="row">
-      <div class="col-lg-6 col-xs-12">
+      <div class="col-lg-4 col-xs-12">
         <!-- Persoonlijk-->
         <section>
           <fieldset>
             <legend>Email instellingen
                <div class="pull-right" ng-hide="lid">
-                <i class="fa fa-spinner fa-pulse"> </i>
               </div>
             </legend>
+
+            <div class="form-group" ng-class="{ 'has-error': emailForm.subject.$touched && emailForm.subject.$invalid }">
+              <label for="subject" class="col-xs-3 col-xxs-12 control-label">Sjabloon kiezen</label>
+              <div class="col-xs-9 col-xxs-12">
+
+                <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
+                  <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                    {{ activatedSjabloon().naam }} <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li ng-if="isLoadingSjablonen"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse"></i>&nbsp;Sjablonen aan het laden...</a></li>
+                    <li ng-if="!isLoadingSjablonen && !(sjablonen.length > 0)"><a href='javascript:void(0)'>Geen sjablonen</a></li>
+                    <li ng-if="!isLoadingSjablonen" role="menuitem" ng-repeat="sjabloon in sjablonen | orderBy:'naam'"><a href ng-click="changeSjabloon(sjabloon)">{{ sjabloon.naam }}</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             <div class="form-group" ng-class="{ 'has-error': emailForm.fromname.$touched && emailForm.fromname.$invalid }">
-              <label for="fromname" class="col-xs-5 col-xxs-12 control-label">Van</label>
-              <div class="col-xs-7 col-xxs-12">
+              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Van</label>
+              <div class="col-xs-8 col-xxs-12">
                 <input type="text" class="form-control" name="fromname" id="fromName" ng-model="email.fromName" required>
                 <div ng-messages="emailForm.fromname.$error" ng-show="emailForm.fromname.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
@@ -23,28 +88,89 @@
             </div>
 
             <div class="form-group" ng-class="{ 'has-error': emailForm.fromaddress.$touched && emailForm.fromaddress.$invalid }">
-              <label for="email" class="col-xs-5 col-xxs-12 control-label">Van</label>
-              <div class="col-xs-7 col-xxs-12">
-                <input type="text" class="form-control" name="fromaddress" id="fromaddress" ng-model="email.fromaddress" required>
+              <label for="email" class="col-xs-4 col-xxs-12 control-label">Van e-mailadres</label>
+              <div class="col-xs-8 col-xxs-12">
+                <input type="email" class="form-control" name="fromaddress" id="fromaddress" ng-model="email.fromAddress" required>
                 <div ng-messages="emailForm.fromaddress.$error" ng-show="emailForm.fromaddress.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
               </div>
             </div>
 
-            <div class="form-group">
-              <label class="form-group control checkbox">
-                <div class="col-xxs-12 control-label">Ontvangers : <span>{{ email.ontvangers }} leden</span></div>
-                <div class="col-xxs-2">
-                  <input type="checkbox" id="_beperking" ng-model="lid.vgagegevens.beperking" ng-disabled="!hasPermission('vgagegevens')" disabled="disabled">
-                  <span class="control-indicator"></span>
+            <div class="form-group" ng-class="{ 'has-error': emailForm.replyaddress.$touched && emailForm.replyaddress.$invalid }">
+              <label for="email" class="col-xs-4 col-xxs-12 control-label">Reply adres</label>
+              <div class="col-xs-8 col-xxs-12">
+                <input type="email" class="form-control" name="replyaddress" id="replyaddress" ng-model="email.replyAddress" >
+                <div ng-messages="emailForm.replyaddress.$error" ng-show="emailForm.replyaddress.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
                 </div>
-                <div class="col-xxs-10">stuur naar standaard emailadressen</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-group  form-group--joined control checkbox">
+                <div class="col-xs-12 control-label">Ontvangers :
+                  <a href="#" ng-click="toggleReceivers()">{{ email.ontvangers }} leden {{ labelToggleReceivers }}</a>
+                </div>
+                <div class="col-xs-12">
+                  <input type="checkbox" id="sendStandard" ng-model="email.sendStandard" >
+                  <span class="control-indicator pull-left mr-10"></span>
+                  <div class="control-label">Stuur naar standaard emailadressen</div>
+
+                </div>
+
               </label>
+              <label class="form-group form-group--joined control checkbox">
+                <div class="col-xs-12">
+                  <input type="checkbox" id="sendContacts" ng-model="email.sendContacts" >
+                  <span class="control-indicator pull-left mr-10"></span>
+                  <div class="control-label">Stuur naar contact emailadressen</div>
+                </div>
+              </label>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error': emailForm.bccaddress.$touched && emailForm.bccaddress.$invalid }">
+              <label for="email" class="col-xs-3 col-xxs-12 control-label">BCC</label>
+              <div class="col-xs-9 col-xxs-12">
+                <input type="email" class="form-control" name="bccaddress" id="bccAddress" ng-model="email.bccaddress" >
+                <div ng-messages="emailForm.bccaddress.$error" ng-show="emailForm.bccaddress.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
             </div>
 
 
 
+
+
+
+          </fieldset>
+        </section>
+      </div>
+
+      <div class="col-lg-8 col-xs-12">
+        <section>
+          <fieldset>
+            <legend>Bericht</legend>
+
+            <div class="form-group" ng-class="{ 'has-error': emailForm.subject.$touched && emailForm.subject.$invalid }">
+              <div class="col-xs-2 col-xxs-12 ">
+                <label for="subject" class="control-label">Onderwerp</label>
+              </div>
+              <div class="col-xs-10 col-xxs-12">
+                <input type="text" class="form-control" name="subject" id="subject" ng-model="email.subject" required>
+                <div ng-messages="emailForm.subject.$error" ng-show="emailForm.subject.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="form-group email-message" id="emailMessage">
+              <div class="col-xs-12">
+                <textarea ui-tinymce="tinymceOptions" ng-model="tinymceModel"></textarea>
+              </div>
+            </div>
           </fieldset>
         </section>
       </div>

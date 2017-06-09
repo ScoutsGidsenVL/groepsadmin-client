@@ -160,6 +160,10 @@ textarea {
         border-color: transparent;
       }
     }
+    &--joined{
+      border-bottom: none;
+
+    }
   }
   .ga-functie-list {
     padding-left: 20px;
@@ -226,11 +230,6 @@ textarea {
     }
   }
 
-
-  .caret {
-    display: none;
-  }
-
   .form-group:hover,
   .bootstrap-select.open {
     .selectpicker {
@@ -239,10 +238,6 @@ textarea {
   }
   .bootstrap-select.open .caret {
       display: block;
-  }
-  .form-group:hover .caret{
-    display: inline-block;
-    margin-left:20px;
   }
 
   .btn-group>.btn:first-child[disabled=disabled] .caret {
@@ -324,4 +319,14 @@ legend{
 .orakel-select-group,
 .groepsinstellingen-select-group{
   font-size:18px;
+}
+
+
+.form-group--joined{
+  &:not(:last-child){
+    padding-bottom:0;
+  }
+  &:not(:first-child){
+    padding-top:0;
+  }
 }

@@ -10,6 +10,7 @@
     'ga.services.formvalidation',
     'ga.services.ledenfilter',
     'ga.services.ledenlijst',
+    'ga.services.email',
     'ga.ledenlijstcontroller',
     'ga.lidcontroller',
     'ga.usercontroller',

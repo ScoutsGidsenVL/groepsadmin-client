@@ -222,6 +222,11 @@
         {zoekterm: '@zoekterm', postcode: '@postcode'},
         {'query': {method: 'GET', isArray: true, cache: true}}
       ),
+      Emailsjabloon: $resource(
+        base + 'sjabloon/mail',
+        {},
+        {'get': {method: 'GET', cache: true}}
+      ),
       Websites: $resource(
         base + 'website',
         {},
