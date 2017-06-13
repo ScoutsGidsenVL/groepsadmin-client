@@ -46,7 +46,7 @@
 
 <!-- end header -->
 
-<div class="panel panel-default">
+<div class="panel panel-default panel-email-body">
   <form name="emailForm" ng-submit="submitForm(emailForm)" novalidate>
   <div class="panel-body form-hover clearfix">
 
@@ -61,12 +61,12 @@
             </legend>
 
             <div class="form-group" ng-class="{ 'has-error': emailForm.subject.$touched && emailForm.subject.$invalid }">
-              <label for="subject" class="col-xs-3 col-xxs-12 control-label">Sjabloon kiezen</label>
-              <div class="col-xs-9 col-xxs-12">
+              <label for="subject" class="col-xs-4 col-xxs-12 control-label">Sjabloon kiezen</label>
+              <div class="col-xs-8 col-xxs-12">
 
                 <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
                   <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
-                    {{ activatedSjabloon().naam }} <span class="caret"></span>
+                    {{ sjabloon.naam }} <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                     <li ng-if="isLoadingSjablonen"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse"></i>&nbsp;Sjablonen aan het laden...</a></li>
@@ -110,11 +110,11 @@
             <div class="form-group">
               <label class="form-group  form-group--joined control checkbox">
                 <div class="col-xs-12 control-label">Ontvangers :
-                  <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ sjabloon.leden.length }} leden {{ ledenVisible ? 'verbergen' : 'tonen' }}</span>&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="ledenLaden"></i>
+                  {{ leden.length }} leden <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="ledenLaden"></i>
                 </div>
                 <div class="email-leden col-xs-12" ng-show="ledenVisible">
                   <ul>
-                    <li ng-repeat="lid in sjabloon.leden">{{ lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'] }} {{ lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']}}</li>
+                    <li ng-repeat="lid in leden">{{ lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'] }} {{ lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']}}</li>
                   </ul>
                   <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>
                 </div>
@@ -187,3 +187,18 @@
   </form>
 
 </div>
+<script type="text/ng-template" id="customPopupTemplate.html">
+  <div class="custom-popup-wrapper"
+     ng-style="{top: position().top+'px', left: position().left+'px'}"
+     style="display: block;"
+     ng-show="isOpen() && !moveInProgress"
+     aria-hidden="{{!isOpen()}}">
+    <p class="message">Selecteer een bestaand sjabloon</p>
+    <ul class="dropdown-menu" role="listbox">
+      <li ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
+          ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+          <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+      </li>
+    </ul>
+  </div>
+</script>

@@ -33,14 +33,14 @@
       $scope.ledenLaden = true;
       LLS.getLeden(offset).then(function(res){
         _.each(res.leden, function(val,key){
-          $scope.sjabloon.leden.push(val);
+          $scope.leden.push(val);
         });
-        if(res.totaal > $scope.sjabloon.leden.length){
+        if(res.totaal > $scope.leden.length){
           offset += 50;
           $scope.getLeden(offset);
         }else{
           $scope.ledenLaden = false;
-          console.log(res.totaal, $scope.sjabloon.leden.length);
+          console.log(res.totaal, $scope.leden.length);
         }
       })
     }
@@ -96,6 +96,7 @@
     var makeDummySjabloon = function(){
       // dit sjabloon zal worden gebruikt als er nog geen sjabloon bestaat voor de gebruiker
       var sjabloon = {};
+      sjabloon.naam = "blanco sjabloon";
       sjabloon.from = 'mij';
       sjabloon.replyTo = 'replytome';
       sjabloon.van = 'ikke';
@@ -108,6 +109,9 @@
 
     function init(){
       $scope.isLoadingSjablonen = true;
+      $scope.leden = new Array();
+      $scope.getLeden(0);
+
       ES.getTemplates().then(function(res){
         console.log("------",res);
         $scope.isLoadingSjablonen = false;
@@ -117,8 +121,7 @@
             $scope.sjablonen.push(makeDummySjabloon());
           }
           $scope.changeSjabloon($scope.sjablonen[0]);
-          $scope.sjabloon.leden = new Array();
-          $scope.getLeden(0);
+
         }
       },function(err){
         $scope.isLoadingSjablonen = false;
