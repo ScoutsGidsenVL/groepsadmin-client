@@ -223,9 +223,14 @@
         {'query': {method: 'GET', isArray: true, cache: true}}
       ),
       Emailsjabloon: $resource(
-        base + 'sjabloon/mail',
-        {},
-        {'get': {method: 'GET', cache: true}}
+        base + 'sjabloon/mail/:id',
+        {id: '@id', bevestiging: '@bevestiging'},
+        {
+        'get': {method: 'GET', cache: true},
+        'post': {method: 'POST', cache: false},
+        'update': {
+method: 'PATCH', transformRequest: changesOnly, cache: false}
+        }
       ),
       Websites: $resource(
         base + 'website',

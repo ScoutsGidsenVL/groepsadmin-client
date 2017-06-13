@@ -20,6 +20,14 @@
       return deferred.promise;
     }
 
+    emailService.patchTemplate = function(){
+      var deferred = $q.defer();
+      RestService.Emailsjabloon.post().$promise.then(function(res){
+        deferred.resolve(res);
+      });
+      return deferred.promise;
+    }
+
     return emailService;
   };
 })();
