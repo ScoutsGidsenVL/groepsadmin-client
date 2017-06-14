@@ -424,10 +424,10 @@
       // oudleden (idem geslacht)
       reconstructedFilterObj.criteria.oudleden = false;
 
-      // adresgeblokeerd
-      var actieveGeblokkeerdeAdressen = _.find(activeCriteria, {"criteriaKey":"adresgeblokeerd"});
+      // adresgeblokkeerd
+      var actieveGeblokkeerdeAdressen = _.find(activeCriteria, {"criteriaKey":"adresgeblokkeerd"});
       if(actieveGeblokkeerdeAdressen){
-          reconstructedFilterObj.criteria.adresgeblokeerd = _.find(actieveGeblokkeerdeAdressen.items, {'activated': true}).value;
+          reconstructedFilterObj.criteria.adresgeblokkeerd = _.find(actieveGeblokkeerdeAdressen.items, {'activated': true}).value;
       }
 
 
