@@ -96,12 +96,18 @@
     }
 
 
+
+
     $scope.saveOrOverwriteSjabloon = function(selectedSjabloon){
       $scope.isSavingSjablonen = true;
       console.log('selectedSjabloon', selectedSjabloon);
+      var newSjabloon;
+      if(selectedSjabloon.id){
+        newSjabloon = selectedSjabloon;
+      }else{
+        newSjabloon = {};
+      }
 
-      var newSjabloon = selectedSjabloon;
-      newSjabloon.naam = $scope.sjabloon.naam;
       newSjabloon.from = $scope.sjabloon.from;
 
       newSjabloon.replyTo = $scope.sjabloon.replyTo;
@@ -165,36 +171,38 @@
             }
           });
           $scope.sjabloon = response;
-          // tekstveld leegmaken
-          $scope.selectedSjabloon ='';
+
         });
 
-      }/*else{
+      }else{
         // voor de zekerheid leading en trailing whitespaces trimmen
-        selectedFilter = selectedFilter.trim();
-        var filters = LFS.getFilters();
-        var tmpObj = JSON.parse(JSON.stringify(reconstructedSjabloonObj));
-        $q.all(filters.promises).then(function(){
-          // eerst checken of de naam niet overeenkomt met bestaande filter
-          // TODO: check op lowercased
-          var foundElem = _.find(filters.filters, {'naam' : selectedFilter});
-          if(foundElem !== undefined){
-            var filterObj = {};
-            filterObj.naam = foundElem.naam;
-            filterObj.id = foundElem.id;
-            // indien overeenkomt, eigen functie opnieuw aanroepen met filter naam en id
-            $scope.saveOrOverwriteFilter(filterObj);
-          }else{
-          // indien de naam niet bestaat, maak nieuwe filterObj
-            createNewFilter(selectedFilter).then(function(res){
-              $scope.isSavingSjablonen = false;
-              $scope.showSaveOptions = false;
-              $scope.currentFilter = res;
-            });
-          }
-        });
+        selectedSjabloon = selectedSjabloon.trim();
+        // eerst checken of de naam niet overeenkomt met bestaande sjabloon
+        // TODO: check op lowercased
+        var foundElem = _.find($scope.sjablonen, {'naam' : selectedSjabloon});
+        if(foundElem !== undefined){
+          var sjObj = {};
+          sjObj.naam = foundElem.naam;
+          sjObj.id = foundElem.id;
+          // indien overeenkomt, eigen functie opnieuw aanroepen met sjObj
+          $scope.saveOrOverwriteSjabloon(sjObj);
+        }else{
+          // indien de naam niet bestaat, maak nieuwe sjObj
+          delete $scope.sjabloon.id;
+          $scope.sjabloon.naam = selectedSjabloon;
+          $scope.sjabloon.vanGroep = $scope.selectedgroup.groepsnummer;
 
-      }*/
+          createNewSjabloon($scope.sjabloon).then(function(res){
+            $scope.isSavingSjablonen = false;
+            $scope.showSaveOptions = false;
+            $scope.sjabloon = res;
+          });
+        }
+
+
+      }
+      // tekstveld leegmaken
+      $scope.selectedSjabloon ='';
 
     }
 
@@ -224,6 +232,19 @@
       });
 
       return deferred.promise;
+
+    }
+
+    var createNewSjabloon = function(sjabloon){
+
+      return $q(function(resolve,reject){
+        RestService.Emailsjabloon.post(sjabloon).$promise.then(
+          function(response){
+            // 'huidige' filter opslaan
+            resolve(response);
+          }
+        );
+      });
 
     }
 
