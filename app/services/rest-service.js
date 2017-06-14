@@ -179,6 +179,17 @@
           }
         }}
       ),
+      LedenMail : $resource(
+        base + 'ledenlijst/mail',
+        {bevestiging: '@bevestiging'},
+        {
+          'post': {
+            method: 'POST',
+            headers: { 'Content-Type': 'multipart/form-data; boundary=AaB03x'},
+            cache: false
+          }
+        }
+      ),
       FilterDetails: $resource(
         base + 'ledenlijst/filter/:id',
         {id: '@id'},
@@ -228,8 +239,7 @@
         {
         'get': {method: 'GET', cache: true},
         'post': {method: 'POST', cache: false},
-        'update': {
-method: 'PATCH', transformRequest: changesOnly, cache: false}
+        'update': {method: 'PATCH', transformRequest: changesOnly, cache: false}
         }
       ),
       Websites: $resource(

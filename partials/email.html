@@ -6,19 +6,19 @@
   <!-- NEW ACTIONS -->
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
-      <button type="submit" class="btn btn-apply"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;Verzenden&nbsp;
+      <button type="submit" class="btn btn-apply" ng-click="verzenden()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;Verzenden&nbsp;
     </div>
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>
         <button id="split-button" type="submit" disabled class="btn btn-apply">
-          <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;Verzenden&nbsp;
+          <span class="glyphicon glyphicon-envelope" aria-hidden="true" ng-click="verzenden()"></span>&nbsp;Verzenden&nbsp;
         </button>
         <button type="button" class="btn btn-apply" disabled uib-dropdown-toggle>
           <span class="caret"></span>
-          <span class="sr-only">Opslaan</span>
+          <span class="sr-only">Verzenden</span>
         </button>
         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-          <li role="menuitem"><a href="#" ng-click="opslaan()">Opslaan</a></li>
+          <li role="menuitem"><a href="#" ng-click="verzenden()">Verzenden</a></li>
         </ul>
       </div>
     </div>
@@ -34,7 +34,7 @@
           placeholder="Naam van sjabloon"
           uib-typeahead="sjabloon as sjabloon.naam for sjabloon in sjablonen | filter:{naam:$viewValue}"
           typeahead-popup-template-url="customPopupTemplate.html" class="form-control">
-          <button class="btn btn-apply" ng-click="saveOrOverwriteFilter(selectedSjabloon)">
+          <button class="btn btn-apply" ng-click="saveOrOverwriteSjabloon(selectedSjabloon)">
             <span ng-if="!selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan</span>
             <span ng-if="selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Overschrijven</span>
           </button>
@@ -60,10 +60,9 @@
               </div>
             </legend>
 
-            <div class="form-group" ng-class="{ 'has-error': emailForm.subject.$touched && emailForm.subject.$invalid }">
+            <div class="form-group">
               <label for="subject" class="col-xs-4 col-xxs-12 control-label">Sjabloon kiezen</label>
               <div class="col-xs-8 col-xxs-12">
-
                 <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
                   <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
                     {{ sjabloon.naam }} <span class="caret"></span>
@@ -77,6 +76,13 @@
               </div>
             </div>
 
+            <div class="form-group">
+              <label for="fromGroup" class="col-xs-4 col-xxs-12 control-label">Groep</label>
+              <div class="col-xs-8 col-xxs-12">
+                <select class="email-select-group form-control" ng-options="( groep.groepsnummer + ' ' + groep.naam) for groep in groepen track by groep.id" ng-model="selectedgroup"></select>
+              </div>
+            </div>
+
             <div class="form-group" ng-class="{ 'has-error': emailForm.fromname.$touched && emailForm.fromname.$invalid }">
               <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Van</label>
               <div class="col-xs-8 col-xxs-12">
@@ -87,18 +93,8 @@
               </div>
             </div>
 
-            <div class="form-group" ng-class="{ 'has-error': emailForm.fromaddress.$touched && emailForm.fromaddress.$invalid }">
-              <label for="email" class="col-xs-4 col-xxs-12 control-label">Van e-mailadres</label>
-              <div class="col-xs-8 col-xxs-12">
-                <input type="email" class="form-control" name="fromaddress" id="fromaddress" ng-model="sjabloon.van" required>
-                <div ng-messages="emailForm.fromaddress.$error" ng-show="emailForm.fromaddress.$touched">
-                    <div ng-messages-include="partials/messages.html"></div>
-                </div>
-              </div>
-            </div>
-
             <div class="form-group" ng-class="{ 'has-error': emailForm.replyaddress.$touched && emailForm.replyaddress.$invalid }">
-              <label for="email" class="col-xs-4 col-xxs-12 control-label">Reply adres</label>
+              <label for="email" class="col-xs-4 col-xxs-12 control-label">E-mailadres</label>
               <div class="col-xs-8 col-xxs-12">
                 <input type="email" class="form-control" name="replyaddress" id="replyaddress" ng-model="sjabloon.replyTo" >
                 <div ng-messages="emailForm.replyaddress.$error" ng-show="emailForm.replyaddress.$touched">
@@ -108,13 +104,19 @@
             </div>
 
             <div class="form-group">
+              <div class="col-xs-12 control-label">
+                <strong>Ontvangers :</strong>
+                {{ leden.length }} leden <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="ledenLaden"></i>
+              </div>
               <label class="form-group  form-group--joined control checkbox">
-                <div class="col-xs-12 control-label">Ontvangers :
-                  {{ leden.length }} leden <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="ledenLaden"></i>
-                </div>
                 <div class="email-leden col-xs-12" ng-show="ledenVisible">
                   <ul>
-                    <li ng-repeat="lid in leden">{{ lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'] }} {{ lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']}}</li>
+                    <li ng-repeat="lid in leden">
+                      <span ng-if="lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn']">{{ lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'] }}</span>
+                      <span ng-if="lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']">{{ lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'] }}</span>
+                      <span ng-if="!lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'] && !lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']"> - geen naam beschikbaar - </span>
+
+                    </li>
                   </ul>
                   <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>
                 </div>
@@ -135,6 +137,7 @@
               </label>
             </div>
 
+            <!--
             <div class="form-group" ng-class="{ 'has-error': emailForm.bccaddress.$touched && emailForm.bccaddress.$invalid }">
               <label for="email" class="col-xs-3 col-xxs-12 control-label">BCC</label>
               <div class="col-xs-9 col-xxs-12">
@@ -144,11 +147,7 @@
                 </div>
               </div>
             </div>
-
-
-
-
-
+            -->
 
           </fieldset>
         </section>
@@ -158,7 +157,6 @@
         <section>
           <fieldset>
             <legend>Bericht</legend>
-
             <div class="form-group" ng-class="{ 'has-error': emailForm.subject.$touched && emailForm.subject.$invalid }">
               <div class="col-xs-2 col-xxs-12 ">
                 <label for="subject" class="control-label">Onderwerp</label>
@@ -169,9 +167,7 @@
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
               </div>
-
             </div>
-
             <div class="form-group email-message" id="emailMessage">
               <div class="col-xs-12">
                 <textarea ui-tinymce="tinymceOptions" ng-model="sjabloon.inhoud"></textarea>
@@ -180,8 +176,6 @@
           </fieldset>
         </section>
       </div>
-
-
     </div>
   </div>
   </form>

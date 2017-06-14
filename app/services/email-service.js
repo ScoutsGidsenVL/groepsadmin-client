@@ -28,6 +28,33 @@
       return deferred.promise;
     }
 
+    emailService.saveSjabloon = function(sjabloonId, sObj){
+      console.log('ES.saveSjabloon sjabloonId:',sjabloonId, ' -- sjabloonObject:  ', sObj);
+      var deferred = $q.defer();
+      if(sjabloonId){
+        RestService.Emailsjabloon.update({id: sjabloonId, bevestig:true}, sObj).$promise.then(
+          function(res){
+            deferred.resolve(res);
+          }
+        );
+      }
+      return deferred.promise;
+    }
+
+    emailService.sendMail = function(obj){
+      console.log('ES.sendMail(), ', obj);
+      var deferred = $q.defer();
+      RestService.LedenMail.post({bevestig:true}, obj).$promise.then(
+        function(res){
+          deferred.resolve(res);
+        }
+      );
+      return deferred.promise;
+
+    }
+
+
+
     return emailService;
   };
 })();

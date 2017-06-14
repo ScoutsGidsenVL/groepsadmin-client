@@ -574,7 +574,11 @@ Als voor een gebruiker in het resultaat van het opvragen van een lid een verwijz
                 "inhoud": "Hello world!",
                 "onderwerp": "Test",
                 "van": "BP",
-                "stuurNaarStandaardEmailAdressen": true
+                "bestemming": {
+                    "lid": true,
+                    "contacten": true,
+                    "groepseigenGegevens": []
+                }
             }
 
             --AaB03x--
@@ -2563,7 +2567,25 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
 
     + Body
 
-            // TODO
+            --AaB03x
+            Content-Disposition: form-data; name="sjabloon"
+            Content-Type: application/json
+
+            {
+                "bcc": "bp@gmail.com",
+                "vanGroep": "X1234Y",
+                "replyTo": "bp@sgv.be",
+                "inhoud": "Hello world!",
+                "onderwerp": "Test",
+                "van": "BP",
+                "bestemming": {
+                    "lid": true,
+                    "contacten": true,
+                    "groepseigenGegevens": []
+                }
+            }
+
+            --AaB03x--
 
 
 ## Steekkaart [/ledenlijst/steekkaart]
@@ -2647,7 +2669,7 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
 
     + Body
 
-            // TODO
+
 
 ### E-mailsjabloon aanmaken [POST]
 
@@ -2659,6 +2681,20 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
 
             // De inhoud van deze request is hetzelfde als de response bij `GET` op
             // `/sjabloon/mail/{id}`.
+            {
+                  "naam": "test met bijlage",
+                  "onderwerp": "test",
+                  "inhoud": "<p>\r\n\tPas de inhoud van je email aan</p>\r\n",
+                  "bestemming": {
+                    "lid": true,
+                    "contacten": false,
+                    "groepseigenGegevens": []
+                  },
+                  "vanGroep": "A1000K",
+                  "van": "John Doe",
+                  "replyTo": "johndoe@sgv.be",
+                  "bcc": "test"
+            }
 
 + Response 200 (application/json)
 
@@ -2666,6 +2702,7 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
 
             // De inhoud van deze response is hetzelfde als bij `GET` op `/sjabloon/mail/{id}`
             // voor het aangemaakte e-mailsjabloon.
+
 
 ## E-mailsjabloon [/sjabloon/mail/{id}]
 
@@ -2678,7 +2715,68 @@ Een lijst met alle toegelaten kolommen van een filter, exact zoals de kolomtypes
 
     + Body
 
-            // TODO
+            {
+              "links": [
+                {
+                  "rel": "self",
+                  "href": "http://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/mailsjabloon",
+                  "method": "GET",
+                  "secties": []
+                },
+                {
+                  "rel": "nieuw e-mailsjabloon",
+                  "href": "http://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/mailsjabloon",
+                  "method": "POST",
+                  "secties": []
+                }
+              ],
+              "sjablonen": [
+                {
+                  "links": [
+                    {
+                      "rel": "self",
+                      "href": "http://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/mailsjabloon/d5f75e233e44d5d4013e5626300b2886",
+                      "method": "GET",
+                      "secties": []
+                    }
+                  ],
+                  "id": "d5f75e233e44d5d4013e5626300b2886",
+                  "naam": "test met bijlage",
+                  "onderwerp": "test",
+                  "inhoud": "<p>\r\n\tPas de inhoud van je email aan</p>\r\n",
+                  "bestemming": {
+                    "lid": true,
+                    "contacten": false,
+                    "groepseigenGegevens": []
+                  },
+                  "van": "John Doe",
+                  "replyTo": "johndoe@sgv.be",
+                  "bcc": "test"
+                },
+                {
+                  "links": [
+                    {
+                      "rel": "self",
+                      "href": "http://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/rest-ga/mailsjabloon/d5f75e235064b552015067bd7d8771db",
+                      "method": "GET",
+                      "secties": []
+                    }
+                  ],
+                  "id": "d5f75e235064b552015067bd7d8771db",
+                  "naam": "test",
+                  "onderwerp": "Individuele steekkaart invullen",
+                  "inhoud": "<p>\r\n\tBeste,</p>\r\n<p>\r\n\t&nbsp;</p>\r\n<p>\r\n\tMogen we u vragen om de individuele steekkaart van [voornaam] [achternaam] na te kijken?</p> en om deze <b>zo snel mogelijk aan te passen in de steekkaart</b>.</p>\r\n<p>\r\n\t&nbsp;</p>\r\n<p>\r\n\tHartelijk dank voor uw medewerking.</p>\r\n<p>\r\n\t&nbsp;</p>\r\n<p>\r\n\tMet vriendelijke scouts- en gidsengroeten,</p>\r\n<p>\r\n\tDe groepsleiding</p>\r\n",
+                  "bestemming": {
+                    "lid": true,
+                    "contacten": true,
+                    "groepseigenGegevens": []
+                  },
+                  "van": "John Doe",
+                  "replyTo": "johndoe@sgv.be",
+                  "bcc": "Individuele steekkaart invullen"
+                }
+              ]
+            }
 
 ### E-mailsjabloon bewerken [PATCH]
 

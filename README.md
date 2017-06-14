@@ -59,6 +59,9 @@ Stuur een e-mail naar [informatica@scoutsengidsenvlaanderen.be](email:informatic
 
 De [documentatie](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/client/docs/api.html) van de REST-API staat mee online. Deze documentatie is aangemaakt met [Aglio](#aglio-optioneel).
 
+Het is altijd fijn als de documentatie wordt aangevuld of gecorrigeerd waar nodig. In het bestand api.apib kan je aanpassingen doen m.b.t. de documentatie van de API.
+
+
 ### Testen
 
 Op `apitest.html` kan je API calls doen, waarbij het access/keycloak token wordt meegegeven in de header `Authorization`.
