@@ -6,14 +6,14 @@
   <!-- NEW ACTIONS -->
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
-      <button type="submit" class="btn btn-apply" ng-click="verzenden()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;Verzenden&nbsp;
+      <button type="submit" class="btn btn-apply" ng-disabled="isLoadingGroepen" ng-click="verzenden()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;Verzenden&nbsp;
     </div>
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>
-        <button id="split-button" type="submit" disabled class="btn btn-apply">
+        <button id="split-button" type="submit"  ng-disabled="isLoadingGroepen" class="btn btn-apply">
           <span class="glyphicon glyphicon-envelope" aria-hidden="true" ng-click="verzenden()"></span>&nbsp;Verzenden&nbsp;
         </button>
-        <button type="button" class="btn btn-apply" disabled uib-dropdown-toggle>
+        <button type="button" class="btn btn-apply"  ng-disabled="isLoadingGroepen" uib-dropdown-toggle>
           <span class="caret"></span>
           <span class="sr-only">Verzenden</span>
         </button>
@@ -108,18 +108,18 @@
                 <strong>Ontvangers :</strong>
                 {{ leden.length }} leden <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="ledenLaden"></i>
               </div>
-              <label class="form-group  form-group--joined control checkbox">
-                <div class="email-leden col-xs-12" ng-show="ledenVisible">
-                  <ul>
-                    <li ng-repeat="lid in leden">
-                      <span ng-if="lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn']">{{ lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'] }}</span>
-                      <span ng-if="lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']">{{ lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'] }}</span>
-                      <span ng-if="!lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'] && !lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']"> - geen naam beschikbaar - </span>
+              <div class="email-leden col-xs-12" ng-show="ledenVisible">
+                <ul>
+                  <li ng-repeat="lid in leden">
+                    <span ng-if="lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn']">{{ lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'] }}</span>
+                    <span ng-if="lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']">{{ lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'] }}</span>
+                    <span ng-if="!lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'] && !lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']"> - geen naam beschikbaar - </span>
 
-                    </li>
-                  </ul>
-                  <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>
-                </div>
+                  </li>
+                </ul>
+                <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>
+              </div>
+              <label class="form-group  form-group--joined control checkbox">
                 <div class="col-xs-12">
                   <input type="checkbox" id="sendStandard" ng-model="sjabloon.bestemming.lid" ng-checked="sjabloon.bestemming.lid">
                   <span class="control-indicator pull-left mr-10"></span>

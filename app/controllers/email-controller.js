@@ -16,20 +16,11 @@
     $scope.ledenVisible = false;
     $scope.tinymceModel = 'Initial content';
 
-    var customVelden = new Array();
-    var veld = "VOORNAAM";
-    var item = {
-        'text': veld,
-        onclick: function(){
-            alert("Clicked on " + veld);
-        }
-    };
-    customVelden.push(item);
-
     $scope.configEditor = function(velden){
       $scope.velden = velden;
       // first make all the menu items
       var menuItems = [];
+      var item = {};
       $scope.velden.forEach(function(customer, index){
           item = {
               'text': customer
@@ -38,28 +29,33 @@
       });
 
       $scope.tinymceOptions = {
-          plugins: 'link image code',
-          toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code | customDrpdwn',
-          setup: function(editor){
-              editor.addButton( 'customDrpdwn', {
-                  text : 'Veld invoegen',
-                  type: 'menubutton',
-                  icon : false,
-                  menu: menuItems,
-                  onselect: function (e) {
-                    //console.log(e.target.state.data.text);
-                    editor.insertContent('[' + e.target.state.data.text + ']');
-                  }
-              });
-          }
+        plugins: [
+          'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+          'searchreplace wordcount visualblocks visualchars code fullscreen',
+          'insertdatetime media nonbreaking save table contextmenu',
+          'template paste textcolor colorpicker textpattern imagetools codesample'
+        ],
+        height: 400,
+        menubar: false,
+        toolbar: 'undo redo | bold italic underline strikethrough | forecolor backcolor | bullist numlist | alignleft aligncenter alignright | table | code | customDrpdwn | media | preview',
+        setup: function(editor){
+            editor.addButton( 'customDrpdwn', {
+                text : 'Veld invoegen',
+                type: 'menubutton',
+                icon : false,
+                menu: menuItems,
+                onselect: function (e) {
+                  //console.log(e.target.state.data.text);
+                  editor.insertContent('[' + e.target.state.data.text + ']');
+                }
+            });
+        }
       };
 
       var editorContainer = angular.element(document.querySelector('#editorContainer'));
 
       var html = $compile('<textarea ui-tinymce="tinymceOptions" ng-model="sjabloon.inhoud"></textarea>')($scope);
       editorContainer.append(html);
-
-
 
     }
 
@@ -226,6 +222,7 @@
       $scope.isLoadingSjablonen = true;
       $scope.leden = new Array();
       $scope.getLeden(0);
+      $scope.isLoadingGroepen = true;
 
       ES.getSjablonen().then(function(res){
         $scope.isLoadingSjablonen = false;
@@ -251,16 +248,16 @@
         function (result) {
           $scope.groepen = result.groepen;
           $scope.selectedgroup = result.groepen[0];
+          $scope.isLoadingGroepen = false;
         },
-        function (Error){
-
+        function (err){
         }
       );
 
       // velden ophalen die worden gebruikt in de tinyMCE editor
+      // pas wanneer de call resolved is, zal de tinyMCE editor worden geïnitieerd
       RestService.Kolommen.get().$promise.then(
         function(result){
-
           var arrValues = new Array();
           _.each(result.kolommen, function(val,key){
             arrValues.push(val.label);
