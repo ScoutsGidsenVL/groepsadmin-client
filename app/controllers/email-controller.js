@@ -5,9 +5,9 @@
     .module('ga.emailcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap', 'ui.tinymce'])
     .controller('EmailController', EmailController);
 
-  EmailController.$inject = ['$q', '$scope', 'AlertService', 'DialogService', 'EmailService', 'LedenLijstService', 'RestService'];
+  EmailController.$inject = ['$compile', '$q', '$scope', 'AlertService', 'DialogService', 'EmailService', 'LedenLijstService', 'RestService'];
 
-  function EmailController ($q, $scope, AlertService, DialogService, ES, LLS, RestService) {
+  function EmailController ($compile, $q, $scope, AlertService, DialogService, ES, LLS, RestService) {
 
     // documentation tinyMCE plugin https://www.tinymce.com/docs/integrations/angularjs/
     var leden = new Array();
@@ -16,11 +16,52 @@
     $scope.ledenVisible = false;
     $scope.tinymceModel = 'Initial content';
 
-    $scope.tinymceOptions = {
-      plugins: 'link image code',
-      toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
-      menubar: false
+    var customVelden = new Array();
+    var veld = "VOORNAAM";
+    var item = {
+        'text': veld,
+        onclick: function(){
+            alert("Clicked on " + veld);
+        }
     };
+    customVelden.push(item);
+
+    $scope.configEditor = function(velden){
+      $scope.velden = velden;
+      // first make all the menu items
+      var menuItems = [];
+      $scope.velden.forEach(function(customer, index){
+          item = {
+              'text': customer
+          };
+          menuItems.push(item);
+      });
+
+      $scope.tinymceOptions = {
+          plugins: 'link image code',
+          toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code | customDrpdwn',
+          setup: function(editor){
+              editor.addButton( 'customDrpdwn', {
+                  text : 'Veld invoegen',
+                  type: 'menubutton',
+                  icon : false,
+                  menu: menuItems,
+                  onselect: function (e) {
+                    //console.log(e.target.state.data.text);
+                    editor.insertContent('[' + e.target.state.data.text + ']');
+                  }
+              });
+          }
+      };
+
+      var editorContainer = angular.element(document.querySelector('#editorContainer'));
+
+      var html = $compile('<textarea ui-tinymce="tinymceOptions" ng-model="sjabloon.inhoud"></textarea>')($scope);
+      editorContainer.append(html);
+
+
+
+    }
 
     $scope.changeSjabloon = function(sjabloon){
       $scope.sjabloon = sjabloon;
@@ -215,6 +256,20 @@
 
         }
       );
+
+      // velden ophalen die worden gebruikt in de tinyMCE editor
+      RestService.Kolommen.get().$promise.then(
+        function(result){
+
+          var arrValues = new Array();
+          _.each(result.kolommen, function(val,key){
+            arrValues.push(val.label);
+          })
+          $scope.configEditor(arrValues);
+        }
+      );
+
+
     }
 
     init();
