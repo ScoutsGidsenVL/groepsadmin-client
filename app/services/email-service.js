@@ -12,7 +12,7 @@
   function EmailService($log,$q,RestService) {
     var emailService = {};
 
-    emailService.getTemplates = function(){
+    emailService.getSjablonen = function(){
       var deferred = $q.defer();
       RestService.Emailsjabloon.get().$promise.then(function(res){
         deferred.resolve(res);

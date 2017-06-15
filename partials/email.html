@@ -35,8 +35,8 @@
           uib-typeahead="sjabloon as sjabloon.naam for sjabloon in sjablonen | filter:{naam:$viewValue}"
           typeahead-popup-template-url="customPopupTemplate.html" class="form-control">
           <button class="btn btn-apply" ng-click="saveOrOverwriteSjabloon(selectedSjabloon)">
-            <span ng-if="!selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan</span>
-            <span ng-if="selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Overschrijven</span>
+            <span ng-if="!selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isSavingSjablonen"></i></span>
+            <span ng-if="selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Overschrijven&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isSavingSjablonen"></i></span>
           </button>
           <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions;selectedSjabloon='';"><span class="fa fa-remove" aria-hidden="true" ></span>&nbsp;Annuleren</button>
         </form>
@@ -68,7 +68,7 @@
                     {{ sjabloon.naam }} <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li ng-if="isLoadingSjablonen"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse"></i>&nbsp;Sjablonen aan het laden...</a></li>
+                    <li ng-if="isLoadingSjablonen"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse" ng-show="isLoadingSjablonen"></i>&nbsp;Sjablonen aan het laden...</a></li>
                     <li ng-if="!isLoadingSjablonen && !(sjablonen.length > 0)"><a href='javascript:void(0)'>Geen sjablonen</a></li>
                     <li ng-if="!isLoadingSjablonen" role="menuitem" ng-repeat="sjabloon in sjablonen | orderBy:'naam'"><a href ng-click="changeSjabloon(sjabloon)">{{ sjabloon.naam }}</a></li>
                   </ul>
@@ -182,7 +182,7 @@
 
 </div>
 <script type="text/ng-template" id="customPopupTemplate.html">
-  <div class="custom-popup-wrapper"
+  <div class="custom-popup-wrapper dropdown-menu"
      ng-style="{top: position().top+'px', left: position().left+'px'}"
      style="display: block;"
      ng-show="isOpen() && !moveInProgress"

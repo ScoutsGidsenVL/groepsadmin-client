@@ -185,7 +185,7 @@
         {
           'post': {
             method: 'POST',
-            headers: { 'Content-Type': 'multipart/form-data; boundary=AaB03x'},
+            headers: { 'Content-Type': 'multipart/form-data boundary=AaB03x'},
             cache: false
           }
         }
@@ -237,7 +237,7 @@
         base + 'sjabloon/mail/:id',
         {id: '@id', bevestiging: '@bevestiging'},
         {
-        'get': {method: 'GET', cache: true},
+        'get': {method: 'GET', cache: false},
         'post': {method: 'POST', cache: false},
         'update': {method: 'PATCH', transformRequest: changesOnly, cache: false}
         }

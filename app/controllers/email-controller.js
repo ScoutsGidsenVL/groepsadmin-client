@@ -10,9 +10,7 @@
   function EmailController ($q, $scope, AlertService, DialogService, ES, LLS, RestService) {
 
     // documentation tinyMCE plugin https://www.tinymce.com/docs/integrations/angularjs/
-
     var leden = new Array();
-
 
     $scope.ledenLaden = false;
     $scope.ledenVisible = false;
@@ -29,31 +27,8 @@
     }
 
     $scope.verzenden = function(){
-      /*
-      --AaB03x
-      Content-Disposition: form-data; name="sjabloon"
-      Content-Type: application/json
-
-      {
-          "bcc": "bp@gmail.com",
-          "vanGroep": "X1234Y",
-          "replyTo": "bp@sgv.be",
-          "inhoud": "Hello world!",
-          "onderwerp": "Test",
-          "van": "BP",
-          "bestemming": {
-              "lid": true,
-              "contacten": true,
-              "groepseigenGegevens": []
-          }
-      }
-
-      --AaB03x--
-      */
-
       var sjabloonObj = {
-          //"bcc": $scope.sjabloon.bcc,
-          "vanGroep": $scope.selectedgroup,
+          "vanGroep": $scope.selectedgroup.groepsnummer,
           "replyTo": $scope.sjabloon.replyTo,
           "inhoud": $scope.sjabloon.inhoud,
           "onderwerp": $scope.sjabloon.onderwerp,
@@ -65,17 +40,13 @@
           }
       }
       var payload = "--AaB03x\n";
-      payload+= 'Content-Disposition: form-data; name="'+$scope.sjabloon.naam+'"\nContent-Type: application/json\n\n';
+      payload+= 'Content-Disposition: form-data; name="sjabloon"\nContent-Type: application/json\n\n';
       payload += JSON.stringify(sjabloonObj);
       payload+= "\n\n--AaB03x--";
-
 
       ES.sendMail(payload).then(function(res){
         console.log("emailcontroller - YAY---- mail was sent", res);
       });
-
-
-
 
     }
 
@@ -95,9 +66,6 @@
       })
     }
 
-
-
-
     $scope.saveOrOverwriteSjabloon = function(selectedSjabloon){
       $scope.isSavingSjablonen = true;
       console.log('selectedSjabloon', selectedSjabloon);
@@ -114,41 +82,8 @@
       newSjabloon.van = $scope.sjabloon.van;
       newSjabloon.onderwerp = $scope.sjabloon.onderwerp;
       newSjabloon.inhoud = $scope.sjabloon.inhoud;
-
       newSjabloon.vanGroep = $scope.selectedgroup.groepsnummer;
 
-      //var reconstructedSjabloonObj = createSjabloonObject();
-
-
-
-      /// EXAMPLE DATA FOR EMAIL
-
-
-      /*
-
-      --AaB03x
-      Content-Disposition: form-data; name="sjabloon"
-      Content-Type: application/json
-
-      {
-          "bcc": "bp@gmail.com",
-          "vanGroep": "X1234Y",
-          "replyTo": "bp@sgv.be",
-          "inhoud": "Hello world!",
-          "onderwerp": "Test",
-          "van": "BP",
-          "bestemming": {
-              "lid": true,
-              "contacten": true,
-              "groepseigenGegevens": []
-          }
-      }
-
-      --AaB03x--
-
-
-
-      */
 
       if(selectedSjabloon.id){
 
@@ -161,7 +96,6 @@
         // bestaande filter overschrijven
 
         overwriteSjabloon(selectedSjabloon, tmpObj).then(function(response){
-          console.log('------- ---- ----- overwriteFilter:', response);
           $scope.isSavingSjablonen = false;
           $scope.showSaveOptions = false;
           _.find($scope.sjablonen, function(f) {
@@ -171,7 +105,8 @@
             }
           });
           $scope.sjabloon = response;
-
+          // tekstveld leegmaken
+          $scope.selectedSjabloon ='';
         });
 
       }else{
@@ -195,15 +130,14 @@
           createNewSjabloon($scope.sjabloon).then(function(res){
             $scope.isSavingSjablonen = false;
             $scope.showSaveOptions = false;
-            $scope.sjabloon = res;
+
+
+            // tekstveld leegmaken
+            $scope.selectedSjabloon ='';
+            init()
           });
         }
-
-
       }
-      // tekstveld leegmaken
-      $scope.selectedSjabloon ='';
-
     }
 
     var makeDummySjabloon = function(){
@@ -253,8 +187,7 @@
       $scope.leden = new Array();
       $scope.getLeden(0);
 
-      ES.getTemplates().then(function(res){
-        console.log("------",res);
+      ES.getSjablonen().then(function(res){
         $scope.isLoadingSjablonen = false;
         if(res.sjablonen){
           $scope.sjablonen = res.sjablonen;
@@ -262,7 +195,6 @@
             $scope.sjablonen.push(makeDummySjabloon());
           }
           $scope.changeSjabloon($scope.sjablonen[0]);
-
         }
       },function(err){
         $scope.isLoadingSjablonen = false;
@@ -278,9 +210,6 @@
 
         }
       );
-
-
-
     }
 
     init();
