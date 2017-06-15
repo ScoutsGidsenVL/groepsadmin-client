@@ -2906,12 +2906,19 @@ Het `id` van een e-mailsjabloon verandert bij een patch.
 
 + Response 200
 
-    Een lijst van alle leden die in aanmerking komen voor de query.
+    Een lijst van alle leden die in aanmerking komen voor de query
 
     + Body
 
             {
-              "query": "powell",
+              "link": {
+                "rel": "self",
+                "href": "/groepsadmin/rest-ga/zoeken?query=powell",
+                "method": "GET"
+              },
+              criteria: {
+                "query": "powell"
+              },
               leden: [
                 {
                   "link": {
@@ -2932,6 +2939,44 @@ Het `id` van een e-mailsjabloon verandert bij een patch.
                   "voornaam": "Olave",
                   "achternaam": "Baden-Powell",
                   "geboortedatum": "1889-02-22",
+                }
+              ]
+            }
+
+## Gelijkaardig zoeken [/zoeken/gelijkaardig?voornaam={voornaam}&achternaam={achternaam}]
+
++ Parameters
+  + voornaam (string) - de voornaam waarop gezocht moet worden
+  + achternaam (string) - de achternaam waarop gezocht moet worden
+
+### Gelijkaardige leden zoeken [GET]
+
++ Response 200
+
+    Een lijst van alle leden van wie de naam lijkt op de opgegeven naam
+
+    + Body
+
+            {
+              "link": {
+                "rel": "self",
+                "href": "/groepsadmin/rest-ga/zoeken/gelijkaardig?voornaam=baden&achternaam=powel",
+                "method": "GET"
+              },
+              criteria: {
+                "voornaam": "baden",
+                "achternaam": "powel"
+              },
+              leden: [
+                {
+                  "link": {
+                    "rel": "self",
+                    "href": "/groepsadmin/rest-ga/lid/d5f75b320b812440010b8127f95f4db4",
+                    "method": "GET"
+                  },
+                  "voornaam": "Baden",
+                  "achternaam": "Powell",
+                  "geboortedatum": "1857-02-22",
                 }
               ]
             }
