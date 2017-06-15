@@ -130,11 +130,10 @@
           createNewSjabloon($scope.sjabloon).then(function(res){
             $scope.isSavingSjablonen = false;
             $scope.showSaveOptions = false;
-
-
+            $scope.lastSavedSjabloon = $scope.sjabloon;
             // tekstveld leegmaken
             $scope.selectedSjabloon ='';
-            init()
+            init();
           });
         }
       }
@@ -145,7 +144,7 @@
       var sjabloon = {};
       sjabloon.naam = "blanco sjabloon";
       sjabloon.from = 'mij';
-      sjabloon.replyTo = 'replytome';
+      sjabloon.replyTo = 'reply@to.me';
       sjabloon.van = 'ikke';
       sjabloon.onderwerp = 'yoo mannekes';
       sjabloon.inhoud = "dit is een test tekstje";
@@ -194,7 +193,13 @@
           if(!res.sjablonen.length > 0){
             $scope.sjablonen.push(makeDummySjabloon());
           }
-          $scope.changeSjabloon($scope.sjablonen[0]);
+          if($scope.lastSavedSjabloon && $scope.lastSavedSjabloon.id){
+            console.log("last saved", _.find($scope.sjablonen, {'id': $scope.lastSavedSjabloon.id }));
+            $scope.changeSjabloon(_.find($scope.sjablonen, {'id': $scope.lastSavedSjabloon.id }));
+
+          }else{
+            $scope.changeSjabloon($scope.sjablonen[0]);
+          }
         }
       },function(err){
         $scope.isLoadingSjablonen = false;

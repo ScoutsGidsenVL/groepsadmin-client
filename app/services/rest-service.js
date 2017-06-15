@@ -185,7 +185,7 @@
         {
           'post': {
             method: 'POST',
-            headers: { 'Content-Type': 'multipart/form-data boundary=AaB03x'},
+            headers: { 'Content-Type': 'multipart/form-data; boundary=AaB03x'},
             cache: false
           }
         }
