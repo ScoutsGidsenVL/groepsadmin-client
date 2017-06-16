@@ -5,9 +5,9 @@
     .module('ga.emailcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap', 'ui.tinymce'])
     .controller('EmailController', EmailController);
 
-  EmailController.$inject = ['$compile', '$q', '$scope', 'AlertService', 'DialogService', 'EmailService', 'LedenLijstService', 'RestService'];
+  EmailController.$inject = ['$compile', '$log', '$q', '$scope', '$uibModal', 'AlertService', 'DialogService', 'EmailService', 'LedenLijstService', 'RestService'];
 
-  function EmailController ($compile, $q, $scope, AlertService, DialogService, ES, LLS, RestService) {
+  function EmailController ($compile, $log, $q, $scope, $uibModal, AlertService, DialogService, ES, LLS, RestService) {
 
     // documentation tinyMCE plugin https://www.tinymce.com/docs/integrations/angularjs/
     var leden = new Array();
@@ -84,7 +84,7 @@
         console.log("emailcontroller - YAY---- mail was sent", res);
         var feedback = ES.getMailReportMessage(res);
 
-        DialogService.new(feedback.message, $scope.confirmEmailReport);
+        $scope.openDialog();
 
       });
     }
@@ -283,6 +283,35 @@
       );
 
     }
+
+    /*** MODAL LOGIC ***/
+
+    $scope.items = ['item1', 'item2', 'item3'];
+
+    $scope.animationsEnabled = true;
+
+    $scope.openDialog = function (size) {
+
+        var modalInstance = $uibModal.open({
+          animation: $scope.animationsEnabled,
+          templateUrl: 'myModalContent.html',
+          controller: 'ModalInstanceController',
+          size: size,
+          resolve: {
+            items: function () {
+              return $scope.items;
+            }
+          }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+          $scope.selected = selectedItem;
+        }, function () {
+          $log.info('Modal dismissed at: ' + new Date());
+        });
+      };
+
+    /*******/
 
     init();
 

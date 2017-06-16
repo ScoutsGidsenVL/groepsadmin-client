@@ -246,6 +246,26 @@
       </div>
     </script>
 
+    <!-- bootstrap modal -->
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">I'm a modal!</h3>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li ng-repeat="item in items">
+                    <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
+                </li>
+            </ul>
+            Selected: <b>{{ selected.item }}</b>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+
     <!-- bower:js -->
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
@@ -289,6 +309,7 @@
     <script src="app/controllers/orakel-controller.js"></script>
     <script src="app/controllers/website-controller.js"></script>
     <script src="app/controllers/email-controller.js"></script>
+    <script src="app/controllers/modalinstance-controller.js"></script>
 
     <script src="app/services/user-access-service.js"></script>
     <script src="app/services/rest-service.js"></script>
