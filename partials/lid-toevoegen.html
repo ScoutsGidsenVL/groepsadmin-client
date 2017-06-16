@@ -4,8 +4,7 @@
     <h1 class="panel-title">Nieuw lid</h1>
   </div>
 
-
-  <!-- NEW ACTIONS -->
+  <!-- ACTIONS -->
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
       <button type="submit" class="btn btn-apply" ng-disabled="nieuwLidForm.$invalid" ng-click="opslaan()" ng-show="lid"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
@@ -24,13 +23,10 @@
         </ul>
       </div>
     </div>
-
   </div>
-
 </div>
 
 <div class="panel panel-default panel-default--hasmargin">
-<!-- Persoonsinfo -->
 <form name="nieuwLidForm" ng-submit="submitForm(nieuwLidForm)" novalidate>
 <div class="panel-body form-hover clearfix">
   <div class="row">
@@ -42,7 +38,7 @@
           <div class="form-group" ng-class="{ 'has-error': nieuwLidForm.voornaam.$touched && nieuwLidForm.voornaam.$invalid }">
             <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" name="voornaam" id="_voornaam" ng-model="lid.vgagegevens.voornaam" required />
+                  <input type="text" class="form-control" name="voornaam" id="_voornaam" ng-model="lid.vgagegevens.voornaam" required ng-change="updateSuggesties()" ng-model-options="{debounce: 500}" />
               <div ng-messages="nieuwLidForm.voornaam.$error" ng-show="nieuwLidForm.voornaam.$touched">
                   <div ng-messages-include="partials/messages.html"></div>
               </div>
@@ -51,7 +47,7 @@
           <div class="form-group" ng-class="{ 'has-error': nieuwLidForm.achternaam.$touched && nieuwLidForm.achternaam.$invalid }">
             <label for="_achternaam" class="col-xs-5 col-xxs-12 control-label">Achternaam</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" name="achternaam" id="_achternaam" ng-model="lid.vgagegevens.achternaam" required />
+                  <input type="text" class="form-control" name="achternaam" id="_achternaam" ng-model="lid.vgagegevens.achternaam" required ng-change="updateSuggesties()" ng-model-options="{debounce: 500}" />
               <div ng-messages="nieuwLidForm.achternaam.$error" ng-show="nieuwLidForm.achternaam.$touched">
                   <div ng-messages-include="partials/messages.html"></div>
               </div>
@@ -287,33 +283,6 @@
           </fieldset>
         </fieldset>
       </section>
-
-
-
-      <!-- Groepseigen gegevens -->
-      <!--
-      <section>
-        <fieldset>
-          <legend>Groepseigen gegevens</legend>
-          <fieldset ng-repeat="groepFuncties in groepEnfuncties" ng-show="hasPermission('groepseigen.' + groepFuncties.groepsnummer)">
-
-           <legend>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
-              <div class="pull-right" ng-init="showgroepseigenvelden=true;">
-                <button ng-click="showgroepseigenvelden=true" ng-hide="showgroepseigenvelden" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                <button ng-click="showgroepseigenvelden=false" ng-hide="!showgroepseigenvelden" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
-              </div>
-            </legend>
-            <fieldset class="ga-functie-list" ng-if="lid.groepseigenVelden[groepFuncties.groepsnummer].schema.velden.length > 0">
-              <dynamischveldcolectie waarden="lid.groepseigenVelden[groepFuncties.groepsnummer].waarden" velden="lid.groepseigenVelden[groepFuncties.groepsnummer].schema.velden" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
-            </fieldset>
-            <fieldset class="ga-functie-list" ng-if="lid.groepseigenVelden[groepFuncties.groepsnummer].schema.velden.length == 0">
-              <legend ng-show="!showgroepseigenvelden">Geen groepseigen gegevens in deze groep</legend>
-            </fieldset>
-
-          </fieldset>
-        </fieldset>
-      </section>
-      -->
     </div>
     <div class="col-lg-4 col-sm-6 col-xs-12">
       <!-- Functies -->
@@ -376,5 +345,4 @@
   </div>
 </div>
 </form>
-
 </div>

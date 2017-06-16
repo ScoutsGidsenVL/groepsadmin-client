@@ -8,10 +8,8 @@
   DialogService.$inject = ['$rootScope'];
 
   function DialogService($rootScope) {
-    var dialogService = {};
-    $rootScope.dialog;
 
-    return dialogService = {
+    return {
       new: function(title, msg, returnfunctie, extraparamObj) {
         var dialog = {
           title: title,

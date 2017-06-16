@@ -45,6 +45,8 @@
       $scope.formats = ['dd/MM/yyyy'];
       $scope.format = $scope.formats[0];
 
+      $scope.suggesties = [];
+
       /*
       * Initialisatie van het nieuwe lid model
       * ---------------------------------------
@@ -393,7 +395,6 @@
       formfield.$setValidity(formfield.$name,FVS.checkField(formfield));
     }
 
-
     // TODO: REMOVE CODE DUPLICATION  (lidcontroller)
 
     $scope.$watch('nieuwLidForm.$valid', function (validity) {
@@ -409,7 +410,9 @@
     });
 
     var openAndHighlightCollapsedInvalidContacts = function(){
-      var invalidContacten = _.filter($scope.nieuwLidForm.$error.required,function(o){return o.$name.indexOf('contacten') > -1 });
+      var invalidContacten = _.filter($scope.nieuwLidForm.$error.required, function(o){
+        return o.$name.indexOf('contacten') > -1;
+      });
       _.each(invalidContacten, function(contact){
         // get index from fieldname
         var str = contact.$name.match(/\d+/g, "")+'';
@@ -421,7 +424,9 @@
       });
     }
     var openAndHighlightCollapsedInvalidAdresses = function(){
-      var invalidAddresses = _.filter($scope.nieuwLidForm.$error.required,function(o){return o.$name.indexOf('adressen') > -1 });
+      var invalidAddresses = _.filter($scope.nieuwLidForm.$error.required, function(o){
+        return o.$name.indexOf('adressen') > -1;
+      });
       console.log('------', invalidAddresses);
       _.each(invalidAddresses, function(adres){
         // get index from fieldname
@@ -445,6 +450,19 @@
     }
 
     // END TO DO REMOVE DUPLICATE
+
+    $scope.updateSuggesties = function() {
+      return RestService.GelijkaardigZoeken.get({
+        voornaam: $scope.lid.vgagegevens.voornaam,
+        achternaam: $scope.lid.vgagegevens.achternaam
+      }).$promise.then(function(result) {
+        console.log(result.leden);
+
+        if (0 < result.leden.length) {
+          AlertService.add('warning', "Er zijn leden gevonden met een gelijkaardige naam. Ga naar het juiste lid of negeer dit bericht: ", 0, result.leden);
+        }
+      });
+    }
 
     // refresh of navigatie naar een andere pagina.
     var unload = function (e) {

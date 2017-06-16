@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  
+
   angular
     .module('ga.services.alert', [])
     .factory('AlertService', AlertService);
@@ -8,41 +8,32 @@
   AlertService.$inject = ['$rootScope', '$timeout'];
 
   function AlertService($rootScope, $timeout) {
-    var alertService = {};
     $rootScope.alerts = [];
 
-    return alertService = {
-      add: function(type, msg, timeout, url) {
+    return {
+      add: function(type, msg, timeout, suggesties) {
         var alert = {
-          type: type,
-          msg: msg,
-          url: url,
-          close: function() {
-            return alertService.closeAlert(this);
+          'type': type,
+          'msg': msg,
+          'suggesties': suggesties,
+          'hash': type + msg + _.map(suggesties, _.property('id')).join(),
+          'close': function() {
+            var index = $rootScope.alerts.indexOf(alert);
+            if (0 <= index) {
+              $rootScope.alerts.splice(index, 1);
+            }
           }
         };
-        $rootScope.alerts.push(alert);
 
-        if (timeout) { 
-          $timeout(function(){ 
-            alertService.closeAlert(alert); 
-          }, timeout); 
+        if (_.findIndex($rootScope.alerts, {'hash': alert.hash}) < 0) {
+          $rootScope.alerts.push(alert);
         }
-      },
 
-      closeAlert: function(alert) {
-        return this.closeAlertByIndex($rootScope.alerts.indexOf(alert));
-      },
-
-      closeAlertByIndex: function(index) {
-        return index>-1 && $rootScope.alerts.splice(index, 1);
-      },
-      closeAlertByUrl: function(url) {
-        return index>-1 && $rootScope.alerts.splice(index, 1);
-      },
-
-      clear: function(){
-        $rootScope.alerts = [];
+        if (timeout) {
+          $timeout(function(){
+            alert.close();
+          }, timeout);
+        }
       }
     };
   };

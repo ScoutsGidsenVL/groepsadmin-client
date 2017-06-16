@@ -13,7 +13,7 @@
     if (window.location.protocol === "https:") {
         apiHost = window.location.origin;
     } else {
-        apiHost = 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net';
+        apiHost = 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be';
         // Alternatief als de groepsadmin lokaal draait:
         //apiHost = 'http://localhost:8080';
     }
@@ -231,6 +231,14 @@
         base + 'ledenlijst/filter',
         {},
         {'get': {method: 'GET', cache: false}}
+      ),
+      GelijkaardigZoeken: $resource(
+        base + 'zoeken/gelijkaardig?voornaam=:voornaam&achternaam=:achternaam',
+        {
+          voornaam: '@voornaam',
+          achternaam: '@achternaam'
+        },
+        {'query': {method: 'GET', isArray: true, cache: false}}
       ),
       Kolommen: $resource(
         base + 'ledenlijst/kolom-type',
