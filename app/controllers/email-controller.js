@@ -45,7 +45,6 @@
                 icon : false,
                 menu: menuItems,
                 onselect: function (e) {
-                  //console.log(e.target.state.data.text);
                   editor.insertContent('[' + e.target.state.data.text + ']');
                 }
             });
@@ -83,7 +82,17 @@
 
       ES.sendMail(payload).then(function(res){
         console.log("emailcontroller - YAY---- mail was sent", res);
+        var feedback = ES.getMailReportMessage(res);
+
+        DialogService.new(feedback.message, $scope.confirmEmailReport);
+
       });
+    }
+
+    // bevestiging return functie
+    // --------------------------------------
+    $scope.confirmEmailReport = function(result){
+
     }
 
     $scope.getLeden = function(offset){
@@ -203,6 +212,7 @@
 
       ES.saveSjabloon(sjabloon.id, obj).then(
       function(result){
+        AlertService.add('success', "Template '"+ sjabloon.naam + "' werd succesvol opgeslagen", 5000);
         deferred.resolve(result);
       });
 
@@ -214,7 +224,6 @@
       return $q(function(resolve,reject){
         RestService.Emailsjabloon.post(sjabloon).$promise.then(
           function(response){
-            // 'huidige' filter opslaan
             resolve(response);
           }
         );
@@ -262,7 +271,7 @@
       );
 
       // velden ophalen die worden gebruikt in de tinyMCE editor
-      // pas wanneer de call resolved is, zal de tinyMCE editor worden geïnitieerd
+      // pas wanneer de Kolommen-call resolved is, zal de tinyMCE editor worden geïnitieerd
       RestService.Kolommen.get().$promise.then(
         function(result){
           var arrValues = new Array();

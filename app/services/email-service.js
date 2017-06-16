@@ -53,7 +53,37 @@
 
     }
 
+    emailService.getMailReportMessage = function(obj){
+      var addressesOk = new Array(); // array
+      var failMessages = new Array(); // objects
 
+      var successCounter = 0;
+      if(obj.gelukt){
+        addressesOk = obj.gelukt; // array
+        successCounter += addressesOk.length;
+      }
+
+      var messagesNok = "";
+      var failMessages = obj.mislukt; // objects
+      var failedCounter = 0;
+      _.each(failMessages, function(val,key){
+        failedCounter += val.length;
+        messagesNok += key + '\n';
+        _.each(val,function(v){
+          messagesNok += '- ' + v + '\n';
+        });
+      });
+
+      var totalSent = addressesOk.length + failedCounter;
+      var messageOk = "Jouw e-mail werd succesvol verzonden naar " + successCounter + " van de " + totalSent + " ontvangers";
+      var feedbackObj = {};
+
+      feedbackObj.message = messageOk;
+      feedbackObj.message += '\n' + messagesNok;
+
+      return feedbackObj;
+
+    }
 
     return emailService;
   };

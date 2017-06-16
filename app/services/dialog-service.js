@@ -31,7 +31,6 @@
               $rootScope.dialog = null;
               returnfunctie(false);
             }
-
           },
           confirm: function() {
             if(extraparamObj != undefined){
