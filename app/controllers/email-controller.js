@@ -84,7 +84,7 @@
         console.log("emailcontroller - YAY---- mail was sent", res);
         var feedback = ES.getMailReportMessage(res);
 
-        $scope.openDialog();
+        $scope.openDialog(feedback);
 
       });
     }
@@ -290,15 +290,17 @@
 
     $scope.animationsEnabled = true;
 
-    $scope.openDialog = function (size) {
+    $scope.openDialog = function (feedbackObj) {
 
         var modalInstance = $uibModal.open({
           animation: $scope.animationsEnabled,
           templateUrl: 'myModalContent.html',
           controller: 'ModalInstanceController',
-          size: size,
+          size: '',
           resolve: {
-            items: function () {
+            feedback: function () {
+              return feedbackObj;
+            },items:function(){
               return $scope.items;
             }
           }
