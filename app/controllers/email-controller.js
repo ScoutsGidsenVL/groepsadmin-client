@@ -53,8 +53,8 @@
       };
 
       var editorContainer = angular.element(document.querySelector('#editorContainer'));
-
       var html = $compile('<textarea ui-tinymce="tinymceOptions" ng-model="sjabloon.inhoud"></textarea>')($scope);
+      editorContainer.children().remove();
       editorContainer.append(html);
 
     }
@@ -84,7 +84,6 @@
       ES.sendMail(payload).then(function(res){
         console.log("emailcontroller - YAY---- mail was sent", res);
       });
-
     }
 
     $scope.getLeden = function(offset){
@@ -98,9 +97,21 @@
           $scope.getLeden(offset);
         }else{
           $scope.ledenLaden = false;
-          console.log(res, res.totaal, $scope.leden.length);
         }
       })
+    }
+
+    $scope.deleteSjabloon = function(sjObj){
+      $scope.isDeleting = true;
+      RestService.Emailsjabloon.delete({id: sjObj.id}).$promise.then(
+        function(response){
+          AlertService.add('success ', "Sjabloon '"+ sjObj.naam + "' succesvol verwijderd", 5000);
+          $scope.isDeleting = false;
+          init();
+        },function(err){
+          $scope.isDeleting = false;
+        }
+      );
     }
 
     $scope.saveOrOverwriteSjabloon = function(selectedSjabloon){
@@ -113,24 +124,15 @@
         newSjabloon = {};
       }
 
-      newSjabloon.from = $scope.sjabloon.from;
-
       newSjabloon.replyTo = $scope.sjabloon.replyTo;
       newSjabloon.van = $scope.sjabloon.van;
       newSjabloon.onderwerp = $scope.sjabloon.onderwerp;
       newSjabloon.inhoud = $scope.sjabloon.inhoud;
       newSjabloon.vanGroep = $scope.selectedgroup.groepsnummer;
 
-
       if(selectedSjabloon.id){
 
-        console.log("newSjabloon",newSjabloon);
-        //delete newSjabloon.id;
-        //console.log("deleted ID of newSjabloon",newSjabloon);
-
         var tmpObj = JSON.parse(JSON.stringify(newSjabloon));
-        console.log('selectedSjabloon patched by this obj:', tmpObj);
-        // bestaande filter overschrijven
 
         overwriteSjabloon(selectedSjabloon, tmpObj).then(function(response){
           $scope.isSavingSjablonen = false;
@@ -177,19 +179,22 @@
     }
 
     var makeDummySjabloon = function(){
-      // dit sjabloon zal worden gebruikt als er nog geen sjabloon bestaat voor de gebruiker
-      var sjabloon = {};
-      sjabloon.naam = "blanco sjabloon";
-      sjabloon.from = 'mij';
-      sjabloon.replyTo = 'reply@to.me';
-      sjabloon.van = 'ikke';
-      sjabloon.onderwerp = 'yoo mannekes';
-      sjabloon.inhoud = "dit is een test tekstje";
-      sjabloon.bestemming = {};
-      sjabloon.bestemming.lid = true;
-      sjabloon.bestemming.contacten = false;
+      var deferred = $q.defer();
+      RestService.Lid.get({id:'profiel'}).$promise.then(function(result) {
 
-      return sjabloon;
+            // dit sjabloon zal worden gebruikt als er nog geen sjabloon bestaat voor de gebruiker
+            var sjabloon = {};
+            sjabloon.naam = 'blanco sjabloon';
+            sjabloon.replyTo = result.email;
+            sjabloon.van = result.vgagegevens.voornaam + ' ' + result.vgagegevens.achternaam;
+            sjabloon.onderwerp = "";
+            sjabloon.inhoud = "";
+            sjabloon.bestemming = {};
+            sjabloon.bestemming.lid = true;
+            sjabloon.bestemming.contacten = false;
+            deferred.resolve(sjabloon);
+      });
+      return deferred.promise;
     }
 
     var overwriteSjabloon = function(sjabloon, obj){
@@ -206,7 +211,6 @@
     }
 
     var createNewSjabloon = function(sjabloon){
-
       return $q(function(resolve,reject){
         RestService.Emailsjabloon.post(sjabloon).$promise.then(
           function(response){
@@ -215,7 +219,6 @@
           }
         );
       });
-
     }
 
     function init(){
@@ -229,7 +232,11 @@
         if(res.sjablonen){
           $scope.sjablonen = res.sjablonen;
           if(!res.sjablonen.length > 0){
-            $scope.sjablonen.push(makeDummySjabloon());
+            makeDummySjabloon().then(function(res){
+              $scope.sjablonen.push(res);
+              $scope.changeSjabloon($scope.sjablonen[0]);
+            })
+
           }
           if($scope.lastSavedSjabloon && $scope.lastSavedSjabloon.id){
             console.log("last saved", _.find($scope.sjablonen, {'id': $scope.lastSavedSjabloon.id }));
@@ -242,7 +249,7 @@
       },function(err){
         $scope.isLoadingSjablonen = false;
         AlertService.add('danger', "Er konden geen sjablonen worden opgehaald", 5000);
-      })
+      });
 
       RestService.Groepen.get().$promise.then(
         function (result) {
@@ -266,11 +273,9 @@
         }
       );
 
-
     }
 
     init();
-
 
   }
 

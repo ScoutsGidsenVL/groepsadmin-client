@@ -239,7 +239,8 @@
         {
         'get': {method: 'GET', cache: false},
         'post': {method: 'POST', cache: false},
-        'update': {method: 'PATCH', transformRequest: changesOnly, cache: false}
+        'update': {method: 'PATCH', transformRequest: changesOnly, cache: false},
+        'delete': {method: 'DELETE', cache: false}
         }
       ),
       Websites: $resource(

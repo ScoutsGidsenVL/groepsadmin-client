@@ -24,24 +24,7 @@
     </div>
   </div>
 
-  <div class="pull-left">
-      <div ng-show="!showSaveOptions" class="pull-left">
-        <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Sjabloon opslaan</button>
-      </div>
-      <div ng-show="showSaveOptions" class="pull-left">
-        <form class="form-inline typeahead-filter">
-          <input type="text" ng-model="selectedSjabloon"
-          placeholder="Naam van sjabloon"
-          uib-typeahead="sjabloon as sjabloon.naam for sjabloon in sjablonen | filter:{naam:$viewValue}"
-          typeahead-popup-template-url="customPopupTemplate.html" class="form-control">
-          <button class="btn btn-apply" ng-click="saveOrOverwriteSjabloon(selectedSjabloon)">
-            <span ng-if="!selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isSavingSjablonen"></i></span>
-            <span ng-if="selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Overschrijven&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isSavingSjablonen"></i></span>
-          </button>
-          <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions;selectedSjabloon='';"><span class="fa fa-remove" aria-hidden="true" ></span>&nbsp;Annuleren</button>
-        </form>
-      </div>
-  </div>
+
 </div>
 
 <!-- end header -->
@@ -55,33 +38,8 @@
         <!-- Persoonlijk-->
         <section>
           <fieldset>
-            <legend>Email instellingen
-               <div class="pull-right" ng-hide="lid">
-              </div>
-            </legend>
+            <legend>E-mailinstellingen</legend>
 
-            <div class="form-group">
-              <label for="subject" class="col-xs-4 col-xxs-12 control-label">Sjabloon kiezen</label>
-              <div class="col-xs-8 col-xxs-12">
-                <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
-                  <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
-                    {{ sjabloon.naam }} <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li ng-if="isLoadingSjablonen"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse" ng-show="isLoadingSjablonen"></i>&nbsp;Sjablonen aan het laden...</a></li>
-                    <li ng-if="!isLoadingSjablonen && !(sjablonen.length > 0)"><a href='javascript:void(0)'>Geen sjablonen</a></li>
-                    <li ng-if="!isLoadingSjablonen" role="menuitem" ng-repeat="sjabloon in sjablonen | orderBy:'naam'"><a href ng-click="changeSjabloon(sjabloon)">{{ sjabloon.naam }}</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="fromGroup" class="col-xs-4 col-xxs-12 control-label">Groep</label>
-              <div class="col-xs-8 col-xxs-12">
-                <select class="email-select-group form-control" ng-options="( groep.groepsnummer + ' ' + groep.naam) for groep in groepen track by groep.id" ng-model="selectedgroup"></select>
-              </div>
-            </div>
 
             <div class="form-group" ng-class="{ 'has-error': emailForm.fromname.$touched && emailForm.fromname.$invalid }">
               <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Van</label>
@@ -100,6 +58,14 @@
                 <div ng-messages="emailForm.replyaddress.$error" ng-show="emailForm.replyaddress.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="fromGroup" class="col-xs-4 col-xxs-12 control-label">Groep</label>
+              <div class="col-xs-8 col-xxs-12">
+                <i class="fa fa-spinner fa-pulse" ng-show="isLoadingGroepen"></i>
+                <select class="email-select-group form-control" ng-options="( groep.groepsnummer + ' ' + groep.naam) for groep in groepen track by groep.id" ng-hide="isLoadingGroepen" ng-model="selectedgroup"></select>
               </div>
             </div>
 
@@ -148,6 +114,52 @@
               </div>
             </div>
             -->
+
+          </fieldset>
+          <fieldset>
+            <legend>Sjabloon</legend>
+
+            <div class="form-group">
+              <label for="subject" class="col-xs-4 col-xxs-12 control-label">Sjabloon kiezen</label>
+              <div class="col-xs-8 col-xxs-12">
+                <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
+                  <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
+                    {{ sjabloon.naam }} <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li ng-if="isLoadingSjablonen"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse" ng-show="isLoadingSjablonen"></i>&nbsp;Sjablonen aan het laden...</a></li>
+                    <li ng-if="!isLoadingSjablonen && !(sjablonen.length > 0)"><a href='javascript:void(0)'>Geen sjablonen</a></li>
+                    <li ng-if="!isLoadingSjablonen" role="menuitem" ng-repeat="sjabloon in sjablonen | orderBy:'naam'"><a href ng-click="changeSjabloon(sjabloon)">{{ sjabloon.naam }}</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+                <label for="subject" class="col-xs-4 col-xxs-12 control-label">Sjabloon opslaan</label>
+                <div class="col-xs-8 col-xxs-12">
+                  <div ng-show="!showSaveOptions" class="pull-left">
+                    <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Sjabloon opslaan</button>
+                  </div>
+                  <div ng-show="showSaveOptions" class="pull-left">
+                    <form class="form-inline typeahead-filter">
+                      <input type="text" ng-model="selectedSjabloon"
+                      placeholder="Naam van sjabloon"
+                      uib-typeahead="sjabloon as sjabloon.naam for sjabloon in sjablonen | filter:{naam:$viewValue}"
+                      typeahead-popup-template-url="customPopupTemplate.html" class="form-control">
+                      <button class="btn btn-apply" ng-click="saveOrOverwriteSjabloon(selectedSjabloon)">
+                        <span ng-if="!selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isSavingSjablonen"></i></span>
+                        <span ng-if="selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Overschrijven&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isSavingSjablonen"></i></span>
+                      </button>
+                      <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions;selectedSjabloon='';"><span class="fa fa-remove" aria-hidden="true" ></span>&nbsp;Annuleren</button>
+                    </form>
+                  </div>
+                </div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-default" ng-click="deleteSjabloon(sjabloon)" ng-hide="isLoadingGroepen || sjabloon.naam == 'blanco sjabloon'"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Sjabloon verwijderen&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isDeleting"></i></button>
+            </div>
+
 
           </fieldset>
         </section>
