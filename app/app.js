@@ -34,11 +34,12 @@
     'ga.ui.alert',
     'ga.ui.dialog',
     'ga.filters',
-    'ui.bootstrap',
     'ga.utils',
+    'ui.bootstrap',
     'infinite-scroll',
     'ngSanitize',
     'ngMessages',
+    'angular.filter',
     'angulartics',
     'angulartics.piwik'
   ])
@@ -47,21 +48,17 @@
   .constant('_', window._)
 
   .run(["$rootScope", "UserAccess", "$location", "$log", function ($rootScope, UserAccess, $location, $log) {
-    // for use in views, f.e. ng-repeat="x in _.range(3)"
     $rootScope._ = window._;
 
     $rootScope.$on("$routeChangeError", function (event, current, previous, rejection) {
       switch (rejection) {
-
-      case UserAccess.FORBIDDEN:
-        $log.warn("$stateChangeError event catched", UserAccess.FORBIDDEN);
-        $location.path("/lid/profiel");
-        break;
-
-      default:
-        $log.warn("$stateChangeError event catched");
-        break;
-
+        case UserAccess.FORBIDDEN:
+          $log.warn("$stateChangeError event catched", UserAccess.FORBIDDEN);
+          $location.path("/lid/profiel");
+          break;
+        default:
+          $log.warn("$stateChangeError event catched");
+          break;
       }
     });
   }]);

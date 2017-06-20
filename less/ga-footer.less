@@ -90,6 +90,56 @@ footer.region .footer-bottom .contact .arrow-link {
     margin: 15px 0;
 }
 
+@github-zwart: #151513;
+
+.github-corner {
+  color: #fff;
+}
+
+.github-corner:hover {
+  color: @sgv-lichtgroen;
+}
+
+.github-corner svg {
+  fill: @github-zwart;
+}
+
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out
+}
+
+@keyframes octocat-wave{
+  0%, 100%{
+    transform:rotate(0)
+  }
+  20%, 60%{
+    transform:rotate(-25deg)
+  }
+  40%, 80%{
+    transform:rotate(10deg)
+  }
+}
+
+.github-corner div {
+  position: absolute;
+  width: 271px;
+  right: -137px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  background: @github-zwart;
+  text-align: center;
+  padding: 5px 40px;
+  font-size: 1rem;
+  line-height: 2rem;
+  font-size: 1.3rem;
+  padding: 10px;
+  height: 38px;
+  box-shadow: 0 3px 3px fade(@github-zwart, 50%);
+  top: -55px;
+  transform-origin: top left;
+}
+
+
 @media screen and (min-width: 940px) {
 
     footer.region {

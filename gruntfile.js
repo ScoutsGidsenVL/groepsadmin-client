@@ -51,26 +51,12 @@ module.exports = function(grunt) {
         livereload: true
       }
     },
-    wiredep: {
 
+    wiredep: {
       target: {
         src: 'index.html'
-      },
-
-      task: {
-
-        // Point to the files that should be updated when
-        // you run `grunt wiredep`
-        // https://github.com/stephenplusplus/grunt-wiredep
-        src: [
-          'js/**/*.js'
-        ],
-
-        options: {
-        }
       }
     }
-
   });
 
   // Load required modules
