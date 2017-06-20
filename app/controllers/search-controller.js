@@ -9,16 +9,16 @@
 
   function SearchController($scope, $location, RestService) {
     $scope.zoekLid = function(zoekterm){
-      return RestService.Zoeken.get({zoekterm:zoekterm}).$promise.then(
+      return RestService.Zoeken.get({zoekterm: zoekterm}).$promise.then(
           function(result){
             if (result.query == zoekterm){
-              return result.zoekLeden;
+              return result.leden;
             }
             return null;
         });
     }
 
-    // ganaar het geselecteerde lid
+    // ga naar het geselecteerde lid
     $scope.gaNaarLid = function(lid) {
       $scope.zoekterm = "";
       $location.path('/lid/' + lid.id);
