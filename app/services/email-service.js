@@ -50,7 +50,6 @@
         }
       );
       return deferred.promise;
-
     }
 
     emailService.getMailReportMessage = function(obj){
@@ -63,14 +62,14 @@
         successCounter += addressesOk.length;
       }
 
-      var messagesNok = "";
+      var messagesNok = {};
       var failMessages = obj.mislukt; // objects
       var failedCounter = 0;
       _.each(failMessages, function(val,key){
         failedCounter += val.length;
-        messagesNok += key + '\n';
+        messagesNok[key] = [];
         _.each(val,function(v){
-          messagesNok += '- ' + v + '\n';
+          messagesNok[key].push(v);
         });
       });
 
@@ -78,8 +77,8 @@
       var messageOk = "Jouw e-mail werd succesvol verzonden naar " + successCounter + " van de " + totalSent + " ontvangers";
       var feedbackObj = {};
 
-      feedbackObj.message = messageOk;
-      feedbackObj.message += '\n' + messagesNok;
+      feedbackObj.messageOk = messageOk;
+      feedbackObj.messagesNok = messagesNok;
 
       return feedbackObj;
 

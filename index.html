@@ -247,22 +247,26 @@
     </script>
 
     <!-- bootstrap modal -->
-    <script type="text/ng-template" id="myModalContent.html">
+    <script type="text/ng-template" id="emailConfirmationModal.html">
         <div class="modal-header">
-            <h3 class="modal-title">I'm a modal!</h3>
+            <h3 class="modal-title">E-mail verzonden</h3>
         </div>
         <div class="modal-body">
-            {{feedback.message}}
-            <ul>
-                <li ng-repeat="item in items">
-                    <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
-                </li>
-            </ul>
-            Selected: <b>{{ selected.item }}</b>
+            <p>{{ feedback.messageOk }}</p>
+            <div ng-if="!_.isEmpty(feedback.messagesNok)">
+              <p><strong>FOUTEN</strong></p>
+              <div ng-repeat="(titelFout, fouten) in feedback.messagesNok">
+                <p class="modal-error-title">{{ titelFout }}</p>
+                <ul>
+                    <li ng-repeat="fout in fouten">
+                        <a href="#" ng-click="$event.preventDefault();">{{ fout }}</a>
+                    </li>
+                </ul>
+              </div>
+            </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+            <button class="btn btn-primary" type="button" ng-click="ok()">Sluiten</button>
         </div>
     </script>
 

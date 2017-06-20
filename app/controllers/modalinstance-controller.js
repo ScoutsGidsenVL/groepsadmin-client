@@ -5,20 +5,14 @@
     .module('ga.modalinstancecontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('ModalInstanceController', ModalInstanceController);
 
-  ModalInstanceController.$inject = ['$scope', '$uibModalInstance', 'feedback', 'items'];
+  ModalInstanceController.$inject = ['$scope', '$uibModalInstance', 'feedback'];
 
-  function ModalInstanceController ($scope, $uibModalInstance, feedback, items) {
+  function ModalInstanceController ($scope, $uibModalInstance, feedback) {
 
     $scope.feedback = feedback;
 
-    $scope.items = items;
-
-    $scope.selected = {
-      item: $scope.items[0]
-    };
-
     $scope.ok = function () {
-      $uibModalInstance.close($scope.selected.item);
+      $uibModalInstance.close();
     };
 
     $scope.cancel = function () {
