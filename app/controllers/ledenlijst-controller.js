@@ -671,6 +671,9 @@
     $scope.nieuwlid = function() {
       $location.path("/lid/toevoegen");
     }
+    $scope.redirectToEmailPage = function(){
+      $location.path("/email");
+    }
 
     function init(){
 

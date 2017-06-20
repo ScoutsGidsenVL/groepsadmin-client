@@ -5,12 +5,12 @@
     .module('ga.services.ledenlijst', [])
     .factory('LedenLijstService', LedenLijstService);
 
-  LedenLijstService.$inject = ['$log','$q','RestService'];
+  LedenLijstService.$inject = ['$log', '$q', 'RestService'];
 
   // Deze service bevat een aantal helper functies die voornamelijk worden gebruikt door de LedenlijstController
   // bvb. voor het laden van de ledenlijst
 
-  function LedenLijstService($log,$q,RestService) {
+  function LedenLijstService($log, $q, RestService) {
     var ledenFilterService = {};
 
     ledenFilterService.loadingLeden = false;
