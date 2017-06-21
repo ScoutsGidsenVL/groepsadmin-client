@@ -22,6 +22,48 @@ module.exports = function(grunt) {
       }
     },
 
+    // https://www.npmjs.com/package/grunt-bower-concat
+    bower_concat: {
+      all: {
+        dest: {
+          'css': 'css/bower_components.min.css',
+          'js': 'js/bower_components.min.js'
+        },
+        dependencies: {
+          'angular': 'jquery'
+        },
+        callback: function(mainFiles) {
+          // Use minified files if available
+          return mainFiles.map(function(filepath) {
+            var min = filepath.replace(/(\/|\\)src(\/|\\)/, '$1dist$2').replace(/(\.css|\.js)$/, '.min$1');
+            return grunt.file.exists(min) ? min : filepath;
+          });
+        },
+        mainFiles: { // override
+          'lodash': 'dist/lodash.min.js'
+        },
+        options: {
+          separator: ';'
+        },
+        bowerOptions: {
+          relative: false
+        }
+      }
+    },
+
+    copy: {
+      main: {
+        files: [
+          {
+            expand: true,
+            cwd: 'bower_components/components-font-awesome/fonts/',
+            src: ['*'],
+            dest: 'fonts/'
+          }
+        ],
+      },
+    },
+
     watch: {
       options: {
         livereload: true,
@@ -34,12 +76,7 @@ module.exports = function(grunt) {
         options: {
           nospaces: true
         }
-      },/*
-      // Watch for JS changes.
-      scripts: {
-        files: ['js/*.js'],
-        tasks: ['less::development']
-      },*/
+      },
       // Watch html files, just for LiveReload
       templates: {
         files: ['*.html']
@@ -61,17 +98,18 @@ module.exports = function(grunt) {
 
   // Load required modules
   grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-wiredep');
+  grunt.loadNpmTasks('grunt-bower-concat');
 
   // Task definitions
-  grunt.registerTask('default', ['watch']);
+  grunt.registerTask('default', ['serve']);
   grunt.registerTask('serve', [
     'less',
-    'wiredep',
+    'bower_concat',
+    'copy',
     'connect:server',
     'watch'
   ]);
-
 };

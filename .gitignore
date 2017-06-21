@@ -5,5 +5,7 @@ test.html
 /bower_components/
 /node_modules/
 /css/
+/js/bower_components.min.js
 /docs/*.html
 /docs/*.css
+/fonts/[Ff]ont[Aa]wesome*
