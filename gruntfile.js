@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 
     // Grunt tasks
     less: {
-      development: {
+      all: {
         files: {
           'css/bootstrap.css': ['less/bootstrap.less']
         },
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
     },
 
     copy: {
-      main: {
+      all: {
         files: [
           {
             expand: true,
@@ -86,12 +86,6 @@ module.exports = function(grunt) {
     connect: {
       server: {
         livereload: true
-      }
-    },
-
-    wiredep: {
-      target: {
-        src: 'index.html'
       }
     }
   });
