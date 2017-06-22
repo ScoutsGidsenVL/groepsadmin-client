@@ -4,6 +4,15 @@
   margin-top:10px;
 }
 
+.panel-default{
+  &--hasmargin{
+    margin-top:50px;
+    &-large{
+      margin-top:90px;
+    }
+  }
+}
+
 .panel-default> .panel-heading {
   box-shadow: inset 0px 1px 0px white;
   #gradient .vertical(#fafafc, #f5f5f7);
@@ -59,29 +68,21 @@ h1.panel-title {
 .panel-leden{
   overflow-x:auto;
 }
-.panel-profiel-body{
-  margin-top:90px;
-}
-.panel-toevoegen-body{
-  margin-top:40px;
-}
-.panel-orakel-body{
-  margin-top:50px;
-}
-.panel-groepsinstellingen-body,
-.panel-email-body{
-  margin-top:50px;
-}
+
 
 .panel-fixed{
   position: fixed;
   border:1px solid @panel-default-border;
   border-top:none;
   width: ~"calc(100% - 3 * @{fluid-grid-gutter-width})";
+  height:60px;
   margin:-10px 0 0 0;
   padding: 10px 10px;
   background: white;
   z-index: @zIndexStickyPanel;
+  &--large{
+    height:100px;
+  }
 }
 
 .orakel-title,

@@ -1,6 +1,6 @@
 
 <!-- Panel header -->
-<div class="panel-heading panel-fixed clearfix">
+<div class="panel-heading panel-fixed panel-fixed--large  clearfix">
   <div class="pull-left">
     <h1 class="panel-title" ng-bind="lid.vgagegevens.voornaam + ' ' + lid.vgagegevens.achternaam"></h1>
     <h2 class="panel-subtitle" ng-bind="lid.verbondsgegevens.lidnummer"></h2>
@@ -42,7 +42,7 @@
   -->
 </div>
 
-<div class="panel panel-default panel-profiel-body">
+<div class="panel panel-default panel-default--hasmargin-large">
 <!-- Persoonsinfo -->
 <form name="lidForm" ng-submit="submitForm(lidForm)" novalidate>
 <div class="panel-body form-hover clearfix">
@@ -82,7 +82,7 @@
               <div class="input-group">
                 <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" ng-model="dt" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date  ng-disabled="!hasPermission('vgagegevens')" placeholder="DD/MM/JJJJ"/>
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="popupCal()"><i class="fa fa-calendar"></i></button>
+                  <button type="button" class="btn btn-default form-control" ng-click="popupCal()" ng-disabled="!hasPermission('vgagegevens')"><i class="fa fa-calendar"></i></button>
                 </span>
               </div>
               <div ng-messages="lidForm.geboortedatum.$error" ng-show="lidForm.geboortedatum.$touched">

@@ -7,7 +7,7 @@
         <select class="groepsinstellingen-select-group" name="groepenSelect" ng-options="groep as ( groep.groepsnummer + ' ' + groep.naam) for groep in data.groepenlijst track by groep.id" ng-change="changeGroep()" ng-model="data.activegroup"></select>
       </div>
     </form>
-    <h2 ng-if="data.groepenlijst.length == 1">{{ data.activegroup.groepsnummer + ' ' + data.activegroup.naam }}</h2>
+    <h1 class="panel-title" ng-if="data.groepenlijst.length == 1">{{ data.activegroup.groepsnummer + ' ' + data.activegroup.naam }}</h2>
   </div>
 
   <!-- NEW ACTIONS -->
@@ -34,7 +34,7 @@
 
 </div>
 
-<div class="panel panel-default panel-groepsinstellingen-body">
+<div class="panel panel-default panel-default--hasmargin">
 
 
 <!-- Persoonsinfo -->
