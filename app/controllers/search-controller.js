@@ -11,7 +11,7 @@
     $scope.zoekLid = function(zoekterm){
       return RestService.Zoeken.get({zoekterm: zoekterm}).$promise.then(
           function(result){
-            if (result.query == zoekterm){
+            if (result.criteria.query == zoekterm){
               return result.leden;
             }
             return null;
