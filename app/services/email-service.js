@@ -41,14 +41,23 @@
       return deferred.promise;
     }
 
-    emailService.sendMail = function(obj){
+    emailService.sendMail = function(obj, lidId){
       console.log('ES.sendMail(), ', obj);
       var deferred = $q.defer();
-      RestService.LedenMail.post({bevestig:true}, obj).$promise.then(
-        function(res){
-          deferred.resolve(res);
-        }
-      );
+      if(lidId == undefined){
+        RestService.LedenMail.post({bevestig:true}, obj).$promise.then(
+          function(res){
+            deferred.resolve(res);
+          }
+        );
+      }else{
+        RestService.LidMail.post({id:lidId, bevestig:true}, obj).$promise.then(
+          function(res){
+            deferred.resolve(res);
+          }
+        );
+      }
+
       return deferred.promise;
     }
 

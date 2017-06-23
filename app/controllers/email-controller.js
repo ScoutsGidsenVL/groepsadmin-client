@@ -5,9 +5,9 @@
     .module('ga.emailcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap', 'ui.tinymce'])
     .controller('EmailController', EmailController);
 
-  EmailController.$inject = ['$compile', '$log', '$q', '$scope', '$uibModal', 'AlertService', 'DialogService', 'EmailService', 'LedenLijstService', 'RestService'];
+  EmailController.$inject = ['$compile', '$log', '$q', '$routeParams', '$scope', '$uibModal', 'AlertService', 'DialogService', 'EmailService', 'LedenLijstService', 'RestService'];
 
-  function EmailController ($compile, $log, $q, $scope, $uibModal, AlertService, DialogService, ES, LLS, RestService) {
+  function EmailController ($compile, $log, $q, $routeParams, $scope, $uibModal, AlertService, DialogService, ES, LLS, RestService) {
 
     // documentation tinyMCE plugin https://www.tinymce.com/docs/integrations/angularjs/
     var leden = new Array();
@@ -63,6 +63,7 @@
     }
 
     $scope.verzenden = function(){
+
       var sjabloonObj = {
           "vanGroep": $scope.selectedgroup.groepsnummer,
           "replyTo": $scope.sjabloon.replyTo,
@@ -80,13 +81,18 @@
       payload += JSON.stringify(sjabloonObj);
       payload+= "\n\n--AaB03x--";
 
-      ES.sendMail(payload).then(function(res){
-        console.log("emailcontroller - YAY---- mail was sent", res);
-        var feedback = ES.getMailReportMessage(res);
-
-        $scope.openDialog(feedback);
-
-      });
+      // als er meerdere leden zijn moeten we een andere endpoint gebruiken dan wanneer we 1 lid willen mailen
+      if($routeParams.id !== "ledenlijst"){
+        ES.sendMail(payload,$routeParams.id).then(function(res){
+          console.log("mail was sent TO " + $routeParams.id , res);
+          feedback(res);
+        });
+      }else{
+        ES.sendMail(payload).then(function(res){
+          console.log("mail was sent TO list", res);
+          feedback(res);
+        });
+      }
     }
 
     // bevestiging return functie
@@ -95,11 +101,17 @@
 
     }
 
+    $scope.getLid = function(id){
+      RestService.Lid.get({id:$routeParams.id}).$promise.then(function(res){
+          $scope.leden.push({'voornaam': res.vgagegevens.voornaam, 'achternaam': res.vgagegevens.achternaam });
+      });
+    }
+
     $scope.getLeden = function(offset){
       $scope.ledenLaden = true;
       LLS.getLeden(offset).then(function(res){
         _.each(res.leden, function(val,key){
-          $scope.leden.push(val);
+          $scope.leden.push({'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'], 'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']});
         });
         if(res.totaal > $scope.leden.length){
           offset += 50;
@@ -230,10 +242,24 @@
       });
     }
 
+    function feedback(obj){
+      var feedback = ES.getMailReportMessage(obj);
+      $scope.openDialog(feedback);
+      // TODO: unset the flag to use in template to hide pending message
+    }
+
     function init(){
       $scope.isLoadingSjablonen = true;
       $scope.leden = new Array();
-      $scope.getLeden(0);
+
+      // als er een id in de url staat halen we 1 lid op
+      if($routeParams.id !== 'ledenlijst'){
+        $scope.getLid();
+      }else{
+        $scope.getLeden(0);
+      }
+
+
       $scope.isLoadingGroepen = true;
 
       ES.getSjablonen().then(function(res){
@@ -245,12 +271,10 @@
               $scope.sjablonen.push(res);
               $scope.changeSjabloon($scope.sjablonen[0]);
             })
-
           }
           if($scope.lastSavedSjabloon && $scope.lastSavedSjabloon.id){
             console.log("last saved", _.find($scope.sjablonen, {'id': $scope.lastSavedSjabloon.id }));
             $scope.changeSjabloon(_.find($scope.sjablonen, {'id': $scope.lastSavedSjabloon.id }));
-
           }else{
             $scope.changeSjabloon($scope.sjablonen[0]);
           }

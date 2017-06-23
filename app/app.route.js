@@ -58,7 +58,7 @@
         controller: 'FeedbackController'
       })
 
-      .when('/email', {
+      .when('/email/:id', {
         templateUrl: 'partials/email.html',
         controller: 'EmailController'
       })

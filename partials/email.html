@@ -88,17 +88,23 @@
             </div>
 
             <div class="form-group">
-              <div class="col-xs-12 control-label">
+              <!-- CHECK : in het geval het om 1 lid gaat -->
+              <div class="col-xs-12 control-label" ng-hide="leden.length > 1">
+                <strong>Ontvanger :</strong>
+                {{ leden[0].voornaam  }}  {{ leden[0].achternaam  }}
+              </div>
+              <!-- CHECK : in het geval het om meeredere leden gaat -->
+              <div class="col-xs-12 control-label" ng-hide="leden.length == 1">
                 <strong>Ontvangers :</strong>
                 {{ leden.length }} leden <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="ledenLaden"></i>
               </div>
+              <!-- END CHECK -->
               <div class="email-leden col-xs-12" ng-show="ledenVisible">
                 <ul>
                   <li ng-repeat="lid in leden">
-                    <span ng-if="lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn']">{{ lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'] }}</span>
-                    <span ng-if="lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']">{{ lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'] }}</span>
-                    <span ng-if="!lid.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'] && !lid.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']"> - geen naam beschikbaar - </span>
-
+                    <span ng-if="lid.voornaam">{{ lid.voornaam }}</span>
+                    <span ng-if="lid.achternaam">{{ lid.achternaam }}</span>
+                    <span ng-if="!lid.voornaam && !lid.achternaam"> - geen naam beschikbaar - </span>
                   </li>
                 </ul>
                 <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>

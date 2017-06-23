@@ -680,7 +680,7 @@
       $location.path("/lid/toevoegen");
     }
     $scope.redirectToEmailPage = function(){
-      $location.path("/email");
+      $location.path("/email/ledenlijst");
     }
 
     function init(){

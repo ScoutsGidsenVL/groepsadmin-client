@@ -179,6 +179,17 @@
           }
         }}
       ),
+      LidMail : $resource(
+        base + 'lid/:id/mail',
+        {bevestiging: '@bevestiging'},
+        {
+          'post': {
+            method: 'POST',
+            headers: { 'Content-Type': 'multipart/form-data; boundary=AaB03x'},
+            cache: false
+          }
+        }
+      ),
       LedenMail : $resource(
         base + 'ledenlijst/mail',
         {bevestiging: '@bevestiging'},
