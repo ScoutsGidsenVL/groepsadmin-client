@@ -59,6 +59,18 @@ module.exports = function(grunt) {
             cwd: 'bower_components/components-font-awesome/fonts/',
             src: ['*'],
             dest: 'fonts/'
+          },
+          {
+            expand: true,
+            cwd: 'bower_components/tinymce/',
+            src: [
+              'themes/modern/theme.min.js',
+              'plugins/*/plugin.min.js',
+              'skins/*/*.min.css',
+              'skins/*/fonts/tinymce.*',
+              'plugins/codesample/css/prism.css'
+            ],
+            dest: 'js/'
           }
         ],
       },

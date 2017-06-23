@@ -6,6 +6,9 @@ test.html
 /node_modules/
 /css/
 /js/bower_components.min.js
+/js/plugins/
+/js/skins/
+/js/themes/
 /docs/*.html
 /docs/*.css
 /fonts/[Ff]ont[Aa]wesome*
