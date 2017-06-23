@@ -13,6 +13,7 @@
       <button type="button" class="btn btn-secondary" ng-click="schrap()" ng-show="kanSchrappen"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop alle functies</button>
       <button type="button" class="btn btn-secondary" ng-click="nieuwlid()" ng-show="canPost"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Nieuw lid</button>
       <button type="button" class="btn btn-secondary" ng-click="gezinslid()" ng-show="lid && canPost"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Broer/zus toevoegen</button>
+      <button type="button" class="btn btn-secondary" ng-click="redirectToEmailPage(lid.id)" ng-show="!isEigenProfiel"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;E-mail sturen</button>
     </div>
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>

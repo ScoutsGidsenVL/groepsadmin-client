@@ -310,8 +310,6 @@
 
     /*** MODAL LOGIC ***/
 
-    $scope.items = ['item1', 'item2', 'item3'];
-
     $scope.animationsEnabled = true;
 
     // template van deze dialog staat in index.html (#emailConfirmationModal)

@@ -5,12 +5,16 @@
     .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('LidController', LidController);
 
-  LidController.$inject = ['$scope', '$routeParams', '$window', '$timeout', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'UserAccess', 'keycloak', 'FormValidationService' ];
+  LidController.$inject = ['$location', '$routeParams', '$scope', '$timeout', '$window', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'UserAccess', 'keycloak', 'FormValidationService' ];
 
-  function LidController ($scope, $routeParams, $window, $timeout, $location, RestService, AlertService, DialogService, $rootScope, UserAccess, keycloak, FVS) {
+  function LidController ($location, $routeParams, $scope, $timeout, $window, RestService, AlertService, DialogService, $rootScope, UserAccess, keycloak, FVS) {
     console.log('login = ' + keycloak.authenticated);
 
     $scope.validationErrors = [];
+    if( $routeParams.id  == 'profiel'){
+      $scope.isEigenProfiel = true;
+    }
+
     var sectie
     var lidPropertiesWatchable = false;
 
@@ -687,6 +691,10 @@
 
     $scope.submitForm = function(form){
       $scope.opslaan();
+    }
+
+    $scope.redirectToEmailPage = function(id){
+      $location.path('/email/'+id);
     }
 
     $scope.checkField = function(formfield) {
