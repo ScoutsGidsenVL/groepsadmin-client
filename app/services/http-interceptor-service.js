@@ -36,7 +36,7 @@
           AlertService.add('danger', "Er kon geen verbinding gemaakt worden met de Groepsadministratie.", 5000);
         }
         else if (rejection.status == 403) {
-          AlertService.add('danger', "Je bent niet ingelogd");
+          AlertService.add('danger', "Je bent niet ingelogd", 5000);
         }
         else if (rejection.data) {
 

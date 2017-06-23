@@ -85,7 +85,7 @@
           <div class="input-group">
             <input type="text" name="oprichtingsdatum" id="_oprichtingsDatum" ng-model="data.activegroup.opgericht" class="form-control" ng-model="dt" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date disabled />
             <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="popupCal()"><i class="fa fa-calendar"></i></button>
+              <button type="button" class="btn btn-default form-control" ng-click="popupCal()" disabled="disabled"><i class="fa fa-calendar"></i></button>
             </span>
           </div>
         </div>
