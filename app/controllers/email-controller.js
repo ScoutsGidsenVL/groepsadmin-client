@@ -83,11 +83,14 @@
 
       // als er meerdere leden zijn moeten we een andere endpoint gebruiken dan wanneer we 1 lid willen mailen
       if($routeParams.id !== "ledenlijst"){
+        $scope.mailIsPending = true;
         ES.sendMail(payload,$routeParams.id).then(function(res){
+
           console.log("mail was sent TO " + $routeParams.id , res);
           feedback(res);
         });
       }else{
+        $scope.mailIsPending = true;
         ES.sendMail(payload).then(function(res){
           console.log("mail was sent TO list", res);
           feedback(res);
@@ -244,6 +247,7 @@
 
     function feedback(obj){
       var feedback = ES.getMailReportMessage(obj);
+      $scope.mailIsPending = false;
       $scope.openDialog(feedback);
       // TODO: unset the flag to use in template to hide pending message
     }
