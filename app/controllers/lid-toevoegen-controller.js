@@ -15,8 +15,6 @@
       $location.path("/lid/profiel");
     }
 
-
-
     var init = function(){
       // TODO - controle of de gebruiker wel nieuwe leden kan maken
       //        => anders redirect naar ledenlijst
@@ -47,7 +45,6 @@
       $scope.formats = ['dd/MM/yyyy'];
       $scope.format = $scope.formats[0];
 
-
       /*
       * Initialisatie van het nieuwe lid model
       * ---------------------------------------
@@ -62,7 +59,6 @@
       lid.vgagegevens = {};
       lid.vgagegevens.verminderdlidgeld = false;
       lid.vgagegevens.beperking = false;
-
 
       if($rootScope.familielid == undefined && $rootScope.familielid == null){
         // geen broer of zus
@@ -95,11 +91,8 @@
         });
       }
 
-
       $scope.lid = lid;
       $scope.lid.adressen[0].showme = true;
-
-
 
       /*
       * Initialisatie van andere benodigdheden.
@@ -134,15 +127,7 @@
       $timeout(function(){
         formInitiated = true;
       },4000);
-
-
     }
-
-
-
-
-
-
 
     /*
     * Controle ofdat de sectie aangepast mag worden.
@@ -154,8 +139,6 @@
       }
     }
 
-
-
     function setChanges(newVal, oldVal, scope) {
       $window.onbeforeunload = unload;
     }
@@ -163,19 +146,6 @@
     angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies'], function(value, key) {
       $scope.$watch(value, setChanges, true);
     });
-
-
-
-    $scope.changePostadres = function(adresID){
-      angular.forEach($scope.lid.adressen, function(value,index){
-        if(value.id == adresID){
-          value.postadres = true;
-        }
-        else{
-          value.postadres = false;
-        }
-      });
-    }
 
     /*
     * Contacten
@@ -229,26 +199,20 @@
     // een adres wissen in het lid model
     $scope.deleteAdres = function(adresID){
       var wisindex;
-      //controle wissen postadres
       angular.forEach($scope.lid.adressen, function(value, index){
         if(value.id == adresID){
-          if(value.postadres){
-            AlertService.add('danger', "Postadres kan niet gewist worden, selecteer éérst een ander adres als postadres.", 5000);
-          }
-          else{
-            //controle wissen van adres gekoppeld aan een contact
-            var kanwissen = true;
-            angular.forEach($scope.lid.contacten, function(contact, index){
-              if(contact.adres == adresID){
-                AlertService.add('danger', "Dit adres is nog gekoppeld aan een contact, het kan daarom niet gewist worden.", 5000);
-                kanwissen = false;
-              }
-            });
-            if(kanwissen){
-              $scope.lid.adressen.splice(index,1);
-              wisindex = index;
-              kanwissen = true;
+          //controle wissen van adres gekoppeld aan een contact
+          var kanwissen = true;
+          angular.forEach($scope.lid.contacten, function(contact, index){
+            if(contact.adres == adresID){
+              AlertService.add('danger', "Dit adres is nog gekoppeld aan een contact, het kan daarom niet gewist worden.", 5000);
+              kanwissen = false;
             }
+          });
+          if(kanwissen){
+            $scope.lid.adressen.splice(index,1);
+            wisindex = index;
+            kanwissen = true;
           }
         }
       });
@@ -340,9 +304,16 @@
       } else{
         origineelLid.functies = [];
       }
-      //zend post met basis informaitie(persoonsgegevesn, adressen, 1 functieinstantie)
 
-      origineelLid.vgagegevens.geboortedatum =  $scope.lid.vgagegevens.geboortedatum.toISOString().slice(0,10);// set static date;
+      // Stel het juiste formaat in voor de geboortedatum
+      origineelLid.vgagegevens.geboortedatum =  $scope.lid.vgagegevens.geboortedatum.toISOString().slice(0,10);
+
+      // Maak het van eerste adres het postadres
+      var firstAdres = true;
+      _.forEach(origineelLid.adressen, function(adres) {
+        adres.postadres = firstAdres;
+        firstAdres = false;
+      });
 
       RestService.LidAdd.save(origineelLid).$promise.then(
         function(response) {
