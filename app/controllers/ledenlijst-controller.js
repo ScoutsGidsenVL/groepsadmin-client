@@ -5,9 +5,9 @@
     .module('ga.ledenlijstcontroller', [])
     .controller('LedenlijstController', LedenlijstController);
 
-  LedenlijstController.$inject = ['$q','$filter','$log', '$location', '$scope', 'LedenFilterService', 'LedenLijstService', 'RestService', '$window', 'keycloak','access', 'UserAccess'];
+  LedenlijstController.$inject = ['$q','$filter','$log', '$location', '$rootScope', '$scope', 'LedenFilterService', 'LedenLijstService', 'RestService', '$window', 'keycloak','access', 'UserAccess'];
 
-  function LedenlijstController($q, $filter, $log, $location, $scope, LFS, LLS, RestService, $window, keycloak, access, UserAccess) {
+  function LedenlijstController($q, $filter, $log, $location, $rootScope, $scope, LFS, LLS, RestService, $window, keycloak, access, UserAccess) {
     // Kolommen sortable maken
     var index;
 
@@ -92,6 +92,12 @@
       $q.all([
         $q.all(filterCriteria.promises).then(function () {
           $scope.criteria = filterCriteria.arrCriteria;
+
+          // TODO: add to criteria: leeftijd
+          $scope.criteria.push(LFS.getLeeftijdCriterium());
+
+          // TODO: add to criteria: groepseigen veld
+          // TODO: add to criteria: individuele steekkaart aangepast
         }),
         $q.all(filterKolommen.promises).then(function(){
           $scope.kolommen = filterKolommen.kolommen;
@@ -343,7 +349,8 @@
 
     $scope.activateCriterium = function(crit){
       crit.activated = true;
-      if(!(crit.criteriaSubKey == "verbonds" || crit.criteriaSubKey == "groepspecifiek")){
+
+      if(!crit.multiValues && !(crit.criteriaSubKey == "verbonds" || crit.criteriaSubKey == "groepspecifiek")){
         if(crit.multiplePossible){
           _.each(crit.items, function(value,key){
             value.activated = true;
@@ -364,6 +371,14 @@
           })
         })
       }
+
+      // leeftijd criterium
+      if(crit.criteriaKey == "leeftijd"){
+        $scope.jongerDan = $scope.jongerDan ? $scope.jongerDan : ['49 jaar', 49];
+        $scope.ouderDan = $scope.ouderDan ? $scope.ouderDan : ['5 jaar', 5];
+        $scope.leeftijdOpDatum = $scope.leeftijdOpDatum ? $scope.leeftijdOpDatum : ['Is nu', true];
+      }
+
     }
 
     // controle is de criteria geselecteerd a.d.h.v. de titel
@@ -434,7 +449,22 @@
         actKolommen.push(value.id);
       });
 
-      var currentFilter = $scope.currentFilter;
+      // leeftijd criteria
+      // voor we het object gaan reconstrueren zetten we de juiste properties op het currentFilter object.
+      // Zo kunnen de geselecteerde waarden uit het leefdtijd criterium worden doorgegeven
+      var currentFilter = {};
+      angular.copy($scope.currentFilter, currentFilter);
+      var actLeeftijdCriterium = _.find(actFilterCriteria, {'criteriaKey':'leeftijd'});
+      if(actLeeftijdCriterium){
+        currentFilter.criteria.leeftijd = {};
+      }
+      if(currentFilter.criteria.leeftijd || actLeeftijdCriterium){
+        currentFilter.criteria.leeftijd.jongerdan = $scope.jongerDan[1];
+        currentFilter.criteria.leeftijd.ouderdan = $scope.ouderDan[1];
+        currentFilter.criteria.leeftijd.op31december = $scope.leeftijdOpDatum[1];
+      }
+
+
       return LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, currentFilter);
     };
 
@@ -704,6 +734,25 @@
       });
 
       $scope.ledenLaden();
+    }
+
+    $rootScope.$on('leeftijdCriterium', function (event, data) {
+      var label = data.op31december ? 'was op 31 december' : 'Is nu';
+      $scope.leeftijdOpDatum = [label , data.op31december];
+      label = data.ouderdan == -1 ? '-' : data.ouderdan + ' jaar';
+      $scope.ouderDan = [label, data.ouderdan];
+      label = data.jongerdan == -1 ? '-' : data.jongerdan + ' jaar';
+      $scope.jongerDan = [label, data.jongerdan];
+    });
+
+    $scope.updateLeeftijdOpDatum = function(opdatum){
+      $scope.leeftijdOpDatum = opdatum;
+    }
+    $scope.updateOuderDan = function(ouderdan){
+      $scope.ouderDan = ouderdan;
+    }
+    $scope.updateJongerDan = function(jongerdan){
+      $scope.jongerDan = jongerdan;
     }
 
     init();

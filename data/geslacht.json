@@ -4,11 +4,11 @@
     "multiplePossible" : false,
     "items" : [
               {
-                "value": "v",
+                "value": "vrouw",
                 "label": "Meisje"
               },
               {
-                "value": "m",
+                "value": "man",
                 "label": "Jongen"
               }
             ]

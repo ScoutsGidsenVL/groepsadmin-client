@@ -92,10 +92,12 @@
         <div class="btn-group filter-option filter-option--criteria" uib-dropdown keyboard-nav="true" auto-close="outsideClick">
           <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" class="btn btn-filter btn-filter--criteria dropdown-toggle" uib-dropdown-toggle>
             <span class="filter-option-title">{{ criterium.title }}</span>
-            <span class="filter-option-subtitle">
-              <span>{{ getButtonSubtitle(criterium,3) }}</span>
+            <span class="filter-option-subtitle" ng-if="criterium.criteriaKey !== 'leeftijd'">
+              <span>{{ getButtonSubtitle(criterium,3) == "" ? "&nbsp;" : getButtonSubtitle(criterium,3) }}</span>
             </span>
-
+            <span class="filter-option-subtitle" ng-if="criterium.criteriaKey == 'leeftijd'">
+              <span>{{ leeftijdOpDatum[0] }} > {{ ouderDan[0] }} en < {{ jongerDan[0] }}</span>
+            </span>
           </button>
           <a ng-click="criterium.activated = false" class="filter-option-close"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
@@ -117,7 +119,7 @@
               </label>
             </div>
 
-            <div class="control-group">
+            <div class="control-group" ng-if="!criterium.multiValues">
               <div class="control-group-sectiongroup">
                 <div ng-if="criterium.criteriaKey == 'functies' && (criterium.criteriaSubKey == 'verbonds' || criterium.criteriaSubKey == 'groepspecifiek')" ng-repeat="criteriumItemGroup in criterium.itemgroups" ng-class="{ 'control-group-section--collapsed': criteriumItemGroup.collapsed }" class="control-group-section">
                   <div class="control-group-subheader" ng-click="toggleCriteriumSection(criteriumItemGroup)">
@@ -147,7 +149,7 @@
               </div>
 
               <label
-                ng-if="criterium.multiplePossible && (criterium.criteriaSubKey !== 'verbonds' || criterium.criteriaSubKey !== 'groepspecifiek')"
+                ng-if="criterium.multiplePossible && (criterium.criteriaKey !== 'leeftijd' || criterium.criteriaSubKey !== 'verbonds' || criterium.criteriaSubKey !== 'groepspecifiek')"
                 ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
                 class="jcontrol control--checkbox">
                 {{ criteriumItem.label }}
@@ -156,7 +158,7 @@
               </label>
 
               <label
-                ng-if="!criterium.multiplePossible"
+                ng-if="!criterium.multiplePossible && !criterium.multiValues"
                 ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
                 class="jcontrol control--radio">
                 {{ criteriumItem.label }}
@@ -164,6 +166,15 @@
                 <div class="control__indicator"></div>
               </label>
 
+            </div>
+
+            <!-- LEEFTIJD CRITERIUM -->
+            <div class="multival-group" ng-if="criterium.multiValues && criterium.criteriaKey == 'leeftijd'">
+              <select ng-options="( value[0] ) for value in criterium.leeftijdOpDatum.values track by value[1]" ng-model="leeftijdOpDatum" ng-selected="updateLeeftijdOpDatum(leeftijdOpDatum)"></select><br/>
+              {{ criterium.ouderDan.label }}
+              <select ng-options="( value[0] ) for value in criterium.ouderDan.values track by value[1]" ng-model="ouderDan" ng-selected="updateOuderDan(ouderDan)"></select><br>
+              {{ criterium.jongerDan.label }}
+              <select ng-options="( value[0] ) for value in criterium.jongerDan.values track by value[1]" ng-model="jongerDan" ng-selected="updateJongerDan(jongerDan)"></select><br>
             </div>
 
           </div>

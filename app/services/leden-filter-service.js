@@ -5,12 +5,12 @@
     .module('ga.services.ledenfilter', [])
     .factory('LedenFilterService', LedenFilterService);
 
-  LedenFilterService.$inject = ['$q','$log','RestService'];
+  LedenFilterService.$inject = ['$q','$log','$rootScope', 'RestService'];
 
   // Deze service bevat een aantal helper functies die voornamelijk worden gebruikt door de LedenlijstController
   // bvb. voor het samenstellen van filters en criteria
 
-  function LedenFilterService($q, $log, RestService) {
+  function LedenFilterService($q, $log, $rootScope, RestService) {
     var ledenFilterService = {};
 
     ledenFilterService.getCriteria = function(){
@@ -149,12 +149,22 @@
       // zoek binnen de criteriaGroep naar values uit de opgehaalde filter
       // indien item wordt gevonden, zet het actief
 
-      if(!criteriaGroep.multiplePossible){
+
+      // Leeftijd is een 'speciaal geval' en heeft bevat specifieke logica
+      // andere criteria zijn generiek
+      if(criteriaGroep.criteriaKey == "leeftijd"){
+        //console.log('LEEFTIJD  criterium --- -', criteriaGroep,value,bGrouped);
+        $rootScope.$emit('leeftijdCriterium', value);
+        hasActiveItems = true;
+      }else if(!criteriaGroep.multiplePossible){
+        console.log("------ oudleden criterium ?", criteriaGroep, "value", value);
         var foundElem = _.find(criteriaGroep.items, {'value' : value});
+        console.log("foundElem", foundElem);
         if(foundElem){
           foundElem.activated = true;
           hasActiveItems = true;
         }
+
       } else {
 
         if(!bGrouped){
@@ -362,7 +372,6 @@
       // reconstrueer het Filter object:
       // TODO: rewrite to be more generic, using multiplePossible property, for 'functies' some extra logic will be needed
       var patchedFilterObj = currentFilter;
-      patchedFilterObj.criteria = {};
 
       var reconstructedFilterObj = {};
       reconstructedFilterObj.criteria = {};
@@ -404,12 +413,13 @@
             });
           }
         }
-
-
-
       });
 
-
+      // leeftijd
+      var tmpObj = _.find(activeCriteria, {'criteriaKey':'leeftijd'});
+      if(tmpObj){
+        reconstructedFilterObj.criteria.leeftijd = currentFilter.criteria.leeftijd;
+      }
 
       // geslacht
       // indien enkel 'jongen' of 'meisje' aangeduid werd, geven we een lege waarde mee
@@ -422,7 +432,13 @@
       }
 
       // oudleden (idem geslacht)
-      reconstructedFilterObj.criteria.oudleden = false;
+      var activatedOudleden = _.find(activeCriteria, {'criteriaKey':'oudleden'});
+      if(activatedOudleden){
+        var ao = _.filter(activatedOudleden.items, {'activated':true});
+        if(_.size(ao) == 1){
+          reconstructedFilterObj.criteria.oudleden = ao[0].value;
+        }
+      }
 
       // adresgeblokkeerd
       var actieveGeblokkeerdeAdressen = _.find(activeCriteria, {"criteriaKey":"adresgeblokkeerd"});
@@ -482,6 +498,134 @@
       }
       return str;
 
+    }
+
+    ledenFilterService.getLeeftijdCriterium = function(){
+      return {
+          'title' : 'Leeftijd',
+          'criteriaKey' : 'leeftijd',
+          'multiplePossible' : false,
+          'activated':false,
+          'multiValues':true,
+          'leeftijdOpDatum':
+            {
+              'label': '',
+              'key': 'op31december',
+              'values': [
+                ['was op 31 december', true],
+                ['Is nu', false]
+              ]
+            }
+          ,
+          'jongerDan':
+            {
+              'label': 'en jonger dan',
+              'key': 'jongerdan',
+              'values': [
+                ["-",-1],
+                ["5 jaar",5],
+                ["6 jaar",6],
+                ["7 jaar",7],
+                ["8 jaar",8],
+                ["9 jaar",9],
+                ["10 jaar",10],
+                ["11 jaar",11],
+                ["12 jaar",12],
+                ["13 jaar",13],
+                ["14 jaar",14],
+                ["15 jaar",15],
+                ["16 jaar",16],
+                ["17 jaar",17],
+                ["18 jaar",18],
+                ["19 jaar",19],
+                ["20 jaar",20],
+                ["21 jaar",21],
+                ["22 jaar",22],
+                ["23 jaar",23],
+                ["24 jaar",24],
+                ["25 jaar",25],
+                ["26 jaar",26],
+                ["27 jaar",27],
+                ["28 jaar",28],
+                ["29 jaar",29],
+                ["30 jaar",30],
+                ["31 jaar",31],
+                ["32 jaar",32],
+                ["33 jaar",33],
+                ["34 jaar",34],
+                ["35 jaar",35],
+                ["36 jaar",36],
+                ["37 jaar",37],
+                ["38 jaar",38],
+                ["39 jaar",39],
+                ["40 jaar",40],
+                ["41 jaar",41],
+                ["42 jaar",42],
+                ["43 jaar",43],
+                ["44 jaar",44],
+                ["45 jaar",45],
+                ["46 jaar",46],
+                ["47 jaar",47],
+                ["48 jaar",48],
+                ["49 jaar",49]
+              ]
+            }
+          ,
+          'ouderDan':
+            {
+              'label': 'ouder dan',
+              'key': 'ouderdan',
+              'values': [
+                ["-",-1],
+                ["5 jaar",5],
+                ["6 jaar",6],
+                ["7 jaar",7],
+                ["8 jaar",8],
+                ["9 jaar",9],
+                ["10 jaar",10],
+                ["11 jaar",11],
+                ["12 jaar",12],
+                ["13 jaar",13],
+                ["14 jaar",14],
+                ["15 jaar",15],
+                ["16 jaar",16],
+                ["17 jaar",17],
+                ["18 jaar",18],
+                ["19 jaar",19],
+                ["20 jaar",20],
+                ["21 jaar",21],
+                ["22 jaar",22],
+                ["23 jaar",23],
+                ["24 jaar",24],
+                ["25 jaar",25],
+                ["26 jaar",26],
+                ["27 jaar",27],
+                ["28 jaar",28],
+                ["29 jaar",29],
+                ["30 jaar",30],
+                ["31 jaar",31],
+                ["32 jaar",32],
+                ["33 jaar",33],
+                ["34 jaar",34],
+                ["35 jaar",35],
+                ["36 jaar",36],
+                ["37 jaar",37],
+                ["38 jaar",38],
+                ["39 jaar",39],
+                ["40 jaar",40],
+                ["41 jaar",41],
+                ["42 jaar",42],
+                ["43 jaar",43],
+                ["44 jaar",44],
+                ["45 jaar",45],
+                ["46 jaar",46],
+                ["47 jaar",47],
+                ["48 jaar",48],
+                ["49 jaar",49]
+              ]
+            }
+
+      };
     }
 
 
