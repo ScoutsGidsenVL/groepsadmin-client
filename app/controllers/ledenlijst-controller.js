@@ -496,8 +496,16 @@
       return $q(function(resolve,reject){
         RestService.createNewFilter.post(reconstructedFilterObj).$promise.then(
           function(response){
-            // 'huidige' filter opslaan
-            resolve(response);
+            initCriteriaKolommenFilters().then(function(){
+              stelFilterSamen(response.id).then(function(){
+                $scope.isLoadingFilters = false;
+                // variable om te voorkomen dat content flikkert
+                $scope.hasLoadedFilters = true;
+                activeerCriteria();
+                activeerKolommen();
+              });
+              resolve(response);
+            });
           }
         );
       });
