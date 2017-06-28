@@ -357,10 +357,18 @@
           });
         }else{
           if(crit.criteriaKey == 'geslacht'){
-            // meisje selecteren by default
-            _.find(crit.items, {'value': 'v'}).activated = true;
+            // ladies first!
+            _.find(crit.items, {'value': 'vrouw'}).activated = true;
           }else{
-            crit.items[0].activated = true;
+            var bAlreadyActive = false;
+            _.each(crit.items,function(value,key){
+              if(value.activated ){
+                bAlreadyActive = true;
+              }
+            })
+            if(!bAlreadyActive){
+              crit.items[0].activated = true;
+            }
           }
 
         }
