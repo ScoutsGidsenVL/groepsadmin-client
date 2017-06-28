@@ -3,7 +3,15 @@
   <!-- Panel header -->
   <div class="panel-heading panel-heading--leden clearfix">
     <div class="pull-left">
-      <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : isFilterCollapsed}" ng-click="toggleFilter()"><span ng-if="!isLoadingFilters && hasLoadedFilters"><div class="pull-left">Filter</div> <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i></span><div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filter aan het laden...</div></button>
+      <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : isFilterCollapsed}" ng-click="toggleFilter()">
+        <span ng-if="!isLoadingFilters && hasLoadedFilters">
+          <div class="pull-left">Filter</div>
+          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i>
+        </span>
+        <div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container">
+          <i class="fa fa-spinner fa-pulse"></i>&nbsp;Filter aan het laden...
+        </div>
+      </button>
     </div>
 
     <div class="pull-right">
@@ -61,7 +69,9 @@
           </ul>
         </div>
         <div ng-show="!showSaveOptions" class="pull-left">
-          <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Filter opslaan</button>
+          <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Filter opslaan
+          </button>
         </div>
         <div ng-show="showSaveOptions" class="pull-left">
         <form class="form-inline typeahead-filter">
@@ -73,9 +83,10 @@
           <!--<select class="selectpicker" title="Beschikbaar voor" ng-model="currentFilter" >
             <option>Groep x</option>
           </select>-->
-          <button class="btn btn-apply" ng-click="saveOrOverwriteFilter(selectedFilter)">
-            <span ng-if="!selectedFilter.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan</span>
-            <span ng-if="selectedFilter.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Overschrijven</span>
+          <button class="btn btn-apply" ng-click="saveOrOverwriteFilter(selectedFilter)" ng-disabled="isSavingFilters">
+            <span ng-if="!selectedFilter.id && !isSavingFilters"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan</span>
+            <span ng-if="selectedFilter.id && !isSavingFilters"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Overschrijven</span>
+            <span ng-if="isSavingFilters"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filter opslaan...</span>
           </button>
           <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions;selectedFilter='';"><span class="fa fa-remove" aria-hidden="true" ></span>&nbsp;Annuleren</button>
         </form>
