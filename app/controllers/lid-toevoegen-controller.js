@@ -293,6 +293,7 @@
     */
 
     $scope.opslaan = function() {
+
       $scope.saving = true;
       var origineelLid = {};
       angular.copy($scope.lid,origineelLid);
@@ -327,14 +328,7 @@
             angular.forEach(origineelLid.adressen, function(origineelAdres, key){
               angular.forEach(response.adressen, function(adres){
                 //vervangen door Gis code wanneer gis werkt.
-                if( origineelAdres.bus == adres.bus &&
-                    origineelAdres.gemeente == adres.gemeente &&
-                    origineelAdres.land == adres.land &&
-                    origineelAdres.nummer == adres.nummer &&
-                    origineelAdres.postcode == adres.postcode &&
-                    origineelAdres.straat == adres.straat &&
-                    origineelAdres.telefoon == adres.telefoon
-                  ){
+                if( origineelAdres.giscode == adres.giscode){
                   //zend update van de extra infotmatie(functies, contacten, ...)
                   angular.forEach(origineelLid.contacten, function(contact){
                     contact.adres = adres.id
