@@ -14,70 +14,71 @@
      */
     // lid ophalen
     RestService.Lid.get({id:$routeParams.id}).$promise.then(
-        function(result) {
-          $scope.lid = result;
-        },
-        function(error) {
-          if(error.data.beschrijving =="Geen leesrechten op dit lid"){
-            //redirect to lid overzicht.
-            $location.path('/');
-            AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
-          }
-          else{
-            AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
-          }
+      function(result) {
+        $scope.lid = result;
+      },
+      function(error) {
+        if(error.data.beschrijving =="Geen leesrechten op dit lid"){
+          //redirect to lid overzicht.
+          $location.path('/');
+          AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
         }
-      );
+        else{
+          AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+        }
+      }
+    );
 
     // steekkaart ophalen.
     RestService.LidIndividueleSteekkaart.get({id:$routeParams.id}).$promise.then(
-        function(result) {
-          $scope.individueleSteekkaartWaarden = [];
-          //compare functie
-          function compare(a,b) {
-            if (a.sort < b.sort)
-              return -1;
-            if (a.sort > b.sort)
-              return 1;
-            return 0;
-          }
-          var individueleSteekkaartLayout = result.gegevens.schema.velden.sort(compare);
+      function(result) {
+        $scope.individueleSteekkaartWaarden = result.gegevens.waarden;
 
-          // bevat de groepering van de layout van input velden.
-          // de teruggave van de API beschrijft enkel waar een groepstart en niet waar een groep stopt.
-          $scope.individueleSteekkaartLayoutGroups = [];
-          var tempGroup = [];
-          angular.forEach(individueleSteekkaartLayout, function(value, index){
-            if (value.type == "groep") {
-              if (tempGroup.length == 0 ) {
-                tempGroup.push(value);
-              }
-              else {
-                $scope.individueleSteekkaartLayoutGroups.push(tempGroup);
-                tempGroup = [];
-                tempGroup.push(value);
-              }
+        //compare functie
+        function compare(a,b) {
+          if (a.sort < b.sort)
+            return -1;
+          if (a.sort > b.sort)
+            return 1;
+          return 0;
+        }
+        var individueleSteekkaartLayout = result.gegevens.schema.velden.sort(compare);
+
+        // bevat de groepering van de layout van input velden.
+        // de teruggave van de API beschrijft enkel waar een groepstart en niet waar een groep stopt.
+        $scope.individueleSteekkaartLayoutGroups = [];
+        var tempGroup = [];
+        angular.forEach(individueleSteekkaartLayout, function(value, index){
+          if (value.type == "groep") {
+            if (tempGroup.length == 0 ) {
+              tempGroup.push(value);
             }
             else {
+              $scope.individueleSteekkaartLayoutGroups.push(tempGroup);
+              tempGroup = [];
               tempGroup.push(value);
-              if (index == individueleSteekkaartLayout.length -1){
-                $scope.individueleSteekkaartLayoutGroups.push(tempGroup);
-              }
             }
-          })
-        },
-        function(error) {
-          console.log(error);
-          if(error.data.beschrijving =="Geen leesrechten op dit lid"){
-            //redirect to lid overzicht.
-            $location.path('/');
-            AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
           }
-          else{
-            AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+          else {
+            tempGroup.push(value);
+            if (index == individueleSteekkaartLayout.length -1){
+              $scope.individueleSteekkaartLayoutGroups.push(tempGroup);
+            }
           }
+        })
+      },
+      function(error) {
+        console.log(error);
+        if(error.data.beschrijving =="Geen leesrechten op dit lid"){
+          //redirect to lid overzicht.
+          $location.path('/');
+          AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
         }
-      );
+        else{
+          AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+        }
+      }
+    );
 
     /*
     * Pagina event listeners
