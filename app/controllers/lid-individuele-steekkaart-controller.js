@@ -18,7 +18,7 @@
         $scope.lid = result;
       },
       function(error) {
-        if(error.data.beschrijving =="Geen leesrechten op dit lid"){
+        if(error.data.beschrijving == "Geen leesrechten op dit lid"){
           //redirect to lid overzicht.
           $location.path('/');
           AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
@@ -80,6 +80,24 @@
       }
     );
 
+    $scope.opslaan = function() {
+
+      var request = {
+        gegevens: {
+          waarden: $scope.individueleSteekkaartWaarden
+        }
+      };
+
+      $scope.saving = true;
+      RestService.LidIndividueleSteekkaart.patch({id: $routeParams.id}, request).$promise.then(
+        function(response) {
+          $scope.saving = false;
+          AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
+          $scope.individueleSteekaart.$setPristine();
+        }
+      );
+    }
+
     /*
     * Pagina event listeners
     * ---------------------------------------
@@ -87,29 +105,30 @@
 
     // listener voor wanneer een gebruiker van pagina veranderd en er zijn nog openstaande aanpassingen.
     $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
-      if($scope.lid.changes.length != 0){
+      if ($scope.individueleSteekaart.$dirty) {
         event.preventDefault();
         var paramObj = {
-              trueVal:newUrl
+              trueVal: newUrl
         }
         DialogService.new("Pagina verlaten", "Er zijn nog niet opgeslagen wijzigingen. Ben je zeker dat je wil verdergaan?", $scope.locationChange, paramObj );
       }
-
     });
 
     // return functie voor de bevestiging na het veranderen van pagina
     $scope.locationChange = function(result, url){
-      if(result){
+      if (result) {
         $window.onbeforeunload = null;
-        $scope.lid.changes = new Array();
         $window.location.href = url;
       }
     }
+
     // refresh of navigatie naar een andere pagina.
-    var unload = function (e) {
-      var waarschuwing = "Er zijn nog niet opgeslagen wijzigingen. Ben je zeker dat je wil verdergaan?";
-      e.returnValue = waarschuwing;
-      return e.returnValue;
+    $window.onbeforeunload = function(e) {
+      if ($scope.individueleSteekaart.$dirty) {
+        var waarschuwing = "Er zijn nog niet opgeslagen wijzigingen. Ben je zeker dat je wil verdergaan?";
+        e.returnValue = waarschuwing; // werkt niet in alle browsers
+        return e.returnValue; // werkt niet in andere browsers
+      }
     };
   }
 })();

@@ -68,7 +68,10 @@
       LidIndividueleSteekkaart: $resource(
         base + 'lid/:id/steekkaart',
         {id: '@id'},
-        {get: {method: 'GET'}}
+        {
+          get: {method: 'GET'},
+          patch: {method: 'PATCH'}
+        }
       ),
       Functie: $resource(
         base + 'functie/:functieId',
