@@ -4,19 +4,21 @@
   margin-top:10px;
 }
 
-.panel-default{
-  &--hasmargin{
-    margin-top:50px;
-    &-large{
-      margin-top:90px;
+.panel-default {
+  border-top: none;
+
+  &--hasmargin {
+    margin-top: 50px;
+    &-large {
+      margin-top: 90px;
     }
   }
-  &--negmargin{
-    margin-top:-10px;
+  &--negmargin {
+    margin-top: -10px;
   }
 }
 
-.panel-default> .panel-heading {
+.panel-default > .panel-heading {
   box-shadow: inset 0px 1px 0px white;
   #gradient .vertical(#fafafc, #f5f5f7);
   .form-inline{
@@ -68,23 +70,22 @@ h1.panel-title {
   //color: rgba(0,0,0,0.5);
 }
 
-.panel-leden{
-  overflow-x:auto;
+.panel-leden {
+  overflow-x: auto;
 }
 
-
-.panel-fixed{
+.panel-fixed {
   position: fixed;
-  border:1px solid @panel-default-border;
-  border-top:none;
   width: ~"calc(100% - 3 * @{fluid-grid-gutter-width})";
-  height:60px;
-  margin:-10px 0 0 0;
+  height: 60px;
+  margin: -10px 0 0 0;
+  border: 1px solid @panel-default-border;
+  border-top: none;
   padding: 10px 10px;
   background: white;
   z-index: @zIndexStickyPanel;
-  &--large{
-    height:100px;
+  &--large {
+    height: 100px;
   }
 }
 
@@ -92,5 +93,4 @@ h1.panel-title {
 .groepsinstellingen-title {
   font-size: 24px;
   font-weight: normal;
-
 }

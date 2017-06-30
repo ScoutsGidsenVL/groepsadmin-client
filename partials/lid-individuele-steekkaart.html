@@ -1,29 +1,22 @@
-<div class="panel panel-default">
 <!-- Panel header -->
-<div class="panel-heading clearfix">
+<div class="panel-heading panel-fixed panel-fixed--large clearfix">
   <div class="pull-left">
-  <h1>Individuele steekkaart</h1>
-  <p>{{ lid.verbondsgegevens.lidnummer }} - {{ lid.vgagegevens.voornaam }} {{ lid.vgagegevens.achternaam }}</p>
+    <h1 class="panel-title">Individuele steekkaart</h1>
+    <h2 class="panel-subtitle">{{ lid.vgagegevens.voornaam }} {{ lid.vgagegevens.achternaam }}</h2>
+    <h2 class="panel-subtitle">{{ lid.verbondsgegevens.lidnummer }}</h2>
+  </div>
+  <div class="pull-right">
+    <button type="submit" class="btn btn-apply" ng-click="opslaan()" ng-show="lid">
+      <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i>
+    </button>
   </div>
 </div>
 
 <!-- Persoonsinfo -->
-<div class="panel-body form-hover clearfix">
-  <div class="individuele-steekkaart" ng-for="individueleSteekkaartLayoutGroups">
-    <dynamischformulier class="" waarden="individueleSteekkaartWaarden" velden="individueleSteekkaartLayoutGroups"></dynamischformulier>
-  </div>
-</div>
-
-<!-- Panel footer -->
-<footer class="panel-footer clearfix">
-  <ul class="pagination pull-left responsive-footer">
-    <li>
-      <a href="" ng-click="opslaan()" ng-show="lid">Opslaan
-        <div class="pull-right" ng-show="saving">
-          <i class="fa fa-spinner fa-pulse"> </i>
-        </div>
-      </a>
-    </li>
-  </ul>
-</footer>
+<div class="panel panel-default panel-default--hasmargin-large ng-scope">
+  <form name='individueleSteekaart' class='panel-body form-hover clearfix'>
+    <div class="individuele-steekkaart" ng-for="individueleSteekkaartLayoutGroups">
+      <dynamischformulier class="" waarden="individueleSteekkaartWaarden" velden="individueleSteekkaartLayoutGroups"></dynamischformulier>
+    </div>
+  </form>
 </div>
