@@ -30,7 +30,6 @@
 </div>
 
 <div class="panel panel-default panel-default--hasmargin">
-
 <!-- Persoonsinfo -->
 <form name="nieuwLidForm" ng-submit="submitForm(nieuwLidForm)" novalidate>
 <div class="panel-body form-hover clearfix">
@@ -320,28 +319,31 @@
       <!-- Functies -->
       <section>
         <fieldset>
-          <legend>Functies toevoegen
+          <legend ng-class="{'has-error' : functieInstantiesError }">Functies toevoegen
             <div class="pull-right" ng-hide="groepEnfuncties.length">
               <i class="fa fa-spinner fa-pulse"> </i>
             </div>
           </legend>
+          <div ng-if="functieInstantiesError" class="has-error">
+            <p class="help-block">Gelieve minstens één functie aan te vinken</p>
+          </div>
           <fieldset ng-repeat="groepFuncties in groepEnfuncties" ng-show="hasPermission('functies.' + groepFuncties.groepsnummer)">
             <legend >{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
             </legend>
             <fieldset class="ga-functie-list" >
               <section class="clearfix">
-                <legend>
+                <legend  ng-init="showverbondfuncties=true;" ng-click="showverbondfuncties=!showverbondfuncties">
                   Functies
-                  <div class="pull-right" ng-init="showverbondfuncties=true;">
-                    <button ng-click="showverbondfuncties=true" ng-hide="showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                    <button ng-click="showverbondfuncties=false" ng-hide="!showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                  <div class="pull-right">
+                    <button  ng-hide="showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                    <button  ng-hide="!showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
                   </div>
                 </legend>
                 <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'verbond' } | orderBy : 'beschrijving'" ng-show=" !showverbondfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
                   <label class="col-md-6 form-group control checkbox" >
                     <div class="col-xs-11 col-xxs-11 control-label">{{ groepFunctie.beschrijving }}</div>
                     <div class="col-xs-1 col-xxs-1">
-                      <input type="checkbox" class="" ng-init="status='add';" ng-click="status = functieToevoegen(groepFuncties.groepsnummer,groepFunctie.id, status)"/>
+                      <input type="checkbox" ng-init="status='add';" ng-click="functieInstantiesError = false; status = functieToevoegen(groepFuncties.groepsnummer,groepFunctie.id, status)"/>
                       <span class="control-indicator"></span>
                     </div>
                   </label>
@@ -349,11 +351,11 @@
               </section>
 
               <section class="clearfix">
-                <legend>
+                <legend ng-click="showgroepfuncties=!showgroepfuncties" >
                   Groepseigen functies
                   <div class="pull-right" ng-init="showgroepfuncties=true;">
-                    <button ng-click="showgroepfuncties=true" ng-hide="showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                    <button ng-click="showgroepfuncties=false" ng-hide="!showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                    <button ng-hide="showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                    <button ng-hide="!showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
                   </div>
                 </legend>
                 <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'groep' } | orderBy : 'beschrijving'" ng-show="!showgroepfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">

@@ -265,6 +265,7 @@
 
     // nieuwe functie toevoegen aan model
     $scope.functieToevoegen = function(groepsnummer, functie, type){
+      $scope.functieInstantiesError = false;
       if(type == 'add'){
         var functieInstantie = {};
         functieInstantie.functie = functie;
@@ -361,11 +362,19 @@
             $location.path("/lid/" + response.id);
           }
 
+
         },
         function(error) {
+          $scope.saving = false;
           if(error.status == 403){
             $scope.saving = false;
             AlertService.add('warning', error.data.beschrijving,5000);
+          }
+          else if(error.data.fouten && error.data.fouten.length >=1 ){
+            _.each(error.data.fouten,function(fout,key){
+              console.log("FOUT", fout);
+              $scope[fout.veld + 'Error'] = true;
+            });
           }
           else{
             $scope.saving = false;
