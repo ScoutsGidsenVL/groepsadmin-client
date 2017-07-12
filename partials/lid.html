@@ -403,7 +403,7 @@
             </legend>
             <fieldset class="ga-functie-list">
               <section class="clearfix">
-                <legend ng-init="showverbondfuncties=true;" ng-click="showverbondfuncties = showverbondfuncties ? false : true">
+                <legend ng-init="showverbondfuncties=true;" ng-click="showverbondfuncties = !showverbondfuncties">
                   Functies
                   <div class="pull-right">
                     <button type="button"  class="btn-minimal">
@@ -416,7 +416,7 @@
                   <label class="col-md-6 form-group control checkbox" >
                     <div class="col-xs-11 col-xxs-11 control-label">{{ groepFunctie.beschrijving }}</div>
                     <div class="col-xs-1 col-xxs-1">
-                      <input type="checkbox" class="" ng-init="status='add';" ng-click="status = functieToevoegen(groepFuncties.groepsnummer,groepFunctie.id, status)" ng-disabled="!hasPermission('functieInstanties.' + groepFuncties.groepsnummer)"/>
+                      <input type="checkbox" class="" ng-init="status='add';" ng-click="status = functieToevoegen(groepFuncties.groepsnummer, groepFunctie.id, status)" ng-disabled="!hasPermission('functies.' + groepFuncties.groepsnummer)"/>
                       <span class="control-indicator"></span>
                     </div>
                   </label>
@@ -437,7 +437,7 @@
                   <label class="col-md-6 form-group control checkbox ga-functie-list">
                     <div class="col-xs-11 col-xxs-11 control-label">{{ groepFunctie.beschrijving }}</div>
                     <div class="col-xs-1 col-xxs-1">
-                      <input type="checkbox" class="" ng-init="status='add';" ng-click="status = functieToevoegen(groepFuncties.groepsnummer,groepFunctie.id, status)" ng-disabled="!hasPermission('functieInstanties.' + groepFuncties.groepsnummer)"/>
+                      <input type="checkbox" class="" ng-init="status='add';" ng-click="status = functieToevoegen(groepFuncties.groepsnummer,groepFunctie.id, status)" ng-disabled="!hasPermission('functies.' + groepFuncties.groepsnummer)"/>
                       <span class="control-indicator"></span>
                     </div>
                   </label>
