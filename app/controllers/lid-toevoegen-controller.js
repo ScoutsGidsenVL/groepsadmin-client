@@ -297,9 +297,8 @@
 
       $scope.saving = true;
       var origineelLid = {};
-      angular.copy($scope.lid,origineelLid);
+      angular.copy($scope.lid, origineelLid);
       //lid voorbereiden voor verzenden
-      delete origineelLid.contacten;
       if(origineelLid.functies.length > 0){
         origineelLid.functies = [];
         origineelLid.functies.push($scope.lid.functies[0]);
@@ -319,81 +318,52 @@
 
       RestService.LidAdd.save(origineelLid).$promise.then(
         function(response) {
-          console.log(response);
-          origineelLid.contacten = $scope.lid.contacten;
-          //alle extra functies sturen via patch
-          var patchDeel = {};
-          //controle zijn er contacten?
-          if(origineelLid.contacten.length >0){
-            patchDeel.contacten = [];
-            angular.forEach(origineelLid.adressen, function(origineelAdres, key){
-              angular.forEach(response.adressen, function(adres){
-                //vervangen door Gis code wanneer gis werkt.
-                if( origineelAdres.giscode == adres.giscode){
-                  //zend update van de extra infotmatie(functies, contacten, ...)
-                  angular.forEach(origineelLid.contacten, function(contact){
-                    contact.adres = adres.id
-                    patchDeel.contacten.push(contact);
-                  });
-                }
-              });
-            });
-          }
           if($scope.lid.functies.length > 1){
+            var patchDeel = {};
             patchDeel.functies = $scope.lid.functies.splice(1, $scope.lid.functies.length-1);
-          }
-          if(patchDeel.functies || patchDeel.contacten){
-            //stuur extra info via patch
-            RestService.Lid.update({id:response.id}, patchDeel).$promise.then(
+
+            RestService.Lid.update({id: response.id}, patchDeel).$promise.then(
               function(response) {
-                // redirect to lid page
-                console.log(response);
                 $location.path("/lid/" + response.id);
                 $scope.saving = false;
                 AlertService.add('success ', "Lid toegevoegd", 5000);
               },
               function(error) {
                 $scope.saving = false;
-                AlertService.add('danger', "Error " + error.status + ". " + error.statusText,5000);
+                AlertService.add('danger', "Error " + error.status + ". " + error.statusText, 5000);
               }
             );
           } else {
-            // redirect to lid page
             $location.path("/lid/" + response.id);
+            $scope.saving = false;
+            AlertService.add('success ', "Lid toegevoegd", 5000);
           }
-
-
         },
         function(error) {
           $scope.saving = false;
-          if(error.status == 403){
-            $scope.saving = false;
-            AlertService.add('warning', error.data.beschrijving,5000);
+          if (error.status == 403) {
+            AlertService.add('warning', error.data.beschrijving, 5000);
           }
-          else if(error.data.fouten && error.data.fouten.length >=1 ){
-            _.each(error.data.fouten,function(fout,key){
+          else if (error.data.fouten && error.data.fouten.length >=1) {
+            _.each(error.data.fouten, function(fout,key) {
               console.log("FOUT", fout);
               $scope[fout.veld + 'Error'] = true;
             });
           }
-          else{
-            $scope.saving = false;
-            AlertService.add('danger', "Error " + error.status + ". " + error.statusText,5000);
-
+          else {
+            AlertService.add('danger', "Error " + error.status + ". " + error.statusText, 5000);
           }
         }
       );
     }
 
     /*
-    * Footer functionaliteit
+    * Header functionaliteit
     * ---------------------------------------
     */
-
     $scope.nieuw = function() {
       $route.reload();
     }
-
 
     /*
     * page Change functionaliteit
