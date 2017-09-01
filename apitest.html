@@ -201,7 +201,7 @@
         $('#etag').val(jqXHR.getResponseHeader('Etag') || '(Niet opvraagbaar door CORS)');
 
         if (contentType === 'application/pdf') {
-          document.getElementById('result').src = URL.createObjectURL(data);
+          document.getElementById('result').src = URL.createObjectURL(new Blob([data], {type : contentType}));
           document.getElementById('result').style.height = '1000px';
           return;
         }
