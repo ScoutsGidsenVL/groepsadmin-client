@@ -167,7 +167,7 @@ Meer info over de property order:
 
 [Aglio](https://github.com/danielgtaylor/aglio/blob/master/README.md) is een tool om de documentatie van de REST-API om te zetten van APIB naar HTML:
 
-`node_modules/.bin/aglio --theme-condense-nav=false -i docs/api.apib -o docs/api.html`
+`node_modules/.bin/aglio --theme-condense-nav=false --theme-style default --theme-style docs/custom.less -i docs/api.apib -o docs/api.html`
 
 ### AngularJS
 
