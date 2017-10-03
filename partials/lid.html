@@ -219,22 +219,19 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].straatnaam'].$invalid }">
+              <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].straatnaam'].$invalid || lidForm['adressen['+$index+'].nummer'].$invalid }">
                 <label for="_straatnaam" class="col-xs-4 col-xxs-12 control-label">Straat</label>
                 <div class="col-xs-5 col-xxs-12">
-                  <input type="text" name="adressen[{{ $index }}].straatnaam" class="form-control" ng-disabled="!hasPermission('adressen')"  placeholder="Straatnaam" id="_straatnaam" ng-model="adres.straat" uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres) "  typeahead-on-select="bevestigStraat($item, adres)" typeahead-show-hint="true" required/>
-                  <div ng-messages="lidForm['adressen['+$index+'].straatnaam'].$error">
-                      <div ng-messages-include="partials/messages.html"></div>
-                  </div>
+                  <input type="text" name="adressen[{{ $index }}].straatnaam" class="form-control" ng-model="adres.straat" ng-disabled="!hasPermission('adressen')"  placeholder="Straatnaam" id="_straatnaam"  uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres) "  typeahead-on-select="bevestigStraat($item, adres)" typeahead-show-hint="true" required />
                 </div>
                 <div class="col-xs-2 col-xxs-12">
-                  <input type="text" class="form-control" id="_huisnummer" name="adressen[{{ $index }}].nummer" maxlength="5" ng-model="adres.nummer"  placeholder="Nr." ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
-                  <div ng-messages="lidForm['adressen['+$index+'].huisnummer'].$error">
-                      <div ng-messages-include="partials/messages.html"></div>
-                  </div>
+                  <input type="text" name="adressen[{{ $index }}].nummer" class="form-control" ng-model="adres.nummer" id="_huisnummer" maxlength="5"   placeholder="Nr." ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente" required/>
                 </div>
                 <div class="col-xs-1 col-xxs-12">
                   <input type="text" class="form-control form-control-bus" name="adressen[{{ $index }}].bus" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
+                </div>
+                <div class="col-xs-offset-4 col-xs-12 col-xxs-12" ng-show="lidForm['adressen['+$index+'].straatnaam'].$invalid || lidForm['adressen['+$index+'].nummer'].$invalid">
+                    <p class="help-block">Straat en huisnummer zijn verplicht</p>
                 </div>
               </div>
               <div class="form-group">

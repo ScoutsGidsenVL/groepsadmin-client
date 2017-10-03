@@ -17,7 +17,7 @@
       switch (formfield.$name) {
 
       case 'rekeningnummer':
-        isValidField =  formfield.$modelValue == "" ? true : formValidationService.validateIBAN(formfield);
+        isValidField =  !formfield.$modelValue || formfield.$modelValue == "" ? true : formValidationService.validateIBAN(formfield);
         break;
 
       default:
