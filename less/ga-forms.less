@@ -5,6 +5,12 @@
   .form-group {
     margin: 0;
     padding: 0.5em;
+    &--functies{
+      font-size:1em;
+      p{
+        margin:0;
+      }
+    }
   }
   p {
     margin: 6px 0 6px;
@@ -353,4 +359,22 @@ legend{
     color:darken(@brand-primary,10%);
     text-decoration: underline;
   }
+}
+
+
+form[name="lidForm"], form[name="nieuwLidForm"] {
+  section{
+    background-color: #f7f7f7;
+    legend{
+      border-bottom:none;
+    }
+    fieldset.ga-functie-list{
+      legend{
+        border-bottom: 1px solid #ddd;
+        background-color:#eaeaea;
+      }
+    }
+
+  }
+
 }

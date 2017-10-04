@@ -142,7 +142,7 @@
     }
 
     function setChanges(newVal, oldVal, scope) {
-      if($scope.lidForm.$dirty){
+      if($scope.nieuwLidForm.$dirty){
         $window.onbeforeunload = unload;
       }
     }

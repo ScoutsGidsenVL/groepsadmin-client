@@ -30,13 +30,19 @@
         return response;
       },
       'responseError': function(rejection) {
+        console.log("******", rejection);
         if (!navigator.onLine || rejection.status == 0) {
           // Note: Browsers implement the NavigatorOnLine.onLine property differently.
           // See the docs: https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/onLine
           AlertService.add('danger', "Er kon geen verbinding gemaakt worden met de Groepsadministratie.", 5000);
         }
         else if (rejection.status == 403) {
-          AlertService.add('danger', "Je bent niet ingelogd", 5000);
+          if(rejection.data && rejection.data.beschrijving){
+            AlertService.add('danger', rejection.data.beschrijving, 5000);
+          }else{
+            AlertService.add('danger', "Je bent niet ingelogd", 5000);
+          }
+
         }
         else if (rejection.data) {
 
@@ -57,6 +63,7 @@
           }
         }
         else{
+
           //console.log(rejection);
           AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.", 5000);
         }

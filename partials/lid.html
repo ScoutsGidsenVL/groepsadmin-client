@@ -383,7 +383,7 @@
           <legend>Functies <div class="pull-right" ng-hide="lid.functies">
               <i class="fa fa-spinner fa-pulse"> </i>
             </div></legend>
-          <ga-functie ng-show="lid.functies" class="form-group" ng-repeat="fn in lid.functies | collapsedFilter:isFunctiesCollapsed | filter:{temp:'!tijdelijk'}" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie" patch-secties="patchObj.secties">
+          <ga-functie ng-show="lid.functies" class="form-group form-group--functies pl-0 pr-0" ng-repeat="fn in lid.functies | collapsedFilter:isFunctiesCollapsed | filter:{temp:'!tijdelijk'}" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie" patch-secties="patchObj.secties">
           </ga-functie>
           <div class="text-center" ng-show="lid.functies">
             <a class="btn btn-link" href ng-click="isFunctiesCollapsed = !isFunctiesCollapsed">{{isFunctiesCollapsed ? "Functiehistoriek weergeven" : "Functiehistoriek verbergen"}}</a>
