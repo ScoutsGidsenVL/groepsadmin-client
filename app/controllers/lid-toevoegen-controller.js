@@ -328,6 +328,7 @@
 
             RestService.Lid.update({id: response.id}, patchDeel).$promise.then(
               function(response) {
+                $scope.nieuwLidForm.$setPristine();
                 $location.path("/lid/" + response.id);
                 $scope.saving = false;
                 AlertService.add('success ', "Lid toegevoegd", 5000);
@@ -338,6 +339,7 @@
               }
             );
           } else {
+            $scope.nieuwLidForm.$setPristine();
             $location.path("/lid/" + response.id);
             $scope.saving = false;
             AlertService.add('success ', "Lid toegevoegd", 5000);
@@ -430,7 +432,6 @@
       var invalidAddresses = _.filter($scope.nieuwLidForm.$error.required, function(o){
         return o.$name.indexOf('adressen') > -1;
       });
-      console.log('------', invalidAddresses);
       _.each(invalidAddresses, function(adres){
         // get index from fieldname
         var str = adres.$name.match(/\d+/g, "")+'';
