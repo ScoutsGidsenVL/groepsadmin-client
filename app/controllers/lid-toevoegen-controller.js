@@ -142,7 +142,9 @@
     }
 
     function setChanges(newVal, oldVal, scope) {
-      $window.onbeforeunload = unload;
+      if($scope.lidForm.$dirty){
+        $window.onbeforeunload = unload;
+      }
     }
 
     angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies'], function(value, key) {
@@ -373,7 +375,7 @@
     */
     // listener voor wanneer een gebruiker van pagina veranderd en er zijn nog openstaande aanpassingen.
     $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
-      if($scope.lid.changes.length != 0){
+      if($scope.nieuwLidForm.$dirty){
         event.preventDefault();
         var paramObj = {
               trueVal:newUrl
@@ -386,6 +388,7 @@
     // return functie voor de bevestiging na het veranderen van pagina
     $scope.locationChange = function(result, url){
       if(result){
+        $scope.nieuwLidForm.$setPristine();
         $scope.lid.changes = new Array();
         $window.location.href = url;
       }
