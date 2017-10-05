@@ -286,7 +286,7 @@
                   Nieuw contact
                 </div>
                 <div class="pull-right">
-                  <button class="btn-minimal">
+                  <button type="button" class="btn-minimal">
                     <span ng-hide="contact.showme" class="glyphicon glyphicon-chevron-down" title="Contact tonen"></span>
                     <span ng-hide="!contact.showme" class="glyphicon glyphicon-chevron-up" title="Contact verbergen"></span>
                   </button>
@@ -360,16 +360,18 @@
       <section>
         <fieldset ng-if="lid.groepseigenVelden">
           <legend >Groepseigen gegevens</legend>
-          <fieldset ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden" ng-if="groepseigenVeldenVerzameling.schema.velden.length > 0">
-            <legend ng-click="showgroepseigenvelden = showgroepseigenvelden ? false : true">{{ key }} {{ groepenlijst[key].naam }}
-              <div class="pull-right" ng-init="showgroepseigenvelden=true;" >
-                <button type="button" class="btn-minimal">
-                  <span ng-hide="showgroepseigenvelden" class="glyphicon glyphicon-chevron-up"></span>
-                  <span ng-hide="!showgroepseigenvelden" class="glyphicon glyphicon-chevron-down"></span>
-                </button>
-              </div>
-            </legend>
-            <fieldset class="ga-functie-list" ng-if="groepseigenVeldenVerzameling.schema.velden.length > 0">
+          <fieldset class="ga-contacten-list" ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden" ng-if="groepseigenVeldenVerzameling.schema.velden.length > 0">
+            <section class="clearfix">
+              <legend ng-click="showgroepseigenvelden = showgroepseigenvelden ? false : true">{{ key }} {{ groepenlijst[key].naam }}
+                <div class="pull-right" ng-init="showgroepseigenvelden=true;" >
+                  <button type="button" class="btn-minimal">
+                    <span ng-hide="showgroepseigenvelden" class="glyphicon glyphicon-chevron-up"></span>
+                    <span ng-hide="!showgroepseigenvelden" class="glyphicon glyphicon-chevron-down"></span>
+                  </button>
+                </div>
+              </legend>
+            </section>
+            <fieldset ng-if="groepseigenVeldenVerzameling.schema.velden.length > 0">
               <dynamischveldcolectie waarden="groepseigenVeldenVerzameling.waarden" velden="groepseigenVeldenVerzameling.schema.velden" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
             </fieldset>
           </fieldset>
