@@ -167,83 +167,85 @@
       <!-- Adressen -->
       <section>
         <fieldset>
-         <legend>
-          Adressen
-            <div class="pull-right" ng-hide="lid">
-              <i class="fa fa-spinner fa-pulse"> </i>
+          <legend>
+            Adressen
+              <div class="pull-right" ng-hide="lid">
+                <i class="fa fa-spinner fa-pulse"> </i>
+              </div>
+             <div class="pull-right" ng-if="hasPermission('adressen')">
+              <button type="button" ng-click="addAdres(lidForm.$valid)" class="btn-minimal" title="Adres toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
-           <div class="pull-right" ng-if="hasPermission('adressen')">
-            <button type="button" ng-click="addAdres(lidForm.$valid)" class="btn-minimal" title="Adres toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
-          </div>
-        </legend>
-          <fieldset ng-repeat="adres in lid.adressen" ng-show="lid">
-            <legend class="clearfix"  ng-class="{'has-error': adres.hasErrors}" ng-init="adres.showme = false; " ng-click="adres.showme = !adres.showme">
-                <div ng-if="adres.straat || adres.bus || adres.postcode || adres.gemeente" class="pull-left">
-                  {{ adres.straat }} {{ adres.nummer }} {{ adres.bus }}, {{adres.postcode}} {{adres.gemeente}}
-                </div>
-                <div ng-if="!adres.straat && !adres.bus && !adres.postcode && !adres.gemeente" class="pull-left" >
-                  Nieuw adres
-                </div>
-                <div class="pull-right" class="pull-left">
-                  <button type="button" class="btn-minimal">
-                    <span ng-hide="adres.showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
-                    <span ng-hide="!adres.showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
-                  </button>
-                  <button type="button" ng-click="deleteAdres(adres.id)" class="btn-minimal" ng-if="hasPermission('adressen')"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
-                </div>
-            </legend>
-            <fieldset class="ga-functie-list" ng-hide="!adres.showme">
-              <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].land'].$invalid }">
-                <label for="_land" class="col-xs-4 col-xxs-12 control-label">Land</label>
-                <div class="col-xs-8 col-xxs-12">
-                  <select class="selectpicker" name="adressen[{{ $index }}].land" title="Kies een land..." id="_land" ng-model="adres.land" ng-disabled="!hasPermission('adressen')" required>
-                  <option value="BE">België</option>
-                  <option value="DE">Duitsland</option>
-                  <option value="FR">Frankrijk</option>
-                  <option value="GB">Groot-Brittannië</option>
-                  <option value="LU">Luxemburg</option>
-                  <option value="NL">Nederland</option>
-                  </select>
-                  <div ng-messages="lidForm['adressen['+$index+'].land'].$error">
-                    <div ng-messages-include="partials/messages.html"></div>
+          </legend>
+          <fieldset class="ga-adressen-list" ng-repeat="adres in lid.adressen" ng-show="lid">
+            <section class="clearfix">
+              <legend ng-class="{'has-error': adres.hasErrors}" ng-init="adres.showme = false; " ng-click="adres.showme = !adres.showme">
+                  {{ !adres.straat && !adres.bus && !adres.postcode && !adres.gemeente ? 'Nieuw adres' : '' }}
+                  {{ adres.straat ? adres.straat :'' }}
+                  {{ adres.nummer ? adres.nummer :''}}
+                  {{ adres.bus ? adres.bus :''}}
+                  {{ adres.bus || adres.nummer || adres.straat ? ',' : '' }}
+                  {{ adres.postcode ? adres.postcode :''}}
+                  {{ adres.gemeente ? adres.gemeente :''}}
+                  <div class="pull-right">
+                    <button type="button" class="btn-minimal">
+                      <span ng-hide="adres.showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
+                      <span ng-hide="!adres.showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
+                    </button>
+                    <button type="button" ng-click="deleteAdres(adres.id)" class="btn-minimal" ng-if="hasPermission('adressen')"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
                   </div>
-                </div>
-              </div>
-
-              <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].gemeente'].$invalid }">
-                <label for="_gemeenteWrap" class="col-xs-4 col-xxs-12 control-label">Woonplaats</label>
-                <div class="col-xs-8 col-xxs-2">
-                  <input type="text" name="adressen[{{ $index }}].gemeente" class="form-control ga-functie-list" ng-init="gemeenteWrap = adres.postcode && adres.gemeente ? adres.postcode + ' ' + adres.gemeente : ''" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" typeahead-show-hint="true" required/>
-                  <div ng-messages="lidForm['adressen['+$index+'].gemeente'].$error">
+              </legend>
+              <fieldset ng-hide="!adres.showme">
+                <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].land'].$invalid }">
+                  <label for="_land" class="col-xs-4 col-xxs-12 control-label">Land</label>
+                  <div class="col-xs-8 col-xxs-12">
+                    <select class="selectpicker" name="adressen[{{ $index }}].land" title="Kies een land..." id="_land" ng-model="adres.land" ng-disabled="!hasPermission('adressen')" required>
+                    <option value="BE">België</option>
+                    <option value="DE">Duitsland</option>
+                    <option value="FR">Frankrijk</option>
+                    <option value="GB">Groot-Brittannië</option>
+                    <option value="LU">Luxemburg</option>
+                    <option value="NL">Nederland</option>
+                    </select>
+                    <div ng-messages="lidForm['adressen['+$index+'].land'].$error">
                       <div ng-messages-include="partials/messages.html"></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].straatnaam'].$invalid || lidForm['adressen['+$index+'].nummer'].$invalid }">
-                <label for="_straatnaam" class="col-xs-4 col-xxs-12 control-label">Straat</label>
-                <div class="col-xs-5 col-xxs-12">
-                  <input type="text" name="adressen[{{ $index }}].straatnaam" class="form-control" ng-model="adres.straat" ng-disabled="!hasPermission('adressen')"  placeholder="Straatnaam" id="_straatnaam"  uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres) "  typeahead-on-select="bevestigStraat($item, adres)" typeahead-show-hint="true" required />
-                </div>
-                <div class="col-xs-2 col-xxs-12">
-                  <input type="text" name="adressen[{{ $index }}].nummer" class="form-control" ng-model="adres.nummer" id="_huisnummer" maxlength="5"   placeholder="Nr." ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente" required/>
-                </div>
-                <div class="col-xs-1 col-xxs-12">
-                  <input type="text" class="form-control form-control-bus" name="adressen[{{ $index }}].bus" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
-                </div>
-                <div class="col-xs-offset-4 col-xs-12 col-xxs-12" ng-show="lidForm['adressen['+$index+'].straatnaam'].$invalid || lidForm['adressen['+$index+'].nummer'].$invalid">
-                    <p class="help-block">Straat en huisnummer zijn verplicht</p>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="_telefoon" class="col-xs-4 col-xxs-12 control-label">Telefoon</label>
-                <div class="col-xs-8 col-xxs-12">
-                  <input type="text" class="form-control" id="_telefoon" name="adressen[{{ $index }}].telefoon" maxlength="15" ng-model="adres.telefoon" ng-disabled="!hasPermission('adressen')"/>
-                  <div ng-messages="lidForm['adressen['+$index+'].telefoon'].$error">
-                      <div ng-messages-include="partials/messages.html"></div>
+                <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].gemeente'].$invalid }">
+                  <label for="_gemeenteWrap" class="col-xs-4 col-xxs-12 control-label">Woonplaats</label>
+                  <div class="col-xs-8 col-xxs-2">
+                    <input type="text" name="adressen[{{ $index }}].gemeente" class="form-control ga-functie-list" ng-init="gemeenteWrap = adres.postcode && adres.gemeente ? adres.postcode + ' ' + adres.gemeente : ''" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" typeahead-show-hint="true" required/>
+                    <div ng-messages="lidForm['adressen['+$index+'].gemeente'].$error">
+                        <div ng-messages-include="partials/messages.html"></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </fieldset>
+                <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].straatnaam'].$invalid || lidForm['adressen['+$index+'].nummer'].$invalid }">
+                  <label for="_straatnaam" class="col-xs-4 col-xxs-12 control-label">Straat</label>
+                  <div class="col-xs-5 col-xxs-12">
+                    <input type="text" name="adressen[{{ $index }}].straatnaam" class="form-control" ng-model="adres.straat" ng-disabled="!hasPermission('adressen')"  placeholder="Straatnaam" id="_straatnaam"  uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres) "  typeahead-on-select="bevestigStraat($item, adres)" typeahead-show-hint="true" required />
+                  </div>
+                  <div class="col-xs-2 col-xxs-12">
+                    <input type="text" name="adressen[{{ $index }}].nummer" class="form-control" ng-model="adres.nummer" id="_huisnummer" maxlength="5"   placeholder="Nr." ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente" required/>
+                  </div>
+                  <div class="col-xs-1 col-xxs-12">
+                    <input type="text" class="form-control form-control-bus" name="adressen[{{ $index }}].bus" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
+                  </div>
+                  <div class="col-xs-offset-4 col-xs-12 col-xxs-12" ng-show="lidForm['adressen['+$index+'].straatnaam'].$invalid || lidForm['adressen['+$index+'].nummer'].$invalid">
+                      <p class="help-block">Straat en huisnummer zijn verplicht</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="_telefoon" class="col-xs-4 col-xxs-12 control-label">Telefoon</label>
+                  <div class="col-xs-8 col-xxs-12">
+                    <input type="text" class="form-control" id="_telefoon" name="adressen[{{ $index }}].telefoon" maxlength="15" ng-model="adres.telefoon" ng-disabled="!hasPermission('adressen')"/>
+                    <div ng-messages="lidForm['adressen['+$index+'].telefoon'].$error">
+                        <div ng-messages-include="partials/messages.html"></div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </section>
           </fieldset>
         </fieldset>
       </section>
@@ -276,22 +278,22 @@
               <button type="button" ng-click="contactToevoegen(lidForm.$valid)" class="btn-minimal" title="Contact toevoegen" ng-show="lid.contacten.length < 2 && _.filter(lid.contacten,{'hasErrors': true}).length <= 0"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
           </legend>
-          <fieldset ng-repeat="contact in lid.contacten" ng-show="lid">
-            <legend class="clearfix" ng-class="{'has-error': contact.hasErrors}" ng-init="contact.showme = false; " ng-click="contact.showme = !contact.showme">
-              <div ng-if="contact.rol || contact.naam || contact.voornaam" class="legend-label pull-left">
-                <strong>{{ contact.rol }}</strong> {{ contact.voornaam }} {{ contact.achternaam }}
-              </div>
-              <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left" >
-                Nieuw contact
-              </div>
-              <div class="pull-right"  class="pull-left">
-                <button type="button"  class="btn-minimal">
-                  <span ng-hide="contact.showme" class="glyphicon glyphicon-chevron-down" title="Contact tonen"></span>
-                  <span ng-hide="!contact.showme" class="glyphicon glyphicon-chevron-up" title="Contact verbergen"></span>
-                </button>
-                <button type="button" ng-click="deleteContact(contact.id)" ng-show="hasPermission('contacten')" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
-              </div>
-            </legend>
+          <fieldset class="ga-contacten-list" ng-repeat="contact in lid.contacten" ng-show="lid">
+            <section class="clearfix">
+              <legend ng-class="{'has-error': contact.hasErrors}" ng-init="contact.showme = false; " ng-click="contact.showme = !contact.showme">
+                  {{ contact.rol ? contact.rol :'' }} {{ contact.voornaam ? contact.voornaam : ''}} {{ contact.achternaam ? contact.achternaam : '' }}
+                <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left" >
+                  Nieuw contact
+                </div>
+                <div class="pull-right">
+                  <button class="btn-minimal">
+                    <span ng-hide="contact.showme" class="glyphicon glyphicon-chevron-down" title="Contact tonen"></span>
+                    <span ng-hide="!contact.showme" class="glyphicon glyphicon-chevron-up" title="Contact verbergen"></span>
+                  </button>
+                  <button type="button" ng-click="deleteContact(contact.id)" ng-show="hasPermission('contacten')" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
+                </div>
+              </legend>
+            </section>
             <fieldset class="ga-functie-list" ng-hide="!contact.showme">
             <div class="form-group " ng-class="{ 'has-error': lidForm['contacten['+$index+'].rol'].$invalid }">
               <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
@@ -396,8 +398,7 @@
               <i class="fa fa-spinner fa-pulse"> </i>
             </div></legend>
           <fieldset ng-show="groepEnfuncties" ng-repeat="groepFuncties in groepEnfuncties" ng-if="hasPermission('functies.' + groepFuncties.groepsnummer)">
-            <legend>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}
-            </legend>
+            <legend class="group-legend"><span>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}</span></legend>
             <fieldset class="ga-functie-list">
               <section class="clearfix">
                 <legend ng-init="showverbondfuncties=true;" ng-click="showverbondfuncties = !showverbondfuncties">
