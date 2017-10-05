@@ -16,6 +16,14 @@
     margin: 6px 0 6px;
     line-height: 18px;
   }
+  legend.group-legend{
+    padding-left:.5em;
+    padding-right:.5em;
+    span{
+      padding-left:.5em;
+      padding-right:.5em;
+    }
+  }
 }
 
 fieldset {
@@ -172,8 +180,14 @@ textarea {
       padding-right: 0;
     }
   }
-  .ga-functie-list {
-    padding-left: 20px;
+  .ga-functie-list,
+  .ga-adressen-list,
+  .ga-contacten-list {
+    padding-left: .5em;
+    padding-right: .5em;
+    section:last-child{
+      margin-bottom: 10px;
+    }
   }
 
   .control-label {
@@ -285,7 +299,6 @@ fieldset fieldset legend {
   text-transform: none;
 }
 
-
 // validation
 .has-validation-error,
 .warning-block {
@@ -368,7 +381,9 @@ form[name="lidForm"], form[name="nieuwLidForm"] {
     legend{
       border-bottom:none;
     }
-    fieldset.ga-functie-list{
+    fieldset.ga-functie-list,
+    fieldset.ga-adressen-list,
+    fieldset.ga-contacten-list{
       legend{
         border-bottom: 1px solid #ddd;
         background-color:#eaeaea;
