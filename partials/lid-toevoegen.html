@@ -307,9 +307,9 @@
                 </legend>
                 <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'verbond' } | orderBy : 'beschrijving'" ng-show=" !showverbondfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
                   <label class="col-md-6 form-group control checkbox" >
-                    <div class="col-xs-11 col-xxs-11 control-label">{{ groepFunctie.beschrijving }}</div>
+                    <div class="col-xs-11 col-xxs-11 control-label ga-functie-list-item__label" ng-class="{'ga-functie-list-item__label--disabled' : groepFunctie.code == 'FV' || groepFunctie.code == 'VGA' } ">{{ groepFunctie.beschrijving }}</div>
                     <div class="col-xs-1 col-xxs-1">
-                      <input type="checkbox" ng-init="status='add';" ng-click="functieInstantiesError = false; status = functieToevoegen(groepFuncties.groepsnummer, groepFunctie.id, status)"/>
+                      <input type="checkbox" ng-init="status='add';" ng-click="functieInstantiesError = false; status = functieToevoegen(groepFuncties.groepsnummer, groepFunctie.id, status)" ng-disabled="groepFunctie.code == 'FV' || groepFunctie.code == 'VGA'" />
                       <span class="control-indicator"></span>
                     </div>
                   </label>
