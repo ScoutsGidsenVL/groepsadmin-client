@@ -7,5 +7,5 @@
   <p>{{::groepenlijst[functie.groep].naam}} - {{::functie.groep}}</p>
 </div>
 <div class="col-xs-3">
-  <p><a ng-if="!functie.einde && hasPermission('functies.' + functie.groep)" href class="btn btn-link btn-link-danger" ng-click="stopFunctie(functie)">Stop functie</a></p>
+  <p><a ng-if="!functie.einde && hasPermission('functies.' + functie.groep)" href class="btn btn-link btn-link-danger btn-link-danger--stopfunctie" ng-click="stopFunctie(functie)">Stop functie</a></p>
 </div>
