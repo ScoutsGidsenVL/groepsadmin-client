@@ -14,7 +14,6 @@
 
             var path = newPath.substr(1);
             var splitpath = path.split('/');
-            console.log(splitpath);
 
             //when a number occurs in the last element, it's an id, so we remove it
             if( /\d/.test(splitpath.slice(-1)) ){

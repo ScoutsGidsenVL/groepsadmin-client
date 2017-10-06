@@ -569,7 +569,7 @@
       });
     }
 
-    $scope.applyFilter = function(){
+    $scope.applyFilter = function(updateDropdownVal){
 
       var reconstructedFilterObj = createFilterObject();
       $scope.isSavingFilters = true;
@@ -582,6 +582,9 @@
         $scope.leden = [];
         $scope.totaalAantalLeden = -1;
         $scope.ledenLaden();
+        if(updateDropdownVal){
+          $scope.currentFilter = response;
+        }
       });
 
     }
