@@ -29,6 +29,7 @@
     'ga.dynamischevelden',
     'ga.dynamischformulier',
     'ga.actievelink',
+    'ga.wikilink',
     'ga.sparkline',
     'ga.searchcontroller',
     'ga.ui.selectpicker',
