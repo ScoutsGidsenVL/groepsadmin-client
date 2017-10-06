@@ -157,9 +157,7 @@
         $rootScope.$emit('leeftijdCriterium', value);
         hasActiveItems = true;
       }else if(!criteriaGroep.multiplePossible){
-        console.log("------ oudleden criterium ?", criteriaGroep, "value", value);
         var foundElem = _.find(criteriaGroep.items, {'value' : value});
-        console.log("foundElem", foundElem);
         if(foundElem){
           foundElem.activated = true;
           hasActiveItems = true;
@@ -203,8 +201,6 @@
     }
 
     ledenFilterService.maakFunctieGroepGroepspecifiek = function(arrGroupedFuncties){
-
-      console.log("arrGroupedFuncties",arrGroupedFuncties);
 
       var functieGroep = {};
       functieGroep.criteriaSubKey = "groepspecifiek";

@@ -608,7 +608,6 @@
 
         LLS.getLeden(offset).then(
           function(res){
-            console.log("ledenLaden : ", res );
             $scope.aantalLedenGeladen = $scope.aantalPerPagina;
             _.each(res.leden, function(val,key){
               $scope.leden.push(val);
