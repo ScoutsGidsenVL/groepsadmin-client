@@ -11,24 +11,24 @@
   // bvb. voor het laden van de ledenlijst
 
   function LedenLijstService($log, $q, RestService) {
-    var ledenFilterService = {};
+    var ledenLijstService = {};
 
-    ledenFilterService.loadingLeden = false;
+    ledenLijstService.loadingLeden = false;
 
-    ledenFilterService.getLeden = function(offset){
-      ledenFilterService.loadingLeden = true;
+    ledenLijstService.getLeden = function(offset){
+      ledenLijstService.loadingLeden = true;
 
       return $q(function(resolve,reject){
         RestService.Leden.get({offset: offset}).$promise.then(
           function (response) {
-            ledenFilterService.loadingLeden = false;
+            ledenLijstService.loadingLeden = false;
             resolve(response);
           }
         );
       })
     }
 
-    ledenFilterService.export = function(type){
+    ledenLijstService.export = function(type){
       var deferred = $q.defer();
       var file, fileUrl;
 
@@ -57,6 +57,32 @@
       return deferred.promise;
     }
 
-    return ledenFilterService;
+
+    ledenLijstService.getNextPrevLid = function(lidId, ledenlijst){
+      var nextLid, prevLid;
+
+      // ledenlijst uit rootScope ontdubbelen, op basis van lid.id
+      ledenlijst = _.uniqBy(ledenlijst, 'id');
+      // zoek index van lidId param
+      var indexLid = _.findIndex(ledenlijst, { 'id': lidId});
+      // neem volgende en vorige lid id uit de ontdubbelde lijst
+      if(ledenlijst[indexLid + 1]){
+        nextLid = ledenlijst[indexLid + 1];
+      }else{
+        nextLid = ledenlijst[0];
+      }
+      if(ledenlijst[indexLid - 1]){
+        prevLid = ledenlijst[indexLid -1];
+      }else{
+        prevLid = ledenlijst[ledenlijst.length-1];
+      }
+
+      return [prevLid, nextLid];
+
+
+    }
+
+    return ledenLijstService;
   };
+
 })();

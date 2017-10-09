@@ -35,13 +35,11 @@
     </div>
 
   </div>
-  <!--
-  TODO:
+
   <div class="pull-right btn-group">
-      <button type="button" class="btn btn-default" title="vorig lid"><span class="glyphicon glyphicon-chevron-left"></span></button>
-      <button type="button" class="btn btn-default" title="volgend lid"><span class="glyphicon glyphicon-chevron-right"></span></button>
+      <button ng-if="prevLid" type="button" class="btn btn-default" ng-click="gotoLid('prev')" title="vorig lid"><span class="glyphicon glyphicon-chevron-left"></span></button>
+      <button ng-if="nextLid" type="button" class="btn btn-default" ng-click="gotoLid('next')" title="volgend lid"><span class="glyphicon glyphicon-chevron-right"></span></button>
   </div>
-  -->
 </div>
 
 <div class="panel panel-default panel-default--hasmargin-large">

@@ -5,10 +5,9 @@
     .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('LidController', LidController);
 
-  LidController.$inject = ['$location', '$routeParams', '$scope', '$timeout', '$window', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'UserAccess', 'keycloak', 'FormValidationService' ];
+  LidController.$inject = ['$location', '$rootScope', '$routeParams', '$scope', '$timeout', '$window', 'AlertService', 'DialogService', 'keycloak', 'LedenLijstService', 'RestService',  'UserAccess', 'FormValidationService' ];
 
-  function LidController ($location, $routeParams, $scope, $timeout, $window, RestService, AlertService, DialogService, $rootScope, UserAccess, keycloak, FVS) {
-    console.log('login = ' + keycloak.authenticated);
+  function LidController ($location, $rootScope, $routeParams, $scope, $timeout, $window, AlertService, DialogService, keycloak, LLS, RestService, UserAccess, FVS) {
 
     $scope.validationErrors = [];
     if( $routeParams.id  == 'profiel'){
@@ -51,6 +50,12 @@
     UserAccess.hasAccessTo("nieuw lid").then(function(res){
       $scope.canPost = res;
     });
+
+    if( $routeParams.id  !== 'profiel'){
+      $scope.prevLid = LLS.getNextPrevLid($routeParams.id, $rootScope.leden)[0];
+      $scope.nextLid = LLS.getNextPrevLid($routeParams.id, $rootScope.leden)[1];
+    }
+
 
     RestService.Lid.get({id:$routeParams.id}).$promise.then(
       function(result) {
@@ -714,6 +719,15 @@
           unHighlightInvalidAddressesGroup();
         }
     });
+
+    $scope.gotoLid = function(direction){
+      if( direction == "next"){
+        $location.path( "/lid/" + $scope.nextLid.id);
+      }
+      if(direction == "prev"){
+        $location.path( "/lid/" + $scope.prevLid.id);
+      }
+    }
 
     var openAndHighlightCollapsedInvalidContacts = function(){
       var invalidContacten = _.filter($scope.lidForm.$error.required,function(o){return o.$name.indexOf('contacten') > -1 });

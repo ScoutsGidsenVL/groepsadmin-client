@@ -613,6 +613,8 @@
             $scope.offset = res.offset;
             $scope.isLoadingLeden = false;
             $scope.isLoadingMore = false;
+            // for use in lidcontroller (next-prev)
+            $rootScope.leden = $scope.leden;
           }
         );
       } else {

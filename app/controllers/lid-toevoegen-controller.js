@@ -8,7 +8,7 @@
   LidToevoegenController.$inject = ['$scope', '$location', '$timeout', '$window', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route', 'access', 'keycloak', 'FormValidationService'];
 
   function LidToevoegenController ($scope, $location, $timeout, $window, RestService, AlertService, DialogService, $rootScope, $route, access, keycloak, FVS) {
-    console.log('login = ' + keycloak.authenticated);
+
     var formInitiated = false;
     var aangemeldeGebruiker = {};
     if(!access){
