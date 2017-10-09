@@ -3,9 +3,9 @@
   <!-- Panel header -->
   <div class="panel-heading panel-heading--leden clearfix">
     <div class="pull-left">
-      <button class="btn btn-default btn-collapse btn-collapse--filter" ng-class="{ 'active' : isFilterCollapsed}" ng-click="toggleFilter()">
+      <button class="btn btn-collapse btn-collapse--filter" ng-class="{ 'active' : !isFilterCollapsed}" ng-click="toggleFilter()">
         <span ng-if="!isLoadingFilters && hasLoadedFilters">
-          <div class="pull-left">Filter</div>
+          <div class="pull-left">{{ isFilterCollapsed ? 'Filter tonen ' : 'Filter verbergen ' }}</div>
           <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i>
         </span>
         <div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container">
