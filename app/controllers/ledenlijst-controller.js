@@ -132,26 +132,20 @@
             // neem alle functies uit criteria met key 'functies'
             if(key === "functies") {
 
-              var promiseFunctie = RestService.Functies.get().$promise.then(
-                function (response) {
+              // voor iedere waarde van huidige criterium 'functies'
+              angular.forEach(value, function(functieID) {
+                angular.forEach($rootScope.functies, function(apiFunctie) {
+                  if (apiFunctie.id == functieID) {
+                    // check of er al een functiegroep bestaat, indien niet maak die aan
+                    if(!LFS.bestaatFunctieGroep(apiFunctie, geselecteerdeCriteria)){
+                      geselecteerdeCriteria = LFS.voegFunctieGroepToeAan(apiFunctie, geselecteerdeCriteria);
+                    }
+                    // voeg de functie toe aan de functiegroep
+                    geselecteerdeCriteria = LFS.voegItemToeAanFunctieGroep(apiFunctie, geselecteerdeCriteria);
+                  }
+                });
+              });
 
-                  // voor iedere waarde van huidige criterium 'functies'
-                  angular.forEach(value, function(functieID) {
-                    angular.forEach(response.functies, function(apiFunctie) {
-                      if (apiFunctie.id == functieID) {
-                        // check of er al een functiegroep bestaat, indien niet maak die aan
-                        if(!LFS.bestaatFunctieGroep(apiFunctie, geselecteerdeCriteria)){
-                          geselecteerdeCriteria = LFS.voegFunctieGroepToeAan(apiFunctie, geselecteerdeCriteria);
-                        }
-                        // voeg de functie toe aan de functiegroep
-                        geselecteerdeCriteria = LFS.voegItemToeAanFunctieGroep(apiFunctie, geselecteerdeCriteria);
-                      }
-                    });
-                  });
-                }
-              );
-
-              arrPromises.push(promiseFunctie);
 
             }
             else if(key === "groepen") {
@@ -751,7 +745,7 @@
         });
       });
 
-      $scope.ledenLaden();
+      //$scope.ledenLaden();
     }
 
     $rootScope.$on('leeftijdCriterium', function (event, data) {

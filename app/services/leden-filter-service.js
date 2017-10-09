@@ -13,19 +13,15 @@
   function LedenFilterService($q, $log, $rootScope, RestService) {
     var ledenFilterService = {};
 
-    ledenFilterService.getCriteria = function(){
+    ledenFilterService.getCriteria = function(functies){
       var returnObj = {};
       returnObj.arrCriteria = [];
 
       returnObj.promises = [];
       returnObj.promises[0] = RestService.Functies.get().$promise.then(
         function(result){
-          var arrTakken = [];
-          _.each(result.functies,function(val){
-            arrTakken.push(val.leeftijdsTak);
-          });
-
           var functies = result.functies;
+          $rootScope.functies = functies;
           var functieGroepen = [];
 
           // functieGroep maken van functies met type 'verbond'
