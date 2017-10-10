@@ -63,9 +63,11 @@
           }
         }
         else{
-
-          console.log(rejection);
-          AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.", 5000);
+          if(rejection.error && rejection.error_description){
+              AlertService.add('danger', rejection.error_description, 5000);
+          }else{
+              AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.", 5000);
+          }
         }
         return $q.reject(rejection);
       }

@@ -578,6 +578,12 @@
     $scope.opslaan = function() {
 
       var origineleGroepseigenVelden = $scope.lid.groepseigenVelden;
+      // backend accepteert geen lege string voor rekeningnummer
+
+      if($scope.lid.persoonsgegevens.rekeningnummer == ""){
+        $scope.lid.persoonsgegevens.rekeningnummer = null;
+      }
+
 
       if ($scope.lid.changes.indexOf("groepseigenVelden") != -1 ) {
 
@@ -642,7 +648,7 @@
           },
           function(error){
             $scope.saving = false;
-            console.log('error in opslaan', error);
+            console.log('error bij update van lid', error);
 
             if(error.data.fouten && error.data.fouten.length >=1 ){
               _.each(error.data.fouten,function(fout,key){
