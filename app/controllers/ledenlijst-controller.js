@@ -238,6 +238,15 @@
       })
     }
 
+    var setCurrentFilterLabel = function(str){
+      $scope.currentFilter.naam = str;
+    }
+
+    $scope.deactivateCriterium = function(criterium){
+      criterium.activated = false;
+      setCurrentFilterLabel('Huidige');
+    }
+
     $scope.isAllCriteriaActive = function(){
       return $scope.criteria.length == $filter('filter')($scope.criteria, {activated: true}).length;
     }
@@ -249,6 +258,7 @@
     }
 
     $scope.toggleCriteriumItem = function(criteriumItem, type, criteriumItems){
+      setCurrentFilterLabel('Huidige');
       if(type == 'checkbox'){
         if(criteriumItem && !criteriumItem.activated){
           criteriumItem.activated = true;
@@ -321,6 +331,7 @@
     }
 
     $scope.toggleAllCriteriumItems = function(criterium){
+      setCurrentFilterLabel("Huidige");
       if($scope.isAllCriteriumItemsSelected(criterium) == 'all'){
         setItemsActivated(criterium.items, false);
       }else{
@@ -329,6 +340,7 @@
     }
 
     $scope.toggleAllCriteriumItemGroups = function(criterium) {
+      setCurrentFilterLabel("Huidige");
       if($scope.isAllCriteriumItemGroupsSelected(criterium) == 'all'){
         _.each(criterium.itemgroups,function(itemgroup, key){
           setItemsActivated(itemgroup.items, false);
@@ -343,6 +355,7 @@
 
     $scope.activateCriterium = function(crit){
       crit.activated = true;
+      setCurrentFilterLabel('Huidige');
 
       if(!crit.multiValues && !(crit.criteriaSubKey == "verbonds" || crit.criteriaSubKey == "groepspecifiek")){
         if(crit.multiplePossible){
@@ -432,6 +445,7 @@
     };
 
     $scope.toggleKolom = function(kol) {
+      setCurrentFilterLabel("Huidige");
       if(kol.activated == undefined || kol.activated == false){
         kol.activated = true;
       }else{

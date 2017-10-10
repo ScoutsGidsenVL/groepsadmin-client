@@ -110,7 +110,7 @@
               <span>{{ leeftijdOpDatum[0] }} > {{ ouderDan[0] }} en < {{ jongerDan[0] }}</span>
             </span>
           </button>
-          <a ng-click="criterium.activated = false" class="filter-option-close"><i class="fa fa-trash" aria-hidden="true"></i></a>
+          <a ng-click="deactivateCriterium(criterium)" class="filter-option-close"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
           <div class="dropdown-menu" uib-dropdown-menu>
             <div class="control-selectall" ng-if="criterium.multiplePossible && criterium.items.length > 1 && criterium.criteriaKey == 'groepen' ">
@@ -202,7 +202,7 @@
         </button>
         <ul class="dropdown-menu">
           <li ng-repeat="criterium in criteria | filter : { activated : false} | orderBy:'title'">
-            <a ng-click="activateCriterium(criterium)">{{ criterium.title }}</a>
+            <a ng-click="activateCriterium(criterium);">{{ criterium.title }}</a>
           </li>
         </ul>
       </div>
