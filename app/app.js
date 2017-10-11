@@ -18,6 +18,7 @@
     'ga.lidtoevoegencontroller',
     'ga.lidindividuelesteekkaartcontroller',
     'ga.menucontroller',
+    'ga.formerrorbutton',
     'ga.groepcontroller',
     'ga.orakelcontroller',
     'ga.websitecontroller',

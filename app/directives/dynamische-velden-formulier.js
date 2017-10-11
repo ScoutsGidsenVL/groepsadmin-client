@@ -12,7 +12,8 @@
       replace: false,
       scope: {
         waarden : '=',
-        velden: '='
+        velden: '=',
+        formulier: '='
       }
     };
   }

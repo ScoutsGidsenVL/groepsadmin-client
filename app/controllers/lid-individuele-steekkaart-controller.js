@@ -94,6 +94,20 @@
           $scope.saving = false;
           AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
           $scope.individueleSteekaart.$setPristine();
+        },
+        function(error){
+          $scope.saving = false;
+          if(error.data && error.data.fouten){
+
+            _.each(error.data.fouten,function(val,key){
+              var index = val.veld;
+              $scope.individueleSteekaart[index].$setValidity('required', false);
+              $scope.setFocusFirstInvalid();
+
+
+            });
+          }
+
         }
       );
     }
@@ -102,7 +116,7 @@
     * Pagina event listeners
     * ---------------------------------------
     */
-
+    /*
     // listener voor wanneer een gebruiker van pagina veranderd en er zijn nog openstaande aanpassingen.
     $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
       if ($scope.individueleSteekaart.$dirty) {
@@ -129,6 +143,6 @@
         e.returnValue = waarschuwing; // werkt niet in alle browsers
         return e.returnValue; // werkt niet in andere browsers
       }
-    };
+    };*/
   }
 })();

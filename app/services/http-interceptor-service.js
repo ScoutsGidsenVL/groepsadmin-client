@@ -44,6 +44,16 @@
           }
 
         }
+        else if (rejection.status == 400) {
+          if(rejection.data && rejection.data.fouten){
+            var strErr = "";
+            _.each(rejection.data.fouten, function(val,key){
+              strErr += val.beschrijving + ", ";
+            })
+            AlertService.add('danger', strErr, 5000);
+          }
+
+        }
         else if (rejection.data) {
 
           if(rejection.data.fouten && rejection.data.fouten.length>0){

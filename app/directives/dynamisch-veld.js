@@ -12,7 +12,8 @@
       replace: true,
       scope: {
         waarden : '=',
-        veld: '='
+        veld: '=',
+        formulier: '='
       },
       link: function (scope, element, attrs) {
   			if (angular.isArray(scope.veld.velden)) {

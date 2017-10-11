@@ -12,10 +12,10 @@
       replace: true,
       scope: {
         waarden : '=',
-        velden: '='
+        velden: '=',
+        formulier: '='
       }
     };
   }
 
 })();
-
