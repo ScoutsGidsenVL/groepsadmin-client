@@ -24,7 +24,7 @@
     }, true);
 
     $scope.setFocusFirstInvalid = function(){
-      var firstInvalid = angular.element('.ng-invalid').focus();
+      var firstInvalid = angular.element('.ng-invalid');
       firstInvalid.focus();
     }
 
