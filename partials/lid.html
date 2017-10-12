@@ -24,12 +24,12 @@
         </button>
         <button type="button" class="btn btn-apply" ng-show="kanSchrappen || canPost" uib-dropdown-toggle>
           <span class="caret"></span>
-          <span class="sr-only">Split button!</span>
+          <span class="sr-only">Actie kiezen</span>
         </button>
         <ul class="dropdown-menu" ng-show="kanSchrappen || canPost" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-          <li role="menuitem" ng-show="lid && canSave"><a href="#" ng-click="$event.preventDefault();opslaan()" >Opslaan</a></li>
-          <li role="menuitem" ng-show="kanSchrappen"><a href="#" ng-click="$event.preventDefault();schrap()" >Stop alle functies</a></li>
-          <li role="menuitem" ng-show="canPost"><a href="#" ng-click="$event.preventDefault();nieuwlid()">Nieuw lid</a></li>
+          <li role="menuitem" ng-hide="lidForm.$invalid" ng-show="lid && canSave"><a href="#" ng-click="$event.preventDefault();opslaan()" >Opslaan</a></li>
+          <li role="menuitem" ng-hide="!kanSchrappen"><a href="#" ng-click="$event.preventDefault();schrap()" >Stop alle functies</a></li>
+          <li role="menuitem" ng-hide="!canPost"><a href="#" ng-click="$event.preventDefault();nieuwlid()">Nieuw lid</a></li>
           <li role="menuitem"><a href="#" ng-click="$event.preventDefault();gezinslid()" ng-show="lid && canPost">Broer/zus toevoegen</a></li>
           <li role="menuitem"><a href="#" ng-click="$event.preventDefault();redirectToEmailPage(lid.id)" ng-show="!isEigenProfiel">E-mail sturen</a></li>
         </ul>
