@@ -8,7 +8,7 @@
   function formerrorbutton() {
     return {
       restrict: 'E',
-      template: '<button ng-hide="!formulier.$invalid" class="btn btn-primary" type="button" ng-click="setFocusFirstInvalid();">Fouten <span class="badge">{{ formulier.$error.required.length }}</span></button>',
+      templateUrl: 'partials/formerrorbutton.html',
       replace: false,
       scope: {
         formulier: '='
@@ -16,10 +16,24 @@
       controller: ErrorButtonController
     };
   }
+
   function ErrorButtonController($scope, $attrs) {
+
+    $scope.$watch('formulier.$error', function() {
+        $scope.numberOfErrors = getNumberOfErrors();
+    }, true);
+
     $scope.setFocusFirstInvalid = function(){
       var firstInvalid = angular.element('.ng-invalid').focus();
       firstInvalid.focus();
+    }
+
+    var getNumberOfErrors = function(){
+      var numberOfErrors = 0;
+      _.each($scope.formulier.$error,function(val,key){
+        numberOfErrors += val.length;
+      })
+      return numberOfErrors;
     }
   }
 
