@@ -152,12 +152,13 @@
     border: none;
 
     &:hover {
-      #gradient .vertical(rgba(0,0,0,0.12), rgba(0,0,0,0));
-
-      .filter-option-close {
-        //display: none;
-      }
+      #gradient .vertical-three-colors(rgba(0,0,0,0), rgba(0,0,0,0), 50%, rgba(0,0,0,0));
     }
+  }
+}
+.filter-option .btn {
+  &:hover {
+    #gradient .vertical-three-colors(rgba(0,0,0,0),fade(@sgv-lichtgroen, 30%), 50%, rgba(0,0,0,0));
   }
 }
 .btn-group.filter-option--criteria.dropdown.open button{
