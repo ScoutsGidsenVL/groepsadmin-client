@@ -19,8 +19,12 @@
 
 .table-leden {
   margin-bottom:0;
-  tr {
+  tbody > tr {
     cursor: pointer;
+    transition: all .2s ease;
+    &:hover{
+      background-color:@gray-lighter;
+    }
   }
   tr td{
     padding-top: 0;
