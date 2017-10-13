@@ -123,7 +123,6 @@
               accept: 'application/pdf'
           },
           responseType: 'arraybuffer',
-          cache: true,
           transformResponse: function (data) {
               var pdf;
               if (data) {
@@ -146,7 +145,6 @@
               accept: 'text/csv'
           },
           responseType: 'arraybuffer',
-          cache: true,
           transformResponse: function (data) {
               var csv;
               if (data) {
@@ -169,7 +167,6 @@
               accept: 'application/pdf'
           },
           responseType: 'arraybuffer',
-          cache: true,
           transformResponse: function (data) {
               var pdf;
               if (data) {
