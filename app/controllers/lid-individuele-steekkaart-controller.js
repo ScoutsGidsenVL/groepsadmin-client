@@ -82,9 +82,18 @@
 
     $scope.opslaan = function() {
 
+      // velden met lege strings omzetten naar null waarden, want backend accepteert geen lege strings (lijsten)
+      var waarden = {};
+      angular.copy($scope.individueleSteekkaartWaarden, waarden);
+      _.each(waarden,function(val,key){
+        if(val === ""){
+          waarden[key] = null;
+        }
+      });
+
       var request = {
         gegevens: {
-          waarden: $scope.individueleSteekkaartWaarden
+          waarden: waarden
         }
       };
 
