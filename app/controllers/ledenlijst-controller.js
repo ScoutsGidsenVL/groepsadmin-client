@@ -732,7 +732,16 @@
       $scope.exportButtons[type].isLoading = true;
       LLS.export(type).then(function(res){
         $scope.exportButtons[type].isLoading = false;
-        $window.open(res, '_blank', '');
+        var a = document.createElement('a');
+        a.href = res.fileUrl;
+        a.target = '_blank';
+        a.download = res.title;
+
+        document.body.appendChild(a);
+        a.click();
+      },function(err){
+        AlertService.add('danger', "De ledenlijst kon niet worden geëxporteerd", 5000);
+        $scope.exportButtons[type].isLoading = false;
       })
     }
 
