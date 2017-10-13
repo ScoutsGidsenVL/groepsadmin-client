@@ -151,14 +151,12 @@
     background-color: @sgv-lichtgroen;
     border: none;
 
-    &:hover {
-      #gradient .vertical-three-colors(rgba(0,0,0,0), rgba(0,0,0,0), 50%, rgba(0,0,0,0));
-    }
   }
 }
-.filter-option .btn {
+.filter-option.filter-option--criteria .btn {
   &:hover {
-    #gradient .vertical-three-colors(rgba(0,0,0,0),fade(@sgv-lichtgroen, 30%), 50%, rgba(0,0,0,0));
+    background-color: @sgv-lichtgroen;
+    color:@gray-darker;
   }
 }
 .btn-group.filter-option--criteria.dropdown.open button{
