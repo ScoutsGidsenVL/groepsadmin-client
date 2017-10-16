@@ -257,8 +257,9 @@
 
   <!-- Table -->
   <div class="panel-leden">
+    <div style="overflow: auto; max-height: 800px;">
     <table id="leden" class="table table-responsive table-leden" >
-      <thead>
+      <thead fix-head>
         <tr ng-show='!isLoadingLeden'>
           <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'">{{ kolom.label }}</th>
         </tr>
@@ -273,16 +274,14 @@
             </div>
             <div ng-if="kolom.isLoaded && kolom.type != 'vinkje'">{{ lid.waarden[kolom.id] }}</div>
           </td>
-          <td class="t-caret" role="button"><span class="caret"></span></td>
         </tr>
       </tbody>
     </table>
-
     <footer class="panel-footer clearfix">
       <div ng-show='isLoadingLeden' class="loading"><i class="fa fa-spinner fa-pulse"></i>Leden aan het ophalen... </div>
       <div ng-show='isLoadingMore' class="loading"><i class="fa fa-spinner fa-pulse"></i>Meer leden aan het ophalen... </div>
     </footer>
-  </div>
+    </div>
 
 </div>
 

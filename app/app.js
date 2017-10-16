@@ -43,7 +43,8 @@
     'ngMessages',
     'angular.filter',
     'angulartics',
-    'angulartics.piwik'
+    'angulartics.piwik',
+    'fixed.table.header'
   ])
 
   // lodash for use in controllers, unit tests
