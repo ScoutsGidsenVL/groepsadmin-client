@@ -118,14 +118,6 @@
               </div>
             </div>
           </div>
-          <div class="form-group" ng-show="lid.adressen.length > 1">
-            <label for="_postadres" class="col-xs-5 col-xxs-12 control-label">Postadres</label>
-            <div class="col-xs-7 col-xxs-12">
-              <select id="_postadres" ng-model="postadres" ng-change="changePostadres(postadres)">
-                <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" ng-selected="adres.postadres">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
-              </select>
-            </div>
-          </div>
         </fieldset>
       </section>
     </div>
@@ -147,8 +139,8 @@
                       {{ adres.nummer ? adres.nummer :''}}
                       {{ adres.bus ? adres.bus :''}}
                       {{ adres.bus || adres.nummer || adres.straat ? ',' : '' }}
-                      {{ adres.postcode ? adres.postcode :''}}
                       {{ adres.gemeente ? adres.gemeente :''}}
+                      {{ adres.postadres ? ' ' : '' }}<i ng-if="adres.postadres" class="fa fa-envelope" aria-hidden="true"></i>
                     <div class="pull-right" ng-init="showme = (adres.postadres == true) ? true : false; " class="pull-left">
                       <button type="button" class="btn-minimal">
                         <span ng-hide="adres.showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
@@ -207,6 +199,13 @@
                       </div>
                     </div>
                   </div>
+                  <label class="form-group control checkbox" ng-show="lid">
+                    <div class="col-xs-4 col-xxs-12 control-label">Postadres</div>
+                    <div class="col-xs-8 col-xxs-12">
+                      <input type="checkbox" class="" id="_postadres" ng-model="adres.postadres" ng-click="changePostadres(adres.id)" />
+                      <span class="control-indicator"></span>
+                    </div>
+                  </label>
                 </fieldset>
               </section>
           </fieldset>

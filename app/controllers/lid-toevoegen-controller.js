@@ -68,7 +68,7 @@
         lid.adressen = Array();
         var newadres = {
           land: "BE",
-          postadres: false,
+          postadres: true,
           omschrijving: "",
           id: 'tempadres' + Math.random(),
           bus: null
@@ -151,6 +151,46 @@
       $scope.$watch(value, setChanges, true);
     });
 
+
+
+    $scope.changePostadres = function(adresID){
+      angular.forEach($scope.lid.adressen, function(value,index){
+        if(value.id == adresID){
+          value.postadres = true;
+        }
+        else{
+          value.postadres = false;
+        }
+      });
+      getPostadresString();
+    }
+
+    var getPostadresString = function(){
+      angular.forEach($scope.lid.adressen, function(value){
+        if(value.postadres){
+          $scope.postadresString = '';
+          if( value.straat ){
+            $scope.postadresString = $scope.postadresString + value.straat;
+          }
+          if( value.nummer ){
+            $scope.postadresString = $scope.postadresString + ' ' + value.nummer;
+          }
+          if( value.bus ){
+            $scope.postadresString = $scope.postadresString + ' ' + value.bus;
+          }
+          if( value.postcode ){
+            $scope.postadresString = $scope.postadresString + ', ' + value.postcode;
+          }
+          if( value.gemeente ){
+            $scope.postadresString = $scope.postadresString + ' ' + value.gemeente;
+          }
+          if($scope.postadresString == '' ){
+            $scope.postadresString = 'Nieuw adres';
+          }
+        }
+      })
+    }
+
     /*
     * Contacten
     * ---------------------------------------
@@ -191,10 +231,16 @@
           id: 'tempadres' + Math.random(),
           bus: null
         }
+        if(!_.find($scope.lid.adressen, {postadres:true})){
+          newadres.postadres = true;
+        }
         var lid = {};
         lid.id = $scope.lid.id;
         lid.adressen = $scope.lid.adressen;
         lid.adressen.push(newadres);
+
+
+
       }else{
         AlertService.add('danger', "Nieuwe adressen kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.", 5000);
       }
@@ -313,12 +359,7 @@
       // Stel het juiste formaat in voor de geboortedatum
       origineelLid.vgagegevens.geboortedatum =  $scope.lid.vgagegevens.geboortedatum.toISOString().slice(0,10);
 
-      // Maak het van eerste adres het postadres
-      var firstAdres = true;
-      _.forEach(origineelLid.adressen, function(adres) {
-        adres.postadres = firstAdres;
-        firstAdres = false;
-      });
+
 
       RestService.LidAdd.save(origineelLid).$promise.then(
         function(response) {
