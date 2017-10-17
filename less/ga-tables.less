@@ -66,6 +66,17 @@
   background: #A9C593;
 }
 
+.panel-default > table.table-leden--sticky{
+  display: block;
+  overflow: hidden;
+  position: fixed;
+  z-index: @zindexTableHeadScrolling;
+  background: @panel-bg;
+  top: 60px;
+  thead{
+    border-right: 1px solid @panel-bg;
+  }
+}
 // @media screen and (max-width: 640px) {
 //   #leden {
 //     border: 0;

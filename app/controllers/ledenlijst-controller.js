@@ -574,6 +574,7 @@
         activeerCriteria();
         activeerKolommen();
         $scope.applyFilter();
+
       });
     }
 
@@ -595,8 +596,40 @@
         if(updateDropdownVal){
           $scope.currentFilter = response;
         }
-      });
 
+      });
+    }
+
+    angular.element($window).bind("scroll", function(e) {
+        $scope.setStickyTableHeader();
+    });
+    angular.element($window).bind("resize", function(e) {
+        $scope.setStickyTableHeader();
+    });
+
+    $scope.setStickyTableHeader = function(){
+      var $panelheading = angular.element('.panel-heading');
+      var $panelfilter = angular.element('.panel-filter');
+      var $navbar = angular.element('.navbar-default');
+      var $tableHead = angular.element('.panel-default > table#leden');
+      var panelFilterHeight;
+      $tableHead.css({ 'width': $panelheading.outerWidth() });
+
+      if($scope.isFilterCollapsed){
+        panelFilterHeight = 0;
+      }else{
+        panelFilterHeight = $panelfilter.outerHeight();
+      }
+
+      if(window.scrollY >= $panelheading.outerHeight() + panelFilterHeight){
+        $scope.tableheaderIsSticky = true;
+        $tableHead.css({ 'top' : $navbar.outerHeight() + angular.element('#global-menu').outerHeight() });
+        $scope.$apply();
+
+      }else{
+        $scope.tableheaderIsSticky = false;
+        $scope.$apply();
+      }
     }
 
     /*
@@ -631,6 +664,7 @@
             $scope.isLoadingMore = false;
             // for use in lidcontroller (next-prev)
             $rootScope.leden = $scope.leden;
+            _.defer(function(){$scope.$apply();});
           }
         );
       } else {
