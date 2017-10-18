@@ -258,13 +258,7 @@
 
     // contacten wissen in het model
     $scope.deleteContact = function(contactID){
-      var contactIndex;
-      angular.forEach($scope.lid.contacten, function(value, index){
-        if(value.id == contactID){
-          contactIndex = index;
-        }
-      });
-      $scope.lid.contacten.splice(contactIndex,1);
+      _.remove($scope.lid.contacten, {id:contactID});
     }
 
     // nieuw contact toevoegen aan het model
