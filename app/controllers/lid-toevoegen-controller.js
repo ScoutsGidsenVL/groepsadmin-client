@@ -5,9 +5,9 @@
     .module('ga.lidtoevoegencontroller', ['ga.services.alert', 'ga.services.dialog'])
     .controller('LidToevoegenController', LidToevoegenController);
 
-  LidToevoegenController.$inject = ['$scope', '$location', '$timeout', '$window', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route', 'access', 'keycloak', 'FormValidationService'];
+  LidToevoegenController.$inject = ['$scope', '$location', '$timeout', '$window', 'LidService', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route', 'access', 'keycloak', 'FormValidationService'];
 
-  function LidToevoegenController ($scope, $location, $timeout, $window, RestService, AlertService, DialogService, $rootScope, $route, access, keycloak, FVS) {
+  function LidToevoegenController ($scope, $location, $timeout, $window, LS, RestService, AlertService, DialogService, $rootScope, $route, access, keycloak, FVS) {
 
     var formInitiated = false;
     var aangemeldeGebruiker = {};
@@ -70,7 +70,7 @@
           land: "BE",
           postadres: true,
           omschrijving: "",
-          id: 'tempadres' + Math.random(),
+          id: 'tempadres' + Date.now(),
           bus: null
         }
         lid.adressen[0] = newadres;
@@ -82,7 +82,7 @@
         delete $rootScope.familielid;
         // controle of er adressen e.d. aanwezig zijn. => temp id's geven.
         angular.forEach(lid.adressen, function(adres, key){
-          var randomId = "" + Math.random();
+          var randomId = "" + Date.now();
           angular.forEach(lid.contacten, function(contact, key){
               if(adres.id == contact.adres){
                 contact.adres = randomId;
@@ -162,33 +162,6 @@
           value.postadres = false;
         }
       });
-      getPostadresString();
-    }
-
-    var getPostadresString = function(){
-      angular.forEach($scope.lid.adressen, function(value){
-        if(value.postadres){
-          $scope.postadresString = '';
-          if( value.straat ){
-            $scope.postadresString = $scope.postadresString + value.straat;
-          }
-          if( value.nummer ){
-            $scope.postadresString = $scope.postadresString + ' ' + value.nummer;
-          }
-          if( value.bus ){
-            $scope.postadresString = $scope.postadresString + ' ' + value.bus;
-          }
-          if( value.postcode ){
-            $scope.postadresString = $scope.postadresString + ', ' + value.postcode;
-          }
-          if( value.gemeente ){
-            $scope.postadresString = $scope.postadresString + ' ' + value.gemeente;
-          }
-          if($scope.postadresString == '' ){
-            $scope.postadresString = 'Nieuw adres';
-          }
-        }
-      })
     }
 
     /*
@@ -228,7 +201,7 @@
           land: "BE",
           postadres: false,
           omschrijving: "",
-          id: 'tempadres' + Math.random(),
+          id: 'tempadres' + Date.now(),
           bus: null
         }
         if(!_.find($scope.lid.adressen, {postadres:true})){
@@ -270,16 +243,7 @@
 
     // zoek gemeentes
     $scope.zoekGemeente = function(zoekterm){
-      var resultaatGemeentes = [];
-      return RestService.Gemeente.get({zoekterm:zoekterm, token:1}).$promise.then(
-          function(result){
-            angular.forEach(result, function(val){
-              if(typeof val == 'string'){
-                resultaatGemeentes.push(val);
-              }
-            });
-            return resultaatGemeentes;
-        });
+      return LS.zoekGemeente(zoekterm);
     }
 
     // gemeente opslaan in het adres
@@ -495,6 +459,8 @@
     }
 
     // END TO DO REMOVE DUPLICATE
+
+
 
     $scope.updateSuggesties = function() {
       return RestService.GelijkaardigZoeken.get({
