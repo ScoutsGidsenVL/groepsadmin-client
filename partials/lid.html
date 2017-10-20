@@ -2,18 +2,27 @@
 <!-- Panel header -->
 <div class="panel-heading panel-fixed panel-fixed--large  clearfix">
   <div class="pull-left">
+
     <h1 class="panel-title" ng-bind="lid.vgagegevens.voornaam + ' ' + lid.vgagegevens.achternaam"></h1>
     <h2 class="panel-subtitle" ng-bind="lid.verbondsgegevens.lidnummer"></h2>
+    <!-- Placeholders-->
+    <h1 class="panel-title placeholder placeholder--blurred" ng-show="!lid">Plaatshouder</h1>
+    <h2 class="panel-subtitle placeholder placeholder--blurred" ng-show="!lid">1988randomnumber3791</h2>
+    <!-- END OF Placeholders-->
     <p><a href="#/lid/individuelesteekkaart/{{lid.id}}"><i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele steekkaart</a></p>
 
+  </div>
+  <div class="pull-right btn-group">
+      <button ng-if="prevLid" type="button" class="btn btn-default" ng-click="gotoLid('prev')" title="vorig lid"><span class="glyphicon glyphicon-chevron-left"></span></button>
+      <button ng-if="nextLid" type="button" class="btn btn-default" ng-click="gotoLid('next')" title="volgend lid"><span class="glyphicon glyphicon-chevron-right"></span></button>
   </div>
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
       <formerrorbutton formulier="lidForm"></formerrorbutton>
-      <button type="submit" class="btn btn-apply" ng-disabled="lidForm.$invalid" ng-click="opslaan()" ng-show="lid && canSave"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
-      <button type="button" class="btn btn-secondary" ng-click="schrap()" ng-show="kanSchrappen"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop alle functies</button>
-      <button type="button" class="btn btn-secondary" ng-click="nieuwlid()" ng-show="canPost"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Nieuw lid</button>
-      <button type="button" class="btn btn-secondary" ng-click="gezinslid()" ng-show="lid && canPost"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Broer/zus toevoegen</button>
+      <button type="submit" class="btn btn-apply" ng-disabled="lidForm.$invalid" ng-click="opslaan()" ng-hide="(!lid || !canSave) && lidPropertiesWatchable"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
+      <button type="button" class="btn btn-secondary" ng-click="schrap()" ng-hide="!kanSchrappen && lidPropertiesWatchable" ng-disabled="!kanSchrappen"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop alle functies</button>
+      <button type="button" class="btn btn-secondary" ng-click="nieuwlid()" ng-hide="!canPost && lidPropertiesWatchable" ng-disabled="!canPost"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Nieuw lid</button>
+      <button type="button" class="btn btn-secondary" ng-click="gezinslid()" ng-hide="(!lid || !canPost) && lidPropertiesWatchable" ng-disabled="!lid || !canPost"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Broer/zus toevoegen</button>
       <button type="button" class="btn btn-secondary" ng-click="redirectToEmailPage(lid.id)" ng-show="!isEigenProfiel"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;E-mail sturen</button>
     </div>
     <div class="hidden-md hidden-lg">
@@ -38,10 +47,7 @@
 
   </div>
 
-  <div class="pull-right btn-group">
-      <button ng-if="prevLid" type="button" class="btn btn-default" ng-click="gotoLid('prev')" title="vorig lid"><span class="glyphicon glyphicon-chevron-left"></span></button>
-      <button ng-if="nextLid" type="button" class="btn btn-default" ng-click="gotoLid('next')" title="volgend lid"><span class="glyphicon glyphicon-chevron-right"></span></button>
-  </div>
+
 </div>
 
 <div class="panel panel-default panel-default--hasmargin-large">
