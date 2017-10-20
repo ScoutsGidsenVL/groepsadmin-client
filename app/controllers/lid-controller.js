@@ -5,82 +5,85 @@
     .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('LidController', LidController);
 
-  LidController.$inject = ['$location', '$rootScope', '$routeParams', '$scope', '$timeout', '$window', 'AlertService', 'DialogService', 'keycloak', 'LedenLijstService', 'RestService',  'UserAccess', 'FormValidationService' ];
+  LidController.$inject = ['$location', '$rootScope', '$routeParams', '$scope', '$timeout', '$window', 'AlertService', 'DialogService', 'keycloak', 'LedenLijstService', 'LidService', 'RestService',  'UserAccess', 'FormValidationService' ];
 
-  function LidController ($location, $rootScope, $routeParams, $scope, $timeout, $window, AlertService, DialogService, keycloak, LLS, RestService, UserAccess, FVS) {
+  function LidController ($location, $rootScope, $routeParams, $scope, $timeout, $window, AlertService, DialogService, keycloak, LLS, LS, RestService, UserAccess, FVS) {
 
-    $scope.validationErrors = [];
-    if( $routeParams.id  == 'profiel'){
-      $scope.isEigenProfiel = true;
-    }
 
-    var sectie
     var lidPropertiesWatchable = false;
 
-    $scope.canPost = false;
-    $scope.contactRollen = [
-      {
-        'value':'moeder',
-        'label':'Moeder'
-      },
-      {
-        'value':'vader',
-        'label':'Vader'
-      },
-      {
-        'value':'voogd',
-        'label':'Voogd'
-      },
-    ];
+    var init = function(){
+      $scope.validationErrors = [];
 
-    $scope.dateOptions = {
-      formatYear: 'yyyy',
-      startingDay: 1,
-      datepickerMode:'year'
-    };
-    $scope.popupCal = {
-      opened: false
-    };
-    $scope.popupCal = function() {
-      $scope.popupCal.opened = true;
-    };
-    $scope.formats = ['dd/MM/yyyy'];
-    $scope.format = $scope.formats[0];
-
-    UserAccess.hasAccessTo("nieuw lid").then(function(res){
-      $scope.canPost = res;
-    });
-
-    if( $routeParams.id  !== 'profiel'){
-      $scope.prevLid = LLS.getNextPrevLid($routeParams.id, $rootScope.leden)[0];
-      $scope.nextLid = LLS.getNextPrevLid($routeParams.id, $rootScope.leden)[1];
-    }
-
-
-    RestService.Lid.get({id:$routeParams.id}).$promise.then(
-      function(result) {
-        $scope.lid = result;
-        loadSuccess($scope.lid);
-        getPostadresString();
-
-        $timeout(function () {
-          // pas wanneer de lid gegevens geladen zijn mag $watch (in de loadSuccess() functie) controle toepassen op changes
-          lidPropertiesWatchable = true;
-        }, 2000);
-
-      },
-      function(error) {
-        console.log(error);
-        if(error.data && error.data.beschrijving == "Geen leesrechten op dit lid"){
-          //redirect to lid overzicht.
-          $location.path('/');
-          AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
-        }
-        else{
-          AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
-        }
+      if( $routeParams.id  == 'profiel'){
+        $scope.isEigenProfiel = true;
       }
-    );
+
+      $scope.canPost = false;
+      $scope.contactRollen = [
+        {
+          'value':'moeder',
+          'label':'Moeder'
+        },
+        {
+          'value':'vader',
+          'label':'Vader'
+        },
+        {
+          'value':'voogd',
+          'label':'Voogd'
+        },
+      ];
+
+      $scope.dateOptions = {
+        formatYear: 'yyyy',
+        startingDay: 1,
+        datepickerMode:'year'
+      };
+      $scope.popupCal = {
+        opened: false
+      };
+      $scope.popupCal = function() {
+        $scope.popupCal.opened = true;
+      };
+      $scope.formats = ['dd/MM/yyyy'];
+      $scope.format = $scope.formats[0];
+
+      UserAccess.hasAccessTo("nieuw lid").then(function(res){
+        $scope.canPost = res;
+      });
+
+      if( $routeParams.id  !== 'profiel'){
+        $scope.prevLid = LLS.getNextPrevLid($routeParams.id, $rootScope.leden)[0];
+        $scope.nextLid = LLS.getNextPrevLid($routeParams.id, $rootScope.leden)[1];
+      }
+
+      RestService.Lid.get({id:$routeParams.id}).$promise.then(
+        function(result) {
+          $scope.lid = result;
+          loadSuccess($scope.lid);
+          initModel();
+
+          $timeout(function () {
+            // pas wanneer de lid gegevens geladen zijn mag $watch (in de loadSuccess() functie) controle toepassen op changes
+            lidPropertiesWatchable = true;
+          }, 2000);
+
+        },
+        function(error) {
+          console.log(error);
+          if(error.data && error.data.beschrijving == "Geen leesrechten op dit lid"){
+            //redirect to lid overzicht.
+            $location.path('/');
+            AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
+          }
+          else{
+            AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+          }
+        }
+      );
+
+    }
 
     /*
     * Algemeen
@@ -88,47 +91,10 @@
     */
 
     // initialisatie
-    function initModel() {
-      // Changes object bijhouden: enkel de gewijzigde properties meesturen met PATCH
-      $scope.lid.changes = new Array();
 
-      // Functiehistoriek weergeven/verbergen
-      $scope.isFunctiesCollapsed = true;
-
-      // Functies samenvoegen in één Array (Tijdelijk tot API update)
-      var f = [];
-      angular.forEach($scope.lid.functies, function(value) {
-        f = f.concat(value);
-      });
-      $scope.lid.functies = f;
-
-      // Alle actieve functies ophalen
-      $scope.functieslijst = [];
-      angular.forEach($scope.lid.functies, function(value, key) {
-        RestService.Functie.get({functieId:value.functie}).$promise.then(
-          function(result){
-            $scope.functieslijst[value.functie] = result;
-        });
-      });
-
-      // Alle actieve groepen ophalen
-      $scope.groepenlijst = [];
-      angular.forEach($scope.lid.functies, function(value, key) {
-        if($scope.groepenlijst[value.groep]) return;
-        var gr = RestService.Groep.get({id:value.groep});
-        $scope.groepenlijst[value.groep] = gr;
-      });
-
-      $scope.postadres;
-      angular.forEach($scope.lid.adressen, function(value, key) {
-        if(value.postadres == true){
-          $scope.postadres = value.id;
-        }
-      });
-    }
 
     function loadSuccess(data) {
-      initModel();
+      var sectie;
 
       // init watch, naar welke objecten/delen van het lid object moet er gekeken worden om aanpassingen bij te houden?
       angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies', 'lid.groepseigenVelden','lid.vgagegevens'], function(value, key) {
@@ -191,6 +157,50 @@
           );
         }
       );
+
+
+
+    }
+
+    function initModel() {
+      // Changes object bijhouden: enkel de gewijzigde properties meesturen met PATCH
+      $scope.lid.changes = new Array();
+
+      // Functiehistoriek weergeven/verbergen
+      $scope.isFunctiesCollapsed = true;
+
+      // Functies samenvoegen in één Array (Tijdelijk tot API update)
+      var f = [];
+      angular.forEach($scope.lid.functies, function(value) {
+        f = f.concat(value);
+      });
+      $scope.lid.functies = f;
+
+      // Alle actieve functies ophalen
+      $scope.functieslijst = [];
+      angular.forEach($scope.lid.functies, function(value, key) {
+        RestService.Functie.get({functieId:value.functie}).$promise.then(
+          function(result){
+            $scope.functieslijst[value.functie] = result;
+        });
+      });
+
+      // Alle actieve groepen ophalen
+      $scope.groepenlijst = [];
+
+
+      angular.forEach($scope.lid.functies, function(value, key) {
+        if($scope.groepenlijst[value.groep]) return;
+        var gr = RestService.Groep.get({id:value.groep});
+        $scope.groepenlijst[value.groep] = gr;
+      });
+
+      $scope.postadres;
+      angular.forEach($scope.lid.adressen, function(value, key) {
+        if(value.postadres == true){
+          $scope.postadres = value.id;
+        }
+      });
     }
 
     // Schrijfrechten kunnen per sectie ingesteld zijn. Controlleer als sectienaam voorkomt in PATCH opties.
@@ -221,35 +231,7 @@
           value.postadres = false;
         }
       });
-      getPostadresString();
     }
-
-    var getPostadresString = function(){
-      angular.forEach($scope.lid.adressen, function(value){
-        if(value.postadres){
-          $scope.postadresString = '';
-          if( value.straat ){
-            $scope.postadresString = $scope.postadresString + value.straat;
-          }
-          if( value.nummer ){
-            $scope.postadresString = $scope.postadresString + ' ' + value.nummer;
-          }
-          if( value.bus ){
-            $scope.postadresString = $scope.postadresString + ' ' + value.bus;
-          }
-          if( value.postcode ){
-            $scope.postadresString = $scope.postadresString + ', ' + value.postcode;
-          }
-          if( value.gemeente ){
-            $scope.postadresString = $scope.postadresString + ' ' + value.gemeente;
-          }
-          if($scope.postadresString == '' ){
-            $scope.postadresString = 'Nieuw adres';
-          }
-        }
-      })
-    }
-
 
     /*
     * Contacten
@@ -266,7 +248,8 @@
       if(formIsValid){
         var newcontact = {
           'rol': 'moeder',
-          'adres': $scope.lid.adressen[0].id
+          'adres': $scope.lid.adressen[0].id,
+          'id' : '' + Date.now()
         };
         $scope.lid.contacten.push(newcontact);
       }else{
@@ -328,16 +311,7 @@
 
     // zoek gemeentes
     $scope.zoekGemeente = function(zoekterm){
-      var resultaatGemeentes = [];
-      return RestService.Gemeente.get({zoekterm:zoekterm, token:1}).$promise.then(
-          function(result){
-            angular.forEach(result, function(val){
-              if(typeof val == 'string'){
-                resultaatGemeentes.push(val);
-              }
-            });
-            return resultaatGemeentes;
-        });
+      return LS.zoekGemeente(zoekterm);
     }
 
     // gemeente opslaan in het adres
@@ -578,7 +552,6 @@
         $scope.lid.persoonsgegevens.rekeningnummer = null;
       }
 
-
       if ($scope.lid.changes.indexOf("groepseigenVelden") != -1 ) {
 
         // Deep copy - https://stackoverflow.com/a/5344074
@@ -617,7 +590,7 @@
           //console.log(contacten);
           $scope.lid.contacten = contacten;
           $scope.lid.changes = Array();
-          $scope.lid.groepseigenVelden.push("contacten");
+
           //aangepaste contacten opsturen naar server.
           $scope.lid.$update(function(response) {
             $scope.saving = false;
@@ -729,6 +702,8 @@
       }
     }
 
+
+
     var openAndHighlightCollapsedInvalidContacts = function(){
       var invalidContacten = _.filter($scope.lidForm.$error.required,function(o){return o.$name.indexOf('contacten') > -1 });
       _.each(invalidContacten, function(contact){
@@ -771,5 +746,9 @@
       e.returnValue = waarschuwing;
       return e.returnValue;
     };
+
+
+
+    init();
   }
 })();
