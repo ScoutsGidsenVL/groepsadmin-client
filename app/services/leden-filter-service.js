@@ -12,6 +12,7 @@
 
   function LedenFilterService($q, $log, $rootScope, RestService) {
     var ledenFilterService = {};
+    var cachedHuidigeFilter = {}
 
     ledenFilterService.getCriteria = function(functies){
       var returnObj = {};
@@ -96,15 +97,26 @@
       return returnObj;
     }
 
-    ledenFilterService.getFilter = function(filterId){
+    ledenFilterService.getFilter = function(filterId, initialLoad){
       var returnObj = {};
       returnObj.currentFilter = {};
       returnObj.promises = [];
-      returnObj.promises[0] = RestService.FilterDetails.get({id: filterId}).$promise.then(
-      function (res) {
-        $log.debug('LFS -- getFilter by id: ' + filterId, res);
-        returnObj.currentFilter = res;
-      });
+      // check if filter is already available on initial load of ledenlijst-page
+      if(initialLoad && !_.isEmpty(cachedHuidigeFilter)){
+        var deferred = $q.defer();
+        returnObj.currentFilter = cachedHuidigeFilter
+        deferred.resolve(returnObj.currentFilter);
+        returnObj.promises[0] = deferred.promise
+
+      }else{
+        returnObj.promises[0] = RestService.FilterDetails.get({id: filterId}).$promise.then(
+        function (res) {
+          $log.debug('LFS -- getFilter by id: ' + filterId, res);
+          returnObj.currentFilter = res;
+          cachedHuidigeFilter = res;
+        });
+      }
+
       return returnObj;
     }
 

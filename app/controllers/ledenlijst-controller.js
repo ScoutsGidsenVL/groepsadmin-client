@@ -116,11 +116,12 @@
     // Ook worden alle mogelijke functies/ groepen waartoe de gebruiker toegang heeft opgehaald
     //
 
-    function stelFilterSamen(filterId){
+    function stelFilterSamen(filterId, initialLoad){
 
       var deferred = $q.defer();
 
-      var currFilter = LFS.getFilter(filterId);
+      var currFilter = LFS.getFilter(filterId, initialLoad);
+
       // Filter ophalen adhv filterId
         $q.all(currFilter.promises).then(function(){
           var arrPromises = [];
@@ -763,7 +764,8 @@
       };
 
       initCriteriaKolommenFilters().then(function(){
-        stelFilterSamen('huidige').then(function(){
+        var isInitialLoad = true;
+        stelFilterSamen('huidige',isInitialLoad).then(function(){
           $scope.isLoadingFilters = false;
           // variable om te voorkomen dat content flikkert
           $scope.hasLoadedFilters = true;
