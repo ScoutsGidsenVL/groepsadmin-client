@@ -628,7 +628,6 @@
         $tableHead.css({ 'top' : $navbarOuterHeight + $globalMenuOuterHeight });
         if(!$scope.tableheaderIsSticky){
           $scope.tableheaderIsSticky = true;
-          console.log("apply scope");
           $scope.$apply();
         }else{
           $scope.tableheaderIsSticky = true;
