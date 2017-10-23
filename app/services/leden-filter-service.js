@@ -464,7 +464,6 @@
       reconstructedFilterObj.kolommen = activeKolommen;
       reconstructedFilterObj.groepen = patchedFilterObj.groepen;
       reconstructedFilterObj.sortering = patchedFilterObj.sortering;
-      reconstructedFilterObj.sortering = [];
       reconstructedFilterObj.type = patchedFilterObj.type;
       reconstructedFilterObj.links = patchedFilterObj.links;
 

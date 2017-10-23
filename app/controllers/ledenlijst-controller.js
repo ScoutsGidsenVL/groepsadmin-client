@@ -481,6 +481,7 @@
         currentFilter.criteria.leeftijd.op31december = $scope.leeftijdOpDatum[1];
       }
 
+      currentFilter.sortering = actKolommen.slice(0,3);
 
       return LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, currentFilter);
     };
