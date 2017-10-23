@@ -89,3 +89,19 @@
 .nopadding{
   padding: 0 !important;
 }
+
+.forceshow{
+  visibility: visible !important;
+}
+
+.blur(@blur:4px){
+  filter: blur(@blur);
+  -webkit-filter: blur(@blur);
+  -moz-filter: blur(@blur);
+  -o-filter: blur(@blur);
+  -ms-filter: blur(@blur);
+}
+
+.placeholder--blurred{
+  .blur(8px);
+}

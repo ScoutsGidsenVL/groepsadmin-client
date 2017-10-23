@@ -9,8 +9,7 @@
 
   function LidController ($location, $rootScope, $routeParams, $scope, $timeout, $window, AlertService, DialogService, keycloak, LLS, LS, RestService, UserAccess, FVS) {
 
-
-    var lidPropertiesWatchable = false;
+    $scope.lidPropertiesWatchable = false;
 
     var init = function(){
       $scope.validationErrors = [];
@@ -66,7 +65,7 @@
 
           $timeout(function () {
             // pas wanneer de lid gegevens geladen zijn mag $watch (in de loadSuccess() functie) controle toepassen op changes
-            lidPropertiesWatchable = true;
+            $scope.lidPropertiesWatchable = true;
           }, 2000);
 
         },
@@ -99,7 +98,7 @@
       // init watch, naar welke objecten/delen van het lid object moet er gekeken worden om aanpassingen bij te houden?
       angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies', 'lid.groepseigenVelden','lid.vgagegevens'], function(value, key) {
         $scope.$watch(value, function(newVal, oldVal, scope) {
-            if(lidPropertiesWatchable){
+            if($scope.lidPropertiesWatchable){
               if (newVal == oldVal) return;
               sectie = value.split(".").pop();
               if($scope.lid.changes.indexOf(sectie) < 0) {
@@ -130,36 +129,35 @@
       $scope.canSave = _.has($scope, 'patchObj.secties');
 
       //init functies;
-      RestService.Functies.get().$promise.then(
-        function(result){
-          var functies = result;
-          RestService.Groepen.get().$promise.then(
-            function(result){
-              var groepen = result;
-              //herordenen zodat ze eenvoudig gebruikt kunnen worden in de template;
-              $scope.groepEnfuncties = [];
-              angular.forEach(groepen.groepen, function(value, key){
-                var tempGroep = value;
-                tempGroep.functies = [];
-                angular.forEach(functies.functies, function(value2, key2){
-                  if(value2.groepen.indexOf(tempGroep.groepsnummer) != -1){
-                    tempGroep.functies.push(value2);
-                  }
-                })
-                $scope.groepEnfuncties.push(tempGroep);
-              });
-              $scope.showFunctieToevoegen = false;
-              // controle of de functies weergegeven mogen worden
-              angular.forEach($scope.groepEnfuncties, function(groepFuncties){
-                $scope.showFunctieToevoegen |= $scope.hasPermission('functies.'+groepFuncties.groepsnummer);
-              });
-            }
-          );
-        }
-      );
+      LS.getFuncties().then(function(functiesres){
+        var functies= functiesres;
+        LS.getGroepen().then(function(groepenres){
+          var groepen = groepenres;
+          functiesEnGroepen(functies,groepen);
+        })
+      });
 
 
 
+    }
+
+    function functiesEnGroepen(functies, groepen){
+      $scope.groepEnfuncties = [];
+      angular.forEach(groepen.groepen, function(value, key){
+        var tempGroep = value;
+        tempGroep.functies = [];
+        angular.forEach(functies.functies, function(value2, key2){
+          if(value2.groepen.indexOf(tempGroep.groepsnummer) != -1){
+            tempGroep.functies.push(value2);
+          }
+        })
+        $scope.groepEnfuncties.push(tempGroep);
+      });
+      $scope.showFunctieToevoegen = false;
+      // controle of de functies weergegeven mogen worden
+      angular.forEach($scope.groepEnfuncties, function(groepFuncties){
+        $scope.showFunctieToevoegen |= $scope.hasPermission('functies.'+groepFuncties.groepsnummer);
+      });
     }
 
     function initModel() {

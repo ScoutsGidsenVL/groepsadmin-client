@@ -11,6 +11,7 @@
 
   function LidService($q, $rootScope, RestService) {
     var lidService = {};
+    var functies, groepen = {};
 
     lidService.zoekGemeente = function(zoekterm){
       var resultaatGemeentes = [];
@@ -23,6 +24,36 @@
             });
             return resultaatGemeentes;
         });
+    }
+
+    lidService.getFuncties = function(){
+      var deferred = $q.defer();
+      if(!_.isEmpty(functies)){
+        deferred.resolve(functies);
+      }else{
+        RestService.Functies.get().$promise.then(
+          function(result){
+            functies = result;
+            deferred.resolve(functies);
+          }
+        );
+      }
+      return deferred.promise;
+    }
+
+    lidService.getGroepen = function(){
+      var deferred = $q.defer();
+      if(!_.isEmpty(groepen)){
+        deferred.resolve(groepen);
+      }else{
+        RestService.Groepen.get().$promise.then(
+          function(result){
+            groepen = result;
+            deferred.resolve(groepen);
+          }
+        );
+      }
+      return deferred.promise;
     }
 
     return lidService;

@@ -611,7 +611,8 @@
     $scope.setStickyTableHeader = function(){
       var $panelheading = angular.element('.panel-heading');
       var $panelfilter = angular.element('.panel-filter');
-      var $navbar = angular.element('.navbar-default');
+      var $navbarOuterHeight = angular.element('.navbar-default').outerHeight();
+      var $globalMenuOuterHeight = angular.element('#global-menu').outerHeight();
       var $tableHead = angular.element('.panel-default > table#leden');
       var panelFilterHeight;
       $tableHead.css({ 'width': $panelheading.outerWidth() });
@@ -623,9 +624,15 @@
       }
 
       if(window.scrollY >= $panelheading.outerHeight() + panelFilterHeight){
-        $scope.tableheaderIsSticky = true;
-        $tableHead.css({ 'top' : $navbar.outerHeight() + angular.element('#global-menu').outerHeight() });
-        $scope.$apply();
+
+        $tableHead.css({ 'top' : $navbarOuterHeight + $globalMenuOuterHeight });
+        if(!$scope.tableheaderIsSticky){
+          $scope.tableheaderIsSticky = true;
+          console.log("apply scope");
+          $scope.$apply();
+        }else{
+          $scope.tableheaderIsSticky = true;
+        }
 
       }else{
         $scope.tableheaderIsSticky = false;
