@@ -24,6 +24,7 @@
     'ga.orakelcontroller',
     'ga.websitecontroller',
     'ga.emailcontroller',
+    'ga.etikettencontroller',
     'ga.modalinstancecontroller',
     'ga.lid',
     'ga.lid.velden',

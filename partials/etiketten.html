@@ -1,0 +1,251 @@
+<!-- header -->
+<!-- Panel header -->
+<div class="panel-heading panel-fixed clearfix">
+
+  <div>
+    <div ng-show="!showSaveOptions" class="pull-left">
+      <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Sjabloon opslaan</button>
+    </div>
+    <div ng-show="showSaveOptions" class="pull-left">
+      <form class="form-inline typeahead-filter">
+        <input type="text" ng-model="selectedSjabloon"
+        placeholder="Naam van sjabloon"
+        uib-typeahead="sjabloon as sjabloon.naam for sjabloon in sjablonen | filter:{naam:$viewValue}"
+        typeahead-popup-template-url="customPopupTemplate.html" class="form-control">
+        <button class="btn btn-apply" ng-click="saveOrOverwriteSjabloon(selectedSjabloon)">
+          <span ng-if="!selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isSavingSjablonen"></i></span>
+          <span ng-if="selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Overschrijven&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isSavingSjablonen"></i></span>
+        </button>
+        <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions;selectedSjabloon='';"><span class="fa fa-remove" aria-hidden="true" ></span>&nbsp;Annuleren</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- NEW ACTIONS -->
+  <div class="pull-right">
+    <div class="hidden-xs hidden-sm">
+      <button type="submit" class="btn btn-apply" ng-disabled="isLoadingGroepen" ng-click="verzenden()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;Verzenden&nbsp;
+    </div>
+    <div class="hidden-md hidden-lg">
+      <div class="btn-group pull-right" uib-dropdown>
+        <button id="split-button" type="submit"  ng-disabled="isLoadingGroepen" class="btn btn-apply">
+          <span class="glyphicon glyphicon-envelope" aria-hidden="true" ng-click="verzenden()"></span>&nbsp;Verzenden&nbsp;
+        </button>
+        <button type="button" class="btn btn-apply"  ng-disabled="isLoadingGroepen" uib-dropdown-toggle>
+          <span class="caret"></span>
+          <span class="sr-only">Verzenden</span>
+        </button>
+        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+          <li role="menuitem"><a href="#" ng-click="verzenden()">Verzenden</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- end header -->
+
+
+<div class="panel panel-default panel-default--hasmargin">
+  <form name="emailForm" ng-submit="submitForm(emailForm)" novalidate>
+
+  <div class="panel-body form-hover clearfix" ng-show="mailIsPending">
+    <div class="row">
+      <div class="col-lg-6 col-sm-6 col-xs-12">
+        <i class="fa fa-spinner fa-pulse"></i>&nbsp; Even geduld aub, de e-mailopdracht wordt verwerkt ...
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-body form-hover clearfix" ng-hide="mailIsPending">
+
+    <div class="row">
+      <div class="col-lg-4 col-xs-12">
+        <!-- Persoonlijk-->
+        <section>
+          <fieldset>
+            <legend>E-mailinstellingen</legend>
+
+
+            <div class="form-group" ng-class="{ 'has-error': emailForm.fromname.$touched && emailForm.fromname.$invalid }">
+              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Van</label>
+              <div class="col-xs-8 col-xxs-12">
+                <input type="text" class="form-control" name="fromname" id="fromName" ng-model="sjabloon.van" required>
+                <div ng-messages="emailForm.fromname.$error" ng-show="emailForm.fromname.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error': emailForm.replyaddress.$touched && emailForm.replyaddress.$invalid }">
+              <label for="email" class="col-xs-4 col-xxs-12 control-label">E-mailadres</label>
+              <div class="col-xs-8 col-xxs-12">
+                <input type="email" class="form-control" name="replyaddress" id="replyaddress" ng-model="sjabloon.replyTo" >
+                <div ng-messages="emailForm.replyaddress.$error" ng-show="emailForm.replyaddress.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="fromGroup" class="col-xs-4 col-xxs-12 control-label">Groep</label>
+              <div class="col-xs-8 col-xxs-12">
+                <i class="fa fa-spinner fa-pulse" ng-show="isLoadingGroepen"></i>
+                <select class="email-select-group form-control" ng-options="( groep.groepsnummer + ' ' + groep.naam) for groep in groepen track by groep.id" ng-hide="isLoadingGroepen" ng-model="selectedgroup"></select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <!-- CHECK : in het geval het om 1 lid gaat -->
+              <div class="col-xs-12 control-label" ng-hide="leden.length > 1">
+                <strong>Ontvanger :</strong>
+                {{ leden[0].voornaam  }}  {{ leden[0].achternaam  }}
+              </div>
+              <!-- CHECK : in het geval het om meeredere leden gaat -->
+              <div class="col-xs-12 control-label" ng-hide="leden.length == 1">
+                <strong>Ontvangers :</strong>
+                {{ leden.length }} leden <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="ledenLaden"></i>
+              </div>
+              <!-- END CHECK -->
+              <div class="email-leden col-xs-12" ng-show="ledenVisible">
+                <ul>
+                  <li ng-repeat="lid in leden">
+                    <span ng-if="lid.voornaam">{{ lid.voornaam }}</span>
+                    <span ng-if="lid.achternaam">{{ lid.achternaam }}</span>
+                    <span ng-if="!lid.voornaam && !lid.achternaam"> - geen naam beschikbaar - </span>
+                  </li>
+                </ul>
+                <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>
+              </div>
+              <label class="form-group  form-group--joined control checkbox">
+                <div class="col-xs-12">
+                  <input type="checkbox" id="sendStandard" ng-model="sjabloon.bestemming.lid" ng-checked="sjabloon.bestemming.lid">
+                  <span class="control-indicator pull-left mr-10"></span>
+                  <div class="control-label">Stuur naar standaard e-mailadressen</div>
+
+                </div>
+
+              </label>
+              <label class="form-group form-group--joined control checkbox">
+                <div class="col-xs-12">
+                  <input type="checkbox" id="sendContacts" ng-model="sjabloon.bestemming.contacten" ng-checked="sjabloon.bestemming.contacten">
+                  <span class="control-indicator pull-left mr-10"></span>
+                  <div class="control-label">Stuur naar contact e-mailadressen</div>
+                </div>
+              </label>
+            </div>
+
+            <!--
+            <div class="form-group" ng-class="{ 'has-error': emailForm.bccaddress.$touched && emailForm.bccaddress.$invalid }">
+              <label for="email" class="col-xs-3 col-xxs-12 control-label">BCC</label>
+              <div class="col-xs-9 col-xxs-12">
+                <input type="email" class="form-control" name="bccaddress" id="bccAddress" ng-model="sjabloon.bcc" >
+                <div ng-messages="emailForm.bccaddress.$error" ng-show="emailForm.bccaddress.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
+            </div>
+            -->
+
+          </fieldset>
+          <fieldset>
+            <legend>Sjabloon</legend>
+
+            <div class="form-group">
+              <label for="subject" class="col-xs-4 col-xxs-12 control-label">Sjabloon kiezen</label>
+              <div class="col-xs-8 col-xxs-12">
+                <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
+                  <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
+                    {{ sjabloon.naam }} <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li ng-if="isLoadingSjablonen"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse" ng-show="isLoadingSjablonen"></i>&nbsp;Sjablonen aan het laden...</a></li>
+                    <li ng-if="!isLoadingSjablonen && !(sjablonen.length > 0)"><a href='javascript:void(0)'>Geen sjablonen</a></li>
+                    <li ng-if="!isLoadingSjablonen" role="menuitem" ng-repeat="sjabloon in sjablonen | orderBy:'naam'"><a href ng-click="changeSjabloon(sjabloon)">{{ sjabloon.naam }}</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-default" ng-click="deleteSjabloon(sjabloon)" ng-hide="isLoadingGroepen || sjabloon.naam == 'blanco sjabloon'"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Sjabloon verwijderen&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isDeleting"></i></button>
+            </div>
+
+
+            <div></div>
+
+
+          </fieldset>
+        </section>
+      </div>
+
+      <div class="col-lg-8 col-xs-12">
+        <section>
+          <fieldset>
+            <legend>Bericht</legend>
+            <div class="form-group" ng-class="{ 'has-error': emailForm.subject.$touched && emailForm.subject.$invalid }">
+              <div class="col-xs-2 col-xxs-12 ">
+                <label for="subject" class="control-label">Onderwerp</label>
+              </div>
+              <div class="col-xs-10 col-xxs-12">
+                <input type="text" class="form-control" name="subject" id="subject" ng-model="sjabloon.onderwerp" required>
+                <div ng-messages="emailForm.subject.$error" ng-show="emailForm.subject.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group email-message" id="emailMessage">
+              <div id="editorContainer" class="col-xs-12">
+
+              </div>
+            </div>
+          </fieldset>
+        </section>
+      </div>
+    </div>
+  </div>
+  </form>
+
+</div>
+
+<script type="text/ng-template" id="customPopupTemplate.html">
+  <div class="custom-popup-wrapper dropdown-menu"
+     ng-style="{top: position().top+'px', left: position().left+'px'}"
+     style="display: block;"
+     ng-show="isOpen() && !moveInProgress"
+     aria-hidden="{{!isOpen()}}">
+    <p class="message">Selecteer een bestaand sjabloon</p>
+    <ul class="dropdown-menu" role="listbox">
+      <li ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
+          ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+          <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+      </li>
+    </ul>
+  </div>
+</script>
+
+<!-- bootstrap modal -->
+<script type="text/ng-template" id="emailConfirmationModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title">E-mail verzonden</h3>
+    </div>
+    <div class="modal-body">
+        <p>{{ feedback.messageOk }}</p>
+        <div ng-if="!_.isEmpty(feedback.messagesNok)">
+          <p><strong>FOUTEN</strong></p>
+          <div ng-repeat="(titelFout, fouten) in feedback.messagesNok">
+            <p class="modal-error-title">{{ titelFout }}</p>
+            <ul>
+                <li ng-repeat="fout in fouten">
+                    <a href="#" ng-click="$event.preventDefault();">{{ fout }}</a>
+                </li>
+            </ul>
+          </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">Sluiten</button>
+    </div>
+</script>

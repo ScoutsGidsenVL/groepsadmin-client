@@ -31,6 +31,9 @@
         <button type="button" class="btn btn-secondary" ng-click="$event.preventDefault();redirectToEmailPage();">
           E-mail versturen
         </button>
+        <button type="button" class="btn btn-secondary" ng-click="$event.preventDefault();redirectToEtikettenPage();">
+          Etiketten maken
+        </button>
       </div>
       <div class="hidden-md hidden-lg">
         <div class="btn-group pull-right" uib-dropdown>
@@ -47,6 +50,7 @@
             <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('csv')"><span ng-show="exportButtons['csv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)</a></li>
             <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('steekkaarten')"><span ng-show="exportButtons['steekaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF</a></li>
             <li role="menuitem"><a href="#" ng-click="$event.preventDefault();redirectToEmailPage();">E-mail versturen</a></li>
+            <li role="menuitem"><a href="#" ng-click="$event.preventDefault();redirectToEtikettenPage();">Etiketten maken</a></li>
           </ul>
         </div>
       </div>

@@ -63,6 +63,11 @@
         controller: 'EmailController'
       })
 
+      .when('/etiketten/:id', {
+        templateUrl: 'partials/etiketten.html',
+        controller: 'EtikettenController'
+      })
+
       .otherwise({
         redirectTo: '/ledenlijst'
       });
