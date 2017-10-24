@@ -11,6 +11,7 @@
     'ga.services.ledenfilter',
     'ga.services.ledenlijst',
     'ga.services.email',
+    'ga.services.etiketten',
     'ga.services.lid',
     'ga.alert-controller',
     'ga.ledenlijstcontroller',

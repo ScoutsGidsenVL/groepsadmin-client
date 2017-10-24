@@ -263,6 +263,16 @@
         'delete': {method: 'DELETE', cache: false}
         }
       ),
+      Etiketsjabloon: $resource(
+        base + 'sjabloon/etiket/:id',
+        {id: '@id', bevestiging: '@bevestiging'},
+        {
+        'get': {method: 'GET', cache: false},
+        'post': {method: 'POST', cache: false},
+        'update': {method: 'PATCH', transformRequest: changesOnly, cache: false},
+        'delete': {method: 'DELETE', cache: false}
+        }
+      ),
       Websites: $resource(
         base + 'website',
         {},

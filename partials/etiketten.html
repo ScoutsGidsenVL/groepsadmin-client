@@ -24,19 +24,19 @@
   <!-- NEW ACTIONS -->
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
-      <button type="submit" class="btn btn-apply" ng-disabled="isLoadingGroepen" ng-click="verzenden()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;Verzenden&nbsp;
+      <button type="submit" class="btn btn-apply" ng-click="aanmaken()"><span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;Etiketten maken&nbsp;
     </div>
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>
-        <button id="split-button" type="submit"  ng-disabled="isLoadingGroepen" class="btn btn-apply">
-          <span class="glyphicon glyphicon-envelope" aria-hidden="true" ng-click="verzenden()"></span>&nbsp;Verzenden&nbsp;
+        <button id="split-button" type="submit" class="btn btn-apply">
+          <span class="glyphicon glyphicon-print" aria-hidden="true" ng-click="aanmaken()"></span>&nbsp;&nbsp;Etiketten maken&nbsp;
         </button>
-        <button type="button" class="btn btn-apply"  ng-disabled="isLoadingGroepen" uib-dropdown-toggle>
+        <button type="button" class="btn btn-apply"  uib-dropdown-toggle>
           <span class="caret"></span>
-          <span class="sr-only">Verzenden</span>
+          <span class="sr-only">Etiketten maken</span>
         </button>
         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-          <li role="menuitem"><a href="#" ng-click="verzenden()">Verzenden</a></li>
+          <li role="menuitem"><a href="#" ng-click="aanmaken()">Etiketten maken</a></li>
         </ul>
       </div>
     </div>
@@ -49,53 +49,110 @@
 
 
 <div class="panel panel-default panel-default--hasmargin">
-  <form name="emailForm" ng-submit="submitForm(emailForm)" novalidate>
+  <form name="etikettenForm" ng-submit="submitForm(etikettenForm)" novalidate>
 
-  <div class="panel-body form-hover clearfix" ng-show="mailIsPending">
+  <div class="panel-body form-hover clearfix" ng-show="etikettenIsPending">
     <div class="row">
       <div class="col-lg-6 col-sm-6 col-xs-12">
-        <i class="fa fa-spinner fa-pulse"></i>&nbsp; Even geduld aub, de e-mailopdracht wordt verwerkt ...
+        <i class="fa fa-spinner fa-pulse"></i>&nbsp; Even geduld aub, de etikettten worden verwerkt ...
       </div>
     </div>
   </div>
 
-  <div class="panel-body form-hover clearfix" ng-hide="mailIsPending">
+  <div class="panel-body form-hover clearfix" ng-hide="etikettenIsPending">
 
     <div class="row">
       <div class="col-lg-4 col-xs-12">
         <!-- Persoonlijk-->
         <section>
           <fieldset>
-            <legend>E-mailinstellingen</legend>
+            <legend>Etiket eigenschappen</legend>
 
-
-            <div class="form-group" ng-class="{ 'has-error': emailForm.fromname.$touched && emailForm.fromname.$invalid }">
-              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Van</label>
+            <!-- -->
+            <div class="form-group" ng-class="{ 'has-error': etikettenForm.groottehorizontaal.$touched && etikettenForm.groottehorizontaal.$invalid }">
+              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Grootte horizontaal</label>
               <div class="col-xs-8 col-xxs-12">
-                <input type="text" class="form-control" name="fromname" id="fromName" ng-model="sjabloon.van" required>
-                <div ng-messages="emailForm.fromname.$error" ng-show="emailForm.fromname.$touched">
+                <input type="text" class="form-control" name="groottehorizontaal" id="fromName" ng-model="sjabloon.grootte.horizontaal" required>
+                <div ng-messages="etikettenForm.groottehorizontaal.$error" ng-show="etikettenForm.groottehorizontaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
               </div>
             </div>
-
-            <div class="form-group" ng-class="{ 'has-error': emailForm.replyaddress.$touched && emailForm.replyaddress.$invalid }">
-              <label for="email" class="col-xs-4 col-xxs-12 control-label">E-mailadres</label>
+            <!-- -->
+            <!-- -->
+            <div class="form-group" ng-class="{ 'has-error': etikettenForm.grootteverticaal.$touched && etikettenForm.grootteverticaal.$invalid }">
+              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Grootte verticaal</label>
               <div class="col-xs-8 col-xxs-12">
-                <input type="email" class="form-control" name="replyaddress" id="replyaddress" ng-model="sjabloon.replyTo" >
-                <div ng-messages="emailForm.replyaddress.$error" ng-show="emailForm.replyaddress.$touched">
+                <input type="text" class="form-control" name="grootteverticaal" id="grootteverticaal" ng-model="sjabloon.grootte.verticaal" required>
+                <div ng-messages="etikettenForm.grootteverticaal.$error" ng-show="etikettenForm.grootteverticaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
               </div>
             </div>
-
-            <div class="form-group">
-              <label for="fromGroup" class="col-xs-4 col-xxs-12 control-label">Groep</label>
+            <!-- -->
+            <!-- -->
+            <div class="form-group" ng-class="{ 'has-error': etikettenForm.margehorizontaal.$touched && etikettenForm.margehorizontaal.$invalid }">
+              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Marge horizontaal</label>
               <div class="col-xs-8 col-xxs-12">
-                <i class="fa fa-spinner fa-pulse" ng-show="isLoadingGroepen"></i>
-                <select class="email-select-group form-control" ng-options="( groep.groepsnummer + ' ' + groep.naam) for groep in groepen track by groep.id" ng-hide="isLoadingGroepen" ng-model="selectedgroup"></select>
+                <input type="text" class="form-control" name="margehorizontaal" id="fromName" ng-model="sjabloon.marge.horizontaal" required>
+                <div ng-messages="etikettenForm.margehorizontaal.$error" ng-show="etikettenForm.margehorizontaal.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
               </div>
             </div>
+            <!-- -->
+            <!-- -->
+            <div class="form-group" ng-class="{ 'has-error': etikettenForm.margeverticaal.$touched && etikettenForm.margeverticaal.$invalid }">
+              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Marge verticaal</label>
+              <div class="col-xs-8 col-xxs-12">
+                <input type="text" class="form-control" name="margeverticaal" id="margeverticaal" ng-model="sjabloon.marge.verticaal" required>
+                <div ng-messages="etikettenForm.margeverticaal.$error" ng-show="etikettenForm.margeverticaal.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
+            </div>
+            <!-- -->
+
+            <!-- ****** -->
+            <!-- ****** -->
+            <!-- ****** -->
+            <!-- ****** -->
+            <!-- ****** -->
+            <div class="form-group" ng-class="{ 'has-error': etikettenForm.blanco.$touched && etikettenForm.blanco.$invalid }">
+              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Blanco</label>
+              <div class="col-xs-8 col-xxs-12">
+                <input type="text" class="form-control" name="blanco" id="blanco" ng-model="sjabloon.blanco" required>
+                <div ng-messages="etikettenForm.blanco.$error" ng-show="etikettenForm.blanco.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
+            </div>
+            <!-- -->
+            <!-- -->
+            <div class="form-group" ng-class="{ 'has-error': etikettenForm.aantalEtikettenPerRij.$touched && etikettenForm.aantalEtikettenPerRij.$invalid }">
+              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Aantal per rij</label>
+              <div class="col-xs-8 col-xxs-12">
+                <input type="text" class="form-control" name="aantalEtikettenPerRij" id="fromName" ng-model="sjabloon.aantalEtikettenPerRij" required>
+                <div ng-messages="etikettenForm.aantalEtikettenPerRij.$error" ng-show="etikettenForm.aantalEtikettenPerRij.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
+            </div>
+            <!-- -->
+            <!-- -->
+            <div class="form-group" ng-class="{ 'has-error': etikettenForm.aantalRijenPerPagina.$touched && etikettenForm.aantalRijenPerPagina.$invalid }">
+              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Rijen per pagina</label>
+              <div class="col-xs-8 col-xxs-12">
+                <input type="text" class="form-control" name="aantalRijenPerPagina" id="aantalRijenPerPagina" ng-model="sjabloon.aantalRijenPerPagina" required>
+                <div ng-messages="etikettenForm.aantalRijenPerPagina.$error" ng-show="etikettenForm.aantalRijenPerPagina.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
+            </div>
+            <!-- -->
+
+
+
 
             <div class="form-group">
               <!-- CHECK : in het geval het om 1 lid gaat -->
@@ -121,28 +178,28 @@
               </div>
               <label class="form-group  form-group--joined control checkbox">
                 <div class="col-xs-12">
-                  <input type="checkbox" id="sendStandard" ng-model="sjabloon.bestemming.lid" ng-checked="sjabloon.bestemming.lid">
+                  <input type="checkbox" id="sendStandard" ng-model="familie" ng-checked="familie">
                   <span class="control-indicator pull-left mr-10"></span>
-                  <div class="control-label">Stuur naar standaard e-mailadressen</div>
+                  <div class="control-label">Familie</div>
 
                 </div>
 
               </label>
               <label class="form-group form-group--joined control checkbox">
                 <div class="col-xs-12">
-                  <input type="checkbox" id="sendContacts" ng-model="sjabloon.bestemming.contacten" ng-checked="sjabloon.bestemming.contacten">
+                  <input type="checkbox" id="sendContacts" ng-model="alleAdressen" ng-checked="alleAdressen">
                   <span class="control-indicator pull-left mr-10"></span>
-                  <div class="control-label">Stuur naar contact e-mailadressen</div>
+                  <div class="control-label">Alle adressen</div>
                 </div>
               </label>
             </div>
 
             <!--
-            <div class="form-group" ng-class="{ 'has-error': emailForm.bccaddress.$touched && emailForm.bccaddress.$invalid }">
+            <div class="form-group" ng-class="{ 'has-error': etikettenForm.bccaddress.$touched && etikettenForm.bccaddress.$invalid }">
               <label for="email" class="col-xs-3 col-xxs-12 control-label">BCC</label>
               <div class="col-xs-9 col-xxs-12">
                 <input type="email" class="form-control" name="bccaddress" id="bccAddress" ng-model="sjabloon.bcc" >
-                <div ng-messages="emailForm.bccaddress.$error" ng-show="emailForm.bccaddress.$touched">
+                <div ng-messages="etikettenForm.bccaddress.$error" ng-show="etikettenForm.bccaddress.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
               </div>
@@ -170,7 +227,7 @@
             </div>
 
             <div class="form-group">
-              <button class="btn btn-default" ng-click="deleteSjabloon(sjabloon)" ng-hide="isLoadingGroepen || sjabloon.naam == 'blanco sjabloon'"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Sjabloon verwijderen&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isDeleting"></i></button>
+              <button class="btn btn-default" ng-click="deleteSjabloon(sjabloon)" ng-hide="sjabloon.naam == 'blanco sjabloon'"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Sjabloon verwijderen&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isDeleting"></i></button>
             </div>
 
 
@@ -184,22 +241,9 @@
       <div class="col-lg-8 col-xs-12">
         <section>
           <fieldset>
-            <legend>Bericht</legend>
-            <div class="form-group" ng-class="{ 'has-error': emailForm.subject.$touched && emailForm.subject.$invalid }">
-              <div class="col-xs-2 col-xxs-12 ">
-                <label for="subject" class="control-label">Onderwerp</label>
-              </div>
-              <div class="col-xs-10 col-xxs-12">
-                <input type="text" class="form-control" name="subject" id="subject" ng-model="sjabloon.onderwerp" required>
-                <div ng-messages="emailForm.subject.$error" ng-show="emailForm.subject.$touched">
-                    <div ng-messages-include="partials/messages.html"></div>
-                </div>
-              </div>
-            </div>
+            <legend>Inhoud etiket</legend>
             <div class="form-group email-message" id="emailMessage">
-              <div id="editorContainer" class="col-xs-12">
-
-              </div>
+              <div id="editorContainer" class="col-xs-12"></div>
             </div>
           </fieldset>
         </section>

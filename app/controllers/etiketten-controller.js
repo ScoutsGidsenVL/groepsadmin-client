@@ -5,9 +5,11 @@
     .module('ga.etikettencontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap', 'ui.tinymce'])
     .controller('EtikettenController', EtikettenController);
 
-  EtikettenController.$inject = ['$compile', '$log', '$q', '$routeParams', '$scope', '$uibModal', 'AlertService', 'DialogService', 'EmailService', 'LedenLijstService', 'RestService'];
+  EtikettenController.$inject = ['$compile', '$location', '$log', '$q', '$routeParams', '$scope', '$uibModal', 'access', 'AlertService', 'DialogService', 'EtikettenService', 'LedenLijstService', 'RestService'];
 
-  function EtikettenController ($compile, $log, $q, $routeParams, $scope, $uibModal, AlertService, DialogService, ES, LLS, RestService) {
+  function EtikettenController ($compile, $location, $log, $q, $routeParams, $scope, $uibModal, access, AlertService, DialogService, ETS, LLS, RestService) {
+
+
 
     // documentation tinyMCE plugin https://www.tinymce.com/docs/integrations/angularjs/
     var leden = new Array();
@@ -59,62 +61,58 @@
     }
 
     $scope.changeSjabloon = function(sjabloon){
+      console.log("changeSjabloon --- ",sjabloon);
+      //$scope.sjabloon = sjabloon;
       $scope.sjabloon = sjabloon;
     }
 
-    $scope.verzenden = function(){
+    $scope.aanmaken = function(){
 
       var sjabloonObj = {
-          "vanGroep": $scope.selectedgroup.groepsnummer,
-          "replyTo": $scope.sjabloon.replyTo,
-          "inhoud": $scope.sjabloon.inhoud,
-          "onderwerp": $scope.sjabloon.onderwerp,
-          "van": $scope.sjabloon.van,
-          "bestemming": {
-              "lid": $scope.sjabloon.bestemming.lid,
-              "contacten": $scope.sjabloon.bestemming.contacten,
-              "groepseigenGegevens": []
-          }
-      }
+        "naam": $scope.naam,
+        "grootte": {
+          "horizontaal": $scope.grootte.verticaal,
+          "verticaal": $scope.grootte.horizontaal
+        },
+        "tussenruimte": {
+          "horizontaal": $scope.tussenruimte.horizontaal,
+          "verticaal": $scope.tussenruimte.verticaal
+        },
+        "marge": {
+          "horizontaal": $scope.margeKant,
+          "verticaal": $scope.margeTop
+        },
+        "inhoud": $scope.inhoud,
+        "blanco": $scope.blanco,
+        "familie": $scope.familie,
+        "alleAdressen": $scope.alleAdressen,
+        "aantalEtikettenPerRij": $scope.aantalPerRij,
+        "aantalRijenPerPagina": $scope.aantalPerPagina
+     }
+
+
       var payload = "--AaB03x\n";
       payload+= 'Content-Disposition: form-data; name="sjabloon"\nContent-Type: application/json\n\n';
       payload += JSON.stringify(sjabloonObj);
       payload+= "\n\n--AaB03x--";
 
-      // als er meerdere leden zijn moeten we een andere endpoint gebruiken dan wanneer we 1 lid willen mailen
-      if($routeParams.id !== "ledenlijst"){
-        $scope.mailIsPending = true;
-        ES.sendMail(payload,$routeParams.id).then(function(res){
+      $scope.etikettenIsPending = true;
+      /*ES.sendMail(payload).then(function(res){
+        console.log("etiketten list", res);
+        feedback(res);
+      });*/
+      console.log('CONVERT THIS INFO INTO A PDF', payload );
 
-          console.log("mail was sent TO " + $routeParams.id , res);
-          feedback(res);
-        });
-      }else{
-        $scope.mailIsPending = true;
-        ES.sendMail(payload).then(function(res){
-          console.log("mail was sent TO list", res);
-          feedback(res);
-        });
-      }
-    }
-
-    // bevestiging return functie
-    // --------------------------------------
-    $scope.confirmEmailReport = function(result){
-
-    }
-
-    $scope.getLid = function(id){
-      RestService.Lid.get({id:$routeParams.id}).$promise.then(function(res){
-          $scope.leden.push({'voornaam': res.vgagegevens.voornaam, 'achternaam': res.vgagegevens.achternaam });
-      });
     }
 
     $scope.getLeden = function(offset){
       $scope.ledenLaden = true;
       LLS.getLeden(offset).then(function(res){
         _.each(res.leden, function(val,key){
-          $scope.leden.push({'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'], 'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']});
+          $scope.leden.push({
+            'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'],
+            'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']
+          });
         });
         if(res.totaal > $scope.leden.length){
           offset += 50;
@@ -144,20 +142,28 @@
       var newSjabloon;
       if(selectedSjabloon.id){
         newSjabloon = selectedSjabloon;
-      }else{
-        newSjabloon = {};
-      }
+        newSjabloon.grootte = {};
+        newSjabloon.grootte.horizontaal = $scope.grootte.horizontaal;
+        newSjabloon.grootte.verticaal = $scope.grootte.verticaal;
+        newSjabloon.tussenruimte = {};
+        newSjabloon.tussenruimte.horizontaal = $scope.tussenruimte.horizontaal;
+        newSjabloon.tussenruimte.verticaal = $scope.tussenruimte.verticaal;
+        newSjabloon.marge = {};
+        newSjabloon.marge.horizontaal = $scope.marge.horizontaal;
+        newSjabloon.marge.verticaal = $scope.marge.verticaal;
+        newSjabloon.inhoud = $scope.inhoud;
+        newSjabloon.blanco = $scope.blanco;
+        newSjabloon.alleAdressen = $scope.alleAdressen;
+        newSjabloon.aantalEtikettenPerRij = $scope.aantalEtikettenPerRij;
+        newSjabloon.aantalRijenPerPagina = $scope.aantalRijenPerPagina;
 
-      newSjabloon.replyTo = $scope.sjabloon.replyTo;
-      newSjabloon.van = $scope.sjabloon.van;
-      newSjabloon.onderwerp = $scope.sjabloon.onderwerp;
-      newSjabloon.inhoud = $scope.sjabloon.inhoud;
-      newSjabloon.vanGroep = $scope.selectedgroup.groepsnummer;
+      }else{
+        newSjabloon = getNewSjabloon();
+      }
 
       if(selectedSjabloon.id){
 
         var tmpObj = JSON.parse(JSON.stringify(newSjabloon));
-
         overwriteSjabloon(selectedSjabloon, tmpObj).then(function(response){
           $scope.isSavingSjablonen = false;
           $scope.showSaveOptions = false;
@@ -188,7 +194,6 @@
           // indien de naam niet bestaat, maak nieuwe sjObj
           delete $scope.sjabloon.id;
           $scope.sjabloon.naam = selectedSjabloon;
-          $scope.sjabloon.vanGroep = $scope.selectedgroup.groepsnummer;
 
           createNewSjabloon($scope.sjabloon).then(function(res){
             $scope.isSavingSjablonen = false;
@@ -207,18 +212,36 @@
       RestService.Lid.get({id:'profiel'}).$promise.then(function(result) {
 
             // dit sjabloon zal worden gebruikt als er nog geen sjabloon bestaat voor de gebruiker
-            var sjabloon = {};
+            var sjabloon = getNewSjabloon();
             sjabloon.naam = 'blanco sjabloon';
-            sjabloon.replyTo = result.email;
-            sjabloon.van = result.vgagegevens.voornaam + ' ' + result.vgagegevens.achternaam;
-            sjabloon.onderwerp = "";
-            sjabloon.inhoud = "";
-            sjabloon.bestemming = {};
-            sjabloon.bestemming.lid = true;
-            sjabloon.bestemming.contacten = false;
+
             deferred.resolve(sjabloon);
       });
       return deferred.promise;
+    }
+
+    var getNewSjabloon = function(){
+      return newSjabloon = {
+        "naam": $scope.naam,
+        "grootte": {
+          "horizontaal": $scope.grootte.verticaal,
+          "verticaal": $scope.grootte.horizontaal
+        },
+        "tussenruimte": {
+          "horizontaal": $scope.tussenruimte.horizontaal,
+          "verticaal": $scope.tussenruimte.verticaal
+        },
+        "marge": {
+          "horizontaal": $scope.margeKant,
+          "verticaal": $scope.margeTop
+        },
+        "inhoud": $scope.inhoud,
+        "blanco": $scope.blanco,
+        "familie": $scope.familie,
+        "alleAdressen": $scope.alleAdressen,
+        "aantalEtikettenPerRij": $scope.aantalPerRij,
+        "aantalRijenPerPagina": $scope.aantalPerPagina
+      }
     }
 
     var overwriteSjabloon = function(sjabloon, obj){
@@ -247,7 +270,7 @@
 
     function feedback(obj){
       var feedback = ES.getMailReportMessage(obj);
-      $scope.mailIsPending = false;
+      $scope.etikettenIsPending = false;
       $scope.openDialog(feedback);
       // TODO: unset the flag to use in template to hide pending message
     }
@@ -255,18 +278,9 @@
     function init(){
       $scope.isLoadingSjablonen = true;
       $scope.leden = new Array();
+      $scope.getLeden(0);
 
-      // als er een id in de url staat halen we 1 lid op
-      if($routeParams.id !== 'ledenlijst'){
-        $scope.getLid();
-      }else{
-        $scope.getLeden(0);
-      }
-
-
-      $scope.isLoadingGroepen = true;
-
-      ES.getSjablonen().then(function(res){
+      ETS.getSjablonen().then(function(res){
         $scope.isLoadingSjablonen = false;
         if(res.sjablonen){
           $scope.sjablonen = res.sjablonen;
@@ -287,16 +301,6 @@
         $scope.isLoadingSjablonen = false;
         AlertService.add('danger', "Er konden geen sjablonen worden opgehaald", 5000);
       });
-
-      RestService.Groepen.get().$promise.then(
-        function (result) {
-          $scope.groepen = result.groepen;
-          $scope.selectedgroup = result.groepen[0];
-          $scope.isLoadingGroepen = false;
-        },
-        function (err){
-        }
-      );
 
       // velden ophalen die worden gebruikt in de tinyMCE editor
       // pas wanneer de Kolommen-call resolved is, zal de tinyMCE editor worden geïnitieerd
@@ -339,8 +343,12 @@
       };
 
     /*******/
+    if(!access){
+      $location.path("/lid/profiel");
+    }else{
+      init();
+    }
 
-    init();
 
   }
 
