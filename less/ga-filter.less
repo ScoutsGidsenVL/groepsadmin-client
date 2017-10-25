@@ -4,7 +4,7 @@
 
 .panel-filter {
   position: relative;
-  background-color: @bg-panel-filter;
+  background-color: @panel-default-heading-bg;
   padding: @fluid-grid-gutter-width/2 @fluid-grid-gutter-width/2 @fluid-grid-gutter-width/2;
 
   .row-criteria  {
@@ -41,6 +41,8 @@
 .btn-filter{
   &--criteria{
     .filter-button(@brand-primary);
+    width: 100%;
+    text-align: left;
   }
   &--kolommen{
     .filter-button(@sgv-bruin);

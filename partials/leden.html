@@ -3,10 +3,11 @@
   <!-- Panel header -->
   <div class="panel-heading panel-heading--leden clearfix">
     <div class="pull-left">
-      <button class="btn btn-collapse btn-collapse--filter" ng-class="{ 'active' : !isFilterCollapsed}" ng-click="toggleFilter()">
+      <button class="btn btn-collapse btn-collapse--filter" ng-click="toggleFilter()">
         <span ng-if="!isLoadingFilters && hasLoadedFilters">
           <div class="pull-left">{{ isFilterCollapsed ? 'Filter tonen ' : 'Filter verbergen ' }}</div>
-          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i>
+          &nbsp;&nbsp;
+          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-up': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i>
         </span>
         <div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container">
           <i class="fa fa-spinner fa-pulse"></i>&nbsp;Filter aan het laden...
@@ -193,12 +194,12 @@
       </div>
 
       <!-- Filter options/criteria toevoegen-->
-      <div class="btn-group"
+      <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12 btn-group"
       ng-hide="isAllCriteriaActive()"
       ng-if="hasLoadedFilters">
         <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" ng-click="addLastCriteriumIfThereIsOnlyOneLeft()" class="btn btn-filter btn-filter--criteria dropdown-toggle" data-toggle="dropdown" title="Filtercriteria toevoegen">
           <span class="glyphicon glyphicon-plus"></span>
-          <span class="hidden-label">Criterium toevoegen</span>
+          <span class="hidden-label">Nieuw criterium</span>
         </button>
         <ul class="dropdown-menu">
           <li ng-repeat="criterium in criteria | filter : { activated : false} | orderBy:'title'">
