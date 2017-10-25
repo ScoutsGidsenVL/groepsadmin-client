@@ -775,11 +775,12 @@
       LLS.export(type).then(function(res){
         $scope.exportButtons[type].isLoading = false;
         var a = document.createElement('a');
+
         a.href = res.fileUrl;
-        a.target = '_blank';
-        a.download = res.title;
+        a.download = res.title + '.pdf';
 
         document.body.appendChild(a);
+
         a.click();
       },function(err){
         AlertService.add('danger', "De ledenlijst kon niet worden geëxporteerd", 5000);

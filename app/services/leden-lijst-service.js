@@ -35,7 +35,7 @@
       if(type == 'csv'){
         RestService.LedenCsv.get({offset:0}).$promise.then(function(res){
           file = new Blob([res.response], {type: 'text/csv'});
-          obj.fileUrl = URL.createObjectURL(file);
+          obj.fileUrl = window.URL.createObjectURL(file);
           obj.title = 'ledenlijst';
           deferred.resolve(obj);
         });
@@ -43,7 +43,7 @@
       if(type == 'pdf'){
         RestService.LedenPdf.get({offset:0}).$promise.then(function(res){
           file = new Blob([res.response], {type: 'application/pdf'});
-          obj.fileUrl = URL.createObjectURL(file);
+          obj.fileUrl = window.URL.createObjectURL(file);
           obj.title = 'ledenlijst';
           deferred.resolve(obj);
         });
@@ -51,7 +51,7 @@
       if(type == 'steekkaarten'){
         RestService.LedenSteekkaarten.get({offset:0}).$promise.then(function(res){
           file = new Blob([res.response], {type: 'application/pdf'});
-          obj.fileUrl = URL.createObjectURL(file);
+          obj.fileUrl = window.URL.createObjectURL(file);
           obj.title = 'steekkaarten';
           deferred.resolve(obj);
         });
