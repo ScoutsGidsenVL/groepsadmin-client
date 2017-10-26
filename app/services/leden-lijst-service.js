@@ -28,31 +28,31 @@
       })
     }
 
-    ledenLijstService.export = function(type){
+    ledenLijstService.export = function(type,extension){
       var deferred = $q.defer();
-      var file, fileUrl, obj = {};
+      var blob, obj = {};
 
-      if(type == 'csv'){
+      if(type == 'lijst' && extension == 'csv'){
         RestService.LedenCsv.get({offset:0}).$promise.then(function(res){
-          file = new Blob([res.response], {type: 'text/csv'});
-          obj.fileUrl = window.URL.createObjectURL(file);
-          obj.title = 'ledenlijst';
+          blob = new Blob([res.response], {type: 'text/csv'});
+          obj.fileUrl = window.URL.createObjectURL(blob);
+          obj.title = type + '.' + extension;
           deferred.resolve(obj);
         });
       }
-      if(type == 'pdf'){
+      if(type == 'lijst' && extension == 'pdf'){
         RestService.LedenPdf.get({offset:0}).$promise.then(function(res){
-          file = new Blob([res.response], {type: 'application/pdf'});
-          obj.fileUrl = window.URL.createObjectURL(file);
-          obj.title = 'ledenlijst';
+          blob = new Blob([res.response], {type: 'application/pdf'});
+          obj.fileUrl = window.URL.createObjectURL(blob);
+          obj.title = type + '.' + extension;
           deferred.resolve(obj);
         });
       }
-      if(type == 'steekkaarten'){
+      if(type == 'steekkaarten' && extension == 'pdf'){
         RestService.LedenSteekkaarten.get({offset:0}).$promise.then(function(res){
-          file = new Blob([res.response], {type: 'application/pdf'});
-          obj.fileUrl = window.URL.createObjectURL(file);
-          obj.title = 'steekkaarten';
+          blob = new Blob([res.response], {type: 'application/pdf'});
+          obj.fileUrl = window.URL.createObjectURL(blob);
+          obj.title = type + '.' + extension;
           deferred.resolve(obj);
         });
       }

@@ -770,21 +770,18 @@
       $scope.isFilterCollapsed = !$scope.isFilterCollapsed;
     }
 
-    $scope.export = function(type){
-      $scope.exportButtons[type].isLoading = true;
-      LLS.export(type).then(function(res){
-        $scope.exportButtons[type].isLoading = false;
+    $scope.export = function(type, extension){
+      $scope.exportButtons[type+extension].isLoading = true;
+      LLS.export(type,extension).then(function(res){
+        $scope.exportButtons[type+extension].isLoading = false;
         var a = document.createElement('a');
-
         a.href = res.fileUrl;
-        a.download = res.title + '.pdf';
-
+        a.download = res.title;
         document.body.appendChild(a);
-
         a.click();
       },function(err){
         AlertService.add('danger', "De ledenlijst kon niet worden geëxporteerd", 5000);
-        $scope.exportButtons[type].isLoading = false;
+        $scope.exportButtons[type+extension].isLoading = false;
       })
     }
 
@@ -800,9 +797,9 @@
       $scope.isFilterCollapsed = true;
 
       $scope.exportButtons = {
-        'pdf': { isLoading : false },
-        'csv': { isLoading : false },
-        'steekkaarten': { isLoading : false }
+        'lijstpdf': { isLoading : false },
+        'lijstcsv': { isLoading : false },
+        'steekkaartenpdf': { isLoading : false }
       };
 
       initCriteriaKolommenFilters().then(function(){

@@ -19,14 +19,14 @@
         <button type="button" class="btn btn-secondary" ng-show="canPost" ng-click="nieuwlid()">
           <i class="fa fa-plus"></i>&nbsp;Nieuw lid
         </button>
-        <button type="button" class="btn btn-secondary" ng-click="export('pdf')">
-          <span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
+        <button type="button" class="btn btn-secondary" ng-click="export('lijst','pdf')">
+          <span ng-show="exportButtons['lijstpdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
         </button>
-        <button type="button" class="btn btn-secondary" ng-click="export('csv')">
-          <span ng-show="exportButtons['csv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)
+        <button type="button" class="btn btn-secondary" ng-click="export('lijst', 'csv')">
+          <span ng-show="exportButtons['lijstcsv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)
         </button>
-        <button type="button" class="btn btn-secondary" ng-click="export('steekkaarten')">
-          <span ng-show="exportButtons['steekkaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF
+        <button type="button" class="btn btn-secondary" ng-click="export('steekkaarten' , 'pdf')">
+          <span ng-show="exportButtons['steekkaartenpdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF
         </button>
         <button type="button" class="btn btn-secondary" ng-click="$event.preventDefault();redirectToEmailPage();">
           E-mail versturen
@@ -34,8 +34,8 @@
       </div>
       <div class="hidden-md hidden-lg">
         <div class="btn-group pull-right" uib-dropdown>
-          <button id="split-button" type="button" class="btn btn-secondary" ng-click="export('pdf')">
-            <span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
+          <button id="split-button" type="button" class="btn btn-secondary" ng-click="export('lijst', 'pdf')">
+            <span ng-show="exportButtons['lijstpdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
           </button>
           <button type="button" class="btn btn-secondary" uib-dropdown-toggle>
             <span class="caret"></span>
@@ -43,9 +43,9 @@
           </button>
           <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
             <li role="menuitem" ng-show="canPost"><a href="#" ng-click="$event.preventDefault();nieuwlid()">Nieuw lid</a></li>
-            <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('pdf')"><span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF</a></li>
-            <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('csv')"><span ng-show="exportButtons['csv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)</a></li>
-            <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('steekkaarten')"><span ng-show="exportButtons['steekaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF</a></li>
+            <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('lijst','pdf')"><span ng-show="exportButtons['lijstpdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF</a></li>
+            <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('lijst','csv')"><span ng-show="exportButtons['lijstcsv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)</a></li>
+            <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('steekkaarten','pdf')"><span ng-show="exportButtons['steekaartenpdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF</a></li>
             <li role="menuitem"><a href="#" ng-click="$event.preventDefault();redirectToEmailPage();">E-mail versturen</a></li>
           </ul>
         </div>
