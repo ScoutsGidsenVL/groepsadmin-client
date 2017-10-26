@@ -259,11 +259,11 @@
   <div class="panel-leden" >
     <table id="leden" class="table table-responsive table-leden" ng-class="{'table-leden--sticky': tableheaderIsSticky}">
       <thead fix-head>
-        <tr ng-show='!isLoadingLeden'>
+        <tr ng-show='!isLoadingLeden && !isSavingFilters'>
           <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'">{{ kolom.label }}</th>
         </tr>
       </thead>
-      <tbody ng-show="!isLoadingLeden" infinite-scroll='ledenLaden()' infinite-scroll-distance='1'>
+      <tbody ng-show="!isLoadingLeden && !isSavingFilters" infinite-scroll='ledenLaden()' infinite-scroll-distance='1'>
         <tr ng-if="tableheaderIsSticky"><td>&nbsp;</td></tr>
         <tr ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
           <td ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'" style="position: relative;">
