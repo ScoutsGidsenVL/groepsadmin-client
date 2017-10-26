@@ -11,7 +11,8 @@
       templateUrl: 'partials/formerrorbutton.html',
       replace: false,
       scope: {
-        formulier: '='
+        formulier: '=',
+        watchable: '='
       },
       controller: ErrorButtonController
     };

@@ -1,4 +1,4 @@
-<button style="visibility:hidden" class="btn btn-primary" ng-class="{ 'forceshow': formulier.$invalid }" type="button" ng-click="setFocusFirstInvalid();">
+<button style="visibility:hidden" class="btn btn-primary" ng-class="{ 'forceshow': formulier.$invalid && watchable}" type="button" ng-click="setFocusFirstInvalid();">
   <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
   <span class="badge">{{ numberOfErrors }}</span>
 </button>

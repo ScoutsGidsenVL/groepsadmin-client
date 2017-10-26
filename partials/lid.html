@@ -18,7 +18,7 @@
   </div>
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
-      <formerrorbutton formulier="lidForm"></formerrorbutton>
+      <formerrorbutton formulier="lidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
       <button type="submit" class="btn btn-apply" ng-disabled="lidForm.$invalid" ng-click="opslaan()" ng-hide="(!lid || !canSave) && lidPropertiesWatchable"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
       <button type="button" class="btn btn-secondary" ng-click="schrap()" ng-hide="!kanSchrappen && lidPropertiesWatchable" ng-disabled="!kanSchrappen"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop alle functies</button>
       <button type="button" class="btn btn-secondary" ng-click="nieuwlid()" ng-hide="!canPost && lidPropertiesWatchable" ng-disabled="!canPost"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Nieuw lid</button>
@@ -27,7 +27,7 @@
     </div>
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>
-        <formerrorbutton formulier="lidForm"></formerrorbutton>
+        <formerrorbutton formulier="lidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
         <button id="split-button" type="submit" class="btn btn-apply"  ng-disabled="lidForm.$invalid" ng-click="opslaan()" ng-show="lid && canSave">
           <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i>
         </button>

@@ -6,7 +6,7 @@
     <h2 class="panel-subtitle">{{ lid.verbondsgegevens.lidnummer }}</h2>
   </div>
   <div class="pull-right">
-    <formerrorbutton formulier="individueleSteekaart"></formerrorbutton>
+    <formerrorbutton formulier="individueleSteekaart" watchable="watchable"></formerrorbutton>
     <button type="submit" class="btn btn-apply" ng-enabled="" oninvalid="" ng-click="opslaan()" ng-disabled="individueleSteekaart.$invalid" ng-show="lid">
       <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i>
     </button>
