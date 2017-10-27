@@ -101,9 +101,13 @@
             if($scope.lidPropertiesWatchable){
               if (newVal == oldVal) return;
               sectie = value.split(".").pop();
-              if($scope.lid.changes.indexOf(sectie) < 0) {
-                $scope.lid.changes.push(sectie);
+
+              if($scope.lid.changes){
+                if($scope.lid.changes.indexOf(sectie) < 0) {
+                  $scope.lid.changes.push(sectie);
+                }
               }
+
               if($scope.lidForm.$dirty){
                 $window.onbeforeunload = unload;
               }
@@ -212,7 +216,9 @@
     // nieuw lid initialiseren na update.
     function initAangepastLid() {
       //changes array aanmaken
-      $scope.lid.changes = new Array();
+      $timeout(function () {
+        $scope.lid.changes = new Array();
+      }, 20);
     }
 
     /*

@@ -66,6 +66,7 @@
             }
           }
         })
+        $scope.watchable = true;
       },
       function(error) {
         console.log(error);

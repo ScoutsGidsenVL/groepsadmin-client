@@ -4,7 +4,7 @@ Dit is een front-end voor de nieuwe groepsadministratie van [Scouts en Gidsen Vl
 
 Je kan deze front-end op twee manieren gebruiken:
 
-* Ofwel gebruik je de [test-versie](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/client/) van de Groepsadministratie. Je krijgt deze front-end daar, na het inloggen, te zien.
+* Ofwel gebruik je de [beta-versie](https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/client/) van de Groepsadministratie. Je krijgt deze front-end daar, na het inloggen, te zien.
 * Ofwel draai je deze front-end op je eigen computer (localhost), zodat je zelf aanpassingen kan doen.
 
 Lees in beide gevallen ook de [handleiding](https://wiki.scoutsengidsenvlaanderen.be/doku.php?id=handleidingen:groepsadmin:nieuwe_versie_testen) over het testen van de nieuwe groepsadministratie.
@@ -57,12 +57,13 @@ Stuur een e-mail naar [informatica@scoutsengidsenvlaanderen.be](email:informatic
 
 ## API
 
-De [documentatie](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/client/docs/api.html) van de REST-API staat mee online. Deze documentatie is aangemaakt met [Aglio](#aglio-optioneel).
+De [documentatie](https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/client/docs/api.html) van de REST-API staat mee online. Deze documentatie is aangemaakt met [Aglio](#aglio-optioneel).
 
 Het is altijd fijn als de documentatie wordt aangevuld of gecorrigeerd waar nodig. In het bestand api.apib kan je aanpassingen doen m.b.t. de documentatie van de API.
 
-
 ### Testen
+
+Gebruik bij het testen steeds de test-versie van de groepsadministratie. De URLs van test-versie beginnen met `https://groepsadmin`**`-develop`**`.scoutsengidsenvlaanderen.`**`net`**`/`. De aanpassingen via deze URLs hebben geen effect op de gegevens in de gewone groepsadministratie. E-mails worden ***wel*** verstuurd.
 
 Op `apitest.html` kan je API calls doen, waarbij het access/keycloak token wordt meegegeven in de header `Authorization`.
 

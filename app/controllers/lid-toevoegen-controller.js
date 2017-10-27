@@ -9,7 +9,7 @@
 
   function LidToevoegenController ($scope, $location, $timeout, $window, LS, RestService, AlertService, DialogService, $rootScope, $route, access, keycloak, FVS) {
 
-    var formInitiated = false;
+    $scope.formInitiated = false;
     var aangemeldeGebruiker = {};
     if(!access){
       $location.path("/lid/profiel");
@@ -127,7 +127,7 @@
       );
 
       $timeout(function(){
-        formInitiated = true;
+        $scope.formInitiated = true;
       },4000);
     }
 
@@ -408,7 +408,7 @@
     // TODO: REMOVE CODE DUPLICATION  (lidcontroller)
 
     $scope.$watch('nieuwLidForm.$valid', function (validity) {
-        if(formInitiated == true){
+        if($scope.formInitiated == true){
           if(!validity){
             openAndHighlightCollapsedInvalidContacts();
             openAndHighlightCollapsedInvalidAdresses();

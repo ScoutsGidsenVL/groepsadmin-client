@@ -3,10 +3,10 @@
   <!-- Panel header -->
   <div class="panel-heading panel-heading--leden clearfix">
     <div class="pull-left">
-      <button class="btn btn-collapse btn-collapse--filter" ng-class="{ 'active' : !isFilterCollapsed}" ng-click="toggleFilter()">
+      <button class="btn btn-collapse btn-collapse--filter" ng-click="toggleFilter()">
         <span ng-if="!isLoadingFilters && hasLoadedFilters">
           <div class="pull-left">{{ isFilterCollapsed ? 'Filter tonen ' : 'Filter verbergen ' }}</div>
-          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isFilterCollapsed, 'glyphicon-chevron-right': isFilterCollapsed}"></i>
+          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-up': !isFilterCollapsed, 'glyphicon-chevron-right ': isFilterCollapsed}"></i>
         </span>
         <div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container">
           <i class="fa fa-spinner fa-pulse"></i>&nbsp;Filter aan het laden...
@@ -19,14 +19,14 @@
         <button type="button" class="btn btn-secondary" ng-show="canPost" ng-click="nieuwlid()">
           <i class="fa fa-plus"></i>&nbsp;Nieuw lid
         </button>
-        <button type="button" class="btn btn-secondary" ng-click="export('pdf')">
-          <span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
+        <button type="button" class="btn btn-secondary" ng-click="export('lijst','pdf')">
+          <span ng-show="exportButtons['lijstpdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
         </button>
-        <button type="button" class="btn btn-secondary" ng-click="export('csv')">
-          <span ng-show="exportButtons['csv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)
+        <button type="button" class="btn btn-secondary" ng-click="export('lijst', 'csv')">
+          <span ng-show="exportButtons['lijstcsv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)
         </button>
-        <button type="button" class="btn btn-secondary" ng-click="export('steekkaarten')">
-          <span ng-show="exportButtons['steekkaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF
+        <button type="button" class="btn btn-secondary" ng-click="export('steekkaarten' , 'pdf')">
+          <span ng-show="exportButtons['steekkaartenpdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF
         </button>
         <button type="button" class="btn btn-secondary" ng-click="$event.preventDefault();redirectToEmailPage();">
           E-mail versturen
@@ -37,8 +37,8 @@
       </div>
       <div class="hidden-md hidden-lg">
         <div class="btn-group pull-right" uib-dropdown>
-          <button id="split-button" type="button" class="btn btn-secondary" ng-click="export('pdf')">
-            <span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
+          <button id="split-button" type="button" class="btn btn-secondary" ng-click="export('lijst', 'pdf')">
+            <span ng-show="exportButtons['lijstpdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
           </button>
           <button type="button" class="btn btn-secondary" uib-dropdown-toggle>
             <span class="caret"></span>
@@ -46,9 +46,9 @@
           </button>
           <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
             <li role="menuitem" ng-show="canPost"><a href="#" ng-click="$event.preventDefault();nieuwlid()">Nieuw lid</a></li>
-            <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('pdf')"><span ng-show="exportButtons['pdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF</a></li>
-            <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('csv')"><span ng-show="exportButtons['csv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)</a></li>
-            <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('steekkaarten')"><span ng-show="exportButtons['steekaarten'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF</a></li>
+            <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('lijst','pdf')"><span ng-show="exportButtons['lijstpdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF</a></li>
+            <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('lijst','csv')"><span ng-show="exportButtons['lijstcsv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar Excel (csv)</a></li>
+            <li role="menuitem"><a href="#" ng-click="$event.preventDefault();export('steekkaarten','pdf')"><span ng-show="exportButtons['steekaartenpdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele steekkaarten naar PDF</a></li>
             <li role="menuitem"><a href="#" ng-click="$event.preventDefault();redirectToEmailPage();">E-mail versturen</a></li>
             <li role="menuitem"><a href="#" ng-click="$event.preventDefault();redirectToEtikettenPage();">Etiketten maken</a></li>
           </ul>
@@ -197,12 +197,12 @@
       </div>
 
       <!-- Filter options/criteria toevoegen-->
-      <div class="btn-group"
+      <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xxs-12 btn-group"
       ng-hide="isAllCriteriaActive()"
       ng-if="hasLoadedFilters">
         <button ng-disabled="isLoadingFilters || isSavingFilters" type="button" ng-click="addLastCriteriumIfThereIsOnlyOneLeft()" class="btn btn-filter btn-filter--criteria dropdown-toggle" data-toggle="dropdown" title="Filtercriteria toevoegen">
           <span class="glyphicon glyphicon-plus"></span>
-          <span class="hidden-label">Criterium toevoegen</span>
+          <span class="hidden-label">Nieuw criterium</span>
         </button>
         <ul class="dropdown-menu">
           <li ng-repeat="criterium in criteria | filter : { activated : false} | orderBy:'title'">
@@ -263,11 +263,11 @@
   <div class="panel-leden" >
     <table id="leden" class="table table-responsive table-leden" ng-class="{'table-leden--sticky': tableheaderIsSticky}">
       <thead fix-head>
-        <tr ng-show='!isLoadingLeden'>
+        <tr ng-show='!isLoadingLeden && !isSavingFilters'>
           <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'">{{ kolom.label }}</th>
         </tr>
       </thead>
-      <tbody ng-show="!isLoadingLeden" infinite-scroll='ledenLaden()' infinite-scroll-distance='1'>
+      <tbody ng-show="!isLoadingLeden && !isSavingFilters" infinite-scroll='ledenLaden()' infinite-scroll-distance='1'>
         <tr ng-if="tableheaderIsSticky"><td>&nbsp;</td></tr>
         <tr ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
           <td ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'" style="position: relative;">
@@ -282,10 +282,11 @@
       </tbody>
     </table>
 
-    <footer class="panel-footer clearfix">
+    <footer ng-if="isLoadingFilters || isLoadingLeden || isLoadingMore" class="panel-footer clearfix">
       <div ng-if="isLoadingFilters && !hasLoadedFilters && !isLoadingLeden" class="loading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filter aan het laden...</div>
       <div ng-show='isLoadingLeden' class="loading"><i class="fa fa-spinner fa-pulse"></i>Leden aan het ophalen... </div>
       <div ng-show='isLoadingMore' class="loading"><i class="fa fa-spinner fa-pulse"></i>Meer leden aan het ophalen... </div>
+
     </footer>
 </div>
 

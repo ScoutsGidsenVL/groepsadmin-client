@@ -18,9 +18,9 @@
         });
       },
       hasAccessToGroepen : function(){
-        if(responseHasAccessToGroepen == {}){
+        if(_.isEmpty(responseHasAccessToGroepen)){
           return RestService.Groepen.get().$promise.then(function (response) {
-            responseHasAccessToGroepen = reponse;
+            responseHasAccessToGroepen = response;
             return _.some(response.groepen,'contacten');
           });
         }else{
