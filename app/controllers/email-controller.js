@@ -5,9 +5,9 @@
     .module('ga.emailcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap', 'ui.tinymce'])
     .controller('EmailController', EmailController);
 
-  EmailController.$inject = ['$compile', '$log', '$q', '$routeParams', '$scope', '$uibModal', 'AlertService', 'DialogService', 'EmailService', 'LedenLijstService', 'RestService'];
+  EmailController.$inject = ['$compile', '$log', '$q', '$routeParams', '$scope', '$uibModal', 'access', 'AlertService', 'DialogService', 'EmailService', 'LedenLijstService', 'RestService'];
 
-  function EmailController ($compile, $log, $q, $routeParams, $scope, $uibModal, AlertService, DialogService, ES, LLS, RestService) {
+  function EmailController ($compile, $log, $q, $routeParams, $scope, $uibModal, access, AlertService, DialogService, ES, LLS, RestService) {
 
     // documentation tinyMCE plugin https://www.tinymce.com/docs/integrations/angularjs/
     var leden = new Array();
@@ -157,7 +157,6 @@
       if(selectedSjabloon.id){
 
         var tmpObj = JSON.parse(JSON.stringify(newSjabloon));
-
         overwriteSjabloon(selectedSjabloon, tmpObj).then(function(response){
           $scope.isSavingSjablonen = false;
           $scope.showSaveOptions = false;
@@ -339,8 +338,11 @@
       };
 
     /*******/
-
-    init();
+    if(!access){
+      $location.path("/lid/profiel");
+    }else{
+      init();
+    }
 
   }
 

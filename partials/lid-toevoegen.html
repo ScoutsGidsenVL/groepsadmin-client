@@ -7,12 +7,10 @@
   <!-- ACTIONS -->
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
-      <formerrorbutton formulier="nieuwLidForm"></formerrorbutton>
       <button type="submit" class="btn btn-apply" ng-disabled="nieuwLidForm.$invalid" ng-click="opslaan()" ng-show="lid"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
     </div>
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>
-        <formerrorbutton formulier="nieuwLidForm"></formerrorbutton>
         <button id="split-button" type="submit" class="btn btn-apply"  ng-disabled="nieuwLidForm.$invalid" ng-click="opslaan()">
           <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i>
         </button>

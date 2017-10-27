@@ -54,7 +54,7 @@
   <div class="panel-body form-hover clearfix" ng-show="etikettenIsPending">
     <div class="row">
       <div class="col-lg-6 col-sm-6 col-xs-12">
-        <i class="fa fa-spinner fa-pulse"></i>&nbsp; Even geduld aub, de etikettten worden verwerkt ...
+        <i class="fa fa-spinner fa-pulse"></i>&nbsp; Even geduld aub, de etiketten worden aangemaakt ...
       </div>
     </div>
   </div>
@@ -113,11 +113,11 @@
             </div>
             <!-- -->
 
+            <!-- *** VALUES BELOW ARE NOT SUPPORTED BY BACKEND *** -->
             <!-- ****** -->
             <!-- ****** -->
             <!-- ****** -->
-            <!-- ****** -->
-            <!-- ****** -->
+            <!--
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.blanco.$touched && etikettenForm.blanco.$invalid }">
               <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Blanco</label>
               <div class="col-xs-8 col-xxs-12">
@@ -127,8 +127,6 @@
                 </div>
               </div>
             </div>
-            <!-- -->
-            <!-- -->
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.aantalEtikettenPerRij.$touched && etikettenForm.aantalEtikettenPerRij.$invalid }">
               <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Aantal per rij</label>
               <div class="col-xs-8 col-xxs-12">
@@ -138,8 +136,6 @@
                 </div>
               </div>
             </div>
-            <!-- -->
-            <!-- -->
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.aantalRijenPerPagina.$touched && etikettenForm.aantalRijenPerPagina.$invalid }">
               <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Rijen per pagina</label>
               <div class="col-xs-8 col-xxs-12">
@@ -149,7 +145,7 @@
                 </div>
               </div>
             </div>
-            <!-- -->
+            -->
 
 
 
@@ -178,7 +174,7 @@
               </div>
               <label class="form-group  form-group--joined control checkbox">
                 <div class="col-xs-12">
-                  <input type="checkbox" id="sendStandard" ng-model="familie" ng-checked="familie">
+                  <input type="checkbox" id="sendStandard" ng-model="sjabloon.familie" ng-checked="familie">
                   <span class="control-indicator pull-left mr-10"></span>
                   <div class="control-label">Familie</div>
 
@@ -187,7 +183,7 @@
               </label>
               <label class="form-group form-group--joined control checkbox">
                 <div class="col-xs-12">
-                  <input type="checkbox" id="sendContacts" ng-model="alleAdressen" ng-checked="alleAdressen">
+                  <input type="checkbox" id="sendContacts" ng-model="sjabloon.alleAdressen" ng-checked="alleAdressen">
                   <span class="control-indicator pull-left mr-10"></span>
                   <div class="control-label">Alle adressen</div>
                 </div>
@@ -268,28 +264,4 @@
       </li>
     </ul>
   </div>
-</script>
-
-<!-- bootstrap modal -->
-<script type="text/ng-template" id="emailConfirmationModal.html">
-    <div class="modal-header">
-        <h3 class="modal-title">E-mail verzonden</h3>
-    </div>
-    <div class="modal-body">
-        <p>{{ feedback.messageOk }}</p>
-        <div ng-if="!_.isEmpty(feedback.messagesNok)">
-          <p><strong>FOUTEN</strong></p>
-          <div ng-repeat="(titelFout, fouten) in feedback.messagesNok">
-            <p class="modal-error-title">{{ titelFout }}</p>
-            <ul>
-                <li ng-repeat="fout in fouten">
-                    <a href="#" ng-click="$event.preventDefault();">{{ fout }}</a>
-                </li>
-            </ul>
-          </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="ok()">Sluiten</button>
-    </div>
 </script>

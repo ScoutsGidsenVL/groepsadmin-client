@@ -41,6 +41,22 @@
       return deferred.promise;
     }
 
+    etikettenService.createLabels = function(data){
+
+      var deferred = $q.defer();
+      RestService.EtikettenPdf.post(data).$promise.then(function(res){
+        var file = new Blob([res.response], {type: 'application/pdf'});
+        var obj = {};
+        obj.fileUrl = URL.createObjectURL(file);
+        obj.title = 'etiketten';
+        deferred.resolve(obj);
+      });
+      return deferred.promise;
+
+    }
+
+    /*
+
     etikettenService.sendMail = function(obj, lidId){
       console.log('ES.sendMail(), ', obj);
       var deferred = $q.defer();
@@ -92,6 +108,8 @@
       return feedbackObj;
 
     }
+
+    */
 
     return etikettenService;
   };

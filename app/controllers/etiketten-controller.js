@@ -20,7 +20,7 @@
 
     $scope.configEditor = function(velden){
       $scope.velden = velden;
-      // first make all the menu items
+      // first make all the menu items of tinymce the editor
       var menuItems = [];
       var item = {};
       $scope.velden.forEach(function(customer, index){
@@ -37,9 +37,10 @@
           'insertdatetime media nonbreaking save table contextmenu',
           'template paste textcolor colorpicker textpattern imagetools codesample'
         ],
+        fontsize_formats: 'small medium large',
         height: 400,
         menubar: false,
-        toolbar: 'undo redo | bold italic underline strikethrough | forecolor backcolor | bullist numlist | alignleft aligncenter alignright | table | code | customDrpdwn | media | preview',
+        toolbar: 'undo redo | bold italic underline strikethrough | fontsizeselect forecolor backcolor | bullist numlist | alignleft aligncenter alignright | table | code | customDrpdwn | media | preview',
         setup: function(editor){
             editor.addButton( 'customDrpdwn', {
                 text : 'Veld invoegen',
@@ -68,40 +69,39 @@
 
     $scope.aanmaken = function(){
 
-      var sjabloonObj = {
-        "naam": $scope.naam,
+      var payload = {
         "grootte": {
-          "horizontaal": $scope.grootte.verticaal,
-          "verticaal": $scope.grootte.horizontaal
+          "horizontaal": parseInt($scope.sjabloon.grootte.horizontaal),
+          "verticaal": parseInt($scope.sjabloon.grootte.verticaal)
         },
         "tussenruimte": {
-          "horizontaal": $scope.tussenruimte.horizontaal,
-          "verticaal": $scope.tussenruimte.verticaal
+          "horizontaal": parseInt($scope.sjabloon.tussenruimte.horizontaal),
+          "verticaal": parseInt($scope.sjabloon.tussenruimte.verticaal)
         },
         "marge": {
-          "horizontaal": $scope.margeKant,
-          "verticaal": $scope.margeTop
+          "horizontaal": parseInt($scope.sjabloon.marge.horizontaal),
+          "verticaal": parseInt($scope.sjabloon.marge.verticaal)
         },
-        "inhoud": $scope.inhoud,
-        "blanco": $scope.blanco,
-        "familie": $scope.familie,
-        "alleAdressen": $scope.alleAdressen,
-        "aantalEtikettenPerRij": $scope.aantalPerRij,
-        "aantalRijenPerPagina": $scope.aantalPerPagina
-     }
-
-
-      var payload = "--AaB03x\n";
-      payload+= 'Content-Disposition: form-data; name="sjabloon"\nContent-Type: application/json\n\n';
-      payload += JSON.stringify(sjabloonObj);
-      payload+= "\n\n--AaB03x--";
+        "inhoud": $scope.sjabloon.inhoud,
+        "blanco": $scope.sjabloon.blanco,
+        "familie": $scope.sjabloon.familie,
+        "alleAdressen": $scope.sjabloon.alleAdressen
+      }
 
       $scope.etikettenIsPending = true;
-      /*ES.sendMail(payload).then(function(res){
+      ETS.createLabels(payload).then(function(res){
+
         console.log("etiketten list", res);
-        feedback(res);
-      });*/
-      console.log('CONVERT THIS INFO INTO A PDF', payload );
+        var a = document.createElement('a');
+        a.href = res.fileUrl;
+        a.target = '_blank';
+        a.download = res.title;
+
+        document.body.appendChild(a);
+        a.click();
+        $scope.etikettenIsPending = false;
+
+      });
 
     }
 
@@ -143,19 +143,19 @@
       if(selectedSjabloon.id){
         newSjabloon = selectedSjabloon;
         newSjabloon.grootte = {};
-        newSjabloon.grootte.horizontaal = $scope.grootte.horizontaal;
-        newSjabloon.grootte.verticaal = $scope.grootte.verticaal;
+        newSjabloon.grootte.horizontaal = $scope.sjabloon.grootte.horizontaal;
+        newSjabloon.grootte.verticaal = $scope.sjabloon.grootte.verticaal;
         newSjabloon.tussenruimte = {};
-        newSjabloon.tussenruimte.horizontaal = $scope.tussenruimte.horizontaal;
-        newSjabloon.tussenruimte.verticaal = $scope.tussenruimte.verticaal;
+        newSjabloon.tussenruimte.horizontaal = $scope.sjabloon.tussenruimte.horizontaal;
+        newSjabloon.tussenruimte.verticaal = $scope.sjabloon.tussenruimte.verticaal;
         newSjabloon.marge = {};
-        newSjabloon.marge.horizontaal = $scope.marge.horizontaal;
-        newSjabloon.marge.verticaal = $scope.marge.verticaal;
-        newSjabloon.inhoud = $scope.inhoud;
-        newSjabloon.blanco = $scope.blanco;
-        newSjabloon.alleAdressen = $scope.alleAdressen;
-        newSjabloon.aantalEtikettenPerRij = $scope.aantalEtikettenPerRij;
-        newSjabloon.aantalRijenPerPagina = $scope.aantalRijenPerPagina;
+        newSjabloon.marge.horizontaal = $scope.sjabloon.marge.horizontaal;
+        newSjabloon.marge.verticaal = $scope.sjabloon.marge.verticaal;
+        newSjabloon.inhoud = $scope.sjabloon.inhoud;
+        newSjabloon.blanco = $scope.sjabloon.blanco;
+        newSjabloon.alleAdressen = $scope.sjabloon.alleAdressen;
+        newSjabloon.aantalEtikettenPerRij = $scope.sjabloon.aantalEtikettenPerRij;
+        newSjabloon.aantalRijenPerPagina = $scope.sjabloon.aantalRijenPerPagina;
 
       }else{
         newSjabloon = getNewSjabloon();
@@ -221,34 +221,35 @@
     }
 
     var getNewSjabloon = function(){
-      return newSjabloon = {
+      var newSjabloon = {
         "naam": $scope.naam,
         "grootte": {
-          "horizontaal": $scope.grootte.verticaal,
-          "verticaal": $scope.grootte.horizontaal
+          "horizontaal": $scope.sjabloon.grootte.verticaal,
+          "verticaal": $scope.sjabloon.grootte.horizontaal
         },
         "tussenruimte": {
-          "horizontaal": $scope.tussenruimte.horizontaal,
-          "verticaal": $scope.tussenruimte.verticaal
+          "horizontaal": $scope.sjabloon.tussenruimte.horizontaal,
+          "verticaal": $scope.sjabloon.tussenruimte.verticaal
         },
         "marge": {
-          "horizontaal": $scope.margeKant,
-          "verticaal": $scope.margeTop
+          "horizontaal": $scope.sjabloon.marge.horizontaal,
+          "verticaal": $scope.sjabloon.marge.verticaal
         },
-        "inhoud": $scope.inhoud,
-        "blanco": $scope.blanco,
-        "familie": $scope.familie,
-        "alleAdressen": $scope.alleAdressen,
-        "aantalEtikettenPerRij": $scope.aantalPerRij,
-        "aantalRijenPerPagina": $scope.aantalPerPagina
+        "inhoud": $scope.sjabloon.inhoud,
+        "blanco": $scope.sjabloon.blanco,
+        "familie": $scope.sjabloon.familie,
+        "alleAdressen": $scope.sjabloon.alleAdressen,
+        "aantalEtikettenPerRij": $scope.sjabloon.aantalPerRij,
+        "aantalRijenPerPagina": $scope.sjabloon.aantalPerPagina
       }
+      return newSjabloon;
     }
 
     var overwriteSjabloon = function(sjabloon, obj){
       var deferred = $q.defer();
       obj.naam = sjabloon.naam;
 
-      ES.saveSjabloon(sjabloon.id, obj).then(
+      ETS.saveSjabloon(sjabloon.id, obj).then(
       function(result){
         AlertService.add('success', "Template '"+ sjabloon.naam + "' werd succesvol opgeslagen", 5000);
         deferred.resolve(result);
@@ -260,19 +261,12 @@
 
     var createNewSjabloon = function(sjabloon){
       return $q(function(resolve,reject){
-        RestService.Emailsjabloon.post(sjabloon).$promise.then(
+        RestService.Etiketsjabloon.post(sjabloon).$promise.then(
           function(response){
             resolve(response);
           }
         );
       });
-    }
-
-    function feedback(obj){
-      var feedback = ES.getMailReportMessage(obj);
-      $scope.etikettenIsPending = false;
-      $scope.openDialog(feedback);
-      // TODO: unset the flag to use in template to hide pending message
     }
 
     function init(){
@@ -320,35 +314,12 @@
 
     $scope.animationsEnabled = true;
 
-    // template van deze dialog staat in index.html (#emailConfirmationModal)
-    $scope.openDialog = function (feedbackObj) {
-
-        var modalInstance = $uibModal.open({
-          animation: $scope.animationsEnabled,
-          templateUrl: 'emailConfirmationModal.html',
-          controller: 'ModalInstanceController',
-          size: '',
-          resolve: {
-            feedback: function () {
-              return feedbackObj;
-            }
-          }
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-          $scope.selected = selectedItem;
-        }, function () {
-          $log.info('Modal dismissed at: ' + new Date());
-        });
-      };
-
     /*******/
     if(!access){
       $location.path("/lid/profiel");
     }else{
       init();
     }
-
 
   }
 

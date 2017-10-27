@@ -114,6 +114,28 @@
         {aantal: '@aantal', offset: '@offset'},
         {'get': {method: 'GET', cache: false}}
       ),
+      EtikettenPdf: $resource(
+        base + 'ledenlijst/etiket?offset=:offset',
+        {offset: '@offset'},
+        {'post': {
+          method: 'POST',
+          headers: {
+              accept: 'application/pdf'
+          },
+          responseType: 'arraybuffer',
+          transformResponse: function (data) {
+              var pdf;
+              if (data) {
+                  pdf = new Blob([data], {
+                      type: 'application/pdf'
+                  });
+              }
+              return {
+                  response: pdf
+              };
+          }
+        }}
+      ),
       LedenPdf: $resource(
         base + 'ledenlijst?offset=:offset',
         {offset: '@offset'},
