@@ -22,4 +22,4 @@ case "${BRANCH}" in
 esac
 
 scp -o PreferredAuthentications=publickey client.zip jenkins@${DEPLOY_HOST}:/home/jenkins/
-ssh -o PreferredAuthentications=publickey -l jenkins ${DEPLOY_HOST} sudo /root/scripts/groepsadmin/deploy-groepsadmin-client-by-jenkins.sh
+ssh -o PreferredAuthentications=publickey -l jenkins ${DEPLOY_HOST} sudo /root/scripts/groepsadmin/getriggerd/deploy-groepsadmin-client-by-jenkins.sh
