@@ -91,7 +91,6 @@
       $scope.etikettenIsPending = true;
       ETS.createLabels(payload).then(function(res){
 
-        console.log("etiketten list", res);
         var a = document.createElement('a');
         a.href = res.fileUrl;
         a.target = '_blank';
@@ -262,7 +261,7 @@
 
     var createNewSjabloon = function(sjabloon){
       return $q(function(resolve,reject){
-        RestService.Etiketsjabloon.post(sjabloon).$promise.then(
+        RestService.EtiketPostsjabloon.post(sjabloon).$promise.then(
           function(response){
             resolve(response);
           }

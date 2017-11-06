@@ -290,9 +290,15 @@
         {id: '@id', bevestiging: '@bevestiging'},
         {
         'get': {method: 'GET', cache: false},
-        'post': {method: 'POST', cache: false},
         'update': {method: 'PATCH', transformRequest: changesOnly, cache: false},
         'delete': {method: 'DELETE', cache: false}
+        }
+      ),
+      EtiketPostsjabloon: $resource(
+        base + 'sjabloon/etiket/dummyid',
+        {},
+        {
+        'post': {method: 'POST', cache: false}
         }
       ),
       Websites: $resource(
