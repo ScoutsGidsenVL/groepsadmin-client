@@ -112,9 +112,10 @@
               <div class="email-leden col-xs-12" ng-show="ledenVisible">
                 <ul>
                   <li ng-repeat="lid in leden">
-                    <span ng-if="lid.voornaam">{{ lid.voornaam }}</span>
-                    <span ng-if="lid.achternaam">{{ lid.achternaam }}</span>
-                    <span ng-if="!lid.voornaam && !lid.achternaam"> - geen naam beschikbaar - </span>
+                    <span ng-if="lid.voornaam">{{ ::lid.voornaam }}</span>
+                    <span ng-if="lid.achternaam">{{ ::lid.achternaam }}</span>
+                    <span ng-if="!lid.voornaam && !lid.achternaam && lid.volledigenaam"> {{ ::lid.volledigenaam }} </span>
+                    <span ng-if="!lid.voornaam && !lid.achternaam && !lid.volledigenaam"> - geen naam beschikbaar - </span>
                   </li>
                 </ul>
                 <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>

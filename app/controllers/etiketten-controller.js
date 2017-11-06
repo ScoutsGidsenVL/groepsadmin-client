@@ -111,7 +111,8 @@
         _.each(res.leden, function(val,key){
           $scope.leden.push({
             'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'],
-            'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']
+            'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'],
+            'volledigenaam': val.waarden['be.vvksm.groepsadmin.model.column.VolledigeNaamColumn']
           });
         });
         if(res.totaal > $scope.leden.length){

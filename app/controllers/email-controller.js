@@ -114,7 +114,11 @@
       $scope.ledenLaden = true;
       LLS.getLeden(offset).then(function(res){
         _.each(res.leden, function(val,key){
-          $scope.leden.push({'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'], 'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn']});
+          $scope.leden.push({
+            'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'],
+            'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'],
+            'volledigenaam': val.waarden['be.vvksm.groepsadmin.model.column.VolledigeNaamColumn']
+          });
         });
         if(res.totaal > $scope.leden.length){
           offset += 50;
