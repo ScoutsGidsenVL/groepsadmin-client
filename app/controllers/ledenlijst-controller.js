@@ -791,6 +791,9 @@
     $scope.redirectToEmailPage = function(){
       $location.path("/email/ledenlijst");
     }
+    $scope.redirectToEtikettenPage = function(){
+      $location.path("/etiketten");
+    }
 
     function init(){
 

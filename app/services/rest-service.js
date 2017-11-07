@@ -114,6 +114,28 @@
         {aantal: '@aantal', offset: '@offset'},
         {'get': {method: 'GET', cache: false}}
       ),
+      EtikettenPdf: $resource(
+        base + 'ledenlijst/etiket?offset=:offset',
+        {offset: '@offset'},
+        {'post': {
+          method: 'POST',
+          headers: {
+              accept: 'application/pdf'
+          },
+          responseType: 'arraybuffer',
+          transformResponse: function (data) {
+              var pdf;
+              if (data) {
+                  pdf = new Blob([data], {
+                      type: 'application/pdf'
+                  });
+              }
+              return {
+                  response: pdf
+              };
+          }
+        }}
+      ),
       LedenPdf: $resource(
         base + 'ledenlijst?offset=:offset',
         {offset: '@offset'},
@@ -261,6 +283,22 @@
         'post': {method: 'POST', cache: false},
         'update': {method: 'PATCH', transformRequest: changesOnly, cache: false},
         'delete': {method: 'DELETE', cache: false}
+        }
+      ),
+      Etiketsjabloon: $resource(
+        base + 'sjabloon/etiket/:id',
+        {id: '@id', bevestiging: '@bevestiging'},
+        {
+        'get': {method: 'GET', cache: false},
+        'update': {method: 'PATCH', transformRequest: changesOnly, cache: false},
+        'delete': {method: 'DELETE', cache: false}
+        }
+      ),
+      EtiketPostsjabloon: $resource(
+        base + 'sjabloon/etiket/dummyid',
+        {},
+        {
+        'post': {method: 'POST', cache: false}
         }
       ),
       Websites: $resource(

@@ -60,7 +60,18 @@
 
       .when('/email/:id', {
         templateUrl: 'partials/email.html',
-        controller: 'EmailController'
+        controller: 'EmailController',
+        resolve : {
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("ledenlijst").then(function(res){ return res }); }]
+        }
+      })
+
+      .when('/etiketten', {
+        templateUrl: 'partials/etiketten.html',
+        controller: 'EtikettenController',
+        resolve : {
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("ledenlijst").then(function(res){ return res }); }]
+        }
       })
 
       .otherwise({

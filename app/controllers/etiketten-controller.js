@@ -2,12 +2,14 @@
   'use strict';
 
   angular
-    .module('ga.emailcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap', 'ui.tinymce'])
-    .controller('EmailController', EmailController);
+    .module('ga.etikettencontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap', 'ui.tinymce'])
+    .controller('EtikettenController', EtikettenController);
 
-  EmailController.$inject = ['$compile', '$log', '$q', '$routeParams', '$scope', '$uibModal', 'access', 'AlertService', 'DialogService', 'EmailService', 'LedenLijstService', 'RestService'];
+  EtikettenController.$inject = ['$compile', '$location', '$log', '$q', '$routeParams', '$scope', '$uibModal', 'access', 'AlertService', 'DialogService', 'EtikettenService', 'LedenLijstService', 'RestService'];
 
-  function EmailController ($compile, $log, $q, $routeParams, $scope, $uibModal, access, AlertService, DialogService, ES, LLS, RestService) {
+  function EtikettenController ($compile, $location, $log, $q, $routeParams, $scope, $uibModal, access, AlertService, DialogService, ETS, LLS, RestService) {
+
+
 
     // documentation tinyMCE plugin https://www.tinymce.com/docs/integrations/angularjs/
     var leden = new Array();
@@ -18,7 +20,7 @@
 
     $scope.configEditor = function(velden){
       $scope.velden = velden;
-      // first make all the menu items
+      // first make all the menu items of tinymce the editor
       var menuItems = [];
       var item = {};
       $scope.velden.forEach(function(customer, index){
@@ -35,9 +37,10 @@
           'insertdatetime media nonbreaking save table contextmenu',
           'template paste textcolor colorpicker textpattern imagetools codesample'
         ],
+        fontsize_formats: 'small medium large',
         height: 400,
         menubar: false,
-        toolbar: 'undo redo | bold italic underline strikethrough | forecolor backcolor | bullist numlist | alignleft aligncenter alignright | table | code | customDrpdwn | media | preview',
+        toolbar: 'undo redo | bold italic underline strikethrough | fontsizeselect forecolor backcolor | bullist numlist | alignleft aligncenter alignright | table | code | customDrpdwn | media | preview',
         setup: function(editor){
             editor.addButton( 'customDrpdwn', {
                 text : 'Veld invoegen',
@@ -59,55 +62,55 @@
     }
 
     $scope.changeSjabloon = function(sjabloon){
+      console.log("changeSjabloon --- ",sjabloon);
+      //$scope.sjabloon = sjabloon;
       $scope.sjabloon = sjabloon;
     }
 
-    $scope.verzenden = function(){
+    $scope.aanmaken = function(){
 
-      var sjabloonObj = {
-          "vanGroep": $scope.selectedgroup.groepsnummer,
-          "replyTo": $scope.sjabloon.replyTo,
-          "inhoud": $scope.sjabloon.inhoud,
-          "onderwerp": $scope.sjabloon.onderwerp,
-          "van": $scope.sjabloon.van,
-          "bestemming": {
-              "lid": $scope.sjabloon.bestemming.lid,
-              "contacten": $scope.sjabloon.bestemming.contacten,
-              "groepseigenGegevens": []
+      var payload = {
+        "grootte": {
+          "horizontaal": parseInt($scope.sjabloon.grootte.horizontaal),
+          "verticaal": parseInt($scope.sjabloon.grootte.verticaal)
+        },
+        "tussenruimte": {
+          "horizontaal": parseInt($scope.sjabloon.tussenruimte.horizontaal),
+          "verticaal": parseInt($scope.sjabloon.tussenruimte.verticaal)
+        },
+        "marge": {
+          "horizontaal": parseInt($scope.sjabloon.marge.horizontaal),
+          "verticaal": parseInt($scope.sjabloon.marge.verticaal)
+        },
+        "inhoud": $scope.sjabloon.inhoud,
+        "blanco": $scope.sjabloon.blanco,
+        "familie": $scope.sjabloon.familie,
+        "alleAdressen": $scope.sjabloon.alleAdressen
+      }
+
+      $scope.etikettenIsPending = true;
+      $scope.etiketPropertiesWatchable = false;
+      ETS.createLabels(payload).then(
+        function(res){
+          if(res.title && res.title == 'error'){
+            AlertService.add('danger', "Er konden geen etiketten worden aangemaakt", 5000);
+            $scope.etikettenIsPending = false;
+            $scope.etiketPropertiesWatchable = true;
+          }else{
+            var a = document.createElement('a');
+            a.href = res.fileUrl;
+            a.target = '_blank';
+            a.download = res.title;
+
+            document.body.appendChild(a);
+            a.click();
+            $scope.etikettenIsPending = false;
+            $scope.etiketPropertiesWatchable = true;
           }
-      }
-      var payload = "--AaB03x\n";
-      payload+= 'Content-Disposition: form-data; name="sjabloon"\nContent-Type: application/json\n\n';
-      payload += JSON.stringify(sjabloonObj);
-      payload+= "\n\n--AaB03x--";
 
-      // als er meerdere leden zijn moeten we een andere endpoint gebruiken dan wanneer we 1 lid willen mailen
-      if($routeParams.id !== "ledenlijst"){
-        $scope.mailIsPending = true;
-        ES.sendMail(payload,$routeParams.id).then(function(res){
 
-          console.log("mail was sent TO " + $routeParams.id , res);
-          feedback(res);
         });
-      }else{
-        $scope.mailIsPending = true;
-        ES.sendMail(payload).then(function(res){
-          console.log("mail was sent TO list", res);
-          feedback(res);
-        });
-      }
-    }
 
-    // bevestiging return functie
-    // --------------------------------------
-    $scope.confirmEmailReport = function(result){
-
-    }
-
-    $scope.getLid = function(id){
-      RestService.Lid.get({id:$routeParams.id}).$promise.then(function(res){
-          $scope.leden.push({'voornaam': res.vgagegevens.voornaam, 'achternaam': res.vgagegevens.achternaam });
-      });
     }
 
     $scope.getLeden = function(offset){
@@ -131,7 +134,7 @@
 
     $scope.deleteSjabloon = function(sjObj){
       $scope.isDeleting = true;
-      RestService.Emailsjabloon.delete({id: sjObj.id}).$promise.then(
+      RestService.Etiketsjabloon.delete({id: sjObj.id}).$promise.then(
         function(response){
           AlertService.add('success ', "Sjabloon '"+ sjObj.naam + "' succesvol verwijderd", 5000);
           $scope.isDeleting = false;
@@ -145,18 +148,35 @@
     $scope.saveOrOverwriteSjabloon = function(selectedSjabloon){
       $scope.isSavingSjablonen = true;
       console.log('selectedSjabloon', selectedSjabloon);
-      var newSjabloon;
+      var newSjabloon = {};
       if(selectedSjabloon.id){
-        newSjabloon = selectedSjabloon;
-      }else{
-        newSjabloon = {};
-      }
 
-      newSjabloon.replyTo = $scope.sjabloon.replyTo;
-      newSjabloon.van = $scope.sjabloon.van;
-      newSjabloon.onderwerp = $scope.sjabloon.onderwerp;
-      newSjabloon.inhoud = $scope.sjabloon.inhoud;
-      newSjabloon.vanGroep = $scope.selectedgroup.groepsnummer;
+        newSjabloon = {
+          "id": selectedSjabloon.id,
+          "grootte": {
+            "horizontaal": $scope.sjabloon.grootte.horizontaal,
+            "verticaal": $scope.sjabloon.grootte.verticaal
+          },
+          "tussenruimte": {
+            "horizontaal": $scope.sjabloon.tussenruimte.horizontaal,
+            "verticaal": $scope.sjabloon.tussenruimte.verticaal
+          },
+          "marge": {
+            "horizontaal": $scope.sjabloon.marge.horizontaal,
+            "verticaal": $scope.sjabloon.marge.verticaal
+          },
+          "naam": $scope.sjabloon.naam,
+          "inhoud": $scope.sjabloon.inhoud,
+          "blanco": $scope.sjabloon.blanco,
+          "familie": $scope.sjabloon.familie,
+          "alleAdressen": $scope.sjabloon.alleAdressen,
+          "aantalEtikettenPerRij": $scope.sjabloon.aantalEtikettenPerRij,
+          "aantalRijenPerPagina": $scope.sjabloon.aantalRijenPerPagina
+        }
+
+      }else{
+        newSjabloon = ETS.getNewSjabloon($scope.sjabloon);
+      }
 
       if(selectedSjabloon.id){
 
@@ -191,7 +211,6 @@
           // indien de naam niet bestaat, maak nieuwe sjObj
           delete $scope.sjabloon.id;
           $scope.sjabloon.naam = selectedSjabloon;
-          $scope.sjabloon.vanGroep = $scope.selectedgroup.groepsnummer;
 
           createNewSjabloon($scope.sjabloon).then(function(res){
             $scope.isSavingSjablonen = false;
@@ -207,20 +226,11 @@
 
     var makeDummySjabloon = function(){
       var deferred = $q.defer();
-      RestService.Lid.get({id:'profiel'}).$promise.then(function(result) {
+      // dit sjabloon zal worden gebruikt als er nog geen sjabloon bestaat voor de gebruiker
+      $scope.sjabloon.naam = 'blanco sjabloon';
+      var sjabloon = ETS.getNewSjabloon($scope.sjabloon);
+      deferred.resolve(sjabloon);
 
-            // dit sjabloon zal worden gebruikt als er nog geen sjabloon bestaat voor de gebruiker
-            var sjabloon = {};
-            sjabloon.naam = 'blanco sjabloon';
-            sjabloon.replyTo = result.email;
-            sjabloon.van = result.vgagegevens.voornaam + ' ' + result.vgagegevens.achternaam;
-            sjabloon.onderwerp = "";
-            sjabloon.inhoud = "";
-            sjabloon.bestemming = {};
-            sjabloon.bestemming.lid = true;
-            sjabloon.bestemming.contacten = false;
-            deferred.resolve(sjabloon);
-      });
       return deferred.promise;
     }
 
@@ -228,7 +238,7 @@
       var deferred = $q.defer();
       obj.naam = sjabloon.naam;
 
-      ES.saveSjabloon(sjabloon.id, obj).then(
+      ETS.saveSjabloon(sjabloon.id, obj).then(
       function(result){
         AlertService.add('success', "Template '"+ sjabloon.naam + "' werd succesvol opgeslagen", 5000);
         deferred.resolve(result);
@@ -240,7 +250,7 @@
 
     var createNewSjabloon = function(sjabloon){
       return $q(function(resolve,reject){
-        RestService.Emailsjabloon.post(sjabloon).$promise.then(
+        RestService.EtiketPostsjabloon.post(sjabloon).$promise.then(
           function(response){
             resolve(response);
           }
@@ -248,28 +258,19 @@
       });
     }
 
-    function feedback(obj){
-      var feedback = ES.getMailReportMessage(obj);
-      $scope.mailIsPending = false;
-      $scope.openDialog(feedback);
-      // TODO: unset the flag to use in template to hide pending message
-    }
-
     function init(){
+
       $scope.isLoadingSjablonen = true;
       $scope.leden = new Array();
-
-      // als er een id in de url staat halen we 1 lid op
-      if($routeParams.id !== 'ledenlijst'){
-        $scope.getLid();
-      }else{
-        $scope.getLeden(0);
-      }
+      $scope.getLeden(0);
+      $scope.sjabloon = {};
 
 
-      $scope.isLoadingGroepen = true;
 
-      ES.getSjablonen().then(function(res){
+
+
+      ETS.getSjablonen().then(function(res){
+
         $scope.isLoadingSjablonen = false;
         if(res.sjablonen){
           $scope.sjablonen = res.sjablonen;
@@ -277,29 +278,22 @@
             makeDummySjabloon().then(function(res){
               $scope.sjablonen.push(res);
               $scope.changeSjabloon($scope.sjablonen[0]);
+              $scope.etiketPropertiesWatchable = true;
             })
           }
           if($scope.lastSavedSjabloon && $scope.lastSavedSjabloon.id){
             console.log("last saved", _.find($scope.sjablonen, {'id': $scope.lastSavedSjabloon.id }));
             $scope.changeSjabloon(_.find($scope.sjablonen, {'id': $scope.lastSavedSjabloon.id }));
+            $scope.etiketPropertiesWatchable = true;
           }else{
             $scope.changeSjabloon($scope.sjablonen[0]);
+            $scope.etiketPropertiesWatchable = true;
           }
         }
       },function(err){
         $scope.isLoadingSjablonen = false;
         AlertService.add('danger', "Er konden geen sjablonen worden opgehaald", 5000);
       });
-
-      RestService.Groepen.get().$promise.then(
-        function (result) {
-          $scope.groepen = result.groepen;
-          $scope.selectedgroup = result.groepen[0];
-          $scope.isLoadingGroepen = false;
-        },
-        function (err){
-        }
-      );
 
       // velden ophalen die worden gebruikt in de tinyMCE editor
       // pas wanneer de Kolommen-call resolved is, zal de tinyMCE editor worden geïnitieerd
@@ -318,28 +312,6 @@
     /*** MODAL LOGIC ***/
 
     $scope.animationsEnabled = true;
-
-    // template van deze dialog staat in index.html (#emailConfirmationModal)
-    $scope.openDialog = function (feedbackObj) {
-
-        var modalInstance = $uibModal.open({
-          animation: $scope.animationsEnabled,
-          templateUrl: 'emailConfirmationModal.html',
-          controller: 'ModalInstanceController',
-          size: '',
-          resolve: {
-            feedback: function () {
-              return feedbackObj;
-            }
-          }
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-          $scope.selected = selectedItem;
-        }, function () {
-          $log.info('Modal dismissed at: ' + new Date());
-        });
-      };
 
     /*******/
     if(!access){
