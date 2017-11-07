@@ -44,15 +44,51 @@
     etikettenService.createLabels = function(data){
 
       var deferred = $q.defer();
-      RestService.EtikettenPdf.post(data).$promise.then(function(res){
-        var file = new Blob([res.response], {type: 'application/pdf'});
-        var obj = {};
-        obj.fileUrl = URL.createObjectURL(file);
-        obj.title = 'etiketten';
-        deferred.resolve(obj);
-      });
+      RestService.EtikettenPdf.post(data).$promise.then(
+        function(res){
+          var file = new Blob([res.response], {type: 'application/pdf'});
+          var obj = {};
+          obj.fileUrl = URL.createObjectURL(file);
+          obj.title = 'etiketten';
+          deferred.resolve(obj);
+        }, function(error){
+          var obj = {};
+          obj.title = "error";
+          obj.error = error;
+          deferred.resolve(obj);
+        }
+      );
       return deferred.promise;
 
+    }
+
+    etikettenService.getNewSjabloon = function(sjabloon){
+      sjabloon.grootte = sjabloon.grootte ? sjabloon.grootte : {};
+      sjabloon.tussenruimte = sjabloon.tussenruimte ? sjabloon.tussenruimte : {};
+      sjabloon.marge = sjabloon.marge ? sjabloon.marge : {};
+
+      var newSjabloon = {
+        "naam": sjabloon.naam,
+        "grootte": {
+          "horizontaal": 50,
+          "verticaal": 20
+        },
+        "tussenruimte": {
+          "horizontaal": 10,
+          "verticaal": 10
+        },
+        "marge": {
+          "horizontaal": 10,
+          "verticaal": 10
+        },
+        "inhoud": sjabloon.inhoud,
+        "blanco": sjabloon.blanco,
+        "familie": sjabloon.familie,
+        "alleAdressen": sjabloon.alleAdressen,
+        "aantalEtikettenPerRij": sjabloon.aantalPerRij,
+        "aantalRijenPerPagina": sjabloon.aantalPerPagina
+      }
+      return newSjabloon;
     }
 
     /*

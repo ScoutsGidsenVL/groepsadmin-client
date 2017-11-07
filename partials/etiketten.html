@@ -24,21 +24,14 @@
   <!-- NEW ACTIONS -->
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
-      <button type="submit" class="btn btn-apply" ng-click="aanmaken()"><span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;Etiketten maken&nbsp;
+      <formerrorbutton formulier="etikettenForm" watchable="etiketPropertiesWatchable"></formerrorbutton>
+      <button type="submit" class="btn btn-apply" ng-click="aanmaken()" ng-disabled="etikettenForm.$invalid"><span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;Etiketten maken&nbsp;
     </div>
     <div class="hidden-md hidden-lg">
-      <div class="btn-group pull-right" uib-dropdown>
-        <button id="split-button" type="submit" class="btn btn-apply">
-          <span class="glyphicon glyphicon-print" aria-hidden="true" ng-click="aanmaken()"></span>&nbsp;&nbsp;Etiketten maken&nbsp;
-        </button>
-        <button type="button" class="btn btn-apply"  uib-dropdown-toggle>
-          <span class="caret"></span>
-          <span class="sr-only">Etiketten maken</span>
-        </button>
-        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-          <li role="menuitem"><a href="#" ng-click="aanmaken()">Etiketten maken</a></li>
-        </ul>
-      </div>
+      <formerrorbutton formulier="etikettenForm" watchable="etiketPropertiesWatchable"></formerrorbutton>
+      <button id="split-button" ng-disabled="etikettenForm.$invalid" type="submit" class="btn btn-apply">
+        <span class="glyphicon glyphicon-print" aria-hidden="true" ng-click="aanmaken()" ng-disabled="etikettenForm.$invalid"></span>&nbsp;&nbsp;Etiketten&nbsp;
+      </button>
     </div>
   </div>
 
@@ -53,8 +46,10 @@
 
   <div class="panel-body form-hover clearfix" ng-show="etikettenIsPending">
     <div class="row">
-      <div class="col-lg-6 col-sm-6 col-xs-12">
-        <i class="fa fa-spinner fa-pulse"></i>&nbsp; Even geduld aub, de etiketten worden aangemaakt ...
+      <div class="col-lg-12 col-sm-12 col-xs-12 text-center">
+        <div class="loadingcontainer">
+          <i class="fa fa-spinner fa-pulse"></i>&nbsp; Even geduld aub, de etiketten worden aangemaakt ...
+        </div>
       </div>
     </div>
   </div>
@@ -72,7 +67,7 @@
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.groottehorizontaal.$touched && etikettenForm.groottehorizontaal.$invalid }">
               <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Grootte horizontaal</label>
               <div class="col-xs-8 col-xxs-12">
-                <input type="text" class="form-control" name="groottehorizontaal" id="fromName" ng-model="sjabloon.grootte.horizontaal" required>
+                <input type="number" min="0.1" class="form-control" name="groottehorizontaal" id="fromName" ng-model="sjabloon.grootte.horizontaal" required>
                 <div ng-messages="etikettenForm.groottehorizontaal.$error" ng-show="etikettenForm.groottehorizontaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
@@ -83,7 +78,7 @@
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.grootteverticaal.$touched && etikettenForm.grootteverticaal.$invalid }">
               <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Grootte verticaal</label>
               <div class="col-xs-8 col-xxs-12">
-                <input type="text" class="form-control" name="grootteverticaal" id="grootteverticaal" ng-model="sjabloon.grootte.verticaal" required>
+                <input type="number" min="0.1"  class="form-control" name="grootteverticaal" id="grootteverticaal" ng-model="sjabloon.grootte.verticaal" required>
                 <div ng-messages="etikettenForm.grootteverticaal.$error" ng-show="etikettenForm.grootteverticaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
@@ -94,7 +89,7 @@
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.margehorizontaal.$touched && etikettenForm.margehorizontaal.$invalid }">
               <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Marge horizontaal</label>
               <div class="col-xs-8 col-xxs-12">
-                <input type="text" class="form-control" name="margehorizontaal" id="fromName" ng-model="sjabloon.marge.horizontaal" required>
+                <input type="number" min="0.1"  class="form-control" name="margehorizontaal" id="fromName" ng-model="sjabloon.marge.horizontaal" required>
                 <div ng-messages="etikettenForm.margehorizontaal.$error" ng-show="etikettenForm.margehorizontaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
@@ -105,7 +100,7 @@
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.margeverticaal.$touched && etikettenForm.margeverticaal.$invalid }">
               <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Marge verticaal</label>
               <div class="col-xs-8 col-xxs-12">
-                <input type="text" class="form-control" name="margeverticaal" id="margeverticaal" ng-model="sjabloon.marge.verticaal" required>
+                <input type="number" min="0.1"  class="form-control" name="margeverticaal" id="margeverticaal" ng-model="sjabloon.marge.verticaal" required>
                 <div ng-messages="etikettenForm.margeverticaal.$error" ng-show="etikettenForm.margeverticaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>

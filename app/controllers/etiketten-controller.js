@@ -89,18 +89,27 @@
       }
 
       $scope.etikettenIsPending = true;
-      ETS.createLabels(payload).then(function(res){
+      $scope.etiketPropertiesWatchable = false;
+      ETS.createLabels(payload).then(
+        function(res){
+          if(res.title && res.title == 'error'){
+            AlertService.add('danger', "Er konden geen etiketten worden aangemaakt", 5000);
+            $scope.etikettenIsPending = false;
+            $scope.etiketPropertiesWatchable = true;
+          }else{
+            var a = document.createElement('a');
+            a.href = res.fileUrl;
+            a.target = '_blank';
+            a.download = res.title;
 
-        var a = document.createElement('a');
-        a.href = res.fileUrl;
-        a.target = '_blank';
-        a.download = res.title;
+            document.body.appendChild(a);
+            a.click();
+            $scope.etikettenIsPending = false;
+            $scope.etiketPropertiesWatchable = true;
+          }
 
-        document.body.appendChild(a);
-        a.click();
-        $scope.etikettenIsPending = false;
 
-      });
+        });
 
     }
 
@@ -125,7 +134,7 @@
 
     $scope.deleteSjabloon = function(sjObj){
       $scope.isDeleting = true;
-      RestService.Emailsjabloon.delete({id: sjObj.id}).$promise.then(
+      RestService.Etiketsjabloon.delete({id: sjObj.id}).$promise.then(
         function(response){
           AlertService.add('success ', "Sjabloon '"+ sjObj.naam + "' succesvol verwijderd", 5000);
           $scope.isDeleting = false;
@@ -139,26 +148,34 @@
     $scope.saveOrOverwriteSjabloon = function(selectedSjabloon){
       $scope.isSavingSjablonen = true;
       console.log('selectedSjabloon', selectedSjabloon);
-      var newSjabloon;
+      var newSjabloon = {};
       if(selectedSjabloon.id){
-        newSjabloon = selectedSjabloon;
-        newSjabloon.grootte = {};
-        newSjabloon.grootte.horizontaal = $scope.sjabloon.grootte.horizontaal;
-        newSjabloon.grootte.verticaal = $scope.sjabloon.grootte.verticaal;
-        newSjabloon.tussenruimte = {};
-        newSjabloon.tussenruimte.horizontaal = $scope.sjabloon.tussenruimte.horizontaal;
-        newSjabloon.tussenruimte.verticaal = $scope.sjabloon.tussenruimte.verticaal;
-        newSjabloon.marge = {};
-        newSjabloon.marge.horizontaal = $scope.sjabloon.marge.horizontaal;
-        newSjabloon.marge.verticaal = $scope.sjabloon.marge.verticaal;
-        newSjabloon.inhoud = $scope.sjabloon.inhoud;
-        newSjabloon.blanco = $scope.sjabloon.blanco;
-        newSjabloon.alleAdressen = $scope.sjabloon.alleAdressen;
-        newSjabloon.aantalEtikettenPerRij = $scope.sjabloon.aantalEtikettenPerRij;
-        newSjabloon.aantalRijenPerPagina = $scope.sjabloon.aantalRijenPerPagina;
+
+        newSjabloon = {
+          "id": selectedSjabloon.id,
+          "grootte": {
+            "horizontaal": $scope.sjabloon.grootte.horizontaal,
+            "verticaal": $scope.sjabloon.grootte.verticaal
+          },
+          "tussenruimte": {
+            "horizontaal": $scope.sjabloon.tussenruimte.horizontaal,
+            "verticaal": $scope.sjabloon.tussenruimte.verticaal
+          },
+          "marge": {
+            "horizontaal": $scope.sjabloon.marge.horizontaal,
+            "verticaal": $scope.sjabloon.marge.verticaal
+          },
+          "naam": $scope.sjabloon.naam,
+          "inhoud": $scope.sjabloon.inhoud,
+          "blanco": $scope.sjabloon.blanco,
+          "familie": $scope.sjabloon.familie,
+          "alleAdressen": $scope.sjabloon.alleAdressen,
+          "aantalEtikettenPerRij": $scope.sjabloon.aantalEtikettenPerRij,
+          "aantalRijenPerPagina": $scope.sjabloon.aantalRijenPerPagina
+        }
 
       }else{
-        newSjabloon = getNewSjabloon();
+        newSjabloon = ETS.getNewSjabloon($scope.sjabloon);
       }
 
       if(selectedSjabloon.id){
@@ -209,40 +226,12 @@
 
     var makeDummySjabloon = function(){
       var deferred = $q.defer();
-      RestService.Lid.get({id:'profiel'}).$promise.then(function(result) {
+      // dit sjabloon zal worden gebruikt als er nog geen sjabloon bestaat voor de gebruiker
+      $scope.sjabloon.naam = 'blanco sjabloon';
+      var sjabloon = ETS.getNewSjabloon($scope.sjabloon);
+      deferred.resolve(sjabloon);
 
-            // dit sjabloon zal worden gebruikt als er nog geen sjabloon bestaat voor de gebruiker
-            var sjabloon = getNewSjabloon();
-            sjabloon.naam = 'blanco sjabloon';
-
-            deferred.resolve(sjabloon);
-      });
       return deferred.promise;
-    }
-
-    var getNewSjabloon = function(){
-      var newSjabloon = {
-        "naam": $scope.naam,
-        "grootte": {
-          "horizontaal": $scope.sjabloon.grootte.verticaal,
-          "verticaal": $scope.sjabloon.grootte.horizontaal
-        },
-        "tussenruimte": {
-          "horizontaal": $scope.sjabloon.tussenruimte.horizontaal,
-          "verticaal": $scope.sjabloon.tussenruimte.verticaal
-        },
-        "marge": {
-          "horizontaal": $scope.sjabloon.marge.horizontaal,
-          "verticaal": $scope.sjabloon.marge.verticaal
-        },
-        "inhoud": $scope.sjabloon.inhoud,
-        "blanco": $scope.sjabloon.blanco,
-        "familie": $scope.sjabloon.familie,
-        "alleAdressen": $scope.sjabloon.alleAdressen,
-        "aantalEtikettenPerRij": $scope.sjabloon.aantalPerRij,
-        "aantalRijenPerPagina": $scope.sjabloon.aantalPerPagina
-      }
-      return newSjabloon;
     }
 
     var overwriteSjabloon = function(sjabloon, obj){
@@ -270,11 +259,18 @@
     }
 
     function init(){
+
       $scope.isLoadingSjablonen = true;
       $scope.leden = new Array();
       $scope.getLeden(0);
+      $scope.sjabloon = {};
+
+
+
+
 
       ETS.getSjablonen().then(function(res){
+
         $scope.isLoadingSjablonen = false;
         if(res.sjablonen){
           $scope.sjablonen = res.sjablonen;
@@ -282,13 +278,16 @@
             makeDummySjabloon().then(function(res){
               $scope.sjablonen.push(res);
               $scope.changeSjabloon($scope.sjablonen[0]);
+              $scope.etiketPropertiesWatchable = true;
             })
           }
           if($scope.lastSavedSjabloon && $scope.lastSavedSjabloon.id){
             console.log("last saved", _.find($scope.sjablonen, {'id': $scope.lastSavedSjabloon.id }));
             $scope.changeSjabloon(_.find($scope.sjablonen, {'id': $scope.lastSavedSjabloon.id }));
+            $scope.etiketPropertiesWatchable = true;
           }else{
             $scope.changeSjabloon($scope.sjablonen[0]);
+            $scope.etiketPropertiesWatchable = true;
           }
         }
       },function(err){
