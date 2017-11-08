@@ -21,6 +21,7 @@
     'ga.lidindividuelesteekkaartcontroller',
     'ga.menucontroller',
     'ga.formerrorbutton',
+    'ga.ordericon',
     'ga.groepcontroller',
     'ga.orakelcontroller',
     'ga.websitecontroller',
