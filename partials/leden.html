@@ -271,8 +271,9 @@
         </tr>
       </thead>
       <tbody ng-show="!isLoadingLeden && !isSavingFilters" infinite-scroll='ledenLaden()' infinite-scroll-distance='1'>
-        <tr ng-if="tableheaderIsSticky"><td>&nbsp;</td></tr>
-        <tr ng-repeat="lid in leden" ga-lid="{{lid.id}}" >
+        <tr ng-if="tableheaderIsSticky" ng-hide="leden.length <= 0"><td>&nbsp;</td></tr>
+        <tr ng-if="!isLoadingFilters && !isLoadingLeden && leden.length <= 0"><td colspan="{{ kolommen.length }}" style="text-align:center">Er is niemand gevonden die aan je criteria voldoet.</td></tr>
+        <tr ng-repeat="lid in leden" ga-lid="{{lid.id}}">
           <td ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'" style="position: relative;">
             <div ng-if="!kolom.isLoaded" class="data-placeholder"></div>
             <div ng-if="kolom.isLoaded && kolom.type == 'vinkje'" class="control noselect">
