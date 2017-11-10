@@ -20,7 +20,7 @@
   }
 
   function OrderIconController($scope, $attrs) {
-    $scope.$watch('kolommen', function() {
+    $scope.$watch('filter', function() {
         $scope.iconsize = _.indexOf($scope.filter.sortering, $scope.kolom.id);
     }, true);
 
