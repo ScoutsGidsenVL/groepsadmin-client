@@ -18,11 +18,10 @@
         });
       },
       hasAccessToGroepen : function(){
-          return CS.Groepen().then(function (response) {
-            responseHasAccessToGroepen = response;
-            return _.some(response.groepen,'contacten');
-          });
-
+        return CS.Groepen().then(function (response) {
+          responseHasAccessToGroepen = response;
+          return _.some(response.groepen,'contacten');
+        });
       }
     };
   };
