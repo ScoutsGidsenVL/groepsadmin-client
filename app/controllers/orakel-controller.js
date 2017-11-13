@@ -5,9 +5,9 @@
     .module('ga.orakelcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('OrakelController', OrakelController);
 
-  OrakelController.$inject = ['$compile', '$http', '$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'access', 'keycloak'];
+  OrakelController.$inject = ['$compile', '$http', '$scope', '$routeParams', '$window', '$location', 'CacheService', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'access', 'keycloak'];
 
-  function OrakelController($compile, $http, $scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, access, keycloak) {
+  function OrakelController($compile, $http, $scope, $routeParams, $window, $location, CS, RestService, AlertService, DialogService, $rootScope, access, keycloak) {
 
     if(!access) {
       $location.path("/lid/profiel");
@@ -43,7 +43,7 @@
 
       //$scope.changeGroep('O1504G');
       // groepen ophalen
-      RestService.Groepen.get().$promise.then(
+      CS.Groepen().then(
         function (result) {
           $scope.groepen = result.groepen;
           $scope.activegroup = result.groepen[0];

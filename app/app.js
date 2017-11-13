@@ -13,6 +13,7 @@
     'ga.services.email',
     'ga.services.etiketten',
     'ga.services.lid',
+    'ga.services.cache',
     'ga.alert-controller',
     'ga.ledenlijstcontroller',
     'ga.lidcontroller',
@@ -68,6 +69,8 @@
           break;
       }
     });
+
+
   }]);
 
   angular.module('ga').factory('keycloak', function($window) {

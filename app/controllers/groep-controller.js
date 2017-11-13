@@ -5,9 +5,9 @@
     .module('ga.groepcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('GroepController', GroepController);
 
-  GroepController.$inject = ['$scope', '$routeParams', '$window', '$location', '$log' , 'RestService', 'AlertService', 'DialogService', '$rootScope', 'access', 'keycloak'];
+  GroepController.$inject = ['$scope', '$routeParams', '$window', '$location', '$log' , 'RestService', 'AlertService', 'CacheService', 'DialogService', '$rootScope', 'access', 'keycloak'];
 
-  function GroepController($scope, $routeParams, $window, $location, $log, RestService, AlertService, DialogService, $rootScope, access, keycloak) {
+  function GroepController($scope, $routeParams, $window, $location, $log, RestService, AlertService, CS, DialogService, $rootScope, access, keycloak) {
     if(!access){
       $location.path("/lid/profiel");
     }
@@ -15,7 +15,7 @@
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     // groepen ophalen
-    RestService.Groepen.get().$promise.then(
+    CS.Groepen().then(
       function (result) {
         $scope.data = {};
         $scope.data.groepenlijst = [];

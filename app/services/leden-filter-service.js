@@ -5,12 +5,12 @@
     .module('ga.services.ledenfilter', [])
     .factory('LedenFilterService', LedenFilterService);
 
-  LedenFilterService.$inject = ['$q','$rootScope', 'RestService'];
+  LedenFilterService.$inject = ['$q','$rootScope', 'CacheService', 'RestService'];
 
   // Deze service bevat een aantal helper functies die voornamelijk worden gebruikt door de LedenlijstController
   // bvb. voor het samenstellen van filters en criteria
 
-  function LedenFilterService($q, $rootScope, RestService) {
+  function LedenFilterService($q, $rootScope, CS, RestService) {
     var ledenFilterService = {};
     var cachedHuidigeFilter = {}
 
@@ -19,7 +19,7 @@
       returnObj.arrCriteria = [];
 
       returnObj.promises = [];
-      returnObj.promises[0] = RestService.Functies.get().$promise.then(
+      returnObj.promises[0] = CS.Functies().then(
         function(result){
           var functies = result.functies;
           $rootScope.functies = functies;
@@ -44,7 +44,7 @@
 
 
         });
-      returnObj.promises[1] = RestService.Groepen.get().$promise.then(
+      returnObj.promises[1] = CS.Groepen().then(
           function(result){
             var groepenCriteria = ledenFilterService.getCriteriaGroepen(result);
             groepenCriteria.activated = false;

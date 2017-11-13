@@ -5,9 +5,9 @@
     .module('ga.lidtoevoegencontroller', ['ga.services.alert', 'ga.services.dialog'])
     .controller('LidToevoegenController', LidToevoegenController);
 
-  LidToevoegenController.$inject = ['$scope', '$location', '$timeout', '$window', 'LidService', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route', 'access', 'keycloak', 'FormValidationService'];
+  LidToevoegenController.$inject = ['$scope', '$location', '$timeout', '$window', 'CacheService', 'LidService', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route', 'access', 'keycloak', 'FormValidationService'];
 
-  function LidToevoegenController ($scope, $location, $timeout, $window, LS, RestService, AlertService, DialogService, $rootScope, $route, access, keycloak, FVS) {
+  function LidToevoegenController ($scope, $location, $timeout, $window, CS, LS, RestService, AlertService, DialogService, $rootScope, $route, access, keycloak, FVS) {
 
     $scope.formInitiated = false;
     var aangemeldeGebruiker = {};
@@ -101,10 +101,10 @@
       * ---------------------------------------
       */
       // functies ophalen enkel voor de groepen waarvan de gebruiker vga is
-      RestService.Functies.get().$promise.then(
+      CS.Functies().then(
         function(result){
           $scope.functies = result;
-          RestService.Groepen.get().$promise.then(
+          CS.Groepen().then(
             function(result){
               //herordenen zodat ze eenvoudig gebruikt kunnen worden in de template;
               $scope.groepEnfuncties = [];

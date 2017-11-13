@@ -5,11 +5,11 @@
     .module('ga.services.lid', [])
     .factory('LidService', LidService);
 
-  LidService.$inject = ['$q','$rootScope', 'RestService'];
+  LidService.$inject = ['$q','$rootScope', 'CacheService', 'RestService'];
 
   // Deze service bevat een aantal helper functies die voornamelijk worden gebruikt door de LidController en de LidToevoegenController
 
-  function LidService($q, $rootScope, RestService) {
+  function LidService($q, $rootScope, CS, RestService) {
     var lidService = {};
     var functies, groepen = {};
 
@@ -31,12 +31,10 @@
       if(!_.isEmpty(functies)){
         deferred.resolve(functies);
       }else{
-        RestService.Functies.get().$promise.then(
-          function(result){
+        CS.Functies().then(function(result){
             functies = result;
             deferred.resolve(functies);
-          }
-        );
+        });
       }
       return deferred.promise;
     }
@@ -46,7 +44,7 @@
       if(!_.isEmpty(groepen)){
         deferred.resolve(groepen);
       }else{
-        RestService.Groepen.get().$promise.then(
+        CS.Groepen().then(
           function(result){
             groepen = result;
             deferred.resolve(groepen);

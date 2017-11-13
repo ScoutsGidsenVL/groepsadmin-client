@@ -5,9 +5,9 @@
     .module('ga.emailcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap', 'ui.tinymce'])
     .controller('EmailController', EmailController);
 
-  EmailController.$inject = ['$compile', '$log', '$q', '$routeParams', '$scope', '$uibModal', 'access', 'AlertService', 'DialogService', 'EmailService', 'LedenLijstService', 'RestService'];
+  EmailController.$inject = ['$compile', '$log', '$q', '$routeParams', '$scope', '$uibModal', 'access', 'AlertService', 'CacheService', 'DialogService', 'EmailService', 'LedenLijstService', 'RestService'];
 
-  function EmailController ($compile, $log, $q, $routeParams, $scope, $uibModal, access, AlertService, DialogService, ES, LLS, RestService) {
+  function EmailController ($compile, $log, $q, $routeParams, $scope, $uibModal, access, AlertService, CS, DialogService, ES, LLS, RestService) {
 
     // documentation tinyMCE plugin https://www.tinymce.com/docs/integrations/angularjs/
     var leden = new Array();
@@ -291,7 +291,7 @@
         AlertService.add('danger', "Er konden geen sjablonen worden opgehaald", 5000);
       });
 
-      RestService.Groepen.get().$promise.then(
+      CS.Groepen().then(
         function (result) {
           $scope.groepen = result.groepen;
           $scope.selectedgroup = result.groepen[0];
