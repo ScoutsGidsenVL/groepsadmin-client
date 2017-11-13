@@ -52,9 +52,8 @@
           ];
 
           $timeout(function() {
-              window.app.positionBody();
+            window.app.positionBody();
           }, 10);
-
 
         })
       });
