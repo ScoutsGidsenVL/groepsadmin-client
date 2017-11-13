@@ -48,11 +48,15 @@
         }
       ];
 
+      _.each($scope.menuItems, function (key) {
+        $scope.$watch(key, function (v) {
+          window.app.positionBody();
+        });
+      });
+
     });
 
 
-    _.forEach($scope.menuItems, function(menuItem,k) {
-        window.app.positionBody();
-    });
+
   }
 })();
