@@ -49,7 +49,7 @@
           var file = new Blob([res.response], {type: 'application/pdf'});
           var obj = {};
           obj.fileUrl = URL.createObjectURL(file);
-          obj.title = 'etiketten';
+          obj.title = 'etiketten.pdf';
           deferred.resolve(obj);
         }, function(error){
           var obj = {};
