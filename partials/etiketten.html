@@ -64,8 +64,8 @@
             <legend>Etiket eigenschappen</legend>
             <!-- -->
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.groottehorizontaal.$touched && etikettenForm.groottehorizontaal.$invalid }">
-              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Grootte horizontaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
-              <div class="col-xs-7 col-xxs-10">
+              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Grootte horizontaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+              <div class="col-xs-5 col-xxs-10">
                 <input type="number" min="1" class="form-control" name="groottehorizontaal" id="fromName" ng-model="sjabloon.grootte.horizontaal" required>
                 <div ng-messages="etikettenForm.groottehorizontaal.$error" ng-show="etikettenForm.groottehorizontaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
@@ -76,8 +76,8 @@
             <!-- -->
             <!-- -->
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.grootteverticaal.$touched && etikettenForm.grootteverticaal.$invalid }">
-              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Grootte verticaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
-              <div class="col-xs-7 col-xxs-10">
+              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Grootte verticaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+              <div class="col-xs-5 col-xxs-10">
                 <input type="number" min="1"  class="form-control" name="grootteverticaal" id="grootteverticaal" ng-model="sjabloon.grootte.verticaal" required>
                 <div ng-messages="etikettenForm.grootteverticaal.$error" ng-show="etikettenForm.grootteverticaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
@@ -88,8 +88,8 @@
             <!-- -->
             <!-- -->
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.margehorizontaal.$touched && etikettenForm.margehorizontaal.$invalid }">
-              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Marge horizontaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
-              <div class="col-xs-7 col-xxs-10">
+              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Marge horizontaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+              <div class="col-xs-5 col-xxs-10">
                 <input type="number" min="1"  class="form-control" name="margehorizontaal" id="fromName" ng-model="sjabloon.marge.horizontaal" required>
                 <div ng-messages="etikettenForm.margehorizontaal.$error" ng-show="etikettenForm.margehorizontaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
@@ -100,8 +100,8 @@
             <!-- -->
             <!-- -->
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.margeverticaal.$touched && etikettenForm.margeverticaal.$invalid }">
-              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Marge verticaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
-              <div class="col-xs-7 col-xxs-10">
+              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Marge verticaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+              <div class="col-xs-5 col-xxs-10">
                 <input type="number" min="1"  class="form-control" name="margeverticaal" id="margeverticaal" ng-model="sjabloon.marge.verticaal" required>
                 <div ng-messages="etikettenForm.margeverticaal.$error" ng-show="etikettenForm.margeverticaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
@@ -111,20 +111,48 @@
             </div>
             <!-- -->
 
-            <!-- *** VALUES BELOW ARE NOT SUPPORTED BY BACKEND *** -->
-            <!-- ****** -->
-            <!-- ****** -->
-            <!-- ****** -->
-            <!--
+
+            <!-- -->
+            <div class="form-group" ng-class="{ 'has-error': etikettenForm.tussenruimtehorizontaal.$touched && etikettenForm.tussenruimtehorizontaal.$invalid }">
+              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Tussenruimte horizontaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+              <div class="col-xs-5 col-xxs-10">
+                <input type="number" min="1"  class="form-control" name="tussenruimtehorizontaal" id="fromName" ng-model="sjabloon.tussenruimte.horizontaal" required>
+                <div ng-messages="etikettenForm.tussenruimtehorizontaal.$error" ng-show="etikettenForm.tussenruimtehorizontaal.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
+              <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
+            </div>
+            <!-- -->
+            <!-- -->
+            <div class="form-group" ng-class="{ 'has-error': etikettenForm.tussenruimteverticaal.$touched && etikettenForm.tussenruimteverticaal.$invalid }">
+              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Tussenruimte verticaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+              <div class="col-xs-5 col-xxs-10">
+                <input type="number" min="1"  class="form-control" name="tussenruimteverticaal" id="tussenruimteverticaal" ng-model="sjabloon.tussenruimte.verticaal" required>
+                <div ng-messages="etikettenForm.tussenruimteverticaal.$error" ng-show="etikettenForm.tussenruimteverticaal.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
+              </div>
+              <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
+            </div>
+            <!-- -->
+
+
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.blanco.$touched && etikettenForm.blanco.$invalid }">
-              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Blanco</label>
-              <div class="col-xs-8 col-xxs-12">
+              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Blanco etiketten <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+              <div class="col-xs-5 col-xxs-12">
                 <input type="text" class="form-control" name="blanco" id="blanco" ng-model="sjabloon.blanco" required>
                 <div ng-messages="etikettenForm.blanco.$error" ng-show="etikettenForm.blanco.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
               </div>
             </div>
+
+            <!-- *** VALUES BELOW ARE NOT SUPPORTED BY BACKEND *** -->
+            <!-- ****** -->
+            <!-- ****** -->
+            <!-- ****** -->
+            <!--
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.aantalEtikettenPerRij.$touched && etikettenForm.aantalEtikettenPerRij.$invalid }">
               <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Aantal per rij</label>
               <div class="col-xs-8 col-xxs-12">
