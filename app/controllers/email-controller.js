@@ -322,24 +322,26 @@
     // template van deze dialog staat in index.html (#emailConfirmationModal)
     $scope.openDialog = function (feedbackObj) {
 
-        var modalInstance = $uibModal.open({
-          animation: $scope.animationsEnabled,
-          templateUrl: 'emailConfirmationModal.html',
-          controller: 'ModalInstanceController',
-          size: '',
-          resolve: {
-            feedback: function () {
-              return feedbackObj;
-            }
+      var modalInstance = $uibModal.open({
+        animation: $scope.animationsEnabled,
+        templateUrl: 'emailConfirmationModal.html',
+        controller: 'ModalInstanceController',
+        size: '',
+        resolve: {
+          feedback: function () {
+            return feedbackObj;
           }
-        });
+        }
+      });
 
-        modalInstance.result.then(function (selectedItem) {
-          $scope.selected = selectedItem;
-        }, function () {
-          $log.info('Modal dismissed at: ' + new Date());
-        });
-      };
+      modalInstance.result.then(function (selectedItem) {
+        $scope.selected = selectedItem;
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    };
+
+
 
     /*******/
     if(!access){

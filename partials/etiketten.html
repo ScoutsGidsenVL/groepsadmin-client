@@ -62,49 +62,52 @@
         <section>
           <fieldset>
             <legend>Etiket eigenschappen</legend>
-
             <!-- -->
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.groottehorizontaal.$touched && etikettenForm.groottehorizontaal.$invalid }">
-              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Grootte horizontaal</label>
-              <div class="col-xs-8 col-xxs-12">
+              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Grootte horizontaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+              <div class="col-xs-7 col-xxs-10">
                 <input type="number" min="1" class="form-control" name="groottehorizontaal" id="fromName" ng-model="sjabloon.grootte.horizontaal" required>
                 <div ng-messages="etikettenForm.groottehorizontaal.$error" ng-show="etikettenForm.groottehorizontaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
               </div>
+              <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
             </div>
             <!-- -->
             <!-- -->
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.grootteverticaal.$touched && etikettenForm.grootteverticaal.$invalid }">
-              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Grootte verticaal</label>
-              <div class="col-xs-8 col-xxs-12">
+              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Grootte verticaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+              <div class="col-xs-7 col-xxs-10">
                 <input type="number" min="1"  class="form-control" name="grootteverticaal" id="grootteverticaal" ng-model="sjabloon.grootte.verticaal" required>
                 <div ng-messages="etikettenForm.grootteverticaal.$error" ng-show="etikettenForm.grootteverticaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
               </div>
+              <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
             </div>
             <!-- -->
             <!-- -->
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.margehorizontaal.$touched && etikettenForm.margehorizontaal.$invalid }">
-              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Marge horizontaal</label>
-              <div class="col-xs-8 col-xxs-12">
+              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Marge horizontaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+              <div class="col-xs-7 col-xxs-10">
                 <input type="number" min="1"  class="form-control" name="margehorizontaal" id="fromName" ng-model="sjabloon.marge.horizontaal" required>
                 <div ng-messages="etikettenForm.margehorizontaal.$error" ng-show="etikettenForm.margehorizontaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
               </div>
+              <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
             </div>
             <!-- -->
             <!-- -->
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.margeverticaal.$touched && etikettenForm.margeverticaal.$invalid }">
-              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Marge verticaal</label>
-              <div class="col-xs-8 col-xxs-12">
+              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Marge verticaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+              <div class="col-xs-7 col-xxs-10">
                 <input type="number" min="1"  class="form-control" name="margeverticaal" id="margeverticaal" ng-model="sjabloon.marge.verticaal" required>
                 <div ng-messages="etikettenForm.margeverticaal.$error" ng-show="etikettenForm.margeverticaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>
               </div>
+              <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
             </div>
             <!-- -->
 
@@ -260,4 +263,19 @@
       </li>
     </ul>
   </div>
+</script>
+
+<!-- bootstrap modal -->
+<script type="text/ng-template" id="etikettenInfoModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Afmetingen voor etiketten</h3>
+    </div>
+    <div class="modal-body">
+        <div>
+          <img src="img/etiketinfo.png" alt="etiket informatie" style="max-width:100%"></img>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">Sluiten</button>
+    </div>
 </script>

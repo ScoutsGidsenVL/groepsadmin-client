@@ -310,6 +310,13 @@
     }
 
     /*** MODAL LOGIC ***/
+    $scope.openInfoDialog = function(infoObj){
+      var modalInstance = $uibModal.open({
+        animation: $scope.animationsEnabled,
+        templateUrl: 'etikettenInfoModal.html',
+        size: ''
+      });
+    }
 
     $scope.animationsEnabled = true;
 
