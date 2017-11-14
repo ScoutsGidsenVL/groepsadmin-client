@@ -5,9 +5,9 @@
     .module('ga.ledenlijstcontroller', [])
     .controller('LedenlijstController', LedenlijstController);
 
-  LedenlijstController.$inject = ['$q','$filter','$log', '$location', '$rootScope', '$scope', 'LedenFilterService', 'LedenLijstService', 'RestService', '$window', 'keycloak','access', 'UserAccess'];
+  LedenlijstController.$inject = ['$q','$filter','$log', '$location', '$rootScope', '$scope', '$timeout', 'LedenFilterService', 'LedenLijstService', 'RestService', '$window', 'keycloak','access', 'UserAccess'];
 
-  function LedenlijstController($q, $filter, $log, $location, $rootScope, $scope, LFS, LLS, RestService, $window, keycloak, access, UserAccess) {
+  function LedenlijstController($q, $filter, $log, $location, $rootScope, $scope, $timeout, LFS, LLS, RestService, $window, keycloak, access, UserAccess) {
     // Kolommen sortable maken
     var index;
 
@@ -452,6 +452,11 @@
       }else{
         kol.activated = false;
       };
+
+      $timeout(function(){
+        $scope.indexeerEnGroepeerKolommen();
+        $scope.$apply();
+      },10);
     };
 
     var createFilterObject = function() {
