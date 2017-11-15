@@ -159,7 +159,7 @@
               <div class="col-xs-8 col-xxs-12">
                 <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
                   <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
-                    {{ sjabloon.naam }} <span class="caret"></span>
+                    <div class="buttonText">{{ sjabloon.naam }} </div><span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                     <li ng-if="isLoadingSjablonen"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse" ng-show="isLoadingSjablonen"></i>&nbsp;Sjablonen aan het laden...</a></li>

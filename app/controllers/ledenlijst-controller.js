@@ -401,6 +401,7 @@
     var activeerKolommen = function() {
 
       var counter = 1000; // meer dan het aantal kolommen
+      var counter2 = 0;
       _.each($scope.kolommen, function(kolom) {
         kolom.activated = false;
         kolom.isLoaded = false;
@@ -414,6 +415,7 @@
         if(kolom){
           kolom.isLoaded = true;
           kolom.activated = true;
+          kolom.kolomIndex = counter2++;
         }
       });
 
