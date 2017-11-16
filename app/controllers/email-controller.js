@@ -319,7 +319,7 @@
 
     $scope.animationsEnabled = true;
 
-    // template van deze dialog staat in index.html (#emailConfirmationModal)
+    // template van deze dialog staat in email.html (#emailConfirmationModal)
     $scope.openDialog = function (feedbackObj) {
 
       var modalInstance = $uibModal.open({

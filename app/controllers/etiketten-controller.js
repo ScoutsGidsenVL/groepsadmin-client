@@ -314,7 +314,13 @@
       var modalInstance = $uibModal.open({
         animation: $scope.animationsEnabled,
         templateUrl: 'etikettenInfoModal.html',
-        size: ''
+        controller: 'ModalInstanceController',
+        size: '',
+        resolve: {
+          feedback: function () {
+            return infoObj;
+          }
+        }
       });
     }
 
