@@ -100,6 +100,24 @@
           <!-- BIC KREDBEBB -->
         </div>
       </div>
+
+      <label class="form-group control checkbox">
+        <div class="col-xs-6 col-xxs-12 control-label">Facturatie leiding</div>
+        <div class="col-xs-6 col-xxs-12">
+          <input type="checkbox" ng-model="data.activegroup.facturatieLeidingCheck" ng-disabled="!data.activegroup.facturatieLeidingCheck" disabled="disabled" />
+          <span class="control-indicator"></span>
+
+        </div>
+      </label>
+
+      <label class="form-group control checkbox">
+        <div class="col-xs-6 col-xxs-12 control-label">Facturatie leden</div>
+        <div class="col-xs-6 col-xxs-12">
+          <input type="checkbox" ng-model="data.activegroup.facturatieLedenCheck" ng-disabled="!data.activegroup.facturatieLedenCheck" disabled="disabled" />
+          <span class="control-indicator"></span>
+        </div>
+      </label>
+
     </div>
 
     <!-- Contacten -->

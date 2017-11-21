@@ -95,13 +95,15 @@
     function loadSuccess(data) {
       var sectie;
 
-      // init watch, naar welke objecten/delen van het lid object moet er gekeken worden om aanpassingen bij te houden?
+      // init watch, naar welke secties/objecten/delen van het lid object moet er gekeken worden om aanpassingen bij te houden?
       angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies', 'lid.groepseigenVelden','lid.vgagegevens'], function(value, key) {
         $scope.$watch(value, function(newVal, oldVal, scope) {
             if($scope.lidPropertiesWatchable){
               if (newVal == oldVal) return;
+              // sectie is bvb. vgagegevens of functies of persoonsgegevens
               sectie = value.split(".").pop();
 
+              // de gewijzigde sectie toevoegen aan de changes, indien deze sectie nog niet werd toegevoegd
               if($scope.lid.changes){
                 if($scope.lid.changes.indexOf(sectie) < 0) {
                   $scope.lid.changes.push(sectie);
@@ -116,21 +118,21 @@
           true);
       });
 
-      // Permissies komen uit PATCH link object
+      // $scope.patchObj bevat hierna alle secties die kunnen worden gepatched
       $scope.patchObj = $.grep($scope.lid.links, function(e){
         return e.method == "PATCH";
       })[0];
 
-      // kan de gebruiker functie stoppen van het lid?
+      // kan de gebruiker functies stoppen van het lid?
       var someSect = _.some($scope.patchObj.secties, function(value){
         return value.indexOf('functies.') != -1;
       });
-      if( _.has($scope, 'patchObj.secties') &&  someSect){
-          $scope.kanSchrappen = true;
-      }
-
       // kan de gebruiker functie stoppen van het lid?
       $scope.canSave = _.has($scope, 'patchObj.secties');
+
+      if( $scope.canSave &&  someSect){
+        $scope.kanSchrappen = true;
+      }
 
       //init functies;
       LS.getFuncties().then(function(functiesres){
@@ -140,8 +142,6 @@
           functiesEnGroepen(functies,groepen);
         })
       });
-
-
 
     }
 
@@ -570,6 +570,7 @@
         });
       }
 
+      //indien er zowel een adres als een contact werd aangepast
       if ($scope.lid.changes.indexOf("adressen") != -1  && $scope.lid.changes.indexOf("contacten") != -1){
         $scope.saving = true;
         //als er aanpassingen gebeurd zijn aan de contacten en tegelijk ook aan de adressen worden eerst de adressen toegevoegd en daarna de contacten.

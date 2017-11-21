@@ -107,7 +107,7 @@
           var maxLng = 0;
           var minLng = 0;
           angular.forEach(adressen, function(adres){
-            var tempLat = aders.positie.latitude;
+            var tempLat = adres.positie.latitude;
             var tempLng = adres.positie.longitude;
             // latithude controle
 
@@ -410,5 +410,19 @@
 
       return marker;
     }
+
+
+    // add watcher for checkbox - date translation
+
+    $scope.$watch('activegroup.facturatieLedenCheck', function (newVal, oldVal) {
+      console.log("Leden  newVal--", newVal, ", oldVal --", oldVal);
+      if(oldVal == false){
+
+      }
+
+    });
+    $scope.$watch('activegroup.facturatieLeidingCheck', function (newVal, oldVal) {
+      console.log("Leiding  newVal--", newVal, ", oldVal --", oldVal);
+    });
   }
 })();
