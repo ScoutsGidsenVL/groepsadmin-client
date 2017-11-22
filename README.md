@@ -16,14 +16,15 @@ Lees in beide gevallen ook de [handleiding](https://wiki.scoutsengidsenvlaandere
 1. Installeer [NPM en Bower](#npm-en-bower)
 1. Voer [`grunt serve`](#grunt-serve) uit.
 1. Schakel de CORS-beveiling uit in je browser:
-  * Chrome: Sluit Chrome eerst volledig af en zorg dat het niet meer in de achtergrond loopt. Vanuit de command prompt, start je Chrome met de argumenten die websecurity uitschakelen `open -a Google\ Chrome --args --disable-web-security --user-data-dir`.
+  * Chrome: Sluit Chrome eerst volledig af en zorg dat het niet meer in de achtergrond loopt. Op MacOSX/Linux: Vanuit de command prompt, start je Chrome met de argumenten die websecurity uitschakelen `open -a Google\ Chrome --args --disable-web-security --user-data-dir`. In Windows: `C:\Program Files (x86)\Google\Chrome\Application>chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security`
   * Firefox: Installeer de extensie [cors everywhere](https://addons.mozilla.org/firefox/addon/cors-everywhere) en activeer dit door er op te klikken in de werkbalk.
   * Safari: Zorg er eerst voor dat het develop menu geactiveerd is: Safari > Preferences > 'Advanced' > 'Show Develop menu in menu bar'. Vervolgens selecteer je in Safari 'Develop menu' > 'Disable Cross-Origin Restrictions'
-  * Andere browsers: zodra de 'same origin policy' uitgeschakeld is zou de groepsadmin locaal moeten kunnen werken.
+  * Internet Explorer: volg deze instructies van deze thread https://stackoverflow.com/questions/20947359/disable-same-origin-policy-internet-explorer
+  * Andere browsers: zodra de 'same origin policy' uitgeschakeld is zou de groepsadmin locaal moeten kunnen werken. Edge laat niet toe dit uit te schakelen.
 
 1. Open <http://localhost:8000> in je browser.
 
-Zet achteraf de CORS-beveiling in je browser weer aan. Het is geen goed idee om de CORS-beveiling altijd uit te schakelen.
+OPGELET: Zet achteraf de CORS-beveiling in je browser weer aan. Het is geen goed idee om de CORS-beveiling altijd uit te schakelen.
 
 ### Gaat er iets mis?
 
@@ -101,7 +102,7 @@ Voor de front-end worden volgende technologieën gebruikt:
 
 Als er nieuwe libraries of dependencies worden toegevoegd aan het project, doen we dit steeds met 'npm install ...' of 'bower install ...'. Op die manier worden ze mooi verzameld in de file 'package.json' en/of 'bower.json' en kunnen we alles gemakkelijker up to date houden alsook conflicten vermijden met verouderde versies van (een) bepaalde librarie(s).
 
-* Installeer eerst NodeJS, dit is een platform dat ons toelaat het Groepsadmin-project gemakkelijker te beheren en een aantal taken te automatiseren. NodeJS heeft NPM voorgeïnstalleerd. Heb je al een versie van node en/of npm dan doe je er vast goed aan alles een keer te updaten.
+* Installeer eerst NodeJS, dit is een platform dat ons toelaat het Groepsadmin-project gemakkelijker te beheren en een aantal taken te automatiseren. NodeJS heeft NPM voorgeïnstalleerd. Heb je al een versie van node en/of npm dan doe je er vast goed aan alles een keer te updaten. In Windows dien je de 'omgevingsvariabelen' nog correct in te stellen. Hier vind je een tutorial hoe dat moet: https://www.computerhope.com/issues/ch000549.htm
 * Installeer Bower en Grunt via NPM: bvb.`npm install -g bower` als administrator/root (zie `package.json`)
   * Alternatief zonder extra rechten: bvb. `npm install bower`
   * Mogelijk krijg je foutmeldingen over de installatie van *protagonist*, deze meldingen mag je negeren.

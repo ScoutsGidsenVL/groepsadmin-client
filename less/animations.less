@@ -48,7 +48,7 @@
   }
 
   // background filterButtons: CRITERIA
-  .fade-bg, .fade-bgbrown{
+  .fade-bg, .fade-bgbrown,.fade-bg-kolom{
     background-color:@brand-primary;
     animation-name:bgFilterBtnFade;
     animation-duration: 1s;
@@ -59,6 +59,11 @@
     background-color:@sgv-bruin;
     animation-name:bgFilterBtnFadeBrown;
   }
+  .fade-bg-kolom{
+    background-color:@bg-dropdown;
+    animation-name:bgKolomActive;
+  }
+
 
   // have to include k
   @keyframes bgFilterBtnFade {
@@ -76,6 +81,15 @@
     }
     to {
       background-color: @sgv-bruin;
+    }
+  }
+
+  @keyframes bgKolomActive {
+    from {
+      background-color: @brand-primary;
+    }
+    to {
+      background-color: @bg-dropdown;
     }
   }
 

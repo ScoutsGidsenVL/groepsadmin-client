@@ -76,6 +76,7 @@
           if(rejection.error && rejection.error_description){
               AlertService.add('danger', rejection.error_description, 5000);
           }else{
+              console.log("**** ERROR **** : ", rejection);
               AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.", 5000);
           }
         }
