@@ -413,16 +413,49 @@
 
 
     // add watcher for checkbox - date translation
-
-    $scope.$watch('activegroup.facturatieLedenCheck', function (newVal, oldVal) {
-      console.log("Leden  newVal--", newVal, ", oldVal --", oldVal);
-      if(oldVal == false){
-
+    $scope.$watch('data.activegroup.facturatieLeden', function (newVal, oldVal) {
+      console.log("Leden  newVal--", $scope.data.activegroup.facturatieLeden, " --OldVal", oldVal );
+      //als er een datum bestaat
+      if(newVal){
+        $scope.data.activegroup.facturatieLedenSaved = true;
+        $scope.data.activegroup.facturatieLedenCheck = true;
       }
+    });
+    $scope.$watch('data.activegroup.facturatieLeiding', function (newVal, oldVal) {
+      if(newVal){
+        $scope.data.activegroup.facturatieLeidingSaved = true;
+        $scope.data.activegroup.facturatieLeidingCheck = true;
+      }
+    });
 
-    });
-    $scope.$watch('activegroup.facturatieLeidingCheck', function (newVal, oldVal) {
-      console.log("Leiding  newVal--", newVal, ", oldVal --", oldVal);
-    });
+
+    $scope.opslaan = function(){
+
+      /*********/
+      // move this logic in success() callback of group patch!
+      /*********/
+      console.log("***",JSON.stringify($scope.data.activegroup));
+
+          // ADD SOME CODE WHICH adds the date (now, format : 2017-09-18T12:09:06.825+02:00 )
+          //var d = new Date();
+          //var n = d.toISOString(); //example 2017-11-22T08:41:05.475Z
+
+          if($scope.data.activegroup.facturatieLedenCheck == true){
+            //console.log('* leden  found item', _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id}));
+            $scope.data.activegroup.facturatieLedenSaved = true;
+            var foundObj = _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id});
+            foundObj.facturatieLedenSaved = true;
+            foundObj.facturatieLedenCheck = true;
+          }
+          if($scope.data.activegroup.facturatieLeidingCheck == true){
+            //console.log('* leiding found item', _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id}));
+            $scope.data.activegroup.facturatieLeidingSaved = true;
+            var foundObj = _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id});
+            foundObj.facturatieLeidingSaved = true;
+            foundObj.facturatieLeidingCheck = true;
+          }
+
+
+    }
   }
 })();
