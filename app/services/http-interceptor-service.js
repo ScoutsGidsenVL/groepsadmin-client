@@ -30,7 +30,6 @@
         return response;
       },
       'responseError': function(rejection) {
-        console.log("******", rejection);
         if (!navigator.onLine || rejection.status == 0) {
           // Note: Browsers implement the NavigatorOnLine.onLine property differently.
           // See the docs: https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/onLine
@@ -76,7 +75,10 @@
           if(rejection.error && rejection.error_description){
               AlertService.add('danger', rejection.error_description, 5000);
           }else{
-              console.log("**** ERROR **** : ", rejection);
+              //console.log("**** ERROR **** : ", rejection);
+              if(rejection == "Failed to refresh token"){
+                angular.bootstrap(document, ['ga']); // manually bootstrap Angular
+              }
               AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.", 5000);
           }
         }

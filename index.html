@@ -78,7 +78,7 @@
       </div>
     </div>
 
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top"  ng-controller="MenuController">
       <div class="container-fluid">
 
         <!-- Logo -->
@@ -87,7 +87,7 @@
         </a>
 
         <!-- Desktop-menu -->
-        <ul class="nav navbar-nav hidden-sm hidden-xs nav-menu" ng-controller="MenuController">
+        <ul class="nav navbar-nav hidden-sm hidden-xs nav-menu" >
           <li ng-repeat="menuItem in menuItems" ng-show="menuItem.condition" active-link="active">
             <a ng-href="{{menuItem.href}}" ng-attr-target="{{(menuItem.targetBlank) ? '_blank' : undefined}}">
               <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="navbar-nav-menulabel" ng-bind="menuItem.label" ng-cloak></span>
@@ -110,7 +110,7 @@
 
         <!-- Mobiele menu -->
         <div class="mobile-margin col-xs-8 hidden-md hidden-lg pull-right">
-          <span uib-dropdown on-toggle="toggled(open)" ng-controller="MenuController" class=" pull-right">
+          <span uib-dropdown on-toggle="toggled(open)" class=" pull-right">
             <button type="button" class="btn btn-primary" uib-dropdown-toggle>
               <i class="fa fa-bars"></i>&nbsp; Menu
             </button>
