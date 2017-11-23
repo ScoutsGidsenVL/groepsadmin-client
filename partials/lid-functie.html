@@ -3,7 +3,7 @@
   <p>{{::functie.einde | date:'dd/MM/yy'}}</p>
 </div>
 <div class="col-xs-7">
-  <p><strong ng-bind="::functieslijst[functie.functie].beschrijving"></strong></p>
+  <p><strong>{{::functieslijst[functie.functie].beschrijving}}</strong></p>
   <p>{{::groepenlijst[functie.groep].naam}} - {{::functie.groep}}</p>
 </div>
 <div class="col-xs-3">

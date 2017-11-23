@@ -432,6 +432,14 @@
         functieInstantie.temp = "tijdelijk";
 
         $scope.lid.functies.push(functieInstantie);
+
+        angular.forEach($scope.lid.functies, function(value, key) {
+          RestService.Functie.get({functieId:value.functie}).$promise.then(
+            function(result){
+              $scope.functieslijst[value.functie] = result;
+          });
+        });
+
         return 'stop';
       }
       else{
