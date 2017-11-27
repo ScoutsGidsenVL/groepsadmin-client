@@ -47,6 +47,9 @@
 
       $scope.suggesties = [];
 
+      // used by errorbutton
+      $scope.lidPropertiesWatchable = true;
+
       /*
       * Initialisatie van het nieuwe lid model
       * ---------------------------------------

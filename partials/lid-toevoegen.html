@@ -7,10 +7,12 @@
   <!-- ACTIONS -->
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
+      <formerrorbutton formulier="nieuwLidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
       <button type="submit" class="btn btn-apply" ng-disabled="nieuwLidForm.$invalid" ng-click="opslaan()" ng-show="lid"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
     </div>
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>
+        <formerrorbutton formulier="nieuwLidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
         <button id="split-button" type="submit" class="btn btn-apply"  ng-disabled="nieuwLidForm.$invalid" ng-click="opslaan()">
           <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i>
         </button>
@@ -173,7 +175,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="form-group" ng-class="{ 'has-error': nieuwLidForm['adressen['+$index+'].straatnaam'].$touched && (nieuwLidForm['adressen['+$index+'].straatnaam'].$invalid || nieuwLidForm['adressen['+$index+'].nummer'].$invalid ) }">
+                  <div class="form-group" ng-class="{ 'has-error': (nieuwLidForm['adressen['+$index+'].straatnaam'].$touched && nieuwLidForm['adressen['+$index+'].straatnaam'].$invalid) || (nieuwLidForm['adressen['+$index+'].nummer'].$touched && nieuwLidForm['adressen['+$index+'].nummer'].$invalid ) }">
                     <label for="_straatnaam" class="col-xs-4 col-xxs-12 control-label">Straat</label>
                     <div class="col-xs-5 col-xxs-12">
                       <input type="text" name="adressen[{{ $index }}].straatnaam"  class="form-control" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"  placeholder="Straatnaam" id="_straatnaam" ng-model="adres.straat" uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres)"  typeahead-on-select="bevestigStraat($item, adres)" typeahead-show-hint="true" required/>
@@ -184,8 +186,11 @@
                     <div class="col-xs-1 col-xxs-12">
                       <input type="text" class="form-control form-control-bus" name="adressen[{{ $index }}].bus" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
                     </div>
-                    <div class="col-xs-offset-4 col-xs-12 col-xxs-12" ng-show="nieuwLidForm['adressen['+$index+'].straatnaam'].$invalid || nieuwLidForm['adressen['+$index+'].nummer'].$invalid">
-                        <p class="help-block">Straat en huisnummer zijn verplicht</p>
+                    <div class="col-xs-offset-4 col-xs-12 col-xxs-12" ng-show="nieuwLidForm['adressen['+$index+'].straatnaam'].$invalid && nieuwLidForm['adressen['+$index+'].straatnaam'].$touched">
+                        <p class="help-block">Straat is verplicht</p>
+                    </div>
+                    <div class="col-xs-offset-4 col-xs-12 col-xxs-12" ng-show="nieuwLidForm['adressen['+$index+'].nummer'].$invalid && nieuwLidForm['adressen['+$index+'].nummer'].$touched">
+                        <p class="help-block">Huisnummer is verplicht</p>
                     </div>
                   </div>
                   <div class="form-group">
