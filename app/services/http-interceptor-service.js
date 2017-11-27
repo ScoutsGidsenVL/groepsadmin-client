@@ -5,9 +5,9 @@
     .module('ga.services.http', ['ga.services.alert'])
     .factory('httpInterceptor', httpInterceptor)
 
-  httpInterceptor.$inject = ['$q', 'AlertService', 'keycloak'];
+  httpInterceptor.$inject = ['$q', '$window', 'AlertService', 'keycloak'];
 
-  function httpInterceptor($q, AlertService, keycloak) {
+  function httpInterceptor($q, $window, AlertService, keycloak) {
     return {
       'request': function(config) {
 
@@ -75,9 +75,9 @@
           if(rejection.error && rejection.error_description){
               AlertService.add('danger', rejection.error_description, 5000);
           }else{
-              //console.log("**** ERROR **** : ", rejection);
+              // als de token expired is, refreshen we de huidige pagina
               if(rejection == "Failed to refresh token"){
-                angular.bootstrap(document, ['ga']); // manually bootstrap Angular
+                $window.location.reload();
               }
               AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.", 5000);
           }

@@ -218,7 +218,7 @@
         bus: null,
 
       }
-      $scope.activegroup.adres.push(newAdres);
+      $scope.data.activegroup.adressen.push(newAdres);
       addMarkerFromNewAdres($scope.googleMap, newAdres)
     }
 
@@ -275,7 +275,7 @@
         position: map.getCenter(),
         map: map,
         draggable: true,
-        label: $scope.markerLabels[$scope.activegroup.adres.length - 1],
+        label: $scope.markerLabels[$scope.data.activegroup.adressen.length - 1],
         infoProp: "<b>Nieuw adres toegevoegd!</b></br> Plaats deze marker op het lokaal",
         adresId: adres.id,
         animation: google.maps.Animation.DROP,
@@ -295,7 +295,7 @@
         id: 'tempFunctie' + Math.random(),
         beschrijving: null
       }
-      $scope.activegroup.groepseigenFuncties.push(newFunction);
+      $scope.data.activegroup.groepseigenFuncties.push(newFunction);
     }
 
     $scope.wisGroepseigenFunctie = function (id) {

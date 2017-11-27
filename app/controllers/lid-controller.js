@@ -255,7 +255,9 @@
           'adres': $scope.lid.adressen[0].id,
           'id' : '' + Date.now()
         };
+        $timeout(function(){ newcontact.showme = true} , 0);
         $scope.lid.contacten.push(newcontact);
+
       }else{
         AlertService.add('danger', "Nieuwe contacten kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.", 5000);
       }
