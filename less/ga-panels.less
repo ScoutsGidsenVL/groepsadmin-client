@@ -70,6 +70,13 @@ h1.panel-title {
   //color: rgba(0,0,0,0.5);
 }
 
+.panel-body{
+  &--orakel{
+    // avoid flickering panel body when tabbing orakel graphs
+    min-height:400px;
+  }
+}
+
 .panel-leden {
   overflow-x: auto;
 }

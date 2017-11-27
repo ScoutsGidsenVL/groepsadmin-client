@@ -12,7 +12,7 @@
 <div class="panel panel-default panel-default--hasmargin">
   <!-- Persoonsinfo -->
   <div class="panel-body form-hover clearfix">
-    <div class="row">
+    <div class="row panel-body--orakel">
       <div class="col-xs-12">
         <div class="btn-group btn-group-orakel" role="group" >
           <button type="button" class="btn btn-default" ng-repeat="(key, value) in tabs" ng-class="{'active': value.activated }" ng-click="activateTab(key)" ng-disabled="isLoadingData">{{value.label}}</button>
