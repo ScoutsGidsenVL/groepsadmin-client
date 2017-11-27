@@ -99,6 +99,16 @@
         </form>
         </div>
       </div>
+      <div class="col-lg-4 col-xxs-12 hidden-xs hidden-sm">
+        <div class="pull-right">
+          <button ng-if="isSavingFilters" type="button" class="btn btn-apply disabled" title="Criteria opslaan">
+            <div class="loading-filter-container loading-filter-container--desktop"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria opslaan...</div>
+          </button>
+          <button ng-click="applyFilter(true)" ng-if="!isSavingFilters" type="button" class="btn btn-apply btn-apply--desktop" title="Filter toepassen">
+            <div><span class="glyphicon glyphicon-ok"></span><span class="hidden-label">Filter toepassen</span></div>
+          </button>
+        </div>
+      </div>
     </div>
     <div class="row row-criteria">
 
@@ -251,10 +261,10 @@
 
       <div class="pull-right" ng-show="!isLoadingFilters">
         <div class="btn-group filter-option">
-          <button ng-if="isSavingFilters" type="button" class="btn btn-apply disabled" title="Criteria opslaan">
+          <button ng-if="isSavingFilters" type="button" class="btn btn-apply disabled hidden-md hidden-lg" title="Criteria opslaan">
             <div class="loading-filter-container"><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filtercriteria opslaan...</div>
           </button>
-          <button ng-click="applyFilter(true)" ng-if="!isSavingFilters" type="button" class="btn btn-apply" title="Filter toepassen">
+          <button ng-click="applyFilter(true)" ng-if="!isSavingFilters" type="button" class="btn btn-apply hidden-md hidden-lg" title="Filter toepassen">
             <div><span class="glyphicon glyphicon-ok"></span><span class="hidden-label">Filter toepassen</span></div>
           </button>
         </div>
