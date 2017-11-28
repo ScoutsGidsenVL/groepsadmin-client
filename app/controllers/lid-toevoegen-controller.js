@@ -187,8 +187,10 @@
     $scope.contactToevoegen = function(){
       if($scope.lid.contacten.length < 2){
         var newcontact = {};
-        newcontact.rol = "moeder"
+        newcontact.rol = "moeder";
+        $timeout(function(){ newcontact.showme = true} , 0);
         $scope.lid.contacten.push(newcontact);
+
       }
     }
 

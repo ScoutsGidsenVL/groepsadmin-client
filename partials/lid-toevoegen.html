@@ -224,7 +224,7 @@
           </legend>
           <fieldset class="ga-contacten-list" ng-repeat="contact in lid.contacten">
             <section class="clearfix">
-              <legend ng-init="showme = false; " ng-click="showme = showme ? false : true">
+              <legend ng-init="contact.showme = false; " ng-click="contact.showme = contact.showme ? false : true">
                   {{ contact.rol ? contact.rol :'' }} {{ contact.voornaam ? contact.voornaam : ''}} {{ contact.achternaam ? contact.achternaam : '' }}
                 <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left" >
                   Nieuw contact
@@ -238,7 +238,7 @@
                 </div>
               </legend>
               <section>
-                <fieldset class="ga-functie-list" ng-hide="!showme">
+                <fieldset class="ga-functie-list" ng-hide="!contact.showme">
                 <div class="form-group" >
                   <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
                   <div class="col-xs-7 col-xxs-12">
