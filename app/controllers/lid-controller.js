@@ -113,9 +113,21 @@
               if($scope.lidForm.$dirty){
                 $window.onbeforeunload = unload;
               }
+
+
+            }
+            if(value == 'lid.functies'){
+              //console.log(scope.lid.functies);
+              var result = _(scope.lid.functies)
+                  .groupBy(x => x.groep)
+                  .map((value, key) => ({groep: key, functies: value, toonGroepInActueleLijst: !_.every(value, function(el){return el.einde}) }))
+                  .value();
+
+              $scope.orderedFuncties = result;
             }
           },
           true);
+
       });
 
       // $scope.patchObj bevat hierna alle secties die kunnen worden gepatched
@@ -169,7 +181,7 @@
       $scope.lid.changes = new Array();
 
       // Functiehistoriek weergeven/verbergen
-      $scope.isFunctiesCollapsed = true;
+      $scope.toonActueleFuncties = true;
 
       // Functies samenvoegen in één Array (Tijdelijk tot API update)
       var f = [];

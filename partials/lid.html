@@ -386,10 +386,13 @@
           <legend>Functies <div class="pull-right" ng-hide="lid.functies">
               <i class="fa fa-spinner fa-pulse"> </i>
             </div></legend>
-          <ga-functie ng-show="lid.functies" class="form-group form-group--functies pl-0 pr-0" ng-repeat="fn in lid.functies | collapsedFilter:isFunctiesCollapsed | filter:{temp:'!tijdelijk'}" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie" patch-secties="patchObj.secties">
-          </ga-functie>
-          <div class="text-center" ng-show="lid.functies">
-            <a class="btn btn-link" href ng-click="isFunctiesCollapsed = !isFunctiesCollapsed">{{isFunctiesCollapsed ? "Functiehistoriek weergeven" : "Functiehistoriek verbergen"}}</a>
+            <div ng-repeat="(key,val) in orderedFuncties" class="clearfix">
+              <div class="ga-functie__titel" ng-show="(val.toonGroepInActueleLijst && toonActueleFuncties) || !toonActueleFuncties">{{ groepenlijst[val.groep].naam }}</div>
+              <ga-functie ng-show="lid.functies" class="form-group form-group--functies nopadding" ng-repeat="fn in val.functies | collapsedFilter:toonActueleFuncties | filter:{temp:'!tijdelijk'} | orderBy: '-begin'" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie" patch-secties="patchObj.secties">
+              </ga-functie>
+            </div>
+          <div class="text-center">
+            <a class="btn btn-link" href ng-click="toonActueleFuncties = !toonActueleFuncties">{{toonActueleFuncties ? "Functiehistoriek weergeven" : "Functiehistoriek verbergen"}}</a>
           </div>
         </fieldset>
       </section>
