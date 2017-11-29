@@ -94,7 +94,11 @@
       Groep: $resource(
         base + 'groep/:id',
         {groepsnummer: '@id'},
-        {get: {method: 'GET'}}
+        {
+        'get': {method: 'GET', cache: false},
+        'update': {method: 'PATCH', cache: false},
+        'delete': {method: 'DELETE', cache: false}
+        }
       ),
       Groepen: $resource(
         base + 'groep/',

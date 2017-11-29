@@ -434,7 +434,8 @@
       /*********/
       // move this logic in success() callback of group patch!
       /*********/
-      console.log("***",JSON.stringify($scope.data.activegroup));
+      console.log("***",$scope.data.activegroup);
+      $scope.saving = true;
 
           // ADD SOME CODE WHICH adds the date (now, format : 2017-09-18T12:09:06.825+02:00 )
           //var d = new Date();
@@ -454,6 +455,16 @@
             foundObj.facturatieLeidingSaved = true;
             foundObj.facturatieLeidingCheck = true;
           }
+
+
+          //send new request
+          RestService.Groep.update({id:$scope.data.activegroup.id, bevestiging: true}, $scope.data.activegroup).$promise.then(function(res){
+            console.log(res)
+            $scope.saving = false;
+          },function(err){
+            console.log(err);
+            $scope.saving = false;
+          });
 
 
     }
