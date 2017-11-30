@@ -671,6 +671,13 @@
           function(res){
             $scope.aantalLedenGeladen = $scope.aantalPerPagina;
             _.each(res.leden, function(val,key){
+              //Laat naam van functie zien in plaats van code
+              _.each(val.waarden, function(waardeVal,waarde){
+                if (waarde.toLowerCase().includes("funkties")){
+                  var beschrijving = $scope.functies.filter(x => x.code === waardeVal)[0].beschrijving;
+                  val.waarden[waarde] = beschrijving;
+                }
+              })
               $scope.leden.push(val);
             })
             $scope.totaalAantalLeden = res.totaal;
