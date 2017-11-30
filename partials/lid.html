@@ -19,11 +19,11 @@
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
       <formerrorbutton formulier="lidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
-      <button type="submit" class="btn btn-apply" ng-disabled="lidForm.$invalid" ng-click="opslaan()" ng-hide="(!lid || !canSave) && lidPropertiesWatchable"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
-      <button type="button" class="btn btn-secondary" ng-click="schrap()" ng-hide="!kanSchrappen && lidPropertiesWatchable" ng-disabled="!kanSchrappen"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop alle functies</button>
-      <button type="button" class="btn btn-secondary" ng-click="nieuwlid()" ng-hide="!canPost && lidPropertiesWatchable" ng-disabled="!canPost"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Nieuw lid</button>
-      <button type="button" class="btn btn-secondary" ng-click="gezinslid()" ng-hide="(!lid || !canPost) && lidPropertiesWatchable" ng-disabled="!lid || !canPost"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Broer/zus toevoegen</button>
-      <button type="button" class="btn btn-secondary" ng-click="redirectToEmailPage(lid.id)" ng-show="!isEigenProfiel"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;E-mail sturen</button>
+      <button type="submit" class="btn btn-apply" ng-disabled="lidForm.$invalid" ng-click="opslaan()" ng-if="lid && canSave && lidPropertiesWatchable"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
+      <button type="button" class="btn btn-secondary" ng-click="schrap()" ng-if="kanSchrappen && lidPropertiesWatchable"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop alle functies</button>
+      <button type="button" class="btn btn-secondary" ng-click="nieuwlid()" ng-if="canPost && lidPropertiesWatchable"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Nieuw lid</button>
+      <button type="button" class="btn btn-secondary" ng-click="gezinslid()" ng-if="(lid && canPost) && lidPropertiesWatchable" ng-disabled="!lid || !canPost"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Broer/zus toevoegen</button>
+      <button type="button" class="btn btn-secondary" ng-click="redirectToEmailPage(lid.id)" ng-if="!isEigenProfiel"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;E-mail sturen</button>
     </div>
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>
@@ -58,7 +58,7 @@
   <div class="row">
     <div class="col-lg-4 col-sm-6 col-xs-12">
       <!-- Persoonlijk-->
-      <section>
+      <section ng-class="{'lidform-persoonlijk--loading': !lid }">
         <fieldset>
           <legend>Persoonlijk
              <div class="pull-right" ng-hide="lid">
@@ -171,7 +171,7 @@
     </div>
     <div class="col-lg-4 col-sm-6 col-xs-12">
       <!-- Adressen -->
-      <section>
+      <section ng-class="{'lidform-adressen--loading': !lid }">
         <fieldset>
           <legend>
             Adressen
@@ -267,7 +267,7 @@
       </section>
 
       <!-- Contacten -->
-      <section>
+      <section ng-class="{'lidform-contacten--loading': !lid }">
         <fieldset>
           <legend>Contacten
             <div class="pull-right" ng-hide="lid">
@@ -357,9 +357,9 @@
 
       <!-- Groepseigen gegevens -->
       <section>
-        <fieldset ng-if="lid.groepseigenVelden">
+        <fieldset ng-if="lid.groepseigenVelden && groepseigenVeldenVerzameling.schema.velden.length > 0">
           <legend >Groepseigen gegevens</legend>
-          <fieldset class="ga-contacten-list" ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden" ng-if="groepseigenVeldenVerzameling.schema.velden.length > 0">
+          <fieldset class="ga-contacten-list" ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden" >
             <section class="clearfix">
               <legend ng-click="showgroepseigenvelden = showgroepseigenvelden ? false : true">{{ key }} {{ groepenlijst[key].naam }}
                 <div class="pull-right" ng-init="showgroepseigenvelden=true;" >
@@ -381,7 +381,7 @@
     </div>
     <div class="col-lg-4 col-sm-6 col-xs-12">
       <!-- Functies -->
-      <section>
+      <section ng-class="{'lidform-functies--loading': !lid }">
         <fieldset>
           <legend>Functies <div class="pull-right" ng-hide="lid.functies">
               <i class="fa fa-spinner fa-pulse"> </i>

@@ -136,15 +136,20 @@
       })[0];
 
       // kan de gebruiker functies stoppen van het lid?
-      var someSect = _.some($scope.patchObj.secties, function(value){
-        return value.indexOf('functies.') != -1;
-      });
-      // kan de gebruiker functie stoppen van het lid?
-      $scope.canSave = _.has($scope, 'patchObj.secties');
+      if($scope.patchObj){
+        var someSect = _.some($scope.patchObj.secties, function(value){
+          return value.indexOf('functies.') != -1;
+        });
 
-      if( $scope.canSave &&  someSect){
-        $scope.kanSchrappen = true;
+        // kan de gebruiker functie stoppen van het lid?
+        $scope.canSave = _.has($scope, 'patchObj.secties');
+
+        if( $scope.canSave &&  someSect){
+          $scope.kanSchrappen = true;
+        }
       }
+
+
 
       //init functies;
       LS.getFuncties().then(function(functiesres){
