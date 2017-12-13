@@ -116,18 +116,22 @@
 
 
             }
-            if(value == 'lid.functies'){
+            if (value == 'lid.functies') {
               //console.log(scope.lid.functies);
               var result = _(scope.lid.functies)
+                  .sortBy(x => x.groep)
                   .groupBy(x => x.groep)
-                  .map((value, key) => ({groep: key, functies: value, toonGroepInActueleLijst: !_.every(value, function(el){return el.einde}) }))
+                  .map((value, key) => ({
+                    groep: key,
+                    functies: value,
+                    toonGroepInActueleLijst: !_.every(value, el => el.einde)
+                  }))
                   .value();
 
               $scope.orderedFuncties = result;
             }
           },
           true);
-
       });
 
       // $scope.patchObj bevat hierna alle secties die kunnen worden gepatched
