@@ -425,7 +425,7 @@
                 </div>
               </section>
 
-              <section class="clearfix">
+              <section class="clearfix" ng-if="(groepFuncties.functies | filter: { type:'groep' }).length > 0">
                 <legend ng-init="showgroepfuncties=true;" ng-click="showgroepfuncties = showgroepfuncties ? false : true">
                   Groepseigen functies
                   <div class="pull-right" ng-init="showgroepfuncties=true;">
