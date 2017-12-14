@@ -11,7 +11,17 @@
     $rootScope.alerts = [];
 
     return {
-      add: function(type, msg, timeout, suggesties) {
+      add: function(type, error, timeout, suggesties) {
+
+        var msg;
+        if (error.data && error.data.beschrijving) {
+          msg = error.data.beschrijving;
+        } else if (error.statusText) {
+          msg = "Error " + error.status + " - " + error.statusText;
+        } else {
+          msg = error;
+        }
+
         var alert = {
           'type': type,
           'msg': msg,
@@ -24,6 +34,8 @@
             }
           }
         };
+
+        console.log(alert);
 
         if (_.findIndex($rootScope.alerts, {'hash': alert.hash}) < 0) {
           $rootScope.alerts.push(alert);

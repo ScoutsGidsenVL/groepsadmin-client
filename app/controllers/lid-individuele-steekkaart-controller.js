@@ -24,7 +24,7 @@
           AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
         }
         else{
-          AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+          AlertService.add('danger', error);
         }
       }
     );
@@ -69,14 +69,13 @@
         $scope.watchable = true;
       },
       function(error) {
-        console.log(error);
-        if(error.data.beschrijving =="Geen leesrechten op dit lid"){
+        if(error.data.beschrijving == "Geen leesrechten op dit lid"){
           //redirect to lid overzicht.
           $location.path('/');
-          AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
+          AlertService.add('danger', "Je hebt geen leesrechten op dit lid.");
         }
         else{
-          AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+          AlertService.add('danger', error);
         }
       }
     );

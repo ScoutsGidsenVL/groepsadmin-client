@@ -328,8 +328,6 @@
       // Stel het juiste formaat in voor de geboortedatum
       origineelLid.vgagegevens.geboortedatum =  $scope.lid.vgagegevens.geboortedatum.toISOString().slice(0,10);
 
-
-
       RestService.LidAdd.save(origineelLid).$promise.then(
         function(response) {
           if($scope.lid.functies.length > 1){
@@ -345,7 +343,7 @@
               },
               function(error) {
                 $scope.saving = false;
-                AlertService.add('danger', "Error " + error.status + ". " + error.statusText, 5000);
+                AlertService.add('danger', error, 5000);
               }
             );
           } else {
@@ -358,7 +356,7 @@
         function(error) {
           $scope.saving = false;
           if (error.status == 403) {
-            AlertService.add('warning', error.data.beschrijving, 5000);
+            AlertService.add('warning', error, 5000);
           }
           else if (error.data.fouten && error.data.fouten.length >=1) {
             _.each(error.data.fouten, function(fout,key) {
@@ -367,7 +365,7 @@
             });
           }
           else {
-            AlertService.add('danger', "Error " + error.status + ". " + error.statusText, 5000);
+            AlertService.add('danger', error, 5000);
           }
         }
       );

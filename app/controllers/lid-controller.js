@@ -70,18 +70,16 @@
 
         },
         function(error) {
-          console.log(error);
           if(error.data && error.data.beschrijving == "Geen leesrechten op dit lid"){
             //redirect to lid overzicht.
             $location.path('/');
-            AlertService.add('danger', "Je hebt geen lees rechten op dit lid.");
+            AlertService.add('danger', "Je hebt geen leesrechten op dit lid.");
           }
-          else{
-            AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+          else {
+            AlertService.add('danger', error);
           }
         }
       );
-
     }
 
     /*
@@ -415,7 +413,7 @@
               initAangepastLid();
             },
             function(error) {
-              AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
+              AlertService.add('danger', error);
             }
           );
         } else{
@@ -433,11 +431,11 @@
 
         },
         function(error) {
-          if(error.status == 403){
-            AlertService.add('warning', error.data.beschrijving);
+          if (error.status == 403) {
+            AlertService.add('warning', error);
           }
           else{
-            AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+            AlertService.add('danger', error);
           }
         }
       );
@@ -552,7 +550,7 @@
 
             },
             function(error) {
-              AlertService.add('danger', "Error " + error.status + ". " + error.statusText);
+              AlertService.add('danger', error);
             }
           );
         } else{
@@ -569,7 +567,7 @@
             AlertService.add('warning', "De VGA-functie kan niet geschrapt worden. <a href=\" https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginahulp:_src_4_TContentFunctionsEntry_OUTPUT_KAN_NIET_STOPZETTEN\">Meer info</a> ");
           }
           else{
-            AlertService.add('danger', "Error" + error.status + ". " + error.statusText);
+            AlertService.add('danger', error);
           }
         }
       );

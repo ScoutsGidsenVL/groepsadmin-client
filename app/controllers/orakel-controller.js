@@ -29,10 +29,9 @@
           $scope.isLoadingData = false;
         },
         function (error) {
-          AlertService.add('danger', "Fout " + error.status + ". " + error.statusText,5000);
+          AlertService.add('danger', error, 5000);
           $scope.isLoadingData = false;
         }
-
       );
     }
 
@@ -49,7 +48,7 @@
           $scope.activegroup = result.groepen[0];
           $scope.changeGroep($scope.activegroup.groepsnummer);
         },
-        function (Error){
+        function (error){
 
         }
       );
