@@ -423,15 +423,19 @@
 
       RestService.Lid.update({id:lid.id, bevestiging: false}, lid).$promise.then(
         function(response) {
-          //toon confirmvenster
           var currentFunctieName= $scope.functieslijst[functie.functie].beschrijving;
-          DialogService.new("Bevestig","Weet u zeker dat u " + $scope.lid.vgagegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
+          DialogService.new("Bevestig", "Weet je zeker dat je " + $scope.lid.vgagegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
           initAangepastLid();
           $window.onbeforeunload = null;
-
         },
         function(error) {
-          if (error.status == 403) {
+          if (error.data && error.data.vraag) {
+            var currentFunctieName= $scope.functieslijst[functie.functie].beschrijving;
+            DialogService.new("Bevestig", "Weet je zeker dat je " + $scope.lid.vgagegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
+            initAangepastLid();
+            $window.onbeforeunload = null;
+          }
+          else if (error.status == 403) {
             AlertService.add('warning', error);
           }
           else{
@@ -532,7 +536,6 @@
         }
       });
 
-
       // bevestiging return functie
       // --------------------------------------
       $scope.confirmstopFunctie = function(result){
@@ -547,7 +550,6 @@
               console.log(response);
               $scope.lid=response;
               initAangepastLid();
-
             },
             function(error) {
               AlertService.add('danger', error);
@@ -557,23 +559,24 @@
           AlertService.add('danger ', "Aanpassing niet doorgevoerd", 5000);
         }
       }
+
       RestService.Lid.update({id: lid.id, bevestiging: false}, lid).$promise.then(
         function(response) {
-          //toon confirmvenster
-          DialogService.new("Bevestig","Weet u zeker dat u alle actieve functies van " + $scope.lid.vgagegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
+          DialogService.new("Bevestig", "Weet je zeker dat je alle actieve functies van " + $scope.lid.vgagegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
         },
         function(error) {
-          if(error.status == 403){
+          if (error.data && error.data.vraag) {
+            DialogService.new("Bevestig", "Weet je zeker dat je alle actieve functies van " + $scope.lid.vgagegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
+          }
+          else if (error.status == 403) {
             AlertService.add('warning', "De VGA-functie kan niet geschrapt worden. <a href=\" https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginahulp:_src_4_TContentFunctionsEntry_OUTPUT_KAN_NIET_STOPZETTEN\">Meer info</a> ");
           }
-          else{
+          else {
             AlertService.add('danger', error);
           }
         }
       );
     }
-
-
 
     // alle aanpassingen opslaan
     $scope.opslaan = function() {
