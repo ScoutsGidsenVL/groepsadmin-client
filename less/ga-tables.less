@@ -4,7 +4,7 @@
 
 .table tfoot {
   border-top: 2px solid #ddd;
-  tr>td:first-child {
+  tr > td:first-child {
     font-weight: 700;
   }
 }
@@ -19,6 +19,11 @@
 
 .table-leden {
   margin-bottom:0;
+  th {
+    // Override the default (bottom)
+    // Zo zien de kolomtitels in de ledenlijst er mobiel veel beter uit.
+    vertical-align: top;
+  }
   tbody > tr {
     cursor: pointer;
     transition: all .2s ease;
