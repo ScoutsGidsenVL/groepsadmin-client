@@ -17,15 +17,30 @@ pipeline {
 
     stage('archive') {
       steps {
-        archive "client.zip"
+        archive 'client.zip'
+
+        script{
+            def artifactory = Artifactory.server 'artifactory'
+
+            def uploadSpec = '''{
+              "files": [
+                {
+                  "pattern": "client.zip",
+                  "target": "groepsadmin-client/${BRANCH_NAME}/${BUILD_ID}/"
+                }
+             ]
+            }'''
+
+            def buildInfo = artifactory.upload spec: uploadSpec
+
+            artifactory.publishBuildInfo buildInfo
+        }
       }
     }
 
     stage('deploy') {
       steps {
-        sshagent(credentials: ['jenkins']) {
-          sh "scripts/deploy_jenkins.sh ${BRANCH_NAME}"
-        }
+        sh 'ssh lxc-deb-rundeck.vvksm.local sudo -u rundeck /opt/deploy-ga.sh ${BRANCH_NAME}'
       }
     }
   }
@@ -33,22 +48,22 @@ pipeline {
   post {
     failure {
       mail(
-        to:"tvl@scoutsengidsenvlaanderen.be",
-        subject:"[Jenkins] Failure: ${currentBuild.fullDisplayName}",
+        to: "tvl@scoutsengidsenvlaanderen.be",
+        subject: "[Jenkins] Failure: ${currentBuild.fullDisplayName}",
         body: "Build failed"
       )
     }
     unstable {
       mail(
-        to:"tvl@scoutsengidsenvlaanderen.be",
-        subject:"[Jenkins] Unstable: ${currentBuild.fullDisplayName}",
+        to: "tvl@scoutsengidsenvlaanderen.be",
+        subject: "[Jenkins] Unstable: ${currentBuild.fullDisplayName}",
         body: "Build unstable"
       )
     }
     changed {
       mail(
-        to:"tvl@scoutsengidsenvlaanderen.be",
-        subject:"[Jenkins] Changed: ${currentBuild.fullDisplayName}",
+        to: "tvl@scoutsengidsenvlaanderen.be",
+        subject: "[Jenkins] Changed: ${currentBuild.fullDisplayName}",
         body: "Build changed"
       )
     }
