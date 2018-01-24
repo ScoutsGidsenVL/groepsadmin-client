@@ -357,7 +357,7 @@
 
       <!-- Groepseigen gegevens -->
       <section>
-        <fieldset ng-if="lid.groepseigenVelden && groepseigenVeldenVerzameling.schema.velden.length > 0">
+        <fieldset ng-if="lid.groepseigenVelden && groepseigenVeldenVerzameling.schema.length > 0">
           <legend >Groepseigen gegevens</legend>
           <fieldset class="ga-contacten-list" ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden" >
             <section class="clearfix">
@@ -370,8 +370,8 @@
                 </div>
               </legend>
             </section>
-            <fieldset ng-if="groepseigenVeldenVerzameling.schema.velden.length > 0">
-              <dynamischveldcolectie waarden="groepseigenVeldenVerzameling.waarden" velden="groepseigenVeldenVerzameling.schema.velden" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
+            <fieldset ng-if="groepseigenVeldenVerzameling.schema.length > 0">
+              <dynamischveldcolectie waarden="groepseigenVeldenVerzameling.waarden" velden="groepseigenVeldenVerzameling.schema" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
             </fieldset>
           </fieldset>
         </fieldset>

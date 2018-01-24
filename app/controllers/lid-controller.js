@@ -594,7 +594,7 @@
         $scope.lid.groepseigenVelden = JSON.parse(JSON.stringify($scope.lid.groepseigenVelden));
 
         _.forOwn($scope.lid.groepseigenVelden, function(groepseigenVelden, groepsnummer){
-          _.forEach(groepseigenVelden.schema.velden, function(veld, index){
+          _.forEach(groepseigenVelden.schema, function(veld, index){
             if(!veld.kanGebruikerWijzigen){
               delete groepseigenVelden.waarden[veld.id];
             }
