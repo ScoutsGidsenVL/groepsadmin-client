@@ -301,17 +301,17 @@
     $scope.wisGroepseigenFunctie = function (id) {
       // controle wis ik een nieuwe groepseigen functie => wissen uit array.
       // anders deletedTimestaps op vandaag zetten;
-      angular.forEach($scope.activegroup.groepseigenFuncties, function(value, key){
+      angular.forEach($scope.data.activegroup.groepseigenFuncties, function(value, key){
         if(value.id == id ) {
           // controle wordt er een nieuwe groepseigen functie gewist?
           if(value.id.indexOf('tempFunctie') != -1){
-            $scope.activegroup.groepseigenFuncties.splice(key, 1);
+            $scope.data.activegroup.groepseigenFuncties.splice(key, 1);
           }
           else {
-            $scope.activegroup.groepseigenFuncties[key].deletedTimestamps = new Date();
+            $scope.data.activegroup.groepseigenFuncties[key].deletedTimestamps = new Date();
           }
         }
-        console.log($scope.activegroup.groepseigenFuncties[key]);
+        console.log($scope.data.activegroup.groepseigenFuncties[key]);
       });
     }
 
@@ -324,7 +324,7 @@
         stop : function(event, ui){
           var gegevenId = ui.item.attr('data-groepseigengegevenid');
           var gegevenIndex = ui.item.index();
-          angular.forEach($scope.activegroup.groepseigenGegevens.schema.velden, function(value, key){
+          angular.forEach($scope.data.activegroup.groepseigenGegevens.schema.velden, function(value, key){
             if(value.id == gegevenId ){
               value.sort = gegevenIndex;
             }
@@ -339,30 +339,30 @@
         beschrijving: null,
         kanLeidingWijzigen: false,
         kanLidWijzigen: false,
-        sort: $scope.activegroup.groepseigenGegevens.schema.velden.length,
+        sort: $scope.data.activegroup.groepseigenGegevens.schema.velden.length,
         type: '',
         status: "nieuw",
         label: ""
       }
-      $scope.activegroup.groepseigenGegevens.schema.velden.push(newGegeven);
+      $scope.data.activegroup.groepseigenGegevens.schema.velden.push(newGegeven);
     }
 
     $scope.addKeuze = function (index) {
-      $scope.activegroup.groepseigenGegevens.schema.velden[index].keuzes.push("");
+      $scope.data.activegroup.groepseigenGegevens.schema.velden[index].keuzes.push("");
     }
 
     $scope.wisKeuze = function (index, keuzeIndex) {
-      $scope.activegroup.groepseigenGegevens.schema.velden[index].keuzes.splice(keuzeIndex, 1);
+      $scope.data.activegroup.groepseigenGegevens.schema.velden[index].keuzes.splice(keuzeIndex, 1);
     }
 
     $scope.setType = function (index, type) {
-      $scope.activegroup.groepseigenGegevens.schema.velden[index].type = type;
+      $scope.data.activegroup.groepseigenGegevens.schema.velden[index].type = type;
       if (type == "lijst") {
-        $scope.activegroup.groepseigenGegevens.schema.velden[index].keuzes = [];
-        $scope.activegroup.groepseigenGegevens.schema.velden[index].keuzes.push("");
+        $scope.data.activegroup.groepseigenGegevens.schema.velden[index].keuzes = [];
+        $scope.data.activegroup.groepseigenGegevens.schema.velden[index].keuzes.push("");
       }
       else{
-        delete $scope.activegroup.groepseigenGegevens.schema.velden[index].keuzes;
+        delete $scope.data.activegroup.groepseigenGegevens.schema.velden[index].keuzes;
       }
     }
 
@@ -396,13 +396,13 @@
       });
 
       marker.addListener('dragend', function (evt) {
-        angular.forEach($scope.activegroup.adres, function(value, key){
+        angular.forEach($scope.data.activegroup.adres, function(value, key){
           if (value.id == marker.adresId) {
-            if ($scope.activegroup.adres[key].positie == undefined) {
-              $scope.activegroup.adres[key].positie = {};
+            if ($scope.data.activegroup.adres[key].positie == undefined) {
+              $scope.data.activegroup.adres[key].positie = {};
             }
-            $scope.activegroup.adres[key].positie.latitude = evt.latLng.lat();
-            $scope.activegroup.adres[key].positie.longitude = evt.latLng.lng();
+            $scope.data.activegroup.adres[key].positie.latitude = evt.latLng.lat();
+            $scope.data.activegroup.adres[key].positie.longitude = evt.latLng.lng();
 
           }
         });
