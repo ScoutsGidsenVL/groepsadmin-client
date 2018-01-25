@@ -66,8 +66,9 @@
             }else{
               AlertService.add('danger', "<b>" + JSON.stringify(rejection.data) + "</b><br/>", 5000 );
             }
-
-          }else{
+          } else if (_.includes(rejection.data, 'Je hebt de Groepsadministratie kapotgemaakt')) {
+              $window.location.href = '/';
+          } else {
               AlertService.add('danger', "<b>" + JSON.stringify(rejection.data) + "</b><br/>", 5000 );
           }
         }
