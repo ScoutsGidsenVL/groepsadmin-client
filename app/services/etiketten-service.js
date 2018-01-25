@@ -70,16 +70,16 @@
       var newSjabloon = {
         "naam": sjabloon.naam,
         "grootte": {
-          "horizontaal": 50,
-          "verticaal": 20
+          "horizontaal": 70,
+          "verticaal": 35
         },
         "tussenruimte": {
-          "horizontaal": 10,
-          "verticaal": 10
+          "horizontaal": 0,
+          "verticaal": 0
         },
         "marge": {
-          "horizontaal": 10,
-          "verticaal": 10
+          "horizontaal": 0,
+          "verticaal": 5
         },
         "inhoud": sjabloon.inhoud,
         "blanco": sjabloon.blanco,
