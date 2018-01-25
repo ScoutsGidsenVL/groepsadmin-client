@@ -139,7 +139,7 @@
 
 
             <div class="form-group" ng-class="{ 'has-error': etikettenForm.blanco.$touched && etikettenForm.blanco.$invalid }">
-              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Blanco etiketten <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+              <label for="fromname" min="0" class="col-xs-6 col-xxs-12 control-label">Blanco etiketten <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
               <div class="col-xs-5 col-xxs-12">
                 <input type="text" class="form-control" name="blanco" id="blanco" ng-model="sjabloon.blanco" required>
                 <div ng-messages="etikettenForm.blanco.$error" ng-show="etikettenForm.blanco.$touched">
