@@ -324,7 +324,7 @@
         stop : function(event, ui){
           var gegevenId = ui.item.attr('data-groepseigengegevenid');
           var gegevenIndex = ui.item.index();
-          angular.forEach($scope.data.activegroup.groepseigenGegevens.schema, function(value, key){
+          angular.forEach($scope.data.activegroup.groepseigenGegevens, function(value, key){
             if(value.id == gegevenId ){
               value.sort = gegevenIndex;
             }
@@ -339,30 +339,30 @@
         beschrijving: null,
         kanLeidingWijzigen: false,
         kanLidWijzigen: false,
-        sort: $scope.data.activegroup.groepseigenGegevens.schema.length,
+        sort: $scope.data.activegroup.groepseigenGegevens.length,
         type: '',
         status: "nieuw",
         label: ""
       }
-      $scope.data.activegroup.groepseigenGegevens.schema.push(newGegeven);
+      $scope.data.activegroup.groepseigenGegevens.push(newGegeven);
     }
 
     $scope.addKeuze = function (index) {
-      $scope.data.activegroup.groepseigenGegevens.schema[index].keuzes.push("");
+      $scope.data.activegroup.groepseigenGegevens[index].keuzes.push("");
     }
 
     $scope.wisKeuze = function (index, keuzeIndex) {
-      $scope.data.activegroup.groepseigenGegevens.schema[index].keuzes.splice(keuzeIndex, 1);
+      $scope.data.activegroup.groepseigenGegevens[index].keuzes.splice(keuzeIndex, 1);
     }
 
     $scope.setType = function (index, type) {
-      $scope.data.activegroup.groepseigenGegevens.schema[index].type = type;
+      $scope.data.activegroup.groepseigenGegevens[index].type = type;
       if (type == "lijst") {
-        $scope.data.activegroup.groepseigenGegevens.schema[index].keuzes = [];
-        $scope.data.activegroup.groepseigenGegevens.schema[index].keuzes.push("");
+        $scope.data.activegroup.groepseigenGegevens[index].keuzes = [];
+        $scope.data.activegroup.groepseigenGegevens[index].keuzes.push("");
       }
       else{
-        delete $scope.data.activegroup.groepseigenGegevens.schema[index].keuzes;
+        delete $scope.data.activegroup.groepseigenGegevens[index].keuzes;
       }
     }
 
