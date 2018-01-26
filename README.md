@@ -119,10 +119,10 @@ LET OP: de volgorde van de dependencies in deze file is belangrijk, want ze word
 
 [Introductie tot Grunt](http://24ways.org/2013/grunt-is-not-weird-and-hard)
 
-Grunt moet worden gerund vanuit local en niet vanuit global, bv:
+Grunt moet worden gerund vanuit local en niet vanuit global
 
 ```{r, engine='bash', count_lines}
-node_modules/.bin/grunt serve
+$ node_modules/.bin/grunt serve
 ```
 
 In de Gruntfile zijn momenteel 3 taken gedefiniëerd:
