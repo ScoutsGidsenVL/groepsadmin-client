@@ -53,7 +53,8 @@
       LidAdd: $resource(
         base + 'lid/',
         {},
-        {'save': {
+        {
+          'save': {
             method: 'POST'
           },
          'options': {
@@ -93,23 +94,26 @@
       ),
       GeblokkeerdAdres: $resource(
         basejson + 'geblokkeerdadres.json',
+        {},
         {get: {method: 'GET'}}
       ),
       Geslacht: $resource(
         basejson + 'geslacht.json',
+        {},
         {get: {method: 'GET'}}
       ),
       Groep: $resource(
         base + 'groep/:id',
         {groepsnummer: '@id'},
         {
-        'get': {method: 'GET', cache: false},
-        'update': {method: 'PATCH', cache: false},
-        'delete': {method: 'DELETE', cache: false}
+          'get': {method: 'GET', cache: false},
+          'update': {method: 'PATCH', cache: false},
+          'delete': {method: 'DELETE', cache: false}
         }
       ),
       Groepen: $resource(
         base + 'groep/',
+        {},
         {get: {method: 'GET', cache: true}}
       ),
       Orakel: $resource(
@@ -119,6 +123,7 @@
       ),
       Oudleden: $resource(
         basejson + 'oudleden.json',
+        {},
         {get: {method: 'GET'}}
       ),
       Leden: $resource(
@@ -129,90 +134,74 @@
       EtikettenPdf: $resource(
         base + 'ledenlijst/etiket?offset=:offset',
         {offset: '@offset'},
-        {'post': {
-          method: 'POST',
-          headers: {
-              accept: 'application/pdf'
-          },
-          responseType: 'arraybuffer',
-          transformResponse: function (data) {
+        {
+          'post': {
+            method: 'POST',
+            headers: { accept: 'application/pdf' },
+            responseType: 'arraybuffer',
+            transformResponse: function (data) {
               var pdf;
               if (data) {
-                  pdf = new Blob([data], {
-                      type: 'application/pdf'
-                  });
+                pdf = new Blob([data], { type: 'application/pdf' });
               }
-              return {
-                  response: pdf
-              };
+              return { response: pdf };
+            }
           }
-        }}
+        }
       ),
       LedenPdf: $resource(
         base + 'ledenlijst?offset=:offset',
         {offset: '@offset'},
-        {'get': {
-          method: 'GET',
-          headers: {
-              accept: 'application/pdf'
-          },
-          responseType: 'arraybuffer',
-          transformResponse: function (data) {
+        {
+          'get': {
+            method: 'GET',
+            headers: { accept: 'application/pdf' },
+            responseType: 'arraybuffer',
+            transformResponse: function (data) {
               var pdf;
               if (data) {
-                  pdf = new Blob([data], {
-                      type: 'application/pdf'
-                  });
+                pdf = new Blob([data], { type: 'application/pdf' });
               }
-              return {
-                  response: pdf
-              };
+              return { response: pdf };
+            }
           }
-        }}
+        }
       ),
       LedenCsv: $resource(
         base + 'ledenlijst?offset=:offset',
         {offset: '@offset'},
-        {'get': {
-          method: 'GET',
-          headers: {
-              accept: 'text/csv'
-          },
-          responseType: 'arraybuffer',
-          transformResponse: function (data) {
+        {
+          'get': {
+            method: 'GET',
+            headers: { accept: 'text/csv' },
+            responseType: 'arraybuffer',
+            transformResponse: function (data) {
               var csv;
               if (data) {
-                  csv = new Blob([data], {
-                      type: 'text/csv'
-                  });
+                csv = new Blob([data], { type: 'text/csv' });
               }
-              return {
-                  response: csv
-              };
+              return { response: csv };
+            }
           }
-        }}
+        }
       ),
       LedenSteekkaarten: $resource(
         base + 'ledenlijst/steekkaart',
         {offset: '@offset'},
-        {'get': {
-          method: 'GET',
-          headers: {
-              accept: 'application/pdf'
-          },
-          responseType: 'arraybuffer',
-          transformResponse: function (data) {
+        {
+          'get': {
+            method: 'GET',
+            headers: { accept: 'application/pdf' },
+            responseType: 'arraybuffer',
+            transformResponse: function (data) {
               var pdf;
               if (data) {
-                  pdf = new Blob([data], {
-                      type: 'application/pdf'
-                  });
+                pdf = new Blob([data], { type: 'application/pdf' });
               }
-              return {
-                  response: pdf
-              };
+              return { response: pdf };
+            }
           }
-        }}
+        }
       ),
       LidMail : $resource(
         base + 'lid/:id/mail',
@@ -291,19 +280,19 @@
         base + 'sjabloon/mail/:id',
         {id: '@id', bevestiging: '@bevestiging'},
         {
-        'get': {method: 'GET', cache: false},
-        'post': {method: 'POST', cache: false},
-        'update': {method: 'PATCH', transformRequest: changesOnly, cache: false},
-        'delete': {method: 'DELETE', cache: false}
+          'get': {method: 'GET', cache: false},
+          'post': {method: 'POST', cache: false},
+          'update': {method: 'PATCH', transformRequest: changesOnly, cache: false},
+          'delete': {method: 'DELETE', cache: false}
         }
       ),
       Etiketsjabloon: $resource(
         base + 'sjabloon/etiket/:id',
         {id: '@id', bevestiging: '@bevestiging'},
         {
-        'get': {method: 'GET', cache: false},
-        'update': {method: 'PATCH', transformRequest: changesOnly, cache: false},
-        'delete': {method: 'DELETE', cache: false}
+          'get': {method: 'GET', cache: false},
+          'update': {method: 'PATCH', transformRequest: changesOnly, cache: false},
+          'delete': {method: 'DELETE', cache: false}
         }
       ),
       EtiketPostsjabloon: $resource(
