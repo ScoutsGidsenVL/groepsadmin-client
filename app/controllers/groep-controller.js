@@ -94,66 +94,47 @@
 
     }
 
-    // Calculate center
-    var berekenCenter = function(adressen){
-        // maar 1 adres
-        if (adressen.length == 1){
-          return new google.maps.LatLng(adressen[0].positie.latitude, adressen[0].positie.longitude);
+    var berekenCenter = function(adressen) {
+      // Gebaseerd op de grenzen van Vlaanderen
+      var minLat = 52; // bovengrens
+      var maxLat = 50; // ondergrens
+      var minLng = 7; // bovengrens
+      var maxLng = 2; // ondergrens
+      angular.forEach(adressen, function(adres) {
+        if (typeof adres.positie !== 'undefined') {
+          minLat = Math.min(minLat, adres.positie.latitude);
+          maxLat = Math.max(maxLat, adres.positie.latitude);
+          minLng = Math.min(minLng, adres.positie.longitude);
+          maxLng = Math.max(maxLng, adres.positie.longitude);
         }
-        // meerder adressen
-        else {
-          var maxLat = 0;
-          var minLat = 0;
-          var maxLng = 0;
-          var minLng = 0;
-          angular.forEach(adressen, function(adres){
-            var tempLat = adres.positie.latitude;
-            var tempLng = adres.positie.longitude;
-            // latithude controle
+      });
 
-            if (tempLat > maxLat ){
-              maxLat = tempLat;
-            }
-            else if (tempLat < minLat )  {
-              minLat = tempLat
-            }
-            // Longithude controle
-            if (tempLng > maxLng){
-              maxLat = tempLat;
-            }
-            else if (tempLng < minLng )  {
-              minLat = tempLat
-            }
-          });
-
-          // calculate center
-          var centerLat = ((maxLat-minLat) /2 ) + minLat;
-          var centerLng = ( (maxLng-minLng) /2) + minLng;
-          return new google.maps.LatLng(centerLat, centerLng);
-        }
-      }
+      var centerLat = (maxLat - minLat) / 2 + minLat;
+      var centerLng = (maxLng - minLng) / 2 + minLng;
+      return new google.maps.LatLng(centerLat, centerLng);
+    }
 
     // Place Markers on Map
     var markersTekenen = function(map, adressen){
-      if($scope.markers == undefined){
+      if($scope.markers == undefined) {
         $scope.markers = [];
       }
       clearMarkers();
 
-      angular.forEach(adressen, function(value, key){
-        var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(value.positie.latitude, value.positie.longitude),
-          map: map,
-          draggable: true,
-          label: $scope.markerLabels[key],
-          infoProp: value.straat + " " +value.nummer + ( value.bus ? (" " + value.bus) : "") + "," + "<br>" + value.postcode + " " + value.gemeente,
-          adresId: value.id
-        });
-        marker = markerAddEvents(marker, map);
-        $scope.markers.push(marker);
+      angular.forEach(adressen, function(adres, key){
+        if (typeof adres.positie !== 'undefined') {
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(adres.positie.latitude, adres.positie.longitude),
+            map: map,
+            draggable: true,
+            label: $scope.markerLabels[key],
+            infoProp: adres.straat + " " + adres.nummer + (adres.bus ? (" bus " + adres.bus) : "") + "<br>" + adres.postcode + " " + adres.gemeente,
+            adresId: adres.id
+          });
+          marker = markerAddEvents(marker, map);
+          $scope.markers.push(marker);
+        }
       });
-
-
     }
 
     // Remove allmarkers on Map
