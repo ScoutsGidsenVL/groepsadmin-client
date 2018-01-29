@@ -619,7 +619,7 @@
     $scope.setStickyTableHeader = function(){
       var $panelheading = angular.element('.panel-heading');
       var $panelfilter = angular.element('.panel-filter');
-      var $navbarOuterHeight = angular.element('.navbar-default').outerHeight();
+      var $navbarInnerHeight = angular.element('.navbar-default').innerHeight();
       var $globalMenuOuterHeight = angular.element('#global-menu').outerHeight();
       var $tableHead = angular.element('.panel-default > table#leden');
       var panelFilterHeight;
@@ -633,7 +633,7 @@
 
       if(window.scrollY >= $panelheading.outerHeight() + panelFilterHeight){
 
-        $tableHead.css({ 'top' : $navbarOuterHeight + $globalMenuOuterHeight });
+        $tableHead.css({ 'top' : $navbarInnerHeight + $globalMenuOuterHeight });
         if(!$scope.tableheaderIsSticky){
           $scope.tableheaderIsSticky = true;
           $scope.$apply();
