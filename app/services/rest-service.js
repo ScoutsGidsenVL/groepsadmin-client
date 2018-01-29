@@ -77,11 +77,19 @@
       Functie: $resource(
         base + 'functie/:functieId',
         {functieId: '@functieId'},
-        {get: {method: 'GET', cache: true}}
+        {
+          'get': {method: 'GET', cache: false},
+          'update': {method: 'PATCH', cache: false},
+          'delete': {method: 'DELETE', cache: false}
+        }
       ),
       Functies: $resource(
         base + 'functie/',
-        {get: {method: 'GET', cache: true}}
+        {},
+        {
+          'get': {method: 'GET', cache: false},
+          'post': {method: 'POST', cache: false}
+        }
       ),
       GeblokkeerdAdres: $resource(
         basejson + 'geblokkeerdadres.json',

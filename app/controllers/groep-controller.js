@@ -5,9 +5,9 @@
     .module('ga.groepcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('GroepController', GroepController);
 
-  GroepController.$inject = ['$scope', '$routeParams', '$window', '$location', '$log' , 'RestService', 'AlertService', 'CacheService', 'DialogService', '$rootScope', 'access', 'keycloak'];
+  GroepController.$inject = ['$q', '$scope', '$routeParams', '$window', '$location', '$log' , 'RestService', 'AlertService', 'CacheService', 'DialogService', '$rootScope', 'access', 'keycloak'];
 
-  function GroepController($scope, $routeParams, $window, $location, $log, RestService, AlertService, CS, DialogService, $rootScope, access, keycloak) {
+  function GroepController($q, $scope, $routeParams, $window, $location, $log, RestService, AlertService, CS, DialogService, $rootScope, access, keycloak) {
     if(!access){
       $location.path("/lid/profiel");
     }
@@ -418,36 +418,49 @@
       console.log("***",$scope.data.activegroup);
       $scope.saving = true;
 
-          // ADD SOME CODE WHICH adds the date (now, format : 2017-09-18T12:09:06.825+02:00 )
-          //var d = new Date();
-          //var n = d.toISOString(); //example 2017-11-22T08:41:05.475Z
+      // ADD SOME CODE WHICH adds the date (now, format : 2017-09-18T12:09:06.825+02:00 )
+      //var d = new Date();
+      //var n = d.toISOString(); //example 2017-11-22T08:41:05.475Z
 
-          if($scope.data.activegroup.facturatieLedenCheck == true){
-            //console.log('* leden  found item', _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id}));
-            $scope.data.activegroup.facturatieLedenSaved = true;
-            var foundObj = _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id});
-            foundObj.facturatieLedenSaved = true;
-            foundObj.facturatieLedenCheck = true;
-          }
-          if($scope.data.activegroup.facturatieLeidingCheck == true){
-            //console.log('* leiding found item', _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id}));
-            $scope.data.activegroup.facturatieLeidingSaved = true;
-            var foundObj = _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id});
-            foundObj.facturatieLeidingSaved = true;
-            foundObj.facturatieLeidingCheck = true;
-          }
+      if($scope.data.activegroup.facturatieLedenCheck == true){
+        //console.log('* leden  found item', _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id}));
+        $scope.data.activegroup.facturatieLedenSaved = true;
+        var foundObj = _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id});
+        foundObj.facturatieLedenSaved = true;
+        foundObj.facturatieLedenCheck = true;
+      }
+      if($scope.data.activegroup.facturatieLeidingCheck == true){
+        //console.log('* leiding found item', _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id}));
+        $scope.data.activegroup.facturatieLeidingSaved = true;
+        var foundObj = _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id});
+        foundObj.facturatieLeidingSaved = true;
+        foundObj.facturatieLeidingCheck = true;
+      }
 
+      var promises = [
+        RestService.Groep.update({id: $scope.data.activegroup.id, bevestiging: true}, $scope.data.activegroup).$promise
+      ];
+      _.forEach($scope.data.activegroup.groepseigenFuncties, function(functie) {
+        var callback;
 
-          //send new request
-          RestService.Groep.update({id:$scope.data.activegroup.id, bevestiging: true}, $scope.data.activegroup).$promise.then(function(res){
-            console.log(res)
-            $scope.saving = false;
-          },function(err){
-            console.log(err);
-            $scope.saving = false;
-          });
+        if (typeof functie.deletedTimestamps !== 'undefined') {
+          callback = RestService.Functie.delete({ functieId: functie.id });
+        } else if (functie.id.indexOf('tempFunctie') != -1) {
+          callback = RestService.Functies.post({}, functie);
+        } else {
+          callback = RestService.Functie.update({ functieId: functie.id }, functie);
+        }
 
+        promises.push(callback.$promise);
+      });
 
+      $q.all(promises).then(function(res){
+        console.log(res)
+        $scope.saving = false;
+      }).catch(function(err){
+        console.log(err);
+        $scope.saving = false;
+      });
     }
   }
 })();
