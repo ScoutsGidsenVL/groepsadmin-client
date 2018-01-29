@@ -2,12 +2,12 @@
   'use strict';
 
   angular
-    .module('ga.orakelcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
-    .controller('OrakelController', OrakelController);
+    .module('ga.ledenaantallencontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
+    .controller('ledenaantallenController', ledenaantallenController);
 
-  OrakelController.$inject = ['$compile', '$http', '$scope', '$routeParams', '$window', '$location', 'CacheService', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'access', 'keycloak'];
+  ledenaantallenController.$inject = ['$compile', '$http', '$scope', '$routeParams', '$window', '$location', 'CacheService', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'access', 'keycloak'];
 
-  function OrakelController($compile, $http, $scope, $routeParams, $window, $location, CS, RestService, AlertService, DialogService, $rootScope, access, keycloak) {
+  function ledenaantallenController($compile, $http, $scope, $routeParams, $window, $location, CS, RestService, AlertService, DialogService, $rootScope, access, keycloak) {
 
     if(!access) {
       $location.path("/lid/profiel");
@@ -18,10 +18,10 @@
       $scope.isLoadingData = true;
       // grafiek data ophalen
       //$http.get("data/ledenaantallen.json").then(
-      RestService.Orakel.get({groepsnummer: groepsnummer}).$promise.then(
+      RestService.ledenaantallen.get({groepsnummer: groepsnummer}).$promise.then(
         function (res) {
           //var res = res.data;
-          $scope.orakelData = res;
+          $scope.ledenaantallenData = res;
           $scope.tekenGroepsevolutie(res);
           $scope.tekenLedenaantalPerLeeftijd(res);
           $scope.tekenHuidigeLeidingsErvaring(res);
@@ -145,7 +145,7 @@
       });
     }
 
-    $scope.tekenGroepsevolutie = function(orakelData) {
+    $scope.tekenGroepsevolutie = function(ledenaantallenData) {
 
 
       var chartColors = [
@@ -179,11 +179,11 @@
 
       var type = "line";
       var data = {
-        labels: $scope.sortedKeys(orakelData.groepsevolutie[0].aantalPersonen),
+        labels: $scope.sortedKeys(ledenaantallenData.groepsevolutie[0].aantalPersonen),
         datasets: []
       };
 
-      angular.forEach(orakelData.groepsevolutie, function(value, index){
+      angular.forEach(ledenaantallenData.groepsevolutie, function(value, index){
         data.datasets.push({
           label: value.naam,
           fill: false,
@@ -215,7 +215,7 @@
       });
     }
 
-    $scope.tekenLedenaantalPerLeeftijd = function(orakelData) {
+    $scope.tekenLedenaantalPerLeeftijd = function(ledenaantallenData) {
 
 
       var ctx = redrawGraph('ledenaantalperleeftijd');
@@ -249,7 +249,7 @@
       ];
 
       var alleJaren = [];
-      _.forEach(orakelData.ledenPerLeeftijd, function(value, key) {
+      _.forEach(ledenaantallenData.ledenPerLeeftijd, function(value, key) {
         alleJaren = _.concat(alleJaren, Object.keys(value));
       });
       var alleJaren = _.uniq(alleJaren);
@@ -260,9 +260,9 @@
         labels: alleJaren,
         datasets: []
       }
-      _.forEach($scope.sortedKeys(orakelData.ledenPerLeeftijd), function(keySoort, index) {
+      _.forEach($scope.sortedKeys(ledenaantallenData.ledenPerLeeftijd), function(keySoort, index) {
         var values = _.fill(new Array(alleJaren.length), 0);
-        _.forEach(orakelData.ledenPerLeeftijd[keySoort], function(valueAantal, keyJaar) {
+        _.forEach(ledenaantallenData.ledenPerLeeftijd[keySoort], function(valueAantal, keyJaar) {
           values[alleJaren.indexOf(keyJaar)] = valueAantal;
         });
 
@@ -304,7 +304,7 @@
       });
     }
 
-    $scope.tekenHuidigeLeidingsErvaring = function(orakelData) {
+    $scope.tekenHuidigeLeidingsErvaring = function(ledenaantallenData) {
 
 
       var chartHoverColors = ["rgba(232, 232, 96, 0.62)", "rgba(141, 221, 119, 0.62)", "rgba(236, 148, 76, 0.59)", "rgba(76, 83, 236, 0.59)", "rgba(212, 94, 94, 0.59)", "rgba(120, 97, 218, 0.59)"];
@@ -327,11 +327,11 @@
 
       var type = "doughnut";
       var data = {
-        labels: $scope.sortedKeys(orakelData.leidingservaring).map(function(jaar) {
+        labels: $scope.sortedKeys(ledenaantallenData.leidingservaring).map(function(jaar) {
           return jaar + ' jaar';
         }),
         datasets : [{
-          data: $scope.sortedValues(orakelData.leidingservaring),
+          data: $scope.sortedValues(ledenaantallenData.leidingservaring),
           backgroundColor: chartColors,
          hoverBackgroundColor: chartHoverColors
         }]
@@ -351,7 +351,7 @@
       });
     }
 
-    $scope.tekenInEnUitstroom = function(orakelData) {
+    $scope.tekenInEnUitstroom = function(ledenaantallenData) {
 
 
 
@@ -385,10 +385,10 @@
       ];
 
       var data = {
-        labels: $scope.sortedKeys(orakelData.uitstroom[0].aantalPerLeeftijd),
+        labels: $scope.sortedKeys(ledenaantallenData.uitstroom[0].aantalPerLeeftijd),
         datasets : []
       }
-      _.forEach(orakelData.uitstroom, function(value, index) {
+      _.forEach(ledenaantallenData.uitstroom, function(value, index) {
         data.datasets.push({
           label: value.werkjaar,
           backgroundColor: chartColors[index % 6].background,

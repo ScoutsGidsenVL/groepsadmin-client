@@ -31,7 +31,7 @@
                           return x.toFixed(precision).toString().replace('.', ',') + suffix;
                       }
 
-                      var werkjaren = scope.$parent.sortedKeys(scope.$parent.orakelData.takStatistieken[0].aantalLeden);
+                      var werkjaren = scope.$parent.sortedKeys(scope.$parent.ledenaantallenData.takStatistieken[0].aantalLeden);
                       if (werkjaren[fields[0].offset] == 'Nu') {
                           return 'Nu: ' + format(fields[0].value);
                       } else {

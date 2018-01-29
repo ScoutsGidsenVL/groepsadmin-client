@@ -45,9 +45,9 @@
         }
       })
 
-      .when('/orakel', {
-        templateUrl: 'partials/orakel.html',
-        controller: 'OrakelController',
+      .when('/ledenaantallen', {
+        templateUrl: 'partials/ledenaantallen.html',
+        controller: 'ledenaantallenController',
         resolve : {
           access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("ledenlijst").then(function(res){ return res }); }]
         }

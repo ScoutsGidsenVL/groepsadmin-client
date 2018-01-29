@@ -2,9 +2,9 @@
 <div class="panel-heading panel-fixed clearfix">
   <div class="pull-left">
 
-    <div class="form-group form-group--orakel">
-      <label class="orakel-title hidden-xs" for="sel1">Ledenaantallen van</label>&nbsp;
-      <select class="orakel-select-group" id="sel1" ng-options="( groep.groepsnummer + ' ' + groep.naam) for groep in groepen track by groep.id" ng-change="changeGroep(activegroup.groepsnummer)" ng-model="activegroup"></select>
+    <div class="form-group form-group--ledenaantallen">
+      <label class="ledenaantallen-title hidden-xs" for="sel1">Ledenaantallen van</label>&nbsp;
+      <select class="ledenaantallen-select-group" id="sel1" ng-options="( groep.groepsnummer + ' ' + groep.naam) for groep in groepen track by groep.id" ng-change="changeGroep(activegroup.groepsnummer)" ng-model="activegroup"></select>
     </div>
   </div>
 </div>
@@ -12,9 +12,9 @@
 <div class="panel panel-default panel-default--hasmargin">
   <!-- Persoonsinfo -->
   <div class="panel-body form-hover clearfix">
-    <div class="row panel-body--orakel">
+    <div class="row panel-body--ledenaantallen">
       <div class="col-xs-12">
-        <div class="btn-group btn-group-orakel" role="group" >
+        <div class="btn-group btn-group-ledenaantallen" role="group" >
           <button type="button" class="btn btn-default" ng-repeat="(key, value) in tabs" ng-class="{'active': value.activated }" ng-click="activateTab(key)" ng-disabled="isLoadingData">{{value.label}}</button>
         </div>
       </div>
@@ -36,7 +36,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="takStatistiek in orakelData.takStatistieken">
+              <tr ng-repeat="takStatistiek in ledenaantallenData.takStatistieken">
                 <td>{{ takStatistiek.takNaam }}</td>
                 <td>{{ takStatistiek.aantalLeden['Nu'] }}</td>
                 <td ng-attr-id="{{ 'tak-' + takStatistiek.takNaam + '-leden' }}" sparkline="" data-waarden="{{ sparklineData(takStatistiek.aantalLeden) }}" data-formaat='%.0f'></td>
@@ -59,7 +59,7 @@
             </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="criterium in orakelData.criteria">
+              <tr ng-repeat="criterium in ledenaantallenData.criteria">
                 <td>{{ criterium.naam }}</td>
                 <td>{{ format(criterium.waarden['Nu'], criterium.formaat) }}</td>
                 <td ng-attr-id="{{ 'criterium-' + criterium.naam }}" sparkline="" data-waarden="{{ sparklineData(criterium.waarden) }}" data-formaat='{{ criterium.formaat }}'></td>

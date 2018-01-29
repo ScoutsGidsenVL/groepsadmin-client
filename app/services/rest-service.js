@@ -13,8 +13,8 @@
     if (window.location.protocol === "https:") {
         apiHost = window.location.origin;
     } else {
-        //apiHost = 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be';
-        apiHost = 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net';
+        apiHost = 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be';
+        //apiHost = 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net';
         // Alternatief als de groepsadmin lokaal draait:
         //apiHost = 'http://localhost:8080';
     }
@@ -116,7 +116,7 @@
         {},
         {get: {method: 'GET', cache: true}}
       ),
-      Orakel: $resource(
+      ledenaantallen: $resource(
         base + 'groep/:groepsnummer/ledenaantallen',
         {groepsnummer: '@groepsnummer'},
         {get: {method: 'GET', cache: true}}

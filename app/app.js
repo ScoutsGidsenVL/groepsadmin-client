@@ -24,7 +24,7 @@
     'ga.formerrorbutton',
     'ga.ordericon',
     'ga.groepcontroller',
-    'ga.orakelcontroller',
+    'ga.ledenaantallencontroller',
     'ga.websitecontroller',
     'ga.emailcontroller',
     'ga.etikettencontroller',
