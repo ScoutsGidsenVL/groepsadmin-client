@@ -17,7 +17,11 @@
   padding: 10px;
   background-color: @sgv-donkergroen;
   width: 80px;
-  height: 70px;
+  height: 60px;
+
+  @media (min-width: @screen-md-min) {
+    height: 70px;
+  }
 }
 
 // Navbar search
@@ -95,10 +99,16 @@
   }
 }
 
-.mobile-margin{
-  margin:16px 0;
+.mobile-margin {
+  display: inline-block;
+  margin: 13px 2vw;
+
+  .btn-primary {
+    width: 90px;
+  }
 }
-.link-old{
+
+.link-old {
   margin: 16px 1vw;
   text-align: center;
   font-size: .6em;

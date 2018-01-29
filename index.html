@@ -95,8 +95,22 @@
           </li>
         </ul>
 
-        <!-- Desktop-zoekveld -->
-        <div class="navbar-form hidden-sm hidden-xs pull-right searchresults" ng-controller="SearchController" role="search" id="search">
+        <!-- Mobiele menu -->
+        <div class="mobile-margin hidden-md hidden-lg">
+          <span uib-dropdown on-toggle="toggled(open)">
+            <button type="button" class="btn btn-primary" uib-dropdown-toggle>
+              <i class="fa fa-bars"></i>&nbsp; Menu
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+              <li ng-repeat="menuItem in menuItems" ng-show="menuItem.condition" active-link="active">
+                <a ng-href="{{menuItem.href}}" ng-attr-target="{{(menuItem.targetBlank) ? '_blank' : undefined}}"><i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; {{menuItem.label}}</a>
+              </li>
+            </ul>
+          </span>
+        </div>
+
+        <!-- Zoekveld -->
+        <div class="navbar-form pull-right searchresults" ng-controller="SearchController" role="search" id="search">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Zoeken op naam, gsm of e-mail" ng-model="zoekterm" ng-model-options="{debounce: 500}" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
             <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">
@@ -106,45 +120,6 @@
               <i class="fa fa-ban"></i>
             </div>
           </div>
-        </div>
-
-        <!-- Mobiele menu -->
-        <div class="mobile-margin col-xs-8 hidden-md hidden-lg pull-right">
-          <span uib-dropdown on-toggle="toggled(open)" class=" pull-right">
-            <button type="button" class="btn btn-primary" uib-dropdown-toggle>
-              <i class="fa fa-bars"></i>&nbsp; Menu
-            </button>
-            <ul class="dropdown-menu pull-right" uib-dropdown-menu aria-labelledby="simple-dropdown">
-              <li ng-repeat="menuItem in menuItems" ng-show="menuItem.condition" active-link="active">
-                <a ng-href="{{menuItem.href}}" ng-attr-target="{{(menuItem.targetBlank) ? '_blank' : undefined}}"><i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; {{menuItem.label}}</a>
-              </li>
-            </ul>
-          </span>
-          <div>
-            <button id="btnOpenMobSearch" type="button" class="btn btn-primary pull-right mr-10">
-              <i class="fa fa-search" aria-hidden="true"></i>&nbsp; Zoeken
-            </button>
-          </div>
-        </div>
-
-        <!-- Mobiel zoekveld -->
-        <div class="mobile-search-container">
-            <div class="col-xs-12 hidden-md hidden-lg">
-              <div class="navbar-form pull-right searchresults" ng-controller="SearchController" role="search">
-                <div id="btnCloseMobSearch" class="close-search pull-right" ng-hide="loadingLocations" uib-dropdown-toggle >
-                  <i class="fa fa-close"></i>
-                </div>
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Zoeken op naam, gsm of e-mail" ng-model="zoekterm" ng-model-options="{debounce: 500}" id="_zoekenWrap" uib-typeahead="lid for lid in zoekLid($viewValue)" typeahead-on-select="gaNaarLid($item)" typeahead-template-url="partials/zoeken-typeahead.html"  typeahead-loading="loadingLocations" typeahead-no-results="noResults"/>
-                  <div ng-show="loadingLocations" class="input-group-addon" title="Leden aan het zoeken ">
-                    <i class="fa fa-spinner fa-pulse"></i>
-                  </div>
-                  <div ng-show="noResults" class="input-group-addon" title="Geen resultaten gevonden">
-                    <i class="fa fa-ban"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
         </div>
       </div>
     </nav>
