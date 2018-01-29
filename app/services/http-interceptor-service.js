@@ -41,47 +41,37 @@
           }else{
             AlertService.add('danger', "Je bent niet ingelogd", 5000);
           }
-
-        }
-        else if (rejection.status == 400) {
-          if(rejection.data && rejection.data.fouten){
-            var strErr = "";
-            _.each(rejection.data.fouten, function(val,key){
-              strErr += val.beschrijving + ", ";
-            })
-            AlertService.add('danger', strErr, 5000);
-          }
-
         }
         else if (rejection.data) {
-
-          if(rejection.data.fouten && rejection.data.fouten.length>0){
+          if (rejection.data.vraag) {
+            AlertService.add('danger', rejection.data);
+          } else if (rejection.data.fouten && rejection.data.fouten.length > 0) {
 
             // check if there are errors on contacten
             var checkField = "contacten.contacten";
-            var filteredCheck = _.filter(rejection.data.fouten, function(o){ if(o.veld){ return o.veld.indexOf(checkField) >= 0 }});
+            var filteredCheck = _.filter(rejection.data.fouten, function(o) {
+              if (o.veld) {
+                return o.veld.indexOf(checkField) >= 0
+              }
+            });
 
             if(filteredCheck.length > 0){
               return $q.reject(rejection);
             }else{
-              AlertService.add('danger', "<b>" + JSON.stringify(rejection.data) + "</b><br/>", 5000 );
+              AlertService.add('danger', rejection.data);
             }
           } else if (_.includes(rejection.data, 'Je hebt de Groepsadministratie kapotgemaakt')) {
               $window.location.href = '/';
           } else {
-              AlertService.add('danger', "<b>" + JSON.stringify(rejection.data) + "</b><br/>", 5000 );
+              AlertService.add('danger', "<b>" + JSON.stringify(rejection.data) + "</b><br/>", 5000);
           }
-        }
-        else{
-          if(rejection.error && rejection.error_description){
-              AlertService.add('danger', rejection.error_description, 5000);
-          }else{
-              // als de token expired is, refreshen we de huidige pagina
-              if(rejection == "Failed to refresh token"){
-                $window.location.reload();
-              }
-              AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.", 5000);
-          }
+        } else if (rejection.error && rejection.error_description) {
+            AlertService.add('danger', rejection.error_description, 5000);
+        } else if (rejection == "Failed to refresh token") {
+          // als de token expired is, refreshen we de huidige pagina
+          $window.location.reload();
+        } else {
+          AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.", 5000);
         }
         return $q.reject(rejection);
       }

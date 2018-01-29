@@ -14,10 +14,17 @@
       add: function(type, error, timeout, suggesties) {
 
         var msg;
-        if (error.data && error.data.beschrijving) {
+        if (error.data && error.data.fouten) {
+          msg = '';
+          _.each(rejection.data.fouten, function(val,key){
+            msg += val.beschrijving + ", ";
+          })
+        } else if (error.data && error.data.beschrijving) {
           msg = error.data.beschrijving;
+        } else if (error.data && error.data.vraag) {
+          msg = error.data.boodschap + ' - ' + error.data.vraag;
         } else if (error.statusText) {
-          msg = "Error " + error.status + " - " + error.statusText;
+          msg = "Error " + error.status + ' - ' + error.statusText;
         } else {
           msg = error;
         }
