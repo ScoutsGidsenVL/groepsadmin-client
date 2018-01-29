@@ -37,12 +37,9 @@
       </div>
       <div class="hidden-md hidden-lg">
         <div class="btn-group pull-right" uib-dropdown>
-          <button id="split-button" type="button" class="btn btn-secondary" ng-click="export('lijst', 'pdf')">
-            <span ng-show="exportButtons['lijstpdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren naar PDF
-          </button>
           <button type="button" class="btn btn-secondary" uib-dropdown-toggle>
             <span class="caret"></span>
-            <span class="sr-only">Acties</span>
+            <span>&nbsp;Acties</span>
           </button>
           <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
             <li role="menuitem" ng-show="canPost"><a href="#" ng-click="$event.preventDefault();nieuwlid()">Nieuw lid</a></li>
