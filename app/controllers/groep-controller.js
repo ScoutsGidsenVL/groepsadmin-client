@@ -77,21 +77,47 @@
      * Google Maps Functies
      * ----------------------------------
      */
-    // initialize Google Map
-    var loadGoogleMap = function(){
-      if(!$scope.googleMap){
-        var mapOptions = {
-          zoom: 15,
-          center: berekenCenter($scope.data.activegroup.adressen)
-        }
-        $scope.googleMap = new google.maps.Map(document.getElementById("lokalen-kaart"), mapOptions);
-        markersTekenen($scope.googleMap, $scope.data.activegroup.adressen);
-      } else {
 
-        $scope.googleMap.setCenter(berekenCenter($scope.data.activegroup.adressen));
-        markersTekenen($scope.googleMap, $scope.data.activegroup.adressen);
+    var loadGoogleMapsScript = function(callback) {
+        var googleMapsKey = '';
+        switch (window.location.origin){
+          case 'http://localhost:8000':
+            googleMapsKey = 'AIzaSyBQRUONtrmAcJ96_NILKeRvj5F5nXRh2MM';
+            break;
+          case 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be':
+            googleMapsKey = 'AIzaSyBiKzCCqMUyu4mW0rKk777CU3pW86FZiJ8';
+            break;
+          case 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net':
+            googleMapsKey = 'AIzaSyBZU1SgLDbOfAlROSnR_cb_wWQGlQRqMqc';
+            break;
+        }
+
+        window.googleMapsCallback = callback;
+
+        var script = document.createElement('script');
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=' + googleMapsKey + '&callback=googleMapsCallback';
+        document.head.appendChild(script);
+    }
+
+    // initialize Google Map
+    var loadGoogleMap = function() {
+      if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
+        loadGoogleMapsScript(loadGoogleMap);
+        return;
       }
 
+      var center = berekenCenter($scope.data.activegroup.adressen);
+      if (!$scope.googleMap) {
+        var mapOptions = {
+          zoom: 15,
+          center: center
+        }
+        $scope.googleMap = new google.maps.Map(document.getElementById("lokalen-kaart"), mapOptions);
+      } else {
+        $scope.googleMap.setCenter(center);
+      }
+
+      markersTekenen($scope.googleMap, $scope.data.activegroup.adressen);
     }
 
     var berekenCenter = function(adressen) {
@@ -121,7 +147,7 @@
       }
       clearMarkers();
 
-      angular.forEach(adressen, function(adres, key){
+      angular.forEach(adressen, function(adres, key) {
         if (typeof adres.positie !== 'undefined') {
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(adres.positie.latitude, adres.positie.longitude),
@@ -189,7 +215,6 @@
           google.maps.event.trigger(value, 'click');
         }
       })
-
     }
 
     // nieuw adres toeveogen
@@ -197,7 +222,6 @@
       var newAdres = {
         id: 'tempadres' + Math.random(),
         bus: null,
-
       }
       $scope.data.activegroup.adressen.push(newAdres);
       addMarkerFromNewAdres($scope.googleMap, newAdres)

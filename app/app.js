@@ -77,22 +77,6 @@
     return $window._keycloak;
   });
 
-  var googleMapsKey = '';
-  switch (window.location.origin){
-    case 'http://localhost:8000':
-      googleMapsKey = 'AIzaSyBQRUONtrmAcJ96_NILKeRvj5F5nXRh2MM';
-      break;
-    case 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be':
-      googleMapsKey = 'AIzaSyBiKzCCqMUyu4mW0rKk777CU3pW86FZiJ8';
-      break;
-    case 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net':
-      googleMapsKey = 'AIzaSyBZU1SgLDbOfAlROSnR_cb_wWQGlQRqMqc';
-      break;
-  }
-  var script = document.createElement('script');
-  script.src = "https://maps.googleapis.com/maps/api/js?key=" + googleMapsKey;
-  document.body.appendChild(script);
-
   angular.element(document).ready(function() {
     window._keycloak = Keycloak(getClient());
 
