@@ -333,15 +333,15 @@
 
       var groepen = data.groepen;
       var groepenCriteria = {
-                      title : "Groepen",
-                      criteriaKey : "groepen",
-                      multiplePossible : true,
-                      items: []
-                      };
+        title : "Groepen",
+        criteriaKey : "groepen",
+        multiplePossible : true,
+        items: []
+      };
       angular.forEach(groepen, function(value){
         var groep = {
-                  value : value.groepsnummer,
-                  label : value.naam + " [" + value.groepsnummer + "]"
+          value: value.groepsnummer,
+          label: value.naam + " - " + value.groepsnummer
         }
         groepenCriteria.items.push(groep);
       });
@@ -360,7 +360,7 @@
     }
 
     ledenFilterService.saveFilter = function(filterId, fObj){
-      console.log('LFS.saveFilter filterId:',filterId, ' -- filterObject:  ', fObj);
+      console.log('LFS.saveFilter filterId:', filterId, ' -- filterObject:  ', fObj);
       var deferred = $q.defer();
       if(filterId){
         RestService.UpdateFilter.update({id: filterId}, fObj).$promise.then(

@@ -4,10 +4,10 @@
     <form name="groepenFormulier" ng-if="data.groepenlijst.length != 1">
       <div class="form-group form-group--groepsinstellingen">
         <label class="groepsinstellingen-title hidden-xs" for="groepenSelect">Groepsinstellingen van</label>&nbsp;
-        <select class="groepsinstellingen-select-group" name="groepenSelect" ng-options="groep as ( groep.groepsnummer + ' ' + groep.naam) for groep in data.groepenlijst track by groep.id" ng-change="changeGroep()" ng-model="data.activegroup"></select>
+        <select class="groepsinstellingen-select-group" name="groepenSelect" ng-options="groep as (groep.naam + ' - ' + groep.groepsnummer) for groep in data.groepenlijst track by groep.id" ng-change="changeGroep()" ng-model="data.activegroup"></select>
       </div>
     </form>
-    <h1 class="panel-title" ng-if="data.groepenlijst.length == 1">{{ data.activegroup.groepsnummer + ' ' + data.activegroup.naam }}</h2>
+    <h1 class="panel-title" ng-if="data.groepenlijst.length == 1">{{ data.activegroup.naam + ' - ' + data.activegroup.groepsnummer }}</h1>
   </div>
 
   <!-- NEW ACTIONS -->
