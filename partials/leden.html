@@ -2,18 +2,6 @@
 
   <!-- Panel header -->
   <div class="panel-heading panel-heading--leden clearfix">
-    <div class="pull-left">
-      <button class="btn btn-collapse btn-collapse--filter" ng-click="toggleFilter()">
-        <span ng-if="!isLoadingFilters && hasLoadedFilters">
-          <div class="pull-left">{{ isFilterCollapsed ? 'Filter tonen ' : 'Filter verbergen ' }}</div>
-          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-up': !isFilterCollapsed, 'glyphicon-chevron-right ': isFilterCollapsed}"></i>
-        </span>
-        <div ng-if="isLoadingFilters && !hasLoadedFilters" class="loading-filter-container">
-          <i class="fa fa-spinner fa-pulse"></i>&nbsp;Filter aan het laden...
-        </div>
-      </button>
-    </div>
-
     <div class="pull-right">
       <div class="hidden-xs hidden-sm">
         <button type="button" class="btn btn-secondary" ng-show="canPost" ng-click="nieuwlid()">
@@ -51,7 +39,15 @@
           </ul>
         </div>
       </div>
+    </div>
 
+    <div class="pull-left filter-toggle-knop" ng-if="!isLoadingFilters && hasLoadedFilters">
+      <button class="btn btn-collapse btn-collapse--filter" ng-click="toggleFilter()">
+        <span>
+          <div class="pull-left">{{ isFilterCollapsed ? 'Filter tonen' : 'Filter verbergen' }}</div>
+          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-up': !isFilterCollapsed, 'glyphicon-chevron-right ': isFilterCollapsed}"></i>
+        </span>
+      </button>
     </div>
   </div>
 
