@@ -27,7 +27,7 @@ angular.module('ga.filters', [])
     return function (date) {
 
       console.warn("datefilter");
-      if(date == undefined || date == null){
+      if (date == undefined || date == null){
         return date;
       }
       var day = date.substr(8,2);
@@ -39,7 +39,7 @@ angular.module('ga.filters', [])
   })
 
   .filter('rekeningnummerFormatter', function () {
-  // BEXX XXXX XXXX XXXX
+    // BEXX XXXX XXXX XXXX
     return function (field) {
       console.log(field);
       return field.substr(0,4) + ' ' + field.substr(4,4) + ' ' + field.substr(8,4) + ' ' + field.substr(12,4);
@@ -57,15 +57,13 @@ angular.module('ga.filters', [])
     })
 
   .filter('fieldTypeFormatter', function () {
-        return function (value) {
-          if(value == undefined || value == null){
-            return value;
-          }
-            value = value.toLowerCase();
-            var regex = new RegExp('_', 'g');
-            value = value.replace(regex, ' ');
-            return value;
-        };
-    })
-
-;
+    return function (value) {
+      if(value == undefined || value == null){
+        return value;
+      }
+      value = value.toLowerCase();
+      var regex = new RegExp('_', 'g');
+      value = value.replace(regex, ' ');
+      return value;
+    };
+  });
