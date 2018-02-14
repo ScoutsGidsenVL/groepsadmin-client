@@ -33,18 +33,18 @@
         if (!navigator.onLine || rejection.status == 0) {
           // Note: Browsers implement the NavigatorOnLine.onLine property differently.
           // See the docs: https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/onLine
-          AlertService.add('danger', "Er kon geen verbinding gemaakt worden met de Groepsadministratie.", 5000);
+          AlertService.add('danger', "Er kon geen verbinding gemaakt worden met de Groepsadministratie.");
         }
         else if (rejection.status == 403) {
           if(rejection.data && rejection.data.beschrijving){
-            AlertService.add('danger', rejection.data.beschrijving, 5000);
+            AlertService.add('danger', rejection.data.beschrijving);
           }else{
-            AlertService.add('danger', "Je bent niet ingelogd", 5000);
+            AlertService.add('danger', "Je bent niet ingelogd");
           }
         }
         else if (rejection.data) {
           if (rejection.data.vraag) {
-            AlertService.add('danger', rejection.data);
+            AlertService.add('danger', rejection);
           } else if (rejection.data.fouten && rejection.data.fouten.length > 0) {
 
             // check if there are errors on contacten
@@ -63,15 +63,15 @@
           } else if (_.includes(rejection.data, 'Je hebt de Groepsadministratie kapotgemaakt')) {
               $window.location.href = '/';
           } else {
-              AlertService.add('danger', "<b>" + JSON.stringify(rejection.data) + "</b><br/>", 5000);
+              AlertService.add('danger', "<b>" + JSON.stringify(rejection.data) + "</b><br/>");
           }
         } else if (rejection.error && rejection.error_description) {
-            AlertService.add('danger', rejection.error_description, 5000);
+            AlertService.add('danger', rejection.error_description);
         } else if (rejection == "Failed to refresh token") {
           // als de token expired is, refreshen we de huidige pagina
           $window.location.reload();
         } else {
-          AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.", 5000);
+          AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.");
         }
         return $q.reject(rejection);
       }

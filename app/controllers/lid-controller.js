@@ -278,7 +278,7 @@
         $scope.lid.contacten.push(newcontact);
 
       }else{
-        AlertService.add('danger', "Nieuwe contacten kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.", 5000);
+        AlertService.add('danger', "Nieuwe contacten kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.");
       }
     }
 
@@ -302,7 +302,7 @@
         lid.adressen = $scope.lid.adressen;
         lid.adressen.push(newadres);
       }else{
-        AlertService.add('danger', "Nieuwe adressen kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.", 5000);
+        AlertService.add('danger', "Nieuwe adressen kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.");
       }
     }
 
@@ -313,14 +313,14 @@
       angular.forEach($scope.lid.adressen, function(value, index){
         if(value.id == adresID){
           if(value.postadres){
-            AlertService.add('danger', "Postadres kan niet gewist worden, selecteer éérst een ander adres als postadres.", 5000);
+            AlertService.add('danger', "Postadres kan niet gewist worden, selecteer éérst een ander adres als postadres.");
           }
           else{
             //controle wissen van adres gekoppeld aan een contact
             var kanwissen = true;
             angular.forEach($scope.lid.contacten, function(contact, index){
               if(contact.adres == adresID){
-                AlertService.add('danger', "Dit adres is nog gekoppeld aan een contact, het kan daarom niet gewist worden.", 5000);
+                AlertService.add('danger', "Dit adres is nog gekoppeld aan een contact, het kan daarom niet gewist worden.");
                 kanwissen = false;
               }
             });
@@ -407,7 +407,7 @@
           //send new request
           RestService.Lid.update({id:lid.id, bevestiging: true}, lid).$promise.then(
             function(response) {
-              AlertService.add('success ', "Functie is geschrapt.", 5000);
+              AlertService.add('success ', "Functie is geschrapt.");
               console.log(response);
               $scope.lid.functies = response.functies;
               initAangepastLid();
@@ -417,7 +417,7 @@
             }
           );
         } else{
-          AlertService.add('danger ', "Aanpassing niet doorgevoerd", 5000);
+          AlertService.add('danger ', "Aanpassing niet doorgevoerd");
         }
       }
 
@@ -546,7 +546,7 @@
           //send new request
           RestService.Lid.update({id:lid.id, bevestiging: true}, lid).$promise.then(
             function(response) {
-              AlertService.add('success ', 'Alle actieve functies werden geschrapt.', 5000);
+              AlertService.add('success ', 'Alle actieve functies werden geschrapt.');
               console.log(response);
               $scope.lid=response;
               initAangepastLid();
@@ -556,7 +556,7 @@
             }
           );
         } else{
-          AlertService.add('danger ', "Aanpassing niet doorgevoerd", 5000);
+          AlertService.add('danger ', "Aanpassing niet doorgevoerd");
         }
       }
 
@@ -631,7 +631,7 @@
           //aangepaste contacten opsturen naar server.
           $scope.lid.$update(function(response) {
             $scope.saving = false;
-            AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
+            AlertService.add('success ', "Aanpassingen opgeslagen");
             $scope.lid.groepseigenVelden = origineleGroepseigenVelden;
             initAangepastLid();
             $window.onbeforeunload = null;
@@ -643,7 +643,7 @@
         $scope.lid.$update(
           function(response) {
             $scope.saving = false;
-            AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
+            AlertService.add('success ', "Aanpassingen opgeslagen");
             $scope.lid.groepseigenVelden = origineleGroepseigenVelden;
             initAangepastLid();
             $window.onbeforeunload = null;

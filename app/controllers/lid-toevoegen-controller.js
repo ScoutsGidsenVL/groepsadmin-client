@@ -220,7 +220,7 @@
 
 
       }else{
-        AlertService.add('danger', "Nieuwe adressen kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.", 5000);
+        AlertService.add('danger', "Nieuwe adressen kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.");
       }
     }
 
@@ -233,7 +233,7 @@
           var kanwissen = true;
           angular.forEach($scope.lid.contacten, function(contact, index){
             if(contact.adres == adresID){
-              AlertService.add('danger', "Dit adres is nog gekoppeld aan een contact, het kan daarom niet gewist worden.", 5000);
+              AlertService.add('danger', "Dit adres is nog gekoppeld aan een contact, het kan daarom niet gewist worden.");
               kanwissen = false;
             }
           });
@@ -339,24 +339,24 @@
                 $scope.nieuwLidForm.$setPristine();
                 $location.path("/lid/" + response.id);
                 $scope.saving = false;
-                AlertService.add('success ', "Lid toegevoegd", 5000);
+                AlertService.add('success ', "Lid toegevoegd");
               },
               function(error) {
                 $scope.saving = false;
-                AlertService.add('danger', error, 5000);
+                AlertService.add('danger', error);
               }
             );
           } else {
             $scope.nieuwLidForm.$setPristine();
             $location.path("/lid/" + response.id);
             $scope.saving = false;
-            AlertService.add('success ', "Lid toegevoegd", 5000);
+            AlertService.add('success ', "Lid toegevoegd");
           }
         },
         function(error) {
           $scope.saving = false;
           if (error.status == 403) {
-            AlertService.add('warning', error, 5000);
+            AlertService.add('warning', error);
           }
           else if (error.data.fouten && error.data.fouten.length >=1) {
             _.each(error.data.fouten, function(fout,key) {
@@ -365,7 +365,7 @@
             });
           }
           else {
-            AlertService.add('danger', error, 5000);
+            AlertService.add('danger', error);
           }
         }
       );
@@ -473,7 +473,7 @@
         console.log(result.leden);
 
         if (0 < result.leden.length) {
-          AlertService.add('warning', "Er zijn leden gevonden met een gelijkaardige naam. Ga naar het juiste lid of negeer dit bericht: ", 0, result.leden);
+          AlertService.add('warning', "Er zijn leden gevonden met een gelijkaardige naam. Ga naar het juiste lid of negeer dit bericht: ", result.leden);
         }
       });
     }

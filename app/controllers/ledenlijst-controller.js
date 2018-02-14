@@ -787,7 +787,7 @@
         document.body.appendChild(a);
         a.click();
       },function(err){
-        AlertService.add('danger', "De ledenlijst kon niet worden geëxporteerd", 5000);
+        AlertService.add('danger', "De ledenlijst kon niet worden geëxporteerd");
         $scope.exportButtons[type+extension].isLoading = false;
       })
     }

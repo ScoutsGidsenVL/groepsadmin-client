@@ -11,7 +11,7 @@
     $rootScope.alerts = [];
 
     return {
-      add: function(type, error, timeout, suggesties) {
+      add: function(type, error, suggesties) {
 
         var msg;
         if (error.data && error.data.fouten) {
@@ -48,10 +48,8 @@
           $rootScope.alerts.push(alert);
         }
 
-        if (timeout) {
-          $timeout(function(){
-            alert.close();
-          }, timeout);
+        if (type == 'succes') {
+          $timeout(alert.close, 5000);
         }
       }
     };

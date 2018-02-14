@@ -29,7 +29,7 @@
           $scope.isLoadingData = false;
         },
         function (error) {
-          AlertService.add('danger', error, 5000);
+          AlertService.add('danger', error);
           $scope.isLoadingData = false;
         }
       );

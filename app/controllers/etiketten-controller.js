@@ -93,7 +93,7 @@
       ETS.createLabels(payload).then(
         function(res){
           if(res.title && res.title == 'error'){
-            AlertService.add('danger', "Er konden geen etiketten worden aangemaakt", 5000);
+            AlertService.add('danger', "Er konden geen etiketten worden aangemaakt");
             $scope.etikettenIsPending = false;
             $scope.etiketPropertiesWatchable = true;
           }else{
@@ -136,7 +136,7 @@
       $scope.isDeleting = true;
       RestService.Etiketsjabloon.delete({id: sjObj.id}).$promise.then(
         function(response){
-          AlertService.add('success ', "Sjabloon '"+ sjObj.naam + "' succesvol verwijderd", 5000);
+          AlertService.add('success ', "Sjabloon '"+ sjObj.naam + "' succesvol verwijderd");
           $scope.isDeleting = false;
           init();
         },function(err){
@@ -240,7 +240,7 @@
 
       ETS.saveSjabloon(sjabloon.id, obj).then(
       function(result){
-        AlertService.add('success', "Template '"+ sjabloon.naam + "' werd succesvol opgeslagen", 5000);
+        AlertService.add('success', "Template '"+ sjabloon.naam + "' werd succesvol opgeslagen");
         deferred.resolve(result);
       });
 
@@ -292,7 +292,7 @@
         }
       },function(err){
         $scope.isLoadingSjablonen = false;
-        AlertService.add('danger', "Er konden geen sjablonen worden opgehaald", 5000);
+        AlertService.add('danger', "Er konden geen sjablonen worden opgehaald");
       });
 
       // velden ophalen die worden gebruikt in de tinyMCE editor

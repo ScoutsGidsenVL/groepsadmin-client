@@ -101,7 +101,7 @@
       RestService.LidIndividueleSteekkaart.patch({id: $routeParams.id}, request).$promise.then(
         function(response) {
           $scope.saving = false;
-          AlertService.add('success ', "Aanpassingen opgeslagen", 5000);
+          AlertService.add('success ', "Aanpassingen opgeslagen");
           $scope.individueleSteekaart.$setPristine();
         },
         function(error){

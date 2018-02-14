@@ -133,7 +133,7 @@
       $scope.isDeleting = true;
       RestService.Emailsjabloon.delete({id: sjObj.id}).$promise.then(
         function(response){
-          AlertService.add('success ', "Sjabloon '"+ sjObj.naam + "' succesvol verwijderd", 5000);
+          AlertService.add('success ', "Sjabloon '"+ sjObj.naam + "' succesvol verwijderd");
           $scope.isDeleting = false;
           init();
         },function(err){
@@ -230,7 +230,7 @@
 
       ES.saveSjabloon(sjabloon.id, obj).then(
       function(result){
-        AlertService.add('success', "Template '"+ sjabloon.naam + "' werd succesvol opgeslagen", 5000);
+        AlertService.add('success', "Template '"+ sjabloon.naam + "' werd succesvol opgeslagen");
         deferred.resolve(result);
       });
 
@@ -288,7 +288,7 @@
         }
       },function(err){
         $scope.isLoadingSjablonen = false;
-        AlertService.add('danger', "Er konden geen sjablonen worden opgehaald", 5000);
+        AlertService.add('danger', "Er konden geen sjablonen worden opgehaald");
       });
 
       CS.Groepen().then(
