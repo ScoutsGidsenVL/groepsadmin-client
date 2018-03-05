@@ -11,9 +11,11 @@ Bij elke(*) request moet een *Authorization*-header worden meegegeven:
 
 `Authorization: Bearer {access token}`
 
-`{access token}` is een OAuth-2.0 access token. Dit kan verkregen worden door in te loggen op [keycloak](https://login.scoutsengidsenvlaanderen.be).
+`{access token}` is een OAuth-2.0 access token. Een applicatie kan dit token verkrijgen door een gebuiker door te sturen naar een speciale login-pagina op [keycloak](https://login.scoutsengidsenvlaanderen.be). De URL van zo'n login-pagina lijkt op  `https://login.scoutsengidsenvlaanderen.be/auth/realms/scouts/protocol/openid-connect/auth?client_id=groepsadmin-production-client&redirect_uri=https%3A%2F%2Fgroepsadmin.scoutsengidsenvlaanderen.be%2Fgroepsadmin%2Fclient%2F&state=a1b...b02&nonce=abb...39b&response_mode=fragment&response_type=code&scope=openid`. Het is niet eenvoudig deze URL juist op te bouwen, daarom gebruik je best een bililiotheek, zoals [keycloak-js-bower](https://github.com/keycloak/keycloak-js-bower), om de URL op te bouwen.
 
 (*) Enkele endpoints zijn publiek. Hierbij is geen *Authorization*-header noodzakelijk. Het resultaat kan wel afhangen van de *Authorization*-header.
+
+Om de authenticatie te testen kan je `logintest.html` gebruiken.
 
 ## Etag response headers
 
@@ -196,6 +198,10 @@ De structuur velden zorgen dat de input-velden gestructureerd kunnen worden.
     html bevatten zoals bij input-velden _optioneel_
     * `velden`: Een array met de velden van de groep.  Deze kunnen op zich
     terug van het type groep zijn! _verplicht_
+
+## API testen
+
+Om de API te testen kan je `apitest.html` gebruiken.
 
 ## Meer lezen
 
