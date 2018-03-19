@@ -299,7 +299,7 @@
             </div>
           </legend>
           <div ng-if="functieInstantiesError" class="has-error">
-            <p class="help-block">Gelieve minstens één functie aan te vinken</p>
+            <p class="help-block">Duid minstens één functie aan</p>
           </div>
           <fieldset ng-repeat="groepFuncties in groepEnfuncties" ng-show="hasPermission('functies.' + groepFuncties.groepsnummer)">
             <legend class="group-legend"><span>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}</span></legend>

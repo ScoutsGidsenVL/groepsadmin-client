@@ -194,8 +194,9 @@
       </div>
     </div>
 
-    <dialog ng-if="dialog" close="dialog.close()" confirm="dialog.confirm()" dismiss="dialog.confirm()" title="{{dialog.title}}" >
-    {{dialog.msg}}
+    <dialog ng-repeat="dialog in dialogs" close="dialog.close()" confirm="dialog.confirm()" dismiss="dialog.confirm()" title="{{dialog.title}}" >
+      <p>{{dialog.melding}}</p>
+      <p>{{dialog.vraag}}</p>
     </dialog>
 
     <script type="text/ng-template" id="dialog.html">
