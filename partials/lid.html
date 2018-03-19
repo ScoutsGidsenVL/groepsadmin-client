@@ -167,37 +167,41 @@
           </label>
         </fieldset>
       </section>
-
     </div>
+
     <div class="col-lg-4 col-sm-6 col-xs-12">
       <!-- Adressen -->
       <section ng-class="{'lidform-adressen--loading': !lid }">
         <fieldset>
           <legend>
             Adressen
-              <div class="pull-right" ng-hide="lid">
-                <i class="fa fa-spinner fa-pulse"> </i>
-              </div>
-             <div class="pull-right" ng-if="hasPermission('adressen')">
-              <button type="button" ng-click="addAdres(lidForm.$valid)" class="btn-minimal" title="Adres toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
+            <div class="pull-right" ng-hide="lid">
+              <i class="fa fa-spinner fa-pulse"> </i>
+            </div>
+            <div class="pull-right" ng-if="hasPermission('adressen')">
+               <button type="button" ng-click="addAdres(lidForm.$valid)" class="btn-minimal" title="Adres toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
           </legend>
           <fieldset class="ga-adressen-list" ng-repeat="adres in lid.adressen" ng-show="lid">
             <section class="clearfix">
               <legend ng-class="{'has-error': adres.hasErrors}" ng-init="adres.showme = false; " ng-click="adres.showme = !adres.showme">
-                  {{ !adres.straat && !adres.bus && !adres.postcode && !adres.gemeente ? 'Nieuw adres' : '' }}
-                  {{ adres.straat ? adres.straat :'' }}
-                  {{ adres.nummer ? adres.nummer :''}}
-                  {{ adres.bus ? adres.bus :''}}
+                  {{ !adres.straat && !adres.nummer && !adres.bus && !adres.gemeente ? 'Nieuw adres' : '' }}
+                  {{ adres.straat ? adres.straat : '' }}
+                  {{ adres.nummer ? adres.nummer : '' }}
+                  {{ adres.bus ? 'bus ' + adres.bus : '' }}
                   {{ adres.bus || adres.nummer || adres.straat ? ',' : '' }}
-                  {{ adres.gemeente ? adres.gemeente :''}}
-                  {{ adres.postadres ? ' ' : '' }}<i ng-if="adres.postadres" class="fa fa-envelope" aria-hidden="true"></i>
+                  {{ adres.gemeente ? adres.gemeente : '' }}
                   <div class="pull-right">
+                    <button ng-if="adres.postadres" class="btn-minimal" disabled>
+                      <i class="fa fa-envelope" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" ng-click="deleteAdres(adres.id)" class="btn-minimal" ng-if="hasPermission('adressen') && !adres.postadres">
+                      <span class="glyphicon glyphicon-trash" title="Adres wissen"></span>
+                    </button>
                     <button type="button" class="btn-minimal">
                       <span ng-hide="adres.showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
                       <span ng-hide="!adres.showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
                     </button>
-                    <button type="button" ng-click="deleteAdres(adres.id)" class="btn-minimal" ng-if="hasPermission('adressen')"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
                   </div>
               </legend>
               <fieldset ng-hide="!adres.showme">
@@ -402,7 +406,7 @@
               <i class="fa fa-spinner fa-pulse"> </i>
             </div></legend>
           <fieldset ng-show="groepEnfuncties" ng-repeat="groepFuncties in groepEnfuncties" ng-if="hasPermission('functies.' + groepFuncties.groepsnummer)">
-            <legend class="group-legend"><span>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}</span></legend>
+            <legend class="group-legend"><span>{{ groepFuncties.naam }} - {{ groepFuncties.groepsnummer }} </span></legend>
             <fieldset class="ga-functie-list">
               <section class="clearfix">
                 <legend ng-init="showverbondfuncties=true;" ng-click="showverbondfuncties = !showverbondfuncties">
