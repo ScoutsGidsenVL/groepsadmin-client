@@ -130,10 +130,7 @@
     $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
       if ($scope.individueleSteekaart.$dirty) {
         event.preventDefault();
-        var paramObj = {
-              trueVal: newUrl
-        }
-        DialogService.new("Pagina verlaten", "Er zijn nog niet opgeslagen wijzigingen. Ben je zeker dat je wil verdergaan?", $scope.locationChange, paramObj );
+        DialogService.paginaVerlaten($scope.locationChange, newUrl);
       }
     });
 

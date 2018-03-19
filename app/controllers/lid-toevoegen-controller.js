@@ -385,14 +385,10 @@
     */
     // listener voor wanneer een gebruiker van pagina veranderd en er zijn nog openstaande aanpassingen.
     $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
-      if($scope.nieuwLidForm.$dirty){
+      if ($scope.nieuwLidForm.$dirty){
         event.preventDefault();
-        var paramObj = {
-              trueVal:newUrl
-        }
-        DialogService.new("Pagina verlaten", "Er zijn nog niet opgeslagen wijzigingen. Ben je zeker dat je wil verdergaan?", $scope.locationChange, paramObj );
+        DialogService.paginaVerlaten($scope.locationChange, newUrl);
       }
-
     });
 
     // return functie voor de bevestiging na het veranderen van pagina

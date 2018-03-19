@@ -5,9 +5,9 @@
     .module('ga.services.http', ['ga.services.alert'])
     .factory('httpInterceptor', httpInterceptor)
 
-  httpInterceptor.$inject = ['$q', '$window', 'AlertService', 'keycloak'];
+  httpInterceptor.$inject = ['$q', '$window', '$injector', 'AlertService', 'DialogService', 'keycloak'];
 
-  function httpInterceptor($q, $window, AlertService, keycloak) {
+  function httpInterceptor($q, $window, $injector, AlertService, DialogService, keycloak) {
     return {
       'request': function(config) {
 
@@ -36,29 +36,37 @@
           AlertService.add('danger', "Er kon geen verbinding gemaakt worden met de Groepsadministratie.");
         }
         else if (rejection.status == 403) {
-          if(rejection.data && rejection.data.beschrijving){
+          if (rejection.data && rejection.data.beschrijving) {
             AlertService.add('danger', rejection.data.beschrijving);
-          }else{
+          } else {
             AlertService.add('danger', "Je bent niet ingelogd");
           }
         }
         else if (rejection.data) {
           if (rejection.data.vraag) {
-            AlertService.add('danger', rejection);
-          } else if (rejection.data.fouten && rejection.data.fouten.length > 0) {
+            DialogService.bevestig(rejection.data, function (result) {
+              if (result) {
+                var config = Object.assign({}, rejection.config); // shallow copy
+                config.url = rejection.data.link; // nu met &bevestig=true
 
-            // check if there are errors on contacten
-            var checkField = "contacten.contacten";
-            var filteredCheck = _.filter(rejection.data.fouten, function(o) {
-              if (o.veld) {
-                return o.veld.indexOf(checkField) >= 0
+                var $http = $injector.get('$http');
+                $http(config);
               }
             });
+          } else if (rejection.data.fouten && rejection.data.fouten.length > 0) {
 
-            if(filteredCheck.length > 0){
-              return $q.reject(rejection);
-            }else{
-              AlertService.add('danger', rejection.data);
+            _.remove(rejection.data.fouten, function(o) {
+              // false -> geen alert
+              return (
+                // check if there are errors on contacten
+                (o.veld && 0 <= o.veld.indexOf("contacten.contacten"))
+                // check for size warnings
+                || (o.beschijving && 0 <= o.beschijving.indexOf('size must be between'))
+              );
+            });
+
+            if (rejection.data.fouten.lenght > 0) {
+              AlertService.add('danger', rejection);
             }
           } else if (_.includes(rejection.data, 'Je hebt de Groepsadministratie kapotgemaakt')) {
               $window.location.href = '/';

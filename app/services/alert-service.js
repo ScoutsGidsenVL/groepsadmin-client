@@ -16,13 +16,14 @@
         var msg;
         if (error.data && error.data.fouten) {
           msg = '';
-          _.each(rejection.data.fouten, function(val,key){
-            msg += val.beschrijving + ", ";
+          _.each(error.data.fouten, function(val, key) {
+            msg += val.beschrijving + ', ';
           })
+          msg = msg.slice(0, -2);
         } else if (error.data && error.data.beschrijving) {
           msg = error.data.beschrijving;
         } else if (error.data && error.data.vraag) {
-          msg = error.data.boodschap + ' - ' + error.data.vraag;
+          throw error.data.boodschap + ' - ' + error.data.vraag;
         } else if (error.statusText) {
           msg = "Error " + error.status + ' - ' + error.statusText;
         } else {
@@ -51,6 +52,14 @@
         if (type == 'succes') {
           $timeout(alert.close, 5000);
         }
+      },
+
+      error: function() {
+        var msg = 'Er ging iets mis.';
+
+        this.add('error', msg);
+        console.assert(false, msg);
+        throw msg;
       }
     };
   };

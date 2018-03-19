@@ -306,28 +306,22 @@
       }
     }
 
-    // een aders wissen in het lid model
-    $scope.deleteAdres = function(adresID){
-      var wisindex;
-      //controle wissen postadres
-      angular.forEach($scope.lid.adressen, function(value, index){
-        if(value.id == adresID){
-          if(value.postadres){
-            AlertService.add('danger', "Postadres kan niet gewist worden, selecteer éérst een ander adres als postadres.");
-          }
-          else{
+    // een adres wissen in het lid model
+    $scope.deleteAdres = function(adresID) {
+      angular.forEach($scope.lid.adressen, function(value, index) {
+        if (value.id == adresID) {
+          if (value.postadres) {
+            AlertService.add('error', 'Het postadres kan niet gewist worden.');
+          } else {
             //controle wissen van adres gekoppeld aan een contact
-            var kanwissen = true;
-            angular.forEach($scope.lid.contacten, function(contact, index){
-              if(contact.adres == adresID){
-                AlertService.add('danger', "Dit adres is nog gekoppeld aan een contact, het kan daarom niet gewist worden.");
-                kanwissen = false;
-              }
+            var kanwissen = _.every($scope.lid.contacten, function(contact) {
+              return adresID != contact.adres;
             });
-            if(kanwissen){
-              $scope.lid.adressen.splice(index,1);
-              wisindex = index;
-              kanwissen = true;
+
+            if (kanwissen) {
+              $scope.lid.adressen.splice(index, 1);
+            } else {
+              AlertService.add('danger', "Dit adres is nog gekoppeld aan een contact, het kan daarom niet gewist worden.");
             }
           }
         }
@@ -401,13 +395,11 @@
       */
       $scope.confirmstopFunctie = function(result){
         if(result){
-          //set lid bevestiging
           lid.bevestig = true;
 
-          //send new request
-          RestService.Lid.update({id:lid.id, bevestiging: true}, lid).$promise.then(
+          RestService.Lid.update({id: lid.id, bevestiging: true}, lid).$promise.then(
             function(response) {
-              AlertService.add('success ', "Functie is geschrapt.");
+              AlertService.add('success', 'Functie is geschrapt.');
               console.log(response);
               $scope.lid.functies = response.functies;
               initAangepastLid();
@@ -417,28 +409,22 @@
             }
           );
         } else{
-          AlertService.add('danger ', "Aanpassing niet doorgevoerd");
+          AlertService.add('danger', 'Aanpassing niet doorgevoerd');
         }
       }
 
-      RestService.Lid.update({id:lid.id, bevestiging: false}, lid).$promise.then(
+      RestService.Lid.update({id: lid.id, bevestiging: false}, lid).$promise.then(
         function(response) {
-          var currentFunctieName= $scope.functieslijst[functie.functie].beschrijving;
-          DialogService.new("Bevestig", "Weet je zeker dat je " + $scope.lid.vgagegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
-          initAangepastLid();
-          $window.onbeforeunload = null;
+          // Dit gebeurt momenteel bij eigen VGA-functies.
+          //AlertService.error();
         },
         function(error) {
           if (error.data && error.data.vraag) {
-            var currentFunctieName= $scope.functieslijst[functie.functie].beschrijving;
-            DialogService.new("Bevestig", "Weet je zeker dat je " + $scope.lid.vgagegevens.voornaam + " wilt schrappen als " + currentFunctieName + "?", $scope.confirmstopFunctie);
             initAangepastLid();
             $window.onbeforeunload = null;
-          }
-          else if (error.status == 403) {
+          } else if (error.status == 403) {
             AlertService.add('warning', error);
-          }
-          else{
+          } else {
             AlertService.add('danger', error);
           }
         }
@@ -451,7 +437,6 @@
         var functieInstantie = {};
         functieInstantie.functie = functie;
         functieInstantie.groep = groepsnummer;
-
 
         functieInstantie.begin = '2016-01-01T00:00:00.000+01:00'; // set static date
         functieInstantie.temp = "tijdelijk";
@@ -540,15 +525,13 @@
       // --------------------------------------
       $scope.confirmstopFunctie = function(result){
         if(result){
-          //set lid bevestiging
           lid.bevesteging = true;
 
-          //send new request
-          RestService.Lid.update({id:lid.id, bevestiging: true}, lid).$promise.then(
+          RestService.Lid.update({id: lid.id, bevestiging: true}, lid).$promise.then(
             function(response) {
               AlertService.add('success ', 'Alle actieve functies werden geschrapt.');
               console.log(response);
-              $scope.lid=response;
+              $scope.lid = response;
               initAangepastLid();
             },
             function(error) {
@@ -556,20 +539,34 @@
             }
           );
         } else{
-          AlertService.add('danger ', "Aanpassing niet doorgevoerd");
+          AlertService.add('danger', "Aanpassing niet doorgevoerd");
         }
       }
 
       RestService.Lid.update({id: lid.id, bevestiging: false}, lid).$promise.then(
         function(response) {
-          DialogService.new("Bevestig", "Weet je zeker dat je alle actieve functies van " + $scope.lid.vgagegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
+          AlertService.error();
         },
         function(error) {
           if (error.data && error.data.vraag) {
-            DialogService.new("Bevestig", "Weet je zeker dat je alle actieve functies van " + $scope.lid.vgagegevens.voornaam + " wilt stoppen?", $scope.confirmstopFunctie);
+
           }
           else if (error.status == 403) {
             AlertService.add('warning', "De VGA-functie kan niet geschrapt worden. <a href=\" https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginahulp:_src_4_TContentFunctionsEntry_OUTPUT_KAN_NIET_STOPZETTEN\">Meer info</a> ");
+          }
+          else {
+            AlertService.add('danger', error);
+          }
+        }
+      );
+
+      RestService.Lid.update({id: lid.id, bevestiging: false}, lid).$promise.then(
+        function(response) {
+          AlertService.error();
+        },
+        function(error) {
+          if (error.status == 403) {
+            AlertService.add('warning', 'De VGA-functie kan niet geschrapt worden. <a href=" https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginahulp:_src_4_TContentFunctionsEntry_OUTPUT_KAN_NIET_STOPZETTEN">Meer info</a>');
           }
           else {
             AlertService.add('danger', error);
@@ -691,10 +688,7 @@
     $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
       if($scope.lidForm.$dirty){
         event.preventDefault();
-        var paramObj = {
-              trueVal:newUrl
-        }
-        DialogService.new("Pagina verlaten", "Er zijn nog niet opgeslagen wijzigingen. Ben je zeker dat je wil verdergaan?", $scope.locationChange, paramObj );
+        DialogService.paginaVerlaten($scope.locationChange, newUrl);
       }
     });
 

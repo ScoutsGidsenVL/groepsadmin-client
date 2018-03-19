@@ -23,7 +23,6 @@
     };
   }
 
-
   function DialogController($scope, $attrs) {
 
     $scope.closeable = 'close' in $attrs;
