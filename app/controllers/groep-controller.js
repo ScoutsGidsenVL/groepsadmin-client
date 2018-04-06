@@ -298,7 +298,8 @@
     $scope.addGroepseigenFunctie = function () {
       var newFunction = {
         id: 'tempFunctie' + Math.random(),
-        beschrijving: null
+        beschrijving: null,
+        groepen: [$scope.data.activegroup.groepsnummer]
       }
       $scope.data.activegroup.groepseigenFuncties.push(newFunction);
     }
@@ -464,6 +465,7 @@
       var promises = [
         RestService.Groep.update({id: $scope.data.activegroup.id, bevestiging: true}, $scope.data.activegroup).$promise
       ];
+      console.log($scope.data.activegroup.groepseigenFuncties);
       _.forEach($scope.data.activegroup.groepseigenFuncties, function(functie) {
         var callback;
 
