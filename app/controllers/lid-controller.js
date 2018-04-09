@@ -416,7 +416,7 @@
       RestService.Lid.update({id: lid.id, bevestiging: false}, lid).$promise.then(
         function(response) {
           // Dit gebeurt momenteel bij eigen VGA-functies.
-          //AlertService.error();
+          //AlertService.onvoorzieneFout();
         },
         function(error) {
           if (error.data && error.data.vraag) {
@@ -545,7 +545,7 @@
 
       RestService.Lid.update({id: lid.id, bevestiging: false}, lid).$promise.then(
         function(response) {
-          AlertService.error();
+          AlertService.onvoorzieneFout();
         },
         function(error) {
           if (error.data && error.data.vraag) {
@@ -562,7 +562,7 @@
 
       RestService.Lid.update({id: lid.id, bevestiging: false}, lid).$promise.then(
         function(response) {
-          AlertService.error();
+          AlertService.onvoorzieneFout();
         },
         function(error) {
           if (error.status == 403) {

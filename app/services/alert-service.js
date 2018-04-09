@@ -54,8 +54,8 @@
         }
       },
 
-      error: function() {
-        var msg = 'Er ging iets mis.';
+      onvoorzieneFout: function() {
+        var msg = 'Er is een onvoorziene fout opgetreden. Mail deze boodschap en wat je aan het doen was naar groepsadmin@scoutsengidsenvlaanderen.be .';
 
         this.add('error', msg);
         console.assert(false, msg);
