@@ -14,9 +14,12 @@
       add: function(type, error, suggesties) {
 
         var msg;
-        if (error.data && error.data.fouten) {
+        if (error.data && error.data.fouten && error.data.fouten.length > 0) {
           msg = '';
           _.each(error.data.fouten, function(val, key) {
+            if (val.veld) {
+              msg += val.veld + ': ';
+            }
             msg += val.beschrijving + ', ';
           })
           msg = msg.slice(0, -2);
