@@ -48,25 +48,23 @@ pipeline {
 
   post {
     failure {
-      mail(
-        to: "tvl@scoutsengidsenvlaanderen.be",
-        subject: "[Jenkins] Failure: ${currentBuild.fullDisplayName}",
-        body: "Build failed"
-      )
+      emailen()
     }
     unstable {
-      mail(
-        to: "tvl@scoutsengidsenvlaanderen.be",
-        subject: "[Jenkins] Unstable: ${currentBuild.fullDisplayName}",
-        body: "Build unstable"
-      )
+      emailen()
     }
     changed {
-      mail(
-        to: "tvl@scoutsengidsenvlaanderen.be",
-        subject: "[Jenkins] Changed: ${currentBuild.fullDisplayName}",
-        body: "Build changed"
-      )
+      emailen()
     }
   }
+}
+
+def emailen() {
+  mail(
+    to: "tvl@scoutsengidsenvlaanderen.be,${env.CHANGE_AUTHOR_EMAIL}",
+    subject: "[Jenkins] ${currentBuild.fullDisplayName} ${currentBuild.currentResult}",
+    body: """${currentBuild.fullDisplayName} ${currentBuild.currentResult}
+
+${currentBuild.absoluteUrl}"""
+  )
 }
