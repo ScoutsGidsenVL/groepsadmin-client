@@ -5,13 +5,16 @@
     .module('ga.services.dialog', [])
     .factory('DialogService', DialogService);
 
-  DialogService.$inject = ['$rootScope'];
+  DialogService.$inject = ['$q', '$rootScope'];
 
-  function DialogService($rootScope) {
+  function DialogService($q, $rootScope) {
     $rootScope.dialogs = [];
 
     return {
       new: function(title, melding, vraag, returnFunctie, extraParamObj) {
+
+        var deferred = $q.defer();
+
         var dialog = {
           title: title,
           melding: melding,
@@ -29,7 +32,14 @@
             this._exit(false);
           },
           _exit: function(result) {
-            returnFunctie(result, extraParamObj && extraParamObj.trueVal);
+            returnFunctie(result, extraParamObj && extraParamObj.trueVal)
+              .then(function(result) {
+                console.log(result);
+                deferred.resolve(result);
+              }).catch(function(failure) {
+                console.log(failure);
+                deferred.reject(failure);
+              });
 
             var index = $rootScope.dialogs.indexOf(dialog);
             if (0 <= index) {
@@ -39,14 +49,14 @@
         };
 
         console.log(dialog);
-
         $rootScope.dialogs.push(dialog);
-        return dialog;
+
+        return deferred.promise;
       },
 
       bevestig: function(data, returnFunctie) {
         console.log(data);
-        this.new('Bevestig', data.boodschap, data.vraag, returnFunctie);
+        return this.new('Bevestig', data.boodschap, data.vraag, returnFunctie);
       },
 
       paginaVerlaten: function(locationChange, newUrl) {
@@ -54,7 +64,7 @@
         var paramObj = {
           trueVal: newUrl
         };
-        this.new('Pagina verlaten', 'Er zijn nog niet opgeslagen wijzigingen.', 'Ben je zeker dat je wil verdergaan?', locationChange, paramObj);
+        return this.new('Pagina verlaten', 'Er zijn nog niet opgeslagen wijzigingen.', 'Ben je zeker dat je wil verdergaan?', locationChange, paramObj);
       }
     };
   };

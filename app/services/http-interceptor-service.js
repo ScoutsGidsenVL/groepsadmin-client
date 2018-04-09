@@ -44,29 +44,46 @@
         }
         else if (rejection.data) {
           if (rejection.data.vraag) {
-            DialogService.bevestig(rejection.data, function (result) {
+            return DialogService.bevestig(rejection.data, function (result) {
               if (result) {
                 var config = Object.assign({}, rejection.config); // shallow copy
                 config.url = rejection.data.link; // nu met &bevestig=true
 
                 var $http = $injector.get('$http');
-                $http(config);
+
+                var deferred = $q.defer();
+                $http(config)
+                  .then(function(response) {
+                    console.log(response);
+                    deferred.resolve(response);
+                  })
+                  .catch(function(rejection) {
+                    console.log(rejection);
+                    deferred.reject(rejection);
+                  });
+                return deferred.promise;
+              } else {
+                console.log(rejection);
+                return $q.reject(rejection);
               }
             });
-          } else if (rejection.data.fouten && rejection.data.fouten.length > 0) {
-
-            _.remove(rejection.data.fouten, function(o) {
-              // false -> geen alert
-              return (
-                // check if there are errors on contacten
-                (o.veld && 0 <= o.veld.indexOf("contacten.contacten"))
-                // check for size warnings
-                || (o.beschijving && 0 <= o.beschijving.indexOf('size must be between'))
-              );
-            });
-
-            if (rejection.data.fouten.lenght > 0) {
+          } else if (rejection.data.fouten) {
+            if (rejection.data.fouten.length == 0) {
               AlertService.add('danger', rejection);
+            } else {
+              _.remove(rejection.data.fouten, function(o) {
+                // false -> geen alert
+                return (
+                  // check if there are errors on contacten
+                  (o.veld && 0 <= o.veld.indexOf("contacten.contacten"))
+                  // check for size warnings
+                  || (o.beschijving && 0 <= o.beschijving.indexOf('size must be between'))
+                );
+              });
+
+              if (rejection.data.fouten.length > 0) {
+                AlertService.add('danger', rejection);
+              }
             }
           } else if (_.includes(rejection.data, 'Je hebt de Groepsadministratie kapotgemaakt')) {
               $window.location.href = '/';

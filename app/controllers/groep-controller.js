@@ -385,7 +385,6 @@
           maxWidth: 200
         });
 
-
         google.maps.event.addListener(infoWindow,'closeclick',function(){
           angular.forEach($scope.markers, function(value, key){
             if(value.adresId == marker.adresId){
@@ -393,8 +392,8 @@
             }
           });
         });
-        angular.forEach($scope.markers, function(value, key){
-          if(value.adresId == marker.adresId && !marker.infoIsOpen){
+        angular.forEach($scope.markers, function(value, key) {
+          if (value.adresId == marker.adresId && !marker.infoIsOpen) {
             $scope.markers[key].infoIsOpen = true;
             infoWindow.open(map, marker);
           }
@@ -409,7 +408,6 @@
             }
             $scope.data.activegroup.adres[key].positie.latitude = evt.latLng.lat();
             $scope.data.activegroup.adres[key].positie.longitude = evt.latLng.lng();
-
           }
         });
       });
@@ -417,74 +415,67 @@
       return marker;
     }
 
-
     // add watcher for checkbox - date translation
     $scope.$watch('data.activegroup.facturatieLeden', function (newVal, oldVal) {
       console.log("Leden  newVal--", $scope.data.activegroup.facturatieLeden, " --OldVal", oldVal );
       //als er een datum bestaat
-      if(newVal){
+      if (newVal) {
         $scope.data.activegroup.facturatieLedenSaved = true;
         $scope.data.activegroup.facturatieLedenCheck = true;
       }
     });
     $scope.$watch('data.activegroup.facturatieLeiding', function (newVal, oldVal) {
-      if(newVal){
+      if (newVal) {
         $scope.data.activegroup.facturatieLeidingSaved = true;
         $scope.data.activegroup.facturatieLeidingCheck = true;
       }
     });
 
+    $scope.opslaan = function() {
 
-    $scope.opslaan = function(){
-
-      /*********/
-      // move this logic in success() callback of group patch!
-      /*********/
-      console.log("***",$scope.data.activegroup);
+      console.log('Groep opslaan', $scope.data.activegroup);
       $scope.saving = true;
 
-      // ADD SOME CODE WHICH adds the date (now, format : 2017-09-18T12:09:06.825+02:00 )
-      //var d = new Date();
-      //var n = d.toISOString(); //example 2017-11-22T08:41:05.475Z
-
-      if($scope.data.activegroup.facturatieLedenCheck == true){
-        //console.log('* leden  found item', _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id}));
-        $scope.data.activegroup.facturatieLedenSaved = true;
-        var foundObj = _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id});
-        foundObj.facturatieLedenSaved = true;
-        foundObj.facturatieLedenCheck = true;
-      }
-      if($scope.data.activegroup.facturatieLeidingCheck == true){
-        //console.log('* leiding found item', _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id}));
-        $scope.data.activegroup.facturatieLeidingSaved = true;
-        var foundObj = _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id});
-        foundObj.facturatieLeidingSaved = true;
-        foundObj.facturatieLeidingCheck = true;
-      }
-
       var promises = [
-        RestService.Groep.update({id: $scope.data.activegroup.id, bevestiging: true}, $scope.data.activegroup).$promise
+        RestService.Groep
+          .update({id: $scope.data.activegroup.id, bevestiging: true}, $scope.data.activegroup)
+          .$promise.then(function () {
+            if ($scope.data.activegroup.facturatieLedenCheck) {
+              $scope.data.activegroup.facturatieLedenSaved = true;
+            }
+            if ($scope.data.activegroup.facturatieLeidingCheck) {
+              $scope.data.activegroup.facturatieLeidingSaved = true;
+            }
+            var foundObj = _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id});
+            foundObj.facturatieLeidingSaved = true;
+            foundObj.facturatieLeidingCheck = true;
+          })
       ];
-      console.log($scope.data.activegroup.groepseigenFuncties);
       _.forEach($scope.data.activegroup.groepseigenFuncties, function(functie) {
-        var callback;
+        var promise;
 
         if (typeof functie.deletedTimestamps !== 'undefined') {
-          callback = RestService.Functie.delete({ functieId: functie.id });
+          promise = RestService.Functie.delete({ functieId: functie.id }).$promise
+            .then(function() {
+              _.pull($scope.data.activegroup.groepseigenFuncties, functie);
+            }).catch(function() {
+              delete functie.deletedTimestamps; // Het verwijderen ongedaan maken
+            });
         } else if (functie.id.indexOf('tempFunctie') != -1) {
-          callback = RestService.Functies.post({}, functie);
+          promise = RestService.Functies.post({}, functie).$promise.then(
+            function(nieuweFunctie) {
+              functie.id = nieuweFunctie.id;
+              return nieuweFunctie;
+            }
+          );
         } else {
-          callback = RestService.Functie.update({ functieId: functie.id }, functie);
+          promise = RestService.Functie.update({ functieId: functie.id }, functie).$promise;
         }
 
-        promises.push(callback.$promise);
+        promises.push(promise);
       });
 
-      $q.all(promises).then(function(res){
-        console.log(res)
-        $scope.saving = false;
-      }).catch(function(err){
-        console.log(err);
+      $q.all(promises).finally(function(err) {
         $scope.saving = false;
       });
     }
