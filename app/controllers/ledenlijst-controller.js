@@ -129,7 +129,8 @@
           var geselecteerdeCriteria = [];
 
           angular.forEach($scope.currentFilter.criteria, function(value, key){
-
+            console.log(key)
+            console.log(value)
             // neem alle functies uit criteria met key 'functies'
             if(key === "functies") {
 
@@ -179,6 +180,7 @@
                   title : key.charAt(0).toUpperCase() + key.slice(1),
                   items : value
                 }
+                console.log("kom ik hier")
                 geselecteerdeCriteria.push(tempselectedCriteria);
             }
           });
@@ -200,6 +202,7 @@
     var activeerCriteria = function(){
       // haal alle criteriaGroepen keys uit de geselecteerde filter
       _.each($scope.currentFilter.criteria,function(value, key){
+        console.log("hallo daan ik ben hier");
         // indien de key overeenkomt, activeren we de criteriaGroep
         // meerdere criteriaGroepen kunnen een zelfde key hebben
         // (bvb. groepspecifieke functies hebben de criteriaKey 'functies')
@@ -208,9 +211,11 @@
           if(criteriaGroep.length>0){
             _.each(criteriaGroep,function(v, k){
               var bIsGroupedCriterium = false;
+              console.log(v);
               if(v.criteriaSubKey == 'verbonds' || v.criteriaSubKey == 'groepspecifiek'){
                 bIsGroupedCriterium = true;
               }
+
               LFS.activeerGroepEnItems(v,value,bIsGroupedCriterium);
             })
           }
@@ -550,6 +555,7 @@
         // voor de zekerheid leading en trailing whitespaces trimmen
         selectedFilter = selectedFilter.trim();
         var filters = LFS.getFilters();
+        console.log(filters);
         var tmpObj = JSON.parse(JSON.stringify(reconstructedFilterObj));
         $q.all(filters.promises).then(function(){
           // eerst checken of de naam niet overeenkomt met bestaande filter

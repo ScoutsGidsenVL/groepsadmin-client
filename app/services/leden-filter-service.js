@@ -13,7 +13,7 @@
   function LedenFilterService($q, $rootScope, CS, RestService) {
     var ledenFilterService = {};
     var cachedHuidigeFilter = {}
-
+    console.log(RestService)
     ledenFilterService.getCriteria = function(functies){
       var returnObj = {};
       returnObj.arrCriteria = [];
@@ -58,6 +58,7 @@
         });
       returnObj.promises[3] = RestService.Oudleden.get().$promise.then(
         function(result){
+          console.log( RestService.Oudleden.get());
             var oudleden = result;
             oudleden.activated = false;
             returnObj.arrCriteria.push(oudleden);
@@ -166,11 +167,16 @@
         hasActiveItems = true;
       }else if(!criteriaGroep.multiplePossible){
         var foundElem = _.find(criteriaGroep.items, {'value' : value});
-        if(foundElem){
-          foundElem.activated = true;
-          hasActiveItems = true;
-        }
 
+        if(foundElem){
+          if(criteriaGroep.criteriaKey == "oudleden" && foundElem.value == false){
+            return;
+          }
+          else{
+            foundElem.activated = true;
+            hasActiveItems = true;
+          }
+        }
       } else {
 
         if(!bGrouped){
@@ -437,11 +443,16 @@
 
       // oudleden (idem geslacht)
       var activatedOudleden = _.find(activeCriteria, {'criteriaKey':'oudleden'});
+      console.log( activatedOudleden);
       if(activatedOudleden){
         var ao = _.filter(activatedOudleden.items, {'activated':true});
+        console.log(ao);
         if(_.size(ao) == 1){
           reconstructedFilterObj.criteria.oudleden = ao[0].value;
         }
+      }
+      else{
+
       }
 
       // adresgeblokkeerd

@@ -8,8 +8,8 @@
               "label" : "Oudlid"
             },
             {
-              "value" : false,
-              "label" : "Actief lid"
+              "value" : null,
+              "label" : "Actief en Oudlid"
             }
           ]
 }
