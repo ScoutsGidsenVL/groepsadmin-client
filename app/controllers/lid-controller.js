@@ -409,7 +409,6 @@
           RestService.Lid.update({id: lid.id, bevestiging: true}, lid).$promise.then(
             function(response) {
               AlertService.add('success', 'Functie is geschrapt.');
-              console.log(response);
               $scope.lid.functies = response.functies;
               initAangepastLid();
             },
@@ -442,7 +441,6 @@
 
     // nieuwe functie toevoegen aan model
     $scope.functieToevoegen = function(groepsnummer, functie, type){
-      console.log("daan");
       if(type == 'add'){
 
         var functieInstantie = {};
@@ -480,7 +478,6 @@
     $scope.checkFunctie = function(groep, functie){
       var check = false;
       angular.forEach($scope.lid.functies, function(value, key){
-        console.log(key)
         if(value.groep == groep && value.functie == functie && value.temp != "tijdelijk" && value.einde == undefined ){
           check = true;
 
@@ -543,7 +540,6 @@
           RestService.Lid.update({id: lid.id, bevestiging: true}, lid).$promise.then(
             function(response) {
               AlertService.add('success ', 'Alle actieve functies werden geschrapt.');
-              console.log(response);
               $scope.lid = response;
               initAangepastLid();
             },
