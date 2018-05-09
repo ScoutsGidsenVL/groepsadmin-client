@@ -58,7 +58,6 @@
         });
       returnObj.promises[3] = RestService.Oudleden.get().$promise.then(
         function(result){
-          console.log( RestService.Oudleden.get());
             var oudleden = result;
             oudleden.activated = false;
             returnObj.arrCriteria.push(oudleden);

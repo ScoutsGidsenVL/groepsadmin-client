@@ -100,7 +100,6 @@
               if (newVal == oldVal) return;
               // sectie is bvb. vgagegevens of functies of persoonsgegevens
               sectie = value.split(".").pop();
-
               // de gewijzigde sectie toevoegen aan de changes, indien deze sectie nog niet werd toegevoegd
               if($scope.lid.changes){
                 if($scope.lid.changes.indexOf(sectie) < 0) {
@@ -115,7 +114,7 @@
 
             }
             if (value == 'lid.functies') {
-              //console.log(scope.lid.functies);
+              console.log(scope.lid.functies);
               var result = _(scope.lid.functies)
                   .sortBy(x => x.groep)
                   .groupBy(x => x.groep)
@@ -231,6 +230,16 @@
       //console.log('hasPermission', res, '$scope.patchObj.secties', $scope.patchObj.secties );
       return res;
     }
+    // disable als functie FV
+    // voorlopige methode tot Ticket T4349 opgelost is
+    $scope.disableFV= function(val){
+      let check = false
+      if(val == "FV"){
+        check = true
+      }
+      return check;
+    }
+
 
     // nieuw lid initialiseren na update.
     function initAangepastLid() {
@@ -433,7 +442,9 @@
 
     // nieuwe functie toevoegen aan model
     $scope.functieToevoegen = function(groepsnummer, functie, type){
+      console.log("daan");
       if(type == 'add'){
+
         var functieInstantie = {};
         functieInstantie.functie = functie;
         functieInstantie.groep = groepsnummer;
@@ -469,8 +480,10 @@
     $scope.checkFunctie = function(groep, functie){
       var check = false;
       angular.forEach($scope.lid.functies, function(value, key){
+        console.log(key)
         if(value.groep == groep && value.functie == functie && value.temp != "tijdelijk" && value.einde == undefined ){
           check = true;
+
         }
       });
       return check
