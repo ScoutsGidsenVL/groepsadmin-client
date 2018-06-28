@@ -36,7 +36,7 @@ module.exports = function(grunt) {
           // Use minified files if available
           return mainFiles.map(function(filepath) {
             var min = filepath.replace(/(\/|\\)src(\/|\\)/, '$1dist$2').replace(/(\.css|\.js)$/, '.min$1');
-            return grunt.file.exists(min) ? min : filepath;
+            return /*grunt.file.exists(min) ? min :*/ filepath;
           });
         },
         mainFiles: { // override

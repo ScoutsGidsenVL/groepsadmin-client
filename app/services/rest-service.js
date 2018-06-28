@@ -209,8 +209,10 @@
         {
           'post': {
             method: 'POST',
-            headers: { 'Content-Type': 'multipart/form-data; boundary=AaB03x'},
-            cache: false
+            // content-type moet undefined om formdata() correct te laten werken.
+            headers: { 'Content-Type': undefined},
+            cache: false,
+
           }
         }
       ),
@@ -220,7 +222,8 @@
         {
           'post': {
             method: 'POST',
-            headers: { 'Content-Type': 'multipart/form-data; boundary=AaB03x'},
+             // content-type moet undefined om formdata() correct te laten werken.
+            headers: { 'Content-Type': undefined},
             cache: false
           }
         }

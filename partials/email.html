@@ -197,11 +197,30 @@
                 </div>
               </div>
             </div>
+
+
             <div class="form-group email-message" id="emailMessage">
               <div id="editorContainer" class="col-xs-12">
 
               </div>
             </div>
+
+
+
+            <div class="form-group">
+              <div class="col-xs-2 col-xxs-12 ">
+                <label for="attachment" class="control-label">Bijlage</label>
+              </div>
+              <div class="col-xs-10 col-xxs-12">
+                <input type="file"
+                onchange="angular.element(this).scope().fileNameChanged(this)"
+                id="attachment" name="attachment" multiple
+
+                />
+              </div>
+            </div>
+
+
           </fieldset>
         </section>
       </div>

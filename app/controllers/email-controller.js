@@ -11,7 +11,7 @@
 
     // documentation tinyMCE plugin https://www.tinymce.com/docs/integrations/angularjs/
     var leden = new Array();
-
+    var attachments = [];
     $scope.ledenLaden = false;
     $scope.ledenVisible = false;
     $scope.tinymceModel = 'Initial content';
@@ -62,8 +62,14 @@
       $scope.sjabloon = sjabloon;
     }
 
-    $scope.verzenden = function(){
+    $scope.fileNameChanged = function(ele){
+      attachments = [];
+      if(ele.files.length !== 0){
+        attachments =  Array.from(ele.files)
+        }
+    }
 
+    $scope.verzenden = function(){
       var sjabloonObj = {
           "vanGroep": $scope.selectedgroup.groepsnummer,
           "replyTo": $scope.sjabloon.replyTo,
@@ -76,22 +82,33 @@
               "groepseigenGegevens": []
           }
       }
-      var payload = "--AaB03x\n";
-      payload+= 'Content-Disposition: form-data; name="sjabloon"\nContent-Type: application/json\n\n';
-      payload += JSON.stringify(sjabloonObj);
-      payload+= "\n\n--AaB03x--";
+
+
+      var formData = new FormData();
+      // bijlages toevoegen aan multipart/form-data
+      attachments.forEach(function(file){
+        formData.append("attachments" , file)
+      })
+
+      var sjabloon = new Blob([JSON.stringify(sjabloonObj)] , {type: "application/json"} )
+
+      // sjabloon toevoegen aan multipart/form-data
+      formData.append("sjabloon" , sjabloon );
+
+
+
 
       // als er meerdere leden zijn moeten we een andere endpoint gebruiken dan wanneer we 1 lid willen mailen
       if($routeParams.id !== "ledenlijst"){
         $scope.mailIsPending = true;
-        ES.sendMail(payload,$routeParams.id).then(function(res){
+        ES.sendMail(formData,$routeParams.id).then(function(res){
 
           console.log("mail was sent TO " + $routeParams.id , res);
           feedback(res);
         });
       }else{
         $scope.mailIsPending = true;
-        ES.sendMail(payload).then(function(res){
+        ES.sendMail(formData).then(function(res){
           console.log("mail was sent TO list", res);
           feedback(res);
         });
