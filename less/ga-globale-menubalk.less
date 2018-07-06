@@ -90,18 +90,19 @@
     list-style-type: none;
 }
 
-#admin-menu ul a,.globale_menubalk #items li a,.globale_menubalk #account a {
+#admin-menu ul a,
+.globale_menubalk #items li a,
+.globale_menubalk #account a {
     color: #FFF;
     text-decoration: none;
     -webkit-transition: color .25s linear;
     transition: color .25s linear;
 }
 
-#admin-menu ul a:hover,.globale_menubalk #items a:hover,.globale_menubalk #account a:hover {
+#admin-menu ul a:hover,
+.globale_menubalk #items a:hover,
+.globale_menubalk #account a:hover {
     color: #BDD732;
-    text-decoration: none;
-    -webkit-transition: color .25s linear;
-    transition: color .25s linear;
 }
 
 .globale_menubalk #items #item_sgv,
@@ -147,6 +148,11 @@
 
 .globale_menubalk #account #item_aanmelden {
     margin-right: 5px;
+}
+
+.globale_menubalk #account #item_afmelden a {
+    /* via event ipv. via link, dus standaard geen pointer */
+    cursor: pointer;
 }
 
 .globale_menubalk #account #item_username,
