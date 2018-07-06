@@ -23,8 +23,9 @@
       <button type="button" class="btn btn-secondary" ng-click="schrap()" ng-if="kanSchrappen && lidPropertiesWatchable"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop alle functies</button>
       <button type="button" class="btn btn-secondary" ng-click="nieuwlid()" ng-if="canPost && lidPropertiesWatchable"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Nieuw lid</button>
       <button type="button" class="btn btn-secondary" ng-click="gezinslid()" ng-if="(lid && canPost) && lidPropertiesWatchable" ng-disabled="!lid || !canPost"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Broer/zus toevoegen</button>
-      <button type="button" class="btn btn-secondary" ng-click="redirectToEmailPage(lid.id)" ng-if="!isEigenProfiel"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;E-mail sturen</button>
+      <button type="button" {{ !lid  ? 'disabled' : null  }}  class="btn btn-secondary" ng-click="redirectToEmailPage(lid.id)" ng-if="!isEigenProfiel"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;E-mail sturen</button>
     </div>
+    <!-- hier starten vrijdag -->
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>
         <formerrorbutton formulier="lidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
