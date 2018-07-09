@@ -13,7 +13,6 @@
   function LedenFilterService($q, $rootScope, CS, RestService) {
     var ledenFilterService = {};
     var cachedHuidigeFilter = {}
-    console.log(RestService)
     ledenFilterService.getCriteria = function(functies){
       var returnObj = {};
       returnObj.arrCriteria = [];
@@ -449,9 +448,6 @@
         if(_.size(ao) == 1){
           reconstructedFilterObj.criteria.oudleden = ao[0].value;
         }
-      }
-      else{
-
       }
 
       // adresgeblokkeerd

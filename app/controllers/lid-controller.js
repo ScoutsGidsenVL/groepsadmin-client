@@ -114,7 +114,6 @@
 
             }
             if (value == 'lid.functies') {
-              console.log(scope.lid.functies);
               var result = _(scope.lid.functies)
                   .sortBy(x => x.groep)
                   .groupBy(x => x.groep)
@@ -232,13 +231,13 @@
     }
     // disable als functie FV
     // voorlopige methode tot Ticket T4349 opgelost is
-    $scope.disableFV= function(val){
-      let check = false
-      if(val == "FV"){
-        check = true
-      }
-      return check;
-    }
+    // $scope.disableFV= function(val){
+    //   let check = false
+    //   if(val == "FV"){
+    //     check = true
+    //   }
+    //   return check;
+    // }
 
 
     // nieuw lid initialiseren na update.
