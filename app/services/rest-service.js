@@ -42,7 +42,7 @@
         }
       ),
       Lid: $resource(
-        base + 'lid/:id?bevestig=:bevestiging',
+        base + 'lid/:id?:bevestiging',
         {id: '@id', bevestiging: '@bevestiging'},
         {
           'update': {

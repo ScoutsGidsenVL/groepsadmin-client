@@ -2,7 +2,7 @@ var getClient = function(){
   /*
   Example result:
       {
-          url: 'https://login.scoutsengidsenvlaanderen.be/auth',
+          url: 'http://localhost:8888/auth',
           realm: 'scouts',
           clientId: 'groepsadmin-localhost-8000',
           redirectUri: 'http://localhost:8000/'
@@ -10,7 +10,7 @@ var getClient = function(){
   */
 
   var returnClient = {
-    url: 'http://localhost:8888/auth',
+    url: 'https://login.scoutsengidsenvlaanderen.be/auth',
     realm: 'scouts',
     clientId: null,
     redirectUri: window.location.href
