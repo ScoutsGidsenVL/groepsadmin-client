@@ -43,7 +43,7 @@ module.exports = function(grunt) {
           'lodash': 'dist/lodash.min.js'
         },
         options: {
-          separator: ';'
+          separator: ';\n'
         },
         bowerOptions: {
           relative: false
