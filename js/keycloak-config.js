@@ -23,11 +23,20 @@ var getClient = function(){
     case 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be':
       returnClient.clientId = 'groepsadmin-dev-tvl-client';
       break;
+    case 'https://ga-dev-tvl.scoutsengidsenvlaanderen.be':
+      returnClient.clientId = 'ga-dev-tvl-client';
+      break;
     case 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net':
       returnClient.clientId = 'groepsadmin-staging-client';
       break;
+    case 'https://ga-staging.scoutsengidsenvlaanderen.be':
+      returnClient.clientId = 'ga-staging-client';
+      break;
     case 'https://groepsadmin.scoutsengidsenvlaanderen.be':
       returnClient.clientId = 'groepsadmin-production-client';
+      break;
+    case 'https://ga-production.scoutsengidsenvlaanderen.be':
+      returnClient.clientId = 'ga-production-client';
       break;
     default:
       returnClient.clientId = null;
