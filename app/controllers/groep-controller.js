@@ -345,7 +345,7 @@
         kanLeidingWijzigen: false,
         kanLidWijzigen: false,
         sort: $scope.data.activegroup.groepseigenGegevens.length,
-        type: '',
+        type: 'tekst',
         status: "nieuw",
         label: ""
       }
