@@ -341,7 +341,6 @@
 
     $scope.addGroepseigenGegeven = function () {
       var newGegeven = {
-        id: 'tempGegeven' + Math.random(),
         beschrijving: null,
         kanLeidingWijzigen: false,
         kanLidWijzigen: false,
