@@ -168,12 +168,10 @@ Een input veld is gebonden aan een mogelijke input die in de waarden structuur t
 
 We definieren de volgende types input-velden:
 
-  * `tekst`: Een tekst veld
+  * `tekst`: Een tekstveld
   * `vinkje`: Een vinkje (waarde `true` of `false`)
-  * `keuze`: Een keuze veld, de mogelijkheden vind je terug in de `keuzes`
-    array.  Die voor elke keuze een `id` en een `label` bevatten (beiden
-    _verplicht_)
-  * `email`: Een e-mail veld
+  * `lijst`: Een keuzeveld, de mogelijke opties vind je terug in bij `keuzes`.
+  * `email`: Een e-mailveld
 
 De volgende attributen zijn gedefinieerd op input-velden:
 
@@ -186,6 +184,7 @@ De volgende attributen zijn gedefinieerd op input-velden:
   * `kanLeidingWijzigen`: Bepaald of de leiding dit veld kan wijzigen.
   * `kanLidWijzigen`: Beapaald of het lid zelf het veld kan wijzigen.
   * `kanGebruikerWijzigen"`: true, //kan de gebruik die op dit moment aangeld is dit gegeven aanpassen
+  * `keuzes`: De array van mogelijke opties bij een lijst _verplicht voor lijst, anders niet toegelaten_
 
 **Structuur-velden**
 
