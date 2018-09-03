@@ -154,8 +154,6 @@
       $scope.$watch(value, setChanges, true);
     });
 
-
-
     $scope.changePostadres = function(adresID){
       angular.forEach($scope.lid.adressen, function(value,index){
         if(value.id == adresID){
@@ -190,10 +188,8 @@
         newcontact.rol = "moeder";
         $timeout(function(){ newcontact.showme = true} , 0);
         $scope.lid.contacten.push(newcontact);
-
       }
     }
-
 
     /*
     * Adressen
@@ -216,8 +212,6 @@
         lid.id = $scope.lid.id;
         lid.adressen = $scope.lid.adressen;
         lid.adressen.push(newadres);
-
-
 
       }else{
         AlertService.add('danger', "Nieuwe adressen kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.");
@@ -276,7 +270,6 @@
 
     };
 
-
     /*
     * Functies
     * ---------------------------------------
@@ -326,7 +319,11 @@
       }
 
       // Stel het juiste formaat in voor de geboortedatum
-      origineelLid.vgagegevens.geboortedatum =  $scope.lid.vgagegevens.geboortedatum.toISOString().slice(0,10);
+      var geboortedatumLocalTime = $scope.lid.vgagegevens.geboortedatum;
+      var tzOffset = (new Date()).getTimezoneOffset() * 60000;
+      var geboortedatumUTC = new Date(geboortedatumLocalTime.getTime() - tzOffset);
+      var geboortedatumZonderTijd = geboortedatumUTC.toISOString().slice(0, 10);
+      origineelLid.vgagegevens.geboortedatum = geboortedatumZonderTijd;
 
       RestService.LidAdd.save(origineelLid).$promise.then(
         function(response) {
