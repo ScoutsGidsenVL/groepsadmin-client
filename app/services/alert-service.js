@@ -29,6 +29,26 @@
           throw error.data.boodschap + ' - ' + error.data.vraag;
         } else if (error.statusText) {
           msg = "Error " + error.status + ' - ' + error.statusText;
+          type = 'error';
+        } else if (error.status == -1) {
+          // Bvb. bij CORS-problemen of als er HTTP ipv. HTTPS gebruitk wordt
+          msg = "Er is een communicatie-fout opgetreden. Neem aub contact op met groepsadmin@scoutsengidsenvlaanderen.be .";
+          type = 'error';
+        } else if (Array.isArray(error) || error === Object(error)) {
+          msg = "Er is een onbekende fout opgetreden. Neem aub contact op met groepsadmin@scoutsengidsenvlaanderen.be . - ";
+
+          try {
+            if (typeof error.toSource === "function") {
+              msg += error.toSource();
+            } else {
+              msg += JSON.stringify(error);
+            }
+          } catch(err) {
+            // circulaire verwijzing in error
+              msg += "Geen details beschikbaar";
+          }
+
+          type = 'error';
         } else {
           msg = error;
         }
