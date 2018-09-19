@@ -33,13 +33,12 @@ var getClient = function(){
       returnClient.clientId = 'ga-staging-client';
       break;
     case 'https://groepsadmin.scoutsengidsenvlaanderen.be':
+      returnClient.url = 'https://login.scoutsengidsenvlaanderen.be/auth';
       returnClient.clientId = 'groepsadmin-production-client';
       break;
     case 'https://ga-production.scoutsengidsenvlaanderen.be':
+      returnClient.url = 'https://login.scoutsengidsenvlaanderen.be/auth';
       returnClient.clientId = 'ga-production-client';
-      break;
-    default:
-      returnClient.clientId = null;
       break;
   }
   return returnClient;
