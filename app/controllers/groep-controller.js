@@ -5,9 +5,9 @@
     .module('ga.groepcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('GroepController', GroepController);
 
-  GroepController.$inject = ['$q', '$scope', '$routeParams', '$window', '$location', '$log' , 'RestService', 'AlertService', 'CacheService', 'DialogService', '$rootScope', 'access', 'keycloak'];
+  GroepController.$inject = ['$q', '$scope', '$location', 'RestService', 'CacheService', 'access'];
 
-  function GroepController($q, $scope, $routeParams, $window, $location, $log, RestService, AlertService, CS, DialogService, $rootScope, access, keycloak) {
+  function GroepController($q, $scope, $location, RestService, CS, access) {
     if(!access){
       $location.path("/lid/profiel");
     }
@@ -47,7 +47,7 @@
             groep.adres
           ];
           $scope.data.groepenlijst.push(groep);
-        })
+        });
 
         // by default is de eerste groep actief
         $scope.data.activegroup = $scope.data.groepenlijst[0];
@@ -97,7 +97,7 @@
         var script = document.createElement('script');
         script.src = 'https://maps.googleapis.com/maps/api/js?key=' + googleMapsKey + '&callback=googleMapsCallback';
         document.head.appendChild(script);
-    }
+    };
 
     // initialize Google Map
     var loadGoogleMap = function() {
@@ -111,14 +111,14 @@
         var mapOptions = {
           zoom: 15,
           center: center
-        }
+        };
         $scope.googleMap = new google.maps.Map(document.getElementById("lokalen-kaart"), mapOptions);
       } else {
         $scope.googleMap.setCenter(center);
       }
 
       markersTekenen($scope.googleMap, $scope.data.activegroup.adressen);
-    }
+    };
 
     var berekenCenter = function(adressen) {
       // Gebaseerd op de grenzen van Vlaanderen
@@ -138,7 +138,7 @@
       var centerLat = (maxLat - minLat) / 2 + minLat;
       var centerLng = (maxLng - minLng) / 2 + minLng;
       return new google.maps.LatLng(centerLat, centerLng);
-    }
+    };
 
     // Place Markers on Map
     var markersTekenen = function(map, adressen){
@@ -161,7 +161,7 @@
           $scope.markers.push(marker);
         }
       });
-    }
+    };
 
     // Remove allmarkers on Map
     var clearMarkers = function(){
@@ -169,7 +169,7 @@
         $scope.markers[key].setMap(null)
       });
       $scope.markers = [];
-    }
+    };
 
     // openMarkerInfo
     var openInfoWindow = function(map, marker){
@@ -191,7 +191,7 @@
           infoWindow.open(map, marker);
         }
       })
-    }
+    };
 
     /*
      * event functies Lokalen
@@ -201,7 +201,7 @@
     $scope.changeGroep = function () {
       loadGoogleMap();
       maakSorteerbaar();
-    }
+    };
 
     // marker-icon click
     $scope.centerMap = function(lat, lng, id){
@@ -210,22 +210,22 @@
       }
 
       $scope.googleMap.setCenter(new google.maps.LatLng(lat, lng));
-      angular.forEach($scope.markers, function(value, key){
+      angular.forEach($scope.markers, function(value){
         if(value.adresId == id){
           google.maps.event.trigger(value, 'click');
         }
       })
-    }
+    };
 
     // nieuw adres toeveogen
     $scope.addAdres = function () {
       var newAdres = {
         id: 'tempadres' + Math.random(),
-        bus: null,
-      }
+        bus: null
+      };
       $scope.data.activegroup.adressen.push(newAdres);
       addMarkerFromNewAdres($scope.googleMap, newAdres)
-    }
+    };
 
     // zoek gemeentes
     $scope.zoekGemeente = function(zoekterm){
@@ -239,7 +239,7 @@
             });
             return resultaatGemeentes;
         });
-    }
+    };
 
     // gemeente opslaan in het adres
     $scope.bevestigGemeente = function(item, adres) {
@@ -249,7 +249,7 @@
       adres.bus = null;
       adres.nummer = null;
       adres.giscode = null;
-      adres.land = "BE"
+      adres.land = "BE";
       // google geocode gemeente naar coordinaten
       // => teken marker + Info plaats deze marker op de juiste plaats.
 
@@ -265,7 +265,7 @@
             });
             return resultaatStraten;
         });
-    }
+    };
 
     // straat en giscode opslaan in het adres
     $scope.bevestigStraat = function(item, adres) {
@@ -283,12 +283,12 @@
         label: $scope.markerLabels[$scope.data.activegroup.adressen.length - 1],
         infoProp: "<b>Nieuw adres toegevoegd!</b></br> Plaats deze marker op het lokaal",
         adresId: adres.id,
-        animation: google.maps.Animation.DROP,
+        animation: google.maps.Animation.DROP
       });
       marker = markerAddEvents(marker, map);
       $scope.markers.push(marker);
       openInfoWindow (map, marker);
-    }
+    };
 
     /*
      * event groepseigen functies
@@ -300,9 +300,9 @@
         id: 'tempFunctie' + Math.random(),
         beschrijving: null,
         groepen: [$scope.data.activegroup.groepsnummer]
-      }
+      };
       $scope.data.activegroup.groepseigenFuncties.push(newFunction);
-    }
+    };
 
     $scope.wisGroepseigenFunctie = function (id) {
       // controle wis ik een nieuwe groepseigen functie => wissen uit array.
@@ -319,7 +319,7 @@
         }
         console.log($scope.data.activegroup.groepseigenFuncties[key]);
       });
-    }
+    };
 
     /*
      * event groepseigen gegevens
@@ -330,14 +330,14 @@
         stop : function(event, ui){
           var gegevenId = ui.item.attr('data-groepseigengegevenid');
           var gegevenIndex = ui.item.index();
-          angular.forEach($scope.data.activegroup.groepseigenGegevens, function(value, key){
+          angular.forEach($scope.data.activegroup.groepseigenGegevens, function(value){
             if(value.id == gegevenId ){
               value.sort = gegevenIndex;
             }
           })
         }
       });
-    }
+    };
 
     $scope.addGroepseigenGegeven = function () {
       var newGegeven = {
@@ -348,28 +348,18 @@
         type: 'tekst',
         status: "nieuw",
         label: ""
-      }
+      };
       $scope.data.activegroup.groepseigenGegevens.push(newGegeven);
-    }
+    };
 
     $scope.addKeuze = function (index) {
+      $scope.data.activegroup.groepseigenGegevens[index].keuzes = $scope.data.activegroup.groepseigenGegevens[index].keuzes || [];
       $scope.data.activegroup.groepseigenGegevens[index].keuzes.push("");
-    }
+    };
 
     $scope.wisKeuze = function (index, keuzeIndex) {
       $scope.data.activegroup.groepseigenGegevens[index].keuzes.splice(keuzeIndex, 1);
-    }
-
-    $scope.setType = function (index, type) {
-      $scope.data.activegroup.groepseigenGegevens[index].type = type;
-      if (type == "lijst") {
-        $scope.data.activegroup.groepseigenGegevens[index].keuzes = [];
-        $scope.data.activegroup.groepseigenGegevens[index].keuzes.push("");
-      }
-      else{
-        delete $scope.data.activegroup.groepseigenGegevens[index].keuzes;
-      }
-    }
+    };
 
     /*
     * Marker events
@@ -412,7 +402,8 @@
       });
 
       return marker;
-    }
+    };
+
 
     // add watcher for checkbox - date translation
     $scope.$watch('data.activegroup.facturatieLeden', function (newVal, oldVal) {
@@ -423,7 +414,7 @@
         $scope.data.activegroup.facturatieLedenCheck = true;
       }
     });
-    $scope.$watch('data.activegroup.facturatieLeiding', function (newVal, oldVal) {
+    $scope.$watch('data.activegroup.facturatieLeiding', function (newVal) {
       if (newVal) {
         $scope.data.activegroup.facturatieLeidingSaved = true;
         $scope.data.activegroup.facturatieLeidingCheck = true;
@@ -431,6 +422,11 @@
     });
 
     $scope.opslaan = function() {
+      angular.forEach($scope.data.activegroup.groepseigenGegevens, function(gegeven) {
+        if(gegeven.type !== 'lijst') {
+          delete gegeven.keuzes;
+        }
+      });
 
       console.log('Groep opslaan', $scope.data.activegroup);
       $scope.saving = true;
@@ -474,7 +470,7 @@
         promises.push(promise);
       });
 
-      $q.all(promises).finally(function(err) {
+      $q.all(promises).finally(function() {
         $scope.saving = false;
       });
     }

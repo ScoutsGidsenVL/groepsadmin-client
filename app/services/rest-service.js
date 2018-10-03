@@ -13,8 +13,8 @@
     if (window.location.protocol === "https:") {
         apiHost = window.location.origin;
     } else {
-        apiHost = 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be';
-        // apiHost = 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net';
+        //apiHost = 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be';
+        apiHost = 'https://ga-staging.scoutsengidsenvlaanderen.be';
         // Alternatief als de groepsadmin lokaal draait:
         //apiHost = 'http://localhost:8080';
     }
@@ -211,8 +211,7 @@
             method: 'POST',
             // content-type moet undefined om formdata() correct te laten werken.
             headers: { 'Content-Type': undefined},
-            cache: false,
-
+            cache: false
           }
         }
       ),
@@ -320,10 +319,10 @@
 
   function changesOnly(data) {
     if(data.changes) {
-      var changes = new Object();
+      var changes = {};
       //changes.id = data.id;  // id verplicht meesturen
 
-      data.changes.forEach(function (val, key, array) {
+      data.changes.forEach(function (val) {
         changes[val] = data[val];
       });
 
