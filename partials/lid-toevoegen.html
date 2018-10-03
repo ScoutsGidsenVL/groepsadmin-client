@@ -312,7 +312,7 @@
                     <button  ng-hide="!showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
                   </div>
                 </legend>
-                <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'verbond' } | orderBy : 'beschrijving'" ng-show=" !showverbondfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
+                <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | verbondFuncties:lid | orderBy : 'beschrijving'" ng-show=" !showverbondfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
                   <label class="col-md-6 form-group control checkbox" >
                     <div class="col-xs-11 col-xxs-11 control-label ga-functie-list-item__label" ng-class="{'ga-functie-list-item__label--disabled' : groepFunctie.code == 'FV' || groepFunctie.code == 'VGA' } ">{{ groepFunctie.beschrijving }}</div>
                     <div class="col-xs-1 col-xxs-1">

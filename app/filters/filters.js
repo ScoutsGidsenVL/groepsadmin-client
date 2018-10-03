@@ -6,9 +6,25 @@ angular.module('ga.filters', [])
         if (value.veld == field) {
           returnValue = "has-validation-error";
         }
-      })
+      });
       return returnValue;
 
+    }
+  })
+  .filter('verbondFuncties', function () {
+    return function (items, lid) {
+      var leeftijd = moment().diff(lid.vgagegevens.geboortedatum, 'years');
+
+      return _.filter(items, function(item) {
+        if (leeftijd < 16) {
+          var isLeidingsFunctie = (_.find(item.groeperingen, {naam: 'Leiding'}) !== undefined);
+
+          return item.type === 'verbond' && !isLeidingsFunctie;
+        }
+        else {
+          return item.type === 'verbond';
+        }
+      });
     }
   })
   .filter('formValidatorError', function () {
@@ -18,7 +34,7 @@ angular.module('ga.filters', [])
         if (value.veld == field) {
           returnValue = value.titel.charAt(0).toUpperCase() + value.titel.slice(1);
         }
-      })
+      });
       return returnValue;
     }
   })

@@ -26,6 +26,7 @@
     "keycloak": "3.4.3",
     "lodash": "~4.17.4",
     "components-font-awesome": "~4.7.0",
+    "moment": "^2.22.2",
     "chart.js": "~2.5.0",
     "iban": "~0.0.8",
     "angulartics-piwik": "^1.0.6",
