@@ -13,10 +13,14 @@ angular.module('ga.filters', [])
   })
   .filter('verbondFuncties', function () {
     return function (items, lid) {
-      var leeftijd = moment().diff(lid.vgagegevens.geboortedatum, 'years');
+      var leeftijd;
+
+      if(lid && lid.vgagegevens) {
+        leeftijd = moment().diff(lid.vgagegevens.geboortedatum, 'years')
+      }
 
       return _.filter(items, function(item) {
-        if (leeftijd < 16) {
+        if (leeftijd !== undefined && leeftijd < 16) {
           var isLeidingsFunctie = (_.find(item.groeperingen, {naam: 'Leiding'}) !== undefined);
 
           return item.type === 'verbond' && !isLeidingsFunctie;
