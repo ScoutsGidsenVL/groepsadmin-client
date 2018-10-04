@@ -46,6 +46,8 @@
           groep.adres = [
             groep.adres
           ];
+
+          groep.kanWijzigen = (_.find(groep.links, {method: 'PATCH'}) !== undefined);
           $scope.data.groepenlijst.push(groep);
         });
 
@@ -117,7 +119,7 @@
         $scope.googleMap.setCenter(center);
       }
 
-      markersTekenen($scope.googleMap, $scope.data.activegroup.adressen);
+      markersTekenen($scope.googleMap, $scope.data.activegroup.adressen, $scope.data.activegroup.kanWijzigen);
     };
 
     var berekenCenter = function(adressen) {
@@ -141,7 +143,7 @@
     };
 
     // Place Markers on Map
-    var markersTekenen = function(map, adressen){
+    var markersTekenen = function(map, adressen, isDraggable){
       if($scope.markers == undefined) {
         $scope.markers = [];
       }
@@ -152,7 +154,7 @@
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(adres.positie.latitude, adres.positie.longitude),
             map: map,
-            draggable: true,
+            draggable: isDraggable,
             label: $scope.markerLabels[key],
             infoProp: adres.straat + " " + adres.nummer + (adres.bus ? (" bus " + adres.bus) : "") + "<br>" + adres.postcode + " " + adres.gemeente,
             adresId: adres.id
@@ -326,17 +328,20 @@
      * ----------------------------------
      */
     var maakSorteerbaar = function (){
-      $( ".sortable" ).sortable({
-        stop : function(event, ui){
-          var gegevenId = ui.item.attr('data-groepseigengegevenid');
-          var gegevenIndex = ui.item.index();
-          angular.forEach($scope.data.activegroup.groepseigenGegevens, function(value){
-            if(value.id == gegevenId ){
-              value.sort = gegevenIndex;
-            }
-          })
-        }
-      });
+      if($scope.data.activegroup.kanWijzigen) {
+        $( ".sortable" ).sortable({
+          cursor: 'move',
+          stop : function(event, ui){
+            var gegevenId = ui.item.attr('data-groepseigengegevenid');
+            var gegevenIndex = ui.item.index();
+            angular.forEach($scope.data.activegroup.groepseigenGegevens, function(value){
+              if(value.id == gegevenId ){
+                value.sort = gegevenIndex;
+              }
+            })
+          }
+        });
+      }
     };
 
     $scope.addGroepseigenGegeven = function () {

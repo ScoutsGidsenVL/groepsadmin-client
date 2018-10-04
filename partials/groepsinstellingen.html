@@ -11,7 +11,7 @@
   </div>
 
   <!-- NEW ACTIONS -->
-  <div class="pull-right">
+  <div ng-show="data.activegroup.kanWijzigen" class="pull-right">
     <div class="hidden-xs hidden-sm">
       <button type="submit" class="btn btn-apply" ng-click="opslaan()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
     </div>
@@ -68,14 +68,14 @@
       <div class="form-group">
         <label for="_vrijeInfo" class="col-xs-6 col-xxs-12 control-label">Vrije info</label>
         <div class="col-xs-6 col-xxs-12">
-          <textarea class="form-control" id="_vrijeInfo" ng-model="data.activegroup.vrijeInfo" />
+          <textarea class="form-control" id="_vrijeInfo" ng-model="data.activegroup.vrijeInfo" ng-disabled="!data.activegroup.kanWijzigen"/>
         </div>
       </div>
 
       <div class="form-group">
         <label for="_email" class="col-xs-6 col-xxs-12 control-label">E-mail</label>
         <div class="col-xs-6 col-xxs-12">
-          <input type="text" class="form-control" id="_email" ng-model="data.activegroup.email" />
+          <input type="text" class="form-control" id="_email" ng-model="data.activegroup.email" ng-disabled="!data.activegroup.kanWijzigen"/>
         </div>
       </div>
 
@@ -83,9 +83,13 @@
         <label for="_oprichtingsDatum" class="col-xs-6 col-xxs-12 control-label">Oprichtingsdatum</label>
         <div class="col-xs-6 col-xxs-12">
           <div class="input-group">
-            <input type="text" name="oprichtingsdatum" id="_oprichtingsDatum" ng-model="data.activegroup.opgericht" class="form-control" ng-model="dt" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date />
+            <input type="text" name="oprichtingsdatum" id="_oprichtingsDatum" ng-model="data.activegroup.opgericht"
+                   class="form-control" ng-model="dt" is-open="popupCal.opened" datepicker-options="dateOptions"
+                   close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date ng-disabled="!data.activegroup.kanWijzigen"/>
             <span class="input-group-btn">
-              <button type="button" class="btn btn-default btn-datepicker form-control" ng-click="popupCal()"><i class="fa fa-calendar"></i></button>
+              <button type="button" class="btn btn-default btn-datepicker form-control" ng-click="popupCal()" ng-disabled="!data.activegroup.kanWijzigen">
+                <i class="fa fa-calendar"></i>
+              </button>
             </span>
           </div>
         </div>
@@ -94,7 +98,7 @@
       <div class="form-group">
         <label for="_rekeningNummer" class="col-xs-6 col-xxs-12 control-label">Rekeningnummer</label>
         <div class="col-xs-6 col-xxs-12">
-          <input type="text" class="form-control" id="_rekeningNummer" ng-model="data.activegroup.rekeningnummer" />
+          <input type="text" class="form-control" id="_rekeningNummer" ng-model="data.activegroup.rekeningnummer" ng-disabled="!data.activegroup.kanWijzigen"/>
           <!-- Nationaal XXX-XXXXXXX-XX -->
           <!-- Internationaal IBAN BEXX XXXX XXXX XXXX -->
           <!-- BIC KREDBEBB -->
@@ -104,7 +108,10 @@
       <label class="form-group control checkbox">
         <div class="col-xs-6 col-xxs-12 control-label">Leiding verbeterd</div>
         <div class="col-xs-6 col-xxs-12">
-          <input type="checkbox" ng-checked="data.activegroup.facturatieLeidingCheck" ng-model="data.activegroup.facturatieLeidingCheck" ng-disabled="data.activegroup.facturatieLeidingCheck && data.activegroup.facturatieLeidingSaved" disabled="disabled" />
+          <input type="checkbox" ng-checked="data.activegroup.facturatieLeidingCheck"
+                 ng-model="data.activegroup.facturatieLeidingCheck"
+                 ng-disabled="(data.activegroup.facturatieLeidingCheck && data.activegroup.facturatieLeidingSaved) || !data.activegroup.kanWijzigen"
+                 disabled="disabled" />
           <span class="control-indicator"></span>
         </div>
       </label>
@@ -112,7 +119,10 @@
       <label class="form-group control checkbox">
         <div class="col-xs-6 col-xxs-12 control-label">Leden verbeterd</div>
         <div class="col-xs-6 col-xxs-12">
-          <input type="checkbox" ng-checked="data.activegroup.facturatieLedenCheck" ng-model="data.activegroup.facturatieLedenCheck" ng-disabled="data.activegroup.facturatieLedenCheck && data.activegroup.facturatieLedenSaved" disabled="disabled" />
+          <input type="checkbox" ng-checked="data.activegroup.facturatieLedenCheck"
+                 ng-model="data.activegroup.facturatieLedenCheck"
+                 ng-disabled="(data.activegroup.facturatieLedenCheck && data.activegroup.facturatieLedenSaved) || !data.activegroup.kanWijzigen"
+                 disabled="disabled" />
           <span class="control-indicator"></span>
         </div>
       </label>
@@ -150,7 +160,9 @@
       <fieldset>
         <legend>Lokalen
           <div class="pull-right">
-            <button ng-click="addAdres()" class="btn-minimal" title="Lokaal toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
+            <button ng-click="addAdres()" class="btn-minimal" title="Lokaal toevoegen" ng-show="data.activegroup.kanWijzigen">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
           </div>
         </legend>
         <fieldset ng-repeat="lokaal in data.activegroup.adressen">
@@ -168,11 +180,13 @@
               Nieuw lokaal
             </div>
             <div class="pull-right">
-              <button  class="btn-minimal">
+              <button  class="btn-minimal" ng-show="data.activegroup.kanWijzigen">
                 <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
                 <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
               </button>
-              <button ng-click="deleteLokaal(adres.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Lokaal wissen"></span></button>
+              <button ng-click="deleteLokaal(adres.id)" class="btn-minimal" ng-show="data.activegroup.kanWijzigen">
+                <span class="glyphicon glyphicon-trash" title="Lokaal wissen"></span>
+              </button>
             </div>
           </legend>
           <fieldset ng-hide="!showme" class="ga-functie-list">
@@ -221,7 +235,10 @@
     <div class="col-md-6">
       <legend>Groepseigen functies
         <div class="pull-right">
-          <button class="btn-minimal" title="Groepseigen functie toevoegen" ng-click="addGroepseigenFunctie()"><span class="glyphicon glyphicon-plus"></span></button>
+          <button class="btn-minimal" title="Groepseigen functie toevoegen" ng-click="addGroepseigenFunctie()"
+                  ng-show="data.activegroup.kanWijzigen">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
         </div>
       </legend>
       <div ng-if="data.activegroup.groepseigenFuncties" ng-repeat="groepseigenFunctie in data.activegroup.groepseigenFuncties">
@@ -230,7 +247,8 @@
             <input type="text" class="form-control ga-functie-list" ng-model="data.activegroup.groepseigenFuncties[$index].beschrijving" placeholder="Nieuwe groepseigen functie" />
           </div>
           <div class="col-xs-1" ng-hide="groepseigenFunctie.deletedTimestamps">
-            <button class="btn-minimal" title="groepseigenfunctie wissen" ng-click="wisGroepseigenFunctie(groepseigenFunctie.id)">
+            <button class="btn-minimal" title="groepseigenfunctie wissen" ng-click="wisGroepseigenFunctie(groepseigenFunctie.id)"
+                    ng-show="data.activegroup.kanWijzigen">
               <span class="glyphicon glyphicon-trash"></span>
             </button>
           </div>
@@ -238,8 +256,10 @@
       </div>
 
       <div ng-if="!data.activegroup.groepseigenFuncties.length">
-        <i>Geen groepseigen functies beschikbaar voor deze groep.</i>
-        <a ng-click="addGroepseigenFunctie()">Nieuwe groepseigen functie aanmaken.</a>
+        <p>
+          <i>Geen groepseigen functies beschikbaar voor deze groep.</i>
+          <a ng-click="addGroepseigenFunctie()" ng-show="data.activegroup.kanWijzigen">Nieuwe groepseigen functie aanmaken.</a>
+        </p>
       </div>
     </div>
 
@@ -247,19 +267,21 @@
     <fieldset class="col-md-6">
       <legend>Groepseigen gegevens
         <div class="pull-right">
-          <button class="btn-minimal" title="Groepseigen gegeven toevoegen" ng-click="addGroepseigenGegeven()"><span class="glyphicon glyphicon-plus"></span></button>
+          <button class="btn-minimal" title="Groepseigen gegeven toevoegen" ng-click="addGroepseigenGegeven()" ng-show="data.activegroup.kanWijzigen">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
         </div>
       </legend>
 
       <div ng-if="data.activegroup.groepseigenGegevens" class="sortable">
-        <fieldset class="sortable" ng-repeat="groepseigenGegeven in data.activegroup.groepseigenGegevens | orderBy:'sort'"
+        <fieldset ng-repeat="groepseigenGegeven in data.activegroup.groepseigenGegevens | orderBy:'sort'"
                   ng-init="groepseigenGegeven.status != 'nieuw'?showme = false:showme = true;" data-groepseigengegevenid="{{ groepseigenGegeven.id }}">
           <legend>
             {{ groepseigenGegeven.label == "" ? 'Nieuw groepseigen gegeven' : groepseigenGegeven.label }}
             <span ng-if="groepseigenGegeven.label != '' ">-
               {{ groepseigenGegeven.type | fieldTypeFormatter }}
             </span>
-            <button class="btn-minimal pull-right" title="openklappen" ng-click="showme = showme ? false : true">
+            <button class="btn-minimal pull-right" title="openklappen" ng-click="showme = showme ? false : true" ng-show="data.activegroup.kanWijzigen">
               <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Groepseigen gegeven tonen"></span>
               <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Groepseigen gegeven verbergen"></span>
             </button>
@@ -470,8 +492,10 @@
       </div>
 
       <div ng-if="!data.activegroup.groepseigenGegevens.length">
-        <i>Geen groepseigen gegevens beschikbaar voor deze groep.</i>
-        <a ng-click="addGroepseigenGegeven()">Nieuw groepseigen gegeven aanmaken.</a>
+        <p>
+          <i>Geen groepseigen gegevens beschikbaar voor deze groep.</i>
+          <a ng-click="addGroepseigenGegeven()" ng-show="data.activegroup.kanWijzigen">Nieuw groepseigen gegeven aanmaken.</a>
+        </p>
       </div>
     </fieldset>
   </div>
