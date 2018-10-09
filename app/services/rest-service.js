@@ -67,6 +67,21 @@
           }
         }
       ),
+      LidAanvraag: $resource(
+        base + 'lid/aanvraag',
+        {},
+        {
+          'save': {method: 'POST'},
+          'options': {
+            method: 'OPTIONS',
+            transformResponse: function (data) {
+              var result = {};
+              result.data = data;
+              return result;
+            }
+          }
+        }
+      ),
       LidIndividueleSteekkaart: $resource(
         base + 'lid/:id/steekkaart',
         {id: '@id'},

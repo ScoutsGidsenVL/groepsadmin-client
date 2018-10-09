@@ -60,7 +60,7 @@
             <div class="col-xs-7 col-xxs-12">
               <!-- fix date-parse -->
               <div class="input-group">
-                <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" ng-model="dt" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date  ng-disabled="!hasPermission('vgagegevens')" required/>
+                <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date  ng-disabled="!hasPermission('vgagegevens')" required/>
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default btn-datepicker form-control" ng-disabled="!hasPermission('vgagegevens')" ng-click="popupCal()"><i class="fa fa-calendar"></i></button>
                 </span>
@@ -312,7 +312,7 @@
                     <button  ng-hide="!showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
                   </div>
                 </legend>
-                <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | verbondFuncties:lid | orderBy : 'beschrijving'" ng-show=" !showverbondfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
+                <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter:filterFuncties(lid) | orderBy : 'beschrijving'" ng-show=" !showverbondfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
                   <label class="col-md-6 form-group control checkbox" >
                     <div class="col-xs-11 col-xxs-11 control-label ga-functie-list-item__label" ng-class="{'ga-functie-list-item__label--disabled' : groepFunctie.code == 'FV' || groepFunctie.code == 'VGA' } ">{{ groepFunctie.beschrijving }}</div>
                     <div class="col-xs-1 col-xxs-1">
