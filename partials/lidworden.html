@@ -17,7 +17,7 @@
             <div class="col-sm-8"
                  ng-class="{ 'has-error': lidwordenForm.voornaam.$touched && lidwordenForm.voornaam.$invalid }">
               <input type="text" name="voornaam" class="form-control" id="_voornaam" placeholder="Voornaam..."
-                     ng-model="lid.vgagegevens.voornaam"
+                     ng-model="lid.voornaam"
                      required>
               <div ng-messages="lidwordenForm.voornaam.$error" ng-show="lidwordenForm.voornaam.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
@@ -29,7 +29,7 @@
             <div class="col-sm-8"
                  ng-class="{ 'has-error': lidwordenForm.achternaam.$touched && lidwordenForm.achternaam.$invalid }">
               <input type="text" class="form-control" id="_achternaam" placeholder="Achternaam..."
-                     ng-model="lid.vgagegevens.achternaam"
+                     ng-model="lid.achternaam"
                      name="achternaam" required>
               <div ng-messages="lidwordenForm.achternaam.$error" ng-show="lidwordenForm.achternaam.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
@@ -44,7 +44,7 @@
               <div class="input-group">
                 <input type="text" name="geboortedatum" id="_geboortedatum" class="form-control"
                        placeholder="dd/mm/jjjj"
-                       ng-model="lid.vgagegevens.geboortedatum" is-open="popupCal.opened"
+                       ng-model="lid.geboortedatum" is-open="popupCal.opened"
                        datepicker-options="dateOptions"
                        close-text="Close"
                        uib-datepicker-popup="{{format}}" ga-parse-date required/>
