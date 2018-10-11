@@ -44,9 +44,8 @@
     <p class="ga-form-beschrijving" ng-bind-html="veld.beschrijving"></p>
   </div>
 
-  <div class="dynamisch-veld-groep" ng-switch-when="groep">
-    <!-- <h2 for="{{veld.id}}" class="col-xs-5 col-xxs-12 dynamisch-veld-groep-titel" ng-bind-html="veld.label" ng-show="veld.label"></h2> -->
-    <p class="ga-form-beschrijving" ng-bind-html="veld.beschrijving"></p>
+  <div class="form-group dynamisch-veld-groep" ng-switch-when="groep">
+    <p class="form-control-static" ng-bind-html="veld.label"></p>
   </div>
 
   <div class="form-group" ng-class="{ 'has-error':formulier['{{veld.id}}'].$invalid }"
