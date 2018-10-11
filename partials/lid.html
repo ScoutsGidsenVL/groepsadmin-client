@@ -89,7 +89,7 @@
             <div class="col-xs-7 col-xxs-12">
               <!-- fix date-parse -->
               <div class="input-group">
-                <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" ng-model="dt" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date  ng-disabled="!hasPermission('vgagegevens')" placeholder="DD/MM/JJJJ"/>
+                <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date  ng-disabled="!hasPermission('vgagegevens')" placeholder="DD/MM/JJJJ"/>
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default btn-datepicker form-control" ng-click="popupCal()" ng-disabled="!hasPermission('vgagegevens')"><i class="fa fa-calendar"></i></button>
                 </span>
@@ -362,22 +362,24 @@
 
       <!-- Groepseigen gegevens -->
       <section>
-        <fieldset ng-if="lid.groepseigenVelden && groepseigenVeldenVerzameling.schema.length > 0">
+        <fieldset ng-if="heeftGroepseigenvelden">
           <legend >Groepseigen gegevens</legend>
           <fieldset class="ga-contacten-list" ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden" >
-            <section class="clearfix">
-              <legend ng-click="showgroepseigenvelden = showgroepseigenvelden ? false : true">{{ key }} {{ groepenlijst[key].naam }}
-                <div class="pull-right" ng-init="showgroepseigenvelden=true;" >
-                  <button type="button" class="btn-minimal">
-                    <span ng-hide="showgroepseigenvelden" class="glyphicon glyphicon-chevron-up"></span>
-                    <span ng-hide="!showgroepseigenvelden" class="glyphicon glyphicon-chevron-down"></span>
-                  </button>
-                </div>
-              </legend>
-            </section>
-            <fieldset ng-if="groepseigenVeldenVerzameling.schema.length > 0">
-              <dynamischveldcolectie waarden="groepseigenVeldenVerzameling.waarden" velden="groepseigenVeldenVerzameling.schema" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
-            </fieldset>
+            <div ng-if="groepseigenVeldenVerzameling.schema.length > 0">
+              <section class="clearfix">
+                <legend ng-click="showgroepseigenvelden = showgroepseigenvelden ? false : true">{{ key }} {{ groepenlijst[key].naam }}
+                  <div class="pull-right" ng-init="showgroepseigenvelden=true;" >
+                    <button type="button" class="btn-minimal">
+                      <span ng-hide="showgroepseigenvelden" class="glyphicon glyphicon-chevron-up"></span>
+                      <span ng-hide="!showgroepseigenvelden" class="glyphicon glyphicon-chevron-down"></span>
+                    </button>
+                  </div>
+                </legend>
+              </section>
+              <fieldset>
+                <dynamischveldcolectie waarden="groepseigenVeldenVerzameling.waarden" velden="groepseigenVeldenVerzameling.schema" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
+              </fieldset>
+            </div>
           </fieldset>
         </fieldset>
       </section>
