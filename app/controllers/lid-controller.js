@@ -196,10 +196,13 @@
       // Alle actieve functies ophalen
       $scope.functieslijst = [];
       angular.forEach($scope.lid.functies, function(value) {
-        RestService.Functie.get({functieId:value.functie}).$promise.then(
-          function(result){
-            $scope.functieslijst[value.functie] = result;
-        });
+        if($scope.functieslijst[value.functie] === undefined) {
+          $scope.functieslijst[value.functie] = {};
+          RestService.Functie.get({functieId:value.functie}).$promise.then(
+            function(result){
+              $scope.functieslijst[value.functie] = result;
+            });
+        }
       });
 
       // Alle actieve groepen ophalen
@@ -446,12 +449,10 @@
 
         $scope.lid.functies.push(functieInstantie);
 
-        angular.forEach($scope.lid.functies, function(value) {
-          RestService.Functie.get({functieId:value.functie}).$promise.then(
-            function(result){
-              $scope.functieslijst[value.functie] = result;
+        RestService.Functie.get({functieId:functieInstantie.functie}).$promise.then(
+          function(result){
+            $scope.functieslijst[functieInstantie.functie] = result;
           });
-        });
 
         return 'stop';
       }
