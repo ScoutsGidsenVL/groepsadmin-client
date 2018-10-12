@@ -71,6 +71,7 @@
         base + 'lid/aanvraag',
         {},
         {
+          'lijst': {method: 'GET'},
           'save': {method: 'POST'},
           'options': {
             method: 'OPTIONS',

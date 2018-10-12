@@ -32,14 +32,20 @@
             this._exit(false);
           },
           _exit: function(result) {
-            returnFunctie(result, extraParamObj && extraParamObj.trueVal)
-              .then(function(result) {
-                console.log(result);
-                deferred.resolve(result);
-              }).catch(function(failure) {
+            if(typeof(returnFunctie) === 'function') {
+              returnFunctie(result, extraParamObj && extraParamObj.trueVal)
+                .then(function(result) {
+                  console.log(result);
+                  deferred.resolve(result);
+                }).catch(function(failure) {
                 console.log(failure);
                 deferred.reject(failure);
               });
+            }
+            else {
+              deferred.resolve(result);
+            }
+
 
             var index = $rootScope.dialogs.indexOf(dialog);
             if (0 <= index) {
@@ -67,5 +73,5 @@
         return this.new('Pagina verlaten', 'Er zijn nog niet opgeslagen wijzigingen.', 'Ben je zeker dat je wil verdergaan?', locationChange, paramObj);
       }
     };
-  };
+  }
 })();

@@ -5,9 +5,9 @@
     .module('ga.lidtoevoegencontroller', ['ga.services.alert', 'ga.services.dialog'])
     .controller('LidToevoegenController', LidToevoegenController);
 
-  LidToevoegenController.$inject = ['$scope', '$location', '$timeout', '$window', 'CacheService', 'LidService', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route', 'access', 'keycloak', 'FormValidationService'];
+  LidToevoegenController.$inject = ['$scope', '$location', '$timeout', '$window', 'CacheService', 'LidService', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route', 'access', 'FormValidationService'];
 
-  function LidToevoegenController ($scope, $location, $timeout, $window, CS, LS, RestService, AlertService, DialogService, $rootScope, $route, access, keycloak, FVS) {
+  function LidToevoegenController ($scope, $location, $timeout, $window, CS, LS, RestService, AlertService, DialogService, $rootScope, $route, access, FVS) {
 
     $scope.formInitiated = false;
     var aangemeldeGebruiker = {};
@@ -64,36 +64,31 @@
       lid.vgagegevens = {};
       lid.vgagegevens.verminderdlidgeld = false;
       lid.vgagegevens.beperking = false;
+      lid.contacten = [];
+      lid.adressen = [];
+      lid.adressen[0] = {
+        land: "BE",
+        postadres: true,
+        omschrijving: "",
+        id: 'tempadres' + Date.now(),
+        bus: null
+      };
 
-      if($rootScope.familielid == undefined && $rootScope.familielid == null){
-        // geen broer of zus
-        lid.contacten = Array();
-        lid.adressen = Array();
-        var newadres = {
-          land: "BE",
-          postadres: true,
-          omschrijving: "",
-          id: 'tempadres' + Date.now(),
-          bus: null
-        }
-        lid.adressen[0] = newadres;
-      } else{
-        // wel broer of zus
-        lid = $rootScope.familielid;
-        lid.persoonsgegevens.verminderdlidgeld = false;
-        lid.persoonsgegevens.beperking = false;
-        delete $rootScope.familielid;
-        // controle of er adressen e.d. aanwezig zijn. => temp id's geven.
-        angular.forEach(lid.adressen, function(adres, key){
+      if($rootScope.defaultLid) {
+        angular.extend(lid, $rootScope.defaultLid);
+
+        angular.forEach(lid.adressen, function(adres){
           var randomId = "" + Date.now();
           angular.forEach(lid.contacten, function(contact, key){
-              if(adres.id == contact.adres){
-                contact.adres = randomId;
-              }
-              contact.id = key;
+            if(adres.id == contact.adres){
+              contact.adres = randomId;
+            }
+            contact.id = key;
           });
           adres.id = randomId;
         });
+
+        delete $rootScope.defaultLid;
       }
 
       $scope.lid = lid;
@@ -111,17 +106,17 @@
             function(result){
               //herordenen zodat ze eenvoudig gebruikt kunnen worden in de template;
               $scope.groepEnfuncties = [];
-              angular.forEach(result.groepen, function(value, key){
+              angular.forEach(result.groepen, function(value){
                 var tempGroep= {};
                 tempGroep.functies = [];
                 tempGroep.groepsnummer = value.groepsnummer;
                 tempGroep.groepseigenGegevens = value.groepseigenGegevens;
                 tempGroep.naam = value.naam;
-                angular.forEach($scope.functies.functies, function(value2, key2){
+                angular.forEach($scope.functies.functies, function(value2){
                   if(value2.groepen.indexOf(value.groepsnummer) != -1){
                     tempGroep.functies.push(value2);
                   }
-                })
+                });
                 $scope.groepEnfuncties.push(tempGroep);
               });
             }
@@ -132,7 +127,7 @@
       $timeout(function(){
         $scope.formInitiated = true;
       },4000);
-    }
+    };
 
     /*
     * Controle ofdat de sectie aangepast mag worden.
@@ -142,28 +137,23 @@
       if ($scope.patchObj) {
         return $scope.patchObj.secties.indexOf(val) > -1;
       }
-    }
+    };
 
-    function setChanges(newVal, oldVal, scope) {
+    function setChanges() {
       if($scope.nieuwLidForm.$dirty){
         $window.onbeforeunload = unload;
       }
     }
 
-    angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies'], function(value, key) {
+    angular.forEach(['lid.persoonsgegevens', 'lid.email', 'lid.gebruikersnaam', 'lid.contacten', 'lid.adressen', 'lid.functies'], function(value) {
       $scope.$watch(value, setChanges, true);
     });
 
     $scope.changePostadres = function(adresID){
-      angular.forEach($scope.lid.adressen, function(value,index){
-        if(value.id == adresID){
-          value.postadres = true;
-        }
-        else{
-          value.postadres = false;
-        }
+      angular.forEach($scope.lid.adressen, function(value){
+        value.postadres = value.id == adresID;
       });
-    }
+    };
 
     /*
     * Contacten
@@ -179,7 +169,7 @@
         }
       });
       $scope.lid.contacten.splice(contactIndex,1);
-    }
+    };
 
     // nieuw contact toevoegen aan het model
     $scope.contactToevoegen = function(){
@@ -189,7 +179,7 @@
         $timeout(function(){ newcontact.showme = true} , 0);
         $scope.lid.contacten.push(newcontact);
       }
-    }
+    };
 
     /*
     * Adressen
@@ -204,7 +194,7 @@
           omschrijving: "",
           id: 'tempadres' + Date.now(),
           bus: null
-        }
+        };
         if(!_.find($scope.lid.adressen, {postadres:true})){
           newadres.postadres = true;
         }
@@ -216,7 +206,7 @@
       }else{
         AlertService.add('danger', "Nieuwe adressen kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.");
       }
-    }
+    };
 
     // een adres wissen in het lid model
     $scope.deleteAdres = function(adresID){
@@ -225,7 +215,7 @@
         if(value.id == adresID){
           //controle wissen van adres gekoppeld aan een contact
           var kanwissen = true;
-          angular.forEach($scope.lid.contacten, function(contact, index){
+          angular.forEach($scope.lid.contacten, function(contact){
             if(contact.adres == adresID){
               AlertService.add('danger', "Dit adres is nog gekoppeld aan een contact, het kan daarom niet gewist worden.");
               kanwissen = false;
@@ -238,12 +228,12 @@
           }
         }
       });
-    }
+    };
 
     // zoek gemeentes
     $scope.zoekGemeente = function(zoekterm){
       return LS.zoekGemeente(zoekterm);
-    }
+    };
 
     // gemeente opslaan in het adres
     $scope.bevestigGemeente = function(item, adres) {
@@ -261,7 +251,7 @@
             });
             return resultaatStraten;
         });
-    }
+    };
 
     // straat en giscode opslaan in het adres
     $scope.bevestigStraat = function(item, adres) {
@@ -298,7 +288,7 @@
         });
         return 'add'
       }
-    }
+    };
 
     /*
     * Opslaan van het nieuwe lid
@@ -322,8 +312,7 @@
       var geboortedatumLocalTime = $scope.lid.vgagegevens.geboortedatum;
       var tzOffset = (new Date()).getTimezoneOffset() * 60000;
       var geboortedatumUTC = new Date(geboortedatumLocalTime.getTime() - tzOffset);
-      var geboortedatumZonderTijd = geboortedatumUTC.toISOString().slice(0, 10);
-      origineelLid.vgagegevens.geboortedatum = geboortedatumZonderTijd;
+      origineelLid.vgagegevens.geboortedatum = geboortedatumUTC.toISOString().slice(0, 10);
 
       RestService.LidAdd.save(origineelLid).$promise.then(
         function(response) {
@@ -356,7 +345,7 @@
             AlertService.add('warning', error);
           }
           else if (error.data.fouten && error.data.fouten.length >=1) {
-            _.each(error.data.fouten, function(fout,key) {
+            _.each(error.data.fouten, function(fout) {
               console.log("FOUT", fout);
               $scope[fout.veld + 'Error'] = true;
             });
@@ -366,7 +355,7 @@
           }
         }
       );
-    }
+    };
 
     /*
     * Header functionaliteit
@@ -374,14 +363,14 @@
     */
     $scope.nieuw = function() {
       $route.reload();
-    }
+    };
 
     /*
     * page Change functionaliteit
     * ---------------------------------------
     */
     // listener voor wanneer een gebruiker van pagina veranderd en er zijn nog openstaande aanpassingen.
-    $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
+    $scope.$on('$locationChangeStart', function (event, newUrl) {
       if ($scope.nieuwLidForm.$dirty){
         event.preventDefault();
         DialogService.paginaVerlaten($scope.locationChange, newUrl);
@@ -392,14 +381,14 @@
     $scope.locationChange = function(result, url){
       if(result){
         $scope.nieuwLidForm.$setPristine();
-        $scope.lid.changes = new Array();
+        $scope.lid.changes = [];
         $window.location.href = url;
       }
-    }
+    };
 
     $scope.checkField = function(formfield) {
       formfield.$setValidity(formfield.$name,FVS.checkField(formfield));
-    }
+    };
 
     // TODO: REMOVE CODE DUPLICATION  (lidcontroller)
 
@@ -428,7 +417,7 @@
         // hilight error
         $scope.lid.contacten[s].hasErrors = true;
       });
-    }
+    };
     var openAndHighlightCollapsedInvalidAdresses = function(){
       var invalidAddresses = _.filter($scope.nieuwLidForm.$error.required, function(o){
         return o.$name.indexOf('adressen') > -1;
@@ -442,17 +431,17 @@
         // hilight error
         $scope.lid.adressen[s].hasErrors = true;
       });
-    }
+    };
     var unHighlightInvalidContactsGroup = function(){
       if($scope.lid && $scope.lid.contacten){
         _.each($scope.lid.contacten,function(contact){contact.hasErrors = false});
       }
-    }
+    };
     var unHighlightInvalidAddressesGroup = function(){
       if($scope.lid && $scope.lid.adressen){
         _.each($scope.lid.adressen,function(adres){adres.hasErrors = false});
       }
-    }
+    };
 
     // END TO DO REMOVE DUPLICATE
 
@@ -469,12 +458,11 @@
           AlertService.add('warning', "Er zijn leden gevonden met een gelijkaardige naam. Ga naar het juiste lid of negeer dit bericht: ", result.leden);
         }
       });
-    }
+    };
 
     // refresh of navigatie naar een andere pagina.
     var unload = function (e) {
-      var waarschuwing = "Er zijn nog niet opgeslagen wijzigingen. Ben je zeker dat je wil verdergaan?";
-      e.returnValue = waarschuwing;
+      e.returnValue = "Er zijn nog niet opgeslagen wijzigingen. Ben je zeker dat je wil verdergaan?";
       return e.returnValue;
     };
 

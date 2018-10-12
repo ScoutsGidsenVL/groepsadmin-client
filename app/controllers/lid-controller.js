@@ -494,9 +494,13 @@
     // nieuw gezindslid aanmaken
     $scope.gezinslid = function() {
       //bereid lid voor om doorgegeven te worden.
-      $rootScope.familielid = {
+      $rootScope.defaultLid = {
         vgagegevens: {
           achternaam: $scope.lid.vgagegevens.achternaam
+        },
+        persoonsgegevens: {
+          verminderdlidgeld: false,
+          beperking: false
         },
         adressen: $scope.lid.adressen,
         contacten: $scope.lid.contacten,

@@ -1,0 +1,53 @@
+<div class="panel-heading panel-fixed clearfix">
+  <h1 class="panel-title">Lidaanvragen</h1>
+</div>
+
+<div class="panel panel-default panel-default--hasmargin">
+  <form name="nieuwLidForm">
+    <div class="panel-body form-hover clearfix">
+      <div class="row" ng-if="aanvragen.length > 0">
+        <div ng-repeat="aanvraag in aanvragen">
+          <div class="col-lg-4 col-sm-6 col-xs-12">
+            <section>
+              <fieldset>
+                <legend>
+                  <i class="fa" ng-class="aanvraag.persoonsgegevens.geslacht === 'man'? 'fa-mars' : 'fa-venus'"></i> {{aanvraag.voornaam}} {{aanvraag.achternaam}}
+                  ({{aanvraag.geboortedatum | date : 'dd/MM/yyyy'}})
+                </legend>
+                <div class="form-group">
+                  <address>
+                    <strong>{{aanvraag.groepsnummer}}</strong><br>
+                    {{aanvraag.adres.straat}} {{aanvraag.adres.nummer}} {{aanvraag.adres.bus}}<br>
+                    {{aanvraag.adres.land}} {{aanvraag.adres.postcode}} {{aanvraag.adres.gemeente}} <br>
+                    <span ng-if="aanvraag.adres.telefoon">T: {{aanvraag.adres.telefoon}}<br></span>
+                    <span ng-if="aanvraag.persoonsgegevens.gsm">GSM: {{aanvraag.persoonsgegevens.gsm}}<br></span>
+                    <a href="mailto:{{aanvraag.email}}">{{aanvraag.email}}</a><br>
+                    <p class="word-break"><em>{{aanvraag.opmerkingen}}</em></p>
+                  </address>
+                  <div class="pull-right">
+                    <button class="btn btn-default" ng-click="afkeuren(aanvraag)" ng-disabled="aanvraag.saving">Afkeuren</button>
+                    <button class="btn btn-primary" ng-click="goedkeuren(aanvraag)" ng-disabled="aanvraag.saving">Goedkeuren</button>
+                  </div>
+                </div>
+              </fieldset>
+            </section>
+          </div>
+          <div class="clearfix visible-xs-block"
+               ng-class="{'visible-lg-block': ($index+1)%3 === 0, 'visible-sm-block visbible-md-block': ($index+1)%2 ===0}"></div>
+        </div>
+      </div>
+      <div class="row" ng-if="aanvragen.length === 0">
+        <div class="col-xs-12">
+          Er zijn op dit moment geen nieuwe lidaanvragen.
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+
+
+
+

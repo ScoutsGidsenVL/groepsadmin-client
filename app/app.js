@@ -15,6 +15,7 @@
     'ga.services.lid',
     'ga.services.cache',
     'ga.alert-controller',
+    'ga.aanvragencontroller',
     'ga.ledenlijstcontroller',
     'ga.lidcontroller',
     'ga.usercontroller',

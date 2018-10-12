@@ -5,9 +5,9 @@
     .module('ga.route', ['ngRoute'])
     .config(configure);
 
-  configure.$inject = ['$routeProvider', '$locationProvider'];
+  configure.$inject = ['$routeProvider'];
 
-  function configure($routeProvider, $locationProvider) {
+  function configure($routeProvider) {
     // Configure the routes
     $routeProvider
 
@@ -50,6 +50,14 @@
         controller: 'ledenaantallenController',
         resolve : {
           access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("ledenlijst").then(function(res){ return res }); }]
+        }
+      })
+
+      .when('/aanvragen', {
+        templateUrl: 'partials/aanvragen.html',
+        controller: 'aanvragenController',
+        resolve : {
+          access: ["UserAccess", function (UserAccess) { return UserAccess.hasAccessTo("aanvragen").then(function(res){ return res }); }]
         }
       })
 

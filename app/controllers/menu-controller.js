@@ -5,11 +5,11 @@
     .module('ga.menucontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('MenuController', MenuController);
 
-  MenuController.$inject = ['$scope', '$timeout', '$window', 'UserAccess'];
+  MenuController.$inject = ['$scope', '$timeout', 'UserAccess', '$q'];
 
-  function MenuController ($scope, $timeout, $window, UserAccess) {
+  function MenuController ($scope, $timeout, UserAccess, $q) {
 
-    function updateMenu(ledenlijst, groep) {
+    function updateMenu(ledenlijst, groep, aanvragen) {
       $scope.menuItems = [
         {
           label: 'Ledenlijst',
@@ -36,6 +36,12 @@
           href: '#/lid/profiel'
         },
         {
+          label: 'Lidaanvragen',
+          condition: aanvragen,
+          iconclasses : 'fa fa-address-book-o',
+          href: '#/aanvragen'
+        },
+        {
           label: 'Feedback',
           condition: true,
           iconclasses : 'fa fa-comments-o',
@@ -59,7 +65,7 @@
 
     updateMenu(ledenlijst, groep);
 
-    UserAccess.hasAccessToGroepen().then(function(conditionGroep){
+    /*UserAccess.hasAccessToGroepen().then(function(conditionGroep){
       ledenlijst |= conditionGroep; // in parktijk komen deze rechten overeen
       groep |= conditionGroep;
       updateMenu(ledenlijst, groep);
@@ -69,6 +75,15 @@
       ledenlijst |= conditionLedenLijst;
       groep |= conditionLedenLijst; // in parktijk komen deze rechten overeen
       updateMenu(ledenlijst, groep);
-    });
+    });*/
+
+    $q.all([UserAccess.hasAccessToGroepen(),UserAccess.hasAccessTo("ledenlijst"),UserAccess.hasAccessTo("aanvragen")])
+      .then(function(result) {
+        var conditionGroep = result[0];
+        var conditionLedenLijst = result[1];
+        var conditionAanvragen = result[2];
+
+        updateMenu(conditionLedenLijst, conditionGroep, conditionAanvragen);
+      })
   }
 })();
