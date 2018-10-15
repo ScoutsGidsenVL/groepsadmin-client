@@ -132,7 +132,7 @@
               <span class="control-indicator"></span>
             </div>
           </label>
-          <div class="form-group" ng-class="{ 'has-error': lidForm.email.$touched && lidForm.email.$invalid }" ng-class="{ 'readonly' : !hasPermission('email') }" ng-show="lid">
+          <div class="form-group" ng-class="{ 'has-error': lidForm.email.$touched && lidForm.email.$invalid, 'readonly' : !hasPermission('email') }" ng-show="lid">
             <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
             <div class="col-xs-7 col-xxs-12">
               <input type="email" class="form-control" name="email" id="_email" ng-model="lid.email" ng-disabled="!hasPermission('email')">
@@ -186,24 +186,32 @@
           <fieldset class="ga-adressen-list" ng-repeat="adres in lid.adressen" ng-show="lid">
             <section class="clearfix">
               <legend ng-class="{'has-error': adres.hasErrors}" ng-init="adres.showme = false; " ng-click="adres.showme = !adres.showme">
-                  {{ !adres.straat && !adres.nummer && !adres.bus && !adres.gemeente ? 'Nieuw adres' : '' }}
-                  {{ adres.straat ? adres.straat : '' }}
-                  {{ adres.nummer ? adres.nummer : '' }}
-                  {{ adres.bus ? 'bus ' + adres.bus : '' }}
-                  {{ adres.bus || adres.nummer || adres.straat ? ',' : '' }}
-                  {{ adres.gemeente ? adres.gemeente : '' }}
-                  <div class="pull-right">
-                    <button ng-if="adres.postadres" class="btn-minimal" disabled>
-                      <i class="fa fa-envelope" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" ng-click="deleteAdres(adres.id)" class="btn-minimal" ng-if="hasPermission('adressen') && !adres.postadres">
-                      <span class="glyphicon glyphicon-trash" title="Adres wissen"></span>
-                    </button>
-                    <button type="button" class="btn-minimal">
-                      <span ng-hide="adres.showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
-                      <span ng-hide="!adres.showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
-                    </button>
+                <div class="row">
+                  <div class="col-xs-8">
+                    <div class="ellipsis">
+                      {{ !adres.straat && !adres.nummer && !adres.bus && !adres.gemeente ? 'Nieuw adres' : '' }}
+                      {{ adres.straat ? adres.straat : '' }}
+                      {{ adres.nummer ? adres.nummer : '' }}
+                      {{ adres.bus ? 'bus ' + adres.bus : '' }}
+                      {{ adres.bus || adres.nummer || adres.straat ? ',' : '' }}
+                      {{ adres.gemeente ? adres.gemeente : '' }}
+                    </div>
                   </div>
+                  <div class="col-xs-4">
+                    <div class="pull-right">
+                      <button ng-if="adres.postadres" class="btn-minimal" disabled>
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                      </button>
+                      <button type="button" ng-click="deleteAdres(adres.id)" class="btn-minimal" ng-if="hasPermission('adressen') && !adres.postadres">
+                        <span class="glyphicon glyphicon-trash" title="Adres wissen"></span>
+                      </button>
+                      <button type="button" class="btn-minimal">
+                        <span ng-hide="adres.showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
+                        <span ng-hide="!adres.showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </legend>
               <fieldset ng-hide="!adres.showme">
                 <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].land'].$invalid }">
@@ -240,7 +248,7 @@
                     <input type="text" name="adressen[{{ $index }}].nummer" class="form-control" ng-model="adres.nummer" id="_huisnummer" maxlength="5"   placeholder="Nr." ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente" required/>
                   </div>
                   <div class="col-xs-1 col-xxs-12">
-                    <input type="text" class="form-control form-control-bus" name="adressen[{{ $index }}].bus" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
+                    <input type="text" class="form-control" name="adressen[{{ $index }}].bus" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
                   </div>
                   <div class="col-xs-offset-4 col-xs-12 col-xxs-12" ng-show="lidForm['adressen['+$index+'].straatnaam'].$invalid && lidForm['adressen['+$index+'].straatnaam'].$touched">
                       <p class="help-block">Straat is verplicht</p>

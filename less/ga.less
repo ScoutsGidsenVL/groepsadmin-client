@@ -17,6 +17,14 @@ body {
   word-break: break-all;
 }
 
+.ellipsis {
+  text-overflow: ellipsis;
+
+  /* Required for text-overflow to do anything */
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 #search {
   max-width: 270px;
   width: ~"calc(100% - 5vw - 170px)";
