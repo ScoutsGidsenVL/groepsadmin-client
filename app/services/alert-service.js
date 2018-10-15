@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -10,18 +10,27 @@
   function AlertService($rootScope, $timeout) {
     $rootScope.alerts = [];
 
+    $rootScope.$on(
+      "$routeChangeSuccess",
+      function handleRouteChangeEvent() {
+        angular.forEach($rootScope.alerts, function (alert) {
+          alert.close();
+        });
+      }
+    );
+
     return {
-      add: function(type, error, suggesties) {
+      add: function (type, error, suggesties) {
 
         var msg;
         if (error.data && error.data.fouten && error.data.fouten.length > 0) {
           msg = '';
-          _.each(error.data.fouten, function(val, key) {
+          _.each(error.data.fouten, function (val) {
             if (val.veld) {
               msg += val.veld + ': ';
             }
             msg += val.beschrijving + ', ';
-          })
+          });
           msg = msg.slice(0, -2);
         } else if (error.data && error.data.beschrijving) {
           msg = error.data.beschrijving;
@@ -43,9 +52,9 @@
             } else {
               msg += JSON.stringify(error);
             }
-          } catch(err) {
+          } catch (err) {
             // circulaire verwijzing in error
-              msg += "Geen details beschikbaar";
+            msg += "Geen details beschikbaar";
           }
 
           type = 'error';
@@ -58,7 +67,7 @@
           'msg': msg,
           'suggesties': suggesties,
           'hash': type + msg + _.map(suggesties, _.property('id')).join(),
-          'close': function() {
+          'close': function () {
             var index = $rootScope.alerts.indexOf(alert);
             if (0 <= index) {
               $rootScope.alerts.splice(index, 1);
@@ -77,7 +86,7 @@
         }
       },
 
-      onvoorzieneFout: function() {
+      onvoorzieneFout: function () {
         var msg = 'Er is een onvoorziene fout opgetreden. Mail deze boodschap en wat je aan het doen was naar groepsadmin@scoutsengidsenvlaanderen.be .';
 
         this.add('error', msg);
@@ -85,5 +94,5 @@
         throw msg;
       }
     };
-  };
+  }
 })();
