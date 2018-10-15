@@ -21,6 +21,9 @@
     init();
 
     $scope.goedkeuren = function (aanvraag) {
+      var link = _.find(aanvraag.links, {rel: 'afkeuren'});
+      aanvraag.adres.postadres = true;
+
       $rootScope.defaultLid = {
         vgagegevens: {
           voornaam: aanvraag.voornaam,
@@ -33,7 +36,8 @@
         id: aanvraag.id,
         adressen: [
           aanvraag.adres
-        ]
+        ],
+        lidaanvraag: link
       };
       $location.path("/lid/toevoegen");
     };

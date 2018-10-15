@@ -5,9 +5,10 @@
     .module('ga.lidtoevoegencontroller', ['ga.services.alert', 'ga.services.dialog'])
     .controller('LidToevoegenController', LidToevoegenController);
 
-  LidToevoegenController.$inject = ['$scope', '$location', '$timeout', '$window', 'CacheService', 'LidService', 'RestService', 'AlertService', 'DialogService','$rootScope', '$route', 'access', 'FormValidationService'];
+  LidToevoegenController.$inject = ['$scope', '$location', '$timeout', '$window', '$http', 'CacheService', 'LidService',
+    'RestService', 'AlertService', 'DialogService','$rootScope', '$route', 'access', 'FormValidationService'];
 
-  function LidToevoegenController ($scope, $location, $timeout, $window, CS, LS, RestService, AlertService, DialogService, $rootScope, $route, access, FVS) {
+  function LidToevoegenController ($scope, $location, $timeout, $window, $http, CS, LS, RestService, AlertService, DialogService, $rootScope, $route, access, FVS) {
 
     $scope.formInitiated = false;
     var aangemeldeGebruiker = {};
@@ -62,8 +63,6 @@
       lid.email = null;
       lid.gebruikersnaam = null;
       lid.vgagegevens = {};
-      lid.vgagegevens.verminderdlidgeld = false;
-      lid.vgagegevens.beperking = false;
       lid.contacten = [];
       lid.adressen = [];
       lid.adressen[0] = {
@@ -75,6 +74,9 @@
       };
 
       if($rootScope.defaultLid) {
+        $scope.lidaanvraag = $rootScope.defaultLid.lidaanvraag;
+        delete $rootScope.defaultLid.lidaanvraag;
+
         angular.extend(lid, $rootScope.defaultLid);
 
         angular.forEach(lid.adressen, function(adres){
@@ -90,6 +92,9 @@
 
         delete $rootScope.defaultLid;
       }
+
+      lid.vgagegevens.verminderdlidgeld = lid.vgagegevens.verminderdlidgeld || false;
+      lid.vgagegevens.beperking = lid.vgagegevens.beperking || false;
 
       $scope.lid = lid;
       $scope.lid.adressen[0].showme = true;
@@ -296,7 +301,6 @@
     */
 
     $scope.opslaan = function() {
-
       $scope.saving = true;
       var origineelLid = {};
       angular.copy($scope.lid, origineelLid);
@@ -308,14 +312,15 @@
         origineelLid.functies = [];
       }
 
-      // Stel het juiste formaat in voor de geboortedatum
-      var geboortedatumLocalTime = $scope.lid.vgagegevens.geboortedatum;
-      var tzOffset = (new Date()).getTimezoneOffset() * 60000;
-      var geboortedatumUTC = new Date(geboortedatumLocalTime.getTime() - tzOffset);
-      origineelLid.vgagegevens.geboortedatum = geboortedatumUTC.toISOString().slice(0, 10);
-
       RestService.LidAdd.save(origineelLid).$promise.then(
         function(response) {
+          if($scope.lidaanvraag) {
+            $http({
+              url: $scope.lidaanvraag.href,
+              method: $scope.lidaanvraag.method
+            })
+          }
+
           if($scope.lid.functies.length > 1){
             var patchDeel = {};
             patchDeel.functies = $scope.lid.functies.splice(1, $scope.lid.functies.length-1);
