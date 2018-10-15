@@ -62,6 +62,10 @@ De [documentatie](https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/cl
 
 Het is altijd fijn als de documentatie wordt aangevuld of gecorrigeerd waar nodig. In het bestand api.apib kan je aanpassingen doen m.b.t. de documentatie van de API.
 
+### Lidaanvraag formulier
+
+Het formulier om een nieuwe lidaanvraag te versturen kan je openen via http://localhost:8000/formulier.html#/lidworden?groep=[groepsnummer]
+
 ### Testen
 
 Gebruik bij het testen steeds de test-versie van de groepsadministratie. De URLs van test-versie beginnen met `https://groepsadmin`**`-develop`**`.scoutsengidsenvlaanderen.`**`net`**`/`. De aanpassingen via deze URLs hebben geen effect op de gegevens in de gewone groepsadministratie. E-mails worden ***wel*** verstuurd.
