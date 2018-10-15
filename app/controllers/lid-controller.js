@@ -183,6 +183,8 @@
       // Changes object bijhouden: enkel de gewijzigde properties meesturen met PATCH
       $scope.lid.changes = [];
 
+      $scope.lid.vgagegevens.geboortedatum = moment($scope.lid.vgagegevens.geboortedatum, 'YYYY-MM-DD').toDate();
+
       // Functiehistoriek weergeven/verbergen
       $scope.toonActueleFuncties = true;
 

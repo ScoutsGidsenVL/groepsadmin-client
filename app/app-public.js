@@ -5,6 +5,7 @@
     'ga-public.route',
     'ga.alert-controller',
     'ga.lidwordencontroller',
+    'ga.parseDate',
     'ga.services.alert',
     'ga.services.rest',
     'ga.services.lid',

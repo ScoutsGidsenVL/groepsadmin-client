@@ -24,6 +24,7 @@
     'ga.menucontroller',
     'ga.formerrorbutton',
     'ga.ordericon',
+    'ga.parseDate',
     'ga.groepcontroller',
     'ga.ledenaantallencontroller',
     'ga.websitecontroller',
