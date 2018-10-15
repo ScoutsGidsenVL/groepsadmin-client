@@ -15,6 +15,7 @@
                   ({{aanvraag.geboortedatum | date : 'dd/MM/yyyy'}})
                 </legend>
                 <div class="form-group">
+                  <p><em>Aanvraag van {{aanvraag.aangepast | date : 'dd/MM/yyyy'}}</em></p><br>
                   <address class="ga-address-block">
                     <strong>{{aanvraag.groepsnummer}}</strong><br>
                     {{aanvraag.adres.straat}} {{aanvraag.adres.nummer}} {{aanvraag.adres.bus}}<br>
