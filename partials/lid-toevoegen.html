@@ -273,12 +273,15 @@
                     <input type="text" class="form-control" id="_gsm" ng-model="contact.gsm" ng-disabled="!hasPermission('contacten')"/>
                   </div>
                 </div>
-                <div class="form-group" >
+                  <div class="form-group" ng-class="{ 'has-error': nieuwLidForm['contacten['+$index+'].adres'].$invalid }">
                    <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
                    <div class="col-xs-7 col-xxs-12">
-                     <select  id="_adres" ng-model="contact.adres" ng-disabled="!hasPermission('contacten')">
+                     <select  name="contacten[{{ $index }}].adres" id="_adres" ng-model="contact.adres" ng-disabled="!hasPermission('contacten')" required>
                        <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" ng-selected="contact.adres == adres.id">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
                      </select>
+                     <div ng-messages="nieuwLidForm['contacten['+$index+'].adres'].$error">
+                       <div ng-messages-include="partials/messages.html"></div>
+                     </div>
                    </div>
                 </div>
                 </fieldset>
