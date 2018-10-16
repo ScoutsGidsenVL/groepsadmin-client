@@ -93,7 +93,7 @@
               <span class="control-indicator"></span>
             </div>
           </label>
-          <div class="form-group" ng-class="{ 'has-error': nieuwLidForm.email.$touched && nieuwLidForm.email.$invalid }" ng-class="{ 'readonly' : !hasPermission('email') }">
+          <div class="form-group" ng-class="{ 'has-error': nieuwLidForm.email.$touched && nieuwLidForm.email.$invalid, 'readonly' : !hasPermission('email') }">
             <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
             <div class="col-xs-7 col-xxs-12">
               <input type="email" name="email" class="form-control" id="_email" ng-model="lid.email" />
@@ -141,7 +141,7 @@
                       {{ adres.bus || adres.nummer || adres.straat ? ',' : '' }}
                       {{ adres.gemeente ? adres.gemeente :''}}
                       {{ adres.postadres ? ' ' : '' }}<i ng-if="adres.postadres" class="fa fa-envelope" aria-hidden="true"></i>
-                    <div class="pull-right" ng-init="showme = (adres.postadres == true) ? true : false; " class="pull-left">
+                    <div class="pull-right" ng-init="showme = (adres.postadres == true) ? true : false; ">
                       <button type="button" class="btn-minimal">
                         <span ng-hide="adres.showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
                         <span ng-hide="!adres.showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
@@ -169,7 +169,7 @@
                   <div class="form-group" ng-class="{ 'has-error': nieuwLidForm['adressen['+$index+'].gemeente'].$touched && nieuwLidForm['adressen['+$index+'].gemeente'].$invalid }">
                     <label for="_gemeenteWrap" class="col-xs-4 col-xxs-12 control-label">Woonplaats</label>
                     <div class="col-xs-8 col-xxs-2">
-                      <input type="text" name="adressen[{{ $index }}].gemeente" class="form-control ga-functie-list" ng-init="gemeenteWrap = adres.postcode && adres.gemeente ? adres.postcode + ' ' + adres.gemeente : ''" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" typeahead-show-hint="true" required/>
+                      <input type="text" name="adressen[{{ $index }}].gemeente" class="form-control ga-functie-list" ng-init="gemeenteWrap = adres.postcode && adres.gemeente ? adres.postcode + ' ' + adres.gemeente : ''" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" required/>
                       <div ng-messages="nieuwLidForm['adressen['+$index+'].gemeente'].$error">
                           <div ng-messages-include="partials/messages.html"></div>
                       </div>
@@ -178,7 +178,7 @@
                   <div class="form-group" ng-class="{ 'has-error': (nieuwLidForm['adressen['+$index+'].straatnaam'].$touched && nieuwLidForm['adressen['+$index+'].straatnaam'].$invalid) || (nieuwLidForm['adressen['+$index+'].nummer'].$touched && nieuwLidForm['adressen['+$index+'].nummer'].$invalid ) }">
                     <label for="_straatnaam" class="col-xs-4 col-xxs-12 control-label">Straat</label>
                     <div class="col-xs-5 col-xxs-12">
-                      <input type="text" name="adressen[{{ $index }}].straatnaam"  class="form-control" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"  placeholder="Straatnaam" id="_straatnaam" ng-model="adres.straat" uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres)"  typeahead-on-select="bevestigStraat($item, adres)" typeahead-show-hint="true" required/>
+                      <input type="text" name="adressen[{{ $index }}].straatnaam"  class="form-control" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"  placeholder="Straatnaam" id="_straatnaam" ng-model="adres.straat" uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres)"  typeahead-on-select="bevestigStraat($item, adres)" required/>
                     </div>
                     <div class="col-xs-2 col-xxs-12">
                       <input type="text" class="form-control" id="_straatnummer" name="adressen[{{ $index }}].nummer"  maxlength="5" ng-model="adres.nummer"  placeholder="Nr." ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente" required/>

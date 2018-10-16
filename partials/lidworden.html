@@ -141,7 +141,7 @@
                      placeholder="Vul postcode in en selecteer uw gemeente..." name="gemeente"
                      autocomplete="ga-gemeente"
                      uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"
-                     typeahead-on-select="bevestigGemeente($item, lid.adres)" typeahead-show-hint="true" required/>
+                     typeahead-on-select="bevestigGemeente($item, lid.adres)" required/>
               <div ng-messages="lidwordenForm.gemeente.$error" ng-show="lidwordenForm.gemeente.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
@@ -155,7 +155,7 @@
                      placeholder="Straat..." name="straatnaam" autocomplete="ga-straat"
                      ng-disabled="!lid.adres.postcode || !lid.adres.gemeente"
                      uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, lid.adres)"
-                     typeahead-on-select="bevestigStraat($item, lid.adres)" typeahead-show-hint="true" required/>
+                     typeahead-on-select="bevestigStraat($item, lid.adres)" required/>
               <div ng-messages="lidwordenForm.straatnaam.$error" ng-show="lidwordenForm.straatnaam.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>

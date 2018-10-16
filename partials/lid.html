@@ -233,7 +233,7 @@
                 <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].gemeente'].$invalid }">
                   <label for="_gemeenteWrap" class="col-xs-4 col-xxs-12 control-label">Woonplaats</label>
                   <div class="col-xs-8 col-xxs-2">
-                    <input type="text" name="adressen[{{ $index }}].gemeente" class="form-control ga-functie-list" ng-init="gemeenteWrap = adres.postcode && adres.gemeente ? adres.postcode + ' ' + adres.gemeente : ''" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" typeahead-show-hint="true" required/>
+                    <input type="text" name="adressen[{{ $index }}].gemeente" class="form-control ga-functie-list" ng-init="gemeenteWrap = adres.postcode && adres.gemeente ? adres.postcode + ' ' + adres.gemeente : ''" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" required/>
                     <div ng-messages="lidForm['adressen['+$index+'].gemeente'].$error">
                         <div ng-messages-include="partials/messages.html"></div>
                     </div>
@@ -241,19 +241,19 @@
                 </div>
                 <div class="form-group" ng-class="{ 'has-error': (lidForm['adressen['+$index+'].straatnaam'].$touched && lidForm['adressen['+$index+'].straatnaam'].$invalid) || (lidForm['adressen['+$index+'].nummer'].$touched && lidForm['adressen['+$index+'].nummer'].$invalid ) }">
                   <label for="_straatnaam" class="col-xs-4 col-xxs-12 control-label">Straat</label>
-                  <div class="col-xs-5 col-xxs-12">
-                    <input type="text" name="adressen[{{ $index }}].straatnaam" class="form-control" ng-model="adres.straat" ng-disabled="!hasPermission('adressen')"  placeholder="Straatnaam" id="_straatnaam"  uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres) "  typeahead-on-select="bevestigStraat($item, adres)" typeahead-show-hint="true" required />
+                  <div class="col-md-4 col-xxs-12 col-sm-8">
+                    <input type="text" name="adressen[{{ $index }}].straatnaam" class="form-control" ng-model="adres.straat" ng-disabled="!hasPermission('adressen')"  placeholder="Straatnaam" id="_straatnaam"  uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres) "  typeahead-on-select="bevestigStraat($item, adres)" required />
                   </div>
-                  <div class="col-xs-2 col-xxs-12">
+                  <div class="col-md-2 col-md-offset-0 col-xxs-12 col-sm-offset-4 col-sm-4">
                     <input type="text" name="adressen[{{ $index }}].nummer" class="form-control" ng-model="adres.nummer" id="_huisnummer" maxlength="5"   placeholder="Nr." ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente" required/>
                   </div>
-                  <div class="col-xs-1 col-xxs-12">
+                  <div class="col-md-2 col-xxs-12 col-sm-4">
                     <input type="text" class="form-control" name="adressen[{{ $index }}].bus" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
                   </div>
-                  <div class="col-xs-offset-4 col-xs-12 col-xxs-12" ng-show="lidForm['adressen['+$index+'].straatnaam'].$invalid && lidForm['adressen['+$index+'].straatnaam'].$touched">
+                  <div class="col-sm-offset-4 col-xs-12 col-xxs-12" ng-show="lidForm['adressen['+$index+'].straatnaam'].$invalid && lidForm['adressen['+$index+'].straatnaam'].$touched">
                       <p class="help-block">Straat is verplicht</p>
                   </div>
-                  <div class="col-xs-offset-4 col-xs-12 col-xxs-12" ng-show="lidForm['adressen['+$index+'].nummer'].$invalid && lidForm['adressen['+$index+'].nummer'].$touched">
+                  <div class="col-sm-offset-4 col-xs-12 col-xxs-12" ng-show="lidForm['adressen['+$index+'].nummer'].$invalid && lidForm['adressen['+$index+'].nummer'].$touched">
                       <p class="help-block">Huisnummer is verplicht</p>
                   </div>
                 </div>
