@@ -33,7 +33,7 @@
           },
           _exit: function(result) {
             if(typeof(returnFunctie) === 'function') {
-              returnFunctie(result, extraParamObj && extraParamObj.trueVal)
+              $q.when(returnFunctie(result, extraParamObj && extraParamObj.trueVal))
                 .then(function(result) {
                   console.log(result);
                   deferred.resolve(result);
