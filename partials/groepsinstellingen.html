@@ -1,229 +1,255 @@
 <!-- Panel header -->
 <div class="panel-heading panel-fixed clearfix">
-  <div class="pull-left">
-    <form name="groepenFormulier" ng-if="data.groepenlijst.length != 1">
-      <div class="form-group form-group--groepsinstellingen">
-        <label class="groepsinstellingen-title hidden-xs" for="groepenSelect">Groepsinstellingen van</label>&nbsp;
-        <select class="groepsinstellingen-select-group" name="groepenSelect" ng-options="groep as (groep.naam + ' - ' + groep.groepsnummer) for groep in data.groepenlijst track by groep.id" ng-change="changeGroep()" ng-model="data.activegroup"></select>
-      </div>
-    </form>
-    <h1 class="panel-title" ng-if="data.groepenlijst.length == 1">{{ data.activegroup.naam + ' - ' + data.activegroup.groepsnummer }}</h1>
-  </div>
+  <div class="row">
 
-  <!-- NEW ACTIONS -->
-  <div ng-show="data.activegroup.kanWijzigen" class="pull-right">
-    <div class="hidden-xs hidden-sm">
-      <button type="submit" class="btn btn-apply" ng-click="opslaan()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
-    </div>
-    <div class="hidden-md hidden-lg">
-      <div class="btn-group pull-right" uib-dropdown>
-        <button id="split-button" type="submit" disabled class="btn btn-apply"  ng-click="opslaan()">
-          <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i>
-        </button>
-        <button type="button" class="btn btn-apply" disabled uib-dropdown-toggle>
-          <span class="caret"></span>
-          <span class="sr-only">Opslaan</span>
-        </button>
-        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-          <li role="menuitem"><a href="#" ng-click="opslaan()" >Opslaan</a></li>
-        </ul>
+
+    <!-- NEW ACTIONS -->
+    <div ng-show="data.activegroup.kanWijzigen" class="col-xs-12 col-sm-3 col-sm-push-9 col-md-2 col-md-push-10">
+      <div class="pull-right">
+        <div>
+          <button type="submit" class="btn btn-apply" ng-click="opslaan()"><span class="glyphicon glyphicon-floppy-disk"
+                                                                                 aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i
+            class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
+        </div>
       </div>
     </div>
-
+    <div class="col-xs-12 col-sm-9 col-sm-pull-3 col-md-10 col-md-pull-2">
+      <form name="groepenFormulier" ng-if="data.groepenlijst.length != 1">
+        <div class="form-group form-group--groepsinstellingen">
+          <label class="groepsinstellingen-title hidden-xs hidden-sm" for="groepenSelect">Groepsinstellingen
+            van </label>
+          <select class="groepsinstellingen-select-group" name="groepenSelect"
+                  ng-options="groep as (groep.naam + ' - ' + groep.groepsnummer) for groep in data.groepenlijst track by groep.id"
+                  ng-change="changeGroep()" ng-model="data.activegroup"></select>
+        </div>
+      </form>
+      <h1 class="panel-title" ng-if="data.groepenlijst.length == 1">{{ data.activegroup.naam + ' - ' +
+        data.activegroup.groepsnummer }}</h1>
+    </div>
   </div>
-
 </div>
 
 <div class="panel panel-default panel-default--hasmargin">
 
 
-<!-- Persoonsinfo -->
-<div class="panel-body form-hover clearfix">
+  <!-- Persoonsinfo -->
+  <div class="panel-body form-hover clearfix">
 
-  <!-- Groeps gegevens -->
-  <div class="row">
-    <!-- Algeemeen -->
-    <div class="col-md-4">
-      <legend>Algemeen</legend>
-      <div class="form-group readonly">
-        <label for="_groepsnaam" class="col-xs-6 col-xxs-12 control-label">Groepsnaam</label>
-        <div class="col-xs-6 col-xxs-12">
-          <input type="text" class="form-control" id="_groepsnaam" ng-model="data.activegroup.naam" disabled/>
+    <!-- Groeps gegevens -->
+    <div class="row">
+      <!-- Algeemeen -->
+      <div class="col-md-4 col-xs-12">
+        <legend>Algemeen</legend>
+        <div class="form-group readonly">
+          <label for="_groepsnaam" class="col-xs-6 col-xxs-12 control-label">Groepsnaam</label>
+          <div class="col-xs-6 col-xxs-12">
+            <input type="text" class="form-control" id="_groepsnaam" ng-model="data.activegroup.naam" disabled/>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group readonly">
-        <label for="_groepsnummer" class="col-xs-6 col-xxs-12 control-label">Groepsnummer</label>
-        <div class="col-xs-6 col-xxs-12">
-          <input type="text" class="form-control" id="_groepsnummer" ng-model="data.activegroup.groepsnummer" disabled/>
+        <div class="form-group readonly">
+          <label for="_groepsnummer" class="col-xs-6 col-xxs-12 control-label">Groepsnummer</label>
+          <div class="col-xs-6 col-xxs-12">
+            <input type="text" class="form-control" id="_groepsnummer" ng-model="data.activegroup.groepsnummer"
+                   disabled/>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="_website" class="col-xs-6 col-xss-12 control-label">Website</label>
-        <div class="col-xs-6 col-xxs-12">
-          <input type="text" class="form-control" id="_website" ng-model="data.activegroup.website" />
+        <div class="form-group">
+          <label for="_website" class="col-xs-6 col-xss-12 control-label">Website</label>
+          <div class="col-xs-6 col-xxs-12">
+            <input type="text" class="form-control" id="_website" ng-model="data.activegroup.website"/>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="_vrijeInfo" class="col-xs-6 col-xxs-12 control-label">Vrije info</label>
-        <div class="col-xs-6 col-xxs-12">
-          <textarea class="form-control" id="_vrijeInfo" ng-model="data.activegroup.vrijeInfo" ng-disabled="!data.activegroup.kanWijzigen"/>
+        <div class="form-group">
+          <label for="_vrijeInfo" class="col-xs-6 col-xxs-12 control-label">Vrije info</label>
+          <div class="col-xs-6 col-xxs-12">
+            <textarea class="form-control" id="_vrijeInfo" ng-model="data.activegroup.vrijeInfo"
+                      ng-disabled="!data.activegroup.kanWijzigen"/>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="_email" class="col-xs-6 col-xxs-12 control-label">E-mail</label>
-        <div class="col-xs-6 col-xxs-12">
-          <input type="text" class="form-control" id="_email" ng-model="data.activegroup.email" ng-disabled="!data.activegroup.kanWijzigen"/>
+        <div class="form-group">
+          <label for="_email" class="col-xs-6 col-xxs-12 control-label">E-mail</label>
+          <div class="col-xs-6 col-xxs-12">
+            <input type="text" class="form-control" id="_email" ng-model="data.activegroup.email"
+                   ng-disabled="!data.activegroup.kanWijzigen"/>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group ">
-        <label for="_oprichtingsDatum" class="col-xs-6 col-xxs-12 control-label">Oprichtingsdatum</label>
-        <div class="col-xs-6 col-xxs-12">
-          <div class="input-group">
-            <input type="text" name="oprichtingsdatum" id="_oprichtingsDatum" ng-model="data.activegroup.opgericht"
-                   class="form-control" is-open="popupCal.opened" datepicker-options="dateOptions"
-                   close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date ng-disabled="!data.activegroup.kanWijzigen"/>
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default btn-datepicker form-control" ng-click="popupCal()" ng-disabled="!data.activegroup.kanWijzigen">
+        <div class="form-group ">
+          <label for="_oprichtingsDatum" class="col-xs-6 col-xxs-12 control-label">Oprichtingsdatum</label>
+          <div class="col-xs-6 col-xxs-12">
+            <div class="input-group">
+              <input type="text" name="oprichtingsdatum" id="_oprichtingsDatum" ng-model="data.activegroup.opgericht"
+                     class="form-control" is-open="popupCal.opened" datepicker-options="dateOptions"
+                     close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date
+                     ng-disabled="!data.activegroup.kanWijzigen"/>
+              <span class="input-group-btn">
+              <button type="button" class="btn btn-default btn-datepicker form-control" ng-click="popupCal()"
+                      ng-disabled="!data.activegroup.kanWijzigen">
                 <i class="fa fa-calendar"></i>
               </button>
             </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="_rekeningNummer" class="col-xs-6 col-xxs-12 control-label">Rekeningnummer</label>
-        <div class="col-xs-6 col-xxs-12">
-          <input type="text" class="form-control" id="_rekeningNummer" ng-model="data.activegroup.rekeningnummer" ng-disabled="!data.activegroup.kanWijzigen"/>
-          <!-- Nationaal XXX-XXXXXXX-XX -->
-          <!-- Internationaal IBAN BEXX XXXX XXXX XXXX -->
-          <!-- BIC KREDBEBB -->
-        </div>
-      </div>
-
-      <label class="form-group control checkbox">
-        <div class="col-xs-6 col-xxs-12 control-label">Leiding verbeterd</div>
-        <div class="col-xs-6 col-xxs-12">
-          <input type="checkbox" ng-checked="data.activegroup.facturatieLeidingCheck"
-                 ng-model="data.activegroup.facturatieLeidingCheck"
-                 ng-disabled="(data.activegroup.facturatieLeidingCheck && data.activegroup.facturatieLeidingSaved) || !data.activegroup.kanWijzigen"
-                 disabled="disabled" />
-          <span class="control-indicator"></span>
-        </div>
-      </label>
-
-      <label class="form-group control checkbox">
-        <div class="col-xs-6 col-xxs-12 control-label">Leden verbeterd</div>
-        <div class="col-xs-6 col-xxs-12">
-          <input type="checkbox" ng-checked="data.activegroup.facturatieLedenCheck"
-                 ng-model="data.activegroup.facturatieLedenCheck"
-                 ng-disabled="(data.activegroup.facturatieLedenCheck && data.activegroup.facturatieLedenSaved) || !data.activegroup.kanWijzigen"
-                 disabled="disabled" />
-          <span class="control-indicator"></span>
-        </div>
-      </label>
-
-    </div>
-
-    <!-- Contacten -->
-    <div class="col-md-4">
-      <legend>Contact</legend>
-      <div class="form-group readonly" ng-if="data.activegroup.groepsleiding">
-        <label>Groepsleiding</label>
-        <ul>
-          <!-- mail en Gsm moeten link zijn  -->
-          <li ng-repeat="groepsleiding in data.activegroup.groepsleiding">{{ groepsleiding.naam }}<br><a href="mailto:{{ groepsleiding.email }}">{{ groepsleiding.email }}</a></li>
-        </ul>
-      </div>
-
-      <div class="form-group readonly" ng-if="data.activegroup.vga">
-        <label>Verantwoordelijke Groepsadministratie</label>
-        <ul>
-          <li ng-repeat="vga in data.activegroup.vga">{{ vga.naam }}<br><a href="mailto:{{ vga.email }}">{{ vga.email }}</a></li>
-        </ul>
-      </div>
-
-      <div class="form-group readonly" ng-if="data.activegroup.fv">
-        <label>Financieel Verantwoordelijke</label>
-        <ul>
-          <li ng-repeat="fv in data.activegroup.fv">{{ fv.naam }}<br><a href="mailto:{{ fv.email }}">{{ fv.email }}</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Lokalen -->
-    <div class="col-md-4">
-      <fieldset>
-        <legend>Lokalen
-          <div class="pull-right">
-            <button ng-click="addAdres()" class="btn-minimal" title="Lokaal toevoegen" ng-show="data.activegroup.kanWijzigen">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
+        <div class="form-group">
+          <label for="_rekeningNummer" class="col-xs-6 col-xxs-12 control-label">Rekeningnummer</label>
+          <div class="col-xs-6 col-xxs-12">
+            <input type="text" class="form-control" id="_rekeningNummer" ng-model="data.activegroup.rekeningnummer"
+                   ng-disabled="!data.activegroup.kanWijzigen"/>
+            <!-- Nationaal XXX-XXXXXXX-XX -->
+            <!-- Internationaal IBAN BEXX XXXX XXXX XXXX -->
+            <!-- BIC KREDBEBB -->
           </div>
-        </legend>
-        <fieldset ng-repeat="lokaal in data.activegroup.adressen">
-          <legend class="clearfix" ng-init="showme = false; " ng-click="showme = showme ? false : true">
-           <div class="lokaal-legend pull-left">
-             <i class="fa fa-map-marker" aria-hidden="true" ></i>{{ markerLabels[$index] }}
-           </div>
-            <div ng-if="lokaal.beschrijving" class="pull-left">
-              {{ lokaal.beschrijving }}
-            </div>
-            <div ng-if="!lokaal.beschrijving && (lokaal.straat || lokaal.postcode || lokaal.gemeente)" class="pull-left" >
-              {{ lokaal.straat }} - {{ lokaal.gemeente }}
-            </div>
-            <div ng-if="!lokaal.beschrijving && !(lokaal.straat || lokaal.bus || lokaal.postcode || lokaal.gemeente)" class="pull-left" >
-              Nieuw lokaal
-            </div>
+        </div>
+
+        <label class="form-group control checkbox">
+          <div class="col-xs-6 col-xxs-12 control-label">Leiding verbeterd</div>
+          <div class="col-xs-6 col-xxs-12">
+            <input type="checkbox" ng-checked="data.activegroup.facturatieLeidingCheck"
+                   ng-model="data.activegroup.facturatieLeidingCheck"
+                   ng-disabled="(data.activegroup.facturatieLeidingCheck && data.activegroup.facturatieLeidingSaved) || !data.activegroup.kanWijzigen"
+                   disabled="disabled"/>
+            <span class="control-indicator"></span>
+          </div>
+        </label>
+
+        <label class="form-group control checkbox">
+          <div class="col-xs-6 col-xxs-12 control-label">Leden verbeterd</div>
+          <div class="col-xs-6 col-xxs-12">
+            <input type="checkbox" ng-checked="data.activegroup.facturatieLedenCheck"
+                   ng-model="data.activegroup.facturatieLedenCheck"
+                   ng-disabled="(data.activegroup.facturatieLedenCheck && data.activegroup.facturatieLedenSaved) || !data.activegroup.kanWijzigen"
+                   disabled="disabled"/>
+            <span class="control-indicator"></span>
+          </div>
+        </label>
+
+      </div>
+
+      <!-- Contacten -->
+      <div class="col-md-4 col-xs-12">
+        <legend>Contact</legend>
+        <div class="form-group readonly" ng-if="data.activegroup.groepsleiding">
+          <label>Groepsleiding</label>
+          <ul>
+            <!-- mail en Gsm moeten link zijn  -->
+            <li ng-repeat="groepsleiding in data.activegroup.groepsleiding">{{ groepsleiding.naam }}<br><a
+              href="mailto:{{ groepsleiding.email }}">{{ groepsleiding.email }}</a></li>
+          </ul>
+        </div>
+
+        <div class="form-group readonly" ng-if="data.activegroup.vga">
+          <label>Verantwoordelijke Groepsadministratie</label>
+          <ul>
+            <li ng-repeat="vga in data.activegroup.vga">{{ vga.naam }}<br><a href="mailto:{{ vga.email }}">{{ vga.email
+              }}</a></li>
+          </ul>
+        </div>
+
+        <div class="form-group readonly" ng-if="data.activegroup.fv">
+          <label>Financieel Verantwoordelijke</label>
+          <ul>
+            <li ng-repeat="fv in data.activegroup.fv">{{ fv.naam }}<br><a href="mailto:{{ fv.email }}">{{ fv.email
+              }}</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Lokalen -->
+      <div class="col-md-4 col-xs-12">
+        <fieldset>
+          <legend>Lokalen
             <div class="pull-right">
-              <button  class="btn-minimal" ng-show="data.activegroup.kanWijzigen">
-                <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
-                <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
-              </button>
-              <button ng-click="deleteLokaal(adres.id)" class="btn-minimal" ng-show="data.activegroup.kanWijzigen">
-                <span class="glyphicon glyphicon-trash" title="Lokaal wissen"></span>
+              <button ng-click="addAdres()" class="btn-minimal" title="Lokaal toevoegen"
+                      ng-show="data.activegroup.kanWijzigen">
+                <span class="glyphicon glyphicon-plus"></span>
               </button>
             </div>
           </legend>
-          <fieldset ng-hide="!showme" class="ga-functie-list">
-            <div class="form-group">
-              <label for="_beschrijving" class=" control-label col-xs-3 col-xxs-12">Beschrijving</label>
-              <div class="col-xs-9 col-xxs-2">
-                <input type="text" class="form-control ga-functie-list" ng-model="lokaal.beschrijving" id="_beschrijving" />
+          <fieldset ng-repeat="lokaal in data.activegroup.adressen">
+            <legend class="clearfix" ng-init="showme = false; " ng-click="showme = showme ? false : true">
+              <div class="row">
+                <div class="col-xs-2">
+                  <div class="lokaal-legend">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>{{ markerLabels[$index] }}
+                  </div>
+                </div>
+                <div class="col-xs-7">
+                  <div ng-if="lokaal.beschrijving" class="ellipsis">
+                    {{ lokaal.beschrijving }}
+                  </div>
+                  <div ng-if="!lokaal.beschrijving && (lokaal.straat || lokaal.postcode || lokaal.gemeente)" class="ellipsis">
+                    {{ lokaal.straat }} - {{ lokaal.gemeente }}
+                  </div>
+                  <div
+                    ng-if="!lokaal.beschrijving && !(lokaal.straat || lokaal.bus || lokaal.postcode || lokaal.gemeente)" class="ellipsis">
+                    Nieuw lokaal
+                  </div>
+                </div>
+              <div class="col-xs-3">
+                <div class="pull-right">
+                  <button class="btn-minimal" ng-show="data.activegroup.kanWijzigen">
+                    <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
+                    <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
+                  </button>
+                  <button ng-click="deleteLokaal(adres.id)" class="btn-minimal" ng-show="data.activegroup.kanWijzigen">
+                    <span class="glyphicon glyphicon-trash" title="Lokaal wissen"></span>
+                  </button>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="_woonplaats" class="col-xs-3 col-xxs-12 control-label">Gemeente</label>
-              <div class="col-xs-9 col-xxs-2">
-                <input type="text" class="form-control ga-functie-list" ng-init="gemeenteWrap = lokaal.postcode + ' ' + lokaal.gemeente" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-bind="lokaal.postcode + ' ' + lokaal.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)" typeahead-on-select="bevestigGemeente($item, lokaal)"/>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="_straatnaam" class="col-xs-3 col-xxs-12 control-label">Straat</label>
-              <div class="col-xs-5 col-xxs-12">
-                <input type="text" class="form-control" ng-disabled="!lokaal.postcode || !lokaal.gemeente" placeholder="Straatnaam" id="_straatnaam" ng-model="lokaal.straat" uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, lokaal) " typeahead-on-select="bevestigStraat($item, lokaal)"/>
-              </div>
-              <div class="col-xs-2 col-xxs-12">
-                <input type="text" class="form-control" id="_huisnummer" maxlength="5" ng-model="lokaal.nummer" placeholder="Nr." ng-disabled="!lokaal.postcode || !lokaal.gemeente" />
-              </div>
-              <div class="col-xs-2 col-xxs-12">
-                <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-disabled=" !lokaal.postcode || !lokaal.gemeente" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="_straatnaam" class="col-xs-3 col-xxs-12 control-label">Telefoon</label>
-              <div class="col-xs-9 col-xxs-12">
-                <input type="text" class="form-control" id="_telefoon" ng-model="lokaal.telefoon" />
-              </div>
-            </div>
-            <a href="" class="pull-right" ng-click="centerMap(lokaal.positie.latitude, lokaal.positie.longitude, lokaal.id)">Toon op kaart</a>
+      </div>
 
-          </fieldset>
-        </fieldset>
+
+      </legend>
+      <fieldset ng-hide="!showme" class="ga-functie-list">
+        <div class="form-group">
+          <label for="_beschrijving" class=" control-label col-xs-3 col-xxs-12">Beschrijving</label>
+          <div class="col-xs-9 col-xxs-2">
+            <input type="text" class="form-control ga-functie-list" ng-model="lokaal.beschrijving" id="_beschrijving"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="_woonplaats" class="col-xs-3 col-xxs-12 control-label">Gemeente</label>
+          <div class="col-xs-9 col-xxs-2">
+            <input type="text" class="form-control ga-functie-list"
+                   ng-init="gemeenteWrap = lokaal.postcode + ' ' + lokaal.gemeente" ng-model="gemeenteWrap"
+                   id="_gemeenteWrap" ng-bind="lokaal.postcode + ' ' + lokaal.postcode"
+                   uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"
+                   typeahead-on-select="bevestigGemeente($item, lokaal)"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="_straatnaam" class="col-xs-3 col-xxs-12 control-label">Straat</label>
+          <div class="col-xs-5 col-xxs-12">
+            <input type="text" class="form-control" ng-disabled="!lokaal.postcode || !lokaal.gemeente"
+                   placeholder="Straatnaam" id="_straatnaam" ng-model="lokaal.straat"
+                   uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, lokaal) "
+                   typeahead-on-select="bevestigStraat($item, lokaal)"/>
+          </div>
+          <div class="col-xs-2 col-xxs-12">
+            <input type="text" class="form-control" id="_huisnummer" maxlength="5" ng-model="lokaal.nummer"
+                   placeholder="Nr." ng-disabled="!lokaal.postcode || !lokaal.gemeente"/>
+          </div>
+          <div class="col-xs-2 col-xxs-12">
+            <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus"
+                   ng-disabled=" !lokaal.postcode || !lokaal.gemeente"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="_straatnaam" class="col-xs-3 col-xxs-12 control-label">Telefoon</label>
+          <div class="col-xs-9 col-xxs-12">
+            <input type="text" class="form-control" id="_telefoon" ng-model="lokaal.telefoon"/>
+          </div>
+        </div>
+        <a href="" class="pull-right"
+           ng-click="centerMap(lokaal.positie.latitude, lokaal.positie.longitude, lokaal.id)">Toon op kaart</a>
+
+      </fieldset>
+      </fieldset>
       </fieldset>
       <div id="lokalen-kaart">
         Google Map
@@ -241,13 +267,17 @@
           </button>
         </div>
       </legend>
-      <div ng-if="data.activegroup.groepseigenFuncties" ng-repeat="groepseigenFunctie in data.activegroup.groepseigenFuncties">
+      <div ng-if="data.activegroup.groepseigenFuncties"
+           ng-repeat="groepseigenFunctie in data.activegroup.groepseigenFuncties">
         <div class="form-group" ng-if="!groepseigenFunctie.deletedTimestamps">
           <div class="col-xs-11">
-            <input type="text" class="form-control ga-functie-list" ng-model="data.activegroup.groepseigenFuncties[$index].beschrijving" placeholder="Nieuwe groepseigen functie" />
+            <input type="text" class="form-control ga-functie-list"
+                   ng-model="data.activegroup.groepseigenFuncties[$index].beschrijving"
+                   placeholder="Nieuwe groepseigen functie"/>
           </div>
           <div class="col-xs-1" ng-hide="groepseigenFunctie.deletedTimestamps">
-            <button class="btn-minimal" title="groepseigenfunctie wissen" ng-click="wisGroepseigenFunctie(groepseigenFunctie.id)"
+            <button class="btn-minimal" title="groepseigenfunctie wissen"
+                    ng-click="wisGroepseigenFunctie(groepseigenFunctie.id)"
                     ng-show="data.activegroup.kanWijzigen">
               <span class="glyphicon glyphicon-trash"></span>
             </button>
@@ -257,8 +287,9 @@
 
       <div ng-if="!data.activegroup.groepseigenFuncties.length">
         <p>
-          <i>Geen groepseigen functies beschikbaar voor deze groep.</i>
-          <a ng-click="addGroepseigenFunctie()" ng-show="data.activegroup.kanWijzigen">Nieuwe groepseigen functie aanmaken.</a>
+          <i>Geen groepseigen functies beschikbaar voor deze groep.</i><br>
+          <a ng-click="addGroepseigenFunctie()" ng-show="data.activegroup.kanWijzigen">Nieuwe groepseigen functie
+            aanmaken.</a>
         </p>
       </div>
     </div>
@@ -267,7 +298,8 @@
     <fieldset class="col-md-6">
       <legend>Groepseigen gegevens
         <div class="pull-right">
-          <button class="btn-minimal" title="Groepseigen gegeven toevoegen" ng-click="addGroepseigenGegeven()" ng-show="data.activegroup.kanWijzigen">
+          <button class="btn-minimal" title="Groepseigen gegeven toevoegen" ng-click="addGroepseigenGegeven()"
+                  ng-show="data.activegroup.kanWijzigen">
             <span class="glyphicon glyphicon-plus"></span>
           </button>
         </div>
@@ -275,15 +307,18 @@
 
       <div ng-if="data.activegroup.groepseigenGegevens" class="sortable">
         <fieldset ng-repeat="groepseigenGegeven in data.activegroup.groepseigenGegevens | orderBy:'sort'"
-                  ng-init="groepseigenGegeven.status != 'nieuw'?showme = false:showme = true;" data-groepseigengegevenid="{{ groepseigenGegeven.id }}">
+                  ng-init="groepseigenGegeven.status != 'nieuw'?showme = false:showme = true;"
+                  data-groepseigengegevenid="{{ groepseigenGegeven.id }}">
           <legend>
             {{ groepseigenGegeven.label == "" ? 'Nieuw groepseigen gegeven' : groepseigenGegeven.label }}
             <span ng-if="groepseigenGegeven.label != '' ">-
               {{ groepseigenGegeven.type | fieldTypeFormatter }}
             </span>
-            <button class="btn-minimal pull-right" title="openklappen" ng-click="showme = showme ? false : true" ng-show="data.activegroup.kanWijzigen">
+            <button class="btn-minimal pull-right" title="openklappen" ng-click="showme = showme ? false : true"
+                    ng-show="data.activegroup.kanWijzigen">
               <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Groepseigen gegeven tonen"></span>
-              <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Groepseigen gegeven verbergen"></span>
+              <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up"
+                    title="Groepseigen gegeven verbergen"></span>
             </button>
           </legend>
 
@@ -293,19 +328,26 @@
               <label class="col-xs-1  control-label"><i class="fa fa-text-width" aria-hidden="true"></i></label>
               <div class="col-xs-11">
                 <!-- fix date-parse -->
-                <input type="text" class="form-control" ng-model="data.activegroup.groepseigenGegevens[$index].label" placeholder="Nieuw groepseigen gegeven" />
+                <input type="text" class="form-control" ng-model="data.activegroup.groepseigenGegevens[$index].label"
+                       placeholder="Nieuw groepseigen gegeven"/>
               </div>
             </div>
 
-            <div class="" ng-if="groepseigenGegeven.type == 'lijst' " ng-init="groepseigenGegevenIndex = $index" ng-hide="!showme">
+            <div class="" ng-if="groepseigenGegeven.type == 'lijst' " ng-init="groepseigenGegevenIndex = $index"
+                 ng-hide="!showme">
               <label class="col-xs-12">
                 Mogelijke keuzes
-                <button class="btn-minimal" title="Keuze toevoegen" ng-click="addKeuze(groepseigenGegevenIndex)"><span class="glyphicon glyphicon-plus"></span></button>
+                <button class="btn-minimal" title="Keuze toevoegen" ng-click="addKeuze(groepseigenGegevenIndex)"><span
+                  class="glyphicon glyphicon-plus"></span></button>
               </label>
-              <div class="col-xs-12" ng-repeat="keuze in data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes track by $index">
+              <div class="col-xs-12"
+                   ng-repeat="keuze in data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes track by $index">
                 <fieldset class="form-group row">
-                  <input class="col-xs-11 form-control " ng-model="data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes[$index]" placeholder="Nieuwe keuze">
-                  <button class="col-xs-1 btn-minimal " title="Keuze wissen" ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
+                  <input class="col-xs-11 form-control "
+                         ng-model="data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes[$index]"
+                         placeholder="Nieuwe keuze">
+                  <button class="col-xs-1 btn-minimal " title="Keuze wissen"
+                          ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
                     <span class="glyphicon glyphicon-trash"></span>
                   </button>
                 </fieldset>
@@ -317,7 +359,7 @@
                 <label class="control checkbox">
                   <div class="col-xs-11 col-xxs-11 control-label">Alle leiding kan wijzigen</div>
                   <div class="col-xs-1 col-xxs-1">
-                    <input type="checkbox" ng-model="data.activegroup.groepseigenGegevens[$index].kanLeidingWijzigen" />
+                    <input type="checkbox" ng-model="data.activegroup.groepseigenGegevens[$index].kanLeidingWijzigen"/>
                     <span class="control-indicator"></span>
                   </div>
                 </label>
@@ -326,7 +368,7 @@
                 <label class=" control checkbox">
                   <div class="col-xs-11 col-xxs-11 control-label">Persoon zelf kan wijzigen</div>
                   <div class="col-xs-1 col-xxs-1">
-                    <input type="checkbox" ng-model="data.activegroup.groepseigenGegevens[$index].kanLidWijzigen" />
+                    <input type="checkbox" ng-model="data.activegroup.groepseigenGegevens[$index].kanLidWijzigen"/>
                     <span class="control-indicator"></span>
                   </div>
                 </label>
@@ -343,13 +385,15 @@
           </fieldset>
 
           <!-- nieuwe velden -->
-          <fieldset ng-if="groepseigenGegeven.status == 'nieuw'" ng-init="(groepseigenGegeven.status == 'nieuw' ? true : false)">
+          <fieldset ng-if="groepseigenGegeven.status == 'nieuw'"
+                    ng-init="(groepseigenGegeven.status == 'nieuw' ? true : false)">
             <div class="form-group col-xs-12" ng-hide="!showme">
               <label class="col-xs-1">
                 Veld
               </label>
               <div class="col-xs-11">
-                <input type="text" class="form-control" ng-model="data.activegroup.groepseigenGegevens[$index].label" placeholder="Nieuw groepseigen gegeven" />
+                <input type="text" class="form-control" ng-model="data.activegroup.groepseigenGegevens[$index].label"
+                       placeholder="Nieuw groepseigen gegeven"/>
               </div>
             </div>
 
@@ -359,7 +403,8 @@
               </label>
               <div class="col-lg-7 col-md-11" ng-hide="!showme">
                 <div class="btn-group">
-                  <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type" uib-btn-radio="'tekst'" title="Tekst">
+                  <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type"
+                         uib-btn-radio="'tekst'" title="Tekst">
                     <svg version="1.1" x="0px" y="0px" viewBox="0 0 1792 1792" xml:space="preserve" class="type-sgv">
                     <path d="M250.1,251.5l52.7,26.4c7.8,3.3,76.5,4.9,206.1,4.9c28.6,0,71.6-0.7,128.9-2c57.3-1.3,100.3-2,128.9-2
                     c45.6,0,125.8-0.3,240.7-1c114.9-0.7,214-0.8,297.4-0.5c83.3,0.3,163.7,1.8,241.2,4.4c21.5,0.7,39.7-9.4,54.7-30.3l41-1
@@ -376,7 +421,8 @@
                     c-12.4,7.8-23.4,31.1-33.2,69.8s-20,75-30.8,108.9s-24.6,51.4-41.5,52.7c-27.3-16.9-45.6-31.3-54.7-43v-374L250.1,251.5z" />
                   </svg>
                   </label>
-                  <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type" uib-btn-radio="'tekst_meerdere_lijnen'" title="Tekst op meerdere lijnen">
+                  <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type"
+                         uib-btn-radio="'tekst_meerdere_lijnen'" title="Tekst op meerdere lijnen">
                     <svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1792 1792" style="enable-background:new 0 0 1792 1792;" xml:space="preserve" class="type-sgv">
                     <style type="text/css">
                       .st0 {
@@ -408,27 +454,31 @@
                     <line class="st0" x1="170" y1="1457" x2="1700" y2="1457"></line>
                   </svg>
                   </label>
-                  <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type" uib-btn-radio="'email'" title="E-mail">
+                  <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type"
+                         uib-btn-radio="'email'" title="E-mail">
                     <i class="fa fa-envelope-o type-fa" aria-hidden="true"></i>
                   </label>
-                  <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type" uib-btn-radio="'lijst'" title="Lijst">
+                  <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type"
+                         uib-btn-radio="'lijst'" title="Lijst">
                     <i class="fa fa-caret-square-o-down type-fa" aria-hidden="true"></i>
                   </label>
-                  <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type" uib-btn-radio="'vinkje'" title="Vinkje">
+                  <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type"
+                         uib-btn-radio="'vinkje'" title="Vinkje">
                     <i class="fa fa-check-square-o type-fa" aria-hidden="true"></i>
                   </label>
 
-                  <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type" uib-btn-radio="'groep'" title="Groep van velden">
+                  <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type"
+                         uib-btn-radio="'groep'" title="Groep van velden">
                     <svg version="1.1" x="0px" y="0px" viewBox="0 0 500 500" class="type-sgv">
                       <path d="M319,190.3c0-5.7-4.6-10.3-10.3-10.3H19.3C13.6,180,9,184.6,9,190.3v289.4c0,5.7,4.6,10.3,10.3,10.3h289.4
-                              c5.7,0,10.3-4.6,10.3-10.3V190.3z" style="fill: #666666" />
+                              c5.7,0,10.3-4.6,10.3-10.3V190.3z" style="fill: #666666"/>
                       <g>
                         <path d="M404,401V111.9c0-5.7-5.5-9.9-11.2-9.9H103.7c-5.7,0-10.7,4.2-10.7,9.9V159h215.3c17,0,31.7,14.5,31.7,31.6
-                                  V412h52.8C398.5,412,404,406.7,404,401z" style="fill: #333333" />
+                                  V412h52.8C398.5,412,404,406.7,404,401z" style="fill: #333333"/>
                       </g>
                       <g>
                         <path d="M492,320.5V31.3c0-5.7-4.9-10.3-10.6-10.3H192.3c-5.7,0-10.3,4.6-10.3,10.3V79h215c17,0,31,13.9,31,31v221h53.4
-                                  C487.1,331,492,326.1,492,320.5z" />
+                                  C487.1,331,492,326.1,492,320.5z"/>
                       </g>
                     </svg>
                   </label>
@@ -439,20 +489,26 @@
               </div>
             </div>
 
-            <div class="form-group" ng-init="groepseigenGegevenIndex = $index" ng-show="showme && data.activegroup.groepseigenGegevens[$index].type == 'lijst'">
+            <div class="form-group" ng-init="groepseigenGegevenIndex = $index"
+                 ng-show="showme && data.activegroup.groepseigenGegevens[$index].type == 'lijst'">
               <label class="col-xs-12">
                 Mogelijke keuzes
-                <button class="btn-minimal" title="Keuze toevoegen" ng-click="addKeuze(groepseigenGegevenIndex)"><span class="glyphicon glyphicon-plus"></span></button>
+                <button class="btn-minimal" title="Keuze toevoegen" ng-click="addKeuze(groepseigenGegevenIndex)"><span
+                  class="glyphicon glyphicon-plus"></span></button>
               </label>
-              <div class="row option-list" ng-repeat="keuze in data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes track by $index">
+              <div class="row option-list"
+                   ng-repeat="keuze in data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes track by $index">
                 <div class="col-xs-12">
                   <div class="input-group">
                   <span class="input-group-btn">
-                    <button class="btn-minimal" title="Keuze wissen" ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
+                    <button class="btn-minimal" title="Keuze wissen"
+                            ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
                       <span class="glyphicon glyphicon-trash"></span>
                     </button>
                   </span>
-                    <input class="form-control col-md-11" ng-model="data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes[$index]" placeholder="Nieuwe keuze">
+                    <input class="form-control col-md-11"
+                           ng-model="data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes[$index]"
+                           placeholder="Nieuwe keuze">
                   </div>
                 </div>
               </div>
@@ -463,7 +519,7 @@
                 <label class="control checkbox">
                   <div class="col-xs-11 col-xxs-11 control-label">Alle leiding kan wijzigen</div>
                   <div class="col-xs-1 col-xxs-1">
-                    <input type="checkbox" ng-model="data.activegroup.groepseigenGegevens[$index].kanLeidingWijzigen" />
+                    <input type="checkbox" ng-model="data.activegroup.groepseigenGegevens[$index].kanLeidingWijzigen"/>
                     <span class="control-indicator"></span>
                   </div>
                 </label>
@@ -472,7 +528,7 @@
                 <label class=" control checkbox">
                   <div class="col-xs-11 col-xxs-11 control-label">Persoon zelf kan wijzigen</div>
                   <div class="col-xs-1 col-xxs-1">
-                    <input type="checkbox" ng-model="data.activegroup.groepseigenGegevens[$index].kanLidWijzigen" />
+                    <input type="checkbox" ng-model="data.activegroup.groepseigenGegevens[$index].kanLidWijzigen"/>
                     <span class="control-indicator"></span>
                   </div>
                 </label>
@@ -493,14 +549,14 @@
 
       <div ng-if="!data.activegroup.groepseigenGegevens.length">
         <p>
-          <i>Geen groepseigen gegevens beschikbaar voor deze groep.</i>
-          <a ng-click="addGroepseigenGegeven()" ng-show="data.activegroup.kanWijzigen">Nieuw groepseigen gegeven aanmaken.</a>
+          <i>Geen groepseigen gegevens beschikbaar voor deze groep.</i><br>
+          <a ng-click="addGroepseigenGegeven()" ng-show="data.activegroup.kanWijzigen">Nieuw groepseigen gegeven
+            aanmaken.</a>
         </p>
       </div>
     </fieldset>
   </div>
 </div>
-
 
 
 </div>
