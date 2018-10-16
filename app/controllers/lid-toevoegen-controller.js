@@ -99,6 +99,10 @@
       $scope.lid = lid;
       $scope.lid.adressen[0].showme = true;
 
+      if($scope.lidaanvraag) {
+        $scope.updateSuggesties();
+      }
+
       /*
       * Initialisatie van andere benodigdheden.
       * ---------------------------------------

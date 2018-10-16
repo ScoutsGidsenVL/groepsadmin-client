@@ -44,7 +44,7 @@
           $scope.groepGeladen = true;
         });
 
-    function init() {
+    function init(groepsnummer) {
       if(gemeenteScope) {
         gemeenteScope.gemeenteWrap = '';
       }
@@ -56,6 +56,10 @@
           land: 'BE'
         }
       };
+
+      if(groepsnummer) {
+        $scope.lid.groepsnummer = groepsnummer;
+      }
     }
 
     $scope.zoekGemeente = function(zoekterm){
@@ -94,6 +98,9 @@
     $scope.submitForm = function(form) {
       if (form.$valid) {
         $scope.formsubmitting = true;
+        if($scope.lid.persoonsgegevens.rekeningnummer === '') {
+          delete $scope.lid.persoonsgegevens.rekeningnummer;
+        }
         RestService.LidAanvraag.save($scope.lid).$promise
           .then(
             function () {
@@ -101,7 +108,7 @@
               $scope.lidwordenForm.$setUntouched();
               $scope.formsubmitting = false;
               AlertService.add('success ', "Aanvraag is verstuurd.");
-              init();
+              init($scope.lid.groepsnummer);
             })
           .catch(function(error) {
             $scope.saving = false;
