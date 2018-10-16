@@ -8,20 +8,25 @@
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
       <formerrorbutton formulier="nieuwLidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
-      <button type="submit" class="btn btn-apply" ng-disabled="nieuwLidForm.$invalid" ng-click="opslaan()" ng-show="lid"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
+      <button type="submit" class="btn btn-apply" ng-disabled="nieuwLidForm.$invalid" ng-click="opslaan()"
+              ng-show="lid"><span class="glyphicon glyphicon-floppy-disk"
+                                  aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse"
+                                                                                  ng-show="saving"></i></button>
     </div>
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>
         <formerrorbutton formulier="nieuwLidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
-        <button id="split-button" type="submit" class="btn btn-apply"  ng-disabled="nieuwLidForm.$invalid" ng-click="opslaan()">
-          <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i>
+        <button id="split-button" type="submit" class="btn btn-apply" ng-disabled="nieuwLidForm.$invalid"
+                ng-click="opslaan()">
+          <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i
+          class="fa fa-spinner fa-pulse" ng-show="saving"></i>
         </button>
-        <button  ng-disabled="nieuwLidForm.$invalid" type="button" class="btn btn-apply" uib-dropdown-toggle>
+        <button ng-disabled="nieuwLidForm.$invalid" type="button" class="btn btn-apply" uib-dropdown-toggle>
           <span class="caret"></span>
           <span class="sr-only">Opslaan</span>
         </button>
         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-          <li role="menuitem"><a href="#" ng-click="opslaan()" >Opslaan</a></li>
+          <li role="menuitem"><a href="#" ng-click="opslaan()">Opslaan</a></li>
         </ul>
       </div>
     </div>
@@ -29,327 +34,399 @@
 </div>
 
 <div class="panel panel-default panel-default--hasmargin">
-<form name="nieuwLidForm" ng-submit="submitForm(nieuwLidForm)" novalidate>
-<div class="panel-body form-hover clearfix">
-  <div class="row">
-    <div class="col-lg-4 col-sm-6 col-xs-12">
-      <!-- Persoonlijk-->
-      <section>
-        <fieldset>
-          <legend>Persoonlijk</legend>
-          <div class="form-group" ng-class="{ 'has-error': nieuwLidForm.voornaam.$touched && nieuwLidForm.voornaam.$invalid }">
-            <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
-            <div class="col-xs-7 col-xxs-12">
-                  <input type="text" class="form-control" name="voornaam" id="_voornaam" ng-model="lid.vgagegevens.voornaam" required ng-change="updateSuggesties()" ng-model-options="{debounce: 500}" />
-              <div ng-messages="nieuwLidForm.voornaam.$error" ng-show="nieuwLidForm.voornaam.$touched">
-                  <div ng-messages-include="partials/messages.html"></div>
-              </div>
-            </div>
-          </div>
-          <div class="form-group" ng-class="{ 'has-error': nieuwLidForm.achternaam.$touched && nieuwLidForm.achternaam.$invalid }">
-            <label for="_achternaam" class="col-xs-5 col-xxs-12 control-label">Achternaam</label>
-            <div class="col-xs-7 col-xxs-12">
-                  <input type="text" class="form-control" name="achternaam" id="_achternaam" ng-model="lid.vgagegevens.achternaam" required ng-change="updateSuggesties()" ng-model-options="{debounce: 500}" />
-              <div ng-messages="nieuwLidForm.achternaam.$error" ng-show="nieuwLidForm.achternaam.$touched">
-                  <div ng-messages-include="partials/messages.html"></div>
-              </div>
-            </div>
-          </div>
-          <div class="form-group" ng-class="{ 'has-error': nieuwLidForm.geboortedatum.$touched && nieuwLidForm.geboortedatum.$invalid }">
-            <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
-            <div class="col-xs-7 col-xxs-12">
-              <!-- fix date-parse -->
-              <div class="input-group">
-                <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum" class="form-control" is-open="popupCal.opened" datepicker-options="dateOptions" close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date  ng-disabled="!hasPermission('vgagegevens')" required/>
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default btn-datepicker form-control" ng-disabled="!hasPermission('vgagegevens')" ng-click="popupCal()"><i class="fa fa-calendar"></i></button>
-                </span>
-              </div>
-              <div ng-messages="nieuwLidForm.geboortedatum.$error" ng-show="nieuwLidForm.geboortedatum.$touched">
-                  <div ng-messages-include="partials/messages.html"></div>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="_geslacht" class="col-xs-5 col-xxs-12 control-label">Geslacht</label>
-            <div class="col-xs-7 col-xxs-12">
-              <select class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht">
-                <option value="man">Mannelijk</option>
-                <option value="vrouw">Vrouwelijk</option>
-              </select>
-            </div>
-          </div>
-          <label class="form-group control checkbox">
-            <div class="col-xs-5 col-xxs-12 control-label">Persoon met beperking</div>
-            <div class="col-xs-7 col-xxs-12">
-              <input type="checkbox" class="" id="_beperking" ng-model="lid.vgagegevens.beperking" />
-              <span class="control-indicator"></span>
-            </div>
-          </label>
-          <label class="form-group control checkbox">
-            <div class="col-xs-5 col-xxs-12 control-label">Verminderd lidgeld</div>
-            <div class="col-xs-7 col-xxs-12">
-              <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.vgagegevens.verminderdlidgeld" />
-              <span class="control-indicator"></span>
-            </div>
-          </label>
-          <div class="form-group" ng-class="{ 'has-error': nieuwLidForm.email.$touched && nieuwLidForm.email.$invalid, 'readonly' : !hasPermission('email') }">
-            <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
-            <div class="col-xs-7 col-xxs-12">
-              <input type="email" name="email" class="form-control" id="_email" ng-model="lid.email" />
-              <div ng-messages="nieuwLidForm.email.$error">
-                  <div ng-messages-include="partials/messages.html"></div>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
-            <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm" />
-            </div>
-          </div>
-          <div class="form-group" ng-class="{ 'has-error': nieuwLidForm.rekeningnummer.$touched && nieuwLidForm.rekeningnummer.$invalid }" >
-            <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
-            <div class="col-xs-7 col-xxs-12">
-              <!--  value="BE52 0013 0402 0409" -->
-              <input type="text" name="rekeningnummer" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer"  ng-keyup="checkField(nieuwLidForm.rekeningnummer);"/>
-              <div ng-messages="nieuwLidForm.rekeningnummer.$error">
-                  <div ng-messages-include="partials/messages.html"></div>
-              </div>
-            </div>
-          </div>
-        </fieldset>
-      </section>
-    </div>
-    <div class="col-lg-4 col-sm-6 col-xs-12">
-      <!-- Adressen -->
-      <section>
-        <fieldset>
-          <legend >
-            Adressen
-             <div class="pull-right">
-              <button ng-click="addAdres(nieuwLidForm.$valid)" class="btn-minimal" title="Adres toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
-            </div>
-          </legend>
-          <fieldset class="ga-adressen-list" ng-repeat="adres in lid.adressen">
-              <section class="clearfix">
-                <legend ng-class="{'has-error': adres.hasErrors}" ng-click="adres.showme = !adres.showme">
-                      {{ !adres.straat && !adres.bus && !adres.postcode && !adres.gemeente ? 'Nieuw adres' : '' }}
-                      {{ adres.straat ? adres.straat :'' }}
-                      {{ adres.nummer ? adres.nummer :''}}
-                      {{ adres.bus ? adres.bus :''}}
-                      {{ adres.bus || adres.nummer || adres.straat ? ',' : '' }}
-                      {{ adres.gemeente ? adres.gemeente :''}}
-                      {{ adres.postadres ? ' ' : '' }}<i ng-if="adres.postadres" class="fa fa-envelope" aria-hidden="true"></i>
-                    <div class="pull-right" ng-init="showme = (adres.postadres == true) ? true : false; ">
-                      <button type="button" class="btn-minimal">
-                        <span ng-hide="adres.showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
-                        <span ng-hide="!adres.showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
-                      </button>
-                      <button ng-click="deleteAdres(adres.id)" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
-                    </div>
-                </legend>
-                <fieldset ng-hide="!adres.showme">
-                  <div class="form-group" ng-class="{ 'has-error': nieuwLidForm['adressen['+$index+'].land'].$invalid }">
-                    <label for="_land" class="col-xs-4 col-xxs-12 control-label">Land</label>
-                    <div class="col-xs-8 col-xxs-12">
-                      <select class="selectpicker" name="adressen[{{ $index }}].land" title="Kies een land..." id="_land" ng-model="adres.land" ng-disabled="!hasPermission('adressen')" required>
-                        <option value="BE">België</option>
-                        <option value="DE">Duitsland</option>
-                        <option value="FR">Frankrijk</option>
-                        <option value="GB">Groot-Brittannië</option>
-                        <option value="LU">Luxemburg</option>
-                        <option value="NL">Nederland</option>
-                      </select>
-                      <div ng-messages="nieuwLidForm['adressen['+$index+'].land'].$error">
-                        <div ng-messages-include="partials/messages.html"></div>
-                      </div>
-                    </div>
+  <form name="nieuwLidForm" ng-submit="submitForm(nieuwLidForm)" novalidate>
+    <div class="panel-body form-hover clearfix">
+      <div class="row">
+        <div class="col-lg-4 col-sm-6 col-xs-12">
+          <!-- Persoonlijk-->
+          <section>
+            <fieldset>
+              <legend>Persoonlijk</legend>
+              <div class="form-group"
+                   ng-class="{ 'has-error': nieuwLidForm.voornaam.$touched && nieuwLidForm.voornaam.$invalid }">
+                <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
+                <div class="col-xs-7 col-xxs-12">
+                  <input type="text" class="form-control" name="voornaam" id="_voornaam"
+                         ng-model="lid.vgagegevens.voornaam" required ng-change="updateSuggesties()"
+                         ng-model-options="{debounce: 500}"/>
+                  <div ng-messages="nieuwLidForm.voornaam.$error" ng-show="nieuwLidForm.voornaam.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
                   </div>
-                  <div class="form-group" ng-class="{ 'has-error': nieuwLidForm['adressen['+$index+'].gemeente'].$touched && nieuwLidForm['adressen['+$index+'].gemeente'].$invalid }">
-                    <label for="_gemeenteWrap" class="col-xs-4 col-xxs-12 control-label">Woonplaats</label>
-                    <div class="col-xs-8 col-xxs-2">
-                      <input type="text" name="adressen[{{ $index }}].gemeente" class="form-control ga-functie-list" ng-init="gemeenteWrap = adres.postcode && adres.gemeente ? adres.postcode + ' ' + adres.gemeente : ''" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" required/>
-                      <div ng-messages="nieuwLidForm['adressen['+$index+'].gemeente'].$error">
-                          <div ng-messages-include="partials/messages.html"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group" ng-class="{ 'has-error': (nieuwLidForm['adressen['+$index+'].straatnaam'].$touched && nieuwLidForm['adressen['+$index+'].straatnaam'].$invalid) || (nieuwLidForm['adressen['+$index+'].nummer'].$touched && nieuwLidForm['adressen['+$index+'].nummer'].$invalid ) }">
-                    <label for="_straatnaam" class="col-xs-4 col-xxs-12 control-label">Straat</label>
-                    <div class="col-xs-5 col-xxs-12">
-                      <input type="text" name="adressen[{{ $index }}].straatnaam"  class="form-control" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"  placeholder="Straatnaam" id="_straatnaam" ng-model="adres.straat" uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres)"  typeahead-on-select="bevestigStraat($item, adres)" required/>
-                    </div>
-                    <div class="col-xs-2 col-xxs-12">
-                      <input type="text" class="form-control" id="_straatnummer" name="adressen[{{ $index }}].nummer"  maxlength="5" ng-model="adres.nummer"  placeholder="Nr." ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente" required/>
-                    </div>
-                    <div class="col-xs-1 col-xxs-12">
-                      <input type="text" class="form-control form-control-bus" name="adressen[{{ $index }}].bus" id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus" ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
-                    </div>
-                    <div class="col-xs-offset-4 col-xs-12 col-xxs-12" ng-show="nieuwLidForm['adressen['+$index+'].straatnaam'].$invalid && nieuwLidForm['adressen['+$index+'].straatnaam'].$touched">
-                        <p class="help-block">Straat is verplicht</p>
-                    </div>
-                    <div class="col-xs-offset-4 col-xs-12 col-xxs-12" ng-show="nieuwLidForm['adressen['+$index+'].nummer'].$invalid && nieuwLidForm['adressen['+$index+'].nummer'].$touched">
-                        <p class="help-block">Huisnummer is verplicht</p>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="_telefoon" class="col-xs-4 col-xxs-12 control-label">Telefoon</label>
-                    <div class="col-xs-8 col-xxs-12">
-                      <input type="text" class="form-control" name="adressen[{{ $index }}].telefoon" id="_telefoon" maxlength="15" ng-model="adres.telefoon"/>
-                      <div ng-messages="nieuwLidForm['adressen['+$index+'].telefoon'].$error">
-                          <div ng-messages-include="partials/messages.html"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <label class="form-group control checkbox" ng-show="lid">
-                    <div class="col-xs-4 col-xxs-12 control-label">Postadres</div>
-                    <div class="col-xs-8 col-xxs-12">
-                      <input type="checkbox" class="" id="_postadres" ng-model="adres.postadres" ng-click="changePostadres(adres.id)" />
-                      <span class="control-indicator"></span>
-                    </div>
-                  </label>
-                </fieldset>
-              </section>
-          </fieldset>
-        </fieldset>
-      </section>
-     <!-- Contacten -->
-      <section>
-        <fieldset>
-          <legend>Contacten
-            <div class="pull-right" ng-if="hasPermission('contacten')">
-              <button ng-click="contactToevoegen()" class="btn-minimal" title="Contact toevoegen" ng-show="lid.contacten.length < 2"><span class="glyphicon glyphicon-plus"></span></button>
-            </div>
-          </legend>
-          <fieldset class="ga-contacten-list" ng-repeat="contact in lid.contacten">
-            <section class="clearfix">
-              <legend ng-init="contact.showme = false; " ng-click="contact.showme = contact.showme ? false : true">
-                  {{ contact.rol ? contact.rol :'' }} {{ contact.voornaam ? contact.voornaam : ''}} {{ contact.achternaam ? contact.achternaam : '' }}
-                <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left" >
-                  Nieuw contact
                 </div>
+              </div>
+              <div class="form-group"
+                   ng-class="{ 'has-error': nieuwLidForm.achternaam.$touched && nieuwLidForm.achternaam.$invalid }">
+                <label for="_achternaam" class="col-xs-5 col-xxs-12 control-label">Achternaam</label>
+                <div class="col-xs-7 col-xxs-12">
+                  <input type="text" class="form-control" name="achternaam" id="_achternaam"
+                         ng-model="lid.vgagegevens.achternaam" required ng-change="updateSuggesties()"
+                         ng-model-options="{debounce: 500}"/>
+                  <div ng-messages="nieuwLidForm.achternaam.$error" ng-show="nieuwLidForm.achternaam.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group"
+                   ng-class="{ 'has-error': nieuwLidForm.geboortedatum.$touched && nieuwLidForm.geboortedatum.$invalid }">
+                <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
+                <div class="col-xs-7 col-xxs-12">
+                  <!-- fix date-parse -->
+                  <div class="input-group">
+                    <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum"
+                           class="form-control" is-open="popupCal.opened" datepicker-options="dateOptions"
+                           close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date
+                           ng-disabled="!hasPermission('vgagegevens')" required/>
+                    <span class="input-group-btn">
+                  <button type="button" class="btn btn-default btn-datepicker form-control"
+                          ng-disabled="!hasPermission('vgagegevens')" ng-click="popupCal()"><i
+                    class="fa fa-calendar"></i></button>
+                </span>
+                  </div>
+                  <div ng-messages="nieuwLidForm.geboortedatum.$error" ng-show="nieuwLidForm.geboortedatum.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="_geslacht" class="col-xs-5 col-xxs-12 control-label">Geslacht</label>
+                <div class="col-xs-7 col-xxs-12">
+                  <select class="selectpicker" id="_geslacht" ng-model="lid.persoonsgegevens.geslacht">
+                    <option value="man">Mannelijk</option>
+                    <option value="vrouw">Vrouwelijk</option>
+                  </select>
+                </div>
+              </div>
+              <label class="form-group control checkbox">
+                <div class="col-xs-5 col-xxs-12 control-label">Persoon met beperking</div>
+                <div class="col-xs-7 col-xxs-12">
+                  <input type="checkbox" class="" id="_beperking" ng-model="lid.vgagegevens.beperking"/>
+                  <span class="control-indicator"></span>
+                </div>
+              </label>
+              <label class="form-group control checkbox">
+                <div class="col-xs-5 col-xxs-12 control-label">Verminderd lidgeld</div>
+                <div class="col-xs-7 col-xxs-12">
+                  <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.vgagegevens.verminderdlidgeld"/>
+                  <span class="control-indicator"></span>
+                </div>
+              </label>
+              <div class="form-group"
+                   ng-class="{ 'has-error': nieuwLidForm.email.$touched && nieuwLidForm.email.$invalid, 'readonly' : !hasPermission('email') }">
+                <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
+                <div class="col-xs-7 col-xxs-12">
+                  <input type="email" name="email" class="form-control" id="_email" ng-model="lid.email"/>
+                  <div ng-messages="nieuwLidForm.email.$error">
+                    <div ng-messages-include="partials/messages.html"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
+                <div class="col-xs-7 col-xxs-12">
+                  <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm"/>
+                </div>
+              </div>
+              <div class="form-group"
+                   ng-class="{ 'has-error': nieuwLidForm.rekeningnummer.$touched && nieuwLidForm.rekeningnummer.$invalid }">
+                <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
+                <div class="col-xs-7 col-xxs-12">
+                  <!--  value="BE52 0013 0402 0409" -->
+                  <input type="text" name="rekeningnummer" class="form-control" id="_rekeningnummer"
+                         ng-model="lid.persoonsgegevens.rekeningnummer"
+                         ng-keyup="checkField(nieuwLidForm.rekeningnummer);"/>
+                  <div ng-messages="nieuwLidForm.rekeningnummer.$error">
+                    <div ng-messages-include="partials/messages.html"></div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </section>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-xs-12">
+          <!-- Adressen -->
+          <section>
+            <fieldset>
+              <legend>
+                Adressen
                 <div class="pull-right">
-                  <button  class="btn-minimal">
-                    <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Contact tonen"></span>
-                    <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Contact verbergen"></span>
-                  </button>
-                  <button ng-click="deleteContact(contact.id)" ng-show="hasPermission('contacten')" class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
+                  <button ng-click="addAdres(nieuwLidForm.$valid)" class="btn-minimal" title="Adres toevoegen"><span
+                    class="glyphicon glyphicon-plus"></span></button>
                 </div>
               </legend>
-              <section>
-                <fieldset class="ga-functie-list" ng-hide="!contact.showme">
-                <div class="form-group" >
-                  <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
-                  <div class="col-xs-7 col-xxs-12">
-                    <select class="selectpicker" id="_rol" ng-model="contact.rol" ng-disabled="!hasPermission('contacten')">>
-                      <option value="vader">Vader</option>
-                      <option value="moeder">Moeder</option>
-                      <option value="voogd">Voogd</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group" >
-                  <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
-                  <div class="col-xs-7 col-xxs-12">
-                    <input type="text" class="form-control" id="_voornaam" ng-model="contact.voornaam" ng-disabled="!hasPermission('contacten')"/>
-                  </div>
-                </div>
-                <div class="form-group" >
-                  <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Achternaam</label>
-                  <div class="col-xs-7 col-xxs-12">
-                    <input type="text" class="form-control" id="_naam" ng-model="contact.achternaam" ng-disabled="!hasPermission('contacten')"/>
-                  </div>
-                </div>
-                <div class="form-group" >
-                  <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
-                  <div class="col-xs-7 col-xxs-12">
-                    <input type="text" class="form-control" id="_email" ng-model="contact.email" ng-disabled="!hasPermission('contacten')"/>
-                  </div>
-                </div>
-                <div class="form-group" >
-                  <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
-                  <div class="col-xs-7 col-xxs-12">
-                    <input type="text" class="form-control" id="_gsm" ng-model="contact.gsm" ng-disabled="!hasPermission('contacten')"/>
-                  </div>
-                </div>
-                  <div class="form-group" ng-class="{ 'has-error': nieuwLidForm['contacten['+$index+'].adres'].$invalid }">
-                   <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
-                   <div class="col-xs-7 col-xxs-12">
-                     <select  name="contacten[{{ $index }}].adres" id="_adres" ng-model="contact.adres" ng-disabled="!hasPermission('contacten')" required>
-                       <option ng-repeat="adres in lid.adressen" value="{{adres.id}}" ng-selected="contact.adres == adres.id">{{adres.straat}} {{adres.nummer}} {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}</option>
-                     </select>
-                     <div ng-messages="nieuwLidForm['contacten['+$index+'].adres'].$error">
-                       <div ng-messages-include="partials/messages.html"></div>
-                     </div>
-                   </div>
-                </div>
-                </fieldset>
-              </section>
-            </section>
-
-          </fieldset>
-        </fieldset>
-      </section>
-    </div>
-    <div class="col-lg-4 col-sm-6 col-xs-12">
-      <!-- Functies -->
-      <section>
-        <fieldset>
-          <legend ng-class="{'has-error' : functieInstantiesError }">Functies toevoegen
-            <div class="pull-right" ng-hide="groepEnfuncties.length">
-              <i class="fa fa-spinner fa-pulse"> </i>
-            </div>
-          </legend>
-          <div ng-if="functieInstantiesError" class="has-error">
-            <p class="help-block">Duid minstens één functie aan</p>
-          </div>
-          <fieldset ng-repeat="groepFuncties in groepEnfuncties" ng-show="hasPermission('functies.' + groepFuncties.groepsnummer)">
-            <legend class="group-legend"><span>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}</span></legend>
-            <fieldset class="ga-functie-list" >
-              <section class="clearfix">
-                <legend  ng-init="showverbondfuncties=true;" ng-click="showverbondfuncties=!showverbondfuncties">
-                  Functies
-                  <div class="pull-right">
-                    <button  ng-hide="showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                    <button  ng-hide="!showverbondfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                  </div>
-                </legend>
-                <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter:filterFuncties(lid) | orderBy : 'beschrijving'" ng-show=" !showverbondfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
-                  <label class="col-md-6 form-group control checkbox" >
-                    <div class="col-xs-11 col-xxs-11 control-label ga-functie-list-item__label" ng-class="{'ga-functie-list-item__label--disabled' : groepFunctie.code == 'FV' || groepFunctie.code == 'VGA' } ">{{ groepFunctie.beschrijving }}</div>
-                    <div class="col-xs-1 col-xxs-1">
-                      <input type="checkbox" ng-init="status='add';" ng-click="functieInstantiesError = false; status = functieToevoegen(groepFuncties.groepsnummer, groepFunctie.id, status)" ng-disabled="groepFunctie.code == 'FV' || groepFunctie.code == 'VGA'" />
-                      <span class="control-indicator"></span>
+              <fieldset class="ga-adressen-list" ng-repeat="adres in lid.adressen">
+                <section class="clearfix">
+                  <legend ng-class="{'has-error': adres.hasErrors}" ng-click="adres.showme = !adres.showme">
+                    {{ !adres.straat && !adres.bus && !adres.postcode && !adres.gemeente ? 'Nieuw adres' : '' }}
+                    {{ adres.straat ? adres.straat :'' }}
+                    {{ adres.nummer ? adres.nummer :''}}
+                    {{ adres.bus ? adres.bus :''}}
+                    {{ adres.bus || adres.nummer || adres.straat ? ',' : '' }}
+                    {{ adres.gemeente ? adres.gemeente :''}}
+                    {{ adres.postadres ? ' ' : '' }}<i ng-if="adres.postadres" class="fa fa-envelope"
+                                                       aria-hidden="true"></i>
+                    <div class="pull-right" ng-init="showme = (adres.postadres == true) ? true : false; ">
+                      <button type="button" class="btn-minimal">
+                        <span ng-hide="adres.showme" class="glyphicon glyphicon-chevron-down"
+                              title="Adres tonen"></span>
+                        <span ng-hide="!adres.showme" class="glyphicon glyphicon-chevron-up"
+                              title="Adres verbergen"></span>
+                      </button>
+                      <button ng-click="deleteAdres(adres.id)" class="btn-minimal"><span
+                        class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
                     </div>
-                  </label>
-                </div>
-              </section>
-
-              <section class="clearfix">
-                <legend ng-click="showgroepfuncties=!showgroepfuncties" >
-                  Groepseigen functies
-                  <div class="pull-right" ng-init="showgroepfuncties=true;">
-                    <button ng-hide="showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                    <button ng-hide="!showgroepfuncties" class="btn-minimal"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                  </div>
-                </legend>
-                <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'groep' } | orderBy : 'beschrijving'" ng-show="!showgroepfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
-                  <label class="col-md-6 form-group control checkbox ga-functie-list">
-                    <div class="col-xs-11 col-xxs-11 control-label">{{ groepFunctie.beschrijving }}</div>
-                    <div class="col-xs-1 col-xxs-1">
-                      <input type="checkbox" class="" ng-init="status='add';" ng-click="status = functieToevoegen(groepFuncties.groepsnummer, groepFunctie.id, status)"/>
-                      <span class="control-indicator"></span>
+                  </legend>
+                  <fieldset ng-hide="!adres.showme">
+                    <div class="form-group"
+                         ng-class="{ 'has-error': nieuwLidForm['adressen['+$index+'].land'].$invalid }">
+                      <label for="_land" class="col-xs-4 col-xxs-12 control-label">Land</label>
+                      <div class="col-xs-8 col-xxs-12">
+                        <select class="selectpicker" name="adressen[{{ $index }}].land" title="Kies een land..."
+                                id="_land" ng-model="adres.land" ng-disabled="!hasPermission('adressen')" required>
+                          <option value="BE">België</option>
+                          <option value="DE">Duitsland</option>
+                          <option value="FR">Frankrijk</option>
+                          <option value="GB">Groot-Brittannië</option>
+                          <option value="LU">Luxemburg</option>
+                          <option value="NL">Nederland</option>
+                        </select>
+                        <div ng-messages="nieuwLidForm['adressen['+$index+'].land'].$error">
+                          <div ng-messages-include="partials/messages.html"></div>
+                        </div>
+                      </div>
                     </div>
-                  </label>
-                </div>
-              </section>
+                    <div class="form-group"
+                         ng-class="{ 'has-error': nieuwLidForm['adressen['+$index+'].gemeente'].$touched && nieuwLidForm['adressen['+$index+'].gemeente'].$invalid }">
+                      <label for="_gemeenteWrap" class="col-xs-4 col-xxs-12 control-label">Woonplaats</label>
+                      <div class="col-xs-8 col-xxs-2">
+                        <input type="text" name="adressen[{{ $index }}].gemeente" class="form-control ga-functie-list"
+                               ng-init="gemeenteWrap = adres.postcode && adres.gemeente ? adres.postcode + ' ' + adres.gemeente : ''"
+                               ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')"
+                               ng-bind="adres.postcode + ' ' + adres.postcode"
+                               uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"
+                               typeahead-on-select="bevestigGemeente($item, adres)" required/>
+                        <div ng-messages="nieuwLidForm['adressen['+$index+'].gemeente'].$error">
+                          <div ng-messages-include="partials/messages.html"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group"
+                         ng-class="{ 'has-error': (nieuwLidForm['adressen['+$index+'].straatnaam'].$touched && nieuwLidForm['adressen['+$index+'].straatnaam'].$invalid) || (nieuwLidForm['adressen['+$index+'].nummer'].$touched && nieuwLidForm['adressen['+$index+'].nummer'].$invalid ) }">
+                      <label for="_straatnaam" class="col-xs-4 col-xxs-12 control-label">Straat</label>
+                      <div class="col-xs-5 col-xxs-12">
+                        <input type="text" name="adressen[{{ $index }}].straatnaam" class="form-control"
+                               ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"
+                               placeholder="Straatnaam" id="_straatnaam" ng-model="adres.straat"
+                               uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres)"
+                               typeahead-on-select="bevestigStraat($item, adres)" required/>
+                      </div>
+                      <div class="col-xs-2 col-xxs-12">
+                        <input type="text" class="form-control" id="_straatnummer" name="adressen[{{ $index }}].nummer"
+                               maxlength="5" ng-model="adres.nummer" placeholder="Nr."
+                               ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente" required/>
+                      </div>
+                      <div class="col-xs-1 col-xxs-12">
+                        <input type="text" class="form-control form-control-bus" name="adressen[{{ $index }}].bus"
+                               id="_bus" maxlength="4" ng-model="adres.bus" placeholder="Bus"
+                               ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
+                      </div>
+                      <div class="col-xs-offset-4 col-xs-12 col-xxs-12"
+                           ng-show="nieuwLidForm['adressen['+$index+'].straatnaam'].$invalid && nieuwLidForm['adressen['+$index+'].straatnaam'].$touched">
+                        <p class="help-block">Straat is verplicht</p>
+                      </div>
+                      <div class="col-xs-offset-4 col-xs-12 col-xxs-12"
+                           ng-show="nieuwLidForm['adressen['+$index+'].nummer'].$invalid && nieuwLidForm['adressen['+$index+'].nummer'].$touched">
+                        <p class="help-block">Huisnummer is verplicht</p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="_telefoon" class="col-xs-4 col-xxs-12 control-label">Telefoon</label>
+                      <div class="col-xs-8 col-xxs-12">
+                        <input type="text" class="form-control" name="adressen[{{ $index }}].telefoon" id="_telefoon"
+                               maxlength="15" ng-model="adres.telefoon"/>
+                        <div ng-messages="nieuwLidForm['adressen['+$index+'].telefoon'].$error">
+                          <div ng-messages-include="partials/messages.html"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <label class="form-group control checkbox" ng-show="lid">
+                      <div class="col-xs-4 col-xxs-12 control-label">Postadres</div>
+                      <div class="col-xs-8 col-xxs-12">
+                        <input type="checkbox" class="" id="_postadres" ng-model="adres.postadres"
+                               ng-click="changePostadres(adres.id)"/>
+                        <span class="control-indicator"></span>
+                      </div>
+                    </label>
+                  </fieldset>
+                </section>
+              </fieldset>
             </fieldset>
-          </fieldset>
-        </fieldset>
-      </section>
+          </section>
+          <!-- Contacten -->
+          <section>
+            <fieldset>
+              <legend>Contacten
+                <div class="pull-right" ng-if="hasPermission('contacten')">
+                  <button ng-click="contactToevoegen(nieuwLidForm.$valid)" class="btn-minimal"
+                          title="Contact toevoegen"><span class="glyphicon glyphicon-plus"></span></button>
+                </div>
+              </legend>
+              <fieldset class="ga-contacten-list" ng-repeat="contact in lid.contacten">
+                <section class="clearfix">
+                  <legend ng-init="contact.showme = false; " ng-click="contact.showme = contact.showme ? false : true">
+                    {{ contact.rol ? contact.rol :'' }} {{ contact.voornaam ? contact.voornaam : ''}} {{
+                    contact.achternaam ? contact.achternaam : '' }}
+                    <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left">
+                      Nieuw contact
+                    </div>
+                    <div class="pull-right">
+                      <button class="btn-minimal">
+                        <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Contact tonen"></span>
+                        <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Contact verbergen"></span>
+                      </button>
+                      <button ng-click="deleteContact(contact.id)" ng-show="hasPermission('contacten')"
+                              class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span>
+                      </button>
+                    </div>
+                  </legend>
+                  <section>
+                    <fieldset class="ga-functie-list" ng-hide="!contact.showme">
+                      <div class="form-group">
+                        <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
+                        <div class="col-xs-7 col-xxs-12">
+                          <select class="selectpicker" id="_rol" ng-model="contact.rol"
+                                  ng-disabled="!hasPermission('contacten')">>
+                            <option value="vader">Vader</option>
+                            <option value="moeder">Moeder</option>
+                            <option value="voogd">Voogd</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
+                        <div class="col-xs-7 col-xxs-12">
+                          <input type="text" class="form-control" id="_voornaam" ng-model="contact.voornaam"
+                                 ng-disabled="!hasPermission('contacten')"/>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Achternaam</label>
+                        <div class="col-xs-7 col-xxs-12">
+                          <input type="text" class="form-control" id="_naam" ng-model="contact.achternaam"
+                                 ng-disabled="!hasPermission('contacten')"/>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
+                        <div class="col-xs-7 col-xxs-12">
+                          <input type="text" class="form-control" id="_email" ng-model="contact.email"
+                                 ng-disabled="!hasPermission('contacten')"/>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
+                        <div class="col-xs-7 col-xxs-12">
+                          <input type="text" class="form-control" id="_gsm" ng-model="contact.gsm"
+                                 ng-disabled="!hasPermission('contacten')"/>
+                        </div>
+                      </div>
+                      <div class="form-group"
+                           ng-class="{ 'has-error': nieuwLidForm['contacten['+$index+'].adres'].$invalid }">
+                        <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
+                        <div class="col-xs-7 col-xxs-12">
+                          <select name="contacten[{{ $index }}].adres" id="_adres" ng-model="contact.adres"
+                                  ng-disabled="!hasPermission('contacten')" required>
+                            <option ng-repeat="adres in lid.adressen" value="{{adres.id}}"
+                                    ng-selected="contact.adres == adres.id">{{adres.straat}} {{adres.nummer}}
+                              {{adres.bus}}, {{adres.postcode}} {{adres.gemeente}}
+                            </option>
+                          </select>
+                          <div ng-messages="nieuwLidForm['contacten['+$index+'].adres'].$error">
+                            <div ng-messages-include="partials/messages.html"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </section>
+                </section>
+
+              </fieldset>
+            </fieldset>
+          </section>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-xs-12">
+          <!-- Functies -->
+          <section>
+            <fieldset>
+              <legend ng-class="{'has-error' : functieInstantiesError }">Functies toevoegen
+                <div class="pull-right" ng-hide="groepEnfuncties.length">
+                  <i class="fa fa-spinner fa-pulse"> </i>
+                </div>
+              </legend>
+              <div ng-if="functieInstantiesError" class="has-error">
+                <p class="help-block">Duid minstens één functie aan</p>
+              </div>
+              <fieldset ng-repeat="groepFuncties in groepEnfuncties"
+                        ng-show="hasPermission('functies.' + groepFuncties.groepsnummer)">
+                <legend class="group-legend"><span>{{ groepFuncties.groepsnummer }} {{ groepFuncties.naam }}</span>
+                </legend>
+                <fieldset class="ga-functie-list">
+                  <section class="clearfix">
+                    <legend ng-init="showverbondfuncties=true;" ng-click="showverbondfuncties=!showverbondfuncties">
+                      Functies
+                      <div class="pull-right">
+                        <button ng-hide="showverbondfuncties" class="btn-minimal"><span
+                          class="glyphicon glyphicon-chevron-up"></span></button>
+                        <button ng-hide="!showverbondfuncties" class="btn-minimal"><span
+                          class="glyphicon glyphicon-chevron-down"></span></button>
+                      </div>
+                    </legend>
+                    <div class="col-md-6 ga-functie-list-item"
+                         ng-repeat="groepFunctie in groepFuncties.functies | filter:filterFuncties(lid) | orderBy : 'beschrijving'"
+                         ng-show=" !showverbondfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
+                      <label class="col-md-6 form-group control checkbox">
+                        <div class="col-xs-11 col-xxs-11 control-label ga-functie-list-item__label"
+                             ng-class="{'ga-functie-list-item__label--disabled' : groepFunctie.code == 'FV' || groepFunctie.code == 'VGA' } ">
+                          {{ groepFunctie.beschrijving }}
+                        </div>
+                        <div class="col-xs-1 col-xxs-1">
+                          <input type="checkbox" ng-init="status='add';"
+                                 ng-click="functieInstantiesError = false; status = functieToevoegen(groepFuncties.groepsnummer, groepFunctie.id, status)"
+                                 ng-disabled="groepFunctie.code == 'FV' || groepFunctie.code == 'VGA'"/>
+                          <span class="control-indicator"></span>
+                        </div>
+                      </label>
+                    </div>
+                  </section>
+
+                  <section class="clearfix">
+                    <legend ng-click="showgroepfuncties=!showgroepfuncties">
+                      Groepseigen functies
+                      <div class="pull-right" ng-init="showgroepfuncties=true;">
+                        <button ng-hide="showgroepfuncties" class="btn-minimal"><span
+                          class="glyphicon glyphicon-chevron-up"></span></button>
+                        <button ng-hide="!showgroepfuncties" class="btn-minimal"><span
+                          class="glyphicon glyphicon-chevron-down"></span></button>
+                      </div>
+                    </legend>
+                    <div class="col-md-6 ga-functie-list-item"
+                         ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'groep' } | orderBy : 'beschrijving'"
+                         ng-show="!showgroepfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
+                      <label class="col-md-6 form-group control checkbox ga-functie-list">
+                        <div class="col-xs-11 col-xxs-11 control-label">{{ groepFunctie.beschrijving }}</div>
+                        <div class="col-xs-1 col-xxs-1">
+                          <input type="checkbox" class="" ng-init="status='add';"
+                                 ng-click="status = functieToevoegen(groepFuncties.groepsnummer, groepFunctie.id, status)"/>
+                          <span class="control-indicator"></span>
+                        </div>
+                      </label>
+                    </div>
+                  </section>
+                </fieldset>
+              </fieldset>
+            </fieldset>
+          </section>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-</form>
+  </form>
 </div>
