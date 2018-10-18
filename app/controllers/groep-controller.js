@@ -14,6 +14,8 @@
 
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
+    var contacten = {};
+
     // groepen ophalen
     CS.Groepen().then(
       function (result) {
@@ -35,12 +37,11 @@
               groepering = groep.groepsleiding
             }
 
-            RestService.Lid.get({id: contact.lid}).$promise.then(function(res) {
-              groepering.push({
-                naam: res.vgagegevens.voornaam + ' ' + res.vgagegevens.achternaam,
-                email: res.email
-              });
-            });
+            if(contacten[contact.lid] === undefined) {
+              contacten[contact.lid] = [];
+            }
+
+            contacten[contact.lid].push(groepering);
           });
 
           groep.adres = [
@@ -49,6 +50,20 @@
 
           groep.kanWijzigen = (_.find(groep.links, {method: 'PATCH'}) !== undefined);
           $scope.data.groepenlijst.push(groep);
+        });
+
+
+        angular.forEach(contacten, function(groeplijst, id) {
+          RestService.Lid.get({id: id}).$promise.then(function(res) {
+            angular.forEach(groeplijst, function(groepering) {
+              groepering.push({
+                naam: res.vgagegevens.voornaam + ' ' + res.vgagegevens.achternaam,
+                email: res.email
+              });
+            });
+
+            delete contacten[id];
+          });
         });
 
         // by default is de eerste groep actief
