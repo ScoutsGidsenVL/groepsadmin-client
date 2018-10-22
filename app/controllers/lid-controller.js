@@ -404,33 +404,11 @@
         ]
       };
 
-      /*
-       * bevestiging return functie
-       * --------------------------------------
-       */
-      $scope.confirmstopFunctie = function (result) {
-        if (result) {
-          lid.bevestig = true;
-
-          RestService.Lid.update({id: lid.id, bevestiging: true}, lid).$promise.then(
-            function (response) {
-              AlertService.add('success', 'Functie is geschrapt.');
-              $scope.lid.functies = response.functies;
-              initAangepastLid();
-            },
-            function (error) {
-              AlertService.add('danger', error);
-            }
-          );
-        } else {
-          AlertService.add('danger', 'Aanpassing niet doorgevoerd');
-        }
-      };
-
       RestService.Lid.update({id: lid.id, bevestiging: false}, lid).$promise.then(
         function (response) {
-          // Dit gebeurt momenteel bij eigen VGA-functies.
-          //AlertService.onvoorzieneFout();
+          AlertService.add('success', 'Functie is geschrapt.');
+          $scope.lid.functies = response.functies;
+          initAangepastLid();
         },
         function (error) {
           if (error.data && error.data.vraag) {
@@ -538,47 +516,12 @@
         }
       });
 
-      // bevestiging return functie
-      // --------------------------------------
-      $scope.confirmstopFunctie = function (result) {
-        if (result) {
-          lid.bevesteging = true;
-
-          RestService.Lid.update({id: lid.id, bevestiging: true}, lid).$promise.then(
-            function (response) {
-              AlertService.add('success ', 'Alle actieve functies werden geschrapt.');
-              $scope.lid = response;
-              initAangepastLid();
-            },
-            function (error) {
-              AlertService.add('danger', error);
-            }
-          );
-        } else {
-          AlertService.add('danger', "Aanpassing niet doorgevoerd");
-        }
-      };
 
       RestService.Lid.update({id: lid.id, bevestiging: false}, lid).$promise.then(
-        function () {
-          AlertService.onvoorzieneFout();
-        },
-        function (error) {
-          if (error.data && error.data.vraag) {
-
-          }
-          else if (error.status == 403) {
-            AlertService.add('warning', "De VGA-functie kan niet geschrapt worden. <a href=\" https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginahulp:_src_4_TContentFunctionsEntry_OUTPUT_KAN_NIET_STOPZETTEN\">Meer info</a> ");
-          }
-          else {
-            AlertService.add('danger', error);
-          }
-        }
-      );
-
-      RestService.Lid.update({id: lid.id, bevestiging: false}, lid).$promise.then(
-        function () {
-          AlertService.onvoorzieneFout();
+        function (response) {
+          AlertService.add('success ', 'Alle actieve functies werden geschrapt.');
+          $scope.lid = response;
+          initAangepastLid();
         },
         function (error) {
           if (error.status == 403) {
