@@ -162,7 +162,7 @@
                           {{ !adres.straat && !adres.bus && !adres.postcode && !adres.gemeente ? 'Nieuw adres' : '' }}
                           {{ adres.straat ? adres.straat :'' }}
                           {{ adres.nummer ? adres.nummer :''}}
-                          {{ adres.bus ? adres.bus :''}}
+                          {{ adres.bus ? 'bus ' + adres.bus :''}}
                           {{ adres.bus || adres.nummer || adres.straat ? ',' : '' }}
                           {{ adres.gemeente ? adres.gemeente :''}}
                           {{ adres.postadres ? ' ' : '' }}

@@ -18,7 +18,7 @@
                   <p><em>Aanvraag van {{aanvraag.aangepast | date : 'dd/MM/yyyy'}}</em></p><br>
                   <address class="ga-address-block">
                     <strong>{{aanvraag.groepsnummer}}</strong><br>
-                    {{aanvraag.adres.straat}} {{aanvraag.adres.nummer}} {{aanvraag.adres.bus}}<br>
+                    {{aanvraag.adres.straat}} {{aanvraag.adres.nummer}} {{aanvraag.adres.bus?'bus ' + aanvraag.adres.bus:''}}<br>
                     {{aanvraag.adres.land}} {{aanvraag.adres.postcode}} {{aanvraag.adres.gemeente}} <br>
                     <span ng-if="aanvraag.adres.telefoon">T: {{aanvraag.adres.telefoon}}<br></span>
                     <span ng-if="aanvraag.persoonsgegevens.gsm">GSM: {{aanvraag.persoonsgegevens.gsm}}<br></span>
