@@ -24,11 +24,15 @@
   <!-- NEW ACTIONS -->
   <div class="pull-right">
     <div class="hidden-xs hidden-sm">
-      <button type="submit" class="btn btn-apply" ng-disabled="isLoadingGroepen" ng-click="verzenden()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;Verzenden&nbsp;
+      <formerrorbutton formulier="emailForm" watchable="emailPropertiesWatchable"></formerrorbutton>
+      <button type="submit" class="btn btn-apply" ng-disabled="isLoadingGroepen || emailForm.$invalid" ng-click="verzenden()">
+        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;Verzenden&nbsp;
+        </button>
     </div>
     <div class="hidden-md hidden-lg">
       <div class="btn-group pull-right" uib-dropdown>
-        <button id="split-button" type="submit"  ng-disabled="isLoadingGroepen" class="btn btn-apply">
+        <formerrorbutton formulier="emailForm" watchable="emailPropertiesWatchable"></formerrorbutton>
+        <button id="split-button" type="submit"  ng-disabled="isLoadingGroepen || emailForm.$invalid" class="btn btn-apply">
           <span class="glyphicon glyphicon-envelope" aria-hidden="true" ng-click="verzenden()"></span>&nbsp;Verzenden&nbsp;
         </button>
         <button type="button" class="btn btn-apply"  ng-disabled="isLoadingGroepen" uib-dropdown-toggle>
@@ -80,7 +84,7 @@
             </div>
 
             <div class="form-group" ng-class="{ 'has-error': emailForm.replyaddress.$touched && emailForm.replyaddress.$invalid }">
-              <label for="email" class="col-xs-4 col-xxs-12 control-label">E-mailadres</label>
+              <label for="replyaddress" class="col-xs-4 col-xxs-12 control-label">Antwoorden naar</label>
               <div class="col-xs-8 col-xxs-12">
                 <input type="email" class="form-control" name="replyaddress" id="replyaddress" ng-model="sjabloon.replyTo" >
                 <div ng-messages="emailForm.replyaddress.$error" ng-show="emailForm.replyaddress.$touched">
@@ -90,10 +94,20 @@
             </div>
 
             <div class="form-group">
-              <label for="fromGroup" class="col-xs-4 col-xxs-12 control-label">Groep</label>
+              <label class="col-xs-4 col-xxs-12 control-label">Groep</label>
               <div class="col-xs-8 col-xxs-12">
                 <i class="fa fa-spinner fa-pulse" ng-show="isLoadingGroepen"></i>
                 <select class="email-select-group form-control" ng-options="( groep.groepsnummer + ' ' + groep.naam) for groep in groepen track by groep.id" ng-hide="isLoadingGroepen" ng-model="selectedgroup"></select>
+              </div>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error': emailForm.bcc.$touched && emailForm.bcc.$invalid }">
+              <label for="bcc" class="col-xs-4 col-xxs-12 control-label">Bcc</label>
+              <div class="col-xs-8 col-xxs-12">
+                <input type="email" class="form-control" name="bcc" id="bcc" ng-model="sjabloon.bcc" >
+                <div ng-messages="emailForm.bcc.$error" ng-show="emailForm.bcc.$touched">
+                  <div ng-messages-include="partials/messages.html"></div>
+                </div>
               </div>
             </div>
 
