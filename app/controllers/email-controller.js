@@ -180,6 +180,7 @@
       }
 
       newSjabloon.replyTo = $scope.sjabloon.replyTo;
+      newSjabloon.bcc = $scope.sjabloon.bcc;
       newSjabloon.van = $scope.sjabloon.van;
       newSjabloon.onderwerp = $scope.sjabloon.onderwerp;
       newSjabloon.inhoud = $scope.sjabloon.inhoud;
