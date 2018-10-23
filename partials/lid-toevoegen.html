@@ -182,8 +182,9 @@
                             <span ng-hide="!adres.showme" class="glyphicon glyphicon-chevron-up"
                                   title="Adres verbergen"></span>
                           </button>
-                          <button ng-click="deleteAdres(adres.id)" class="btn-minimal"><span
-                            class="glyphicon glyphicon-trash" title="Adres wissen"></span></button>
+                          <button ng-click="deleteAdres(adres.id)" class="btn-minimal" ng-if="!adres.postadres">
+                            <span class="glyphicon glyphicon-trash" title="Adres wissen"></span>
+                          </button>
                         </div>
                       </div>
                     </div>
