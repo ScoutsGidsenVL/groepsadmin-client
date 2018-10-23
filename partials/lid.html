@@ -141,12 +141,13 @@
               </div>
             </div>
           </div>
-          <div class="form-group {{  'persoonsgegevens.gsm' | formValidator:validationErrors  }}" ng-show="lid">
+          <div class="form-group" ng-show="lid" ng-class="{ 'has-error': lidForm.gsm.$touched && lidForm.gsm.$invalid }">
             <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm" ng-disabled="!hasPermission('persoonsgegevens')"/>
-              <div ng-if="'persoonsgegevens.gsm' | formValidator:validationErrors">
-                <i class="validation-error-details">{{ 'persoonsgegevens.gsm' | formValidatorError:validationErrors }}</i>
+              <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm" name="gsm"
+                     ng-disabled="!hasPermission('persoonsgegevens')" ng-keyup="checkField(lidForm.gsm);"/>
+              <div ng-messages="lidForm.gsm.$error">
+                <div ng-messages-include="partials/messages.html"></div>
               </div>
             </div>
           </div>
@@ -257,12 +258,14 @@
                       <p class="help-block">Huisnummer is verplicht</p>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error': (lidForm['adressen['+$index+'].telefoon'].$touched && lidForm['adressen['+$index+'].telefoon'].$invalid) }">
                   <label for="_telefoon" class="col-xs-4 col-xxs-12 control-label">Telefoon</label>
                   <div class="col-xs-8 col-xxs-12">
-                    <input type="text" class="form-control" id="_telefoon" name="adressen[{{ $index }}].telefoon" maxlength="15" ng-model="adres.telefoon" ng-disabled="!hasPermission('adressen')"/>
+                    <input type="text" class="form-control" name="adressen[{{ $index }}].telefoon" id="_telefoon"
+                           ng-model="adres.telefoon" ng-keyup="checkField(lidForm['adressen['+$index+'].telefoon']);"
+                           ng-disabled="!hasPermission('adressen')"/>
                     <div ng-messages="lidForm['adressen['+$index+'].telefoon'].$error">
-                        <div ng-messages-include="partials/messages.html"></div>
+                      <div ng-messages-include="partials/messages.html"></div>
                     </div>
                   </div>
                 </div>
@@ -347,7 +350,8 @@
             <div class="form-group" ng-class="{ 'has-error': lidForm['contacten['+$index+'].gsm'].$touched && lidForm['contacten['+$index+'].gsm'].$invalid }">
               <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Gsm</label>
               <div class="col-xs-7 col-xxs-12">
-                <input type="text" name="contacten[{{ $index }}].gsm" class="form-control" id="_naam" ng-model="contact.gsm" ng-disabled="!hasPermission('contacten')">
+                <input type="text" name="contacten[{{ $index }}].gsm" class="form-control" id="_naam" ng-model="contact.gsm"
+                       ng-disabled="!hasPermission('contacten')" ng-keyup="checkField(lidForm['contacten['+$index+'].gsm']);">
                 <div ng-messages="lidForm['contacten['+$index+'].gsm'].$error">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>

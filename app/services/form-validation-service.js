@@ -13,8 +13,9 @@
     var formValidationService = {};
 
     formValidationService.checkField = function (formfield) {
-      var isValidField = false;
-      switch (formfield.$name) {
+      var isValidField = false, parts = formfield.$name.split('.'), veldNaam = parts[parts.length-1];
+
+      switch (veldNaam) {
 
         case 'rekeningnummer':
           isValidField = !formfield.$modelValue || formfield.$modelValue == "" ? true : formValidationService.validateIBAN(formfield);
