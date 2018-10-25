@@ -5,9 +5,9 @@
     .module('ga.groepcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('GroepController', GroepController);
 
-  GroepController.$inject = ['$q', '$scope', '$location', 'RestService', 'CacheService', 'access'];
+  GroepController.$inject = ['$q', '$scope', '$location', '$timeout', 'RestService', 'CacheService', 'access'];
 
-  function GroepController($q, $scope, $location, RestService, CS, access) {
+  function GroepController($q, $scope, $location, $timeout, RestService, CS, access) {
     if(!access){
       $location.path("/lid/profiel");
     }
@@ -68,7 +68,7 @@
 
         // by default is de eerste groep actief
         $scope.data.activegroup = $scope.data.groepenlijst[0];
-        maakSorteerbaar();
+        $timeout(maakSorteerbaar, 0);
         loadGoogleMap();
       },
       function (Error){
@@ -357,6 +357,12 @@
           }
         });
       }
+      else {
+        $( ".sortable" ).sortable({
+          disabled: true
+        });
+      }
+
     };
 
     $scope.addGroepseigenGegeven = function () {
