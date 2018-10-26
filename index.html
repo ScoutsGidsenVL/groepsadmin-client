@@ -197,7 +197,7 @@
 
     <dialog ng-repeat="dialog in dialogs" close="dialog.close()" confirm="dialog.confirm()" dismiss="dialog.confirm()" title="{{dialog.title}}" >
       <p>{{dialog.melding}}</p>
-      <p>{{dialog.vraag}}</p>
+      <p ng-bind-html="dialog.vraag"></p>
     </dialog>
 
     <script type="text/ng-template" id="dialog.html">

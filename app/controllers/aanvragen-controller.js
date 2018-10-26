@@ -8,7 +8,7 @@
   aanvragenController.$inject = ['$rootScope', '$scope', '$http', '$location', 'access', 'RestService', 'AlertService', 'DialogService'];
 
   function aanvragenController($rootScope, $scope, $http, $location, access, RestService, AlertService, DialogService) {
-    if(!access){
+    if (!access) {
       $location.path("/lid/profiel");
     }
 
@@ -47,8 +47,8 @@
 
       if (link) {
         var dialogData = {
-          boodschap: "Lidaanvraag verwijderen",
-          vraag: "Ben je zeker dat je deze aanvraag wil afkeuren"
+          boodschap: "Lidaanvraag verwijderen.",
+          vraag: "Ben je zeker dat je deze aanvraag wil afkeuren? <br>Mail deze persoon via " + aanvraag.email + "."
         };
 
         DialogService.bevestig(dialogData)
