@@ -152,9 +152,9 @@
 
 
       //init functies;
-      LS.getFuncties().then(function (functiesres) {
+      CS.Functies().then(function (functiesres) {
         var functies = functiesres;
-        LS.getGroepen().then(function (groepenres) {
+        CS.Groepen().then(function (groepenres) {
           functiesEnGroepen(functies, groepenres);
         })
       });
@@ -568,6 +568,7 @@
         $scope.lid.changes.splice($scope.lid.changes.indexOf("contacten"), 1);
         $scope.lid.$update(function (response) {
           //connect oude adressen met nieuwe
+          CS.Groepen(true);
           var adressenIndex = [];
           angular.forEach(adressen, function (adres) {
             angular.forEach(response.adressen, function (newadres) {
@@ -599,6 +600,7 @@
         $scope.lid.$update(
           function () {
             $scope.saving = false;
+            CS.Groepen(true);
             AlertService.add('success ', "Aanpassingen opgeslagen");
             $scope.lid.groepseigenVelden = origineleGroepseigenVelden;
             initAangepastLid();

@@ -14,63 +14,86 @@
 
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    var contacten = {};
+    var contacten = {}, deregisterListener;
 
-    // groepen ophalen
-    CS.Groepen().then(
-      function (result) {
-        $scope.data = {};
-        $scope.data.groepenlijst = [];
-        //tijdelijk extra velden toevoegen aan het resultaat
-        angular.forEach(result.groepen, function(groep){
-          groep.vga = [];
-          groep.fv = [];
-          groep.groepsleiding = [];
+    $scope.data = {};
+    $scope.data.groepenlijst = [];
 
-          _.forEach(groep.contacten, function(contact) {
-            var groepering;
-            if (contact.functie == 'd5f75b320b812440010b812555970393') {
-              groepering = groep.vga;
-            } else if (contact.functie == 'd5f75b320b812440010b812553d5032e') {
-              groepering = groep.fv;
-            } else {
-              groepering = groep.groepsleiding
-            }
 
-            if(contacten[contact.lid] === undefined) {
-              contacten[contact.lid] = [];
-            }
+    function groepenGeladen (result) {
+      $scope.data.groepenlijst.splice(0);
+      //tijdelijk extra velden toevoegen aan het resultaat
+      angular.forEach(result.groepen, function(groep){
+        groep.vga = [];
+        groep.fv = [];
+        groep.groepsleiding = [];
 
-            contacten[contact.lid].push(groepering);
-          });
+        _.forEach(groep.contacten, function(contact) {
+          var groepering;
+          if (contact.functie == 'd5f75b320b812440010b812555970393') {
+            groepering = groep.vga;
+          } else if (contact.functie == 'd5f75b320b812440010b812553d5032e') {
+            groepering = groep.fv;
+          } else {
+            groepering = groep.groepsleiding
+          }
 
-          groep.adres = [
-            groep.adres
-          ];
+          if(contacten[contact.lid] === undefined) {
+            contacten[contact.lid] = [];
+          }
 
-          groep.kanWijzigen = (_.find(groep.links, {method: 'PATCH'}) !== undefined);
-          $scope.data.groepenlijst.push(groep);
+          contacten[contact.lid].push(groepering);
         });
 
+        groep.adres = [
+          groep.adres
+        ];
 
-        angular.forEach(contacten, function(groeplijst, id) {
-          RestService.Lid.get({id: id}).$promise.then(function(res) {
-            angular.forEach(groeplijst, function(groepering) {
-              groepering.push({
-                naam: res.vgagegevens.voornaam + ' ' + res.vgagegevens.achternaam,
-                email: res.email
-              });
+        groep.kanWijzigen = (_.find(groep.links, {method: 'PATCH'}) !== undefined);
+        $scope.data.groepenlijst.push(groep);
+      });
+
+
+      angular.forEach(contacten, function(groeplijst, id) {
+        RestService.Lid.get({id: id}).$promise.then(function(res) {
+          angular.forEach(groeplijst, function(groepering) {
+            groepering.push({
+              naam: res.vgagegevens.voornaam + ' ' + res.vgagegevens.achternaam,
+              email: res.email
             });
-
-            delete contacten[id];
           });
-        });
 
-        // by default is de eerste groep actief
+          delete contacten[id];
+        });
+      });
+
+      // by default is de eerste groep actief
+
+      if(!$scope.data.activegroup) {
         $scope.data.activegroup = $scope.data.groepenlijst[0];
         $timeout(maakSorteerbaar, 0);
         loadGoogleMap();
-      },
+      }
+      else {
+        angular.forEach($scope.data.groepenlijst, function(groep) {
+          if (groep.id == $scope.data.activegroup.id) {
+            $scope.data.activegroup = groep;
+          }
+        })
+      }
+
+      if(deregisterListener) {
+        deregisterListener();
+      }
+      deregisterListener = $scope.$on("ga-groepen-geladen", function(event, result) {
+        groepenGeladen(result);
+      });
+    }
+
+
+    // groepen ophalen
+    CS.Groepen().then(
+      groepenGeladen,
       function (Error){
       }
     );

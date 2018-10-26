@@ -5,11 +5,11 @@
     .module('ga.services.cache', [])
     .factory('CacheService', CacheService);
 
-  CacheService.$inject = ['RestService', '$q'];
+  CacheService.$inject = ['RestService', '$q', '$rootScope'];
 
   // Deze service bevat logica om te bepalen of een gebruiker ergens wel/geen toegang tot heeft
 
-  function CacheService(RestService, $q) {
+  function CacheService(RestService, $q, $rootScope) {
     var resGroepen, resFuncties = {}, waitingGroepen = false, waitingFuncties = false;
 
     var indexedGroepen = {}, deferredGroepen = {};
@@ -123,11 +123,12 @@
 
         return deferred.promise;
       },
-      Groepen: function () {
-        if (_.isEmpty(resGroepen)) {
+      Groepen: function (force) {
+        if (force || _.isEmpty(resGroepen)) {
           waitingGroepen = true;
           return RestService.Groepen.get().$promise
             .then(function (response) {
+              $rootScope.$broadcast('ga-groepen-geladen', response);
               resGroepen = response;
 
               angular.forEach(response.groepen, function (groep) {

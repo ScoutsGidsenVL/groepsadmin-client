@@ -130,7 +130,7 @@
       Groepen: $resource(
         base + 'groep/',
         {},
-        {get: {method: 'GET', cache: true}}
+        {get: {method: 'GET'}}
       ),
       ledenaantallen: $resource(
         base + 'groep/:groepsnummer/ledenaantallen',
