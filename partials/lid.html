@@ -360,7 +360,9 @@
             <div class="form-group" ng-class="{ 'has-error': lidForm['contacten['+$index+'].adres'].$invalid }">
                <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
                <div class="col-xs-7 col-xxs-12">
-                 <select class="selectpicker" title="Kies een adres..." name="contacten[{{ $index }}].adres" id="_adres" ng-model="contact.adres" ng-disabled="!hasPermission('contacten')" ng-options="adres.id as adres.straat + ', ' + adres.nummer + ', ' + adres.postcode + ', ' + adres.gemeente for adres in lid.adressen" required>
+                 <select class="selectpicker" title="Kies een adres..." name="contacten[{{ $index }}].adres" id="_adres"
+                         ng-model="contact.adres" ng-disabled="!hasPermission('contacten')"
+                         ng-options="adres.id as adres.straat + ', ' + adres.nummer + ', ' + adres.postcode + ', ' + adres.gemeente for adres in lid.adressen" required>
                  </select>
                  <div ng-messages="lidForm['contacten['+$index+'].adres'].$error">
                      <div ng-messages-include="partials/messages.html"></div>
