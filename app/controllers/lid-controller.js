@@ -14,6 +14,8 @@
     $scope.lidPropertiesWatchable = false;
     $scope.heeftGroepseigenvelden = false;
 
+    var reloadGroepen;
+
     var init = function () {
       $scope.validationErrors = [];
 
@@ -558,6 +560,8 @@
         });
       }
 
+      reloadGroepen = $scope.lid.changes.indexOf('functies') !== -1;
+
       //indien er zowel een adres als een contact werd aangepast
       if ($scope.lid.changes.indexOf("adressen") != -1 && $scope.lid.changes.indexOf("contacten") != -1) {
         $scope.saving = true;
@@ -568,7 +572,9 @@
         $scope.lid.changes.splice($scope.lid.changes.indexOf("contacten"), 1);
         $scope.lid.$update(function (response) {
           //connect oude adressen met nieuwe
-          CS.Groepen(true);
+          if (reloadGroepen) {
+            CS.Groepen(true);
+          }
           var adressenIndex = [];
           angular.forEach(adressen, function (adres) {
             angular.forEach(response.adressen, function (newadres) {
@@ -600,7 +606,9 @@
         $scope.lid.$update(
           function () {
             $scope.saving = false;
-            CS.Groepen(true);
+            if (reloadGroepen) {
+              CS.Groepen(true);
+            }
             AlertService.add('success ', "Aanpassingen opgeslagen");
             $scope.lid.groepseigenVelden = origineleGroepseigenVelden;
             initAangepastLid();
