@@ -12,7 +12,7 @@ angular.module('ga.filters', [])
     }
   })
   .filter('verbondFuncties', function () {
-    return function (items, lid) {
+    return function (items, lid, geenActieve, groepsnummer) {
       var leeftijd;
 
       if(lid && lid.vgagegevens) {
@@ -20,14 +20,47 @@ angular.module('ga.filters', [])
       }
 
       return _.filter(items, function(item) {
-        if (leeftijd !== undefined && leeftijd < 16) {
-          var isLeidingsFunctie = (_.find(item.groeperingen, {naam: 'Leiding'}) !== undefined);
+        var showActief = true;
 
-          return item.type === 'verbond' && !isLeidingsFunctie;
+        if(geenActieve) {
+          angular.forEach(lid.functies, function (value) {
+            if (value.groep == groepsnummer && value.functie == item.id && value.temp != "tijdelijk" && value.einde == undefined) {
+              showActief = false;
+            }
+          });
+        }
+
+        if(showActief) {
+          if (leeftijd !== undefined && leeftijd < 16) {
+            var isLeidingsFunctie = (_.find(item.groeperingen, {naam: 'Leiding'}) !== undefined);
+
+            return item.type === 'verbond' && !isLeidingsFunctie;
+          }
+          else {
+            return item.type === 'verbond';
+          }
         }
         else {
-          return item.type === 'verbond';
+          return false;
         }
+
+      });
+    }
+  })
+  .filter('groepEigenFuncties', function () {
+    return function (items, lid, geenActieve, groepsnummer) {
+      return _.filter(items, function(item) {
+        var showActief = true;
+
+        if(geenActieve) {
+          angular.forEach(lid.functies, function (value) {
+            if (value.groep == groepsnummer && value.functie == item.id && value.temp != "tijdelijk" && value.einde == undefined) {
+              showActief = false;
+            }
+          });
+        }
+
+        return showActief && item.type === 'groep';
       });
     }
   })

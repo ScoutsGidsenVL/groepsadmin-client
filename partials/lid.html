@@ -435,15 +435,26 @@
                     </button>
                   </div>
                 </legend>
-                <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | verbondFuncties:lid | orderBy : 'beschrijving'" ng-show=" !showverbondfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
-                  <label class="col-md-6 form-group control checkbox" >
-                    <div class="col-xs-11 col-xxs-11 control-label">{{ groepFunctie.beschrijving }}</div>
-                    <div class="col-xs-1 col-xxs-1">
-                      <input type="checkbox" class="" ng-init="status='add';" ng-click="status = functieToevoegen(groepFuncties.groepsnummer, groepFunctie.id, status)" ng-disabled="!hasPermission('functies.' + groepFuncties.groepsnummer) || disableFV(groepFunctie.code)"/>
-                      <span class="control-indicator"></span>
+                <div ng-if="!showverbondfuncties">
+                  <div class="ga-functie-list-item"
+                       ng-repeat="groepFunctie in groepFuncties.functies | verbondFuncties:lid:true:groepFuncties.groepsnummer | orderBy : 'beschrijving'">
+                    <div class="col-md-6">
+                      <div class="col-xs-12">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" class="" ng-init="status='add';"
+                                   ng-click="status = functieToevoegen(groepFuncties.groepsnummer, groepFunctie.id, status)"
+                                   ng-disabled="!hasPermission('functies.' + groepFuncties.groepsnummer) || disableFV(groepFunctie.code)"/>
+                            {{ groepFunctie.beschrijving }}
+                          </label>
+                        </div>
+                      </div>
                     </div>
-                  </label>
+                    <div class="clearfix visible-xs-block visible-sm-block"
+                         ng-class="{'visible-lg-block visbible-md-block': ($index+1)%2 ===0}"></div>
+                  </div>
                 </div>
+
               </section>
 
               <section class="clearfix" ng-if="(groepFuncties.functies | filter: { type:'groep' }).length > 0">
@@ -456,14 +467,24 @@
                     </button>
                   </div>
                 </legend>
-                <div class="col-md-6 ga-functie-list-item" ng-repeat="groepFunctie in groepFuncties.functies | filter: { type:'groep' } | orderBy : 'beschrijving'" ng-show="!showgroepfuncties && !checkFunctie(groepFuncties.groepsnummer, groepFunctie.id)">
-                  <label class="col-md-6 form-group control checkbox ga-functie-list">
-                    <div class="col-xs-11 col-xxs-11 control-label">{{ groepFunctie.beschrijving }}</div>
-                    <div class="col-xs-1 col-xxs-1">
-                      <input type="checkbox" class="" ng-init="status='add';" ng-click="status = functieToevoegen(groepFuncties.groepsnummer,groepFunctie.id, status)" ng-disabled="!hasPermission('functies.' + groepFuncties.groepsnummer)"/>
-                      <span class="control-indicator"></span>
+                <div ng-if="!showgroepfuncties">
+                  <div class="ga-functie-list-item"
+                       ng-repeat="groepFunctie in groepFuncties.functies | groepEigenFuncties:lid:true:groepFuncties.groepsnummer | orderBy : 'beschrijving'">
+                    <div class="col-md-6">
+                      <div class="col-xs-12">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" class="" ng-init="status='add';"
+                                   ng-click="status = functieToevoegen(groepFuncties.groepsnummer,groepFunctie.id, status)"
+                                   ng-disabled="!hasPermission('functies.' + groepFuncties.groepsnummer)"/>
+                            {{ groepFunctie.beschrijving }}
+                          </label>
+                        </div>
+                      </div>
                     </div>
-                  </label>
+                    <div class="clearfix visible-xs-block visible-sm-block"
+                         ng-class="{'visible-lg-block visbible-md-block': ($index+1)%2 ===0}"></div>
+                  </div>
                 </div>
               </section>
             </fieldset>
