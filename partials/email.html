@@ -35,13 +35,6 @@
         <button id="split-button" type="submit"  ng-disabled="isLoadingGroepen || emailForm.$invalid" class="btn btn-apply">
           <span class="glyphicon glyphicon-envelope" aria-hidden="true" ng-click="verzenden()"></span>&nbsp;Verzenden&nbsp;
         </button>
-        <button type="button" class="btn btn-apply"  ng-disabled="isLoadingGroepen" uib-dropdown-toggle>
-          <span class="caret"></span>
-          <span class="sr-only">Verzenden</span>
-        </button>
-        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-          <li role="menuitem"><a href="#" ng-click="verzenden()">Verzenden</a></li>
-        </ul>
       </div>
     </div>
   </div>
