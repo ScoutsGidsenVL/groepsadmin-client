@@ -12,7 +12,7 @@
 
   function LedenFilterService($q, $rootScope, CS, RestService) {
     var ledenFilterService = {};
-    var cachedHuidigeFilter = {}
+    var cachedHuidigeFilter = {};
     ledenFilterService.getCriteria = function(functies){
       var returnObj = {};
       returnObj.arrCriteria = [];
@@ -70,7 +70,7 @@
       );
 
       return returnObj;
-    }
+    };
 
     ledenFilterService.getFilters = function(){
       var returnObj = {};
@@ -82,7 +82,7 @@
         }
       );
       return returnObj;
-    }
+    };
 
     ledenFilterService.getKolommen = function(){
       var returnObj = {};
@@ -94,7 +94,7 @@
         }
       );
       return returnObj;
-    }
+    };
 
     ledenFilterService.getFilter = function(filterId, initialLoad){
       var returnObj = {};
@@ -103,7 +103,7 @@
       // check if filter is already available on initial load of ledenlijst-page
       if(initialLoad && !_.isEmpty(cachedHuidigeFilter)){
         var deferred = $q.defer();
-        returnObj.currentFilter = cachedHuidigeFilter
+        returnObj.currentFilter = cachedHuidigeFilter;
         deferred.resolve(returnObj.currentFilter);
         returnObj.promises[0] = deferred.promise
 
@@ -117,7 +117,7 @@
       }
 
       return returnObj;
-    }
+    };
 
     ledenFilterService.functieGroepNaamMaken = function(functie){
       if (functie.type == "groep"){
@@ -125,18 +125,18 @@
       } else {
         return functie.type.charAt(0).toUpperCase() + functie.type.slice(1);
       }
-    }
+    };
 
     ledenFilterService.bestaatFunctieGroep = function(functie, functieGroepen){
       var functieGroepNaam = ledenFilterService.functieGroepNaamMaken(functie);
       var functieGroepBestaat = false;
-      angular.forEach(functieGroepen, function(functieGroep, key){
+      angular.forEach(functieGroepen, function(functieGroep){
         if(functieGroep.title == functieGroepNaam ){
           functieGroepBestaat = true;
         }
       });
       return functieGroepBestaat;
-    }
+    };
 
     ledenFilterService.voegFunctieGroepToeAan = function(functie, functieGroepen){
       var tempFunctieGroep = {
@@ -144,11 +144,11 @@
                                criteriaKey : "functies",
                                multiplePossible : true,
                                items: []
-                             }
+                             };
             // toeveogen aan functie groep
       functieGroepen.push(tempFunctieGroep);
       return functieGroepen;
-    }
+    };
 
     ledenFilterService.activeerGroepEnItems = function(criteriaGroep,value,bGrouped){
 
@@ -178,7 +178,7 @@
       } else {
 
         if(!bGrouped){
-          _.each(value, function(v,k){
+          _.each(value, function(v){
             var item = _.find(criteriaGroep.items, {'value' : v});
             if(item){
               item.activated = true;
@@ -187,8 +187,8 @@
           });
         }else{
           // bvb. bij verbondsfuncties, zijn alle functies gegroepeerd
-          _.each(value, function(v,k){
-            _.each(criteriaGroep.itemgroups, function(vv,kk){
+          _.each(value, function(v){
+            _.each(criteriaGroep.itemgroups, function(vv){
               var item = _.find(vv.items, {'value' : v});
               if(item){
                 item.activated = true;
@@ -200,8 +200,8 @@
 
       }
 
-      criteriaGroep.activated = hasActiveItems ? true : false;
-    }
+      criteriaGroep.activated = !!hasActiveItems;
+    };
 
     ledenFilterService.maakFunctieGroep = function(arrFuncties, titel){
       return {
@@ -210,7 +210,7 @@
         multiplePossible : true,
         items: arrFuncties
       };
-    }
+    };
 
     ledenFilterService.maakFunctieGroepGroepspecifiek = function(arrGroupedFuncties){
 
@@ -221,7 +221,7 @@
       functieGroep.multiplePossible = true;
       functieGroep.itemgroups = [];
 
-      _.each(arrGroupedFuncties,function(value,key){
+      _.each(arrGroupedFuncties,function(value){
         var obj = {};
         obj.collapsed = true;
         obj.items = value.items;
@@ -231,7 +231,7 @@
       });
 
       return functieGroep;
-    }
+    };
 
     // maak functiegroep van het type verbond
     ledenFilterService.maakFunctieGroepVerbond = function(arrFuncties){
@@ -282,19 +282,19 @@
 
       // neem eerst alle groepnummers van de functies die behoren tot het type 'groep'
       var arrGroepFunctieGroepen = [];
-      _.each(groepFuncties, function(value,key){
+      _.each(groepFuncties, function(value){
         arrGroepFunctieGroepen.push(value.groepen[0]);
       });
       // hou enkel de unieke waarden over
       arrGroepFunctieGroepen = _.uniqWith(arrGroepFunctieGroepen, _.isEqual);
 
       // per unieke waarde een functiegroep maken
-      _.each(arrGroepFunctieGroepen,function(v, k){
+      _.each(arrGroepFunctieGroepen,function(v){
         var arrUnmappedObjs = _.filter(groepFuncties, function(o) { return o.groepen[0] == v});
         var arrMappedObjs = [];
         var mappedObj = {};
 
-        _.each(arrUnmappedObjs, function(value,key){
+        _.each(arrUnmappedObjs, function(value){
           mappedObj = ledenFilterService.mapObj(value);
           arrMappedObjs.push(mappedObj);
         });
@@ -306,7 +306,7 @@
 
       return groepSpecifiekeFunctieGroepen;
 
-    }
+    };
 
     ledenFilterService.mapObj = function(unmappedObj){
       // Map de properties van ieder object (bvb. 'beschrijving' wordt 'label', 'id' wordt 'value')
@@ -320,7 +320,7 @@
           mappedObj[key] = value;
       });
       return mappedObj;
-    }
+    };
 
     ledenFilterService.voegItemToeAanFunctieGroep = function(functie, functieGroepen){
       // voeg functie toe aan items van dat type
@@ -330,7 +330,7 @@
                   };
       functieGroepen[ledenFilterService.functieGroepKey(functie, functieGroepen)].items.push(tempItem);
       return functieGroepen;
-    }
+    };
 
     // criteria ophalen
     ledenFilterService.getCriteriaGroepen = function(data){
@@ -345,12 +345,12 @@
       angular.forEach(groepen, function(value){
         var groep = {
           value: value.groepsnummer,
-          label: value.naam + " - " + value.groepsnummer
-        }
+          label: value.groepsnummer + " - " + value.naam
+        };
         groepenCriteria.items.push(groep);
       });
       return groepenCriteria;
-    }
+    };
 
     ledenFilterService.functieGroepKey = function(functie, functieGroepen){
       var tempKey;
@@ -361,7 +361,7 @@
         }
       });
       return tempKey;
-    }
+    };
 
     ledenFilterService.saveFilter = function(filterId, fObj){
       console.log('LFS.saveFilter filterId:', filterId, ' -- filterObject:  ', fObj);
@@ -374,7 +374,7 @@
         );
       }
       return deferred.promise;
-    }
+    };
 
     ledenFilterService.getReconstructedFilterObject = function(activeCriteria, activeKolommen, currentFilter){
       // reconstrueer het Filter object:
@@ -402,9 +402,9 @@
 
       // functies
       reconstructedFilterObj.criteria.functies = [];
-      _.each(_.filter(activeCriteria, {"criteriaKey":"functies"}), function(value, key){
+      _.each(_.filter(activeCriteria, {"criteriaKey":"functies"}), function(value){
         if(value.criteriaSubKey == "verbonds" || value.criteriaSubKey == "groepspecifiek"){
-          _.each(value.itemgroups,function(v,k){
+          _.each(value.itemgroups,function(v){
             var temp = _.filter(v.items, {'activated': true});
             if(temp && temp.length > 0){
               _.each(temp, function(val){
@@ -474,11 +474,11 @@
       reconstructedFilterObj.links = patchedFilterObj.links;
 
       return reconstructedFilterObj;
-    }
+    };
 
     ledenFilterService.getSelectionSummary = function(crit,amount){
       var str= "";
-      var items = new Array();
+      var items = [];
       if(crit.criteriaKey !== 'functies' ){
         // geen gegroepeerde items
         items = crit.items;
@@ -507,7 +507,7 @@
       }
       return str;
 
-    }
+    };
 
     ledenFilterService.getLeeftijdCriterium = function(){
       return {
@@ -635,9 +635,9 @@
             }
 
       };
-    }
+    };
 
 
     return ledenFilterService;
-  };
+  }
 })();
