@@ -215,7 +215,7 @@
                 </div>
               </legend>
               <fieldset ng-hide="!adres.showme">
-                <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].land'].$invalid }">
+                <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].land'].$touched && lidForm['adressen['+$index+'].land'].$invalid }">
                   <label for="_land" class="col-xs-4 col-xxs-12 control-label">Land</label>
                   <div class="col-xs-8 col-xxs-12">
                     <select class="selectpicker" name="adressen[{{ $index }}].land" title="Kies een land..." id="_land" ng-model="adres.land" ng-disabled="!hasPermission('adressen')" required>
@@ -231,7 +231,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].gemeente'].$invalid }">
+                <div class="form-group" ng-class="{ 'has-error': lidForm['adressen['+$index+'].gemeente'].$touched && lidForm['adressen['+$index+'].gemeente'].$invalid }">
                   <label for="_gemeenteWrap" class="col-xs-4 col-xxs-12 control-label">Woonplaats</label>
                   <div class="col-xs-8 col-xxs-2">
                     <input type="text" name="adressen[{{ $index }}].gemeente" class="form-control ga-functie-list" ng-init="gemeenteWrap = adres.postcode && adres.gemeente ? adres.postcode + ' ' + adres.gemeente : ''" ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')" ng-bind="adres.postcode + ' ' + adres.postcode" uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"  typeahead-on-select="bevestigGemeente($item, adres)" required/>

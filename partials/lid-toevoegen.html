@@ -191,7 +191,7 @@
                   </legend>
                   <fieldset ng-hide="!adres.showme">
                     <div class="form-group"
-                         ng-class="{ 'has-error': nieuwLidForm['adressen['+$index+'].land'].$invalid }">
+                         ng-class="{ 'has-error': nieuwLidForm['adressen['+$index+'].land'].$touched && nieuwLidForm['adressen['+$index+'].land'].$invalid }">
                       <label for="_land" class="col-xs-4 col-xxs-12 control-label">Land</label>
                       <div class="col-xs-8 col-xxs-12">
                         <select class="selectpicker" name="adressen[{{ $index }}].land" title="Kies een land..."
