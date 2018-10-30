@@ -20,7 +20,8 @@
 
     init();
 
-    $scope.goedkeuren = function (aanvraag) {
+    $scope.goedkeuren = function ($event, aanvraag) {
+      $event.stopPropagation();
       var link = _.find(aanvraag.links, {rel: 'afkeuren'});
       aanvraag.adres.postadres = true;
 
@@ -42,7 +43,8 @@
       $location.path("/lid/toevoegen");
     };
 
-    $scope.afkeuren = function (aanvraag) {
+    $scope.afkeuren = function ($event, aanvraag) {
+      $event.stopPropagation();
       var link = _.find(aanvraag.links, {rel: 'afkeuren'});
 
       if (link) {
