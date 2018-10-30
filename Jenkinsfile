@@ -16,7 +16,7 @@ pipeline {
         sh "node_modules/.bin/aglio --theme-condense-nav=false --theme-style default --theme-style docs/custom.less -i docs/api.apib -o docs/api.html"
         sh "rm -rf client.zip"
         /* jquery en keycloak apart is voor apitest.html */
-        sh "zip -r client.zip index.html apitest.html logintest.html app css data docs/api.html fonts img js less partials bower_components/jquery/jquery.js bower_components/keycloak/dist/keycloak.js"
+        sh "zip -r client.zip index.html formulier.html apitest.html logintest.html app css data docs/api.html fonts img js less partials bower_components/jquery/jquery.js bower_components/keycloak/dist/keycloak.js"
       }
     }
 
