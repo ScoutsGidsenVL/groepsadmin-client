@@ -408,7 +408,7 @@
               <i class="fa fa-spinner fa-pulse"> </i>
             </div></legend>
             <div ng-repeat="(key,val) in orderedFuncties" class="clearfix">
-              <div class="ga-functie__titel" ng-show="(val.toonGroepInActueleLijst && toonActueleFuncties) || !toonActueleFuncties">{{ val.groep }} - {{ groepenlijst[val.groep].naam }}</div>
+              <div class="ga-functie__titel" ng-show="(val.toonGroepInActueleLijst && toonActueleFuncties) || !toonActueleFuncties">{{ groepenlijst[val.groep].naam }} - {{ val.groep }}</div>
               <ga-functie ng-show="lid.functies" class="form-group form-group--functies nopadding" ng-repeat="fn in val.functies | collapsedFilter:toonActueleFuncties | filter:{temp:'!tijdelijk'} | orderBy: '-begin'" functie="fn" functieslijst="functieslijst" groepenlijst="groepenlijst" stop-functie="stopFunctie" patch-secties="patchObj.secties">
               </ga-functie>
             </div>
@@ -423,7 +423,7 @@
               <i class="fa fa-spinner fa-pulse"> </i>
             </div></legend>
           <fieldset ng-show="groepEnfuncties" ng-repeat="groepFuncties in groepEnfuncties" ng-if="hasPermission('functies.' + groepFuncties.groepsnummer)">
-            <legend class="group-legend"><span>{{ groepFuncties.groepsnummer }} - {{ groepFuncties.naam }} </span></legend>
+            <legend class="group-legend"><span>{{ groepFuncties.naam }} - {{ groepFuncties.groepsnummer }} </span></legend>
             <fieldset class="ga-functie-list">
               <section class="clearfix">
                 <legend ng-init="showverbondfuncties=true;" ng-click="showverbondfuncties = !showverbondfuncties">

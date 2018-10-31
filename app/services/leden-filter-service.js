@@ -345,7 +345,8 @@
       angular.forEach(groepen, function(value){
         var groep = {
           value: value.groepsnummer,
-          label: value.groepsnummer + " - " + value.naam
+          label: value.naam + " - " + value.groepsnummer,
+          sortering: value.groepsnummer
         };
         groepenCriteria.items.push(groep);
       });

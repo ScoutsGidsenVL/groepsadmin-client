@@ -217,7 +217,7 @@
 
               <label
                 ng-if="criterium.multiplePossible && (criterium.criteriaKey !== 'leeftijd' || criterium.criteriaSubKey !== 'verbonds' || criterium.criteriaSubKey !== 'groepspecifiek')"
-                ng-repeat="criteriumItem in criterium.items | orderBy:'label'"
+                ng-repeat="criteriumItem in criterium.items | orderBy:['sortering','label']"
                 class="jcontrol control--checkbox">
                 {{ criteriumItem.label }}
                 <input type="checkbox" ng-click="toggleCriteriumItem(criteriumItem,'checkbox')"

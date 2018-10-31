@@ -19,7 +19,7 @@
           <label class="groepsinstellingen-title hidden-xs hidden-sm" for="groepenSelect">Groepsinstellingen
             van </label>
           <select class="groepsinstellingen-select-group" name="groepenSelect"
-                  ng-options="groep as (groep.groepsnummer + ' - ' + groep.naam) for groep in data.groepenlijst"
+                  ng-options="groep as (groep.naam + ' - ' + groep.groepsnummer) for groep in data.groepenlijst"
                   ng-change="changeGroep()" ng-model="data.activegroup"></select>
         </div>
       </form>
