@@ -195,11 +195,17 @@
 
       function processResult(jqXHR, statusText, data) {
 
-        var contentType = jqXHR.getResponseHeader('Content-Type') || "(Lege response?)";
+        var contentType = jqXHR.getResponseHeader('Content-Type')
+          || (jqXHR.status == 0 && "(Niet opvraagbaar door CORS)")
+          || (jqXHR.status == 204 && "(Niet van toepassing)")
+          || "(Geen response content?)";
 
         $('#status').val(jqXHR.status + ' - ' + statusText);
         $('#type').val(contentType);
-        $('#etag').val(jqXHR.getResponseHeader('Etag') || '(Niet opvraagbaar door CORS)');
+        $('#etag').val(jqXHR.getResponseHeader('Etag')
+          || (jqXHR.status == 0 && "(Niet opvraagbaar door CORS)")
+          || (jqXHR.status == 204 && "(Niet van toepassing)")
+          || '(Geen response content?)');
 
         if (contentType === 'application/pdf') {
           document.getElementById('result').src = URL.createObjectURL(new Blob([data], {type : contentType}));
@@ -207,7 +213,10 @@
           return;
         }
 
-        var content = jqXHR.responseText || '"(response ontbreekt)"';
+        var content = jqXHR.responseText
+          || (jqXHR.status == 0 && "(Niet opvraagbaar door CORS)")
+          || (jqXHR.status == 204 && "(Niet van toepassing)")
+          || '"(Geen response content?)"';
 
         if (contentType === 'application/json') {
           try {
