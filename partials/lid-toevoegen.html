@@ -369,13 +369,9 @@
         </div>
         <div class="col-lg-4 col-sm-6 col-xs-12">
           <!-- Functies -->
-          <section>
+          <section ga-loading-section sectie-geladen="functiesEnGroepenGeladen" sectie-hoogte="130">
             <fieldset>
-              <legend ng-class="{'has-error' : functieInstantiesError }">Functies toevoegen
-                <div class="pull-right" ng-hide="groepEnfuncties.length">
-                  <i class="fa fa-spinner fa-pulse"> </i>
-                </div>
-              </legend>
+              <legend ng-class="{'has-error' : functieInstantiesError }">Functies toevoegen</legend>
               <div ng-if="functieInstantiesError" class="has-error">
                 <p class="help-block">Duid minstens één functie aan</p>
               </div>

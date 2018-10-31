@@ -11,6 +11,8 @@
   function LidToevoegenController($scope, $location, $timeout, $window, $http, CS, LS, RestService, AlertService, DialogService, $rootScope, $route, access, FVS) {
 
     $scope.formInitiated = false;
+    $scope.functiesEnGroepenGeladen = false;
+
     var aangemeldeGebruiker = {};
     if (!access) {
       $location.path("/lid/profiel");
@@ -129,6 +131,7 @@
                 });
                 $scope.groepEnfuncties.push(tempGroep);
               });
+              $scope.functiesEnGroepenGeladen = true;
             }
           );
         }

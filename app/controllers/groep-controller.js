@@ -18,6 +18,7 @@
 
     $scope.data = {};
     $scope.data.groepenlijst = [];
+    $scope.contactenGeladen = false;
 
 
     function groepenGeladen (result) {
@@ -61,9 +62,13 @@
               naam: res.vgagegevens.voornaam + ' ' + res.vgagegevens.achternaam,
               email: res.email
             });
+
           });
 
           delete contacten[id];
+          if($.isEmptyObject(contacten)) {
+            $scope.contactenGeladen = true;
+          }
         });
       });
 

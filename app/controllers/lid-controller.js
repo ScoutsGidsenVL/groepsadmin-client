@@ -13,6 +13,7 @@
 
     $scope.lidPropertiesWatchable = false;
     $scope.heeftGroepseigenvelden = false;
+    $scope.functiesEnGroepenGeladen = false;
 
     var reloadGroepen;
 
@@ -175,6 +176,8 @@
         });
         $scope.groepEnfuncties.push(tempGroep);
       });
+
+      $scope.functiesEnGroepenGeladen = true;
       $scope.showFunctieToevoegen = false;
       // controle of de functies weergegeven mogen worden
       angular.forEach($scope.groepEnfuncties, function (groepFuncties) {

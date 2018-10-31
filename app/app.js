@@ -23,6 +23,7 @@
     'ga.lidindividuelesteekkaartcontroller',
     'ga.menucontroller',
     'ga.formerrorbutton',
+    'ga.loadingSection',
     'ga.ordericon',
     'ga.parseDate',
     'ga.groepcontroller',
