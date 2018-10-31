@@ -37,9 +37,14 @@
         width: 70%;
         word-break: break-all;
       }
-      #result {
+      #result_size {
         height: 3000px;
+        resize: vertical;
+        overflow: hidden;
+      }
+      #result {
         width: 100%;
+        height: 100%;
         border: 0;
       }
     </style>
@@ -136,7 +141,9 @@
       </div>
     </div>
     <label>Content</label>
-    <iframe id="result" scrolling="no" src='data:text/plain,Nog geen request verstuurd'></iframe>
+    <div id="result_size">
+      <iframe id="result" src='data:text/plain,Nog%20geen%20request%20verstuurd'></iframe>
+    </div>
 
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/keycloak/dist/keycloak.js"></script>
@@ -236,7 +243,7 @@
         if (document.getElementById('result').contentDocument) {
           var resultBody = document.getElementById('result').contentDocument.body;
           if (resultBody) {
-            document.getElementById('result').style.height = parseFloat(resultBody.scrollHeight) + 'px';
+            document.getElementById('result_size').style.height = parseFloat(resultBody.scrollHeight) + 'px';
           }
         }
 
