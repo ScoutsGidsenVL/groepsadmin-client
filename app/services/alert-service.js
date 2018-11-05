@@ -13,9 +13,7 @@
     $rootScope.$on(
       "$routeChangeSuccess",
       function handleRouteChangeEvent() {
-        angular.forEach($rootScope.alerts, function (alert) {
-          alert.close();
-        });
+        $rootScope.alerts = [];
       }
     );
 
