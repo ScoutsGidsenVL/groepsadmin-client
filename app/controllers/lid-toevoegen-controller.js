@@ -393,8 +393,13 @@
     // listener voor wanneer een gebruiker van pagina veranderd en er zijn nog openstaande aanpassingen.
     $scope.$on('$locationChangeStart', function (event, newUrl) {
       if ($scope.nieuwLidForm.$dirty) {
-        event.preventDefault();
-        DialogService.paginaVerlaten($scope.locationChange, newUrl);
+        if(newUrl.indexOf('?suggestie=1')) {
+          //suggestie geklikt, dus vraag hoeft niet gesteld te worden
+        }
+        else {
+          event.preventDefault();
+          DialogService.paginaVerlaten($scope.locationChange, newUrl);
+        }
       }
     });
 

@@ -55,7 +55,7 @@
         <div ng-bind="alert.msg"></div>
         <ul>
           <li ng-repeat="suggestie in alert.suggesties">
-            <a ng-href="#/lid/{{suggestie.id}}" ng-click="alert.close()">
+            <a ng-href="#/lid/{{suggestie.id}}?suggestie=1" ng-click="alert.close()">
               <span style='font-weight: bold;' ng-bind="suggestie.voornaam + ' ' + suggestie.achternaam"></span>
               <span ng-bind="'- ' + suggestie.geboortedatum.substr(8, 2) + '/' + suggestie.geboortedatum.substr(5, 2) + '/' + suggestie.geboortedatum.substr(0, 4)"></span>
             </a>
