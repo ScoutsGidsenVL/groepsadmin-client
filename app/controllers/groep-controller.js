@@ -415,6 +415,18 @@
       $scope.data.activegroup.groepseigenGegevens[index].keuzes.splice(keuzeIndex, 1);
     };
 
+    $scope.deleteLokaal = function(id) {
+      var adressen = [];
+
+      angular.forEach($scope.data.activegroup.adressen, function(adres) {
+        if(adres.id !== id) {
+          adressen.push(adres);
+        }
+      });
+
+      $scope.data.activegroup.adressen = adressen;
+    };
+
     /*
     * Marker events
     * ----------------------------------------------------
@@ -444,13 +456,13 @@
       });
 
       marker.addListener('dragend', function (evt) {
-        angular.forEach($scope.data.activegroup.adres, function(value, key){
+        angular.forEach($scope.data.activegroup.adressen, function(value){
           if (value.id == marker.adresId) {
-            if ($scope.data.activegroup.adres[key].positie == undefined) {
-              $scope.data.activegroup.adres[key].positie = {};
+            if (value.positie == undefined) {
+              value.positie = {};
             }
-            $scope.data.activegroup.adres[key].positie.latitude = evt.latLng.lat();
-            $scope.data.activegroup.adres[key].positie.longitude = evt.latLng.lng();
+            value.positie.latitude = evt.latLng.lat();
+            value.positie.longitude = evt.latLng.lng();
           }
         });
       });
