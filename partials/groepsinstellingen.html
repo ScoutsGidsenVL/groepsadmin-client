@@ -128,6 +128,29 @@
             <span class="control-indicator"></span>
           </div>
         </label>
+        <div class="form-group">
+          <label class="control checkbox">
+            <div class="col-xs-6 col-xxs-12 control-label">Lid aanvragen via webformulier</div>
+            <div class="col-xs-6 col-xxs-12">
+              <input type="checkbox"
+                     ng-model="data.activegroup['publiek-inschrijven']"
+                     ng-disabled="!data.activegroup.kanWijzigen"/>
+              <span class="control-indicator"></span>
+            </div>
+          </label>
+          <div id="helpBlock" class="help-block word-break" ng-show="data.activegroup['publiek-inschrijven']">
+            <p>
+              Link naar jouw webformulier:<br>
+              <a href="{{formulierUrl}}" target="_blank">{{formulierUrl}}</a>
+            </p>
+            <p>
+              Insluiten in jouw website:<br>
+              <code>
+                &lt;iframe height="1200" width="950" src="{{formulierUrl}}" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+              </code>
+            </p>
+          </div>
+        </div>
 
       </div>
 

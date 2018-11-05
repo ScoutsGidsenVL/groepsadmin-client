@@ -213,7 +213,8 @@
       <div class="col-xs-12">
         <div class="jumbotron">
           <p ng-if="!groepGeladen">Formulier wordt geladen</p>
-          <p ng-if="groepGeladen">Groep {{groepNr}} bestaat niet.</p>
+          <p ng-if="groepGeladen && publiekInschrijven">Groep {{groepNr}} bestaat niet.</p>
+          <p ng-if="groepGeladen && !publiekInschrijven">Online aanvraag voor Groep {{groepNr}} is niet actief.</p>
         </div>
       </div>
     </div>

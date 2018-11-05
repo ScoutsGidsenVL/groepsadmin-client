@@ -12,6 +12,7 @@
 
     $scope.aanvraagverstuurd = false;
     $scope.groepGeladen = false;
+    $scope.publiekInschrijven = true;
     $scope.groepNr = $routeParams.groep;
     $scope.formats = ['dd/MM/yyyy'];
     $scope.format = $scope.formats[0];
@@ -36,8 +37,13 @@
       .$promise
       .then(
         function(result) {
-          $scope.groep = result;
-          $scope.lid.groepsnummer = result.id;
+          if(result['publiek-inschrijven']) {
+            $scope.groep = result;
+            $scope.lid.groepsnummer = result.id;
+          }
+          else {
+            $scope.publiekInschrijven = false;
+          }
         })
       .finally(
         function() {

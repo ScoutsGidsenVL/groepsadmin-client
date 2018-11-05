@@ -12,6 +12,8 @@
       $location.path("/lid/profiel");
     }
 
+    $scope.baseUrl = $location.absUrl().split('#' + $location.path())[0] + 'formulier.html#/lidworden?groep=';
+
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     var contacten = {}, deregisterListener;
@@ -76,6 +78,7 @@
 
       if(!$scope.data.activegroup) {
         $scope.data.activegroup = $scope.data.groepenlijst[0];
+        $scope.formulierUrl = $scope.baseUrl + $scope.data.activegroup.id;
         $timeout(maakSorteerbaar, 0);
         loadGoogleMap();
       }
@@ -244,6 +247,7 @@
      */
     //dropdown verander van groep
     $scope.changeGroep = function () {
+      $scope.formulierUrl = $scope.baseUrl + $scope.data.activegroup.id;
       loadGoogleMap();
       maakSorteerbaar();
     };
