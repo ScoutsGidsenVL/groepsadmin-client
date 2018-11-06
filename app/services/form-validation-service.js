@@ -42,11 +42,41 @@
     };
 
     formValidationService.validatePhoneNumber = function(field){
-      return /^((\+|00)\d{2}\s?|0)(\d{8})$/.test(field.$modelValue);
+      var regularExpressions = [
+        /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/, //BE
+        /^((\+|00)31\s?)(\d{2})(\s?\d{3})(\s?\d{2}){2}$/, //NL
+        /^((\+|00)33\s?)[1-5](\s?\d{2}){4}$/, //FR
+        /^((\+|00\s?)352)?(\s?\d{2}){3,4}$/, //LUX
+        /^((\+|00)49\s?)(\d{3})(\s?\d{2}){4}$/ //GER
+      ];
+
+      var validated = false, i=0;
+
+      while (i < regularExpressions.length && validated === false) {
+        validated = regularExpressions[i].test(field.$modelValue);
+        i++;
+      }
+
+      return validated;
     };
 
     formValidationService.validateMobileNumber = function(field){
-      return /^((\+|00)\d{2}\s?|0)(\d{9})$/.test(field.$modelValue);
+      var regularExpressions = [
+        /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/, //BE
+        /^((\+|00)31\s?)(6)(\s?\d{2}){4}$/, //NL
+        /^((\+|00)33\s?)[679](\s?\d{2}){4}$/, //FR
+        /^((\+|00\s?)352)?\s?6[269]1(\s?\d{3}){2}$/, //LUX
+        /^((\+|00)49\s?)(\d{3})(\s?\d{2}){4}$/ //GER
+      ];
+
+      var validated = false, i=0;
+
+      while (i < regularExpressions.length && validated === false) {
+        validated = regularExpressions[i].test(field.$modelValue);
+        i++;
+      }
+
+      return validated;
     };
 
     formValidationService.getFormElemByErrData = function(prefix, data){
