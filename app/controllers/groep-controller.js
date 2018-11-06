@@ -8,7 +8,7 @@
   GroepController.$inject = ['$q', '$scope', '$location', '$timeout', 'RestService', 'CacheService', 'access'];
 
   function GroepController($q, $scope, $location, $timeout, RestService, CS, access) {
-    if(!access){
+    if (!access) {
       $location.path("/lid/profiel");
     }
 
@@ -23,15 +23,15 @@
     $scope.contactenGeladen = false;
 
 
-    function groepenGeladen (result) {
+    function groepenGeladen(result) {
       $scope.data.groepenlijst.splice(0);
       //tijdelijk extra velden toevoegen aan het resultaat
-      angular.forEach(result.groepen, function(groep){
+      angular.forEach(result.groepen, function (groep) {
         groep.vga = [];
         groep.fv = [];
         groep.groepsleiding = [];
 
-        _.forEach(groep.contacten, function(contact) {
+        _.forEach(groep.contacten, function (contact) {
           var groepering;
           if (contact.functie == 'd5f75b320b812440010b812555970393') {
             groepering = groep.vga;
@@ -41,7 +41,7 @@
             groepering = groep.groepsleiding
           }
 
-          if(contacten[contact.lid] === undefined) {
+          if (contacten[contact.lid] === undefined) {
             contacten[contact.lid] = [];
           }
 
@@ -57,9 +57,9 @@
       });
 
 
-      angular.forEach(contacten, function(groeplijst, id) {
-        RestService.Lid.get({id: id}).$promise.then(function(res) {
-          angular.forEach(groeplijst, function(groepering) {
+      angular.forEach(contacten, function (groeplijst, id) {
+        RestService.Lid.get({id: id}).$promise.then(function (res) {
+          angular.forEach(groeplijst, function (groepering) {
             groepering.push({
               naam: res.vgagegevens.voornaam + ' ' + res.vgagegevens.achternaam,
               email: res.email
@@ -68,7 +68,7 @@
           });
 
           delete contacten[id];
-          if($.isEmptyObject(contacten)) {
+          if ($.isEmptyObject(contacten)) {
             $scope.contactenGeladen = true;
           }
         });
@@ -76,24 +76,24 @@
 
       // by default is de eerste groep actief
 
-      if(!$scope.data.activegroup) {
+      if (!$scope.data.activegroup) {
         $scope.data.activegroup = $scope.data.groepenlijst[0];
         $scope.formulierUrl = $scope.baseUrl + $scope.data.activegroup.id;
         $timeout(maakSorteerbaar, 0);
         loadGoogleMap();
       }
       else {
-        angular.forEach($scope.data.groepenlijst, function(groep) {
+        angular.forEach($scope.data.groepenlijst, function (groep) {
           if (groep.id == $scope.data.activegroup.id) {
             $scope.data.activegroup = groep;
           }
         })
       }
 
-      if(deregisterListener) {
+      if (deregisterListener) {
         deregisterListener();
       }
-      deregisterListener = $scope.$on("ga-groepen-geladen", function(event, result) {
+      deregisterListener = $scope.$on("ga-groepen-geladen", function (event, result) {
         groepenGeladen(result);
       });
     }
@@ -102,7 +102,7 @@
     // groepen ophalen
     CS.Groepen().then(
       groepenGeladen,
-      function (Error){
+      function (Error) {
       }
     );
 
@@ -115,7 +115,7 @@
     $scope.popupCal = {
       opened: false
     };
-    $scope.popupCal = function() {
+    $scope.popupCal = function () {
       $scope.popupCal.opened = true;
     };
     $scope.formats = ['dd/MM/yyyy'];
@@ -126,29 +126,29 @@
      * ----------------------------------
      */
 
-    var loadGoogleMapsScript = function(callback) {
-        var googleMapsKey = '';
-        switch (window.location.origin){
-          case 'http://localhost:8000':
-            googleMapsKey = 'AIzaSyBQRUONtrmAcJ96_NILKeRvj5F5nXRh2MM';
-            break;
-          case 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be':
-            googleMapsKey = 'AIzaSyBiKzCCqMUyu4mW0rKk777CU3pW86FZiJ8';
-            break;
-          case 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net':
-            googleMapsKey = 'AIzaSyBZU1SgLDbOfAlROSnR_cb_wWQGlQRqMqc';
-            break;
-        }
+    var loadGoogleMapsScript = function (callback) {
+      var googleMapsKey = '';
+      switch (window.location.origin) {
+        case 'http://localhost:8000':
+          googleMapsKey = 'AIzaSyBQRUONtrmAcJ96_NILKeRvj5F5nXRh2MM';
+          break;
+        case 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be':
+          googleMapsKey = 'AIzaSyBiKzCCqMUyu4mW0rKk777CU3pW86FZiJ8';
+          break;
+        case 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net':
+          googleMapsKey = 'AIzaSyBZU1SgLDbOfAlROSnR_cb_wWQGlQRqMqc';
+          break;
+      }
 
-        window.googleMapsCallback = callback;
+      window.googleMapsCallback = callback;
 
-        var script = document.createElement('script');
-        script.src = 'https://maps.googleapis.com/maps/api/js?key=' + googleMapsKey + '&callback=googleMapsCallback';
-        document.head.appendChild(script);
+      var script = document.createElement('script');
+      script.src = 'https://maps.googleapis.com/maps/api/js?key=' + googleMapsKey + '&callback=googleMapsCallback';
+      document.head.appendChild(script);
     };
 
     // initialize Google Map
-    var loadGoogleMap = function() {
+    var loadGoogleMap = function () {
       if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
         loadGoogleMapsScript(loadGoogleMap);
         return;
@@ -168,13 +168,13 @@
       markersTekenen($scope.googleMap, $scope.data.activegroup.adressen, $scope.data.activegroup.kanWijzigen);
     };
 
-    var berekenCenter = function(adressen) {
+    var berekenCenter = function (adressen) {
       // Gebaseerd op de grenzen van Vlaanderen
       var minLat = 52; // bovengrens
       var maxLat = 50; // ondergrens
       var minLng = 7; // bovengrens
       var maxLng = 2; // ondergrens
-      angular.forEach(adressen, function(adres) {
+      angular.forEach(adressen, function (adres) {
         if (typeof adres.positie !== 'undefined') {
           minLat = Math.min(minLat, adres.positie.latitude);
           maxLat = Math.max(maxLat, adres.positie.latitude);
@@ -189,13 +189,13 @@
     };
 
     // Place Markers on Map
-    var markersTekenen = function(map, adressen, isDraggable){
-      if($scope.markers == undefined) {
+    var markersTekenen = function (map, adressen, isDraggable) {
+      if ($scope.markers == undefined) {
         $scope.markers = [];
       }
       clearMarkers();
 
-      angular.forEach(adressen, function(adres, key) {
+      angular.forEach(adressen, function (adres, key) {
         if (typeof adres.positie !== 'undefined') {
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(adres.positie.latitude, adres.positie.longitude),
@@ -212,29 +212,29 @@
     };
 
     // Remove allmarkers on Map
-    var clearMarkers = function(){
-      angular.forEach($scope.markers, function(value, key){
+    var clearMarkers = function () {
+      angular.forEach($scope.markers, function (value, key) {
         $scope.markers[key].setMap(null)
       });
       $scope.markers = [];
     };
 
     // openMarkerInfo
-    var openInfoWindow = function(map, marker){
+    var openInfoWindow = function (map, marker) {
       var infoWindow = new google.maps.InfoWindow({
         content: marker.infoProp,
         maxWidth: 200
       });
-      google.maps.event.addListener(infoWindow,'closeclick',function(){
-          angular.forEach($scope.markers, function(value, key){
-            if(value.adresId == marker.adresId){
-              $scope.markers[key].infoIsOpen = false;
-            }
-          });
+      google.maps.event.addListener(infoWindow, 'closeclick', function () {
+        angular.forEach($scope.markers, function (value, key) {
+          if (value.adresId == marker.adresId) {
+            $scope.markers[key].infoIsOpen = false;
+          }
         });
-      angular.forEach($scope.markers, function(value, key){
+      });
+      angular.forEach($scope.markers, function (value, key) {
         console.log(marker.infoIsOpen);
-        if(value.adresId == marker.adresId && !marker.infoIsOpen){
+        if (value.adresId == marker.adresId && !marker.infoIsOpen) {
           $scope.markers[key].infoIsOpen = true;
           infoWindow.open(map, marker);
         }
@@ -253,14 +253,14 @@
     };
 
     // marker-icon click
-    $scope.centerMap = function(lat, lng, id){
-      if(lat == undefined || lng == undefined || id == undefined){
+    $scope.centerMap = function (lat, lng, id) {
+      if (lat == undefined || lng == undefined || id == undefined) {
         return;
       }
 
       $scope.googleMap.setCenter(new google.maps.LatLng(lat, lng));
-      angular.forEach($scope.markers, function(value){
-        if(value.adresId == id){
+      angular.forEach($scope.markers, function (value) {
+        if (value.adresId == id) {
           google.maps.event.trigger(value, 'click');
         }
       })
@@ -277,22 +277,22 @@
     };
 
     // zoek gemeentes
-    $scope.zoekGemeente = function(zoekterm){
+    $scope.zoekGemeente = function (zoekterm) {
       var resultaatGemeentes = [];
-      return RestService.Gemeente.get({zoekterm:zoekterm, token:1}).$promise.then(
-          function(result){
-            angular.forEach(result, function(val){
-              if(typeof val == 'string'){
-                resultaatGemeentes.push(val);
-              }
-            });
-            return resultaatGemeentes;
+      return RestService.Gemeente.get({zoekterm: zoekterm, token: 1}).$promise.then(
+        function (result) {
+          angular.forEach(result, function (val) {
+            if (typeof val == 'string') {
+              resultaatGemeentes.push(val);
+            }
+          });
+          return resultaatGemeentes;
         });
     };
 
     // gemeente opslaan in het adres
-    $scope.bevestigGemeente = function(item, adres) {
-      adres.postcode = item.substring(0,4);
+    $scope.bevestigGemeente = function (item, adres) {
+      adres.postcode = item.substring(0, 4);
       adres.gemeente = item.substring(5);
       adres.straat = null;
       adres.bus = null;
@@ -305,19 +305,19 @@
     };
 
     // zoek straten en giscodes
-    $scope.zoekStraat = function(zoekterm, adres){
+    $scope.zoekStraat = function (zoekterm, adres) {
       var resultaatStraten = [];
-      return RestService.Code.query({zoekterm:zoekterm, postcode: adres.postcode}).$promise.then(
-          function(result){
-            angular.forEach(result, function(val){
-                resultaatStraten.push(val);
-            });
-            return resultaatStraten;
+      return RestService.Code.query({zoekterm: zoekterm, postcode: adres.postcode}).$promise.then(
+        function (result) {
+          angular.forEach(result, function (val) {
+            resultaatStraten.push(val);
+          });
+          return resultaatStraten;
         });
     };
 
     // straat en giscode opslaan in het adres
-    $scope.bevestigStraat = function(item, adres) {
+    $scope.bevestigStraat = function (item, adres) {
       adres.straat = item.straat;
       adres.giscode = item.code;
 
@@ -336,7 +336,7 @@
       });
       marker = markerAddEvents(marker, map);
       $scope.markers.push(marker);
-      openInfoWindow (map, marker);
+      openInfoWindow(map, marker);
     };
 
     /*
@@ -356,10 +356,10 @@
     $scope.wisGroepseigenFunctie = function (id) {
       // controle wis ik een nieuwe groepseigen functie => wissen uit array.
       // anders deletedTimestaps op vandaag zetten;
-      angular.forEach($scope.data.activegroup.groepseigenFuncties, function(value, key){
-        if(value.id == id ) {
+      angular.forEach($scope.data.activegroup.groepseigenFuncties, function (value, key) {
+        if (value.id == id) {
           // controle wordt er een nieuwe groepseigen functie gewist?
-          if(value.id.indexOf('tempFunctie') != -1){
+          if (value.id.indexOf('tempFunctie') != -1) {
             $scope.data.activegroup.groepseigenFuncties.splice(key, 1);
           }
           else {
@@ -374,15 +374,15 @@
      * event groepseigen gegevens
      * ----------------------------------
      */
-    var maakSorteerbaar = function (){
-      if($scope.data.activegroup.kanWijzigen) {
-        $( ".sortable" ).sortable({
+    var maakSorteerbaar = function () {
+      if ($scope.data.activegroup.kanWijzigen) {
+        $(".sortable").sortable({
           cursor: 'move',
-          stop : function(event, ui){
+          stop: function (event, ui) {
             var gegevenId = ui.item.attr('data-groepseigengegevenid');
             var gegevenIndex = ui.item.index();
-            angular.forEach($scope.data.activegroup.groepseigenGegevens, function(value){
-              if(value.id == gegevenId ){
+            angular.forEach($scope.data.activegroup.groepseigenGegevens, function (value) {
+              if (value.id == gegevenId) {
                 value.sort = gegevenIndex;
               }
             })
@@ -390,7 +390,7 @@
         });
       }
       else {
-        $( ".sortable" ).sortable({
+        $(".sortable").sortable({
           disabled: true
         });
       }
@@ -410,6 +410,18 @@
       $scope.data.activegroup.groepseigenGegevens.push(newGegeven);
     };
 
+    $scope.verwijderGroepseigenGegeven = function (id) {
+      var groepseigenGegevens = [];
+
+      angular.forEach($scope.data.activegroup.groepseigenGegevens, function (gegeven) {
+        if (gegeven.id !== id) {
+          groepseigenGegevens.push(gegeven);
+        }
+      });
+
+      $scope.data.activegroup.groepseigenGegevens = groepseigenGegevens;
+    };
+
     $scope.addKeuze = function (index) {
       $scope.data.activegroup.groepseigenGegevens[index].keuzes = $scope.data.activegroup.groepseigenGegevens[index].keuzes || [];
       $scope.data.activegroup.groepseigenGegevens[index].keuzes.push("");
@@ -419,11 +431,11 @@
       $scope.data.activegroup.groepseigenGegevens[index].keuzes.splice(keuzeIndex, 1);
     };
 
-    $scope.deleteLokaal = function(id) {
+    $scope.deleteLokaal = function (id) {
       var adressen = [];
 
-      angular.forEach($scope.data.activegroup.adressen, function(adres) {
-        if(adres.id !== id) {
+      angular.forEach($scope.data.activegroup.adressen, function (adres) {
+        if (adres.id !== id) {
           adressen.push(adres);
         }
       });
@@ -432,9 +444,9 @@
     };
 
     /*
-    * Marker events
-    * ----------------------------------------------------
-    */
+     * Marker events
+     * ----------------------------------------------------
+     */
 
     // voegt alle nodige events toe aan een bepaalde marker
     var markerAddEvents = function (marker, map) {
@@ -444,14 +456,14 @@
           maxWidth: 200
         });
 
-        google.maps.event.addListener(infoWindow,'closeclick',function(){
-          angular.forEach($scope.markers, function(value, key){
-            if(value.adresId == marker.adresId){
+        google.maps.event.addListener(infoWindow, 'closeclick', function () {
+          angular.forEach($scope.markers, function (value, key) {
+            if (value.adresId == marker.adresId) {
               $scope.markers[key].infoIsOpen = false;
             }
           });
         });
-        angular.forEach($scope.markers, function(value, key) {
+        angular.forEach($scope.markers, function (value, key) {
           if (value.adresId == marker.adresId && !marker.infoIsOpen) {
             $scope.markers[key].infoIsOpen = true;
             infoWindow.open(map, marker);
@@ -460,7 +472,7 @@
       });
 
       marker.addListener('dragend', function (evt) {
-        angular.forEach($scope.data.activegroup.adressen, function(value){
+        angular.forEach($scope.data.activegroup.adressen, function (value) {
           if (value.id == marker.adresId) {
             if (value.positie == undefined) {
               value.positie = {};
@@ -477,7 +489,7 @@
 
     // add watcher for checkbox - date translation
     $scope.$watch('data.activegroup.facturatieLeden', function (newVal, oldVal) {
-      console.log("Leden  newVal--", $scope.data.activegroup.facturatieLeden, " --OldVal", oldVal );
+      console.log("Leden  newVal--", $scope.data.activegroup.facturatieLeden, " --OldVal", oldVal);
       //als er een datum bestaat
       if (newVal) {
         $scope.data.activegroup.facturatieLedenSaved = true;
@@ -491,9 +503,9 @@
       }
     });
 
-    $scope.opslaan = function() {
-      angular.forEach($scope.data.activegroup.groepseigenGegevens, function(gegeven) {
-        if(gegeven.type !== 'lijst') {
+    $scope.opslaan = function () {
+      angular.forEach($scope.data.activegroup.groepseigenGegevens, function (gegeven) {
+        if (gegeven.type !== 'lijst') {
           delete gegeven.keuzes;
         }
       });
@@ -504,43 +516,44 @@
       var promises = [
         RestService.Groep
           .update({id: $scope.data.activegroup.id, bevestiging: true}, $scope.data.activegroup)
-          .$promise.then(function () {
-            if ($scope.data.activegroup.facturatieLedenCheck) {
-              $scope.data.activegroup.facturatieLedenSaved = true;
-            }
-            if ($scope.data.activegroup.facturatieLeidingCheck) {
-              $scope.data.activegroup.facturatieLeidingSaved = true;
-            }
-            var foundObj = _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id});
-            foundObj.facturatieLeidingSaved = true;
-            foundObj.facturatieLeidingCheck = true;
-          })
+          .$promise.then(function (response) {
+          $scope.data.activegroup.groepseigenGegevens = response.groepseigenGegevens;
+          if ($scope.data.activegroup.facturatieLedenCheck) {
+            $scope.data.activegroup.facturatieLedenSaved = true;
+          }
+          if ($scope.data.activegroup.facturatieLeidingCheck) {
+            $scope.data.activegroup.facturatieLeidingSaved = true;
+          }
+          var foundObj = _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id});
+          foundObj.facturatieLeidingSaved = true;
+          foundObj.facturatieLeidingCheck = true;
+        })
       ];
-      _.forEach($scope.data.activegroup.groepseigenFuncties, function(functie) {
+      _.forEach($scope.data.activegroup.groepseigenFuncties, function (functie) {
         var promise;
 
         if (typeof functie.deletedTimestamps !== 'undefined') {
-          promise = RestService.Functie.delete({ functieId: functie.id }).$promise
-            .then(function() {
+          promise = RestService.Functie.delete({functieId: functie.id}).$promise
+            .then(function () {
               _.pull($scope.data.activegroup.groepseigenFuncties, functie);
-            }).catch(function() {
+            }).catch(function () {
               delete functie.deletedTimestamps; // Het verwijderen ongedaan maken
             });
         } else if (functie.id.indexOf('tempFunctie') != -1) {
           promise = RestService.Functies.post({}, functie).$promise.then(
-            function(nieuweFunctie) {
+            function (nieuweFunctie) {
               functie.id = nieuweFunctie.id;
               return nieuweFunctie;
             }
           );
         } else {
-          promise = RestService.Functie.update({ functieId: functie.id }, functie).$promise;
+          promise = RestService.Functie.update({functieId: functie.id}, functie).$promise;
         }
 
         promises.push(promise);
       });
 
-      $q.all(promises).finally(function() {
+      $q.all(promises).finally(function () {
         $scope.saving = false;
       });
     }

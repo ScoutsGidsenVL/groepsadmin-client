@@ -342,13 +342,19 @@
               <span ng-if="groepseigenGegeven.label != '' ">-
               {{ groepseigenGegeven.type | fieldTypeFormatter }}
             </span>
-              <button class="btn-minimal pull-right" title="openklappen" ng-click="showme = showme ? false : true"
-                      ng-show="data.activegroup.kanWijzigen">
+              <div class="pull-right">
+                <button class="btn-minimal" title="openklappen" ng-click="showme = showme ? false : true"
+                        ng-show="data.activegroup.kanWijzigen">
                 <span ng-hide="showme" class="glyphicon glyphicon-chevron-down"
                       title="Groepseigen gegeven tonen"></span>
-                <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up"
-                      title="Groepseigen gegeven verbergen"></span>
-              </button>
+                  <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up"
+                        title="Groepseigen gegeven verbergen"></span>
+                </button>
+                <button ng-click="verwijderGroepseigenGegeven(groepseigenGegeven.id)" class="btn-minimal"
+                        ng-show="data.activegroup.kanWijzigen">
+                  <span class="glyphicon glyphicon-trash" title="Groepseigen gegeven wissen"></span>
+                </button>
+              </div>
             </legend>
 
             <!-- bestaande velden -->
