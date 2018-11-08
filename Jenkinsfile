@@ -12,7 +12,7 @@ pipeline {
         sh "npm --production install"
         sh "node_modules/.bin/bower prune --production"
         sh "node_modules/.bin/bower install --production"
-        sh "node_modules/.bin/grunt less bower_concat copy"
+        sh "node_modules/.bin/grunt build"
         sh "node_modules/.bin/aglio --theme-condense-nav=false --theme-style default --theme-style docs/custom.less -i docs/api.apib -o docs/api.html"
         sh "rm -rf client.zip"
         /* jquery en keycloak apart is voor apitest.html */

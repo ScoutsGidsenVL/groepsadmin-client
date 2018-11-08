@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
   // Project configuration.
   grunt.initConfig({
@@ -26,15 +26,15 @@ module.exports = function(grunt) {
     bower_concat: {
       all: {
         dest: {
-          'css': 'css/bower_components.min.css',
-          'js': 'js/bower_components.min.js'
+          'css': 'css/bower_components.css',
+          'js': 'js/bower_components.js'
         },
         dependencies: {
           'angular': 'jquery'
         },
-        callback: function(mainFiles) {
+        callback: function (mainFiles) {
           // Use minified files if available
-          return mainFiles.map(function(filepath) {
+          return mainFiles.map(function (filepath) {
             var min = filepath.replace(/(\/|\\)src(\/|\\)/, '$1dist$2').replace(/(\.css|\.js)$/, '.min$1');
             return /*grunt.file.exists(min) ? min :*/ filepath;
           });
@@ -47,6 +47,35 @@ module.exports = function(grunt) {
         },
         bowerOptions: {
           relative: false
+        }
+      }
+    },
+
+    uglify: {
+      bower: {
+        options: {
+          mangle: true,
+          compress: true
+        },
+        files: {
+          'js/bower_components.min.js': 'js/bower_components.js',
+          'js/jquery.sparkline.2.1.2.min.js': 'js/jquery.sparkline.2.1.2.js',
+          'js/ui-bootstrap-custom-tpls-1.3.2.min.js': 'js/ui-bootstrap-custom-tpls-1.3.2.js',
+          'js/bootstrap/transition.min.js': 'js/bootstrap/transition.js',
+          'js/bootstrap/dropdown.min.js': 'js/bootstrap/dropdown.js',
+          'js/bootstrap/alert.min.js': 'js/bootstrap/alert.js'
+        }
+      }
+    },
+
+    cssmin: {
+      options: {
+        mergeIntoShorthands: false,
+        roundingPrecision: -1
+      },
+      target: {
+        files: {
+          'css/groepsadmin.css': ['css/bootstrap.css', 'css/bower_components.css']
         }
       }
     },
@@ -108,14 +137,25 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-bower-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
 
   // Task definitions
   grunt.registerTask('default', ['serve']);
   grunt.registerTask('serve', [
     'less',
     'bower_concat',
+    'uglify:bower',
+    'cssmin',
     'copy',
     'connect:server',
     'watch'
+  ]);
+  grunt.registerTask('build', [
+    'less',
+    'bower_concat',
+    'uglify:bower',
+    'cssmin',
+    'copy'
   ]);
 };
