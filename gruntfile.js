@@ -254,8 +254,6 @@ module.exports = function (grunt) {
     'uglify',
     'injector:production',
     'cssmin',
-    'copy',
-    'connect:server',
-    'watch'
+    'copy'
   ]);
 };
