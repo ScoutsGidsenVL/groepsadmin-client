@@ -3,6 +3,7 @@
 
   angular.module('ga', [
     'ga.route',
+    'ga.services.keycloak',
     'ga.services.rest',
     'ga.services.useraccess',
     'ga.services.http',
@@ -75,10 +76,6 @@
 
 
   }]);
-
-  angular.module('ga').factory('keycloak', function($window) {
-    return $window._keycloak;
-  });
 
   angular.element(document).ready(function() {
     window._keycloak = Keycloak(getClient());

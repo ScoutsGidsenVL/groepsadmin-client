@@ -1,39 +1,40 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ga.formerrorbutton', [])
-    .directive('formerrorbutton', formerrorbutton);
+    .directive('formerrorbutton', [function () {
+      return {
+        restrict: 'E',
+        templateUrl: 'partials/formerrorbutton.html',
+        replace: false,
+        scope: {
+          formulier: '=',
+          watchable: '='
+        },
+        controller: ErrorButtonController
+      };
+    }]);
 
-  function formerrorbutton() {
-    return {
-      restrict: 'E',
-      templateUrl: 'partials/formerrorbutton.html',
-      replace: false,
-      scope: {
-        formulier: '=',
-        watchable: '='
-      },
-      controller: ErrorButtonController
-    };
-  }
+  ErrorButtonController.$inject = ['$scope'];
 
-  function ErrorButtonController($scope, $attrs) {
 
-    $scope.$watch('formulier.$error', function() {
-        $scope.numberOfErrors = getNumberOfErrors();
+  function ErrorButtonController($scope) {
+
+    $scope.$watch('formulier.$error', function () {
+      $scope.numberOfErrors = getNumberOfErrors();
     }, true);
 
-    $scope.setFocusFirstInvalid = function(){
+    $scope.setFocusFirstInvalid = function () {
       var firstInvalid = angular.element('.ng-invalid');
       firstInvalid.focus();
-    }
+    };
 
-    var getNumberOfErrors = function(){
+    var getNumberOfErrors = function () {
       var numberOfErrors = 0;
-      _.each($scope.formulier.$error,function(val,key){
+      _.each($scope.formulier.$error, function (val) {
         numberOfErrors += val.length;
-      })
+      });
       return numberOfErrors;
     }
   }

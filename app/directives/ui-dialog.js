@@ -1,27 +1,28 @@
 // Based on AngularJS directive for Bootstrap's alert.
 
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ga.ui.dialog', [])
-    .directive('dialog', dialog)
+    .directive('dialog', [function () {
+      return {
+        restrict: 'EA',
+        controller: DialogController,
+        templateUrl: 'dialog.html',
+        transclude: true,
+        replace: true,
+        scope: {
+          confirm: '&',
+          dismiss: '&',
+          close: '&',
+          title: '@'
+        }
+      };
+    }]);
 
-  function dialog() {
-    return {
-      restrict: 'EA',
-      controller: DialogController,
-      templateUrl: 'dialog.html',
-      transclude: true,
-      replace: true,
-      scope: {
-        confirm: '&',
-        dismiss: '&',
-        close: '&',
-        title: '@'
-      }
-    };
-  }
+
+  DialogController.$inject = ['$scope', '$attrs'];
 
   function DialogController($scope, $attrs) {
 

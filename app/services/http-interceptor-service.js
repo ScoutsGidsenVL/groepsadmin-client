@@ -3,9 +3,9 @@
 
   angular
     .module('ga.services.http', ['ga.services.alert'])
-    .factory('httpInterceptor', httpInterceptor)
+    .factory('httpInterceptor', httpInterceptor);
 
-  httpInterceptor.$inject = ['$q', '$window', '$injector', 'AlertService', 'DialogService', 'keycloak'];
+  httpInterceptor.$inject = ['$q', '$window', '$injector', 'AlertService', 'DialogService', 'KeyCloak'];
 
   function httpInterceptor($q, $window, $injector, AlertService, DialogService, keycloak) {
     return {

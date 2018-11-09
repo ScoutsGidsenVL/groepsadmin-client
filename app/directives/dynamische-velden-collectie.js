@@ -1,21 +1,22 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ga.dynamischevelden', [])
-    .directive('dynamischveldcolectie', dynamischveldcolectie);
+    .directive('dynamischveldcolectie', [function () {
+      return {
+        restrict: 'E',
+        templateUrl: 'partials/dynamische-velden-collectie.html',
+        replace: true,
+        scope: {
+          waarden: '=',
+          velden: '=',
+          formulier: '='
+        }
+      };
+    }
 
-  function dynamischveldcolectie() {
-    return {
-      restrict: 'E',
-      templateUrl: 'partials/dynamische-velden-collectie.html',
-      replace: true,
-      scope: {
-        waarden : '=',
-        velden: '=',
-        formulier: '='
-      }
-    };
-  }
+    ]);
+
 
 })();

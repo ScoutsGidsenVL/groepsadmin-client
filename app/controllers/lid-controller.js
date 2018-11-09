@@ -121,13 +121,13 @@
             }
             if (value == 'lid.functies') {
               $scope.orderedFuncties = _(scope.lid.functies)
-                .sortBy(x => x.groep)
-                .groupBy(x => x.groep)
-                .map((value, key) => ({
+                .sortBy(function(x) {return x.groep})
+                .groupBy(function(x) {return x.groep})
+                .map(function(value, key) { return {
                   groep: key,
                   functies: value,
-                  toonGroepInActueleLijst: !_.every(value, el => el.einde)
-                }))
+                  toonGroepInActueleLijst: !_.every(value, function(el) {return el.einde})
+                }})
                 .value();
             }
           },

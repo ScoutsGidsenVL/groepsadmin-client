@@ -1,5 +1,5 @@
 angular.module('ga.filters', [])
-  .filter('formValidator', function () {
+  .filter('formValidator', [function () {
     return function (field, validationErrors) {
       var returnValue = "";
       angular.forEach(validationErrors, function (value) {
@@ -10,19 +10,19 @@ angular.module('ga.filters', [])
       return returnValue;
 
     }
-  })
-  .filter('verbondFuncties', function () {
+  }])
+  .filter('verbondFuncties', [function () {
     return function (items, lid, geenActieve, groepsnummer) {
       var leeftijd;
 
-      if(lid && lid.vgagegevens) {
+      if (lid && lid.vgagegevens) {
         leeftijd = moment().diff(lid.vgagegevens.geboortedatum, 'years')
       }
 
-      return _.filter(items, function(item) {
+      return _.filter(items, function (item) {
         var showActief = true;
 
-        if(geenActieve) {
+        if (geenActieve) {
           angular.forEach(lid.functies, function (value) {
             if (value.groep == groepsnummer && value.functie == item.id && value.temp != "tijdelijk" && value.einde == undefined) {
               showActief = false;
@@ -30,7 +30,7 @@ angular.module('ga.filters', [])
           });
         }
 
-        if(showActief) {
+        if (showActief) {
           if (leeftijd !== undefined && leeftijd < 16) {
             var isLeidingsFunctie = (_.find(item.groeperingen, {naam: 'Leiding'}) !== undefined);
 
@@ -46,13 +46,13 @@ angular.module('ga.filters', [])
 
       });
     }
-  })
-  .filter('groepEigenFuncties', function () {
+  }])
+  .filter('groepEigenFuncties', [function () {
     return function (items, lid, geenActieve, groepsnummer) {
-      return _.filter(items, function(item) {
+      return _.filter(items, function (item) {
         var showActief = true;
 
-        if(geenActieve) {
+        if (geenActieve) {
           angular.forEach(lid.functies, function (value) {
             if (value.groep == groepsnummer && value.functie == item.id && value.temp != "tijdelijk" && value.einde == undefined) {
               showActief = false;
@@ -63,55 +63,57 @@ angular.module('ga.filters', [])
         return showActief && item.type === 'groep';
       });
     }
-  })
-  .filter('formValidatorError', function () {
-    return function (field, validationErrors) {
-      var returnValue = "";
-      angular.forEach(validationErrors, function (value) {
-        if (value.veld == field) {
-          returnValue = value.titel.charAt(0).toUpperCase() + value.titel.slice(1);
-        }
-      });
-      return returnValue;
+  }])
+  .filter('formValidatorError', [
+    function () {
+      return function (field, validationErrors) {
+        var returnValue = "";
+        angular.forEach(validationErrors, function (value) {
+          if (value.veld == field) {
+            returnValue = value.titel.charAt(0).toUpperCase() + value.titel.slice(1);
+          }
+        });
+        return returnValue;
+      }
     }
-  })
+  ])
   // zet java tijd om naar human readable
-  .filter('javaDateFormatter', function () {
+  .filter('javaDateFormatter', [function () {
     return function (date) {
 
       console.warn("datefilter");
-      if (date == undefined || date == null){
+      if (date == undefined || date == null) {
         return date;
       }
-      var day = date.substr(8,2);
-      var month = date.substr(5,2);
-      var year = date.substr(0,4);
+      var day = date.substr(8, 2);
+      var month = date.substr(5, 2);
+      var year = date.substr(0, 4);
       console.warn(day + '/' + month + '/' + year);
       return year + '-' + month + '-' + day;
     }
-  })
+  }])
 
-  .filter('rekeningnummerFormatter', function () {
+  .filter('rekeningnummerFormatter', [function () {
     // BEXX XXXX XXXX XXXX
     return function (field) {
       console.log(field);
-      return field.substr(0,4) + ' ' + field.substr(4,4) + ' ' + field.substr(8,4) + ' ' + field.substr(12,4);
+      return field.substr(0, 4) + ' ' + field.substr(4, 4) + ' ' + field.substr(8, 4) + ' ' + field.substr(12, 4);
     }
-  })
-  .filter('roundToOne', function () {
-        return function (value) {
-            return Math.round(value * 10) / 10;
-        };
-    })
-  .filter('round', function () {
-        return function (value) {
-            return Math.round(value);
-        };
-    })
-
-  .filter('fieldTypeFormatter', function () {
+  }])
+  .filter('roundToOne', [function () {
     return function (value) {
-      if(value == undefined || value == null){
+      return Math.round(value * 10) / 10;
+    };
+  }])
+  .filter('round', [function () {
+    return function (value) {
+      return Math.round(value);
+    };
+  }])
+
+  .filter('fieldTypeFormatter', [function () {
+    return function (value) {
+      if (value == undefined || value == null) {
         return value;
       }
       value = value.toLowerCase();
@@ -119,4 +121,4 @@ angular.module('ga.filters', [])
       value = value.replace(regex, ' ');
       return value;
     };
-  });
+  }]);

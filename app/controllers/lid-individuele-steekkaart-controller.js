@@ -5,9 +5,9 @@
     .module('ga.lidindividuelesteekkaartcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('LidIndividueleSteekkaartController', LidIndividueleSteekkaartController);
 
-  LidIndividueleSteekkaartController.$inject = ['$scope', '$routeParams', '$window', '$location', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'keycloak' ];
+  LidIndividueleSteekkaartController.$inject = ['$scope', '$routeParams', '$location', 'RestService', 'AlertService'];
 
-  function LidIndividueleSteekkaartController ($scope, $routeParams, $window, $location, RestService, AlertService, DialogService, $rootScope, keycloak) {
+  function LidIndividueleSteekkaartController ($scope, $routeParams, $location, RestService, AlertService) {
     /*
      * Init
      * --------------------------------------
@@ -65,7 +65,7 @@
               $scope.individueleSteekkaartLayoutGroups.push(tempGroup);
             }
           }
-        })
+        });
         $scope.watchable = true;
       },
       function(error) {
@@ -99,7 +99,7 @@
 
       $scope.saving = true;
       RestService.LidIndividueleSteekkaart.patch({id: $routeParams.id}, request).$promise.then(
-        function(response) {
+        function() {
           $scope.saving = false;
           AlertService.add('success ', "Aanpassingen opgeslagen");
           $scope.individueleSteekaart.$setPristine();
@@ -108,7 +108,7 @@
           $scope.saving = false;
           if(error.data && error.data.fouten){
 
-            _.each(error.data.fouten,function(val,key){
+            _.each(error.data.fouten,function(val){
               var index = val.veld;
               $scope.individueleSteekaart[index].$setValidity('required', false);
               $scope.setFocusFirstInvalid();
@@ -119,7 +119,7 @@
 
         }
       );
-    }
+    };
 
     /*
     * Pagina event listeners

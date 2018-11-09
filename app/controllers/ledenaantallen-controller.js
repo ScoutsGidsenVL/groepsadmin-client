@@ -5,11 +5,11 @@
     .module('ga.ledenaantallencontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('ledenaantallenController', ledenaantallenController);
 
-  ledenaantallenController.$inject = ['$compile', '$http', '$scope', '$routeParams', '$window', '$location', 'CacheService', 'RestService', 'AlertService', 'DialogService', '$rootScope', 'access', 'keycloak'];
+  ledenaantallenController.$inject = ['$compile', '$scope', '$location', 'CacheService', 'RestService', 'AlertService', 'access'];
 
-  function ledenaantallenController($compile, $http, $scope, $routeParams, $window, $location, CS, RestService, AlertService, DialogService, $rootScope, access, keycloak) {
+  function ledenaantallenController($compile, $scope, $location, CS, RestService, AlertService, access) {
 
-    if(!access) {
+    if (!access) {
       $location.path("/lid/profiel");
     }
 
@@ -33,9 +33,9 @@
           $scope.isLoadingData = false;
         }
       );
-    }
+    };
 
-    var init = function(){
+    var init = function () {
       $scope.tabs = initTabs();
       // activeer eerste tab
       $scope.activateTab("ledenaantallen");
@@ -48,62 +48,61 @@
           $scope.activegroup = result.groepen[0];
           $scope.changeGroep($scope.activegroup.groepsnummer);
         },
-        function (error){
+        function (error) {
 
         }
       );
-    }
+    };
 
-    var initTabs = function(){
-      var tabs = {
-        ledenaantallen : {
+    var initTabs = function () {
+      return {
+        ledenaantallen: {
           'label': 'Ledenaantallen',
-          'activated' : false
+          'activated': false
         },
-        eigenschappen : {
+        eigenschappen: {
           'label': 'Eigenschappen',
-          'activated' : false
+          'activated': false
         },
-        groepsevolutie : {
+        groepsevolutie: {
           'label': 'Groepsevolutie',
-          'activated' : false
+          'activated': false
         },
-        ledenaantalperleeftijd : {
+        ledenaantalperleeftijd: {
           'label': 'Ledenaantal per leeftijd',
-          'activated' : false
+          'activated': false
         },
-        huidigeleidingservaring : {
+        huidigeleidingservaring: {
           'label': 'Huidige leidingservaring',
-          'activated' : false
+          'activated': false
         },
-        inuitstroomperleeftijd : {
+        inuitstroomperleeftijd: {
           'label': 'Instroom en uitstroom per leeftijd',
-          'activated' : false
+          'activated': false
         }
       };
-      return tabs;
-    }
+    };
 
-    var redrawGraph = function(graphParentId){
-      angular.element('#'+graphParentId+'Grafiek').remove();
-      var canvas_html = '<canvas id="'+graphParentId+'Grafiek"></canvas>';
+    var redrawGraph = function (graphParentId) {
+      angular.element('#' + graphParentId + 'Grafiek').remove();
+      var canvas_html = '<canvas id="' + graphParentId + 'Grafiek"></canvas>';
 
       var element = angular.element(canvas_html);
       $compile(element)($scope);
-      angular.element('#'+graphParentId).append(element);
-      return $('#'+graphParentId+'Grafiek');
+      angular.element('#' + graphParentId).append(element);
+      return $('#' + graphParentId + 'Grafiek');
 
-    }
+    };
 
-    $scope.deactivateAllTabs = function(){
-      _.each($scope.tabs,function(val,k){
+    $scope.deactivateAllTabs = function () {
+      _.each($scope.tabs, function (val) {
         val.activated = false;
       });
-    }
-    $scope.activateTab = function(tabKey){
+    };
+    $scope.activateTab = function (tabKey) {
       $scope.deactivateAllTabs();
       $scope.tabs[tabKey].activated = true;
-    }
+    };
 
     // Globale grafiek opties
     var globalOptions = {
@@ -130,22 +129,22 @@
     };
 
     $scope.sortedKeys = function (obj) {
-      return _.sortBy(Object.keys(obj), [function(key) {
+      return _.sortBy(Object.keys(obj), [function (key) {
         if (/^[0-9]+$/.test(key)) {
           return Number(key);
         } else {
           return key.replace('Nu', '9999');
         }
       }]);
-    }
+    };
 
     $scope.sortedValues = function (obj) {
-      return _.map($scope.sortedKeys(obj), function(key) {
+      return _.map($scope.sortedKeys(obj), function (key) {
         return obj[key];
       });
-    }
+    };
 
-    $scope.tekenGroepsevolutie = function(ledenaantallenData) {
+    $scope.tekenGroepsevolutie = function (ledenaantallenData) {
 
 
       var chartColors = [
@@ -183,7 +182,7 @@
         datasets: []
       };
 
-      angular.forEach(ledenaantallenData.groepsevolutie, function(value, index){
+      angular.forEach(ledenaantallenData.groepsevolutie, function (value, index) {
         data.datasets.push({
           label: value.naam,
           fill: false,
@@ -213,9 +212,9 @@
         data: data,
         options: grafiekOpties
       });
-    }
+    };
 
-    $scope.tekenLedenaantalPerLeeftijd = function(ledenaantallenData) {
+    $scope.tekenLedenaantalPerLeeftijd = function (ledenaantallenData) {
 
 
       var ctx = redrawGraph('ledenaantalperleeftijd');
@@ -249,7 +248,7 @@
       ];
 
       var alleJaren = [];
-      _.forEach(ledenaantallenData.ledenPerLeeftijd, function(value, key) {
+      _.forEach(ledenaantallenData.ledenPerLeeftijd, function (value) {
         alleJaren = _.concat(alleJaren, Object.keys(value));
       });
       var alleJaren = _.uniq(alleJaren);
@@ -259,10 +258,10 @@
       var data = {
         labels: alleJaren,
         datasets: []
-      }
-      _.forEach($scope.sortedKeys(ledenaantallenData.ledenPerLeeftijd), function(keySoort, index) {
+      };
+      _.forEach($scope.sortedKeys(ledenaantallenData.ledenPerLeeftijd), function (keySoort, index) {
         var values = _.fill(new Array(alleJaren.length), 0);
-        _.forEach(ledenaantallenData.ledenPerLeeftijd[keySoort], function(valueAantal, keyJaar) {
+        _.forEach(ledenaantallenData.ledenPerLeeftijd[keySoort], function (valueAantal, keyJaar) {
           values[alleJaren.indexOf(keyJaar)] = valueAantal;
         });
 
@@ -302,9 +301,9 @@
         data: data,
         options: grafiekOpties
       });
-    }
+    };
 
-    $scope.tekenHuidigeLeidingsErvaring = function(ledenaantallenData) {
+    $scope.tekenHuidigeLeidingsErvaring = function (ledenaantallenData) {
 
 
       var chartHoverColors = ["rgba(232, 232, 96, 0.62)", "rgba(141, 221, 119, 0.62)", "rgba(236, 148, 76, 0.59)", "rgba(76, 83, 236, 0.59)", "rgba(212, 94, 94, 0.59)", "rgba(120, 97, 218, 0.59)"];
@@ -327,13 +326,13 @@
 
       var type = "doughnut";
       var data = {
-        labels: $scope.sortedKeys(ledenaantallenData.leidingservaring).map(function(jaar) {
+        labels: $scope.sortedKeys(ledenaantallenData.leidingservaring).map(function (jaar) {
           return jaar + ' jaar';
         }),
-        datasets : [{
+        datasets: [{
           data: $scope.sortedValues(ledenaantallenData.leidingservaring),
           backgroundColor: chartColors,
-         hoverBackgroundColor: chartHoverColors
+          hoverBackgroundColor: chartHoverColors
         }]
       };
 
@@ -342,17 +341,16 @@
       grafiekOpties.scales.xAxes[0].display = false;
       grafiekOpties.scales.yAxes[0].display = false;
 
-      var animation = { animateScale:true };
+      var animation = {animateScale: true};
       var chart = new Chart(ctx, {
         type: type,
         data: data,
         animation: animation,
         options: grafiekOpties
       });
-    }
+    };
 
-    $scope.tekenInEnUitstroom = function(ledenaantallenData) {
-
+    $scope.tekenInEnUitstroom = function (ledenaantallenData) {
 
 
       var ctx = redrawGraph('inuitstroomperleeftijd');
@@ -386,9 +384,9 @@
 
       var data = {
         labels: $scope.sortedKeys(ledenaantallenData.uitstroom[0].aantalPerLeeftijd),
-        datasets : []
-      }
-      _.forEach(ledenaantallenData.uitstroom, function(value, index) {
+        datasets: []
+      };
+      _.forEach(ledenaantallenData.uitstroom, function (value, index) {
         data.datasets.push({
           label: value.werkjaar,
           backgroundColor: chartColors[index % 6].background,
@@ -403,13 +401,13 @@
       var grafiekOpties = globalOptions;
       grafiekOpties.title.text = "In- en uitstroom per leeftijd";
       grafiekOpties.scales = {
-            xAxes: [{
-              stacked: true
-            }],
-            yAxes: [{
-              stacked: true
-            }]
-          };
+        xAxes: [{
+          stacked: true
+        }],
+        yAxes: [{
+          stacked: true
+        }]
+      };
 
       // Grafiek aanmaken
       var chart = new Chart(ctx, {
@@ -417,26 +415,26 @@
         data: data,
         options: grafiekOpties
       });
-    }
+    };
 
 
-    $scope.round = function(value, digits) {
+    $scope.round = function (value, digits) {
       if (value) {
         var factor = Math.pow(10, digits);
         return Math.round(factor * value) / factor;
       } else {
         return value;
       }
-    }
+    };
 
-    $scope.format = function(value, formaat) {
+    $scope.format = function (value, formaat) {
       var value = $scope.round(value, parseInt(formaat.substring(2)));
       return formaat.replace(/[^f]+f/, value).replace('%%', '%');
-    }
+    };
 
-    $scope.sparklineData = function(obj) {
+    $scope.sparklineData = function (obj) {
       var result = '';
-      _.forEach($scope.sortedKeys(obj), function(key, index) {
+      _.forEach($scope.sortedKeys(obj), function (key) {
         if (key == 'Nu') {
           result += '0:' + obj[key];
         } else {
@@ -444,11 +442,11 @@
         }
       });
       return result;
-    }
+    };
 
 
     init();
 
-}
+  }
 
 })();

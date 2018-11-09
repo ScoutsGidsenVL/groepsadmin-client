@@ -19,6 +19,8 @@
     };
   }
 
+  OrderIconController.$inject = ['$scope'];
+
   function OrderIconController($scope) {
     var mapping = {
       'be.vvksm.groepsadmin.model.column.VVKSMGroepsNamenColumn': 'be.vvksm.groepsadmin.model.column.VVKSMGroepenColumn',

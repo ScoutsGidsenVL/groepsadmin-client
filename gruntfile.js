@@ -22,6 +22,43 @@ module.exports = function (grunt) {
       }
     },
 
+    concat: {
+      private: {
+        src: [
+          // Angular Project Dependencies,
+          'app/app.js',
+          'app/app.config.js',
+          'app/app.route.js',
+          'app/polyfills.js',
+          'app/controllers/**.js',
+          'app/directives/**.js',
+          'app/filters/**/**.js',
+          'app/services/**/**.js'
+        ],
+        dest: 'app/assets/js/<%= pkg.name %>-private.js'
+      },
+      public: {
+        src: [
+          // Angular Project Dependencies,
+          'app/polyfills.js',
+          'app/app-public.js',
+          'app/app-public.route.js',
+          'app/controllers/alert-controller.js',
+          'app/controllers/lidworden-controller.js',
+          'app/services/alert-service.js',
+          'app/services/rest-service.js',
+          'app/services/lid-service.js',
+          'app/services/cache-service.js',
+          'app/services/form-validation-service.js',
+          'app/directives/ga-parse-date.js',
+          'app/directives/ui-dialog.js',
+          'app/directives/ui-selectpicker.js',
+          'app/directives/utils.js'
+        ],
+        dest: 'app/assets/js/<%= pkg.name %>-public.js'
+      }
+    },
+
     // https://www.npmjs.com/package/grunt-bower-concat
     bower_concat: {
       all: {
@@ -58,14 +95,23 @@ module.exports = function (grunt) {
           compress: true
         },
         files: {
-          'js/bower_components.min.js': 'js/bower_components.js',
-          'js/jquery.sparkline.2.1.2.min.js': 'js/jquery.sparkline.2.1.2.js',
-          'js/ui-bootstrap-custom-tpls-1.3.2.min.js': 'js/ui-bootstrap-custom-tpls-1.3.2.js',
-          'js/bootstrap/transition.min.js': 'js/bootstrap/transition.js',
-          'js/bootstrap/dropdown.min.js': 'js/bootstrap/dropdown.js',
-          'js/bootstrap/alert.min.js': 'js/bootstrap/alert.js'
+          'app/assets/js/bower_components.min.js': 'js/bower_components.js',
+          'app/assets/js/jquery.sparkline.2.1.2.min.js': 'js/jquery.sparkline.2.1.2.js',
+          'app/assets/js/ui-bootstrap-custom-tpls-1.3.2.min.js': 'js/ui-bootstrap-custom-tpls-1.3.2.js',
+          'app/assets/js/bootstrap/transition.min.js': 'js/bootstrap/transition.js',
+          'app/assets/js/bootstrap/dropdown.min.js': 'js/bootstrap/dropdown.js',
+          'app/assets/js/bootstrap/alert.min.js': 'js/bootstrap/alert.js',
+          'app/assets/js/bootstrap/bootstrap-select.min.js': 'js/bootstrap/bootstrap-select.min.js'
         }
-      }
+      },
+      private: {
+        src: ['<%= concat.private.dest %>'],
+        dest: 'app/assets/js/<%= pkg.name %>-private.min.js'
+      },
+      public: {
+        src: ['<%= concat.public.dest %>'],
+        dest: 'app/assets/js/<%= pkg.name %>-public.min.js'
+      },
     },
 
     cssmin: {
@@ -75,7 +121,54 @@ module.exports = function (grunt) {
       },
       target: {
         files: {
-          'css/groepsadmin.css': ['css/bootstrap.css', 'css/bower_components.css']
+          'css/<%= pkg.name %>.css': ['css/bootstrap.css', 'css/bower_components.css']
+        }
+      }
+    },
+
+    injector: {
+      options: {
+        relative: true,
+        addRootSlash: false
+      },
+      dev: {
+        files: {
+          'index.html': [
+            'app/app.js',
+            'app/app.config.js',
+            'app/app.route.js',
+            'app/polyfills.js',
+            'app/controllers/**.js',
+            'app/directives/**.js',
+            'app/filters/**/**.js',
+            'app/services/**/**.js'
+          ],
+          'formulier.html': [
+            'app/polyfills.js',
+            'app/app-public.js',
+            'app/app-public.route.js',
+            'app/controllers/alert-controller.js',
+            'app/controllers/lidworden-controller.js',
+            'app/services/alert-service.js',
+            'app/services/rest-service.js',
+            'app/services/lid-service.js',
+            'app/services/cache-service.js',
+            'app/services/form-validation-service.js',
+            'app/directives/ga-parse-date.js',
+            'app/directives/ui-dialog.js',
+            'app/directives/ui-selectpicker.js',
+            'app/directives/utils.js'
+          ]
+        }
+      },
+      production: {
+        files: {
+          'index.html': [
+            'app/assets/js/<%= pkg.name %>-private.min.js'
+          ],
+          'formulier.html': [
+            'app/assets/js/<%= pkg.name %>-public.min.js'
+          ]
         }
       }
     },
@@ -99,7 +192,7 @@ module.exports = function (grunt) {
               'skins/*/fonts/tinymce.*',
               'plugins/codesample/css/prism.css'
             ],
-            dest: 'js/'
+            dest: 'app/assets/js/'
           }
         ],
       },
@@ -139,6 +232,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-bower-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-injector');
 
   // Task definitions
   grunt.registerTask('default', ['serve']);
@@ -147,6 +242,7 @@ module.exports = function (grunt) {
     'bower_concat',
     'uglify:bower',
     'cssmin',
+    'injector:dev',
     'copy',
     'connect:server',
     'watch'
@@ -154,8 +250,12 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'less',
     'bower_concat',
-    'uglify:bower',
+    'concat',
+    'uglify',
+    'injector:production',
     'cssmin',
-    'copy'
+    'copy',
+    'connect:server',
+    'watch'
   ]);
 };
