@@ -65,7 +65,7 @@ pipeline {
 
 def emailen() {
   mail(
-    to: "tvl@scoutsengidsenvlaanderen.be,${env.CHANGE_AUTHOR_EMAIL}",
+    to: "tvl@scoutsengidsenvlaanderen.be,mf@scoutsengidsenvlaanderen.be,${env.CHANGE_AUTHOR_EMAIL}",
     subject: "[Jenkins] ${currentBuild.fullDisplayName} ${currentBuild.currentResult}",
     body: """${currentBuild.fullDisplayName} ${currentBuild.currentResult}
 
