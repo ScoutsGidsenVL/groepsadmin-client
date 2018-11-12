@@ -61,12 +61,14 @@
     .constant('APP_INFO', {
       name: '<%= pkg.name %>',
       version: '<%= pkg.version %>',
-      description: '<%= pkg.description %>'
+      description: '<%= pkg.description %>',
+      gitDescribe: '<%= pkg.gitDescribe %>'
     })
 
     .run(["$rootScope", "UserAccess", "$location", "$log", "APP_INFO", function ($rootScope, UserAccess, $location, $log, APP_INFO) {
       $rootScope._ = window._;
       $rootScope.APP_INFO = APP_INFO;
+      console.log(APP_INFO);
 
       $rootScope.$on("$routeChangeError", function (event, current, previous, rejection) {
         switch (rejection) {
