@@ -290,24 +290,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-cache-bust');
   grunt.loadNpmTasks('grunt-version-bump');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-git-describe');
 
   // Task definitions
   grunt.registerTask('default', ['serve']);
-  grunt.registerTask("saveGitRevision", function() {
-    grunt.event.once("git-describe", function (rev) {
-      var projectFile = "package.json";
-      if (!grunt.file.exists(projectFile)) {
-        grunt.log.error("file " + projectFile + " not found");
-        return true; //return false to abort the execution
-      }
-      var project = grunt.file.readJSON(projectFile);
-
-      project["gitDescribe"] = rev;
-      grunt.file.write(projectFile, JSON.stringify(project, null, 2));
-    });
-    grunt.task.run("git-describe");
-  });
   grunt.registerTask('serve', [
     'clean',
     'less',
@@ -323,7 +308,6 @@ module.exports = function (grunt) {
   ]);
   grunt.registerTask('build', [
     'clean',
-    'saveGitRevision',
     'less',
     'bower_concat',
     'concat',
