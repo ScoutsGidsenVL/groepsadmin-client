@@ -23,6 +23,18 @@ module.exports = function (grunt) {
     },
 
     concat: {
+      vendor: {
+        src: [
+          'js/bower_components.js',
+          'js/jquery.sparkline.2.1.2.js',
+          'js/ui-bootstrap-custom-tpls-1.3.2.js',
+          'js/bootstrap/transition.js',
+          'js/bootstrap/dropdown.js',
+          'js/bootstrap/alert.js',
+          'js/bootstrap/bootstrap-select.min.js'
+        ],
+        dest: 'app/assets/js/<%= pkg.name %>-vendor.js'
+      },
       private: {
         src: [
           // Angular Project Dependencies,
@@ -89,20 +101,13 @@ module.exports = function (grunt) {
     },
 
     uglify: {
-      bower: {
-        options: {
-          mangle: true,
-          compress: true
-        },
-        files: {
-          'app/assets/js/bower_components.min.js': 'js/bower_components.js',
-          'app/assets/js/jquery.sparkline.2.1.2.min.js': 'js/jquery.sparkline.2.1.2.js',
-          'app/assets/js/ui-bootstrap-custom-tpls-1.3.2.min.js': 'js/ui-bootstrap-custom-tpls-1.3.2.js',
-          'app/assets/js/bootstrap/transition.min.js': 'js/bootstrap/transition.js',
-          'app/assets/js/bootstrap/dropdown.min.js': 'js/bootstrap/dropdown.js',
-          'app/assets/js/bootstrap/alert.min.js': 'js/bootstrap/alert.js',
-          'app/assets/js/bootstrap/bootstrap-select.min.js': 'js/bootstrap/bootstrap-select.min.js'
-        }
+      options: {
+        mangle: true,
+        compress: true
+      },
+      vendor: {
+        src: ['<%= concat.vendor.dest %>'],
+        dest: 'app/assets/js/<%= pkg.name %>-vendor.min.js'
       },
       private: {
         src: ['<%= concat.private.dest %>'],
@@ -134,6 +139,7 @@ module.exports = function (grunt) {
       dev: {
         files: {
           'index.html': [
+            'app/assets/js/<%= pkg.name %>-vendor.min.js',
             'app/app.js',
             'app/app.config.js',
             'app/app.route.js',
@@ -141,9 +147,11 @@ module.exports = function (grunt) {
             'app/controllers/**.js',
             'app/directives/**.js',
             'app/filters/**/**.js',
-            'app/services/**/**.js'
+            'app/services/**/**.js',
+            'app/assets/js/templates.js'
           ],
           'formulier.html': [
+            'app/assets/js/<%= pkg.name %>-vendor.min.js',
             'app/polyfills.js',
             'app/app-public.js',
             'app/app-public.route.js',
@@ -157,17 +165,22 @@ module.exports = function (grunt) {
             'app/directives/ga-parse-date.js',
             'app/directives/ui-dialog.js',
             'app/directives/ui-selectpicker.js',
-            'app/directives/utils.js'
+            'app/directives/utils.js',
+            'app/assets/js/templates.js'
           ]
         }
       },
       production: {
         files: {
           'index.html': [
-            'app/assets/js/<%= pkg.name %>-private.min.js'
+            'app/assets/js/<%= pkg.name %>-vendor.min.js',
+            'app/assets/js/<%= pkg.name %>-private.min.js',
+            'app/assets/js/templates.js'
           ],
           'formulier.html': [
-            'app/assets/js/<%= pkg.name %>-public.min.js'
+            'app/assets/js/<%= pkg.name %>-vendor.min.js',
+            'app/assets/js/<%= pkg.name %>-public.min.js',
+            'app/assets/js/templates.js'
           ]
         }
       }
@@ -196,6 +209,23 @@ module.exports = function (grunt) {
           }
         ],
       },
+    },
+
+    ngtemplates: {
+      app: {
+        src: 'partials/groepsinstellingen.html',
+        dest: 'app/assets/js/templates.js',
+        options: {
+          module: 'ga.utils',
+          root: 'app/',
+          standAlone: false,
+          htmlmin:  {
+            collapseWhitespace: true,
+            collapseBooleanAttributes: true,
+            removeComments: true
+          }
+        }
+      }
     },
 
     watch: {
@@ -234,14 +264,17 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-injector');
+  grunt.loadNpmTasks('grunt-angular-templates');
 
   // Task definitions
   grunt.registerTask('default', ['serve']);
   grunt.registerTask('serve', [
     'less',
     'bower_concat',
-    'uglify:bower',
+    'concat:vendor',
+    'uglify:vendor',
     'cssmin',
+    'ngtemplates',
     'injector:dev',
     'copy',
     'connect:server',
@@ -252,6 +285,7 @@ module.exports = function (grunt) {
     'bower_concat',
     'concat',
     'uglify',
+    'ngtemplates',
     'injector:production',
     'cssmin',
     'copy'

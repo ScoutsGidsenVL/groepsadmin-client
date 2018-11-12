@@ -20,6 +20,7 @@
               ng-show="exportButtons['lijstcsv'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Exporteren
               naar Excel (csv)</a></li>
           </ul>
+
         </div>
         <button type="button" class="btn btn-secondary" ng-click="export('steekkaarten' , 'pdf')">
           <span ng-show="exportButtons['steekkaartenpdf'].isLoading"><i class="fa fa-spinner fa-pulse"></i>&nbsp;</span>Individuele
@@ -149,7 +150,7 @@
               <span>{{ getButtonSubtitle(criterium,3) == "" ? "&nbsp;" : getButtonSubtitle(criterium,3) }}</span>
             </span>
             <span class="filter-option-subtitle" ng-if="criterium.criteriaKey == 'leeftijd'">
-              <span>{{ leeftijdOpDatum[0] }} > {{ ouderDan[0] }} en < {{ jongerDan[0] }}</span>
+              <span>{{ leeftijdOpDatum[0] }} &gt; {{ ouderDan[0] }} en &lt; {{ jongerDan[0] }}</span>
             </span>
           </button>
           <a ng-click="deactivateCriterium(criterium)" class="filter-option-close"><i class="fa fa-trash"
@@ -200,6 +201,7 @@
                       </label>
                       <div class="control-label-value">{{ criteriumItemGroup.label }}</div>
                     </div>
+                    </span>
 
                     <i class="glyphicon pull-right glyphicon-chevron-down"></i>
                   </div>
