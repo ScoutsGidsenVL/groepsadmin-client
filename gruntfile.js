@@ -186,6 +186,8 @@ module.exports = function (grunt) {
       }
     },
 
+    clean: ['app/assets/js', 'css'],
+
     copy: {
       all: {
         files: [
@@ -228,6 +230,15 @@ module.exports = function (grunt) {
       }
     },
 
+    cacheBust: {
+      taskName: {
+        options: {
+          assets: ['app/assets/js/*.js', 'css/*.css']
+        },
+        src: ['index.html', 'formulier.html']
+      }
+    },
+
     watch: {
       options: {
         livereload: true,
@@ -265,10 +276,13 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-injector');
   grunt.loadNpmTasks('grunt-angular-templates');
+  grunt.loadNpmTasks('grunt-cache-bust');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   // Task definitions
   grunt.registerTask('default', ['serve']);
   grunt.registerTask('serve', [
+    'clean',
     'less',
     'bower_concat',
     'concat:vendor',
@@ -276,11 +290,13 @@ module.exports = function (grunt) {
     'cssmin',
     'ngtemplates',
     'injector:dev',
+    'cacheBust',
     'copy',
     'connect:server',
     'watch'
   ]);
   grunt.registerTask('build', [
+    'clean',
     'less',
     'bower_concat',
     'concat',
@@ -288,6 +304,7 @@ module.exports = function (grunt) {
     'ngtemplates',
     'injector:production',
     'cssmin',
+    'cacheBust',
     'copy'
   ]);
 };
