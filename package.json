@@ -1,7 +1,7 @@
 {
   "name": "groepsadministratie",
   "description": "Front end van de betagroepsadministratie",
-  "version": "0.0.1",
+  "version": "1.0.0-beta.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/ScoutsGidsenVL/groepsadmin-client"
@@ -14,12 +14,14 @@
     "grunt-bower-concat": "^1.0.0",
     "grunt-cache-bust": "~1.6.0",
     "grunt-cli": "*",
+    "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^3.0.0",
     "grunt-contrib-less": "^0.11.0",
     "grunt-contrib-uglify": "^4.0.0",
-    "grunt-injector": "^1.1.0"
+    "grunt-injector": "^1.1.0",
+    "grunt-version-bump": "^1.0.8"
   },
   "devDependencies": {
     "grunt-contrib-connect": "~0.8.0",

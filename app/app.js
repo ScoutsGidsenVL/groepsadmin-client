@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular.module('ga', [
@@ -57,27 +57,33 @@
   ])
 
   // lodash for use in controllers, unit tests
-  .constant('_', window._)
+    .constant('_', window._)
+    .constant('APP_INFO', {
+      name: '<%= pkg.name %>',
+      version: '<%= pkg.version %>',
+      description: '<%= pkg.description %>'
+    })
 
-  .run(["$rootScope", "UserAccess", "$location", "$log", function ($rootScope, UserAccess, $location, $log) {
-    $rootScope._ = window._;
+    .run(["$rootScope", "UserAccess", "$location", "$log", "APP_INFO", function ($rootScope, UserAccess, $location, $log, APP_INFO) {
+      $rootScope._ = window._;
+      $rootScope.APP_INFO = APP_INFO;
 
-    $rootScope.$on("$routeChangeError", function (event, current, previous, rejection) {
-      switch (rejection) {
-        case UserAccess.FORBIDDEN:
-          $log.warn("$stateChangeError event catched", UserAccess.FORBIDDEN);
-          $location.path("/lid/profiel");
-          break;
-        default:
-          $log.warn("$stateChangeError event catched");
-          break;
-      }
-    });
+      $rootScope.$on("$routeChangeError", function (event, current, previous, rejection) {
+        switch (rejection) {
+          case UserAccess.FORBIDDEN:
+            $log.warn("$stateChangeError event catched", UserAccess.FORBIDDEN);
+            $location.path("/lid/profiel");
+            break;
+          default:
+            $log.warn("$stateChangeError event catched");
+            break;
+        }
+      });
 
 
-  }]);
+    }]);
 
-  angular.element(document).ready(function() {
+  angular.element(document).ready(function () {
     window._keycloak = Keycloak(getClient());
 
     window._keycloak
@@ -88,7 +94,7 @@
       .success(bootstrapApp);
   });
 
-  var bootstrapApp = function(){
+  var bootstrapApp = function () {
     angular.bootstrap(document, ['ga']); // manually bootstrap Angular
   }
 })();
