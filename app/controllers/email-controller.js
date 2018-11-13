@@ -118,7 +118,7 @@
             console.log("mail was sent TO list", res);
             feedback(res);
           })
-          .catch(function(error) {
+          .catch(function (error) {
             $scope.mailIsPending = false;
             console.log(error);
           });
@@ -158,7 +158,7 @@
 
     $scope.deleteSjabloon = function (sjObj) {
       $scope.isDeleting = true;
-      RestService.Emailsjabloon.delete({id: sjObj.id}).$promise.then(
+      RestService.Emailsjabloon.delete({id: sjObj.id, bevestiging: false}).$promise.then(
         function () {
           AlertService.add('success ', "Sjabloon '" + sjObj.naam + "' succesvol verwijderd");
           $scope.isDeleting = false;
