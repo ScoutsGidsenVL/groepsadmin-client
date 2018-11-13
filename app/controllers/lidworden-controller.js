@@ -5,9 +5,9 @@
     .module('ga.lidwordencontroller', [])
     .controller('LidwordenController', LidwordenController);
 
-  LidwordenController.$inject = ['$scope', '$routeParams', 'RestService', 'LidService', 'FormValidationService', 'AlertService'];
+  LidwordenController.$inject = ['$scope', '$routeParams', 'RestService', 'LidService', 'AlertService'];
 
-  function LidwordenController ($scope, $routeParams, RestService, LS, FVS, AlertService) {
+  function LidwordenController ($scope, $routeParams, RestService, LS, AlertService) {
     var gemeenteScope;
 
     $scope.aanvraagverstuurd = false;
@@ -95,10 +95,6 @@
       adres.straat = item.straat;
       adres.giscode = item.code;
 
-    };
-
-    $scope.checkField = function(formfield) {
-      formfield.$setValidity(formfield.$name,FVS.checkField(formfield));
     };
 
     $scope.submitForm = function(form) {

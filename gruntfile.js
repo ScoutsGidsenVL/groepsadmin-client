@@ -177,6 +177,9 @@ module.exports = function (grunt) {
             'app/directives/ui-dialog.js',
             'app/directives/ui-selectpicker.js',
             'app/directives/utils.js',
+            'app/directives/telefoonnummer.js',
+            'app/directives/gsmnummer.js',
+            'app/directives/rekeningnummer.js',
             'app/assets/js/templates.js'
           ]
         }

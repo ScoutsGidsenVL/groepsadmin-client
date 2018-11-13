@@ -682,10 +682,6 @@
       $location.path('/email/' + id);
     };
 
-    $scope.checkField = function (formfield) {
-      formfield.$setValidity(formfield.$name, FVS.checkField(formfield));
-    };
-
     $scope.$watch('lidForm.$valid', function (validity) {
       if (!validity) {
         openAndHighlightCollapsedInvalidContacts();

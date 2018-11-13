@@ -84,7 +84,7 @@
             <label for="_gsm" class="col-sm-2 control-label">GSM</label>
             <div class="col-sm-4" ng-class="{ 'has-error': lidwordenForm.gsm.$touched && lidwordenForm.gsm.$invalid }">
               <input type="tel" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm" name="gsm"
-                     placeholder="GSM nummer ..." ng-keyup="checkField(lidwordenForm.gsm);"/>
+                     placeholder="GSM nummer ..." gsmnummer/>
               <div ng-messages="lidwordenForm.gsm.$error" ng-show="lidwordenForm.gsm.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
@@ -96,7 +96,7 @@
                  ng-class="{ 'has-error': lidwordenForm.telefoon.$touched && lidwordenForm.telefoon.$invalid }">
               <input type="tel" class="form-control" id="_telefoon" ng-model="lid.adres.telefoon"
                      placeholder="Vast telefoon nummer..." name="telefoon"
-                     ng-keyup="checkField(lidwordenForm.telefoon);"/>
+                     telefoonnummer/>
               <div ng-messages="lidwordenForm.telefoon.$error" ng-show="lidwordenForm.telefoon.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
@@ -110,7 +110,7 @@
               <input type="text" class="form-control" id="_rekeningnummer"
                      ng-model="lid.persoonsgegevens.rekeningnummer"
                      placeholder="BANK 0000 0000 0000" name="rekeningnummer"
-                     ng-keyup="checkField(lidwordenForm.rekeningnummer);"/>
+                     rekeningnummer/>
               <div ng-messages="lidwordenForm.rekeningnummer.$error" ng-show="lidwordenForm.rekeningnummer.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>

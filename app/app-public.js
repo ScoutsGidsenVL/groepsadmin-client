@@ -14,6 +14,9 @@
     'ga.ui.selectpicker',
     'ga.ui.dialog',
     'ga.utils',
+    'ga.validatie.rekeningnummer',
+    'ga.validatie.telefoonnummer',
+    'ga.validatie.gsmnummer',
     'ui.bootstrap',
     'ngMessages'])
 

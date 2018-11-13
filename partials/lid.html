@@ -153,7 +153,7 @@
             <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
             <div class="col-xs-7 col-xxs-12">
               <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm" name="gsm"
-                     ng-disabled="!hasPermission('persoonsgegevens')" ng-keyup="checkField(lidForm.gsm);"/>
+                     ng-disabled="!hasPermission('persoonsgegevens')" gsmnummer/>
               <div ng-messages="lidForm.gsm.$error">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
@@ -162,7 +162,9 @@
           <div class="form-group" ng-class="{ 'has-error': lidForm.rekeningnummer.$touched && lidForm.rekeningnummer.$invalid }" ng-show="lid">
             <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
             <div class="col-xs-7 col-xxs-12">
-              <input type="text" name="rekeningnummer" class="form-control" id="_rekeningnummer" ng-model="lid.persoonsgegevens.rekeningnummer" ng-disabled="!hasPermission('persoonsgegevens')"  ng-keyup="checkField(lidForm.rekeningnummer);" />
+              <input type="text" name="rekeningnummer" class="form-control" id="_rekeningnummer"
+                     ng-model="lid.persoonsgegevens.rekeningnummer" ng-disabled="!hasPermission('persoonsgegevens')"
+                     rekeningnummer />
               <div ng-messages="lidForm.rekeningnummer.$error">
                   <div ng-messages-include="partials/messages.html"></div>
               </div>
@@ -267,7 +269,7 @@
                   <label for="_telefoon" class="col-xs-4 col-xxs-12 control-label">Telefoon</label>
                   <div class="col-xs-8 col-xxs-12">
                     <input type="text" class="form-control" name="adressen[{{ $index }}].telefoon" id="_telefoon"
-                           ng-model="adres.telefoon" ng-keyup="checkField(lidForm['adressen['+$index+'].telefoon']);"
+                           ng-model="adres.telefoon" telefoonnummer
                            ng-disabled="!hasPermission('adressen')"/>
                     <div ng-messages="lidForm['adressen['+$index+'].telefoon'].$error">
                       <div ng-messages-include="partials/messages.html"></div>
@@ -353,7 +355,7 @@
               <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Gsm</label>
               <div class="col-xs-7 col-xxs-12">
                 <input type="text" name="contacten[{{ $index }}].gsm" class="form-control" id="_naam" ng-model="contact.gsm"
-                       ng-disabled="!hasPermission('contacten')" ng-keyup="checkField(lidForm['contacten['+$index+'].gsm']);">
+                       ng-disabled="!hasPermission('contacten')" gsmnummer>
                 <div ng-messages="lidForm['contacten['+$index+'].gsm'].$error">
                     <div ng-messages-include="partials/messages.html"></div>
                 </div>

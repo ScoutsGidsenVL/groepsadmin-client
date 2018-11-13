@@ -32,6 +32,7 @@
     "angulartics-piwik": "^1.0.6",
     "angular-ui-tinymce": "~0.0.18",
     "angular-filter": "^0.5.16",
-    "angular-fixed-table-header": "~0.2.1"
+    "angular-fixed-table-header": "~0.2.1",
+    "google-libphonenumber": "^3.1.15"
   }
 }

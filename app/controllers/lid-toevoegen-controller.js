@@ -6,9 +6,9 @@
     .controller('LidToevoegenController', LidToevoegenController);
 
   LidToevoegenController.$inject = ['$scope', '$location', '$timeout', '$window', '$http', 'CacheService', 'LidService',
-    'RestService', 'AlertService', 'DialogService', '$rootScope', '$route', 'access', 'FormValidationService'];
+    'RestService', 'AlertService', 'DialogService', '$rootScope', '$route', 'access'];
 
-  function LidToevoegenController($scope, $location, $timeout, $window, $http, CS, LS, RestService, AlertService, DialogService, $rootScope, $route, access, FVS) {
+  function LidToevoegenController($scope, $location, $timeout, $window, $http, CS, LS, RestService, AlertService, DialogService, $rootScope, $route, access) {
 
     $scope.formInitiated = false;
     $scope.functiesEnGroepenGeladen = false;
@@ -393,7 +393,7 @@
     // listener voor wanneer een gebruiker van pagina veranderd en er zijn nog openstaande aanpassingen.
     $scope.$on('$locationChangeStart', function (event, newUrl) {
       if ($scope.nieuwLidForm.$dirty) {
-        if(newUrl.indexOf('?suggestie=1')) {
+        if (newUrl.indexOf('?suggestie=1')) {
           //suggestie geklikt, dus vraag hoeft niet gesteld te worden
         }
         else {
@@ -410,10 +410,6 @@
         $scope.lid.changes = [];
         $window.location.href = url;
       }
-    };
-
-    $scope.checkField = function (formfield) {
-      formfield.$setValidity(formfield.$name, FVS.checkField(formfield));
     };
 
     // TODO: REMOVE CODE DUPLICATION  (lidcontroller)
