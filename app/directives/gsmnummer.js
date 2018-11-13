@@ -50,7 +50,7 @@
                 validated = phoneUtil.isValidNumber(parsedNumber);
               }
               catch (e) {
-                console.log(e);
+                console.log(e.message);
               }
             }
 
