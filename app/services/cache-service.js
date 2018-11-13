@@ -166,7 +166,7 @@
         return deferred.promise;
       },
       Functies: function () {
-        if (_.isEmpty(resGroepen)) {
+        if (_.isEmpty(resFuncties)) {
           waitingFuncties = true;
           return RestService.Functies.get().$promise
             .then(function (response) {
