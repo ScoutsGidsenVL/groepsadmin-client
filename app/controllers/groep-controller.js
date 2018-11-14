@@ -253,6 +253,7 @@
         DialogService.paginaVerlaten(function(result) {
           if(result) {
             $scope.groepForm.$setPristine();
+            $scope.previousgroupId = $scope.data.activegroup.id;
             CS.Groepen().then(groepenGeladen);
             $scope.formulierUrl = $scope.baseUrl + $scope.data.activegroup.id;
             loadGoogleMap();
@@ -269,6 +270,7 @@
         });
       }
       else {
+        $scope.previousgroupId = $scope.data.activegroup.id;
         $scope.formulierUrl = $scope.baseUrl + $scope.data.activegroup.id;
         loadGoogleMap();
         maakSorteerbaar();
