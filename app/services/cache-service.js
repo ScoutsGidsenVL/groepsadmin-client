@@ -15,6 +15,30 @@
     var indexedGroepen = {}, deferredGroepen = {};
     var indexedFuncties = {}, deferredFuncties = {};
 
+    function returnGroepen() {
+      var copy = {
+        groepen: []
+      };
+
+      angular.forEach(resGroepen.groepen, function (groep) {
+        copy.groepen.push(angular.merge({}, groep));
+      });
+
+      return copy;
+    }
+
+    function returnFuncties() {
+      var copy = {
+        functies: []
+      };
+
+      angular.forEach(resFuncties.functies, function (functie) {
+        copy.functies.push(angular.merge({}, functie));
+      });
+
+      return copy;
+    }
+
     function getGroepById(id) {
       var deferred = $q.defer();
 
@@ -26,7 +50,7 @@
           deferredGroepen[id].push(deferred);
         }
         else {
-          deferred.resolve(indexedGroepen[id]);
+          deferred.resolve(angular.merge({}, indexedGroepen[id]));
         }
 
       }
@@ -39,10 +63,10 @@
           .then(function (result) {
             indexedGroepen[id] = result;
             angular.forEach(deferredGroepen[result.id], function (deferredGroep) {
-              deferredGroep.resolve(result);
+              deferredGroep.resolve(angular.merge({}, result));
             });
             delete deferredGroepen[result.id];
-            deferred.resolve(result);
+            deferred.resolve(angular.merge({}, result));
           });
       }
 
@@ -60,7 +84,7 @@
           deferredFuncties[id].push(deferred);
         }
         else {
-          deferred.resolve(indexedFuncties[id]);
+          deferred.resolve(angular.merge({}, indexedFuncties[id]));
         }
 
       }
@@ -73,10 +97,10 @@
           .then(function (result) {
             indexedFuncties[id] = result;
             angular.forEach(deferredFuncties[result.id], function (deferredFunctie) {
-              deferredFunctie.resolve(result);
+              deferredFunctie.resolve(angular.merge({}, result));
             });
             delete deferredFuncties[result.id];
-            deferred.resolve(result);
+            deferred.resolve(angular.merge({}, result));
           });
       }
 
@@ -123,13 +147,27 @@
 
         return deferred.promise;
       },
+      UpdateGroep: function (id, groep) {
+        var groepen = [];
+        angular.forEach(resGroepen.groepen, function (cacheGroep) {
+          if (cacheGroep.id === id) {
+            groepen.push(groep);
+          }
+          else {
+            groepen.push(cacheGroep);
+          }
+        });
+        indexedGroepen[id] = groep;
+        resGroepen.groepen = groepen;
+      },
       Groepen: function (force) {
         if (force || _.isEmpty(resGroepen)) {
           waitingGroepen = true;
           return RestService.Groepen.get().$promise
             .then(function (response) {
-              $rootScope.$broadcast('ga-groepen-geladen', response);
               resGroepen = response;
+              var copiedResponse = returnGroepen();
+              $rootScope.$broadcast('ga-groepen-geladen', copiedResponse);
 
               angular.forEach(response.groepen, function (groep) {
                 indexedGroepen[groep.id] = groep;
@@ -137,14 +175,14 @@
 
               clearGroepQueue();
 
-              return resGroepen;
+              return copiedResponse;
             })
             .finally(function () {
               waitingGroepen = false;
             });
         } else {
           var deferred = $q.defer();
-          deferred.resolve(resGroepen);
+          deferred.resolve(returnGroepen());
           return deferred.promise;
         }
       },
@@ -178,14 +216,14 @@
 
               clearFunctieQueue();
 
-              return resFuncties;
+              return returnFuncties();
             })
             .finally(function () {
               waitingFuncties = false;
             });
         } else {
           var deferred = $q.defer();
-          deferred.resolve(resFuncties);
+          deferred.resolve(returnFuncties());
           return deferred.promise;
         }
       }

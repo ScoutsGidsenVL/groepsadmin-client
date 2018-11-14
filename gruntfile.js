@@ -158,8 +158,7 @@ module.exports = function (grunt) {
             'app/controllers/**.js',
             'app/directives/**.js',
             'app/filters/**/**.js',
-            'app/services/**/**.js',
-            'app/assets/js/templates.js'
+            'app/services/**/**.js'
           ],
           'formulier.html': [
             'app/assets/js/<%= pkg.name %>-vendor.min.js',
@@ -179,8 +178,7 @@ module.exports = function (grunt) {
             'app/directives/utils.js',
             'app/directives/telefoonnummer.js',
             'app/directives/gsmnummer.js',
-            'app/directives/rekeningnummer.js',
-            'app/assets/js/templates.js'
+            'app/directives/rekeningnummer.js'
           ]
         }
       },
@@ -303,7 +301,6 @@ module.exports = function (grunt) {
     'concat:vendor',
     'uglify:vendor',
     'cssmin',
-    'ngtemplates',
     'injector:dev',
     'copy',
     'connect:server',

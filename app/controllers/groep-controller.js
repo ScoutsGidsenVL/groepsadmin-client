@@ -5,9 +5,9 @@
     .module('ga.groepcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('GroepController', GroepController);
 
-  GroepController.$inject = ['$q', '$scope', '$location', '$timeout', 'RestService', 'CacheService', 'access'];
+  GroepController.$inject = ['$q', '$scope', '$location', '$timeout', '$window', 'RestService', 'CacheService', 'access', 'DialogService'];
 
-  function GroepController($q, $scope, $location, $timeout, RestService, CS, access) {
+  function GroepController($q, $scope, $location, $timeout, $window, RestService, CS, access, DialogService) {
     if (!access) {
       $location.path("/lid/profiel");
     }
@@ -78,6 +78,7 @@
 
       if (!$scope.data.activegroup) {
         $scope.data.activegroup = $scope.data.groepenlijst[0];
+        $scope.previousgroupId = $scope.data.activegroup.id;
         $scope.formulierUrl = $scope.baseUrl + $scope.data.activegroup.id;
         $timeout(maakSorteerbaar, 0);
         loadGoogleMap();
@@ -86,6 +87,7 @@
         angular.forEach($scope.data.groepenlijst, function (groep) {
           if (groep.id == $scope.data.activegroup.id) {
             $scope.data.activegroup = groep;
+            $scope.previousgroupId = $scope.data.activegroup.id;
           }
         })
       }
@@ -247,9 +249,30 @@
      */
     //dropdown verander van groep
     $scope.changeGroep = function () {
-      $scope.formulierUrl = $scope.baseUrl + $scope.data.activegroup.id;
-      loadGoogleMap();
-      maakSorteerbaar();
+      if ($scope.groepForm.$dirty) {
+        DialogService.paginaVerlaten(function(result) {
+          if(result) {
+            $scope.groepForm.$setPristine();
+            CS.Groepen().then(groepenGeladen);
+            $scope.formulierUrl = $scope.baseUrl + $scope.data.activegroup.id;
+            loadGoogleMap();
+            maakSorteerbaar();
+          }
+          else {
+            angular.forEach($scope.data.groepenlijst, function (groep) {
+              if (groep.id == $scope.previousgroupId) {
+                $scope.data.activegroup = groep;
+                $scope.previousgroupId = $scope.data.activegroup.id;
+              }
+            })
+          }
+        });
+      }
+      else {
+        $scope.formulierUrl = $scope.baseUrl + $scope.data.activegroup.id;
+        loadGoogleMap();
+        maakSorteerbaar();
+      }
     };
 
     // marker-icon click
@@ -273,7 +296,8 @@
         bus: null
       };
       $scope.data.activegroup.adressen.push(newAdres);
-      addMarkerFromNewAdres($scope.googleMap, newAdres)
+      addMarkerFromNewAdres($scope.googleMap, newAdres);
+      $scope.groepForm.$setDirty();
     };
 
     // zoek gemeentes
@@ -351,6 +375,7 @@
         groepen: [$scope.data.activegroup.groepsnummer]
       };
       $scope.data.activegroup.groepseigenFuncties.push(newFunction);
+      $scope.groepForm.$setDirty();
     };
 
     $scope.wisGroepseigenFunctie = function (id) {
@@ -368,6 +393,7 @@
         }
         console.log($scope.data.activegroup.groepseigenFuncties[key]);
       });
+      $scope.groepForm.$setDirty();
     };
 
     /*
@@ -408,6 +434,7 @@
         label: ""
       };
       $scope.data.activegroup.groepseigenGegevens.push(newGegeven);
+      $scope.groepForm.$setDirty();
     };
 
     $scope.verwijderGroepseigenGegeven = function (id) {
@@ -420,15 +447,18 @@
       });
 
       $scope.data.activegroup.groepseigenGegevens = groepseigenGegevens;
+      $scope.groepForm.$setDirty();
     };
 
     $scope.addKeuze = function (index) {
       $scope.data.activegroup.groepseigenGegevens[index].keuzes = $scope.data.activegroup.groepseigenGegevens[index].keuzes || [];
       $scope.data.activegroup.groepseigenGegevens[index].keuzes.push("");
+      $scope.groepForm.$setDirty();
     };
 
     $scope.wisKeuze = function (index, keuzeIndex) {
       $scope.data.activegroup.groepseigenGegevens[index].keuzes.splice(keuzeIndex, 1);
+      $scope.groepForm.$setDirty();
     };
 
     $scope.deleteLokaal = function (id) {
@@ -441,6 +471,7 @@
       });
 
       $scope.data.activegroup.adressen = adressen;
+      $scope.groepForm.$setDirty();
     };
 
     /*
@@ -486,7 +517,6 @@
       return marker;
     };
 
-
     // add watcher for checkbox - date translation
     $scope.$watch('data.activegroup.facturatieLeden', function (newVal, oldVal) {
       console.log("Leden  newVal--", $scope.data.activegroup.facturatieLeden, " --OldVal", oldVal);
@@ -502,6 +532,23 @@
         $scope.data.activegroup.facturatieLeidingCheck = true;
       }
     });
+
+    $scope.$on('$locationChangeStart', function (event, newUrl) {
+      if ($scope.groepForm.$dirty) {
+        event.preventDefault();
+        DialogService.paginaVerlaten($scope.locationChange, newUrl);
+      }
+    });
+
+    // return functie voor de bevestiging na het veranderen van pagina
+    $scope.locationChange = function (result, url) {
+      if (result) {
+        $scope.groepForm.$setPristine();
+        if (url) {
+          $window.location.href = url;
+        }
+      }
+    };
 
     $scope.opslaan = function () {
       angular.forEach($scope.data.activegroup.groepseigenGegevens, function (gegeven) {
@@ -527,6 +574,9 @@
           var foundObj = _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id});
           foundObj.facturatieLeidingSaved = true;
           foundObj.facturatieLeidingCheck = true;
+          delete response.$promise;
+          CS.UpdateGroep(response.id, response);
+          return response;
         })
       ];
       _.forEach($scope.data.activegroup.groepseigenFuncties, function (functie) {
@@ -553,9 +603,13 @@
         promises.push(promise);
       });
 
-      $q.all(promises).finally(function () {
-        $scope.saving = false;
-      });
+      $q.all(promises)
+        .then(function () {
+          $scope.groepForm.$setPristine();
+        })
+        .finally(function () {
+          $scope.saving = false;
+        });
     }
   }
 })();
