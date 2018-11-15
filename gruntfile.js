@@ -76,7 +76,10 @@ module.exports = function (grunt) {
           'app/directives/ga-parse-date.js',
           'app/directives/ui-dialog.js',
           'app/directives/ui-selectpicker.js',
-          'app/directives/utils.js'
+          'app/directives/utils.js',
+          'app/directives/telefoonnummer.js',
+          'app/directives/gsmnummer.js',
+          'app/directives/rekeningnummer.js'
         ],
         dest: 'app/assets/js/<%= pkg.name %>-public.js'
       }
