@@ -287,7 +287,7 @@
           result += row('Client', 'aud');
           result += row('Expires', 'exp', new Date(token['exp'] * 1000) + ' - Left: <span id="left"></span> s');
           result += row('Gebruikersnaam', 'preferred_username');
-          result += row('GA id', 'sub');
+          result += row('Keycloak id', 'sub');
           result += row('Session state', 'session_state');
           result += row('Allowed origin', 'allowed-origins');
         }
