@@ -119,6 +119,12 @@
             </button>
           </form>
         </div>
+        <div ng-if="currentFilter.naam && !showSaveOptions" class="pull-left hide">
+          &nbsp;
+          <button class="btn btn-default" ng-disabled="deletingFilter" ng-click="verwijderFilter(currentFilter)">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;Filter verwijderen
+          </button>
+        </div>
       </div>
       <div class="col-md-4 col-xxs-12 hidden-xs hidden-sm">
         <div class="pull-right">

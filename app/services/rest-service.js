@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -11,12 +11,12 @@
 
     var apiHost;
     if (window.location.protocol === "https:") {
-        apiHost = window.location.origin;
+      apiHost = window.location.origin;
     } else {
-        //apiHost = 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be';
-        apiHost = 'https://ga-staging.scoutsengidsenvlaanderen.be';
-        // Alternatief als de groepsadmin lokaal draait:
-        //apiHost = 'http://localhost:8080';
+      //apiHost = 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be';
+      apiHost = 'https://ga-staging.scoutsengidsenvlaanderen.be';
+      // Alternatief als de groepsadmin lokaal draait:
+      //apiHost = 'http://localhost:8080';
     }
 
     // Alteratief:
@@ -57,7 +57,7 @@
           'save': {
             method: 'POST'
           },
-         'options': {
+          'options': {
             method: 'OPTIONS',
             transformResponse: function (data) {
               var result = {};
@@ -153,14 +153,14 @@
         {
           'post': {
             method: 'POST',
-            headers: { accept: 'application/pdf' },
+            headers: {accept: 'application/pdf'},
             responseType: 'arraybuffer',
             transformResponse: function (data) {
               var pdf;
               if (data) {
-                pdf = new Blob([data], { type: 'application/pdf' });
+                pdf = new Blob([data], {type: 'application/pdf'});
               }
-              return { response: pdf };
+              return {response: pdf};
             }
           }
         }
@@ -171,14 +171,14 @@
         {
           'get': {
             method: 'GET',
-            headers: { accept: 'application/pdf' },
+            headers: {accept: 'application/pdf'},
             responseType: 'arraybuffer',
             transformResponse: function (data) {
               var pdf;
               if (data) {
-                pdf = new Blob([data], { type: 'application/pdf' });
+                pdf = new Blob([data], {type: 'application/pdf'});
               }
-              return { response: pdf };
+              return {response: pdf};
             }
           }
         }
@@ -189,14 +189,14 @@
         {
           'get': {
             method: 'GET',
-            headers: { accept: 'text/csv' },
+            headers: {accept: 'text/csv'},
             responseType: 'arraybuffer',
             transformResponse: function (data) {
               var csv;
               if (data) {
-                csv = new Blob([data], { type: 'text/csv' });
+                csv = new Blob([data], {type: 'text/csv'});
               }
-              return { response: csv };
+              return {response: csv};
             }
           }
         }
@@ -207,54 +207,49 @@
         {
           'get': {
             method: 'GET',
-            headers: { accept: 'application/pdf' },
+            headers: {accept: 'application/pdf'},
             responseType: 'arraybuffer',
             transformResponse: function (data) {
               var pdf;
               if (data) {
-                pdf = new Blob([data], { type: 'application/pdf' });
+                pdf = new Blob([data], {type: 'application/pdf'});
               }
-              return { response: pdf };
+              return {response: pdf};
             }
           }
         }
       ),
-      LidMail : $resource(
+      LidMail: $resource(
         base + 'lid/:id/mail',
         {bevestiging: '@bevestiging'},
         {
           'post': {
             method: 'POST',
             // content-type moet undefined om formdata() correct te laten werken.
-            headers: { 'Content-Type': undefined},
+            headers: {'Content-Type': undefined},
             cache: false
           }
         }
       ),
-      LedenMail : $resource(
+      LedenMail: $resource(
         base + 'ledenlijst/mail',
         {bevestiging: '@bevestiging'},
         {
           'post': {
             method: 'POST',
-             // content-type moet undefined om formdata() correct te laten werken.
-            headers: { 'Content-Type': undefined},
+            // content-type moet undefined om formdata() correct te laten werken.
+            headers: {'Content-Type': undefined},
             cache: false
           }
         }
       ),
-      FilterDetails: $resource(
-        base + 'ledenlijst/filter/:id',
-        {id: '@id'},
-        {'get': {method: 'GET', cache: false}}
-      ),
-      UpdateFilter: $resource(
+      Filter: $resource(
         base + 'ledenlijst/filter/:id',
         {id: '@id'},
         {
-          'update': {
-            method: 'PATCH', transformRequest: changesOnly, cache: false
-          }
+          'get': {method: 'GET', cache: false},
+          'update': {method: 'PATCH', transformRequest: changesOnly, cache: false},
+          'delete': {method: 'DELETE', cache: false}
         }
       ),
       createNewFilter: $resource(
@@ -306,7 +301,7 @@
       ),
       Etiketsjabloon: $resource(
         base + 'sjabloon/etiket/:id',
-        {id: '@id', bevestiging: '@bevestiging'},
+        {id: '@id'},
         {
           'get': {method: 'GET', cache: false},
           'update': {method: 'PATCH', transformRequest: changesOnly, cache: false},
@@ -317,7 +312,7 @@
         base + 'sjabloon/etiket/dummyid',
         {},
         {
-        'post': {method: 'POST', cache: false}
+          'post': {method: 'POST', cache: false}
         }
       ),
       Websites: $resource(
@@ -334,7 +329,7 @@
   }
 
   function changesOnly(data) {
-    if(data.changes) {
+    if (data.changes) {
       var changes = {};
       //changes.id = data.id;  // id verplicht meesturen
 

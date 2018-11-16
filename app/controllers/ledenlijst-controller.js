@@ -524,6 +524,23 @@
       });
     };
 
+    $scope.verwijderFilter = function (filter) {
+      $scope.deletingFilter = true;
+      if (filter.naam && filter.id) {
+        LFS.deleteFilter(filter.id)
+          .then(
+            function () {
+              _.remove($scope.filters, function (f) {
+                return (f.id == filter.id);
+              });
+              $scope.currentFilter = $scope.filters[0];
+            })
+          .finally(function () {
+            $scope.deletingFilter = false;
+          });
+      }
+    };
+
     $scope.saveOrOverwriteFilter = function (selectedFilter) {
       $scope.isSavingFilters = true;
       var reconstructedFilterObj = createFilterObject();
