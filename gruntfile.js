@@ -262,7 +262,7 @@ module.exports = function (grunt) {
       styles: {
         // Which files to watch (all .less files recursively in the less directory)
         files: ['less/**/*.less'],
-        tasks: ['less'],
+        tasks: ['less', 'cssmin'],
         options: {
           nospaces: true
         }

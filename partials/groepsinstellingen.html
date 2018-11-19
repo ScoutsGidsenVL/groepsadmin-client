@@ -4,27 +4,28 @@
 
 
     <!-- NEW ACTIONS -->
-    <div class="col-xs-12 col-sm-3 col-sm-push-9 col-md-2 col-md-push-10">
-      <div class="pull-right" ng-show="data.activegroup.kanWijzigen">
-        <div>
-          <button type="submit" class="btn btn-apply" ng-click="opslaan()"><span class="glyphicon glyphicon-floppy-disk"
-                                                                                 aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i
-            class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-9 col-sm-pull-3 col-md-10 col-md-pull-2">
+    <div class="clearfix visible-xs-block"></div>
+    <div class="col-xs-12 col-sm-9 col-md-10">
       <form name="groepenFormulier" ng-if="data.groepenlijst.length != 1">
-        <div class="form-group form-group--groepsinstellingen">
+        <div class="form-group form-group--groepsinstellingen spacing-bottom">
           <label class="groepsinstellingen-title hidden-xs hidden-sm" for="groepenSelect">Groepsinstellingen
             van </label>
-          <select class="groepsinstellingen-select-group" name="groepenSelect"
+          <select class="groepsinstellingen-select-group selectpicker" name="groepenSelect"
                   ng-options="groep as (groep.naam + ' - ' + groep.groepsnummer) for groep in data.groepenlijst"
                   ng-change="changeGroep()" ng-model="data.activegroup"></select>
         </div>
       </form>
       <h1 class="panel-title" ng-if="data.groepenlijst.length == 1">{{ data.activegroup.naam + ' - ' +
         data.activegroup.groepsnummer }}</h1>
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-2">
+      <div class="pull-right" ng-show="data.activegroup.kanWijzigen">
+        <div>
+          <button type="submit" class="btn btn-apply" ng-click="opslaan()">
+            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;
+            <i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -203,7 +204,7 @@
                       <i class="fa fa-map-marker" aria-hidden="true"></i>{{ markerLabels[$index] }}
                     </div>
                   </div>
-                  <div class="col-xs-7">
+                  <div class="col-xs-6">
                     <div ng-if="lokaal.beschrijving" class="ellipsis">
                       {{ lokaal.beschrijving }}
                     </div>
@@ -217,15 +218,15 @@
                       Nieuw lokaal
                     </div>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-xs-4">
                     <div class="pull-right">
-                      <button class="btn-minimal" ng-show="data.activegroup.kanWijzigen">
-                        <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
-                        <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
-                      </button>
                       <button ng-click="deleteLokaal(lokaal.id)" class="btn-minimal"
                               ng-show="data.activegroup.kanWijzigen">
                         <span class="glyphicon glyphicon-trash" title="Lokaal wissen"></span>
+                      </button>
+                      <button class="btn-minimal" ng-show="data.activegroup.kanWijzigen">
+                        <span ng-hide="showme" class="glyphicon glyphicon-chevron-down" title="Adres tonen"></span>
+                        <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up" title="Adres verbergen"></span>
                       </button>
                     </div>
                   </div>
@@ -345,16 +346,16 @@
               {{ groepseigenGegeven.type | fieldTypeFormatter }}
             </span>
                 <div class="pull-right">
+                  <button ng-click="verwijderGroepseigenGegeven(groepseigenGegeven.id)" class="btn-minimal"
+                          ng-show="data.activegroup.kanWijzigen">
+                    <span class="glyphicon glyphicon-trash" title="Groepseigen gegeven wissen"></span>
+                  </button>
                   <button class="btn-minimal" title="openklappen" ng-click="showme = showme ? false : true"
                           ng-show="data.activegroup.kanWijzigen">
                 <span ng-hide="showme" class="glyphicon glyphicon-chevron-down"
                       title="Groepseigen gegeven tonen"></span>
                     <span ng-hide="!showme" class="glyphicon glyphicon-chevron-up"
                           title="Groepseigen gegeven verbergen"></span>
-                  </button>
-                  <button ng-click="verwijderGroepseigenGegeven(groepseigenGegeven.id)" class="btn-minimal"
-                          ng-show="data.activegroup.kanWijzigen">
-                    <span class="glyphicon glyphicon-trash" title="Groepseigen gegeven wissen"></span>
                   </button>
                 </div>
               </legend>
