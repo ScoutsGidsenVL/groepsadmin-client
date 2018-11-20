@@ -73,6 +73,10 @@
           }
         };
 
+        if(error && error.data && error.data.infoLink) {
+          alert.infoLink = error.data.infoLink;
+        }
+
         console.log(alert);
 
         if (_.findIndex($rootScope.alerts, {'hash': alert.hash}) < 0) {

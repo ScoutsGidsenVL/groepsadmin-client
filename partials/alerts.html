@@ -5,6 +5,9 @@
       <span class="sr-only" ng-bind="'Close'"></span>
     </button>
     <div ng-bind="alert.msg"></div>
+    <p ng-if="alert.infoLink">
+      <a href="{{alert.infoLink}}" target="_blank">Meer info...</a>
+    </p>
     <ul>
       <li ng-repeat="suggestie in alert.suggesties">
         <a ng-href="#/lid/{{suggestie.id}}?suggestie=1" ng-click="alert.close()">
