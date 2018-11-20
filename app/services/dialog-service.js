@@ -11,7 +11,7 @@
     $rootScope.dialogs = [];
 
     return {
-      new: function(title, melding, vraag, returnFunctie, extraParamObj) {
+      new: function(title, melding, vraag, returnFunctie, extraParamObj, options) {
 
         var deferred = $q.defer();
 
@@ -54,6 +54,10 @@
           }
         };
 
+        if (options) {
+          angular.extend(dialog, options);
+        }
+
         console.log(dialog);
         $rootScope.dialogs.push(dialog);
 
@@ -61,8 +65,16 @@
       },
 
       bevestig: function(data, returnFunctie) {
+        var options, extraParamObj;
+
         console.log(data);
-        return this.new('Bevestig', data.boodschap, data.vraag, returnFunctie);
+        if(data && data.infoLink) {
+            options = {
+              infoLink: data.infoLink
+            }
+        }
+
+        return this.new('Bevestig', data.boodschap, data.vraag, returnFunctie, extraParamObj, options);
       },
 
       paginaVerlaten: function(locationChange, newUrl) {
