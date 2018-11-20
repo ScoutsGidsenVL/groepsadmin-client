@@ -45,52 +45,9 @@
       <div class="container-fluid" ng-view></div>
     </div>
 
-    <div class="alerts">
-      <div ng-repeat="alert in alerts" class="alert closeable" ng-class="['alert-' + (type || 'warning'), closeable ? 'alert-dismissable' : null]" ng-controller="AlertController">
-        <button type="button" class="close" ng-click="alert.close()">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only" ng-bind="'Close'"></span>
-        </button>
-        <div ng-bind="alert.msg"></div>
-        <ul>
-          <li ng-repeat="suggestie in alert.suggesties">
-            <a ng-href="#/lid/{{suggestie.id}}?suggestie=1" ng-click="alert.close()">
-              <span style='font-weight: bold;' ng-bind="suggestie.voornaam + ' ' + suggestie.achternaam"></span>
-              <span ng-bind="'- ' + suggestie.geboortedatum.substr(8, 2) + '/' + suggestie.geboortedatum.substr(5, 2) + '/' + suggestie.geboortedatum.substr(0, 4)"></span>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <ng-include src="'partials/alerts.html'"></ng-include>
+    <ng-include src="'partials/dialog.html'"></ng-include>
 
-    <script type="text/ng-template" id="dialog.html">
-      <div class="dialog-overlay">
-        <div class="row dialog-overlay-content">
-          <div class="dialog">
-            <div class="panel panel-default container-fluid" role="dialog">
-              <div class="panel-heading clearfix">
-                <h3 class="panel-title">{{title}}</h3>
-                <button ng-show="closeable" type="button" class=" close btn" ng-click="close()">
-                  <span aria-hidden="true">&times;</span>
-                  <span class="sr-only">Close</span>
-                </button>
-              </div>
-              <div class="panel-body">
-                <p ng-transclude></p>
-                <div class="pull-right action-btn-group">
-                  <button ng-show="confirmable" type="button" class="btn btn-success" ng-click="confirm()">
-                    <span class="glyphicon glyphicon-ok"></span><span> Ja</span>
-                  </button>
-                  <button ng-show="dismissable" type="button" class="btn btn-danger" ng-click="close()">
-                    <span class="glyphicon glyphicon-remove"></span><span> Nee</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </script>
 
 
     <!-- Angular -->
