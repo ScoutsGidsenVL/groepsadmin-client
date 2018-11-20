@@ -95,6 +95,11 @@
 
     // initialisatie
 
+    $scope.$watch('lidPropertiesWatchable', function(watchable) {
+      if (watchable && !lidForm.$valid) {
+        openAndHighlightCollapsedInvalidBlocks();
+      }
+    });
 
     function loadSuccess() {
       var sectie;
@@ -684,11 +689,9 @@
 
     $scope.$watch('lidForm.$valid', function (validity) {
       if (!validity) {
-        openAndHighlightCollapsedInvalidContacts();
-        openAndHighlightCollapsedInvalidAdresses();
+        openAndHighlightCollapsedInvalidBlocks();
       } else {
-        unHighlightInvalidContactsGroup();
-        unHighlightInvalidAddressesGroup();
+        unHighlightInvalidBlocks();
       }
     });
 
@@ -701,47 +704,36 @@
       }
     };
 
+    var openAndHighlightCollapsedInvalidBlocks = function () {
+      _.each($scope.lidForm.$error, function(errorTypes) {
+        _.each(errorTypes, function(error) {
+          var str = error.$name.match(/\d+/g, "") + '';
+          var s = str.split(',').join('');
 
-    var openAndHighlightCollapsedInvalidContacts = function () {
-      var invalidContacten = _.filter($scope.lidForm.$error.required, function (o) {
-        return o.$name.indexOf('contacten') > -1
-      });
-      _.each(invalidContacten, function (contact) {
-        // get index from fieldname
-        var str = contact.$name.match(/\d+/g, "") + '';
-        var s = str.split(',').join('');
-        // expand corresponding contact
-        $scope.lid.contacten[s].showme = true;
-        // hilight error
-        $scope.lid.contacten[s].hasErrors = true;
-      });
-    };
-    var openAndHighlightCollapsedInvalidAdresses = function () {
-      var invalidAddresses = _.filter($scope.lidForm.$error.required, function (o) {
-        return o.$name.indexOf('adressen') > -1
-      });
-      _.each(invalidAddresses, function (adres) {
-        // get index from fieldname
-        var str = adres.$name.match(/\d+/g, "") + '';
-        var s = str.split(',').join('');
-        // expand corresponding adres
-        $scope.lid.adressen[s].showme = true;
-        // hilight error
-        $scope.lid.adressen[s].hasErrors = true;
+          if(error.$name.indexOf('adressen') > -1) {
+            $scope.lid.adressen[s].showme = true;
+            // hilight error
+            $scope.lid.adressen[s].hasErrors = true;
+          }
+          else if(error.$name.indexOf('contacten') > -1) {
+            $scope.lid.contacten[s].showme = true;
+            // hilight error
+            $scope.lid.contacten[s].hasErrors = true;
+          }
+        })
       });
     };
 
-    var unHighlightInvalidContactsGroup = function () {
-      if ($scope.lid && $scope.lid.contacten) {
-        _.each($scope.lid.contacten, function (contact) {
-          contact.hasErrors = false
-        });
-      }
-    };
-    var unHighlightInvalidAddressesGroup = function () {
+    var unHighlightInvalidBlocks = function () {
       if ($scope.lid && $scope.lid.adressen) {
         _.each($scope.lid.adressen, function (adres) {
           adres.hasErrors = false
+        });
+      }
+
+      if ($scope.lid && $scope.lid.contacten) {
+        _.each($scope.lid.contacten, function (contact) {
+          contact.hasErrors = false
         });
       }
     };
