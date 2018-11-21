@@ -153,7 +153,7 @@ module.exports = function (grunt) {
       dev: {
         files: {
           'index.html': [
-            'app/assets/js/<%= pkg.name %>-vendor.min.js',
+            'app/assets/js/<%= pkg.name %>-vendor.js',
             'app/app.js',
             'app/app.config.js',
             'app/app.route.js',
@@ -164,7 +164,7 @@ module.exports = function (grunt) {
             'app/services/**/**.js'
           ],
           'formulier.html': [
-            'app/assets/js/<%= pkg.name %>-vendor.min.js',
+            'app/assets/js/<%= pkg.name %>-vendor.js',
             'app/polyfills.js',
             'app/app-public.js',
             'app/app-public.route.js',
@@ -302,7 +302,6 @@ module.exports = function (grunt) {
     'less',
     'bower_concat',
     'concat:vendor',
-    'uglify:vendor',
     'cssmin',
     'injector:dev',
     'copy',

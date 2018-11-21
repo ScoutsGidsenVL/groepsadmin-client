@@ -61,6 +61,7 @@
 
         RestService.Groep.get({id: id}).$promise
           .then(function (result) {
+            delete result.$promise;
             indexedGroepen[id] = result;
             angular.forEach(deferredGroepen[result.id], function (deferredGroep) {
               deferredGroep.resolve(angular.merge({}, result));
@@ -95,6 +96,7 @@
 
         RestService.Functie.get({id: id}).$promise
           .then(function (result) {
+            delete result.$promise;
             indexedFuncties[id] = result;
             angular.forEach(deferredFuncties[result.id], function (deferredFunctie) {
               deferredFunctie.resolve(angular.merge({}, result));
