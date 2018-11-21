@@ -13,8 +13,10 @@
     }
 
     function init() {
+      $scope.isLoadingData = true;
       RestService.LidAanvraag.lijst().$promise.then(function (result) {
         $scope.aanvragen = result.aanvragen;
+        $scope.isLoadingData = false;
       });
     }
 
