@@ -11,6 +11,7 @@
     // Kolommen sortable maken
     $scope.isLoadingFilters = true;
     $scope.hasLoadedFilters = false;
+    $scope.dataLoaded = false;
 
     $scope.busy = false;
     $scope.end = false;
@@ -502,7 +503,7 @@
     };
 
     var createNewFilter = function (filterNaam) {
-
+      $scope.dataLoaded = false;
       var reconstructedFilterObj = createFilterObject();
       reconstructedFilterObj.naam = filterNaam;
 
@@ -516,6 +517,7 @@
                 $scope.hasLoadedFilters = true;
                 activeerCriteria();
                 activeerKolommen();
+                $scope.dataLoaded = true;
               });
               resolve(response);
             });
@@ -588,6 +590,7 @@
     };
 
     $scope.changeFilter = function (filter) {
+      $scope.dataLoaded = false;
       $scope.isLoadingFilters = true;
       stelFilterSamen(filter.id).then(function () {
         $scope.isLoadingFilters = false;
@@ -691,6 +694,7 @@
             $scope.isLoadingMore = false;
             // for use in lidcontroller (next-prev)
             $rootScope.leden = $scope.leden;
+            $scope.dataLoaded = true;
             _.defer(function () {
               $scope.$apply();
             });
@@ -699,6 +703,7 @@
       } else {
         $scope.isLoadingLeden = false;
         $scope.isLoadingMore = false;
+        $scope.dataLoaded = true;
       }
     };
 
@@ -834,6 +839,7 @@
           $scope.hasLoadedFilters = true;
           activeerCriteria();
           activeerKolommen();
+          $scope.dataLoaded = true;
         });
       });
 

@@ -338,11 +338,12 @@
   <div class="panel-leden">
     <table id="leden" class="table table-responsive table-leden"
            ng-class="{'table-leden--sticky': tableheaderIsSticky}">
-      <thead fix-head>
+      <thead ng-show="dataLoaded" fix-head>
       <tr>
         <th colspan="{{kolommen.length}}">
           <div class="pull-right">
-            <p><em>{{leden.length}} leden geladen van {{totaalAantalLeden}}.</em></p>
+            <p ng-if="leden.length > 1"><em>{{leden.length}} leden geladen van {{totaalAantalLeden}}.</em></p>
+            <p ng-if="leden.length === 1"><em>{{leden.length}} lid geladen van {{totaalAantalLeden}}.</em></p>
           </div>
         </th>
       </tr>
@@ -353,7 +354,7 @@
         </th>
       </tr>
       </thead>
-      <tbody ng-show="!isLoadingLeden && !isSavingFilters" infinite-scroll='ledenLaden()' infinite-scroll-distance='1'>
+      <tbody ng-if="dataLoaded" ng-show="!isLoadingLeden && !isSavingFilters" infinite-scroll='ledenLaden()' infinite-scroll-distance='1'>
       <tr ng-if="tableheaderIsSticky" ng-hide="leden.length <= 0">
         <td>&nbsp;</td>
       </tr>
