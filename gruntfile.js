@@ -34,6 +34,7 @@ module.exports = function (grunt) {
       vendor: {
         src: [
           'js/bower_components.js',
+          'bower_components/angular-i18n/angular-locale_nl-be.js',
           'js/jquery.sparkline.2.1.2.js',
           'js/ui-bootstrap-custom-tpls-1.3.2.js',
           'js/bootstrap/transition.js',
@@ -92,6 +93,9 @@ module.exports = function (grunt) {
           'css': 'css/bower_components.css',
           'js': 'js/bower_components.js'
         },
+        exclude: [
+          'angular-i18n'
+        ],
         dependencies: {
           'angular': 'jquery'
         },

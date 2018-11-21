@@ -33,6 +33,10 @@
     "angular-ui-tinymce": "~0.0.18",
     "angular-filter": "^0.5.16",
     "angular-fixed-table-header": "~0.2.1",
-    "google-libphonenumber": "^3.1.15"
+    "google-libphonenumber": "^3.1.15",
+    "angular-i18n": "^1.7.5"
+  },
+  "resolutions": {
+    "angular": "1.5.5"
   }
 }
