@@ -3,7 +3,7 @@
 
   angular
     .module('ga.utils', [])
-    .directive('gaParseDate', [function () {
+    .directive('gaParseDate2', [function () {
       // Datums moeten van type Date Object zijn in Angular
       // Moet geparsed worden vóór Model geüpdatet wordt
       return {
