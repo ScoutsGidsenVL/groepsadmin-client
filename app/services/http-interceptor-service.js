@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -9,28 +9,28 @@
 
   function httpInterceptor($q, $window, $injector, AlertService, DialogService, keycloak) {
     return {
-      'request': function(config) {
+      'request': function (config) {
 
         // add keycloak header if request goes to groepsadmin API
         if (config.url.lastIndexOf('/groepsadmin/rest-ga/') >= 0) {
-            var deferred = $q.defer();
-            keycloak.updateToken().success(function() {
-              config.headers = config.headers || {};
-              config.headers.Authorization = 'Bearer ' + keycloak.token;
-              deferred.resolve(config);
-            }).error(function(err) {
-              deferred.reject('Failed to refresh token', err);
-            });
-            return deferred.promise;
+          var deferred = $q.defer();
+          keycloak.updateToken().success(function () {
+            config.headers = config.headers || {};
+            config.headers.Authorization = 'Bearer ' + keycloak.token;
+            deferred.resolve(config);
+          }).error(function (err) {
+            deferred.reject('Failed to refresh token', err);
+          });
+          return deferred.promise;
         }
 
 
         return config;
       },
-      'response': function(response) {
+      'response': function (response) {
         return response;
       },
-      'responseError': function(rejection) {
+      'responseError': function (rejection) {
         if (!navigator.onLine || rejection.status == 0) {
           // Note: Browsers implement the NavigatorOnLine.onLine property differently.
           // See the docs: https://developer.mozilla.org/en-US/docs/Web/API/NavigatorOnLine/onLine
@@ -54,11 +54,11 @@
 
                 var deferred = $q.defer();
                 $http(config)
-                  .then(function(response) {
+                  .then(function (response) {
                     console.log(response);
                     deferred.resolve(response);
                   })
-                  .catch(function(rejection) {
+                  .catch(function (rejection) {
                     console.log(rejection);
                     deferred.reject(rejection);
                   });
@@ -72,7 +72,7 @@
             if (rejection.data.fouten.length == 0) {
               AlertService.add('danger', rejection);
             } else {
-              _.remove(rejection.data.fouten, function(o) {
+              _.remove(rejection.data.fouten, function (o) {
                 // false -> geen alert
                 return (
                   // check if there are errors on contacten
@@ -87,17 +87,19 @@
               }
             }
           } else if (_.includes(rejection.data, 'Je hebt de Groepsadministratie kapotgemaakt')) {
-              $window.location.href = '/';
+            $window.location.href = '/';
           } else {
-              AlertService.add('danger', JSON.stringify(rejection.data, null, 2));
+            AlertService.add('danger', JSON.stringify(rejection.data, null, 2));
           }
         } else if (rejection.error && rejection.error_description) {
-            AlertService.add('danger', rejection.error_description);
+          AlertService.add('danger', rejection.error_description);
         } else if (rejection == "Failed to refresh token") {
           // als de token expired is, refreshen we de huidige pagina
           $window.location.reload();
         } else {
-          AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.");
+          if (rejection.status !== -1) {
+            AlertService.add('danger', "Er ging iets fout tijdens de verwerking van de aanvraag.");
+          }
         }
         return $q.reject(rejection);
       }

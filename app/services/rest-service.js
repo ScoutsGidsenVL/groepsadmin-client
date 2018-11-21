@@ -323,7 +323,10 @@
       Zoeken: $resource(
         base + 'zoeken?query=:zoekterm',
         {zoekterm: '@zoekterm'},
-        {'query': {method: 'GET', isArray: true, cache: false}}
+        {
+          'get': {method: 'GET', cancellable: true},
+          'query': {method: 'GET', isArray: true, cache: false, cancellable: true}
+        }
       )
     }
   }
