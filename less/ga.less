@@ -57,6 +57,13 @@ body {
   margin-left: @fluid-grid-gutter-width;
 }
 
+a.accordion-toggle {
+  &:focus, &:active {
+    outline: 0;
+    text-decoration: none;
+  }
+}
+
 ::placeholder {
   text-overflow: ellipsis;
 }

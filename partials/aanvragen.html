@@ -23,7 +23,7 @@
             </div>
           </div>
           <div ng-repeat="aanvraag in aanvragen | orderBy: 'aangepast' : reverse : true">
-            <uib-accordion-group>
+            <uib-accordion-group is-open="status.open">
               <uib-accordion-heading>
                 <div class="row">
                   <div class="col-sm-3 col-md-2 col-lg-2">
@@ -48,8 +48,6 @@
                   </div>
                   <div class="col-sm-12 col-md-4 col-lg-2">
                     <div class="pull-right">
-                      <button class="btn btn-default" ng-click="afkeuren($event, aanvraag)" ng-disabled="aanvraag.saving">Afkeuren</button>
-                      <button class="btn btn-primary" ng-click="goedkeuren($event, aanvraag)" ng-disabled="aanvraag.saving">Goedkeuren</button>
                       <button class="btn btn-minimal">
                         <i class="glyphicon" ng-class="{'glyphicon-chevron-up': status.open, 'glyphicon-chevron-down': !status.open}"></i>
                       </button>
@@ -68,6 +66,10 @@
                     <a href="mailto:{{aanvraag.email}}">{{aanvraag.email}}</a><br>
                     <p class="word-break"><em>{{aanvraag.opmerkingen}}</em></p>
                   </address>
+                </div>
+                <div class="col-sm-12">
+                  <button class="btn btn-primary" ng-click="goedkeuren($event, aanvraag)" ng-disabled="aanvraag.saving">Goedkeuren</button>
+                  <button class="btn btn-default" ng-click="afkeuren($event, aanvraag)" ng-disabled="aanvraag.saving">Afkeuren</button>
                 </div>
               </div>
             </uib-accordion-group>
