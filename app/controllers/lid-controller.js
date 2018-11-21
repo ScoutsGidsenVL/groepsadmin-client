@@ -497,7 +497,8 @@
         },
         persoonsgegevens: {
           verminderdlidgeld: false,
-          beperking: false
+          beperking: false,
+          geslacht: 'vrouw'
         },
         adressen: $scope.lid.adressen,
         contacten: $scope.lid.contacten,
