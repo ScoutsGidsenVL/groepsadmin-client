@@ -260,7 +260,7 @@ module.exports = function (grunt) {
 
     watch: {
       options: {
-        livereload: true,
+
       },
       // Watch for LESS changes and build CSS automatically
       styles: {
@@ -281,7 +281,6 @@ module.exports = function (grunt) {
       server: {
         options: {
           port: 8000,
-          keepalive: true,
           middleware: function (connect, options, defaultMiddleware) {
             var proxy = require('grunt-connect-proxy2/lib/utils').proxyRequest;
             return [

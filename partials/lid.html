@@ -8,8 +8,13 @@
     <h1 class="panel-title placeholder placeholder--blurred" ng-show="!lid">Plaatshouder</h1>
     <h2 class="panel-subtitle placeholder placeholder--blurred" ng-show="!lid">1988randomnumber3791</h2>
     <!-- END OF Placeholders-->
-    <p><a href="#/lid/individuelesteekkaart/{{lid.id}}"><i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele
-      steekkaart</a></p>
+    <p>
+      <a href="#/lid/individuelesteekkaart/{{lid.id}}" class="hidden-xs "><i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele
+      steekkaart</a>
+      <a href="#/lid/individuelesteekkaart/{{lid.id}}" class="hidden-sm hidden-md hidden-lg btn btn-primary">
+        <i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele steekkaart
+      </a>
+    </p>
 
   </div>
   <div class="clearfix visible-xs"></div>
@@ -20,11 +25,14 @@
       class="glyphicon glyphicon-chevron-right"></span></button>
   </div>
   <div class="pull-right">
-    <div class="hidden-xs hidden-sm">
+    <div class="hidden-xs hidden-sm hidden-md ">
       <formerrorbutton formulier="lidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
       <button type="submit" class="btn btn-apply" ng-disabled="lidForm.$invalid" ng-click="opslaan()"
               ng-if="lid && canSave && lidPropertiesWatchable"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i
         class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
+      <a href="#/lid/individuelesteekkaart/{{lid.id}}" class="btn btn-primary">
+        <i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele steekkaart
+      </a>
       <button type="button" class="btn btn-secondary" ng-click="schrap()"
               ng-if="kanSchrappen && lidPropertiesWatchable"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop
         alle functies
@@ -43,8 +51,13 @@
     </div>
 
     <!-- hier starten vrijdag -->
-    <div class="hidden-md hidden-lg">
+    <div class="hidden-lg">
       <formerrorbutton formulier="lidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
+      <div class="pull-right">
+        <a href="#/lid/individuelesteekkaart/{{lid.id}}" class="hidden-xs btn btn-primary">
+          <i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele steekkaart
+        </a>
+      </div>
       <div class="btn-group pull-right" uib-dropdown>
         <button id="split-button" type="submit" class="btn btn-apply" ng-disabled="lidForm.$invalid"
                 ng-click="opslaan()" ng-show="lid && canSave">
@@ -70,6 +83,8 @@
                                  ng-show="!isEigenProfiel">E-mail sturen</a></li>
         </ul>
       </div>
+
+
     </div>
 
   </div>
