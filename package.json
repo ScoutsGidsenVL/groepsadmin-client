@@ -24,6 +24,8 @@
     "grunt-version-bump": "^1.0.8"
   },
   "devDependencies": {
+    "grunt-connect-proxy": "^0.1.11",
+    "grunt-connect-proxy2": "^2.0.0",
     "grunt-contrib-connect": "~0.8.0",
     "grunt-contrib-watch": "^0.6.1"
   }

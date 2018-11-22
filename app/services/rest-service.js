@@ -14,7 +14,7 @@
       apiHost = window.location.origin;
     } else {
       //apiHost = 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be';
-      apiHost = 'https://ga-staging.scoutsengidsenvlaanderen.be';
+      apiHost = '';
       // Alternatief als de groepsadmin lokaal draait:
       //apiHost = 'http://localhost:8080';
     }

@@ -279,7 +279,25 @@ module.exports = function (grunt) {
 
     connect: {
       server: {
-        livereload: true
+        options: {
+          port: 8000,
+          keepalive: true,
+          middleware: function (connect, options, defaultMiddleware) {
+            var proxy = require('grunt-connect-proxy2/lib/utils').proxyRequest;
+            return [
+              // Include the proxy first
+              proxy
+            ].concat(defaultMiddleware);
+          }
+        },
+        proxies: [
+          {
+            context: '/groepsadmin',
+            host: 'ga-staging.scoutsengidsenvlaanderen.be',
+            port: 443,
+            https: true
+          }
+        ]
       }
     }
   });
@@ -298,6 +316,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-cache-bust');
   grunt.loadNpmTasks('grunt-version-bump');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-connect-proxy2');
 
   // Task definitions
   grunt.registerTask('default', ['serve']);
@@ -310,6 +329,7 @@ module.exports = function (grunt) {
     'cssmin',
     'injector:dev',
     'copy',
+    'configureProxies:server',
     'connect:server',
     'watch'
   ]);
