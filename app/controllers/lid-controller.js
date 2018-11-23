@@ -11,11 +11,11 @@
   function LidController($location, $rootScope, $routeParams, $scope, $timeout, $window, AlertService,
                          DialogService, LLS, LS, RestService, UserAccess, FVS, CS) {
 
+    var reloadGroepen;
     $scope.lidPropertiesWatchable = false;
     $scope.heeftGroepseigenvelden = false;
     $scope.functiesEnGroepenGeladen = false;
-
-    var reloadGroepen;
+    angular.extend($scope, LS.publicProperties, LS.publicMethods);
 
     var init = function () {
       $scope.validationErrors = [];
@@ -25,34 +25,6 @@
       }
 
       $scope.canPost = false;
-      $scope.contactRollen = [
-        {
-          'value': 'moeder',
-          'label': 'Moeder'
-        },
-        {
-          'value': 'vader',
-          'label': 'Vader'
-        },
-        {
-          'value': 'voogd',
-          'label': 'Voogd'
-        },
-      ];
-
-      $scope.dateOptions = {
-        formatYear: 'yyyy',
-        startingDay: 1,
-        datepickerMode: 'year'
-      };
-      $scope.popupCal = {
-        opened: false
-      };
-      $scope.popupCal = function () {
-        $scope.popupCal.opened = true;
-      };
-      $scope.formats = ['dd/MM/yyyy'];
-      $scope.format = $scope.formats[0];
 
       UserAccess.hasAccessTo("nieuw lid").then(function (res) {
         $scope.canPost = res;
@@ -97,7 +69,7 @@
 
     $scope.$watch('lidPropertiesWatchable', function(watchable) {
       if (watchable && !lidForm.$valid) {
-        openAndHighlightCollapsedInvalidBlocks();
+        $scope.openAndHighlightCollapsedInvalidBlocks();
       }
     });
 
@@ -222,7 +194,6 @@
       // Alle actieve groepen ophalen
       $scope.groepenlijst = [];
 
-
       angular.forEach($scope.lid.functies, function (value) {
         if ($scope.groepenlijst[value.groep]) return;
 
@@ -245,22 +216,6 @@
       });
     }
 
-    // Schrijfrechten kunnen per sectie ingesteld zijn. Controlleer als sectienaam voorkomt in PATCH opties.
-    // Mogelijke sectienamen van een lid zijn "persoonsgegevens", "adressen", "email", "functies.*", "groepseigen.*".
-    $scope.hasPermission = function (val) {
-      return _.has($scope, 'patchObj.secties') && $scope.patchObj.secties.indexOf(val) > -1;
-    };
-    // disable als functie FV
-    // voorlopige methode tot Ticket T4349 opgelost is
-    // $scope.disableFV= function(val){
-    //   let check = false
-    //   if(val == "FV"){
-    //     check = true
-    //   }
-    //   return check;
-    // }
-
-
     // nieuw lid initialiseren na update.
     function initAangepastLid() {
       //changes array aanmaken
@@ -269,136 +224,15 @@
       }, 20);
     }
 
-    /*
-     * Persoonlijke info
-     * ---------------------------------------
-     */
-
-    $scope.changePostadres = function (adresID) {
-      angular.forEach($scope.lid.adressen, function (value) {
-        value.postadres = value.id == adresID;
-      });
+    // Schrijfrechten kunnen per sectie ingesteld zijn. Controlleer als sectienaam voorkomt in PATCH opties.
+    // Mogelijke sectienamen van een lid zijn "persoonsgegevens", "adressen", "email", "functies.*", "groepseigen.*".
+    $scope.hasPermission = function (val) {
+      return _.has($scope, 'patchObj.secties') && $scope.patchObj.secties.indexOf(val) > -1;
     };
 
-    /*
-     * Contacten
-     * ---------------------------------------
-     */
-
-    // contacten wissen in het model
-    $scope.deleteContact = function (contactID) {
-      _.remove($scope.lid.contacten, {id: contactID});
+    $scope.disableVoorNieuwLid = function(){
+      return false;
     };
-
-    // nieuw contact toevoegen aan het model
-    $scope.contactToevoegen = function (formIsValid) {
-      if (formIsValid) {
-        var newcontact = {
-          'rol': 'moeder',
-          'adres': $scope.lid.adressen[0].id,
-          'id': '' + Date.now()
-        };
-        $timeout(function () {
-          newcontact.showme = true
-        }, 0);
-        $scope.lid.contacten.push(newcontact);
-
-      } else {
-        AlertService.add('danger', "Nieuwe contacten kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.");
-      }
-    };
-
-
-    /*
-     * Adressen
-     * ---------------------------------------
-     */
-    // een adres toevoegen aan het lid model
-    $scope.addAdres = function (formIsValid) {
-      if (formIsValid) {
-        var newadres = {
-          land: "BE",
-          postadres: false,
-          omschrijving: "",
-          id: 'tempadres' + Math.random(),
-          bus: null
-        };
-        var lid = {};
-        lid.id = $scope.lid.id;
-        lid.adressen = $scope.lid.adressen;
-        lid.adressen.push(newadres);
-      } else {
-        AlertService.add('danger', "Nieuwe adressen kunnen pas worden toegevoegd wanneer alle andere formuliervelden correct werden ingevuld.");
-      }
-    };
-
-    // een adres wissen in het lid model
-    $scope.deleteAdres = function (adresID) {
-      angular.forEach($scope.lid.adressen, function (value, index) {
-        if (value.id == adresID) {
-          if (value.postadres) {
-            AlertService.add('error', 'Het postadres kan niet gewist worden.');
-          } else {
-            //controle wissen van adres gekoppeld aan een contact
-            var kanwissen = _.every($scope.lid.contacten, function (contact) {
-              return adresID != contact.adres;
-            });
-
-            if (kanwissen) {
-              $scope.lid.adressen.splice(index, 1);
-            } else {
-              AlertService.add('danger', "Dit adres is nog gekoppeld aan een contact, het kan daarom niet gewist worden.");
-            }
-          }
-        }
-      });
-    };
-
-    // zoek gemeentes
-    $scope.zoekGemeente = function (zoekterm) {
-      return LS.zoekGemeente(zoekterm);
-    };
-
-    // gemeente opslaan in het adres
-    $scope.bevestigGemeente = function (item, adres) {
-      adres.postcode = item.substring(0, 4);
-      adres.gemeente = item.substring(5);
-      adres.straat = null;
-      adres.bus = null;
-      adres.nummer = null;
-      adres.giscode = null;
-    };
-
-    // zoek straten en giscodes
-    $scope.zoekStraat = function (zoekterm, adres) {
-      var resultaatStraten = [];
-      return RestService.Code.query({zoekterm: zoekterm, postcode: adres.postcode}).$promise.then(
-        function (result) {
-          angular.forEach(result, function (val) {
-            resultaatStraten.push(val);
-          });
-          return resultaatStraten;
-        });
-    };
-
-    // straat en giscode opslaan in het adres
-    $scope.bevestigStraat = function (item, adres) {
-      adres.straat = item.straat;
-      adres.giscode = item.code;
-
-    };
-
-
-    /*
-     * Groepseigengegevens
-     * ---------------------------------------
-     */
-
-
-    /*
-     * Functies
-     * ---------------------------------------
-     */
 
     // functie meteen stop zetten.
     $scope.stopFunctie = function (functie) {
@@ -432,37 +266,6 @@
         }
       );
     };
-
-    // nieuwe functie toevoegen aan model
-    $scope.functieToevoegen = function (groepsnummer, functie, type) {
-      if (type == 'add') {
-
-        var functieInstantie = {};
-        functieInstantie.functie = functie;
-        functieInstantie.groep = groepsnummer;
-
-        functieInstantie.begin = '2016-01-01T00:00:00.000+01:00'; // set static date
-        functieInstantie.temp = "tijdelijk";
-
-        $scope.lid.functies.push(functieInstantie);
-
-        RestService.Functie.get({functieId: functieInstantie.functie}).$promise.then(
-          function (result) {
-            $scope.functieslijst[functieInstantie.functie] = result;
-          });
-
-        return 'stop';
-      }
-      else {
-        angular.forEach($scope.lid.functies, function (value, key) {
-          if (value.groep == groepsnummer && value.functie == functie && value.temp == "tijdelijk") {
-            $scope.lid.functies.splice(key, 1);
-          }
-        });
-        return 'add'
-      }
-    };
-
 
     // controle ofdat het lid reeds deze functie had voordat er aanapssingen gedaan werden.
     // zodat deze niet weergegeven wordt in de keuzelijst.
@@ -690,9 +493,9 @@
 
     $scope.$watch('lidForm.$valid', function (validity) {
       if (!validity) {
-        openAndHighlightCollapsedInvalidBlocks();
+        $scope.openAndHighlightCollapsedInvalidBlocks();
       } else {
-        unHighlightInvalidBlocks();
+        $scope.unHighlightInvalidBlocks();
       }
     });
 
@@ -702,40 +505,6 @@
       }
       if (direction == "prev") {
         $location.path("/lid/" + $scope.prevLid.id);
-      }
-    };
-
-    var openAndHighlightCollapsedInvalidBlocks = function () {
-      _.each($scope.lidForm.$error, function(errorTypes) {
-        _.each(errorTypes, function(error) {
-          var str = error.$name.match(/\d+/g, "") + '';
-          var s = str.split(',').join('');
-
-          if(error.$name.indexOf('adressen') > -1) {
-            $scope.lid.adressen[s].showme = true;
-            // hilight error
-            $scope.lid.adressen[s].hasErrors = true;
-          }
-          else if(error.$name.indexOf('contacten') > -1) {
-            $scope.lid.contacten[s].showme = true;
-            // hilight error
-            $scope.lid.contacten[s].hasErrors = true;
-          }
-        })
-      });
-    };
-
-    var unHighlightInvalidBlocks = function () {
-      if ($scope.lid && $scope.lid.adressen) {
-        _.each($scope.lid.adressen, function (adres) {
-          adres.hasErrors = false
-        });
-      }
-
-      if ($scope.lid && $scope.lid.contacten) {
-        _.each($scope.lid.contacten, function (contact) {
-          contact.hasErrors = false
-        });
       }
     };
 

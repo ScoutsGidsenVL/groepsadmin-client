@@ -1,0 +1,112 @@
+<section ga-loading-section sectie-geladen="lid" sectie-hoogte="100">
+  <fieldset>
+    <legend>Contacten
+      <div class="pull-right" ng-if="hasPermission('contacten')">
+        <button type="button" ng-click="contactToevoegen(lidForm.$valid)" class="btn-minimal"
+                title="Contact toevoegen"
+                ng-show="lid.contacten.length < 2 && _.filter(lid.contacten,{'hasErrors': true}).length <= 0">
+          <span class="glyphicon glyphicon-plus"></span></button>
+      </div>
+    </legend>
+    <fieldset class="ga-contacten-list" ng-repeat="contact in lid.contacten" ng-show="lid">
+      <section class="clearfix">
+        <legend ng-class="{'has-error': contact.hasErrors}" ng-init="contact.showme = false; "
+                ng-click="contact.showme = !contact.showme">
+          {{ contact.rol ? contact.rol :'' }} {{ contact.voornaam ? contact.voornaam : ''}} {{
+          contact.achternaam ? contact.achternaam : '' }}
+          <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left">
+            Nieuw contact
+          </div>
+          <div class="pull-right">
+            <button type="button" class="btn-minimal">
+                        <span ng-hide="contact.showme" class="glyphicon glyphicon-chevron-down"
+                              title="Contact tonen"></span>
+              <span ng-hide="!contact.showme" class="glyphicon glyphicon-chevron-up"
+                    title="Contact verbergen"></span>
+            </button>
+            <button type="button" ng-click="deleteContact(contact.id)" ng-show="hasPermission('contacten')"
+                    class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span>
+            </button>
+          </div>
+        </legend>
+      </section>
+      <fieldset class="ga-functie-list" ng-hide="!contact.showme">
+        <div class="form-group " ng-class="{ 'has-error': lidForm['contacten['+$index+'].rol'].$invalid }">
+          <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
+          <div class="col-xs-7 col-xxs-12">
+            <select name="contacten[{{$index}}].rol" class="selectpicker" title="Kies een rol..." id="_rol"
+                    ng-model="contact.rol" ng-disabled="!hasPermission('contacten')"
+                    ng-options="rol.value as rol.label for rol in contactRollen" required>
+            </select>
+            <div ng-messages="lidForm['contacten['+$index+'].rol'].$error">
+              <div ng-messages-include="partials/messages.html"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group"
+             ng-class="{ 'has-error': lidForm['contacten['+$index+'].voornaam'].$invalid }">
+          <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
+          <div class="col-xs-7 col-xxs-12">
+            <input type="text" name="contacten[{{ $index }}].voornaam" class="form-control" id="_voornaam"
+                   ng-model="contact.voornaam"
+                   ng-required="lidForm['contacten['+$index+'].voornaam'].isRequired"
+                   ng-disabled="!hasPermission('contacten')">
+            <div ng-messages="lidForm['contacten['+$index+'].voornaam'].$error">
+              <div ng-messages-include="partials/messages.html"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group"
+             ng-class="{ 'has-error': lidForm['contacten['+$index+'].achternaam'].$invalid }">
+          <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Achternaam</label>
+          <div class="col-xs-7 col-xxs-12">
+            <input type="text" name="contacten[{{ $index }}].achternaam" class="form-control" id="_naam"
+                   ng-model="contact.achternaam"
+                   ng-required="lidForm['contacten['+$index+'].achternaam'].isRequired"
+                   ng-disabled="!hasPermission('contacten')">
+            <div ng-messages="lidForm['contacten['+$index+'].achternaam'].$error">
+              <div ng-messages-include="partials/messages.html"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group"
+             ng-class="{ 'has-error': lidForm['contacten['+$index+'].email'].$touched && lidForm['contacten['+$index+'].email'].$invalid }">
+          <label for="_naam" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
+          <div class="col-xs-7 col-xxs-12">
+            <input type="email" name="contacten[{{ $index }}].email" class="form-control" id="_naam"
+                   ng-model="contact.email" ng-disabled="!hasPermission('contacten')">
+            <div ng-messages="lidForm['contacten['+$index+'].email'].$error">
+              <div ng-messages-include="partials/messages.html"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group"
+             ng-class="{ 'has-error': lidForm['contacten['+$index+'].gsm'].$touched && lidForm['contacten['+$index+'].gsm'].$invalid }">
+          <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Gsm</label>
+          <div class="col-xs-7 col-xxs-12">
+            <input type="text" name="contacten[{{ $index }}].gsm" class="form-control" id="_naam"
+                   ng-model="contact.gsm"
+                   ng-disabled="!hasPermission('contacten')" gsmnummer>
+            <div ng-messages="lidForm['contacten['+$index+'].gsm'].$error">
+              <div ng-messages-include="partials/messages.html"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': lidForm['contacten['+$index+'].adres'].$invalid }">
+          <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
+          <div class="col-xs-7 col-xxs-12">
+            <select class="selectpicker" title="Kies een adres..." name="contacten[{{ $index }}].adres"
+                    id="_adres"
+                    ng-model="contact.adres" ng-disabled="!hasPermission('contacten')"
+                    ng-options="adres.id as adres.straat + ', ' + adres.nummer + ', ' + adres.postcode + ', ' + adres.gemeente for adres in lid.adressen"
+                    required>
+            </select>
+            <div ng-messages="lidForm['contacten['+$index+'].adres'].$error">
+              <div ng-messages-include="partials/messages.html"></div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </fieldset>
+  </fieldset>
+</section>

@@ -1,0 +1,140 @@
+<section ga-loading-section sectie-geladen="lid" sectie-hoogte="500">
+  <fieldset ng-if="lid">
+    <legend>Persoonlijk</legend>
+    <div class="form-group" ng-class="{ 'has-error': lidForm.voornaam.$touched && lidForm.voornaam.$invalid }">
+      <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
+      <div class="col-xs-7 col-xxs-12">
+        <input type="text" class="form-control" name="voornaam" id="_voornaam"
+               ng-model="lid.vgagegevens.voornaam" ng-disabled="!hasPermission('vgagegevens')" required
+               ng-change="updateSuggesties()" ng-model-options="{debounce: 500}">
+        <div ng-messages="lidForm.voornaam.$error" ng-show="lidForm.voornaam.$touched">
+          <div ng-messages-include="partials/messages.html"></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{ 'has-error': lidForm.naam.$touched && lidForm.naam.$invalid }">
+      <label for="_achternaam" class="col-xs-5 col-xxs-12 control-label">Achternaam</label>
+      <div class="col-xs-7 col-xxs-12">
+        <input type="text" class="form-control" name="naam" id="_achternaam"
+               ng-model="lid.vgagegevens.achternaam" ng-disabled="!hasPermission('vgagegevens')" required
+               ng-change="updateSuggesties()" ng-model-options="{debounce: 500}">
+        <div ng-messages="lidForm.naam.$error" ng-show="lidForm.naam.$touched">
+          <div ng-messages-include="partials/messages.html"></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group"
+         ng-class="{ 'has-error': lidForm.geboortedatum.$touched && lidForm.geboortedatum.$invalid }">
+      <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
+      <div class="col-xs-7 col-xxs-12">
+        <!-- fix date-parse -->
+        <div class="input-group">
+          <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum"
+                 class="form-control" is-open="popupCal.opened" datepicker-options="dateOptions"
+                 close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date
+                 ng-disabled="!hasPermission('vgagegevens')" placeholder="DD/MM/JJJJ"/>
+          <span class="input-group-btn">
+                  <button type="button" class="btn btn-default btn-datepicker form-control" ng-click="openPopupCal()"
+                          ng-disabled="!hasPermission('vgagegevens')"><i class="fa fa-calendar"></i></button>
+                </span>
+        </div>
+        <div ng-messages="lidForm.geboortedatum.$error" ng-show="lidForm.geboortedatum.$touched">
+          <div ng-messages-include="partials/messages.html"></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-if="!isNieuwLidForm">
+      <label for="_gebruikersnaam" class="col-xs-5 col-xxs-12 control-label">Gebruikersnaam</label>
+      <div class="col-xs-7 col-xxs-12">
+        <input type="text" name="gebruikersnaam" class="form-control" id="_gebruikersnaam"
+               ng-model="lid.gebruikersnaam" disabled="disabled">
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{ 'has-error': lidForm.geslacht.$touched && lidForm.geslacht.$invalid }">
+      <label for="_geslacht" class="col-xs-5 col-xxs-12 control-label">Geslacht</label>
+      <div class="col-xs-7 col-xxs-12">
+        <select class="selectpicker" title="Kies het geslacht..." name="geslacht" id="_geslacht"
+                ng-model="lid.persoonsgegevens.geslacht" ng-disabled="!hasPermission('persoonsgegevens')"
+                required>
+          <option value="man">Mannelijk</option>
+          <option value="vrouw">Vrouwelijk</option>
+        </select>
+        <div ng-messages="lidForm.geslacht.$error" ng-show="lidForm.geslacht.$touched">
+          <div ng-messages-include="partials/messages.html"></div>
+        </div>
+      </div>
+    </div>
+    <label class="form-group control checkbox">
+      <div class="col-xs-5 col-xxs-12 control-label">Persoon met beperking</div>
+      <div class="col-xs-7 col-xxs-12">
+        <input type="checkbox" class="" id="_beperking" ng-model="lid.vgagegevens.beperking"
+               ng-disabled="!hasPermission('vgagegevens')"/>
+        <span class="control-indicator"></span>
+      </div>
+    </label>
+    <label class="form-group control checkbox">
+      <div class="col-xs-5 col-xxs-12 control-label">Verminderd lidgeld</div>
+      <div class="col-xs-7 col-xxs-12">
+        <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.vgagegevens.verminderdlidgeld"
+               ng-disabled="!hasPermission('vgagegevens')"/>
+        <span class="control-indicator"></span>
+        <span id="helpBlock" class="help-block" ng-show="lid.vgagegevens.verminderdlidgeld">
+                    Leden zijn niet alleen maar lid van Scouts en Gidsen Vlaanderen vzw, maar gaan ook mee op weekend, kamp, ...<br>
+                    Naast verminderd lidgeld, kan je daarom als groep ook beroep doen op 'Fonds op Maat':
+                    hiermee kan je de deelnameprijs aan activiteiten voor leden en hun gezin verlagen.<br>
+                    Als je
+                    <a
+                      href="https://www.scoutsengidsenvlaanderen.be/files/paginas/dienstverlening/secretariaat/formulieren/aanvraagformulier_fonds_op_maat.pdf"
+                      target="_blank">dit formulier</a>
+                    invult en naar
+                    <a href="mailto:diversiteit@scoutsengidsenvlaanderen.be">diversiteit@scoutsengidsenvlaanderen.be</a> mailt,
+                    komt Scouts en Gidsen Vlaanderen vzw voor 1/3 tussen in de deelnameprijs.<br>
+                    Het formulier vul je als (groeps)leiding in, de ouders hoeven niets te doen.
+                  </span>
+      </div>
+    </label>
+    <div class="form-group"
+         ng-class="{ 'has-error': lidForm.email.$touched && lidForm.email.$invalid, 'readonly' : !hasPermission('email') }">
+      <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
+      <div class="col-xs-7 col-xxs-12">
+        <input type="email" class="form-control" name="email" id="_email" ng-model="lid.email"
+               ng-disabled="!hasPermission('email')">
+        <div ng-messages="lidForm.email.$error">
+          <div ng-messages-include="partials/messages.html"></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{ 'has-error': lidForm.gsm.$touched && lidForm.gsm.$invalid }">
+      <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
+      <div class="col-xs-7 col-xxs-12">
+        <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm" name="gsm"
+               ng-disabled="!hasPermission('persoonsgegevens')" gsmnummer/>
+        <div ng-messages="lidForm.gsm.$error">
+          <div ng-messages-include="partials/messages.html"></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group"
+         ng-class="{ 'has-error': lidForm.rekeningnummer.$touched && lidForm.rekeningnummer.$invalid }">
+      <label for="_rekeningnummer" class="col-xs-5 col-xxs-12 control-label">Rekeningnummer</label>
+      <div class="col-xs-7 col-xxs-12">
+        <input type="text" name="rekeningnummer" class="form-control" id="_rekeningnummer"
+               ng-model="lid.persoonsgegevens.rekeningnummer" ng-disabled="!hasPermission('persoonsgegevens')"
+               rekeningnummer/>
+        <div ng-messages="lidForm.rekeningnummer.$error">
+          <div ng-messages-include="partials/messages.html"></div>
+        </div>
+      </div>
+    </div>
+    <label class="form-group control checkbox {{  'verbondsgegevens.lidgeldbetaald' | formValidator:validationErrors  }}"
+           ng-if="!isNieuwLidForm">
+      <div class="col-xs-5 col-xxs-12 control-label">Lidgeld betaald</div>
+      <div class="col-xs-7 col-xxs-12">
+        <input type="checkbox" class="" id="_lidgeldbetaald" ng-model="lid.verbondsgegevens.lidgeldbetaald"
+               ng-disabled="!hasPermission('verbondsgegevens')"/>
+        <span class="control-indicator"></span>
+      </div>
+    </label>
+  </fieldset>
+</section>

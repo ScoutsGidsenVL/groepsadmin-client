@@ -1,0 +1,131 @@
+<section ga-loading-section sectie-geladen="lid" sectie-hoogte="100">
+  <fieldset>
+    <legend>
+      Adressen
+      <div class="pull-right" ng-if="hasPermission('adressen')">
+        <button type="button" ng-click="addAdres(lidForm.$valid)" class="btn-minimal" title="Adres toevoegen">
+          <span class="glyphicon glyphicon-plus"></span></button>
+      </div>
+    </legend>
+    <fieldset class="ga-adressen-list" ng-repeat="adres in lid.adressen" ng-show="lid">
+      <section class="clearfix">
+        <legend ng-class="{'has-error': adres.hasErrors}" ng-init="adres.showme = false; "
+                ng-click="adres.showme = !adres.showme">
+          <div class="row">
+            <div class="col-xs-7 col-md-8">
+              <div class="ellipsis">
+                {{ !adres.straat && !adres.nummer && !adres.bus && !adres.gemeente ? 'Nieuw adres' : '' }}
+                {{ adres.straat ? adres.straat : '' }}
+                {{ adres.nummer ? adres.nummer : '' }}
+                {{ adres.bus ? 'bus ' + adres.bus : '' }}
+                {{ adres.bus || adres.nummer || adres.straat ? ',' : '' }}
+                {{ adres.gemeente ? adres.gemeente : '' }}
+              </div>
+            </div>
+            <div class="col-xs-5 col-md-4">
+              <div class="pull-right">
+                <button ng-if="adres.postadres" class="btn-minimal" disabled>
+                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                </button>
+                <button type="button" ng-click="deleteAdres(adres.id)" class="btn-minimal"
+                        ng-if="hasPermission('adressen') && !adres.postadres">
+                  <span class="glyphicon glyphicon-trash" title="Adres wissen"></span>
+                </button>
+                <button type="button" class="btn-minimal">
+                            <span ng-hide="adres.showme" class="glyphicon glyphicon-chevron-down"
+                                  title="Adres tonen"></span>
+                  <span ng-hide="!adres.showme" class="glyphicon glyphicon-chevron-up"
+                        title="Adres verbergen"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </legend>
+        <fieldset ng-hide="!adres.showme">
+          <div class="form-group"
+               ng-class="{ 'has-error': lidForm['adressen['+$index+'].land'].$touched && lidForm['adressen['+$index+'].land'].$invalid }">
+            <label for="_land" class="col-xs-4 col-xxs-12 control-label">Land</label>
+            <div class="col-xs-8 col-xxs-12">
+              <select class="selectpicker" name="adressen[{{ $index }}].land" title="Kies een land..."
+                      id="_land" ng-model="adres.land" ng-disabled="!hasPermission('adressen')" required>
+                <option value="BE">België</option>
+                <option value="DE">Duitsland</option>
+                <option value="FR">Frankrijk</option>
+                <option value="GB">Groot-Brittannië</option>
+                <option value="LU">Luxemburg</option>
+                <option value="NL">Nederland</option>
+              </select>
+              <div ng-messages="lidForm['adressen['+$index+'].land'].$error">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group"
+               ng-class="{ 'has-error': lidForm['adressen['+$index+'].gemeente'].$touched && lidForm['adressen['+$index+'].gemeente'].$invalid }">
+            <label for="_gemeenteWrap" class="col-xs-4 col-xxs-12 control-label">Woonplaats</label>
+            <div class="col-xs-8 col-xxs-2">
+              <input type="text" name="adressen[{{ $index }}].gemeente" class="form-control ga-functie-list"
+                     ng-init="gemeenteWrap = adres.postcode && adres.gemeente ? adres.postcode + ' ' + adres.gemeente : ''"
+                     ng-model="gemeenteWrap" id="_gemeenteWrap" ng-disabled="!hasPermission('adressen')"
+                     ng-bind="adres.postcode + ' ' + adres.postcode"
+                     uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"
+                     typeahead-on-select="bevestigGemeente($item, adres)" required/>
+              <div ng-messages="lidForm['adressen['+$index+'].gemeente'].$error">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group"
+               ng-class="{ 'has-error': (lidForm['adressen['+$index+'].straatnaam'].$touched && lidForm['adressen['+$index+'].straatnaam'].$invalid) || (lidForm['adressen['+$index+'].nummer'].$touched && lidForm['adressen['+$index+'].nummer'].$invalid ) }">
+            <label for="_straatnaam" class="col-xs-4 col-xxs-12 control-label">Straat</label>
+            <div class="col-md-4 col-xxs-12 col-sm-8">
+              <input type="text" name="adressen[{{ $index }}].straatnaam" class="form-control"
+                     ng-model="adres.straat" ng-disabled="!hasPermission('adressen')" placeholder="Straatnaam"
+                     id="_straatnaam"
+                     uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres) "
+                     typeahead-on-select="bevestigStraat($item, adres)" required/>
+            </div>
+            <div class="col-md-2 col-md-offset-0 col-xxs-12 col-sm-offset-4 col-sm-4">
+              <input type="text" name="adressen[{{ $index }}].nummer" class="form-control"
+                     ng-model="adres.nummer" id="_huisnummer" maxlength="5" placeholder="Nr."
+                     ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente" required/>
+            </div>
+            <div class="col-md-2 col-xxs-12 col-sm-4">
+              <input type="text" class="form-control" name="adressen[{{ $index }}].bus" id="_bus"
+                     maxlength="4" ng-model="adres.bus" placeholder="Bus"
+                     ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente"/>
+            </div>
+            <div class="col-sm-offset-4 col-xs-12 col-xxs-12"
+                 ng-show="lidForm['adressen['+$index+'].straatnaam'].$invalid && lidForm['adressen['+$index+'].straatnaam'].$touched">
+              <p class="help-block">Straat is verplicht</p>
+            </div>
+            <div class="col-sm-offset-4 col-xs-12 col-xxs-12"
+                 ng-show="lidForm['adressen['+$index+'].nummer'].$invalid && lidForm['adressen['+$index+'].nummer'].$touched">
+              <p class="help-block">Huisnummer is verplicht</p>
+            </div>
+          </div>
+          <div class="form-group"
+               ng-class="{ 'has-error': (lidForm['adressen['+$index+'].telefoon'].$touched && lidForm['adressen['+$index+'].telefoon'].$invalid) }">
+            <label for="_telefoon" class="col-xs-4 col-xxs-12 control-label">Telefoon</label>
+            <div class="col-xs-8 col-xxs-12">
+              <input type="text" class="form-control" name="adressen[{{ $index }}].telefoon" id="_telefoon"
+                     ng-model="adres.telefoon" telefoonnummer
+                     ng-disabled="!hasPermission('adressen')"/>
+              <div ng-messages="lidForm['adressen['+$index+'].telefoon'].$error">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
+            </div>
+          </div>
+          <label class="form-group control checkbox" ng-show="lid">
+            <div class="col-xs-4 col-xxs-12 control-label">Postadres</div>
+            <div class="col-xs-8 col-xxs-12">
+              <input type="checkbox" class="" id="_postadres" ng-model="adres.postadres"
+                     ng-click="changePostadres(adres.id)"/>
+              <span class="control-indicator"></span>
+            </div>
+          </label>
+        </fieldset>
+      </section>
+    </fieldset>
+  </fieldset>
+</section>
