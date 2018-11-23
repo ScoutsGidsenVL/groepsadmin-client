@@ -34,12 +34,12 @@
           'advlist autolink lists link image charmap print preview hr anchor pagebreak',
           'searchreplace wordcount visualblocks visualchars code fullscreen',
           'insertdatetime media nonbreaking save table contextmenu',
-          'template paste textcolor colorpicker textpattern imagetools codesample'
+          'template paste textcolor colorpicker textpattern imagetools codesample fullscreen'
         ],
         fontsize_formats: 'small medium large',
         height: 400,
         menubar: false,
-        toolbar: 'undo redo | bold italic underline strikethrough | fontsizeselect forecolor backcolor | bullist numlist | alignleft aligncenter alignright | table | code | customDrpdwn | media | preview',
+        toolbar: 'undo redo | bold italic underline strikethrough | fontsizeselect forecolor backcolor | bullist numlist | alignleft aligncenter alignright | table | code | customDrpdwn | media | preview | fullscreen',
         setup: function (editor) {
           editor.addButton('customDrpdwn', {
             text: 'Veld invoegen',
