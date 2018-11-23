@@ -5,14 +5,15 @@
     .module('ga.services.http', ['ga.services.alert'])
     .factory('httpInterceptor', httpInterceptor);
 
-  httpInterceptor.$inject = ['$q', '$window', '$injector', 'AlertService', 'DialogService', 'KeyCloak'];
+  httpInterceptor.$inject = ['$q', '$window', '$injector', 'AlertService', 'DialogService', 'KeyCloak', 'ApiInfo'];
 
-  function httpInterceptor($q, $window, $injector, AlertService, DialogService, keycloak) {
+  function httpInterceptor($q, $window, $injector, AlertService, DialogService, keycloak, ApiInfo) {
     return {
       'request': function (config) {
 
         // add keycloak header if request goes to groepsadmin API
         if (config.url.lastIndexOf('/groepsadmin/rest-ga/') >= 0) {
+          config.url = ApiInfo.host + config.url.substring(config.url.lastIndexOf('/groepsadmin/rest-ga/'));
           var deferred = $q.defer();
           keycloak.updateToken().success(function () {
             config.headers = config.headers || {};

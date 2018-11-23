@@ -3,6 +3,7 @@
 
   angular.module('ga', [
     'ga.route',
+    'ga.services.apiinfo',
     'ga.services.keycloak',
     'ga.services.rest',
     'ga.services.useraccess',

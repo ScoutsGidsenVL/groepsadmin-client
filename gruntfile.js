@@ -174,6 +174,7 @@ module.exports = function (grunt) {
             'app/app-public.route.js',
             'app/controllers/alert-controller.js',
             'app/controllers/lidworden-controller.js',
+            'app/services/api-info-service.js',
             'app/services/alert-service.js',
             'app/services/rest-service.js',
             'app/services/lid-service.js',

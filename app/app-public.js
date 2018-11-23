@@ -6,6 +6,7 @@
     'ga.alert-controller',
     'ga.lidwordencontroller',
     'ga.parseDate',
+    'ga.services.apiinfo',
     'ga.services.alert',
     'ga.services.rest',
     'ga.services.lid',
