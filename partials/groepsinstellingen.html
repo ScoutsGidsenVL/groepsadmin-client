@@ -301,12 +301,12 @@
           <div ng-if="data.activegroup.groepseigenFuncties"
                ng-repeat="groepseigenFunctie in data.activegroup.groepseigenFuncties">
             <div class="form-group" ng-if="!groepseigenFunctie.deletedTimestamps">
-              <div class="col-xs-11">
+              <div class="col-xs-10">
                 <input type="text" class="form-control ga-functie-list"
                        ng-model="data.activegroup.groepseigenFuncties[$index].beschrijving"
                        placeholder="Nieuwe groepseigen functie" ng-disabled="!data.activegroup.kanWijzigen"/>
               </div>
-              <div class="col-xs-1" ng-hide="groepseigenFunctie.deletedTimestamps">
+              <div class="col-xs-2" ng-hide="groepseigenFunctie.deletedTimestamps">
                 <button class="btn-minimal" title="groepseigenfunctie wissen"
                         ng-click="wisGroepseigenFunctie(groepseigenFunctie.id)"
                         ng-show="data.activegroup.kanWijzigen">
@@ -372,7 +372,7 @@
                   </div>
                 </div>
 
-                <div class="" ng-if="groepseigenGegeven.type == 'lijst' " ng-init="groepseigenGegevenIndex = $index"
+                <div class="form-group" ng-if="groepseigenGegeven.type == 'lijst' " ng-init="groepseigenGegevenIndex = $index"
                      ng-hide="!showme">
                   <label class="col-xs-12">
                     Mogelijke keuzes
@@ -383,13 +383,17 @@
                   <div class="col-xs-12"
                        ng-repeat="keuze in data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes track by $index">
                     <fieldset class="form-group row">
-                      <input class="col-xs-11 form-control "
-                             ng-model="data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes[$index]"
-                             placeholder="Nieuwe keuze">
-                      <button class="col-xs-1 btn-minimal " title="Keuze wissen"
-                              ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
-                        <span class="glyphicon glyphicon-trash"></span>
-                      </button>
+                      <div class="col-xs-10">
+                        <input class="form-control "
+                               ng-model="data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes[$index]"
+                               placeholder="Nieuwe keuze">
+                      </div>
+                      <div class="col-xs-2">
+                        <button class="btn-minimal " title="Keuze wissen"
+                                ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
+                          <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                      </div>
                     </fieldset>
                   </div>
                 </div>
@@ -430,7 +434,7 @@
                         ng-init="(groepseigenGegeven.status == 'nieuw' ? true : false)">
                 <div class="form-group col-xs-12" ng-hide="!showme">
                   <label class="col-xs-1">
-                    Veld
+
                   </label>
                   <div class="col-xs-11">
                     <input type="text" class="form-control"

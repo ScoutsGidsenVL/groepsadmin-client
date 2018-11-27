@@ -1,39 +1,52 @@
 <!-- header -->
 <!-- Panel header -->
 <div class="panel-heading panel-fixed clearfix">
-
-  <div>
-    <div ng-show="!showSaveOptions" class="pull-left">
-      <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions" ng-hide="showSaveOptions || currentFilter.name"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Sjabloon opslaan</button>
-    </div>
-    <div ng-show="showSaveOptions" class="pull-left">
-      <form class="form-inline typeahead-filter">
-        <input type="text" ng-model="selectedSjabloon"
-        placeholder="Naam van sjabloon"
-        uib-typeahead="sjabloon as sjabloon.naam for sjabloon in sjablonen | filter:{naam:$viewValue}"
-        typeahead-popup-template-url="customPopupTemplate.html" class="form-control">
-        <button class="btn btn-apply" ng-click="saveOrOverwriteSjabloon(selectedSjabloon)">
-          <span ng-if="!selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isSavingSjablonen"></i></span>
-          <span ng-if="selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Overschrijven&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isSavingSjablonen"></i></span>
+  <div class="row">
+    <div class="col-xs-12 col-sm-8">
+      <div ng-show="!showSaveOptions" class="pull-left">
+        <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions"
+                ng-hide="showSaveOptions || currentFilter.name"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Sjabloon
+          opslaan
         </button>
-        <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions;selectedSjabloon='';"><span class="fa fa-remove" aria-hidden="true" ></span>&nbsp;Annuleren</button>
-      </form>
+      </div>
+      <div ng-show="showSaveOptions" class="pull-left">
+        <form class="form-inline typeahead-filter">
+          <input type="text" ng-model="selectedSjabloon"
+                 placeholder="Naam van sjabloon"
+                 uib-typeahead="sjabloon as sjabloon.naam for sjabloon in sjablonen | filter:{naam:$viewValue}"
+                 typeahead-popup-template-url="customPopupTemplate.html" class="form-control">
+          <button class="btn btn-apply" ng-click="saveOrOverwriteSjabloon(selectedSjabloon)">
+            <span ng-if="!selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i
+              class="fa fa-spinner fa-pulse" ng-show="isSavingSjablonen"></i></span>
+            <span ng-if="selectedSjabloon.id"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Overschrijven&nbsp;<i
+              class="fa fa-spinner fa-pulse" ng-show="isSavingSjablonen"></i></span>
+          </button>
+          <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions;selectedSjabloon='';"><span
+            class="fa fa-remove" aria-hidden="true"></span>&nbsp;Annuleren
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-4" ng-class="{'hidden-xs':showSaveOptions}">
+      <div class="pull-right">
+        <div class="hidden-xs hidden-sm">
+          <formerrorbutton formulier="etikettenForm" watchable="etiketPropertiesWatchable"></formerrorbutton>
+          <button type="submit" class="btn btn-apply" ng-click="aanmaken()" ng-disabled="etikettenForm.$invalid"><span
+            class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;Etiketten maken&nbsp;
+        </div>
+        <div class="hidden-md hidden-lg">
+          <formerrorbutton formulier="etikettenForm" watchable="etiketPropertiesWatchable"></formerrorbutton>
+          <button id="split-button" ng-disabled="etikettenForm.$invalid" type="submit" class="btn btn-apply">
+        <span class="glyphicon glyphicon-print" aria-hidden="true" ng-click="aanmaken()"
+              ng-disabled="etikettenForm.$invalid"></span>&nbsp;&nbsp;Etiketten&nbsp;
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- NEW ACTIONS -->
-  <div class="pull-right">
-    <div class="hidden-xs hidden-sm">
-      <formerrorbutton formulier="etikettenForm" watchable="etiketPropertiesWatchable"></formerrorbutton>
-      <button type="submit" class="btn btn-apply" ng-click="aanmaken()" ng-disabled="etikettenForm.$invalid"><span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;Etiketten maken&nbsp;
-    </div>
-    <div class="hidden-md hidden-lg">
-      <formerrorbutton formulier="etikettenForm" watchable="etiketPropertiesWatchable"></formerrorbutton>
-      <button id="split-button" ng-disabled="etikettenForm.$invalid" type="submit" class="btn btn-apply">
-        <span class="glyphicon glyphicon-print" aria-hidden="true" ng-click="aanmaken()" ng-disabled="etikettenForm.$invalid"></span>&nbsp;&nbsp;Etiketten&nbsp;
-      </button>
-    </div>
-  </div>
+
 
 
 </div>
@@ -44,250 +57,286 @@
 <div class="panel panel-default panel-default--hasmargin">
   <form name="etikettenForm" ng-submit="submitForm(etikettenForm)" novalidate>
 
-  <div class="panel-body form-hover clearfix" ng-show="etikettenIsPending">
-    <div class="row">
-      <div class="col-lg-12 col-sm-12 col-xs-12 text-center">
-        <div class="loadingcontainer">
-          <i class="fa fa-spinner fa-pulse"></i>&nbsp; Even geduld aub, de etiketten worden aangemaakt ...
+    <div class="panel-body form-hover clearfix" ng-show="etikettenIsPending">
+      <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12 text-center">
+          <div class="loadingcontainer">
+            <i class="fa fa-spinner fa-pulse"></i>&nbsp; Even geduld aub, de etiketten worden aangemaakt ...
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="panel-body form-hover clearfix" ng-hide="etikettenIsPending">
+    <div class="panel-body form-hover clearfix" ng-hide="etikettenIsPending">
 
-    <div class="row">
-      <div class="col-lg-4 col-xs-12">
-        <!-- Persoonlijk-->
-        <section>
-          <fieldset>
-            <legend>Etiket eigenschappen</legend>
-            <!-- -->
-            <div class="form-group" ng-class="{ 'has-error': etikettenForm.groottehorizontaal.$touched && etikettenForm.groottehorizontaal.$invalid }">
-              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Grootte horizontaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
-              <div class="col-xs-5 col-xxs-10">
-                <input type="number" min="10" class="form-control" name="groottehorizontaal" id="fromName" ng-model="sjabloon.grootte.horizontaal" required>
-                <div ng-messages="etikettenForm.groottehorizontaal.$error" ng-show="etikettenForm.groottehorizontaal.$touched">
+      <div class="row">
+        <div class="col-lg-4 col-xs-12">
+          <!-- Persoonlijk-->
+          <section>
+            <fieldset>
+              <legend>Etiket eigenschappen</legend>
+              <!-- -->
+              <div class="form-group"
+                   ng-class="{ 'has-error': etikettenForm.groottehorizontaal.$touched && etikettenForm.groottehorizontaal.$invalid }">
+                <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Grootte horizontaal <i
+                  ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <div class="col-xs-5 col-xxs-10">
+                  <input type="number" min="10" class="form-control" name="groottehorizontaal" id="fromName"
+                         ng-model="sjabloon.grootte.horizontaal" required>
+                  <div ng-messages="etikettenForm.groottehorizontaal.$error"
+                       ng-show="etikettenForm.groottehorizontaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
+                  </div>
                 </div>
+                <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
               </div>
-              <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
-            </div>
-            <!-- -->
-            <!-- -->
-            <div class="form-group" ng-class="{ 'has-error': etikettenForm.grootteverticaal.$touched && etikettenForm.grootteverticaal.$invalid }">
-              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Grootte verticaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
-              <div class="col-xs-5 col-xxs-10">
-                <input type="number" min="10" class="form-control" name="grootteverticaal" id="grootteverticaal" ng-model="sjabloon.grootte.verticaal" required>
-                <div ng-messages="etikettenForm.grootteverticaal.$error" ng-show="etikettenForm.grootteverticaal.$touched">
+              <!-- -->
+              <!-- -->
+              <div class="form-group"
+                   ng-class="{ 'has-error': etikettenForm.grootteverticaal.$touched && etikettenForm.grootteverticaal.$invalid }">
+                <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Grootte verticaal <i
+                  ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <div class="col-xs-5 col-xxs-10">
+                  <input type="number" min="10" class="form-control" name="grootteverticaal" id="grootteverticaal"
+                         ng-model="sjabloon.grootte.verticaal" required>
+                  <div ng-messages="etikettenForm.grootteverticaal.$error"
+                       ng-show="etikettenForm.grootteverticaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
+                  </div>
                 </div>
+                <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
               </div>
-              <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
-            </div>
-            <!-- -->
-            <!-- -->
-            <div class="form-group" ng-class="{ 'has-error': etikettenForm.margehorizontaal.$touched && etikettenForm.margehorizontaal.$invalid }">
-              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Marge horizontaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
-              <div class="col-xs-5 col-xxs-10">
-                <input type="number" min="0" class="form-control" name="margehorizontaal" id="fromName" ng-model="sjabloon.marge.horizontaal" required>
-                <div ng-messages="etikettenForm.margehorizontaal.$error" ng-show="etikettenForm.margehorizontaal.$touched">
+              <!-- -->
+              <!-- -->
+              <div class="form-group"
+                   ng-class="{ 'has-error': etikettenForm.margehorizontaal.$touched && etikettenForm.margehorizontaal.$invalid }">
+                <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Marge horizontaal <i
+                  ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <div class="col-xs-5 col-xxs-10">
+                  <input type="number" min="0" class="form-control" name="margehorizontaal" id="fromName"
+                         ng-model="sjabloon.marge.horizontaal" required>
+                  <div ng-messages="etikettenForm.margehorizontaal.$error"
+                       ng-show="etikettenForm.margehorizontaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
+                  </div>
                 </div>
+                <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
               </div>
-              <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
-            </div>
-            <!-- -->
-            <!-- -->
-            <div class="form-group" ng-class="{ 'has-error': etikettenForm.margeverticaal.$touched && etikettenForm.margeverticaal.$invalid }">
-              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Marge verticaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
-              <div class="col-xs-5 col-xxs-10">
-                <input type="number" min="0" class="form-control" name="margeverticaal" id="margeverticaal" ng-model="sjabloon.marge.verticaal" required>
-                <div ng-messages="etikettenForm.margeverticaal.$error" ng-show="etikettenForm.margeverticaal.$touched">
+              <!-- -->
+              <!-- -->
+              <div class="form-group"
+                   ng-class="{ 'has-error': etikettenForm.margeverticaal.$touched && etikettenForm.margeverticaal.$invalid }">
+                <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Marge verticaal <i
+                  ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <div class="col-xs-5 col-xxs-10">
+                  <input type="number" min="0" class="form-control" name="margeverticaal" id="margeverticaal"
+                         ng-model="sjabloon.marge.verticaal" required>
+                  <div ng-messages="etikettenForm.margeverticaal.$error"
+                       ng-show="etikettenForm.margeverticaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
+                  </div>
                 </div>
+                <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
               </div>
-              <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
-            </div>
-            <!-- -->
+              <!-- -->
 
 
-            <!-- -->
-            <div class="form-group" ng-class="{ 'has-error': etikettenForm.tussenruimtehorizontaal.$touched && etikettenForm.tussenruimtehorizontaal.$invalid }">
-              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Tussenruimte horizontaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
-              <div class="col-xs-5 col-xxs-10">
-                <input type="number" min="0" class="form-control" name="tussenruimtehorizontaal" id="fromName" ng-model="sjabloon.tussenruimte.horizontaal" required>
-                <div ng-messages="etikettenForm.tussenruimtehorizontaal.$error" ng-show="etikettenForm.tussenruimtehorizontaal.$touched">
+              <!-- -->
+              <div class="form-group"
+                   ng-class="{ 'has-error': etikettenForm.tussenruimtehorizontaal.$touched && etikettenForm.tussenruimtehorizontaal.$invalid }">
+                <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Tussenruimte horizontaal <i
+                  ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <div class="col-xs-5 col-xxs-10">
+                  <input type="number" min="0" class="form-control" name="tussenruimtehorizontaal" id="fromName"
+                         ng-model="sjabloon.tussenruimte.horizontaal" required>
+                  <div ng-messages="etikettenForm.tussenruimtehorizontaal.$error"
+                       ng-show="etikettenForm.tussenruimtehorizontaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
+                  </div>
                 </div>
+                <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
               </div>
-              <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
-            </div>
-            <!-- -->
-            <!-- -->
-            <div class="form-group" ng-class="{ 'has-error': etikettenForm.tussenruimteverticaal.$touched && etikettenForm.tussenruimteverticaal.$invalid }">
-              <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Tussenruimte verticaal <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
-              <div class="col-xs-5 col-xxs-10">
-                <input type="number" min="0" class="form-control" name="tussenruimteverticaal" id="tussenruimteverticaal" ng-model="sjabloon.tussenruimte.verticaal" required>
-                <div ng-messages="etikettenForm.tussenruimteverticaal.$error" ng-show="etikettenForm.tussenruimteverticaal.$touched">
+              <!-- -->
+              <!-- -->
+              <div class="form-group"
+                   ng-class="{ 'has-error': etikettenForm.tussenruimteverticaal.$touched && etikettenForm.tussenruimteverticaal.$invalid }">
+                <label for="fromname" class="col-xs-6 col-xxs-12 control-label">Tussenruimte verticaal <i
+                  ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <div class="col-xs-5 col-xxs-10">
+                  <input type="number" min="0" class="form-control" name="tussenruimteverticaal"
+                         id="tussenruimteverticaal" ng-model="sjabloon.tussenruimte.verticaal" required>
+                  <div ng-messages="etikettenForm.tussenruimteverticaal.$error"
+                       ng-show="etikettenForm.tussenruimteverticaal.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
+                  </div>
                 </div>
+                <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
               </div>
-              <label class="col-xs-1 col-xxs-2 control-label"> mm </label>
-            </div>
-            <!-- -->
+              <!-- -->
 
 
-            <div class="form-group" ng-class="{ 'has-error': etikettenForm.blanco.$touched && etikettenForm.blanco.$invalid }">
-              <label for="fromname" min="0" class="col-xs-6 col-xxs-12 control-label">Blanco etiketten <i ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
-              <div class="col-xs-5 col-xxs-12">
-                <input type="text" class="form-control" name="blanco" id="blanco" ng-model="sjabloon.blanco" required>
-                <div ng-messages="etikettenForm.blanco.$error" ng-show="etikettenForm.blanco.$touched">
+              <div class="form-group"
+                   ng-class="{ 'has-error': etikettenForm.blanco.$touched && etikettenForm.blanco.$invalid }">
+                <label for="fromname" min="0" class="col-xs-6 col-xxs-12 control-label">Blanco etiketten <i
+                  ng-click="openInfoDialog()" class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <div class="col-xs-5 col-xxs-12">
+                  <input type="text" class="form-control" name="blanco" id="blanco" ng-model="sjabloon.blanco" required>
+                  <div ng-messages="etikettenForm.blanco.$error" ng-show="etikettenForm.blanco.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- *** VALUES BELOW ARE NOT SUPPORTED BY BACKEND *** -->
-            <!-- ****** -->
-            <!-- ****** -->
-            <!-- ****** -->
-            <!--
-            <div class="form-group" ng-class="{ 'has-error': etikettenForm.aantalEtikettenPerRij.$touched && etikettenForm.aantalEtikettenPerRij.$invalid }">
-              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Aantal per rij</label>
-              <div class="col-xs-8 col-xxs-12">
-                <input type="text" class="form-control" name="aantalEtikettenPerRij" id="fromName" ng-model="sjabloon.aantalEtikettenPerRij" required>
-                <div ng-messages="etikettenForm.aantalEtikettenPerRij.$error" ng-show="etikettenForm.aantalEtikettenPerRij.$touched">
-                    <div ng-messages-include="partials/messages.html"></div>
+              <!-- *** VALUES BELOW ARE NOT SUPPORTED BY BACKEND *** -->
+              <!-- ****** -->
+              <!-- ****** -->
+              <!-- ****** -->
+              <!--
+              <div class="form-group" ng-class="{ 'has-error': etikettenForm.aantalEtikettenPerRij.$touched && etikettenForm.aantalEtikettenPerRij.$invalid }">
+                <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Aantal per rij</label>
+                <div class="col-xs-8 col-xxs-12">
+                  <input type="text" class="form-control" name="aantalEtikettenPerRij" id="fromName" ng-model="sjabloon.aantalEtikettenPerRij" required>
+                  <div ng-messages="etikettenForm.aantalEtikettenPerRij.$error" ng-show="etikettenForm.aantalEtikettenPerRij.$touched">
+                      <div ng-messages-include="partials/messages.html"></div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="form-group" ng-class="{ 'has-error': etikettenForm.aantalRijenPerPagina.$touched && etikettenForm.aantalRijenPerPagina.$invalid }">
-              <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Rijen per pagina</label>
-              <div class="col-xs-8 col-xxs-12">
-                <input type="text" class="form-control" name="aantalRijenPerPagina" id="aantalRijenPerPagina" ng-model="sjabloon.aantalRijenPerPagina" required>
-                <div ng-messages="etikettenForm.aantalRijenPerPagina.$error" ng-show="etikettenForm.aantalRijenPerPagina.$touched">
-                    <div ng-messages-include="partials/messages.html"></div>
+              <div class="form-group" ng-class="{ 'has-error': etikettenForm.aantalRijenPerPagina.$touched && etikettenForm.aantalRijenPerPagina.$invalid }">
+                <label for="fromname" class="col-xs-4 col-xxs-12 control-label">Rijen per pagina</label>
+                <div class="col-xs-8 col-xxs-12">
+                  <input type="text" class="form-control" name="aantalRijenPerPagina" id="aantalRijenPerPagina" ng-model="sjabloon.aantalRijenPerPagina" required>
+                  <div ng-messages="etikettenForm.aantalRijenPerPagina.$error" ng-show="etikettenForm.aantalRijenPerPagina.$touched">
+                      <div ng-messages-include="partials/messages.html"></div>
+                  </div>
                 </div>
               </div>
-            </div>
-            -->
+              -->
 
 
-
-
-            <div class="form-group">
-              <!-- CHECK : in het geval het om 1 lid gaat -->
-              <div class="col-xs-12 control-label" ng-hide="leden.length > 1">
-                <strong>Ontvanger :</strong>
-                {{ leden[0].voornaam  }}  {{ leden[0].achternaam  }}
-              </div>
-              <!-- CHECK : in het geval het om meeredere leden gaat -->
-              <div class="col-xs-12 control-label" ng-hide="leden.length == 1">
-                <strong>Ontvangers :</strong>
-                {{ leden.length }} leden <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="ledenLaden"></i>
-              </div>
-              <!-- END CHECK -->
-              <div class="email-leden col-xs-12" ng-show="ledenVisible">
-                <ul>
-                  <li ng-repeat="lid in leden">
-                    <span ng-if="lid.voornaam">{{ ::lid.voornaam }}</span>
-                    <span ng-if="lid.achternaam">{{ ::lid.achternaam }}</span>
-                    <span ng-if="!lid.voornaam && !lid.achternaam && lid.volledigenaam"> {{ ::lid.volledigenaam }} </span>
-                    <span ng-if="!lid.voornaam && !lid.achternaam && !lid.volledigenaam"> - geen naam beschikbaar - </span>
-                  </li>
-                </ul>
-                <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>
-              </div>
-              <label class="form-group  form-group--joined control checkbox">
-                <div class="col-xs-12">
-                  <input type="checkbox" id="sendStandard" ng-model="sjabloon.familie" ng-checked="familie">
-                  <span class="control-indicator pull-left mr-10"></span>
-                  <div class="control-label">Familie</div>
-
+              <div class="form-group">
+                <!-- CHECK : in het geval het om 1 lid gaat -->
+                <div class="col-xs-12 control-label" ng-hide="leden.length > 1">
+                  <strong>Ontvanger :</strong>
+                  {{ leden[0].voornaam }} {{ leden[0].achternaam }}
                 </div>
-
-              </label>
-              <label class="form-group form-group--joined control checkbox">
-                <div class="col-xs-12">
-                  <input type="checkbox" id="sendContacts" ng-model="sjabloon.alleAdressen" ng-checked="alleAdressen">
-                  <span class="control-indicator pull-left mr-10"></span>
-                  <div class="control-label">Alle adressen</div>
+                <!-- CHECK : in het geval het om meeredere leden gaat -->
+                <div class="col-xs-12 control-label" ng-hide="leden.length == 1">
+                  <strong>Ontvangers :</strong>
+                  {{ leden.length }} leden <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>&nbsp;<i
+                  class="fa fa-spinner fa-pulse" ng-show="ledenLaden"></i>
                 </div>
-              </label>
-            </div>
-
-            <!--
-            <div class="form-group" ng-class="{ 'has-error': etikettenForm.bccaddress.$touched && etikettenForm.bccaddress.$invalid }">
-              <label for="email" class="col-xs-3 col-xxs-12 control-label">BCC</label>
-              <div class="col-xs-9 col-xxs-12">
-                <input type="email" class="form-control" name="bccaddress" id="bccAddress" ng-model="sjabloon.bcc" >
-                <div ng-messages="etikettenForm.bccaddress.$error" ng-show="etikettenForm.bccaddress.$touched">
-                    <div ng-messages-include="partials/messages.html"></div>
-                </div>
-              </div>
-            </div>
-            -->
-
-          </fieldset>
-          <fieldset>
-            <legend>Sjabloon</legend>
-
-            <div class="form-group">
-              <label for="subject" class="col-xs-4 col-xxs-12 control-label">Sjabloon kiezen</label>
-              <div class="col-xs-8 col-xxs-12">
-                <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
-                  <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
-                    <div class="buttonText">{{ sjabloon.naam }}</div><span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                    <li ng-if="isLoadingSjablonen"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse" ng-show="isLoadingSjablonen"></i>&nbsp;Sjablonen aan het laden...</a></li>
-                    <li ng-if="!isLoadingSjablonen && !(sjablonen.length > 0)"><a href='javascript:void(0)'>Geen sjablonen</a></li>
-                    <li ng-if="!isLoadingSjablonen" role="menuitem" ng-repeat="sjabloon in sjablonen | orderBy:'naam'"><a href ng-click="changeSjabloon(sjabloon)">{{ sjabloon.naam }}</a></li>
+                <!-- END CHECK -->
+                <div class="email-leden col-xs-12" ng-show="ledenVisible">
+                  <ul>
+                    <li ng-repeat="lid in leden">
+                      <span ng-if="lid.voornaam">{{ ::lid.voornaam }}</span>
+                      <span ng-if="lid.achternaam">{{ ::lid.achternaam }}</span>
+                      <span
+                        ng-if="!lid.voornaam && !lid.achternaam && lid.volledigenaam"> {{ ::lid.volledigenaam }} </span>
+                      <span
+                        ng-if="!lid.voornaam && !lid.achternaam && !lid.volledigenaam"> - geen naam beschikbaar - </span>
+                    </li>
                   </ul>
+                  <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>
+                </div>
+                <label class="form-group  form-group--joined control checkbox">
+                  <div class="col-xs-12">
+                    <input type="checkbox" id="sendStandard" ng-model="sjabloon.familie" ng-checked="familie">
+                    <span class="control-indicator pull-left mr-10"></span>
+                    <div class="control-label">Familie</div>
+
+                  </div>
+
+                </label>
+                <label class="form-group form-group--joined control checkbox">
+                  <div class="col-xs-12">
+                    <input type="checkbox" id="sendContacts" ng-model="sjabloon.alleAdressen" ng-checked="alleAdressen">
+                    <span class="control-indicator pull-left mr-10"></span>
+                    <div class="control-label">Alle adressen</div>
+                  </div>
+                </label>
+              </div>
+
+              <!--
+              <div class="form-group" ng-class="{ 'has-error': etikettenForm.bccaddress.$touched && etikettenForm.bccaddress.$invalid }">
+                <label for="email" class="col-xs-3 col-xxs-12 control-label">BCC</label>
+                <div class="col-xs-9 col-xxs-12">
+                  <input type="email" class="form-control" name="bccaddress" id="bccAddress" ng-model="sjabloon.bcc" >
+                  <div ng-messages="etikettenForm.bccaddress.$error" ng-show="etikettenForm.bccaddress.$touched">
+                      <div ng-messages-include="partials/messages.html"></div>
+                  </div>
                 </div>
               </div>
-            </div>
+              -->
 
-            <div class="form-group">
-              <button class="btn btn-default" ng-click="deleteSjabloon(sjabloon)" ng-hide="sjabloon.naam == 'blanco sjabloon'"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Sjabloon verwijderen&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isDeleting"></i></button>
-            </div>
+            </fieldset>
+            <fieldset>
+              <legend>Sjabloon</legend>
+
+              <div class="form-group">
+                <label for="subject" class="col-xs-4 col-xxs-12 control-label">Sjabloon kiezen</label>
+                <div class="col-xs-8 col-xxs-12">
+                  <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
+                    <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
+                      <div class="buttonText">{{ sjabloon.naam }}</div>
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                      <li ng-if="isLoadingSjablonen"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse"
+                                                                                     ng-show="isLoadingSjablonen"></i>&nbsp;Sjablonen
+                        aan het laden...</a></li>
+                      <li ng-if="!isLoadingSjablonen && !(sjablonen.length > 0)"><a href='javascript:void(0)'>Geen
+                        sjablonen</a></li>
+                      <li ng-if="!isLoadingSjablonen" role="menuitem"
+                          ng-repeat="sjabloon in sjablonen | orderBy:'naam'"><a href
+                                                                                ng-click="changeSjabloon(sjabloon)">{{
+                        sjabloon.naam }}</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <button class="btn btn-default" ng-click="deleteSjabloon(sjabloon)"
+                        ng-hide="sjabloon.naam == 'blanco sjabloon'"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Sjabloon
+                  verwijderen&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isDeleting"></i></button>
+              </div>
 
 
-            <div></div>
+              <div></div>
 
 
-          </fieldset>
-        </section>
-      </div>
+            </fieldset>
+          </section>
+        </div>
 
-      <div class="col-lg-8 col-xs-12">
-        <section>
-          <fieldset>
-            <legend>Inhoud etiket</legend>
-            <div class="form-group email-message" id="emailMessage">
-              <div id="editorContainer" class="col-xs-12"></div>
-            </div>
-          </fieldset>
-        </section>
+        <div class="col-lg-8 col-xs-12">
+          <section>
+            <fieldset>
+              <legend>Inhoud etiket</legend>
+              <div class="form-group email-message" id="emailMessage">
+                <div id="editorContainer" class="col-xs-12"></div>
+              </div>
+            </fieldset>
+          </section>
+        </div>
       </div>
     </div>
-  </div>
   </form>
 
 </div>
 
 <script type="text/ng-template" id="customPopupTemplate.html">
   <div class="custom-popup-wrapper dropdown-menu"
-     ng-style="{top: position().top+'px', left: position().left+'px'}"
-     style="display: block;"
-     ng-show="isOpen() && !moveInProgress"
-     aria-hidden="{{!isOpen()}}">
+       ng-style="{top: position().top+'px', left: position().left+'px'}"
+       style="display: block;"
+       ng-show="isOpen() && !moveInProgress"
+       aria-hidden="{{!isOpen()}}">
     <p class="message">Selecteer een bestaand sjabloon</p>
     <ul class="dropdown-menu" role="listbox">
       <li ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
           ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
-          <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+        <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
       </li>
     </ul>
   </div>
@@ -295,15 +344,15 @@
 
 <!-- bootstrap modal -->
 <script type="text/ng-template" id="etikettenInfoModal.html">
-    <div class="modal-header">
-        <h3 class="modal-title">Afmetingen voor etiketten</h3>
+  <div class="modal-header">
+    <h3 class="modal-title">Afmetingen voor etiketten</h3>
+  </div>
+  <div class="modal-body">
+    <div>
+      <img src="img/etiketinfo.png" alt="etiket informatie" style="max-width:100%"></img>
     </div>
-    <div class="modal-body">
-        <div>
-          <img src="img/etiketinfo.png" alt="etiket informatie" style="max-width:100%"></img>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="ok()">Sluiten</button>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">Sluiten</button>
+  </div>
 </script>

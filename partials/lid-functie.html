@@ -1,14 +1,18 @@
-
-  <div class="ga-functie__container clearfix" ng-class="{'ga-functie__container--ended' : functie.einde }">
-    <div class="col-xs-3">
-      <p>{{functie.begin ? 'van' : '' }} {{::functie.begin | date:'dd/MM/yy'}}</p>
-      <p>{{functie.einde ? 'tot' : '' }} {{::functie.einde | date:'dd/MM/yy'}}</p>
-    </div>
-    <div class="col-xs-6">
-      <p><strong>{{::functieslijst[functie.functie].beschrijving}}</strong><!--<span class="ga-functie__groeplabel">{{::functie.groep}}</span>--></p>
-      <!--<p>{{::groepenlijst[functie.groep].naam}}</p>-->
-    </div>
-    <div class="col-xs-3">
-      <p><a ng-if="!functie.einde && hasPermission('functies.' + functie.groep)" href class="btn btn-link btn-link-danger btn-link-danger--stopfunctie" ng-click="stopFunctie(functie)">Stop functie</a></p>
-    </div>
-  <div>
+<div class="ga-functie__container clearfix" ng-class="{'ga-functie__container--ended' : functie.einde }">
+  <div class="col-xs-8">
+    <p class="ga-functie__date">{{functie.begin ? 'van' : '' }} {{::functie.begin | date:'dd/MM/yy'}} {{functie.einde ?
+      'tot' : '' }} {{::functie.einde | date:'dd/MM/yy'}}</p>
+  </div>
+  <div class="col-xs-4">
+    <p class="pull-right">
+      <a ng-if="!functie.einde && hasPermission('functies.' + functie.groep)" href
+         class="btn btn-link btn-link-danger btn-link-danger--stopfunctie" ng-click="stopFunctie(functie)">Stop
+        functie</a>
+    </p>
+  </div>
+  <div class="col-xs-offset-1 col-xs-11">
+    <p><strong>{{::functieslijst[functie.functie].beschrijving}}</strong>
+      <!--<span class="ga-functie__groeplabel">{{::functie.groep}}</span>--></p>
+    <!--<p>{{::groepenlijst[functie.groep].naam}}</p>-->
+  </div>
+</div>
