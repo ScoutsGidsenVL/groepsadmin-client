@@ -1,0 +1,4 @@
+<input type="text" class="form-control"
+       placeholder="Straat..." autocomplete="ga-straat"
+       uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, adres)"
+       typeahead-on-select="bevestigStraat($item, adres)"/>

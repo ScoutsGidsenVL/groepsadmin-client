@@ -82,18 +82,8 @@
           <div class="form-group ">
             <label for="_oprichtingsDatum" class="col-xs-6 col-xxs-12 control-label">Oprichtingsdatum</label>
             <div class="col-xs-6 col-xxs-12">
-              <div class="input-group">
-                <input type="text" name="oprichtingsdatum" id="_oprichtingsDatum" ng-model="data.activegroup.opgericht"
-                       class="form-control" is-open="popupCal.opened" datepicker-options="dateOptions"
-                       close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date
-                       ng-disabled="!data.activegroup.kanWijzigen"/>
-                <span class="input-group-btn">
-              <button type="button" class="btn btn-default btn-datepicker form-control" ng-click="openPopupCal()"
-                      ng-disabled="!data.activegroup.kanWijzigen">
-                <i class="fa fa-calendar"></i>
-              </button>
-            </span>
-              </div>
+              <datum-control ng-model="data.activegroup.opgericht" ng-disabled="!data.activegroup.kanWijzigen"
+                             name="oprichtingsdatum" id="_oprichtingsDatum"></datum-control>
             </div>
           </div>
 
@@ -243,24 +233,17 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="_woonplaats" class="col-xs-3 col-xxs-12 control-label">Gemeente</label>
+                  <label for="_gemeenteWrap" class="col-xs-3 col-xxs-12 control-label">Gemeente</label>
                   <div class="col-xs-9 col-xxs-2">
-                    <input type="text" class="form-control ga-functie-list"
-                           ng-init="gemeenteWrap = lokaal.postcode + ' ' + lokaal.gemeente" ng-model="gemeenteWrap"
-                           id="_gemeenteWrap" ng-bind="lokaal.postcode + ' ' + lokaal.postcode"
-                           autocomplete="ga-gemeente"
-                           uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"
-                           typeahead-on-select="bevestigGemeente($item, lokaal)"/>
+                    <gemeente-control ng-model="gemeenteWrap"
+                           id="_gemeenteWrap" name="gemeente" adres="lokaal"></gemeente-control>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="_straatnaam" class="col-xs-3 col-xxs-12 control-label">Straat</label>
                   <div class="col-xs-5 col-xxs-12">
-                    <input type="text" class="form-control" ng-disabled="!lokaal.postcode || !lokaal.gemeente"
-                           placeholder="Straatnaam" id="_straatnaam" ng-model="lokaal.straat"
-                           autocomplete="ga-straat"
-                           uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, lokaal) "
-                           typeahead-on-select="bevestigStraat($item, lokaal)"/>
+                    <straat-control ng-disabled="!lokaal.postcode || !lokaal.gemeente"
+                           id="_straatnaam" ng-model="lokaal.straat" adres="lokaal"></straat-control>
                   </div>
                   <div class="col-xs-2 col-xxs-12">
                     <input type="text" class="form-control" id="_huisnummer" maxlength="5" ng-model="lokaal.nummer"

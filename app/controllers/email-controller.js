@@ -5,10 +5,10 @@
     .module('ga.emailcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap', 'ui.tinymce'])
     .controller('EmailController', EmailController);
 
-  EmailController.$inject = ['$compile', '$log', '$q', '$routeParams', '$scope', '$uibModal', 'access', 'AlertService',
+  EmailController.$inject = ['$log', '$q', '$routeParams', '$scope', '$uibModal', 'access', 'AlertService',
     'CacheService', 'EmailService', 'LedenLijstService', 'RestService'];
 
-  function EmailController($compile, $log, $q, $routeParams, $scope, $uibModal, access, AlertService, CS, ES, LLS, RestService) {
+  function EmailController($log, $q, $routeParams, $scope, $uibModal, access, AlertService, CS, ES, LLS, RestService) {
 
     // documentation tinyMCE plugin https://www.tinymce.com/docs/integrations/angularjs/
     var attachments = [];
@@ -20,43 +20,14 @@
     $scope.configEditor = function (velden) {
       $scope.velden = velden;
       // first make all the menu items
-      var menuItems = [];
+      $scope.menuItems = [];
       var item = {};
       $scope.velden.forEach(function (customer) {
         item = {
           'text': customer
         };
-        menuItems.push(item);
+        $scope.menuItems.push(item);
       });
-
-      $scope.tinymceOptions = {
-        plugins: [
-          'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-          'searchreplace wordcount visualblocks visualchars code fullscreen',
-          'insertdatetime media nonbreaking save table contextmenu',
-          'template paste textcolor colorpicker textpattern imagetools codesample fullscreen'
-        ],
-        height: 400,
-        menubar: false,
-        toolbar: 'undo redo | bold italic underline strikethrough | forecolor backcolor | bullist numlist | alignleft aligncenter alignright | table | code | customDrpdwn | media | preview | fullscreen',
-        setup: function (editor) {
-          editor.addButton('customDrpdwn', {
-            text: 'Veld invoegen',
-            type: 'menubutton',
-            icon: false,
-            menu: menuItems,
-            onselect: function (e) {
-              editor.insertContent('[' + e.target.state.data.text + ']');
-            }
-          });
-        }
-      };
-
-      var editorContainer = angular.element(document.querySelector('#editorContainer'));
-      var html = $compile('<textarea ui-tinymce="tinymceOptions" ng-model="sjabloon.inhoud"></textarea>')($scope);
-      editorContainer.children().remove();
-      editorContainer.append(html);
-
     };
 
     $scope.changeSjabloon = function (sjabloon) {

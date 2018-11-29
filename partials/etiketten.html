@@ -32,7 +32,7 @@
         <div class="hidden-xs hidden-sm">
           <formerrorbutton formulier="etikettenForm" watchable="etiketPropertiesWatchable"></formerrorbutton>
           <button type="submit" class="btn btn-apply" ng-click="aanmaken()" ng-disabled="etikettenForm.$invalid"><span
-            class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;Etiketten maken&nbsp;
+            class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;Etiketten maken&nbsp;</button>
         </div>
         <div class="hidden-md hidden-lg">
           <formerrorbutton formulier="etikettenForm" watchable="etiketPropertiesWatchable"></formerrorbutton>
@@ -315,7 +315,9 @@
             <fieldset>
               <legend>Inhoud etiket</legend>
               <div class="form-group email-message" id="emailMessage">
-                <div id="editorContainer" class="col-xs-12"></div>
+                <div id="editorContainer" class="col-xs-12" ng-if="menuItems">
+                  <wysiwyg ng-model="sjabloon.inhoud" menu-items="menuItems"></wysiwyg>
+                </div>
               </div>
             </fieldset>
           </section>
@@ -349,7 +351,7 @@
   </div>
   <div class="modal-body">
     <div>
-      <img src="img/etiketinfo.png" alt="etiket informatie" style="max-width:100%"></img>
+      <img src="img/etiketinfo.png" alt="etiket informatie" style="max-width:100%"/>
     </div>
   </div>
   <div class="modal-footer">

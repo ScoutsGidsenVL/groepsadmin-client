@@ -1,0 +1,4 @@
+<input type="text" class="form-control ga-functie-list"
+       autocomplete="ga-gemeente" placeholder="Vul postcode in en selecteer uw gemeente..."
+       uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"
+       typeahead-on-select="bevestigGemeente($item, adres)"/>

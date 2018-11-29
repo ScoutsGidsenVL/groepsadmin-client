@@ -6,14 +6,12 @@
     .controller('GroepController', GroepController);
 
   GroepController.$inject = ['$q', '$scope', '$location', '$timeout', '$window', 'RestService', 'CacheService', 'access',
-    'DialogService', 'AdresService', 'DatumService'];
+    'DialogService'];
 
-  function GroepController($q, $scope, $location, $timeout, $window, RestService, CS, access, DialogService, AdresService, DatumService) {
+  function GroepController($q, $scope, $location, $timeout, $window, RestService, CS, access, DialogService) {
     if (!access) {
       $location.path("/lid/profiel");
     }
-
-    angular.extend($scope, AdresService.publicMethods, DatumService.publicProperties, DatumService.publicMethods);
 
     $scope.baseUrl = $location.absUrl().split('#' + $location.path())[0] + 'formulier.html#/lidworden?groep=';
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

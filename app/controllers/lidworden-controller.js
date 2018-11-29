@@ -5,13 +5,9 @@
     .module('ga.lidwordencontroller', [])
     .controller('LidwordenController', LidwordenController);
 
-  LidwordenController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService', 'AdresService', 'DatumService'];
+  LidwordenController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService'];
 
-  function LidwordenController ($scope, $routeParams, RestService, AlertService, AdresService, DatumService) {
-    var gemeenteScope;
-
-    angular.extend($scope, AdresService.publicMethods, DatumService.publicProperties, DatumService.publicMethods);
-
+  function LidwordenController ($scope, $routeParams, RestService, AlertService) {
     $scope.aanvraagverstuurd = false;
     $scope.groepGeladen = false;
     $scope.publiekInschrijven = true;
@@ -42,9 +38,6 @@
         });
 
     function init(groepsnummer) {
-      if(gemeenteScope) {
-        gemeenteScope.gemeenteWrap = '';
-      }
       $scope.lid = {
         persoonsgegevens: {
           geslacht: 'man'

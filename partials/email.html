@@ -242,8 +242,8 @@
 
 
               <div class="form-group email-message" id="emailMessage">
-                <div id="editorContainer" class="col-xs-12">
-
+                <div id="editorContainer" class="col-xs-12" ng-if="menuItems">
+                  <wysiwyg ng-model="sjabloon.inhoud" menu-items="menuItems"></wysiwyg>
                 </div>
               </div>
 

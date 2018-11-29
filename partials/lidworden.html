@@ -40,20 +40,7 @@
             <label for="_geboortedatum" class="col-sm-2 control-label">Geboortedatum</label>
             <div class="col-sm-3"
                  ng-class="{ 'has-error': lidwordenForm.geboortedatum.$touched && lidwordenForm.geboortedatum.$invalid }">
-              <!-- fix date-parse -->
-              <div class="input-group">
-                <input type="text" name="geboortedatum" id="_geboortedatum" class="form-control"
-                       placeholder="dd/mm/jjjj"
-                       ng-model="lid.geboortedatum" is-open="popupCal.opened"
-                       datepicker-options="dateOptions"
-                       close-text="Close"
-                       uib-datepicker-popup="{{format}}" ga-parse-date required/>
-                <span class="input-group-btn">
-              <button type="button" class="btn btn-default btn-datepicker form-control" ng-click="popupCal()">
-                <i class="fa fa-calendar"></i>
-              </button>
-            </span>
-              </div>
+              <datum-control ng-model="lid.geboortedatum" name="geboortedatum" id="_geboortedatum"></datum-control>
               <div ng-messages="lidwordenForm.geboortedatum.$error" ng-show="lidwordenForm.geboortedatum.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
@@ -137,11 +124,8 @@
             <label for="_gemeenteWrap" class="col-sm-2 control-label">Woonplaats</label>
             <div class="col-sm-6"
                  ng-class="{ 'has-error': lidwordenForm.gemeente.$touched && lidwordenForm.gemeente.$invalid }">
-              <input type="text" class="form-control ga-functie-list" id="_gemeenteWrap" ng-model="gemeenteWrap"
-                     placeholder="Vul postcode in en selecteer uw gemeente..." name="gemeente"
-                     autocomplete="ga-gemeente"
-                     uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"
-                     typeahead-on-select="bevestigGemeente($item, lid.adres)" required/>
+              <gemeente-control id="_gemeenteWrap" ng-model="gemeenteWrap"
+                      name="gemeente" adres="lid.adres" required></gemeente-control>
               <div ng-messages="lidwordenForm.gemeente.$error" ng-show="lidwordenForm.gemeente.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
@@ -151,11 +135,8 @@
             <label for="_straatnaam" class="col-sm-2 control-label">Adres</label>
             <div class="col-sm-6"
                  ng-class="{ 'has-error': lidwordenForm.straatnaam.$touched && lidwordenForm.straatnaam.$invalid}">
-              <input type="text" class="form-control" id="_straatnaam" ng-model="lid.adres.straat"
-                     placeholder="Straat..." name="straatnaam" autocomplete="ga-straat"
-                     ng-disabled="!lid.adres.postcode || !lid.adres.gemeente"
-                     uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, lid.adres)"
-                     typeahead-on-select="bevestigStraat($item, lid.adres)" required/>
+              <straat-control id="_straatnaam" ng-model="lid.adres.straat" adres="lid.adres"
+                     name="straatnaam" ng-disabled="!lid.adres.postcode || !lid.adres.gemeente" required></straat-control>
               <div ng-messages="lidwordenForm.straatnaam.$error" ng-show="lidwordenForm.straatnaam.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>

@@ -28,16 +28,8 @@
       <label for="_geboortedatum" class="col-xs-5 col-xxs-12 control-label">Geboortedatum</label>
       <div class="col-xs-7 col-xxs-12">
         <!-- fix date-parse -->
-        <div class="input-group">
-          <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="lid.vgagegevens.geboortedatum"
-                 class="form-control" is-open="popupCal.opened" datepicker-options="dateOptions"
-                 close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date
-                 ng-disabled="!hasPermission('vgagegevens')" placeholder="DD/MM/JJJJ"/>
-          <span class="input-group-btn">
-                  <button type="button" class="btn btn-default btn-datepicker form-control" ng-click="openPopupCal()"
-                          ng-disabled="!hasPermission('vgagegevens')"><i class="fa fa-calendar"></i></button>
-                </span>
-        </div>
+        <datum-control ng-model="lid.vgagegevens.geboortedatum" ng-disabled="!hasPermission('vgagegevens')"
+        name="geboortedatum" id="_geboortedatum"></datum-control>
         <div ng-messages="lidForm.geboortedatum.$error" ng-show="lidForm.geboortedatum.$touched">
           <div ng-messages-include="partials/messages.html"></div>
         </div>
