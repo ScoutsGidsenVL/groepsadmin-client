@@ -5,10 +5,12 @@
     .module('ga.lidwordencontroller', [])
     .controller('LidwordenController', LidwordenController);
 
-  LidwordenController.$inject = ['$scope', '$routeParams', 'RestService', 'LidService', 'AlertService'];
+  LidwordenController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService', 'AdresService'];
 
-  function LidwordenController ($scope, $routeParams, RestService, LS, AlertService) {
+  function LidwordenController ($scope, $routeParams, RestService, AlertService, AdresService) {
     var gemeenteScope;
+
+    angular.extend($scope, AdresService.publicMethods);
 
     $scope.aanvraagverstuurd = false;
     $scope.groepGeladen = false;
@@ -67,35 +69,6 @@
         $scope.lid.groepsnummer = groepsnummer;
       }
     }
-
-    $scope.zoekGemeente = function(zoekterm){
-      gemeenteScope = this;
-      return LS.zoekGemeente(zoekterm);
-    };
-
-    $scope.bevestigGemeente = function(item, adres) {
-      adres.postcode = item.substring(0,4);
-      adres.gemeente = item.substring(5);
-    };
-
-    // zoek straten en giscodes
-    $scope.zoekStraat = function(zoekterm, adres){
-      var resultaatStraten = [];
-      return RestService.Code.query({zoekterm:zoekterm, postcode: adres.postcode}).$promise.then(
-        function(result){
-          angular.forEach(result, function(val){
-            resultaatStraten.push(val);
-          });
-          return resultaatStraten;
-        });
-    };
-
-    // straat en giscode opslaan in het adres
-    $scope.bevestigStraat = function(item, adres) {
-      adres.straat = item.straat;
-      adres.giscode = item.code;
-
-    };
 
     $scope.submitForm = function(form) {
       if (form.$valid) {

@@ -5,11 +5,11 @@
     .module('ga.services.lid', [])
     .factory('LidService', LidService);
 
-  LidService.$inject = ['$timeout', 'RestService', 'AlertService'];
+  LidService.$inject = ['$timeout', 'AlertService'];
 
   // Deze service bevat een aantal helper functies die voornamelijk worden gebruikt door de LidController en de LidToevoegenController
 
-  function LidService($timeout, RestService, AlertService) {
+  function LidService($timeout, AlertService) {
     var lidService = {};
 
     lidService.publicProperties = {
@@ -112,40 +112,6 @@
             }
           }
         });
-      },
-      zoekGemeente: function (zoekterm) {
-        var resultaatGemeentes = [];
-        return RestService.Gemeente.get({zoekterm: zoekterm, token: 1}).$promise.then(
-          function (result) {
-            angular.forEach(result, function (val) {
-              if (typeof val == 'string') {
-                resultaatGemeentes.push(val);
-              }
-            });
-            return resultaatGemeentes;
-          });
-      },
-      bevestigGemeente: function (item, adres) {
-        adres.postcode = item.substring(0, 4);
-        adres.gemeente = item.substring(5);
-        adres.straat = null;
-        adres.bus = null;
-        adres.nummer = null;
-        adres.giscode = null;
-      },
-      zoekStraat: function (zoekterm, adres) {
-        var resultaatStraten = [];
-        return RestService.Code.query({zoekterm: zoekterm, postcode: adres.postcode}).$promise.then(
-          function (result) {
-            angular.forEach(result, function (val) {
-              resultaatStraten.push(val);
-            });
-            return resultaatStraten;
-          });
-      },
-      bevestigStraat: function (item, adres) {
-        adres.straat = item.straat;
-        adres.giscode = item.code;
       },
       functieToevoegen: function (groepsnummer, functie, type) {
         var scope = this;

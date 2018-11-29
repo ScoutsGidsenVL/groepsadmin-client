@@ -5,16 +5,17 @@
     .module('ga.groepcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('GroepController', GroepController);
 
-  GroepController.$inject = ['$q', '$scope', '$location', '$timeout', '$window', 'RestService', 'CacheService', 'access', 'DialogService'];
+  GroepController.$inject = ['$q', '$scope', '$location', '$timeout', '$window', 'RestService', 'CacheService', 'access',
+    'DialogService', 'AdresService'];
 
-  function GroepController($q, $scope, $location, $timeout, $window, RestService, CS, access, DialogService) {
+  function GroepController($q, $scope, $location, $timeout, $window, RestService, CS, access, DialogService, AdresService) {
     if (!access) {
       $location.path("/lid/profiel");
     }
 
     $scope.baseUrl = $location.absUrl().split('#' + $location.path())[0] + 'formulier.html#/lidworden?groep=';
-
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    angular.extend($scope, AdresService.publicMethods);
 
     var contacten = {}, deregisterListener;
 
@@ -300,53 +301,6 @@
       $scope.data.activegroup.adressen.push(newAdres);
       addMarkerFromNewAdres($scope.googleMap, newAdres);
       $scope.groepForm.$setDirty();
-    };
-
-    // zoek gemeentes
-    $scope.zoekGemeente = function (zoekterm) {
-      var resultaatGemeentes = [];
-      return RestService.Gemeente.get({zoekterm: zoekterm, token: 1}).$promise.then(
-        function (result) {
-          angular.forEach(result, function (val) {
-            if (typeof val == 'string') {
-              resultaatGemeentes.push(val);
-            }
-          });
-          return resultaatGemeentes;
-        });
-    };
-
-    // gemeente opslaan in het adres
-    $scope.bevestigGemeente = function (item, adres) {
-      adres.postcode = item.substring(0, 4);
-      adres.gemeente = item.substring(5);
-      adres.straat = null;
-      adres.bus = null;
-      adres.nummer = null;
-      adres.giscode = null;
-      adres.land = "BE";
-      // google geocode gemeente naar coordinaten
-      // => teken marker + Info plaats deze marker op de juiste plaats.
-
-    };
-
-    // zoek straten en giscodes
-    $scope.zoekStraat = function (zoekterm, adres) {
-      var resultaatStraten = [];
-      return RestService.Code.query({zoekterm: zoekterm, postcode: adres.postcode}).$promise.then(
-        function (result) {
-          angular.forEach(result, function (val) {
-            resultaatStraten.push(val);
-          });
-          return resultaatStraten;
-        });
-    };
-
-    // straat en giscode opslaan in het adres
-    $scope.bevestigStraat = function (item, adres) {
-      adres.straat = item.straat;
-      adres.giscode = item.code;
-
     };
 
     // marker van een nieuw adres op de kaart plaatsen.

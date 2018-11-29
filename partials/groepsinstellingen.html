@@ -248,6 +248,7 @@
                     <input type="text" class="form-control ga-functie-list"
                            ng-init="gemeenteWrap = lokaal.postcode + ' ' + lokaal.gemeente" ng-model="gemeenteWrap"
                            id="_gemeenteWrap" ng-bind="lokaal.postcode + ' ' + lokaal.postcode"
+                           autocomplete="ga-gemeente"
                            uib-typeahead="gemeente for gemeente in zoekGemeente($viewValue)"
                            typeahead-on-select="bevestigGemeente($item, lokaal)"/>
                   </div>
@@ -257,6 +258,7 @@
                   <div class="col-xs-5 col-xxs-12">
                     <input type="text" class="form-control" ng-disabled="!lokaal.postcode || !lokaal.gemeente"
                            placeholder="Straatnaam" id="_straatnaam" ng-model="lokaal.straat"
+                           autocomplete="ga-straat"
                            uib-typeahead="straatnaam as straat.straat for straat in zoekStraat($viewValue, lokaal) "
                            typeahead-on-select="bevestigStraat($item, lokaal)"/>
                   </div>

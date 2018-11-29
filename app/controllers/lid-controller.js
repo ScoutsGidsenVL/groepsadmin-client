@@ -5,17 +5,17 @@
     .module('ga.lidcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('LidController', LidController);
 
-  LidController.$inject = ['$location', '$rootScope', '$routeParams', '$scope', '$timeout', '$window', 'AlertService',
+  LidController.$inject = ['$location', '$rootScope', '$routeParams', '$scope', '$timeout', '$window', 'AlertService', 'AdresService',
     'DialogService', 'LedenLijstService', 'LidService', 'RestService', 'UserAccess', 'FormValidationService', 'CacheService'];
 
-  function LidController($location, $rootScope, $routeParams, $scope, $timeout, $window, AlertService,
+  function LidController($location, $rootScope, $routeParams, $scope, $timeout, $window, AlertService, AdresService,
                          DialogService, LLS, LS, RestService, UserAccess, FVS, CS) {
 
     var reloadGroepen;
     $scope.lidPropertiesWatchable = false;
     $scope.heeftGroepseigenvelden = false;
     $scope.functiesEnGroepenGeladen = false;
-    angular.extend($scope, LS.publicProperties, LS.publicMethods);
+    angular.extend($scope, LS.publicProperties, LS.publicMethods, AdresService.publicMethods);
 
     var init = function () {
       $scope.validationErrors = [];
