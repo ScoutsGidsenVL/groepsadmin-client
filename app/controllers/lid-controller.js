@@ -6,16 +6,16 @@
     .controller('LidController', LidController);
 
   LidController.$inject = ['$location', '$rootScope', '$routeParams', '$scope', '$timeout', '$window', 'AlertService', 'AdresService',
-    'DialogService', 'LedenLijstService', 'LidService', 'RestService', 'UserAccess', 'FormValidationService', 'CacheService'];
+    'DialogService', 'LedenLijstService', 'LidService', 'RestService', 'UserAccess', 'FormValidationService', 'CacheService', 'DatumService'];
 
   function LidController($location, $rootScope, $routeParams, $scope, $timeout, $window, AlertService, AdresService,
-                         DialogService, LLS, LS, RestService, UserAccess, FVS, CS) {
+                         DialogService, LLS, LS, RestService, UserAccess, FVS, CS, DatumService) {
 
     var reloadGroepen;
     $scope.lidPropertiesWatchable = false;
     $scope.heeftGroepseigenvelden = false;
     $scope.functiesEnGroepenGeladen = false;
-    angular.extend($scope, LS.publicProperties, LS.publicMethods, AdresService.publicMethods);
+    angular.extend($scope, LS.publicProperties, LS.publicMethods, AdresService.publicMethods, DatumService.publicProperties, DatumService.publicMethods);
 
     var init = function () {
       $scope.validationErrors = [];

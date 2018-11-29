@@ -5,6 +5,7 @@
     'ga.route',
     'ga.services.apiinfo',
     'ga.services.adres',
+    'ga.services.datum',
     'ga.services.keycloak',
     'ga.services.rest',
     'ga.services.useraccess',

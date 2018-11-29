@@ -26,23 +26,10 @@
           'value': 'voogd',
           'label': 'Voogd'
         },
-      ],
-      dateOptions: {
-        formatYear: 'yyyy',
-        startingDay: 1,
-        datepickerMode: 'year'
-      },
-      popupCal: {
-        opened: false
-      },
-      format: 'dd/MM/yyyy'
+      ]
     };
 
     lidService.publicMethods = {
-      openPopupCal: function () {
-        var scope = this;
-        scope.popupCal.opened = true;
-      },
       changePostadres: function (adresID) {
         var scope = this;
         angular.forEach(scope.lid.adressen, function (value) {

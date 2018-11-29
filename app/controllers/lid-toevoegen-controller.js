@@ -6,10 +6,10 @@
     .controller('LidToevoegenController', LidToevoegenController);
 
   LidToevoegenController.$inject = ['$scope', '$location', '$timeout', '$window', '$http', 'CacheService', 'LidService',
-    'RestService', 'AlertService', 'DialogService', '$rootScope', '$route', 'access', 'AdresService'];
+    'RestService', 'AlertService', 'DialogService', '$rootScope', '$route', 'access', 'AdresService', 'DatumService'];
 
   function LidToevoegenController($scope, $location, $timeout, $window, $http, CS, LS, RestService, AlertService,
-                                  DialogService, $rootScope, $route, access, AdresService) {
+                                  DialogService, $rootScope, $route, access, AdresService, DatumService) {
 
     var aangemeldeGebruiker = {};
 
@@ -18,7 +18,7 @@
     $scope.isNieuwLidForm = true;
     $scope.showFunctieToevoegen = true;
 
-    angular.extend($scope, LS.publicProperties, LS.publicMethods, AdresService.publicMethods);
+    angular.extend($scope, LS.publicProperties, LS.publicMethods, AdresService.publicMethods, DatumService.publicProperties, DatumService.publicMethods);
 
     if (!access) {
       $location.path("/lid/profiel");

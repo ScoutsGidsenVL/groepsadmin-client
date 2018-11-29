@@ -5,28 +5,17 @@
     .module('ga.lidwordencontroller', [])
     .controller('LidwordenController', LidwordenController);
 
-  LidwordenController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService', 'AdresService'];
+  LidwordenController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService', 'AdresService', 'DatumService'];
 
-  function LidwordenController ($scope, $routeParams, RestService, AlertService, AdresService) {
+  function LidwordenController ($scope, $routeParams, RestService, AlertService, AdresService, DatumService) {
     var gemeenteScope;
 
-    angular.extend($scope, AdresService.publicMethods);
+    angular.extend($scope, AdresService.publicMethods, DatumService.publicProperties, DatumService.publicMethods);
 
     $scope.aanvraagverstuurd = false;
     $scope.groepGeladen = false;
     $scope.publiekInschrijven = true;
     $scope.groepNr = $routeParams.groep;
-    $scope.formats = ['dd/MM/yyyy'];
-    $scope.format = $scope.formats[0];
-
-    $scope.dateOptions = {
-      formatYear: 'yyyy',
-      startingDay: 1,
-      datepickerMode: 'year'
-    };
-    $scope.popupCal = {
-      opened: false
-    };
 
     init();
 

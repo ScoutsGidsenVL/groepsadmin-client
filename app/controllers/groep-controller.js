@@ -6,18 +6,23 @@
     .controller('GroepController', GroepController);
 
   GroepController.$inject = ['$q', '$scope', '$location', '$timeout', '$window', 'RestService', 'CacheService', 'access',
-    'DialogService', 'AdresService'];
+    'DialogService', 'AdresService', 'DatumService'];
 
-  function GroepController($q, $scope, $location, $timeout, $window, RestService, CS, access, DialogService, AdresService) {
+  function GroepController($q, $scope, $location, $timeout, $window, RestService, CS, access, DialogService, AdresService, DatumService) {
     if (!access) {
       $location.path("/lid/profiel");
     }
 
+    angular.extend($scope, AdresService.publicMethods, DatumService.publicProperties, DatumService.publicMethods);
+
     $scope.baseUrl = $location.absUrl().split('#' + $location.path())[0] + 'formulier.html#/lidworden?groep=';
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    angular.extend($scope, AdresService.publicMethods);
 
     var contacten = {}, deregisterListener;
+    var specialeFuncties = {
+      vga: 'd5f75b320b812440010b812555970393',
+      fv: 'd5f75b320b812440010b812553d5032e'
+    };
 
     $scope.data = {};
     $scope.data.groepenlijst = [];
@@ -34,9 +39,9 @@
 
         _.forEach(groep.contacten, function (contact) {
           var groepering;
-          if (contact.functie == 'd5f75b320b812440010b812555970393') {
+          if (contact.functie == specialeFuncties.vga) {
             groepering = groep.vga;
-          } else if (contact.functie == 'd5f75b320b812440010b812553d5032e') {
+          } else if (contact.functie == specialeFuncties.fv) {
             groepering = groep.fv;
           } else {
             groepering = groep.groepsleiding
@@ -108,21 +113,6 @@
       function (Error) {
       }
     );
-
-
-    $scope.dateOptions = {
-      formatYear: 'yyyy',
-      startingDay: 1,
-      datepickerMode: 'year'
-    };
-    $scope.popupCal = {
-      opened: false
-    };
-    $scope.popupCal = function () {
-      $scope.popupCal.opened = true;
-    };
-    $scope.formats = ['dd/MM/yyyy'];
-    $scope.format = $scope.formats[0];
 
     /*
      * Google Maps Functies

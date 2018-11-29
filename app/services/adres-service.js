@@ -7,8 +7,6 @@
 
   AdresService.$inject = ['RestService'];
 
-  // Deze service bevat een aantal helper functies die voornamelijk worden gebruikt door de LidController en de LidToevoegenController
-
   function AdresService(RestService) {
     var AdresService = {};
 
