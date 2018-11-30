@@ -240,7 +240,7 @@ module.exports = function (grunt) {
 
     ngtemplates: {
       app: {
-        src: 'partials/groepsinstellingen.html',
+        src: 'partials/*.html',
         dest: 'app/assets/js/templates.js',
         options: {
           module: 'ga.utils',
