@@ -53,7 +53,6 @@
     'ga.utils',
     'ga.validatie.rekeningnummer',
     'ga.validatie.telefoonnummer',
-    'ga.validatie.gsmnummer',
     'ui.bootstrap',
     'infinite-scroll',
     'ngSanitize',

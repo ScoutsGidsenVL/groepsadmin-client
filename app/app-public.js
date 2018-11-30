@@ -20,7 +20,6 @@
     'ga.straat.control',
     'ga.validatie.rekeningnummer',
     'ga.validatie.telefoonnummer',
-    'ga.validatie.gsmnummer',
     'ui.bootstrap',
     'ngMessages'])
 

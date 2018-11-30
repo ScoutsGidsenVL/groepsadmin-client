@@ -83,7 +83,6 @@ module.exports = function (grunt) {
           'app/directives/ui-selectpicker.js',
           'app/directives/utils.js',
           'app/directives/telefoonnummer.js',
-          'app/directives/gsmnummer.js',
           'app/directives/rekeningnummer.js'
         ],
         dest: 'app/assets/js/<%= pkg.name %>-public.js'
@@ -192,7 +191,6 @@ module.exports = function (grunt) {
             'app/directives/ui-selectpicker.js',
             'app/directives/utils.js',
             'app/directives/telefoonnummer.js',
-            'app/directives/gsmnummer.js',
             'app/directives/rekeningnummer.js'
           ]
         }

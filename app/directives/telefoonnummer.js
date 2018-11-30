@@ -8,58 +8,88 @@
         restrict: 'A',
         require: 'ngModel',
         link: function (scope, element, attrs, ctrl) {
-          ctrl.$parsers.push(function (value) {
-            if (value) {
-              var regex = /[-\.\/]/gi;
-              return value.replace(regex, ' ');
-            }
-          });
+          var checkGsm = attrs.hasOwnProperty("isGsm") ? true : false;
 
-          ctrl.$validators.telefoonnummer = function (modelValue) {
+          var formatNumber = function (value) {
             var phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
+
+            if (value.match(/[A-Za-z]/i)) {
+              return value;
+            }
+            else if (value) {
+              var regex = /[-\.\/ ]/gi;
+              value = value.replace(regex, '');
+            }
+
+            try {
+              var number = phoneUtil.parseAndKeepRawInput(value, 'BE');
+
+              var isPossible = phoneUtil.isPossibleNumber(number);
+              if (isPossible) {
+                var isNumberValid = phoneUtil.isValidNumber(number);
+                if(isNumberValid) {
+                  value = phoneUtil.formatInOriginalFormat(number);
+                }
+              }
+            }
+            catch (e) {
+              console.log(e.message);
+            }
+
+            return value;
+          };
+
+          var validateNumber = function (modelValue) {
+            var phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
+            var PNT = libphonenumber.PhoneNumberType;
+            var mobileTypes = [
+              PNT.MOBILE,
+              PNT.FIXED_LINE_OR_MOBILE,
+              PNT.UNKNOWN
+            ];
+            var validated = false;
 
             if (ctrl.$isEmpty(modelValue)) {
               // consider empty models to be valid
               return true;
             }
+            else if (modelValue.match(/[a-z]/i)) {
+              return false;
+            }
 
-            var regex = /^(((\+|00)31\s?)|((\+|00)32\s?|(0[1-9]))|((\+|00)33\s?)|((\+|00\s?)352))/;
-            var found = regex.test(modelValue);
-            var validated = false;
+            try {
+              var number = phoneUtil.parseAndKeepRawInput(modelValue, 'BE');
+              var isPossible = phoneUtil.isPossibleNumber(number);
 
-            if (found) {
-              var regularExpressions = [
-                /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/, //BE
-                /^((\+|00)31\s?)(\d{2})(\s?\d{3})(\s?\d{2}){2}$/, //NL
-                /^((\+|00)33\s?)[1-5](\s?\d{2}){4}$/, //FR
-                /^((\+|00\s?)352)(\s?\d{2}){3,4}$/, //LUX
-                /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/, //GSM BE
-                /^((\+|00)31\s?)(6)(\s?\d{2}){4}$/, //GSM NL
-                /^((\+|00)33\s?)[679](\s?\d{2}){4}$/, //GSM FR
-                /^((\+|00\s?)352)\s?6[269]1(\s?\d{3}){2}$/ //GSM LUX
-              ];
-
-              var i = 0;
-
-              while (i < regularExpressions.length && validated === false) {
-                validated = regularExpressions[i].test(modelValue);
-                i++;
+              if (isPossible) {
+                var isNumberValid = phoneUtil.isValidNumber(number);
+                if(isNumberValid) {
+                  if(!checkGsm) {
+                    validated = true;
+                  }
+                  else if (mobileTypes.indexOf(phoneUtil.getNumberType(number)) !== -1) {
+                    validated = true;
+                  }
+                }
               }
             }
-            else {
-              var parsedNumber;
-
-              try {
-                parsedNumber = phoneUtil.parse(modelValue);
-                validated = phoneUtil.isValidNumber(parsedNumber);
-              }
-              catch (e) {
-                console.log(e.message);
-              }
+            catch (e) {
+              console.log(e.message);
             }
 
             return validated;
           };
+
+          ctrl.$formatters.push(formatNumber);
+          ctrl.$parsers.push(formatNumber);
+
+          if(checkGsm) {
+            ctrl.$validators.gsmnummer = validateNumber;
+          }
+          else {
+            ctrl.$validators.telefoonnummer = validateNumber;
+          }
+
         }
 
       };

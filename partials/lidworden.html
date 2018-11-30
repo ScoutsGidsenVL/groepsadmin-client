@@ -71,7 +71,7 @@
             <label for="_gsm" class="col-sm-2 control-label">GSM</label>
             <div class="col-sm-4" ng-class="{ 'has-error': lidwordenForm.gsm.$touched && lidwordenForm.gsm.$invalid }">
               <input type="tel" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm" name="gsm"
-                     placeholder="GSM nummer ..." gsmnummer/>
+                     placeholder="GSM nummer ..." telefoonnummer is-gsm/>
               <div ng-messages="lidwordenForm.gsm.$error" ng-show="lidwordenForm.gsm.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>

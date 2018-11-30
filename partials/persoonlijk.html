@@ -101,7 +101,7 @@
       <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">GSM</label>
       <div class="col-xs-7 col-xxs-12">
         <input type="text" class="form-control" id="_gsm" ng-model="lid.persoonsgegevens.gsm" name="gsm"
-               ng-disabled="!hasPermission('persoonsgegevens')" gsmnummer/>
+               ng-disabled="!hasPermission('persoonsgegevens')" telefoonnummer is-gsm/>
         <div ng-messages="lidForm.gsm.$error">
           <div ng-messages-include="partials/messages.html"></div>
         </div>
