@@ -10,14 +10,14 @@
   &--hasmargin {
     margin-top: 50px;
     &-large {
-      margin-top: 90px;
+      margin-top: 110px;
     }
 
-    @media (max-width: @screen-xs-max) {
+    @media (min-width: @screen-xs-max) {
       margin-top: 80px;
 
       &-large {
-        margin-top: 150px;
+        margin-top: 65px;
       }
     }
   }
@@ -99,14 +99,15 @@ h1.panel-title {
   background: white;
   z-index: @zIndexStickyPanel;
   &--large {
-    height: 100px;
+    height: 120px;
   }
+  
 
-  @media (max-width: @screen-xs-max) {
+  @media (min-width: @screen-xs-max) {
     height: 90px;
 
     &--large {
-      height: 150px;
+      height: 75px;
     }
   }
 }
