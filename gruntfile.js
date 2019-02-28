@@ -298,9 +298,12 @@ module.exports = function (grunt) {
         proxies: [
           {
             context: '/groepsadmin',
-            host: 'ga-staging.scoutsengidsenvlaanderen.be',
-            port: 443,
-            https: true
+            // host: 'ga-staging.scoutsengidsenvlaanderen.be',
+            // port: 433,
+            // https: true
+            host: 'localhost',
+            port: 8080,
+            https: false
           }
         ]
       }
