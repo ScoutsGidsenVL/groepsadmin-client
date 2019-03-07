@@ -12,7 +12,6 @@
     if (!access) {
       $location.path("/lid/profiel");
     }
-
     $scope.baseUrl = $location.absUrl().split('#' + $location.path())[0] + 'formulier.html#/lidworden?groep=';
     $scope.markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -34,6 +33,8 @@
         groep.vga = [];
         groep.fv = [];
         groep.groepsleiding = [];
+
+        
 
         _.forEach(groep.contacten, function (contact) {
           var groepering;
@@ -96,6 +97,8 @@
         })
       }
 
+      $scope.data.publiekInschrijven = $scope.data.activegroup['publiek-inschrijven']
+      
       if (deregisterListener) {
         deregisterListener();
       }
@@ -261,6 +264,7 @@
       else {
         $scope.previousgroupId = $scope.data.activegroup.id;
         $scope.formulierUrl = $scope.baseUrl + $scope.data.activegroup.id;
+        $scope.data.publiekInschrijven = $scope.data.activegroup['publiek-inschrijven'];
         loadGoogleMap();
         maakSorteerbaar();
       }
@@ -335,7 +339,6 @@
             $scope.data.activegroup.groepseigenFuncties[key].deletedTimestamps = new Date();
           }
         }
-        console.log($scope.data.activegroup.groepseigenFuncties[key]);
       });
       $scope.groepForm.$setDirty();
     };
@@ -500,8 +503,6 @@
           delete gegeven.keuzes;
         }
       });
-
-      console.log('Groep opslaan', $scope.data.activegroup);
       $scope.saving = true;
 
       var promises = [
@@ -550,6 +551,7 @@
       $q.all(promises)
         .then(function () {
           $scope.groepForm.$setPristine();
+          $scope.data.publiekInschrijven = $scope.data.activegroup['publiek-inschrijven']
         })
         .finally(function () {
           $scope.saving = false;
