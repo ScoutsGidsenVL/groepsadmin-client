@@ -258,8 +258,6 @@
           if (error.data && error.data.vraag) {
             initAangepastLid();
             $window.onbeforeunload = null;
-          } else if (error.status == 403) {
-            AlertService.add('warning', error);
           } else {
             AlertService.add('danger', error);
           }
