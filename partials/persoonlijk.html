@@ -91,8 +91,8 @@
       <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
       <div class="col-xs-7 col-xxs-12">
         <input type="email" class="form-control" name="email" id="_email" ng-model="lid.email"
-               ng-disabled="!hasPermission('email')">
-        <div ng-messages="lidForm.email.$error">
+               ng-disabled="!hasPermission('email')" required>
+        <div ng-messages="lidForm.email.$error" ng-show="lidForm.email.$touched">
           <div ng-messages-include="partials/messages.html"></div>
         </div>
       </div>
