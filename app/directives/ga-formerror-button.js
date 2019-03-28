@@ -26,8 +26,9 @@
     }, true);
 
     $scope.setFocusFirstInvalid = function () {
-      var firstInvalid = angular.element('.ng-invalid');
-      firstInvalid.focus();
+      var allInvalid = angular.element('.ng-invalid').not('form');
+      allInvalid.focus().blur();
+      allInvalid.first().focus();
     };
 
     var getNumberOfErrors = function () {

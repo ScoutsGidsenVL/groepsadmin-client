@@ -55,7 +55,7 @@
                 <option value="LU">Luxemburg</option>
                 <option value="NL">Nederland</option>
               </select>
-              <div ng-messages="lidForm['adressen['+$index+'].land'].$error">
+              <div ng-messages="lidForm['adressen['+$index+'].land'].$error" ng-messages="lidForm['adressen['+$index+'].land'].$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
             </div>
@@ -65,8 +65,8 @@
             <label for="_gemeenteWrap" class="col-xs-4 col-xxs-12 control-label">Woonplaats</label>
             <div class="col-xs-8 col-xxs-2">
               <gemeente-control id="_gemeenteWrap" ng-model="gemeenteWrap" ng-disabled="!hasPermission('adressen')"
-                                name="gemeente" adres="adres" required></gemeente-control>
-              <div ng-messages="lidForm['adressen['+$index+'].gemeente'].$error">
+                                name="adressen[{{ $index }}].gemeente" adres="adres" required></gemeente-control>
+              <div ng-messages="lidForm['adressen['+$index+'].gemeente'].$error" ng-show="lidForm['adressen['+$index+'].gemeente'].$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
             </div>
@@ -104,7 +104,7 @@
               <input type="text" class="form-control" name="adressen[{{ $index }}].telefoon" id="_telefoon"
                      ng-model="adres.telefoon" telefoonnummer
                      ng-disabled="!hasPermission('adressen')"/>
-              <div ng-messages="lidForm['adressen['+$index+'].telefoon'].$error">
+              <div ng-messages="lidForm['adressen['+$index+'].telefoon'].$error" ng-show="lidForm['adressen['+$index+'].telefoon'].$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
             </div>
