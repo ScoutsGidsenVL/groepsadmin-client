@@ -220,7 +220,7 @@
     function initAangepastLid() {
       //changes array aanmaken
       $timeout(function () {
-        $scope.lid.changes = [];
+        initModel();
       }, 20);
     }
 
