@@ -834,6 +834,7 @@
       initCriteriaKolommenFilters().then(function () {
         var isInitialLoad = true;
         stelFilterSamen('huidige', isInitialLoad).then(function () {
+          $scope.ledenLaden();
           $scope.isLoadingFilters = false;
           // variable om te voorkomen dat content flikkert
           $scope.hasLoadedFilters = true;
@@ -843,7 +844,7 @@
         });
       });
 
-      //$scope.ledenLaden();
+
     }
 
     $rootScope.$on('leeftijdCriterium', function (event, data) {

@@ -336,10 +336,10 @@
 
   <!-- Table -->
   <div class="panel-leden">
-    <table id="leden" class="table table-responsive table-leden"
+    <table id="leden" class="table table-responsive table-leden" ng-show="!isLoadingFilters && !isLoadingLeden"
            ng-class="{'table-leden--sticky': tableheaderIsSticky}">
       <thead ng-show="dataLoaded" fix-head>
-      <tr>
+      <tr ng-show='!isLoadingLeden && !isSavingFilters'>
         <th colspan="{{kolommen.length}}">
           <div class="pull-right">
             <p ng-if="leden.length > 1"><em>{{leden.length}} leden geladen van {{totaalAantalLeden}}.</em></p>
