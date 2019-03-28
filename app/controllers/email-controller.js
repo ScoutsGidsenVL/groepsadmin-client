@@ -117,13 +117,19 @@
         $scope.aantalLedenGeladen += res.leden.length;
 
         _.each(res.leden, function (val) {
-          var volledigeNaam = val.waarden['be.vvksm.groepsadmin.model.column.VolledigeNaamColumn'];
+          var lid = {
+            'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'],
+            'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'],
+            'volledigenaam': val.waarden['be.vvksm.groepsadmin.model.column.VolledigeNaamColumn']
+          };
+
+          var volledigeNaam = lid.voornaam && lid.achternaam ?  lid.voornaam + ' ' + lid.achternaam: lid.volledigenaam;
+
+          if(volledigeNaam === undefined) {
+            volledigeNaam = val.id;
+          }
+
           if($scope.uniekeNamen[volledigeNaam] === undefined) {
-            var lid = {
-              'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'],
-              'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'],
-              'volledigenaam': val.waarden['be.vvksm.groepsadmin.model.column.VolledigeNaamColumn']
-            };
             $scope.leden.push(lid);
             $scope.uniekeNamen[volledigeNaam] = lid;
           }
