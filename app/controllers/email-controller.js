@@ -16,6 +16,8 @@
     $scope.ledenVisible = false;
     $scope.tinymceModel = 'Initial content';
     $scope.emailPropertiesWatchable = true;
+    $scope.uniekeNamen = {};
+    $scope.aantalLedenGeladen = 0;
 
     $scope.configEditor = function (velden) {
       $scope.velden = velden;
@@ -110,15 +112,24 @@
 
     $scope.getLeden = function (offset) {
       $scope.ledenLaden = true;
+
       LLS.getLeden(offset).then(function (res) {
+        $scope.aantalLedenGeladen += res.leden.length;
+
         _.each(res.leden, function (val) {
-          $scope.leden.push({
-            'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'],
-            'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'],
-            'volledigenaam': val.waarden['be.vvksm.groepsadmin.model.column.VolledigeNaamColumn']
-          });
+          var volledigeNaam = val.waarden['be.vvksm.groepsadmin.model.column.VolledigeNaamColumn'];
+          if($scope.uniekeNamen[volledigeNaam] === undefined) {
+            var lid = {
+              'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'],
+              'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'],
+              'volledigenaam': val.waarden['be.vvksm.groepsadmin.model.column.VolledigeNaamColumn']
+            };
+            $scope.leden.push(lid);
+            $scope.uniekeNamen[volledigeNaam] = lid;
+          }
+
         });
-        if (res.totaal > $scope.leden.length) {
+        if (res.totaal > $scope.aantalLedenGeladen) {
           offset += 50;
           $scope.getLeden(offset);
         } else {
