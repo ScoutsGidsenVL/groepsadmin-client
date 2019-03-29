@@ -124,6 +124,11 @@
         {},
         {get: {method: 'GET'}}
       ),
+      IndividueleSteekkaart: $resource(
+        basejson + 'individuelesteekkaart.json',
+        {},
+        {get: {method: 'GET'}}
+      ),
       ledenaantallen: $resource(
         base + 'groep/:groepsnummer/ledenaantallen',
         {groepsnummer: '@groepsnummer'},

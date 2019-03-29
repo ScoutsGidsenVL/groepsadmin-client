@@ -68,6 +68,13 @@
           returnObj.arrCriteria.push(geblokkeerdAdres);
         }
       );
+      //TODO: activeer deze code als je individuele steekkaart als functie wil activeren
+      /*returnObj.promises[5] = RestService.IndividueleSteekkaart.get().$promise.then(
+        function (result) {
+          var individuelesteekkaart = result;
+          individuelesteekkaart.activated = false;
+          returnObj.arrCriteria.push(individuelesteekkaart);
+        });*/
 
       return returnObj;
     };
@@ -477,6 +484,12 @@
       var actieveGeblokkeerdeAdressen = _.find(activeCriteria, {"criteriaKey": "adresgeblokkeerd"});
       if (actieveGeblokkeerdeAdressen) {
         reconstructedFilterObj.criteria.adresgeblokkeerd = _.find(actieveGeblokkeerdeAdressen.items, {'activated': true}).value;
+      }
+
+      // invididuelesteekkaart
+      var actieveIndividueleSteekkaarten = _.find(activeCriteria, {"criteriaKey": "individuelesteekkaart"});
+      if (actieveIndividueleSteekkaarten) {
+        reconstructedFilterObj.criteria.individuelesteekkaart = actieveIndividueleSteekkaarten.value;
       }
 
 

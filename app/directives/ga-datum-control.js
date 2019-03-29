@@ -15,6 +15,7 @@
         disabled: '=?ngDisabled',
         name: '@name',
         id: '@id',
+        defaultToday: '@'
       },
       controller: datumControlController
     };
@@ -24,6 +25,11 @@
 
   function datumControlController($scope) {
     $scope.disabled = $scope.disabled || false;
+    $scope.defaultToday = $scope.defaultToday !== undefined ? true : false;
+
+    if ($scope.defaultToday && $scope.model === undefined) {
+      $scope.model = new Date()
+    }
 
     $scope.dateOptions= {
       formatYear: 'yyyy',

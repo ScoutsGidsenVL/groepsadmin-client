@@ -1,0 +1,17 @@
+{
+  "title" : "Individuele steekkaart",
+  "criteriaKey" : "individuelesteekkaart",
+  "multiplePossible" : false,
+  "multiValues": true,
+  "operator": {
+    "label": "Aangepast ",
+    "key": "operator",
+    "values": [
+      ["voor", "ouder"],
+      ["na", "jonger"]
+    ]
+  },
+  "value": {
+    "operator": "ouder"
+  }
+}

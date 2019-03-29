@@ -257,6 +257,13 @@
                       ng-model="jongerDan" ng-selected="updateJongerDan(jongerDan)"></select><br>
             </div>
 
+            <div class="multival-group" ng-if="criterium.multiValues && criterium.criteriaKey == 'individuelesteekkaart'">
+              {{ criterium.operator.label }}
+              <select ng-options="value[1] as value[0] for value in criterium.operator.values"
+                      ng-model="criterium.value.operator"></select><br/><br/>
+              <datum-control ng-model="criterium.value.referentie" default-today></datum-control>
+            </div>
+
           </div>
         </div>
       </div>
