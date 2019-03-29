@@ -81,6 +81,11 @@
   padding:10px;
 }
 
+.select-value-group {
+  padding: 5px 0;
+  border-bottom: solid 1px @list-group-border;
+}
+
 .jcontrol {
   display: block;
   position: relative;
@@ -95,7 +100,7 @@
     color:#444;
   }
 }
-.jcontrol input {
+.jcontrol input[type=checkbox], .jcontrol input[type=radio] {
   position: absolute;
   z-index: -1;
   opacity: 0;

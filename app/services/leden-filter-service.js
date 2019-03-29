@@ -48,6 +48,10 @@
           var groepenCriteria = ledenFilterService.getCriteriaGroepen(result);
           groepenCriteria.activated = false;
           returnObj.arrCriteria.push(groepenCriteria);
+
+          var groepsEigenCriteria = ledenFilterService.getCriteriaGroepsEigen(result);
+          groepsEigenCriteria.activated = false;
+          returnObj.arrCriteria.push(groepsEigenCriteria);
         });
       returnObj.promises[2] = RestService.Geslacht.get().$promise.then(
         function (result) {
@@ -69,12 +73,12 @@
         }
       );
       //TODO: activeer deze code als je individuele steekkaart als functie wil activeren
-      /*returnObj.promises[5] = RestService.IndividueleSteekkaart.get().$promise.then(
+      returnObj.promises[5] = RestService.IndividueleSteekkaart.get().$promise.then(
         function (result) {
           var individuelesteekkaart = result;
           individuelesteekkaart.activated = false;
           returnObj.arrCriteria.push(individuelesteekkaart);
-        });*/
+        });
 
       return returnObj;
     };
@@ -366,6 +370,49 @@
       return groepenCriteria;
     };
 
+    ledenFilterService.getCriteriaGroepsEigen = function (data) {
+
+      var groepen = data.groepen;
+      var groepenCriteria = {
+        title: "Groepseigen gegevens",
+        criteriaKey: "groepseigen",
+        multiplePossible: true,
+        itemgroups: []
+      };
+      angular.forEach(groepen, function (value) {
+
+        if (value.groepseigenGegevens) {
+          var groep = {
+            value: value.groepsnummer,
+            label: value.naam + " - " + value.groepsnummer,
+            sortering: value.groepsnummer,
+            collapsed: true
+          };
+
+          groep.items = _.map(value.groepseigenGegevens, function(groepseigenGegeven) {
+            return {
+              veld: groepseigenGegeven.id,
+              label: groepseigenGegeven.label,
+              activated: false,
+              waard: '',
+              operator: '',
+              operatorValues: [
+                ['bevat', 'like'],
+                ['is', 'equals'],
+                ['is kleiner dan', 'less'],
+                ['is groter dan', 'greater']
+              ]
+            }
+          });
+
+          groepenCriteria.itemgroups.push(groep);
+        }
+      });
+
+      console.log(groepenCriteria);
+      return groepenCriteria;
+    };
+
     ledenFilterService.functieGroepKey = function (functie, functieGroepen) {
       var tempKey;
       angular.forEach(functieGroepen, function (functieGroep, key) {
@@ -490,6 +537,24 @@
       var actieveIndividueleSteekkaarten = _.find(activeCriteria, {"criteriaKey": "individuelesteekkaart"});
       if (actieveIndividueleSteekkaarten) {
         reconstructedFilterObj.criteria.individuelesteekkaart = actieveIndividueleSteekkaarten.value;
+      }
+
+// invididuelesteekkaart
+      var actieveGroepseigengGegevens = _.find(activeCriteria, {"criteriaKey": "groepseigen"});
+      if (actieveGroepseigengGegevens) {
+        reconstructedFilterObj.criteria.groepseigen = [];
+        _.each(actieveGroepseigengGegevens.itemgroups, function (groep) {
+          _.each(groep.items, function (gegeven) {
+            if (gegeven.activated) {
+              var returnValue = {
+                veld: gegeven.veld,
+                waarde: gegeven.waarde,
+                operator: gegeven.operator
+              };
+              reconstructedFilterObj.criteria.groepseigen.push(returnValue);
+            }
+          })
+        });
       }
 
 

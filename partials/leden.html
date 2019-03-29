@@ -264,6 +264,36 @@
               <datum-control ng-model="criterium.value.referentie" default-today></datum-control>
             </div>
 
+            <div class="control-group" ng-if="criterium.criteriaKey == 'groepseigen'">
+              <div class="control-group-sectiongroup">
+                <div ng-repeat="criteriumItemGroup in criterium.itemgroups"
+                  ng-class="{ 'control-group-section--collapsed': criteriumItemGroup.collapsed }"
+                  class="control-group-section">
+                  <div class="control-group-subheader" ng-click="toggleCriteriumSection(criteriumItemGroup)">
+                  <span class="control-group-subheader-label">
+                    <div class="control-selectall">
+                      <div class="control-label-value">{{ criteriumItemGroup.label }}</div>
+                    </div>
+                    </span>
+                    <i class="glyphicon pull-right glyphicon-chevron-down"></i>
+                  </div>
+                  <div class="select-value-group control--collapsible" ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'">
+                    <label class="jcontrol control--checkbox">
+                      <input type="checkbox" ng-model="criteriumItem.activated"/>
+                      {{ criteriumItem.label }}
+                      <select ng-options="value[1] as value[0] for value in criteriumItem.operatorValues"
+                              ng-model="criteriumItem.operator"></select><br/>
+                      <div class="control__indicator"></div>
+                    </label>
+                    <label class="jcontrol control--checkbox control--collapsible">
+                      <input type="text" ng-model="criteriumItem.waarde">
+                      </label>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
