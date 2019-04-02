@@ -16,6 +16,13 @@ var getClient = function(){
     redirectUri: window.location.href
   }
 
+  // var returnClient = {
+  //   url: 'http://localhost:8888/auth/',
+  //   realm: 'scouts',
+  //   clientId: null,
+  //   redirectUri: window.location.href
+  // }
+
   switch(window.location.origin){
     case 'http://localhost:8000':
       returnClient.clientId = 'groepsadmin-localhost-8000-client';
