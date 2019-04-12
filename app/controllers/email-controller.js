@@ -289,18 +289,11 @@
         $scope.isLoadingSjablonen = false;
         if (res.sjablonen) {
           $scope.sjablonen = res.sjablonen;
-          if (!res.sjablonen.length > 0) {
-            makeDummySjabloon().then(function (res) {
-              $scope.sjablonen.push(res);
-              $scope.changeSjabloon($scope.sjablonen[0]);
-            })
-          }
-          if ($scope.lastSavedSjabloon && $scope.lastSavedSjabloon.id) {
-            console.log("last saved", _.find($scope.sjablonen, {'id': $scope.lastSavedSjabloon.id}));
-            $scope.changeSjabloon(_.find($scope.sjablonen, {'id': $scope.lastSavedSjabloon.id}));
-          } else {
+          makeDummySjabloon().then(function (res) {
+            $scope.sjablonen.unshift(res);
             $scope.changeSjabloon($scope.sjablonen[0]);
-          }
+          })
+                 
         }
       }, function () {
         $scope.isLoadingSjablonen = false;
