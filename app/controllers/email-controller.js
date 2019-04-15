@@ -221,24 +221,7 @@
       }
     };
 
-    var makeDummySjabloon = function () {
-      var deferred = $q.defer();
-      RestService.Lid.get({id: 'profiel'}).$promise.then(function (result) {
-
-        // dit sjabloon zal worden gebruikt als er nog geen sjabloon bestaat voor de gebruiker
-        var sjabloon = {};
-        sjabloon.naam = 'blanco sjabloon';
-        sjabloon.replyTo = result.email;
-        sjabloon.van = result.vgagegevens.voornaam + ' ' + result.vgagegevens.achternaam;
-        sjabloon.onderwerp = "";
-        sjabloon.inhoud = "";
-        sjabloon.bestemming = {};
-        sjabloon.bestemming.lid = true;
-        sjabloon.bestemming.contacten = false;
-        deferred.resolve(sjabloon);
-      });
-      return deferred.promise;
-    };
+ 
 
     var overwriteSjabloon = function (sjabloon, obj) {
       var deferred = $q.defer();
@@ -289,10 +272,8 @@
         $scope.isLoadingSjablonen = false;
         if (res.sjablonen) {
           $scope.sjablonen = res.sjablonen;
-          makeDummySjabloon().then(function (res) {
-            $scope.sjablonen.unshift(res);
-            $scope.changeSjabloon($scope.sjablonen[0]);
-          })
+          $scope.changeSjabloon($scope.sjablonen[0]);
+          
                  
         }
       }, function () {
