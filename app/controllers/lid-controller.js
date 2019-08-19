@@ -372,46 +372,7 @@
 
       reloadGroepen = $scope.lid.changes.indexOf('functies') !== -1;
 
-      //indien er zowel een adres als een contact werd aangepast
-      if ($scope.lid.changes.indexOf("adressen") != -1 && $scope.lid.changes.indexOf("contacten") != -1) {
-        $scope.saving = true;
-        //als er aanpassingen gebeurd zijn aan de contacten en tegelijk ook aan de adressen worden eerst de adressen toegevoegd en daarna de contacten.
-        var adressen = $scope.lid.adressen;
-        var contacten = $scope.lid.contacten;
-        //eerst adressen committen
-        $scope.lid.changes.splice($scope.lid.changes.indexOf("contacten"), 1);
-        $scope.lid.$update(function (response) {
-          //connect oude adressen met nieuwe
-          if (reloadGroepen) {
-            CS.Groepen(true);
-          }
-          var adressenIndex = [];
-          angular.forEach(adressen, function (adres) {
-            angular.forEach(response.adressen, function (newadres) {
-              if (adres.giscode == newadres.giscode) {
-                adressenIndex[adres.id] = newadres.id;
-              }
-            });
-          });
-          //vervang oude adresid's in contacten
-          angular.forEach(contacten, function (contact) {
-            contact.adres = adressenIndex[contact.adres];
-          });
-          //console.log(contacten);
-          $scope.lid.contacten = contacten;
-          $scope.lid.changes = [];
 
-          //aangepaste contacten opsturen naar server.
-          $scope.lid.$update(function () {
-            $scope.saving = false;
-            AlertService.add('success ', "Aanpassingen opgeslagen");
-            $scope.lid.groepseigenVelden = origineleGroepseigenVelden;
-            initAangepastLid();
-            $window.onbeforeunload = null;
-          });
-          initAangepastLid();
-        });
-      } else {
         $scope.saving = true;
         $scope.lid.$update(
           function () {
@@ -455,7 +416,6 @@
             }
           }
         );
-      }
     };
 
     /*
