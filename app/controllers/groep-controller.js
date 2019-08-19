@@ -38,19 +38,20 @@
 
         _.forEach(groep.contacten, function (contact) {
           var groepering;
-          if (contact.functie == specialeFuncties.vga) {
+          console.log("Ik kom hier")
+          if (contact.oidFunctie == specialeFuncties.vga) {
             groepering = groep.vga;
-          } else if (contact.functie == specialeFuncties.fv) {
+          } else if (contact.oidFunctie == specialeFuncties.fv) {
             groepering = groep.fv;
           } else {
             groepering = groep.groepsleiding
           }
 
-          if (contacten[contact.lid] === undefined) {
-            contacten[contact.lid] = [];
+          if (contacten[contact.oidLid] === undefined) {
+            contacten[contact.oidLid] = [];
           }
 
-          contacten[contact.lid].push(groepering);
+          contacten[contact.oidLid].push(groepering);
         });
 
         groep.adres = [
