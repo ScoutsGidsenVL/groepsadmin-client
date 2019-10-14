@@ -6,6 +6,11 @@
     .factory('LidService', LidService);
 
   LidService.$inject = ['$timeout', 'AlertService'];
+  var specialeFuncties = {
+    vga: 'd5f75b320b812440010b812555970393',
+    fv: 'd5f75b320b812440010b812553d5032e',
+    grl:'d5f75b320b812440010b8125558e0391'
+  };
 
   // Deze service bevat een aantal helper functies die voornamelijk worden gebruikt door de LidController en de LidToevoegenController
 
@@ -103,6 +108,9 @@
       functieToevoegen: function (groepsnummer, functie, type) {
         var scope = this;
         if (type == 'add') {
+          if(Object.values(specialeFuncties).indexOf(functie) > -1){
+            scope.lid.emailVerplicht = true
+          }
           var functieInstantie = {};
           functieInstantie.functie = functie;
           functieInstantie.groep = groepsnummer;
@@ -115,11 +123,21 @@
           return 'stop';
         }
         else {
+
+          
           angular.forEach(scope.lid.functies, function (value, key) {
             if (value.groep == groepsnummer && value.functie == functie && value.temp == "tijdelijk") {
               scope.lid.functies.splice(key, 1);
             }
           });
+          if(Object.values(specialeFuncties).indexOf(functie) > -1){
+            scope.lid.emailVerplicht = false
+            angular.forEach(scope.lid.functies, function (value, key) {
+              if ( Object.values(specialeFuncties).indexOf(value.functie) > -1 && value.temp == "tijdelijk") {
+                scope.lid.emailVerplicht = true
+              }
+            });
+          }
           return 'add'
         }
       },

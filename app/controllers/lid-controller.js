@@ -12,6 +12,11 @@
                          DialogService, LLS, LS, RestService, UserAccess, FVS, CS) {
 
     var reloadGroepen;
+    var specialeFuncties = {
+      vga: 'd5f75b320b812440010b812555970393',
+      fv: 'd5f75b320b812440010b812553d5032e',
+      grl:'d5f75b320b812440010b8125558e0391'
+    };
     $scope.lidPropertiesWatchable = false;
     $scope.heeftGroepseigenvelden = false;
     $scope.functiesEnGroepenGeladen = false;
@@ -97,6 +102,11 @@
 
             }
             if (value == 'lid.functies') {
+              angular.forEach(scope.lid.functies, function (value, key) {
+                if ( Object.values(specialeFuncties).indexOf(value.functie) > -1 && value.einde == null) {
+                  scope.lid.emailVerplicht = true
+                }
+              });
               $scope.orderedFuncties = _(scope.lid.functies)
                 .sortBy(function(x) {return x.groep})
                 .groupBy(function(x) {return x.groep})
