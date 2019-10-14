@@ -34,11 +34,18 @@
         groep.fv = [];
         groep.groepsleiding = [];
 
-        
+        if ( groep.facturatieLeden) {
+          groep.facturatieLedenSaved = true;
+          groep.facturatieLedenCheck = true;
+        }
+
+        if ( groep.facturatieLeiding) {
+          groep.facturatieLeidingSaved = true;
+          groep.facturatieLeidingCheck = true;
+        }
 
         _.forEach(groep.contacten, function (contact) {
           var groepering;
-          console.log("Ik kom hier")
           if (contact.oidFunctie == specialeFuncties.vga) {
             groepering = groep.vga;
           } else if (contact.oidFunctie == specialeFuncties.fv) {
@@ -228,7 +235,6 @@
         });
       });
       angular.forEach($scope.markers, function (value, key) {
-        console.log(marker.infoIsOpen);
         if (value.adresId == marker.adresId && !marker.infoIsOpen) {
           $scope.markers[key].infoIsOpen = true;
           infoWindow.open(map, marker);
@@ -466,16 +472,15 @@
     };
 
     // add watcher for checkbox - date translation
-    $scope.$watch('data.activegroup.facturatieLeden', function (newVal, oldVal) {
-      console.log("Leden  newVal--", $scope.data.activegroup.facturatieLeden, " --OldVal", oldVal);
+    $scope.$watch('data.activegroup.facturatieLeden', function () {
       //als er een datum bestaat
-      if (newVal) {
+      if ( $scope.data.activegroup.facturatieLeden && $scope.data.activegroup.facturatieLedenSaved == null) {
         $scope.data.activegroup.facturatieLedenSaved = true;
         $scope.data.activegroup.facturatieLedenCheck = true;
       }
     });
-    $scope.$watch('data.activegroup.facturatieLeiding', function (newVal) {
-      if (newVal) {
+    $scope.$watch('data.activegroup.facturatieLeiding', function () {
+      if ( $scope.data.activegroup.facturatieLeiding &&  $scope.data.activegroup.facturatieLeidingSaved == null) {
         $scope.data.activegroup.facturatieLeidingSaved = true;
         $scope.data.activegroup.facturatieLeidingCheck = true;
       }
@@ -505,7 +510,13 @@
         }
       });
       $scope.saving = true;
-
+      if ($scope.data.activegroup.facturatieLeidingCheck) {
+        $scope.data.activegroup.facturatieLeiding = new Date()
+      }
+      if ($scope.data.activegroup.facturatieLedenCheck) {
+        $scope.data.activegroup.facturatieLeden = new Date()
+      }
+      
       var promises = [
         RestService.Groep
           .update({id: $scope.data.activegroup.id, bevestiging: true}, $scope.data.activegroup)
