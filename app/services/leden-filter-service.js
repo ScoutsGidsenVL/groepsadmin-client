@@ -73,12 +73,12 @@
         }
       );
       //TODO: activeer deze code als je individuele steekkaart als functie wil activeren
-      /*returnObj.promises[5] = RestService.IndividueleSteekkaart.get().$promise.then(
+      returnObj.promises[5] = RestService.IndividueleSteekkaart.get().$promise.then(
         function (result) {
           var individuelesteekkaart = result;
           individuelesteekkaart.activated = false;
           returnObj.arrCriteria.push(individuelesteekkaart);
-        });*/
+        });
 
       return returnObj;
     };
