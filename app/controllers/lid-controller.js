@@ -17,6 +17,8 @@
       fv: 'd5f75b320b812440010b812553d5032e',
       grl:'d5f75b320b812440010b8125558e0391'
     };
+    var kanLeidingWijzigen = false;
+    var kanGebruikerWijzigen = false;
     $scope.lidPropertiesWatchable = false;
     $scope.heeftGroepseigenvelden = false;
     $scope.functiesEnGroepenGeladen = false;
@@ -43,12 +45,27 @@
       RestService.Lid.get({id: $routeParams.id}).$promise.then(
         function (result) {
           $scope.lid = result;
+          // check of leidng groepsleiding veld mag wijzigen.
+          angular.forEach($scope.lid.groepseigenVelden,function(groep){
+            if(groep.schema.length > 0){
+              angular.forEach(groep.schema,function(veld){
+                if(veld.kanLeidingWijzigen){
+                  kanLeidingWijzigen = true;
+                }
+              });
+            }
+          });
           loadSuccess($scope.lid);
           initModel();
 
           $timeout(function () {
             // pas wanneer de lid gegevens geladen zijn mag $watch (in de loadSuccess() functie) controle toepassen op changes
             $scope.lidPropertiesWatchable = true;
+            //check of gebruiker leding is van lid voor groepseidgenvelden
+            if( kanLeidingWijzigen){
+              kanLeidingWijzigen = $scope.lidPropertiesWatchable;
+            }
+            $scope.kanGroepseingenVeldenWijzigen = kanLeidingWijzigen;
           }, 2000);
 
         },
