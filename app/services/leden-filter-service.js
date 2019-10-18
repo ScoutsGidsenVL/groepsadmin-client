@@ -390,6 +390,36 @@
           };
 
           groep.items = _.map(value.groepseigenGegevens, function(groepseigenGegeven) {
+            console.log(groepseigenGegeven)
+           
+            if(groepseigenGegeven.keuzes !=null && groepseigenGegeven.type=="lijst"){
+              return {
+                veld: groepseigenGegeven.id,
+                label: groepseigenGegeven.label,
+                keuze: true,
+                keuzes: groepseigenGegeven.keuzes,
+                operator: '',
+                operatorValues: [
+                  ['bevat', 'like'],
+                  ['is', 'equals'],
+                  ['is kleiner dan', 'less'],
+                  ['is groter dan', 'greater']
+                ]
+               
+              }
+            }
+            if( groepseigenGegeven.type=="vinkje"){
+              console.log("test")
+              return {
+                veld: groepseigenGegeven.id,
+                label: groepseigenGegeven.label,
+                vinkje: true,
+                operator: 'equals'
+              }
+            }
+
+            
+            
             return {
               veld: groepseigenGegeven.id,
               label: groepseigenGegeven.label,
