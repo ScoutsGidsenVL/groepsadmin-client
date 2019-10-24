@@ -246,6 +246,13 @@
      * event functies Lokalen
      * ----------------------------------
      */
+
+    $scope.changePostadres = function(val){
+      angular.forEach($scope.data.activegroup.adressen, function (value) {
+        value.postadres = value.id == val;
+      });
+    }
+
     //dropdown verander van groep
     $scope.changeGroep = function () {
       if ($scope.groepForm.$dirty) {

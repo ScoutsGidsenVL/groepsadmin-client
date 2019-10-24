@@ -261,6 +261,16 @@
                     <input type="text" class="form-control" id="_telefoon" ng-model="lokaal.telefoon"/>
                   </div>
                 </div>
+             
+                  <label class="form-group control checkbox">
+                    <div class="col-xs-4 col-xxs-12 control-label">Postadres</div>
+                    <div class="col-xs-8 col-xxs-12">
+                      <input type="checkbox" class="" id="_postadres" ng-model="lokaal.postadres"
+                             ng-click="changePostadres(lokaal.id)"/>
+                      <span class="control-indicator"></span>
+                    </div>
+                  </label>
+             
                 <a href="" class="pull-right"
                    ng-click="centerMap(lokaal.positie.latitude, lokaal.positie.longitude, lokaal.id)">Toon op kaart</a>
 
