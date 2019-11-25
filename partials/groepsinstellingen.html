@@ -195,7 +195,7 @@
                     </div>
                   </div>
                   <div class="col-xs-6">
-                    <div ng-if="lokaal.beschrijving" class="ellipsis">
+                    <div ng-if="lokaal.beschrijving"   class="ellipsis">
                       {{ lokaal.beschrijving }}
                     </div>
                     <div ng-if="!lokaal.beschrijving && (lokaal.straat || lokaal.postcode || lokaal.gemeente)"
@@ -228,37 +228,37 @@
                 <div class="form-group">
                   <label for="_beschrijving" class=" control-label col-xs-3 col-xxs-12">Beschrijving</label>
                   <div class="col-xs-9 col-xxs-2">
-                    <input type="text" class="form-control ga-functie-list" ng-model="lokaal.beschrijving"
+                    <input type="text" class="form-control ga-functie-list" ng-disabled="!data.activegroup.kanWijzigen" ng-model="lokaal.beschrijving"
                            id="_beschrijving"/>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="_gemeenteWrap" class="col-xs-3 col-xxs-12 control-label">Gemeente</label>
                   <div class="col-xs-9 col-xxs-2">
-                    <gemeente-control ng-model="gemeenteWrap"
+                    <gemeente-control ng-model="gemeenteWrap" ng-disabled="!data.activegroup.kanWijzigen"
                            id="_gemeenteWrap" name="gemeente" adres="lokaal"></gemeente-control>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="_straatnaam" class="col-xs-3 col-xxs-12 control-label">Straat</label>
                   <div class="col-xs-5 col-xxs-12">
-                    <straat-control ng-disabled="!lokaal.postcode || !lokaal.gemeente"
+                    <straat-control ng-disabled="!lokaal.postcode || !lokaal.gemeente || !data.activegroup.kanWijzigen"
                            id="_straatnaam" ng-model="lokaal.straat" adres="lokaal"></straat-control>
                   </div>
                   <div class="col-xs-2 col-xxs-12">
                     <input type="text" class="form-control" id="_huisnummer" maxlength="5" ng-model="lokaal.nummer"
-                           placeholder="Nr." ng-disabled="!lokaal.postcode || !lokaal.gemeente"/>
+                           placeholder="Nr." ng-disabled="!lokaal.postcode || !lokaal.gemeente || !data.activegroup.kanWijzigen"/>
                   </div>
                   <div class="col-xs-2 col-xxs-12">
                     <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="adres.bus"
                            placeholder="Bus"
-                           ng-disabled=" !lokaal.postcode || !lokaal.gemeente"/>
+                           ng-disabled=" !lokaal.postcode || !lokaal.gemeente || !data.activegroup.kanWijzigen"/>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="_straatnaam" class="col-xs-3 col-xxs-12 control-label">Telefoon</label>
                   <div class="col-xs-9 col-xxs-12">
-                    <input type="text" class="form-control" id="_telefoon" ng-model="lokaal.telefoon"/>
+                    <input type="text" class="form-control" id="_telefoon" ng-model="lokaal.telefoon" ng-disabled="!data.activegroup.kanWijzigen"/>
                   </div>
                 </div>
              
@@ -266,7 +266,7 @@
                     <div class="col-xs-4 col-xxs-12 control-label">Postadres</div>
                     <div class="col-xs-8 col-xxs-12">
                       <input type="checkbox" class="" id="_postadres" ng-model="lokaal.postadres"
-                             ng-click="changePostadres(lokaal.id)"/>
+                             ng-click="changePostadres(lokaal.id)" ng-disabled="!data.activegroup.kanWijzigen"/>
                       <span class="control-indicator"></span>
                     </div>
                   </label>
