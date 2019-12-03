@@ -1,5 +1,5 @@
 <div ng-repeat="veldengroep in velden" class="groep-van-velden">
-  <h2  ng-if="veldengroep[0].label" class="individuele-steekkaart-heading"> {{ veldengroep[0].label }}</h2>
-  <h2  ng-if="!veldengroep[0].label" class="individuele-steekkaart-heading"> {{ veldengroep[0].beschrijving }}</h2>
+  <h2  ng-if="veldengroep[0].label" class="individuele-steekkaart-heading"  ng-bind-html="veldengroep[0].label"> </h2>
+  <h2  ng-if="!veldengroep[0].label" class="individuele-steekkaart-heading" ng-bind-html="veldengroep[0].beschrijving"> </h2>
   <dynamischveldcolectie waarden="waarden" errors="errors" formulier="formulier" velden="veldengroep" ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
 </div>
