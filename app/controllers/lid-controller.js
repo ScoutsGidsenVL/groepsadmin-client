@@ -364,7 +364,7 @@
         },
         function (error) {
           if (error.status == 403) {
-            AlertService.add('warning', 'De VGA-functie kan niet geschrapt worden. <a href=" https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginahulp:_src_4_TContentFunctionsEntry_OUTPUT_KAN_NIET_STOPZETTEN">Meer info</a>');
+            AlertService.add('warning', 'Niet alle functies kunnen geschrapt worden. <a  target="_blank" href=" https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginahulp:_src_4_TContentFunctionsEntry_OUTPUT_KAN_NIET_STOPZETTEN">Meer info</a>');
           }
           else {
             AlertService.add('danger', error);
