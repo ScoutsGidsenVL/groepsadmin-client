@@ -58,8 +58,6 @@
     'ngSanitize',
     'ngMessages',
     'angular.filter',
-    'angulartics',
-    'angulartics.piwik',
     'fixed.table.header'
   ])
 

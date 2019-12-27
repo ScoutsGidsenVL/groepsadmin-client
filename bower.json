@@ -29,7 +29,6 @@
     "moment": "^2.22.2",
     "chart.js": "~2.5.0",
     "iban": "~0.0.8",
-    "angulartics-piwik": "^1.0.6",
     "angular-ui-tinymce": "~0.0.18",
     "angular-filter": "^0.5.16",
     "angular-fixed-table-header": "~0.2.1",
