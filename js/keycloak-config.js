@@ -17,7 +17,7 @@ var getClient = function(){
   }
 
   // var returnClient = {
-  //   url: 'http://localhost:8888/auth/',
+  //   url: 'https://localhost:8443/auth/',
   //   realm: 'scouts',
   //   clientId: null,
   //   redirectUri: window.location.href
@@ -48,5 +48,6 @@ var getClient = function(){
       returnClient.clientId = 'ga-production-client';
       break;
   }
+  console.log(returnClient);
   return returnClient;
 }
