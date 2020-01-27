@@ -100,6 +100,11 @@
           'post': {method: 'POST', cache: false}
         }
       ),
+      EmailGeblokkeerd: $resource(
+        basejson + 'emailgeblokkeerd.json',
+        {},
+        {get: {method: 'GET'}}
+      ),
       GeblokkeerdAdres: $resource(
         basejson + 'geblokkeerdadres.json',
         {},

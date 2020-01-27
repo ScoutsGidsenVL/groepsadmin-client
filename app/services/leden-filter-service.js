@@ -72,14 +72,20 @@
           returnObj.arrCriteria.push(geblokkeerdAdres);
         }
       );
-      //TODO: activeer deze code als je individuele steekkaart als functie wil activeren
       returnObj.promises[5] = RestService.IndividueleSteekkaart.get().$promise.then(
         function (result) {
           var individuelesteekkaart = result;
           individuelesteekkaart.activated = false;
           returnObj.arrCriteria.push(individuelesteekkaart);
-        });
-
+        }); 
+        
+        returnObj.promises[6] = RestService.EmailGeblokkeerd.get().$promise.then(
+          function (result) {
+            var emailGeblokkeerd = result;
+            emailGeblokkeerd.activated = false;
+            returnObj.arrCriteria.push(emailGeblokkeerd);
+          }
+        );
       return returnObj;
     };
 
@@ -162,7 +168,6 @@
     };
 
     ledenFilterService.activeerGroepEnItems = function (criteriaGroep, value, bGrouped) {
-
       var hasActiveItems = false;
       // zoek binnen de criteriaGroep naar values uit de opgehaalde filter
       // indien item wordt gevonden, zet het actief
@@ -171,7 +176,6 @@
       // Leeftijd is een 'speciaal geval' en heeft bevat specifieke logica
       // andere criteria zijn generiek
       if (criteriaGroep.criteriaKey == "leeftijd") {
-        //console.log('LEEFTIJD  criterium --- -', criteriaGroep,value,bGrouped);
         $rootScope.$emit('leeftijdCriterium', value);
         hasActiveItems = true;
       } else if (!criteriaGroep.multiplePossible) {
@@ -390,7 +394,7 @@
           };
 
           groep.items = _.map(value.groepseigenGegevens, function(groepseigenGegeven) {
-            console.log(groepseigenGegeven)
+         
            
             if(groepseigenGegeven.keuzes !=null && groepseigenGegeven.type=="lijst"){
               return {
@@ -409,7 +413,7 @@
               }
             }
             if( groepseigenGegeven.type=="vinkje"){
-              console.log("test")
+             
               return {
                 veld: groepseigenGegeven.id,
                 label: groepseigenGegeven.label,
@@ -439,7 +443,7 @@
         }
       });
 
-      console.log(groepenCriteria);
+     
       return groepenCriteria;
     };
 
@@ -455,7 +459,7 @@
     };
 
     ledenFilterService.saveFilter = function (filterId, fObj) {
-      console.log('LFS.saveFilter filterId:', filterId, ' -- filterObject:  ', fObj);
+      
       var deferred = $q.defer();
       if (filterId) {
         RestService.Filter.update({id: filterId}, fObj).$promise.then(
@@ -548,10 +552,9 @@
 
       // oudleden (idem geslacht)
       var activatedOudleden = _.find(activeCriteria, {'criteriaKey': 'oudleden'});
-      console.log(activatedOudleden);
       if (activatedOudleden) {
         var ao = _.filter(activatedOudleden.items, {'activated': true});
-        console.log(ao);
+    
         if (_.size(ao) == 1) {
           reconstructedFilterObj.criteria.oudleden = ao[0].value;
         }
@@ -561,6 +564,12 @@
       var actieveGeblokkeerdeAdressen = _.find(activeCriteria, {"criteriaKey": "adresgeblokkeerd"});
       if (actieveGeblokkeerdeAdressen) {
         reconstructedFilterObj.criteria.adresgeblokkeerd = _.find(actieveGeblokkeerdeAdressen.items, {'activated': true}).value;
+      }
+
+      // e-mailadresgeblokkeerd
+      var actieveGeblokkeerdeEmail = _.find(activeCriteria, {"criteriaKey": "emailgeblokkeerd"});
+      if (actieveGeblokkeerdeEmail) {
+        reconstructedFilterObj.criteria.emailgeblokkeerd = _.find(actieveGeblokkeerdeEmail.items, {'activated': true}).value;
       }
 
       // invididuelesteekkaart
