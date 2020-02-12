@@ -8,7 +8,7 @@
     <h1 class="panel-title placeholder placeholder--blurred" ng-show="!lid">Plaatshouder</h1>
     <h2 class="panel-subtitle placeholder placeholder--blurred" ng-show="!lid">1988randomnumber3791</h2>
     <!-- END OF Placeholders-->
-  
+
   </div>
   <div class="clearfix visible-xs"></div>
   <div class="pull-right btn-group">
@@ -55,16 +55,17 @@
         <a href="#/lid/individuelesteekkaart/{{lid.id}}" class="hidden-xs btn btn-primary">
           <i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele steekkaart
         </a>
-        <button type="button" class="btn" ng-show="kanSchrappen || canPost" uib-dropdown-toggle>
+        <button type="button" class="btn" ng-if="kanSchrappen || canPost" uib-dropdown-toggle>
           <span class="caret"></span>
           <span class="sr-only">Actie kiezen</span>
         </button>
-        <ul class="dropdown-menu" ng-show="kanSchrappen || canPost" uib-dropdown-menu role="menu"
+        <button type="button" class="visible-xs btn" ng-if="!(kanSchrappen || canPost)" uib-dropdown-toggle>
+          <span class="caret"></span>
+          <span class="sr-only">Actie kiezen</span>
+        </button>
+        <ul class="dropdown-menu" uib-dropdown-menu role="menu"
             aria-labelledby="split-button">
-          <li role="menuitem" ng-hide="lidForm.$invalid" ng-show="lid && canSave"><a href="#"
-                                                                                     ng-click="$event.preventDefault();opslaan()">Opslaan</a>
-          </li>
-          <li role="menuitem" ng-hide="lidForm.$invalid" ng-show="lid && canSave"><a href="#/lid/individuelesteekkaart/{{lid.id}}">Individuele steekkaart</a>
+          <li role="menuitem"><a href="#/lid/individuelesteekkaart/{{lid.id}}">Individuele steekkaart</a>
           </li>
           <li role="menuitem" ng-hide="!kanSchrappen"><a href="#" ng-click="$event.preventDefault();schrap()">Stop alle
             functies</a></li>
