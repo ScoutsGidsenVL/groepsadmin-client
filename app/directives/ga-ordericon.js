@@ -13,7 +13,8 @@
       scope: {
         kolommen: '=',
         kolom: '=',
-        filter: '='
+        filter: '=',
+        sort: '='
       },
       controller: OrderIconController
     };

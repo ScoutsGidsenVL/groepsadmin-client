@@ -738,50 +738,18 @@
     };
 
     // uitvoeren van van een sortering.
-    $scope.addSort = function (kolomId, volgorde) {
-      var originalSort = $scope.currentFilter.sortering;
-      //$log.debug("originalSort --- ",originalSort);
-
-      // controle werd er geclicked op een sort die reeds in de sortering zit => delete from sortering
-      var deleteFromSort = false;
-      angular.forEach(originalSort, function (value) {
-        if (value.kolom == kolomId && value.oplopend == volgorde) {
-          deleteFromSort = true;
-          return;
+    $scope.addSort = function (sortKolom) {
+      var kolomVerplaatst = false;
+      _.each($scope.kolommen, function(kolom, index) {
+        if (kolom.id === sortKolom.id) {
+          kolom.kolomIndex = 0;
+          kolomVerplaatst = true;
+        }
+        else if(!kolomVerplaatst) {
+          kolom.kolomIndex = kolom.kolomIndex + 1;
         }
       });
-
-      // nieuwe sortering toevoegen aan de set
-      if (!deleteFromSort) {
-        $scope.currentFilter.sortering = [];
-        $scope.currentFilter.sortering[0] = {
-          kolom: kolomId,
-          oplopend: volgorde
-        };
-      } else {
-        $scope.currentFilter.sortering = []
-      }
-
-
-      // laatste 2 van de oude sort toevoegen
-      // controle zat de nieuwe al in de sortering?
-      angular.forEach(originalSort, function (value) {
-        if ($scope.currentFilter.sortering.length == 3) {
-          return;
-        }
-        if (value.kolom != kolomId) {
-          $scope.currentFilter.sortering[$scope.currentFilter.sortering.length] = value;
-        }
-
-      });
-
-      // leden herladen of als ze allemaal gelanden zijn lokaal filteren.
-      // indien herladen moet worden éérst filter opslaan
-      //controle is de huidige filter een opgeslagen filter ?
-      // ja nieuwe filter maken van huidige filter.
-      if ($scope.totaalAantalLeden == $scope.leden.length) {
-        // lokaal hersorteren.
-      }
+      $scope.applyFilter();
     };
 
     $scope.toggleCriteriumSection = function (obj) {

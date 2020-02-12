@@ -280,26 +280,26 @@
                   <div class="select-value-group control--collapsible" ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'">
                     <label class="jcontrol control--checkbox">
                       <input type="checkbox" ng-model="criteriumItem.activated"/>
-                     
+
                       {{ criteriumItem.label }}
                       <select ng-if="!criteriumItem.vinkje" ng-options="value[1] as value[0] for value in criteriumItem.operatorValues"
                               ng-model="criteriumItem.operator">
                       </select>
-            
+
                       <div class="control__indicator"></div>
                       <br/>
 
-                     
+
                     </label>
                     <label class="jcontrol control--checkbox control--collapsible">
-                       
+
                         <input type="checkbox"  ng-if="criteriumItem.vinkje" ng-model="criteriumItem.waarde">
                         <div ng-if="criteriumItem.vinkje" class="control__indicator"></div>
-                       
+
                         <select ng-if="criteriumItem.keuze" ng-options="value for value in criteriumItem.keuzes"
                               ng-model="criteriumItem.waarde"></select>
                       <input ng-if="!criteriumItem.keuze && !criteriumItem.vinkje" type="text" ng-model="criteriumItem.waarde">
-                      <br ng-if="criteriumItem.vinkje" />  
+                      <br ng-if="criteriumItem.vinkje" />
                     </label>
                   </div>
 
@@ -400,7 +400,7 @@
       <tr ng-show='!isLoadingLeden && !isSavingFilters'>
         <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'">
           {{ kolom.label }}
-          <ordericon filter="currentFilter" kolommen="kolommen" kolom="kolom"></ordericon>
+          <ordericon filter="currentFilter" kolommen="kolommen" kolom="kolom" sort="addSort"></ordericon>
         </th>
       </tr>
       </thead>
