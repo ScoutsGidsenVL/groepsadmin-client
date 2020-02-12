@@ -535,7 +535,7 @@
               _.remove($scope.filters, function (f) {
                 return (f.id == filter.id);
               });
-              $scope.currentFilter = $scope.filters[0];
+              $scope.changeFilter($scope.filters[0]);
             })
           .finally(function () {
             $scope.deletingFilter = false;
