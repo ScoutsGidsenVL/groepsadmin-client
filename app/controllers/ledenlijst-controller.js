@@ -620,6 +620,10 @@
           if (updateDropdownVal) {
             $scope.currentFilter = response;
           }
+          else {
+            $scope.currentFilter.sortering = response.sortering;
+            $scope.currentFilter.kolommen = response.kolommen;
+          }
 
         });
     };
