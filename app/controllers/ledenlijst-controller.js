@@ -23,6 +23,7 @@
     $scope.isLoadingMore = false;
 
     $scope.isFilterCollapsed = false;
+    $scope.deelFilter = false;
 
     $scope.canPost = false;
 
@@ -33,6 +34,16 @@
     UserAccess.hasAccessTo("nieuw lid").then(function (res) {
       $scope.canPost = res;
     });
+
+    $scope.toggleDelen = function() {
+      $scope.deelFilter= !$scope.deelFilter
+    };
+
+    $scope.initFilterVelden = function() {
+      $scope.showSaveOptions = !$scope.showSaveOptions;
+      $scope.deelFilter = false;
+      $scope.selectedFilter = '';
+    }
 
     $(function () {
       angular.element("#mySortableList").sortable({
@@ -199,7 +210,7 @@
     // Actieve criteriaGroepen worden getoond, Inactieve kunnen worden toegevoegd/geactiveerd
     // Actieve criteriaItems worden getoond, Inactieve kunnen worden toegevoegd/geactiveerd
     var activeerCriteria = function () {
-      // haal alle criteriaGroepen keys uit de geselecteerde filter
+      // haal alle criteri<input type="checkbox" class="" id="_postadres" ng-model="adres.postadres"aGroepen keys uit de geselecteerde filter
       _.each($scope.currentFilter.criteria, function (value, key) {
         // indien de key overeenkomt, activeren we de criteriaGroep
         // meerdere criteriaGroepen kunnen een zelfde key hebben
@@ -502,10 +513,11 @@
       return deferred.promise;
     };
 
-    var createNewFilter = function (filterNaam) {
+    var createNewFilter = function (filterNaam, delen) {
       $scope.dataLoaded = false;
       var reconstructedFilterObj = createFilterObject();
       reconstructedFilterObj.naam = filterNaam;
+      reconstructedFilterObj.delen = delen;
 
       return $q(function (resolve) {
         RestService.createNewFilter.post(reconstructedFilterObj).$promise.then(
@@ -543,7 +555,7 @@
       }
     };
 
-    $scope.saveOrOverwriteFilter = function (selectedFilter) {
+    $scope.saveOrOverwriteFilter = function (selectedFilter, deelFilter) {
       $scope.isSavingFilters = true;
       var reconstructedFilterObj = createFilterObject();
 
@@ -577,7 +589,7 @@
             $scope.saveOrOverwriteFilter(filterObj);
           } else {
             // indien de naam niet bestaat, maak nieuwe filterObj
-            createNewFilter(selectedFilter).then(function (res) {
+            createNewFilter(selectedFilter, deelFilter).then(function (res) {
               $scope.isSavingFilters = false;
               $scope.showSaveOptions = false;
               $scope.currentFilter = res;
