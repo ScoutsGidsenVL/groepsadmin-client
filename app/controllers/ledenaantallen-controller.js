@@ -174,44 +174,61 @@
         }
       ];
 
-      var ctx = redrawGraph('groepsevolutie');
-
-      var type = "line";
-      var data = {
-        labels: $scope.sortedKeys(ledenaantallenData.groepsevolutie[0].aantalPersonen),
-        datasets: []
-      };
-
-      angular.forEach(ledenaantallenData.groepsevolutie, function (value, index) {
-        data.datasets.push({
-          label: value.naam,
-          fill: false,
-          lineTension: 0,
-          backgroundColor: chartColors[index].background,
-          borderColor: chartColors[index].border,
-          pointBackgroundColor: chartColors[index].border,
-          pointBorderColor: "#fff",
-          pointBorderWidth: 1,
-          pointHoverRadius: 4,
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: chartColors[index].border,
-          pointHoverBorderWidth: 1,
-          pointRadius: 4,
-          pointHitRadius: 10,
-          data: $scope.sortedValues(value.aantalPersonen),
+      if ($scope.chartGroepsevolutie) {
+        angular.forEach(ledenaantallenData.groepsevolutie, function (value, index) {
+          angular.forEach($scope.chartGroepsevolutie.data.datasets, function(dataset) {
+            if(value.naam === dataset.label) {
+              dataset.data.splice(0);
+              Array.prototype.push.apply(dataset.data, $scope.sortedValues(value.aantalPersonen))
+            }
+          });
         });
-      });
+        $scope.chartGroepsevolutie.update()
+      }
+      else {
+        var ctx = redrawGraph('groepsevolutie');
 
-      var grafiekOpties = globalOptions;
-      grafiekOpties.title.text = "Groepsevolutie";
-      grafiekOpties.scales.xAxes[0].display = true;
-      grafiekOpties.scales.yAxes[0].display = true;
+        var type = "line";
+        var data = {
+          labels: $scope.sortedKeys(ledenaantallenData.groepsevolutie[0].aantalPersonen),
+          datasets: []
+        };
 
-      var chart = new Chart(ctx, {
-        type: type,
-        data: data,
-        options: grafiekOpties
-      });
+        var grafiekOpties = globalOptions;
+        grafiekOpties.title.text = "Groepsevolutie";
+        grafiekOpties.scales.xAxes[0].display = true;
+        grafiekOpties.scales.yAxes[0].display = true;
+
+        angular.forEach(ledenaantallenData.groepsevolutie, function (value, index) {
+          data.datasets.push({
+            label: value.naam,
+            fill: false,
+            lineTension: 0,
+            backgroundColor: chartColors[index].background,
+            borderColor: chartColors[index].border,
+            pointBackgroundColor: chartColors[index].border,
+            pointBorderColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 4,
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: chartColors[index].border,
+            pointHoverBorderWidth: 1,
+            pointRadius: 4,
+            pointHitRadius: 10,
+            data: $scope.sortedValues(value.aantalPersonen),
+          });
+        });
+
+        $scope.chartGroepsevolutie = new Chart(ctx, {
+          type: type,
+          data: data,
+          options: grafiekOpties
+        });
+      }
+
+
+
+
     };
 
     $scope.tekenLedenaantalPerLeeftijd = function (ledenaantallenData) {
