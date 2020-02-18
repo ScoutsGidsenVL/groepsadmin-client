@@ -77,8 +77,8 @@
           var individuelesteekkaart = result;
           individuelesteekkaart.activated = false;
           returnObj.arrCriteria.push(individuelesteekkaart);
-        }); 
-        
+        });
+
         returnObj.promises[6] = RestService.EmailGeblokkeerd.get().$promise.then(
           function (result) {
             var emailGeblokkeerd = result;
@@ -178,6 +178,9 @@
       if (criteriaGroep.criteriaKey == "leeftijd") {
         $rootScope.$emit('leeftijdCriterium', value);
         hasActiveItems = true;
+      } else if (criteriaGroep.criteriaKey === 'individuelesteekkaart') {
+        criteriaGroep.value = value;
+        hasActiveItems = true;
       } else if (!criteriaGroep.multiplePossible) {
         var foundElem = _.find(criteriaGroep.items, {'value': value});
 
@@ -204,8 +207,15 @@
           // bvb. bij verbondsfuncties, zijn alle functies gegroepeerd
           _.each(value, function (v) {
             _.each(criteriaGroep.itemgroups, function (vv) {
-              var item = _.find(vv.items, {'value': v});
+              var item = criteriaGroep.criteriaKey === 'groepseigen' ? _.find(vv.items, {'veld': v.veld}) : _.find(vv.items, {'value': v});
               if (item) {
+                if(criteriaGroep.criteriaKey === 'groepseigen') {
+                  _.extend(item, v);
+                  if(item.vinkje) {
+                    item.operator = 'equals';
+                    item.waarde = JSON.parse(v.waarde);
+                  }
+                }
                 item.activated = true;
                 hasActiveItems = true;
               }
@@ -394,8 +404,8 @@
           };
 
           groep.items = _.map(value.groepseigenGegevens, function(groepseigenGegeven) {
-         
-           
+
+
             if(groepseigenGegeven.keuzes !=null && groepseigenGegeven.type=="lijst"){
               return {
                 veld: groepseigenGegeven.id,
@@ -409,11 +419,11 @@
                   ['is kleiner dan', 'less'],
                   ['is groter dan', 'greater']
                 ]
-               
+
               }
             }
             if( groepseigenGegeven.type=="vinkje"){
-             
+
               return {
                 veld: groepseigenGegeven.id,
                 label: groepseigenGegeven.label,
@@ -422,8 +432,8 @@
               }
             }
 
-            
-            
+
+
             return {
               veld: groepseigenGegeven.id,
               label: groepseigenGegeven.label,
@@ -443,7 +453,7 @@
         }
       });
 
-     
+
       return groepenCriteria;
     };
 
@@ -459,7 +469,7 @@
     };
 
     ledenFilterService.saveFilter = function (filterId, fObj) {
-      
+
       var deferred = $q.defer();
       if (filterId) {
         RestService.Filter.update({id: filterId}, fObj).$promise.then(
@@ -554,7 +564,7 @@
       var activatedOudleden = _.find(activeCriteria, {'criteriaKey': 'oudleden'});
       if (activatedOudleden) {
         var ao = _.filter(activatedOudleden.items, {'activated': true});
-    
+
         if (_.size(ao) == 1) {
           reconstructedFilterObj.criteria.oudleden = ao[0].value;
         }

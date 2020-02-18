@@ -209,7 +209,7 @@
           if (criteriaGroep.length > 0) {
             _.each(criteriaGroep, function (v) {
               var bIsGroupedCriterium = false;
-              if (v.criteriaSubKey == 'verbonds' || v.criteriaSubKey == 'groepspecifiek') {
+              if (v.criteriaSubKey == 'verbonds' || v.criteriaSubKey == 'groepspecifiek' || v.criteriaKey === 'groepseigen') {
                 bIsGroupedCriterium = true;
               }
 
