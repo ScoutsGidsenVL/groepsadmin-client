@@ -8,8 +8,8 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh "npm --production prune"
-        sh "npm --production install"
+        sh "npm --production prune --ignore-scripts"
+        sh "npm --production install --ignore-scripts"
         sh "node_modules/.bin/bower prune --production"
         sh "node_modules/.bin/bower install --production"
         sh "node_modules/.bin/grunt build"
