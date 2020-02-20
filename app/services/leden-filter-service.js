@@ -366,7 +366,10 @@
     // criteria ophalen
     ledenFilterService.getCriteriaGroepen = function (data) {
 
-      var groepen = data.groepen;
+      var groepen = data.groepen.filter(function (groep) {
+          return 'contacten' in groep;
+      });
+
       var groepenCriteria = {
         title: "Groepen",
         criteriaKey: "groepen",
