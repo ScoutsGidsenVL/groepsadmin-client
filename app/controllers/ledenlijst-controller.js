@@ -158,8 +158,6 @@
                 }
               });
             });
-
-
           }
           else if (key === "groepen") {
             var items = [];
@@ -175,7 +173,6 @@
                 }
               );
               arrPromises.push(promiseGroep);
-
             });
             var tempselectedCriteria = {
               title: key.charAt(0).toUpperCase() + key.slice(1),
@@ -184,7 +181,6 @@
               items: items
             };
             geselecteerdeCriteria.push(tempselectedCriteria);
-
           }
           else {
             var tempselectedCriteria = {
@@ -195,12 +191,10 @@
           }
         });
 
-
         $q.all(arrPromises).then(function () {
           $log.debug('all groepen en functies resolved');
           deferred.resolve();
         });
-
       });
 
       return deferred.promise;
@@ -387,7 +381,6 @@
               crit.items[0].activated = true;
             }
           }
-
         }
       } else {
         _.each(crit.itemgroups, function (value) {
@@ -403,7 +396,6 @@
         $scope.ouderDan = $scope.ouderDan ? $scope.ouderDan : ['5 jaar', 5];
         $scope.leeftijdOpDatum = $scope.leeftijdOpDatum ? $scope.leeftijdOpDatum : ['Is nu', true];
       }
-
     };
 
     // controle is de criteria geselecteerd a.d.h.v. de titel

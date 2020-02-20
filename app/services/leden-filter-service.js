@@ -172,7 +172,6 @@
       // zoek binnen de criteriaGroep naar values uit de opgehaalde filter
       // indien item wordt gevonden, zet het actief
 
-
       // Leeftijd is een 'speciaal geval' en heeft bevat specifieke logica
       // andere criteria zijn generiek
       if (criteriaGroep.criteriaKey == "leeftijd") {
@@ -185,7 +184,7 @@
         var foundElem = _.find(criteriaGroep.items, {'value': value});
 
         if (foundElem) {
-          if (criteriaGroep.criteriaKey == "oudleden" && foundElem.value == false) {
+          if (['adresgeblokkeerd', 'emailgeblokkeerd', 'oudleden'].indexOf(criteriaGroep.criteriaKey) >= 0 && !foundElem.value) {
             return;
           }
           else {
@@ -408,7 +407,6 @@
 
           groep.items = _.map(value.groepseigenGegevens, function(groepseigenGegeven) {
 
-
             if(groepseigenGegeven.keuzes !=null && groepseigenGegeven.type=="lijst"){
               return {
                 veld: groepseigenGegeven.id,
@@ -425,7 +423,7 @@
 
               }
             }
-            if( groepseigenGegeven.type=="vinkje"){
+            if(groepseigenGegeven.type=="vinkje"){
 
               return {
                 veld: groepseigenGegeven.id,
@@ -434,8 +432,6 @@
                 operator: 'equals'
               }
             }
-
-
 
             return {
               veld: groepseigenGegeven.id,
@@ -455,7 +451,6 @@
           groepenCriteria.itemgroups.push(groep);
         }
       });
-
 
       return groepenCriteria;
     };
@@ -526,7 +521,6 @@
         }
       }
 
-
       // functies
       reconstructedFilterObj.criteria.functies = [];
       _.each(_.filter(activeCriteria, {"criteriaKey": "functies"}), function (value) {
@@ -594,7 +588,6 @@
         reconstructedFilterObj.criteria.individuelesteekkaart = actieveIndividueleSteekkaarten.value;
       }
 
-// invididuelesteekkaart
       var actieveGroepseigengGegevens = _.find(activeCriteria, {"criteriaKey": "groepseigen"});
       if (actieveGroepseigengGegevens) {
         reconstructedFilterObj.criteria.groepseigen = [];
