@@ -474,10 +474,13 @@
       if (filterId) {
         RestService.Filter.update({id: filterId}, fObj).$promise.then(
           function (res) {
-            deferred.resolve(res);
+            setTimeout(function(){
+              deferred.resolve(res);
+            }, 100);
           }
         );
       }
+
       return deferred.promise;
     };
 
