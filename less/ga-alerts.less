@@ -7,9 +7,8 @@
 .alert {
   margin: @fluid-grid-gutter-width;
   > div {
-    display:inline-block;
-    margin-right: 30px;
-    max-width: 100%;
+    display: inline-block;
+    max-width: ~"calc(100% - @{alert-padding} - 9px)";
     word-wrap: break-word;
   }
 }
