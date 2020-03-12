@@ -88,7 +88,7 @@
               }
             }
           } else if (_.includes(rejection.data, 'Je hebt de Groepsadministratie kapotgemaakt')) {
-            $window.location.href = '/';
+            AlertService.add('danger', 'Goed bezig! Je hebt de Groepsadministratie kapotgemaakt<br><br>Nee hoor ;-) We zijn gewoon even aan het werken aan de Groepsadministratie. Terwijl wij alles proberen op te lossen kan je ondertussen eens kijken wat er allemaal op <a href="https://www.scoutsengidsenvlaanderen.be">onze website</a> te vinden is.');
           } else {
             AlertService.add('danger', JSON.stringify(rejection.data, null, 2));
           }
