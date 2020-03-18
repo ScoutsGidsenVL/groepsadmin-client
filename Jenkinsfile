@@ -13,6 +13,7 @@ pipeline {
         sh "node_modules/.bin/bower prune --production"
         sh "node_modules/.bin/bower install --production"
         sh "node_modules/.bin/grunt build"
+        sh "(cd node_modules/aglio-theme-olio && ./scripts/setup-cache.js)"
         sh "node_modules/.bin/aglio --theme-condense-nav=false --theme-style default --theme-style docs/custom.less -i docs/api.apib -o docs/api.html"
         sh "rm -rf client.zip"
         /* jquery en keycloak apart is voor apitest.html */
