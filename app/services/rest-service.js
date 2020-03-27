@@ -16,7 +16,6 @@
     var apiRoot = apiHost + '/groepsadmin';
 
     var base = apiRoot + '/rest-ga/';
-    var baseGis = apiRoot + '/rest/gis/';
     var basejson = "data/";
 
     return {
@@ -282,14 +281,14 @@
         {'get': {method: 'GET', cache: true}}
       ),
       Gemeente: $resource(
-        baseGis + 'gemeente?term=:zoekterm',
+        base + 'gis/gemeente?term=:zoekterm',
         {zoekterm: '@zoekterm'},
-        {'get': {method: 'GET', cache: true}}
+        {'get': {method: 'GET', isArray: true, cache: true}}
       ),
-      Code: $resource(
-        baseGis + 'code?term=:zoekterm&postcode=:postcode',
+      Straat: $resource(
+        base + 'gis/straat?term=:zoekterm&postcode=:postcode',
         {zoekterm: '@zoekterm', postcode: '@postcode'},
-        {'query': {method: 'GET', isArray: true, cache: true}}
+        {'get': {method: 'GET', isArray: true, cache: true}}
       ),
       Emailsjabloon: $resource(
         base + 'sjabloon/mail/:id',

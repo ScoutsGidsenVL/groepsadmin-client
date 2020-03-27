@@ -44,7 +44,6 @@
       adres.straat = null;
       adres.bus = null;
       adres.nummer = null;
-      adres.giscode = null;
       adres.land = adres.land || 'BE';
     };
   }

@@ -22,7 +22,7 @@
   function straatControlController($scope, RestService) {
     $scope.zoekStraat = function (zoekterm, adres) {
       var resultaatStraten = [];
-      return RestService.Code.query({zoekterm: zoekterm, postcode: adres.postcode}).$promise.then(
+      return RestService.Straat.get({zoekterm: zoekterm, postcode: adres.postcode}).$promise.then(
         function (result) {
           angular.forEach(result, function (val) {
             resultaatStraten.push(val);
@@ -32,8 +32,7 @@
     };
 
     $scope.bevestigStraat = function (item, adres) {
-      adres.straat = item.straat;
-      adres.giscode = item.code;
+      adres.straat = item;
     }
   }
 
