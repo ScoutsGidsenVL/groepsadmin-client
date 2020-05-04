@@ -620,6 +620,7 @@
           // ledenlijst leegmaken
           $scope.leden = [];
           $scope.totaalAantalLeden = -1;
+          $scope.filterCriterium = "";
           $scope.ledenLaden();
           if (updateDropdownVal) {
             $scope.currentFilter = response;
@@ -697,6 +698,7 @@
               $scope.leden.push(val);
             });
             $scope.totaalAantalLeden = res.totaal;
+            $scope.filterCriterium = res.filtercriterium;
             $scope.offset = res.offset;
             $scope.isLoadingLeden = false;
             $scope.isLoadingMore = false;

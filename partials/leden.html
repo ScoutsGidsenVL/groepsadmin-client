@@ -395,8 +395,9 @@
       <tr ng-show='!isLoadingLeden && !isSavingFilters'>
         <th colspan="{{kolommen.length}}">
           <div class="pull-right">
-            <p ng-if="leden.length > 1"><em>{{leden.length}} leden geladen van {{totaalAantalLeden}}.</em></p>
-            <p ng-if="leden.length === 1"><em>{{leden.length}} lid geladen van {{totaalAantalLeden}}.</em></p>
+            <p><em>{{totaalAantalLeden}} {{filterCriterium}} geladen.</em></p>
+<!--            <p ng-if="leden.length > 1"><em>{{leden.length}} {{filterCriterium}} geladen van {{totaalAantalLeden}}.</em></p>-->
+<!--            <p ng-if="leden.length === 1"><em>{{leden.length}} {{filterCriterium}} geladen van {{totaalAantalLeden}}.</em></p>-->
           </div>
         </th>
       </tr>

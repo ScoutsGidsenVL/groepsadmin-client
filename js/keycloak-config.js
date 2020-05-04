@@ -10,11 +10,11 @@ var getClient = function(){
   */
 
   var returnClient = {
-    url: 'https://login-dev.scoutsengidsenvlaanderen.be/auth',
+    url: 'https://login.scoutsengidsenvlaanderen.be/auth',
     realm: 'scouts',
     clientId: null,
     redirectUri: window.location.href
-  }
+  };
 
   // var returnClient = {
   //   url: 'https://localhost:8443/auth/',
