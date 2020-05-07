@@ -20,29 +20,14 @@
       returnObj.promises = [];
       returnObj.promises[0] = CS.Functies().then(
         function (result) {
-          var functies = result.functies;
-          $rootScope.functies = functies;
-          var functieGroepen = [];
+          $rootScope.functies = result.functies;
 
-          // functieGroep maken van functies met type 'verbond'
-          var functieGroepVerbond = ledenFilterService.maakFunctieGroepVerbond(functies);
-          functieGroepVerbond.activated = false;
-          functieGroepen.push(functieGroepVerbond);
-
-          // functieGroepen maken van functies met type 'groep'
-          var groepSpecifiekeFunctieGroepen = ledenFilterService.maakGroepSpecifiekeFunctieGroepen(functies);
-          if (groepSpecifiekeFunctieGroepen.length >= 1) {
-            var functieGroepGroepspecifiek = ledenFilterService.maakFunctieGroepGroepspecifiek(groepSpecifiekeFunctieGroepen);
-            functieGroepen.push(functieGroepGroepspecifiek);
-          }
-
-          // aangemaakte functieGroepen toevoegen aan de criteria.
-          _.each(functieGroepen, function (value) {
-            returnObj.arrCriteria.push(value);
-          });
-
-
+          // functieGroep maken met alle functies
+          var functieGroepen = ledenFilterService.maakFunctieGroepen(result.functies);
+          functieGroepen.activated = false;
+          returnObj.arrCriteria.push(functieGroepen);
         });
+
       returnObj.promises[1] = CS.Groepen().then(
         function (result) {
           var groepenCriteria = ledenFilterService.getCriteriaGroepen(result);
@@ -218,10 +203,9 @@
                 item.activated = true;
                 hasActiveItems = true;
               }
-            })
+            });
           });
         }
-
       }
 
       criteriaGroep.activated = !!hasActiveItems;
@@ -236,29 +220,8 @@
       };
     };
 
-    ledenFilterService.maakFunctieGroepGroepspecifiek = function (arrGroupedFuncties) {
-
-      var functieGroep = {};
-      functieGroep.criteriaSubKey = "groepspecifiek";
-      functieGroep.title = 'Groepseigen functies';
-      functieGroep.criteriaKey = "functies";
-      functieGroep.multiplePossible = true;
-      functieGroep.itemgroups = [];
-
-      _.each(arrGroupedFuncties, function (value) {
-        var obj = {};
-        obj.collapsed = true;
-        obj.items = value.items;
-        obj.label = value.title;
-        functieGroep.itemgroups.push(obj);
-
-      });
-
-      return functieGroep;
-    };
-
     // maak functiegroep van het type verbond
-    ledenFilterService.maakFunctieGroepVerbond = function (arrFuncties) {
+    ledenFilterService.maakFunctieGroepen = function (arrFuncties) {
 
       // met lodash zoeken we alle functie objecten met als property type:'verbond'
       var verbondFuncties = _.filter(arrFuncties, function (o) {
@@ -266,7 +229,7 @@
       });
 
       var functieGroep = {};
-      functieGroep.criteriaSubKey = "verbonds";
+      functieGroep.criteriaSubKey = "verbonds"; // TODO
       functieGroep.title = 'Functies';
       functieGroep.criteriaKey = "functies";
       functieGroep.multiplePossible = true;
@@ -295,17 +258,24 @@
 
       functieGroep.itemgroups = _.sortBy(functieGroep.itemgroups, ['volgorde']);
 
+      // functieGroepen maken van functies met type 'groep'
+      var groepseigenFuncties = ledenFilterService.maakGroepSpecifiekeFunctieGroepen(arrFuncties);
+      _.each(groepseigenFuncties, function (value) {
+        var obj = {};
+        obj.collapsed = true;
+        obj.items = value.items;
+        obj.label = value.title;
+        functieGroep.itemgroups.push(obj);
+      });
+
       return functieGroep;
     };
 
     // maak de groepspecifieke functiegroepen
     ledenFilterService.maakGroepSpecifiekeFunctieGroepen = function (arrFuncties) {
-      var titel = 'groep';
-      var groepSpecifiekeFunctieGroepen = [];
 
-      // met lodash zoeken we alle functie objecten met als property type:'groep'
       var groepFuncties = _.filter(arrFuncties, function (o) {
-        return o.type == titel;
+        return o.type == 'groep';
       });
 
       // neem eerst alle groepnummers van de functies die behoren tot het type 'groep'
@@ -315,8 +285,10 @@
       });
       // hou enkel de unieke waarden over
       arrGroepFunctieGroepen = _.uniqWith(arrGroepFunctieGroepen, _.isEqual);
+      arrGroepFunctieGroepen = _.sortBy(arrGroepFunctieGroepen);
 
       // per unieke waarde een functiegroep maken
+      var groepSpecifiekeFunctieGroepen = [];
       _.each(arrGroepFunctieGroepen, function (v) {
         var arrUnmappedObjs = _.filter(groepFuncties, function (o) {
           return o.groepen[0] == v
@@ -331,11 +303,9 @@
 
         var functieGroep = ledenFilterService.maakFunctieGroep(arrMappedObjs, 'Functies van ' + v);
         groepSpecifiekeFunctieGroepen.push(functieGroep);
-
       });
 
       return groepSpecifiekeFunctieGroepen;
-
     };
 
     ledenFilterService.mapObj = function (unmappedObj) {
