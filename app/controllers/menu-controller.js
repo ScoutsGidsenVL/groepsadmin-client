@@ -46,12 +46,6 @@
           condition: true,
           iconclasses : 'fa fa-comments-o',
           href: 'https://wiki.scoutsengidsenvlaanderen.be/doku.php?id=handleidingen:groepsadmin:betaversie_testen'
-        },
-        {
-          label: 'Oude Groepsadmin',
-          condition: true,
-          iconclasses : 'fa fa-institution',
-          href: 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/'
         }
       ];
 
