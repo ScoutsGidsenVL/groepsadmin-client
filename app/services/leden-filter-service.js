@@ -383,7 +383,7 @@
                 label: groepseigenGegeven.label,
                 keuze: true,
                 keuzes: groepseigenGegeven.keuzes,
-                operator: '',
+                operator: 'like',
                 operatorValues: [
                   ['bevat', 'like'],
                   ['is', 'equals'],
@@ -408,7 +408,7 @@
               label: groepseigenGegeven.label,
               activated: false,
               waard: '',
-              operator: '',
+              operator: 'like',
               operatorValues: [
                 ['bevat', 'like'],
                 ['is', 'equals'],
