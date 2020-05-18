@@ -71,9 +71,9 @@
         </div>
         <div class="form-group"
              ng-class="{ 'has-error': lidForm['contacten['+$index+'].email'].$touched && lidForm['contacten['+$index+'].email'].$invalid }">
-          <label for="_naam" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
+          <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
           <div class="col-xs-7 col-xxs-12">
-            <input type="email" name="contacten[{{ $index }}].email" class="form-control" id="_naam"
+            <input type="email" name="contacten[{{ $index }}].email" class="form-control" id="_email"
                    ng-model="contact.email" ng-disabled="!hasPermission('contacten')">
             <div ng-messages="lidForm['contacten['+$index+'].email'].$error">
               <div ng-messages-include="partials/messages.html"></div>
@@ -82,9 +82,9 @@
         </div>
         <div class="form-group"
              ng-class="{ 'has-error': lidForm['contacten['+$index+'].gsm'].$touched && lidForm['contacten['+$index+'].gsm'].$invalid }">
-          <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Gsm</label>
+          <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">Gsm</label>
           <div class="col-xs-7 col-xxs-12">
-            <input type="text" name="contacten[{{ $index }}].gsm" class="form-control" id="_naam"
+            <input type="text" name="contacten[{{ $index }}].gsm" class="form-control" id="_gsm"
                    ng-model="contact.gsm"
                    ng-disabled="!hasPermission('contacten')" telefoonnummer>
             <div ng-messages="lidForm['contacten['+$index+'].gsm'].$error">
