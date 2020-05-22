@@ -393,13 +393,11 @@
            ng-class="{'table-leden--sticky': tableheaderIsSticky}">
       <thead ng-show="dataLoaded" fix-head>
       <tr ng-show='!isLoadingLeden && !isSavingFilters'>
-        <th colspan="{{kolommen.length}}">
+        <td colspan="{{kolommen.length}}">
           <div class="pull-right">
-            <p><em>{{totaalAantalLeden}} {{filterCriterium}} geladen.</em></p>
-<!--            <p ng-if="leden.length > 1"><em>{{leden.length}} {{filterCriterium}} geladen van {{totaalAantalLeden}}.</em></p>-->
-<!--            <p ng-if="leden.length === 1"><em>{{leden.length}} {{filterCriterium}} geladen van {{totaalAantalLeden}}.</em></p>-->
+            <p><em>{{totaalAantalLeden}} {{filterCriterium}}</em></p>
           </div>
-        </th>
+        </td>
       </tr>
       <tr ng-show='!isLoadingLeden && !isSavingFilters'>
         <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'">

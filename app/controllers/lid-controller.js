@@ -399,50 +399,48 @@
 
       reloadGroepen = $scope.lid.changes.indexOf('functies') !== -1;
 
-
-        $scope.saving = true;
-        $scope.lid.$update(
-          function () {
-            $scope.saving = false;
-            if (reloadGroepen) {
-              CS.Groepen(true);
-            }
-            AlertService.add('success ', "Aanpassingen opgeslagen");
-            $scope.lid.groepseigenVelden = origineleGroepseigenVelden;
-            initAangepastLid();
-            $window.onbeforeunload = null;
-            $scope.validationErrors = [];
-            $scope.lidForm.$setPristine();
-          },
-          function (error) {
-            $scope.saving = false;
-            console.log('error bij update van lid', error);
-
-            if (error.data.fouten && error.data.fouten.length >= 1) {
-              _.each(error.data.fouten, function (fout) {
-
-                // de backend geeft om een nog onduidelijke reden soms 'veld is verplicht' terug op contactnamen terwijl ze niet verplicht zijn
-                // tijdelijk vangen we dit op met een isRequired property
-                // TODO: onderstaande lijn verwijderen en in de template 'ng-required' niet meer checken op isRequired zodra backend deze fout niet meer geeft
-
-                if (fout.veld.indexOf('contacten') > -1) {
-                  var formElemNameCont = FVS.getFormElemByErrData('contacten', fout);
-                  $scope.lidForm[formElemNameCont].isRequired = true;
-                }
-
-                if (fout.veld.indexOf('adressen') > -1) {
-                  var formElemNameAdr = FVS.getFormElemByErrData('adressen', fout);
-                  $scope.lidForm[formElemNameAdr].isRequired = true;
-                }
-
-              })
-            }
-
-            if (error.data.titel == "Validatie faalde voor Lid") {
-              $scope.validationErrors = error.data.details;
-            }
+      $scope.saving = true;
+      $scope.lid.$update(
+        function () {
+          $scope.saving = false;
+          if (reloadGroepen) {
+            CS.Groepen(true);
           }
-        );
+          AlertService.add('success', "Aanpassingen opgeslagen");
+          $scope.lid.groepseigenVelden = origineleGroepseigenVelden;
+          initAangepastLid();
+          $window.onbeforeunload = null;
+          $scope.validationErrors = [];
+          $scope.lidForm.$setPristine();
+        },
+        function (error) {
+          $scope.saving = false;
+          console.log('error bij update van lid', error);
+
+          if (error.data.fouten && error.data.fouten.length >= 1) {
+            _.each(error.data.fouten, function (fout) {
+
+              // de backend geeft om een nog onduidelijke reden soms 'veld is verplicht' terug op contactnamen terwijl ze niet verplicht zijn
+              // tijdelijk vangen we dit op met een isRequired property
+              // TODO: onderstaande lijn verwijderen en in de template 'ng-required' niet meer checken op isRequired zodra backend deze fout niet meer geeft
+
+              if (fout.veld.indexOf('contacten') > -1) {
+                var formElemNameCont = FVS.getFormElemByErrData('contacten', fout);
+                $scope.lidForm[formElemNameCont].isRequired = true;
+              }
+
+              if (fout.veld.indexOf('adressen') > -1) {
+                var formElemNameAdr = FVS.getFormElemByErrData('adressen', fout);
+                $scope.lidForm[formElemNameAdr].isRequired = true;
+              }
+            });
+          }
+
+          if (error.data.titel == "Validatie faalde voor Lid") {
+            $scope.validationErrors = error.data.details;
+          }
+        }
+      );
     };
 
     /*

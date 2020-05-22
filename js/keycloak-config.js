@@ -1,6 +1,6 @@
 var getClient = function(){
   /*
-  Example result:
+      Example result:
       {
           url: 'http://localhost:8888/auth',
           realm: 'scouts',
@@ -10,18 +10,11 @@ var getClient = function(){
   */
 
   var returnClient = {
-    url: 'https://login.scoutsengidsenvlaanderen.be/auth',
+    url: 'https://login-dev.scoutsengidsenvlaanderen.be/auth',
     realm: 'scouts',
     clientId: null,
     redirectUri: window.location.href
   };
-
-  // var returnClient = {
-  //   url: 'https://localhost:8443/auth/',
-  //   realm: 'scouts',
-  //   clientId: null,
-  //   redirectUri: window.location.href
-  // }
 
   switch(window.location.origin){
     case 'http://localhost:8000':

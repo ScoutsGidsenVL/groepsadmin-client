@@ -211,7 +211,7 @@ module.exports = function (grunt) {
       }
     },
 
-    clean: ['app/assets/js', 'css'],
+    clean: ['app/assets/js', 'js/bower_components.css', 'css'],
 
     copy: {
       all: {

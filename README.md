@@ -4,10 +4,10 @@ Dit is een front-end voor de nieuwe groepsadministratie van [Scouts en Gidsen Vl
 
 Je kan deze front-end op twee manieren gebruiken:
 
-* Ofwel gebruik je de [beta-versie](https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/client/) van de Groepsadministratie. Je krijgt deze front-end daar, na het inloggen, te zien.
+* Ofwel gebruik je de [Groepsadministratie](https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/client/). Je krijgt deze front-end daar te zien, na het inloggen.
 * Ofwel draai je deze front-end op je eigen computer (localhost), zodat je zelf aanpassingen kan doen.
 
-Lees in beide gevallen ook de [handleiding](https://wiki.scoutsengidsenvlaanderen.be/doku.php?id=handleidingen:groepsadmin:nieuwe_versie_testen) over het testen van de nieuwe groepsadministratie.
+Zie ook de [handleiding](https://wiki.scoutsengidsenvlaanderen.be/doku.php?id=handleidingen:groepsadmin:nieuwe_versie_testen) over het testen van de groepsadministratie.
 
 ## Zelf opzetten in localhost
 
@@ -41,6 +41,10 @@ Open steeds de browser-console (`F12`) om te zien wat er mis gaat.
 * Open [logintest.html](http://localhost:8000/logintest.html) om te zien welk token je krijgt.
 * Open [apitest.html](http://localhost:8000/apitest.html) om te zien wat er in je token staat.
 
+**Wil je de `$scope` van angular debuggen**
+
+Geef in de browser-console bvb. `angular.element(document.getElementById('_email')).scope().lid.contacten[0]` in om het eerste contact op te vragen op de profielpagina.
+
 **Gaat er nog iets anders mis?**
 
 Stuur een e-mail naar [informatica@scoutsengidsenvlaanderen.be](email:informatica@scoutsengidsenvlaanderen.be).
@@ -61,9 +65,9 @@ Het formulier om een nieuwe lidaanvraag te versturen kan je openen via http://lo
 
 ### Testen
 
-Gebruik bij het testen steeds de test-versie van de groepsadministratie. De URLs van test-versie beginnen met `https://groepsadmin`**`-develop`**`.scoutsengidsenvlaanderen.`**`net`**`/`. De aanpassingen via deze URLs hebben geen effect op de gegevens in de gewone groepsadministratie. E-mails worden ***wel*** verstuurd.
+Gebruik bij het testen steeds de test-versie van de groepsadministratie. De URLs van test-versie beginnen met `https://`**`ga-develop`**`.scoutsengidsenvlaanderen.be/`. De aanpassingen via deze URLs hebben geen effect op de gegevens in de gewone groepsadministratie. E-mails worden ***wel*** verstuurd.
 
-Op `apitest.html` kan je API calls doen, waarbij het access/keycloak token wordt meegegeven in de header `Authorization`.
+Op `/groepsadmin/client/apitest.html` kan je API calls doen, waarbij het access/keycloak token wordt meegegeven in de header `Authorization`.
 
 * Ofwel open je lokaal [apitest.html](http://localhost:8000/apitest.html) in je browser, zoals hierboven.
 * Ofwel open [apitest.html](https://groepsadmin-develop.scoutsengidsenvlaanderen.net/groepsadmin/client/apitest.html) je op de test-versie van de groepsadmin.
