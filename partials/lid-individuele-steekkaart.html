@@ -1,9 +1,11 @@
 <!-- Panel header -->
-<div class="panel-heading panel-fixed panel-fixed--large clearfix">
+<div class="panel-heading panel-fixed--large clearfix">
   <div class="pull-left">
     <h1 class="panel-title">Individuele steekkaart</h1>
     <h2 class="panel-subtitle">{{ lid.vgagegevens.voornaam }} {{ lid.vgagegevens.achternaam }}</h2>
     <h2 class="panel-subtitle">{{ lid.verbondsgegevens.lidnummer }}</h2>
+    <h2 class="panel-subtitle">Geboortedatum: {{ lid.vgagegevens.geboortedatum }}</h2>
+    <h2 class="panel-subtitle">Laatste aanpassing: {{ lid.vgagegevens.individueleSteekkaartdatumaangepast }}</h2>
   </div>
   <div class="pull-right">
     <formerrorbutton formulier="individueleSteekaart" watchable="watchable"></formerrorbutton>
