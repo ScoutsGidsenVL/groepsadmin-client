@@ -15,7 +15,7 @@
     var specialeFuncties = {
       vga: 'd5f75b320b812440010b812555970393',
       fv: 'd5f75b320b812440010b812553d5032e',
-      grl:'d5f75b320b812440010b8125558e0391'
+      grl: 'd5f75b320b812440010b8125558e0391'
     };
     var kanLeidingWijzigen = false;
     var kanGebruikerWijzigen = false;
@@ -46,10 +46,10 @@
         function (result) {
           $scope.lid = result;
           // check of leidng groepsleiding veld mag wijzigen.
-          angular.forEach($scope.lid.groepseigenVelden,function(groep){
-            if(groep.schema.length > 0){
-              angular.forEach(groep.schema,function(veld){
-                if(veld.kanLeidingWijzigen){
+          angular.forEach($scope.lid.groepseigenVelden, function (groep) {
+            if (groep.schema.length > 0) {
+              angular.forEach(groep.schema, function (veld) {
+                if (veld.kanLeidingWijzigen) {
                   kanLeidingWijzigen = true;
                 }
               });
@@ -62,7 +62,7 @@
             // pas wanneer de lid gegevens geladen zijn mag $watch (in de loadSuccess() functie) controle toepassen op changes
             $scope.lidPropertiesWatchable = true;
             //check of gebruiker leding is van lid voor groepseidgenvelden
-            if( kanLeidingWijzigen){
+            if (kanLeidingWijzigen) {
               kanLeidingWijzigen = $scope.lidPropertiesWatchable;
             }
             $scope.kanGroepseingenVeldenWijzigen = kanLeidingWijzigen;
@@ -89,7 +89,7 @@
 
     // initialisatie
 
-    $scope.$watch('lidPropertiesWatchable', function(watchable) {
+    $scope.$watch('lidPropertiesWatchable', function (watchable) {
       if (watchable && !lidForm.$valid) {
         $scope.openAndHighlightCollapsedInvalidBlocks();
       }
@@ -120,18 +120,26 @@
             }
             if (value == 'lid.functies') {
               angular.forEach(scope.lid.functies, function (value, key) {
-                if ( Object.values(specialeFuncties).indexOf(value.functie) > -1 && value.einde == null) {
+                if (Object.values(specialeFuncties).indexOf(value.functie) > -1 && value.einde == null) {
                   scope.lid.emailVerplicht = true
                 }
               });
               $scope.orderedFuncties = _(scope.lid.functies)
-                .sortBy(function(x) {return x.groep})
-                .groupBy(function(x) {return x.groep})
-                .map(function(value, key) { return {
-                  groep: key,
-                  functies: value,
-                  toonGroepInActueleLijst: !_.every(value, function(el) {return el.einde})
-                }})
+                .sortBy(function (x) {
+                  return x.groep
+                })
+                .groupBy(function (x) {
+                  return x.groep
+                })
+                .map(function (value, key) {
+                  return {
+                    groep: key,
+                    functies: value,
+                    toonGroepInActueleLijst: !_.every(value, function (el) {
+                      return el.einde
+                    })
+                  }
+                })
                 .value();
             }
           },
@@ -257,7 +265,7 @@
       return _.has($scope, 'patchObj.secties') && $scope.patchObj.secties.indexOf(val) > -1;
     };
 
-    $scope.disableVoorNieuwLid = function(){
+    $scope.disableVoorNieuwLid = function () {
       return false;
     };
 

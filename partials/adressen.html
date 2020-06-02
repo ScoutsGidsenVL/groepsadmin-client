@@ -47,7 +47,8 @@
             <label for="_land" class="col-xs-4 col-xxs-12 control-label">Land</label>
             <div class="col-xs-8 col-xxs-12">
               <select class="selectpicker" name="adressen[{{ $index }}].land" title="Kies een land..."
-                      id="_land" ng-model="adres.land" ng-disabled="!hasPermission('adressen')" required>
+                      id="_land" ng-model="adres.land" ng-disabled="!hasPermission('adressen')"
+                      ng-change="changeCountry(adres)" required>
                 <option value="BE">België</option>
                 <option value="DE">Duitsland</option>
                 <option value="FR">Frankrijk</option>
@@ -55,28 +56,56 @@
                 <option value="LU">Luxemburg</option>
                 <option value="NL">Nederland</option>
               </select>
-              <div ng-messages="lidForm['adressen['+$index+'].land'].$error" ng-messages="lidForm['adressen['+$index+'].land'].$touched">
+              <div ng-messages="lidForm['adressen['+$index+'].land'].$error"
+                   ng-messages="lidForm['adressen['+$index+'].land'].$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
             </div>
           </div>
           <div class="form-group"
-               ng-class="{ 'has-error': lidForm['adressen['+$index+'].gemeente'].$touched && lidForm['adressen['+$index+'].gemeente'].$invalid }">
+               ng-class="{ 'has-error': lidForm['adressen['+$index+'].gemeente'].$touched && lidForm['adressen['+$index+'].gemeente'].$invalid
+                || lidForm['adressen['+$index+'].postcode'].$touched && lidForm['adressen['+$index+'].postcode'].$invalid
+                || lidForm['adressen['+$index+'].gemeenteBuitenland'].$touched && lidForm['adressen['+$index+'].gemeenteBuitenland'].$invalid}">
             <label for="_gemeenteWrap" class="col-xs-4 col-xxs-12 control-label">Woonplaats</label>
-            <div class="col-xs-8 col-xxs-2">
+            <div ng-if="adres.land === 'BE'" class="col-xs-8 col-xxs-2">
               <gemeente-control id="_gemeenteWrap" ng-model="gemeenteWrap" ng-disabled="!hasPermission('adressen')"
                                 name="adressen[{{ $index }}].gemeente" adres="adres" required></gemeente-control>
-              <div ng-messages="lidForm['adressen['+$index+'].gemeente'].$error" ng-show="lidForm['adressen['+$index+'].gemeente'].$touched">
+              <div ng-messages="lidForm['adressen['+$index+'].gemeente'].$error"
+                   ng-show="lidForm['adressen['+$index+'].gemeente'].$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
+            </div>
+            <div ng-if="adres.land !== 'BE'" class="col-md-3 col-xxs-12 col-sm-6">
+              <input type="text" name="adressen[{{ $index }}].postcode" class="form-control"
+                     ng-model="adres.postcode" id="_postcode" placeholder="Postcode"
+                     ng-disabled="!hasPermission('adressen')" required/>
+            </div>
+            <div ng-if="adres.land !== 'BE'" class="col-md-5 col-md-offset-0 col-xxs-12 col-sm-offset-4 col-sm-8">
+              <input type="text" name="adressen[{{ $index }}].gemeenteBuitenland" class="form-control"
+                     ng-model="adres.gemeente" id="_gemeente" placeholder="Gemeente"
+                     ng-disabled="!hasPermission('adressen')" required/>
+            </div>
+            <div ng-if="adres.land !== 'BE'" class="col-sm-offset-4 col-xs-12 col-xxs-12"
+                 ng-show="lidForm['adressen['+$index+'].postcode'].$invalid && lidForm['adressen['+$index+'].postcode'].$touched">
+              <p class="help-block">Postcode is verplicht</p>
+            </div>
+            <div ng-if="adres.land !== 'BE'" class="col-sm-offset-4 col-xs-12 col-xxs-12"
+                 ng-show="lidForm['adressen['+$index+'].gemeenteBuitenland'].$invalid && lidForm['adressen['+$index+'].gemeenteBuitenland'].$touched">
+              <p class="help-block">Gemeente is verplicht</p>
             </div>
           </div>
           <div class="form-group"
                ng-class="{ 'has-error': (lidForm['adressen['+$index+'].straatnaam'].$touched && lidForm['adressen['+$index+'].straatnaam'].$invalid) || (lidForm['adressen['+$index+'].nummer'].$touched && lidForm['adressen['+$index+'].nummer'].$invalid ) }">
             <label for="_straatnaam" class="col-xs-4 col-xxs-12 control-label">Straat</label>
-            <div class="col-md-4 col-xxs-12 col-sm-8">
-              <straat-control name="adressen[{{ $index }}].straatnaam" ng-model="adres.straat" ng-disabled="!hasPermission('adressen')"
-                     id="_straatnaam" adres="adres" required></straat-control>
+            <div ng-if="adres.land === 'BE'" class="col-md-4 col-xxs-12 col-sm-8">
+              <straat-control name="adressen[{{ $index }}].straatnaam" ng-model="adres.straat"
+                              ng-disabled="!hasPermission('adressen')"
+                              id="_straatnaam" adres="adres" required></straat-control>
+            </div>
+            <div ng-if="adres.land !== 'BE'" class="col-md-4 col-xxs-12 col-sm-8">
+              <input type="text" name="adressen[{{ $index }}].straatnaam" class="form-control"
+                     ng-model="adres.straat" id="straatnaam" placeholder="Straat..."
+                     ng-disabled="!hasPermission('adressen') || !adres.postcode || !adres.gemeente" required/>
             </div>
             <div class="col-md-2 col-md-offset-0 col-xxs-12 col-sm-offset-4 col-sm-4">
               <input type="text" name="adressen[{{ $index }}].nummer" class="form-control"
@@ -104,7 +133,8 @@
               <input type="text" class="form-control" name="adressen[{{ $index }}].telefoon" id="_telefoon"
                      ng-model="adres.telefoon" telefoonnummer
                      ng-disabled="!hasPermission('adressen')"/>
-              <div ng-messages="lidForm['adressen['+$index+'].telefoon'].$error" ng-show="lidForm['adressen['+$index+'].telefoon'].$touched">
+              <div ng-messages="lidForm['adressen['+$index+'].telefoon'].$error"
+                   ng-show="lidForm['adressen['+$index+'].telefoon'].$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
             </div>
