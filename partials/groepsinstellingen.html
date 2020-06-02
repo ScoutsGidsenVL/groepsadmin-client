@@ -109,7 +109,7 @@
             </div>
           </label>
 
-          <label class="form-group control checkbox">
+          <label class="form-group control checkbox" ng-show="data.activegroup.enkelLeiding">
             <div class="col-xs-6 col-xxs-12 control-label">Leden verbeterd</div>
             <div class="col-xs-6 col-xxs-12">
               <input type="checkbox" ng-checked="data.activegroup.facturatieLedenCheck"
@@ -261,7 +261,7 @@
                     <input type="text" class="form-control" id="_telefoon" ng-model="lokaal.telefoon" ng-disabled="!data.activegroup.kanWijzigen"/>
                   </div>
                 </div>
-             
+
                   <label class="form-group control checkbox">
                     <div class="col-xs-4 col-xxs-12 control-label">Postadres</div>
                     <div class="col-xs-8 col-xxs-12">
@@ -270,7 +270,7 @@
                       <span class="control-indicator"></span>
                     </div>
                   </label>
-             
+
                 <a href="" class="pull-right"
                    ng-click="centerMap(lokaal.positie.latitude, lokaal.positie.longitude, lokaal.id)">Toon op kaart</a>
 

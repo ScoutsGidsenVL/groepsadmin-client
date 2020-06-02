@@ -106,7 +106,7 @@
       }
 
       $scope.data.publiekInschrijven = $scope.data.activegroup['publiek-inschrijven']
-      
+
       if (deregisterListener) {
         deregisterListener();
       }
@@ -523,7 +523,7 @@
       if ($scope.data.activegroup.facturatieLedenCheck) {
         $scope.data.activegroup.facturatieLeden = new Date()
       }
-      
+
       var promises = [
         RestService.Groep
           .update({id: $scope.data.activegroup.id, bevestiging: true}, $scope.data.activegroup)
