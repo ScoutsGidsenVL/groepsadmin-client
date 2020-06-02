@@ -43,7 +43,7 @@
       $scope.showSaveOptions = !$scope.showSaveOptions;
       $scope.deelFilter = false;
       $scope.selectedFilter = '';
-    }
+    };
 
     $(function () {
       angular.element("#mySortableList").sortable({
@@ -417,7 +417,12 @@
           kolom.isLoaded = true;
           kolom.activated = true;
           kolom.kolomIndex = counter2++;
+          kolom.sorteringsIndex = $scope.currentFilter.sortering.indexOf(value)
         }
+      });
+
+      $scope.currentFilter.sortering = _.filter($scope.currentFilter.sortering, function(value) {
+        return _.find($scope.kolommen, {'id': value});
       });
 
       $scope.indexeerEnGroepeerKolommen();
@@ -448,6 +453,16 @@
         if (kolom.activated) {
           kolom.groeperingOrig = kolom.groepering; // backup
           kolom.groepering = undefined; // override
+        }
+      });
+    };
+
+    $scope.setSorteringsIndex = function() {
+      _.each($scope.currentFilter.kolommen, function (value) {
+        var kolom = _.find($scope.kolommen, {'id': value});
+
+        if (kolom) {
+          kolom.sorteringsIndex = $scope.currentFilter.sortering.indexOf(value)
         }
       });
     };
@@ -487,8 +502,6 @@
         currentFilter.criteria.leeftijd.ouderdan = $scope.ouderDan[1];
         currentFilter.criteria.leeftijd.op31december = $scope.leeftijdOpDatum[1];
       }
-
-      currentFilter.sortering = actKolommen.slice(0, 3);
 
       return LFS.getReconstructedFilterObject(actFilterCriteria, actKolommen, currentFilter);
     };
@@ -749,16 +762,12 @@
 
     // uitvoeren van van een sortering.
     $scope.addSort = function (sortKolom) {
-      var kolomVerplaatst = false;
-      _.each($scope.kolommen, function(kolom, index) {
-        if (kolom.id === sortKolom.id) {
-          kolom.kolomIndex = 0;
-          kolomVerplaatst = true;
-        }
-        else if(!kolomVerplaatst) {
-          kolom.kolomIndex = kolom.kolomIndex + 1;
-        }
+      $scope.currentFilter.sortering = _.filter($scope.currentFilter.sortering, function(value) {
+        return value !== sortKolom.id
       });
+      $scope.currentFilter.sortering.unshift(sortKolom.id);
+      $scope.currentFilter.sortering.splice(3);
+      $scope.setSorteringsIndex();
       $scope.applyFilter();
     };
 

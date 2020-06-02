@@ -106,7 +106,7 @@
                    uib-typeahead="filter as filter.naam for filter in filters | filter:{naam:$viewValue}"
                    typeahead-popup-template-url="customPopupTemplate.html" class="form-control">
             <span ng-if="!selectedFilter.id">
-              <input type="checkbox" ng-checked="deelFilter" ng-click="toggleDelen()" /> Als gedeelde filter
+              <input type="checkbox" ng-checked="deelFilter" ng-click="toggleDelen()"/> Als gedeelde filter
             </span>
             <!--<select class="selectpicker" title="Beschikbaar voor" ng-model="currentFilter" >
               <option>Groep x</option>
@@ -260,7 +260,8 @@
                       ng-model="jongerDan" ng-selected="updateJongerDan(jongerDan)"></select><br>
             </div>
 
-            <div class="multival-group" ng-if="criterium.multiValues && criterium.criteriaKey == 'individuelesteekkaart'">
+            <div class="multival-group"
+                 ng-if="criterium.multiValues && criterium.criteriaKey == 'individuelesteekkaart'">
               {{ criterium.operator.label }}
               <select ng-options="value[1] as value[0] for value in criterium.operator.values"
                       ng-model="criterium.value.operator"></select><br/><br/>
@@ -270,8 +271,8 @@
             <div class="control-group" ng-if="criterium.criteriaKey == 'groepseigen'">
               <div class="control-group-sectiongroup">
                 <div ng-repeat="criteriumItemGroup in criterium.itemgroups"
-                  ng-class="{ 'control-group-section--collapsed': criteriumItemGroup.collapsed }"
-                  class="control-group-section">
+                     ng-class="{ 'control-group-section--collapsed': criteriumItemGroup.collapsed }"
+                     class="control-group-section">
                   <div class="control-group-subheader" ng-click="toggleCriteriumSection(criteriumItemGroup)">
                   <span class="control-group-subheader-label">
                     <div class="control-selectall">
@@ -280,12 +281,14 @@
                     </span>
                     <i class="glyphicon pull-right glyphicon-chevron-down"></i>
                   </div>
-                  <div class="select-value-group control--collapsible" ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'">
+                  <div class="select-value-group control--collapsible"
+                       ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'">
                     <label class="jcontrol control--checkbox">
                       <input type="checkbox" ng-model="criteriumItem.activated"/>
 
                       {{ criteriumItem.label }}
-                      <select ng-if="!criteriumItem.vinkje" ng-options="value[1] as value[0] for value in criteriumItem.operatorValues"
+                      <select ng-if="!criteriumItem.vinkje"
+                              ng-options="value[1] as value[0] for value in criteriumItem.operatorValues"
                               ng-model="criteriumItem.operator">
                       </select>
 
@@ -296,13 +299,14 @@
                     </label>
                     <label class="jcontrol control--checkbox control--collapsible">
 
-                        <input type="checkbox"  ng-if="criteriumItem.vinkje" ng-model="criteriumItem.waarde">
-                        <div ng-if="criteriumItem.vinkje" class="control__indicator"></div>
+                      <input type="checkbox" ng-if="criteriumItem.vinkje" ng-model="criteriumItem.waarde">
+                      <div ng-if="criteriumItem.vinkje" class="control__indicator"></div>
 
-                        <select ng-if="criteriumItem.keuze" ng-options="value for value in criteriumItem.keuzes"
+                      <select ng-if="criteriumItem.keuze" ng-options="value for value in criteriumItem.keuzes"
                               ng-model="criteriumItem.waarde"></select>
-                      <input ng-if="!criteriumItem.keuze && !criteriumItem.vinkje" type="text" ng-model="criteriumItem.waarde">
-                      <br ng-if="criteriumItem.vinkje" />
+                      <input ng-if="!criteriumItem.keuze && !criteriumItem.vinkje" type="text"
+                             ng-model="criteriumItem.waarde">
+                      <br ng-if="criteriumItem.vinkje"/>
                     </label>
                   </div>
 
@@ -400,13 +404,15 @@
         </td>
       </tr>
       <tr ng-show='!isLoadingLeden && !isSavingFilters'>
-        <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'">
+        <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'"
+            class="kolomkop" ng-click="addSort(kolom)">
           {{ kolom.label }}
-          <ordericon filter="currentFilter" kolommen="kolommen" kolom="kolom" sort="addSort"></ordericon>
+          <ordericon filter="currentFilter" kolommen="kolommen" kolom="kolom"></ordericon>
         </th>
       </tr>
       </thead>
-      <tbody ng-if="dataLoaded" ng-show="!isLoadingLeden && !isSavingFilters" infinite-scroll='ledenLaden()' infinite-scroll-distance='1'>
+      <tbody ng-if="dataLoaded" ng-show="!isLoadingLeden && !isSavingFilters" infinite-scroll='ledenLaden()'
+             infinite-scroll-distance='1'>
       <tr ng-if="tableheaderIsSticky" ng-hide="leden.length <= 0">
         <td>&nbsp;</td>
       </tr>
