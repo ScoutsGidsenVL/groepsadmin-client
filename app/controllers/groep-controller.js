@@ -34,12 +34,12 @@
         groep.fv = [];
         groep.groepsleiding = [];
 
-        if ( groep.facturatieLeden) {
+        if (groep.facturatieLeden) {
           groep.facturatieLedenSaved = true;
           groep.facturatieLedenCheck = true;
         }
 
-        if ( groep.facturatieLeiding) {
+        if (groep.facturatieLeiding) {
           groep.facturatieLeidingSaved = true;
           groep.facturatieLeidingCheck = true;
         }
@@ -64,6 +64,13 @@
         groep.adres = [
           groep.adres
         ];
+
+        angular.forEach(groep.groepseigenGegevens, function (gegeven) {
+          if (gegeven.type === 'lijst') {
+            gegeven.keuzes = gegeven.keuzes || [];
+            gegeven.keuzes.push('');
+          }
+        });
 
         groep.kanWijzigen = (_.find(groep.links, {method: 'PATCH'}) !== undefined);
         $scope.data.groepenlijst.push(groep);
@@ -105,7 +112,7 @@
         })
       }
 
-      $scope.data.publiekInschrijven = $scope.data.activegroup['publiek-inschrijven']
+      $scope.data.publiekInschrijven = $scope.data.activegroup['publiek-inschrijven'];
 
       if (deregisterListener) {
         deregisterListener();
@@ -247,17 +254,17 @@
      * ----------------------------------
      */
 
-    $scope.changePostadres = function(val){
+    $scope.changePostadres = function (val) {
       angular.forEach($scope.data.activegroup.adressen, function (value) {
         value.postadres = value.id == val;
       });
-    }
+    };
 
     //dropdown verander van groep
     $scope.changeGroep = function () {
       if ($scope.groepForm.$dirty) {
-        DialogService.paginaVerlaten(function(result) {
-          if(result) {
+        DialogService.paginaVerlaten(function (result) {
+          if (result) {
             $scope.groepForm.$setPristine();
             $scope.previousgroupId = $scope.data.activegroup.id;
             CS.Groepen().then(groepenGeladen);
@@ -392,7 +399,8 @@
         sort: $scope.data.activegroup.groepseigenGegevens.length,
         type: 'tekst',
         status: "nieuw",
-        label: ""
+        label: "",
+        keuzes: ['']
       };
       $scope.data.activegroup.groepseigenGegevens.push(newGegeven);
       $scope.groepForm.$setDirty();
@@ -420,6 +428,21 @@
     $scope.wisKeuze = function (index, keuzeIndex) {
       $scope.data.activegroup.groepseigenGegevens[index].keuzes.splice(keuzeIndex, 1);
       $scope.groepForm.$setDirty();
+    };
+
+    $scope.changeKeuze = function (index, keuzeIndex) {
+      var currentItem = $scope.data.activegroup.groepseigenGegevens[index].keuzes[keuzeIndex];
+      var lastItem = $scope.data.activegroup.groepseigenGegevens[index].keuzes.slice(-1);
+      if (lastItem.toString() !== '') {
+        $scope.data.activegroup.groepseigenGegevens[index].keuzes.push('');
+        lastItem = $scope.data.activegroup.groepseigenGegevens[index].keuzes.slice(-1)
+      }
+
+      if (currentItem === '' && (keuzeIndex === ($scope.data.activegroup.groepseigenGegevens[index].keuzes.length - 2))
+        && lastItem.toString() === '') {
+        $scope.data.activegroup.groepseigenGegevens[index].keuzes.splice(-1, 1)
+      }
+
     };
 
     $scope.deleteLokaal = function (id) {
@@ -481,13 +504,13 @@
     // add watcher for checkbox - date translation
     $scope.$watch('data.activegroup.facturatieLeden', function () {
       //als er een datum bestaat
-      if ( $scope.data.activegroup.facturatieLeden && $scope.data.activegroup.facturatieLedenSaved == null) {
+      if ($scope.data.activegroup.facturatieLeden && $scope.data.activegroup.facturatieLedenSaved == null) {
         $scope.data.activegroup.facturatieLedenSaved = true;
         $scope.data.activegroup.facturatieLedenCheck = true;
       }
     });
     $scope.$watch('data.activegroup.facturatieLeiding', function () {
-      if ( $scope.data.activegroup.facturatieLeiding &&  $scope.data.activegroup.facturatieLeidingSaved == null) {
+      if ($scope.data.activegroup.facturatieLeiding && $scope.data.activegroup.facturatieLeidingSaved == null) {
         $scope.data.activegroup.facturatieLeidingSaved = true;
         $scope.data.activegroup.facturatieLeidingCheck = true;
       }
@@ -515,6 +538,11 @@
         if (gegeven.type !== 'lijst') {
           delete gegeven.keuzes;
         }
+        else {
+          gegeven.keuzes = _.filter(gegeven.keuzes, function(keuze) {
+            return keuze !== ''
+          });
+        }
       });
       $scope.saving = true;
       if ($scope.data.activegroup.facturatieLeidingCheck) {
@@ -529,6 +557,12 @@
           .update({id: $scope.data.activegroup.id, bevestiging: true}, $scope.data.activegroup)
           .$promise.then(function (response) {
           $scope.data.activegroup.groepseigenGegevens = response.groepseigenGegevens;
+          angular.forEach($scope.data.activegroup.groepseigenGegevens, function (gegeven) {
+            if (gegeven.type === 'lijst') {
+              gegeven.keuzes = gegeven.keuzes || [];
+              gegeven.keuzes.push('')
+            }
+          });
           if ($scope.data.activegroup.facturatieLedenCheck) {
             $scope.data.activegroup.facturatieLedenSaved = true;
           }

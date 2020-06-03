@@ -369,22 +369,19 @@
 
                 <div class="form-group" ng-if="groepseigenGegeven.type == 'lijst' " ng-init="groepseigenGegevenIndex = $index"
                      ng-hide="!showme">
-                  <label class="col-xs-12">
-                    Mogelijke keuzes
-                    <button class="btn-minimal" title="Keuze toevoegen"
-                            ng-click="addKeuze(groepseigenGegevenIndex)"><span
-                      class="glyphicon glyphicon-plus"></span></button>
-                  </label>
+                  <label class="col-xs-12">Mogelijke keuzes</label>
                   <div class="col-xs-12"
                        ng-repeat="keuze in data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes track by $index">
                     <fieldset class="form-group row">
                       <div class="col-xs-10">
                         <input class="form-control "
+                               ng-change="changeKeuze(groepseigenGegevenIndex, $index)"
                                ng-model="data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes[$index]"
                                placeholder="Nieuwe keuze">
                       </div>
                       <div class="col-xs-2">
                         <button class="btn-minimal " title="Keuze wissen"
+                                ng-hide="($index+1) === data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes.length"
                                 ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
                           <span class="glyphicon glyphicon-trash"></span>
                         </button>
@@ -533,27 +530,24 @@
 
                 <div class="form-group" ng-init="groepseigenGegevenIndex = $index"
                      ng-show="showme && data.activegroup.groepseigenGegevens[$index].type == 'lijst'">
-                  <label class="col-xs-12">
-                    Mogelijke keuzes
-                    <button class="btn-minimal" title="Keuze toevoegen"
-                            ng-click="addKeuze(groepseigenGegevenIndex)"><span
-                      class="glyphicon glyphicon-plus"></span></button>
-                  </label>
-                  <div class="row option-list"
+                  <label class="col-xs-12">Mogelijke keuzes</label>
+                  <div class="col-xs-12"
                        ng-repeat="keuze in data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes track by $index">
-                    <div class="col-xs-12">
-                      <div class="input-group">
-                  <span class="input-group-btn">
-                    <button class="btn-minimal" title="Keuze wissen"
-                            ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
-                      <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                  </span>
-                        <input class="form-control col-md-11"
+                    <fieldset class="form-group row">
+                      <div class="col-xs-10">
+                        <input class="form-control "
+                               ng-change="changeKeuze(groepseigenGegevenIndex, $index)"
                                ng-model="data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes[$index]"
                                placeholder="Nieuwe keuze">
                       </div>
-                    </div>
+                      <div class="col-xs-2">
+                        <button class="btn-minimal " title="Keuze wissen"
+                                ng-hide="($index+1) === data.activegroup.groepseigenGegevens[groepseigenGegevenIndex].keuzes.length"
+                                ng-click="wisKeuze(groepseigenGegevenIndex, $index)">
+                          <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                      </div>
+                    </fieldset>
                   </div>
                 </div>
 
