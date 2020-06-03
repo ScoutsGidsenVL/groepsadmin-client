@@ -13,6 +13,8 @@
           var formatNumber = function (value) {
             var phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
 
+            if (value === undefined) return value;
+
             if (value.match(/[A-Za-z]/i)) {
               return value;
             }
