@@ -13,12 +13,6 @@ angular.module('ga.filters', [])
   }])
   .filter('verbondFuncties', [function () {
     return function (items, lid, geenActieve, groepsnummer) {
-      var leeftijd;
-
-      if (lid && lid.vgagegevens) {
-        leeftijd = moment().diff(lid.vgagegevens.geboortedatum, 'years')
-      }
-
       return _.filter(items, function (item) {
         var showActief = true;
 
@@ -31,14 +25,13 @@ angular.module('ga.filters', [])
         }
 
         if (showActief) {
-          if (leeftijd !== undefined && leeftijd < 16) {
-            var isLeidingsFunctie = (_.find(item.groeperingen, {naam: 'Leiding'}) !== undefined);
+          var leeftijdCheck = true;
+          if (item.uiterstegeboortedatum) {
+            leeftijdCheck = lid.vgagegevens && lid.vgagegevens.geboortedatum && moment(lid.vgagegevens.geboortedatum).isValid()
+            ? moment(lid.vgagegevens.geboortedatum).isBefore(moment(item.uiterstegeboortedatum)) : false;
+          }
 
-            return item.type === 'verbond' && !isLeidingsFunctie;
-          }
-          else {
-            return item.type === 'verbond';
-          }
+          return item.type === 'verbond' && leeftijdCheck;
         }
         else {
           return false;
@@ -60,7 +53,13 @@ angular.module('ga.filters', [])
           });
         }
 
-        return showActief && item.type === 'groep';
+        var leeftijdCheck = true;
+        if (item.uiterstegeboortedatum) {
+          leeftijdCheck = lid.vgagegevens && lid.vgagegevens.geboortedatum && moment(lid.vgagegevens.geboortedatum).isValid()
+            ? moment(lid.vgagegevens.geboortedatum).isBefore(moment(item.uiterstegeboortedatum)) : false;
+        }
+
+        return showActief && item.type === 'groep' && leeftijdCheck;
       });
     }
   }])

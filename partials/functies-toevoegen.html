@@ -41,6 +41,9 @@
               <div class="clearfix visible-xs-block visible-sm-block"
                    ng-class="{'visible-lg-block visbible-md-block': ($index+1)%2 ===0}"></div>
             </div>
+            <div class="col-md-12" ng-hide="(groepFuncties.functies | verbondFuncties:lid:true:groepFuncties.groepsnummer).length">
+              <p>Geen functies beschikbaar</p>
+            </div>
           </div>
 
         </section>
