@@ -72,20 +72,20 @@
         <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.vgagegevens.verminderdlidgeld"
                ng-disabled="!hasPermission('vgagegevens')"/>
         <span class="control-indicator"></span>
-        <span id="helpBlock" class="help-block" ng-show="lid.vgagegevens.verminderdlidgeld">
-                    Leden zijn niet alleen maar lid van Scouts en Gidsen Vlaanderen vzw, maar gaan ook mee op weekend, kamp, ...<br>
-                    Naast verminderd lidgeld, kan je daarom als groep ook beroep doen op 'Fonds op Maat':
-                    hiermee kan je de deelnameprijs aan activiteiten voor leden en hun gezin verlagen.<br>
-                    Als je
-                    <a
-                      href="https://www.scoutsengidsenvlaanderen.be/files/paginas/dienstverlening/secretariaat/formulieren/aanvraagformulier_fonds_op_maat.pdf"
-                      target="_blank">dit formulier</a>
-                    invult en naar
-                    <a href="mailto:diversiteit@scoutsengidsenvlaanderen.be">diversiteit@scoutsengidsenvlaanderen.be</a> mailt,
-                    komt Scouts en Gidsen Vlaanderen vzw voor 1/3 tussen in de deelnameprijs.<br>
-                    Het formulier vul je als (groeps)leiding in, de ouders hoeven niets te doen.
-                  </span>
+        
       </div>
+      <span id="helpBlock" class="help-block col-xxs-12 font-default" ng-show="lid.vgagegevens.verminderdlidgeld">
+        Leden zijn niet alleen maar lid van Scouts en Gidsen Vlaanderen vzw, maar gaan ook mee op weekend, kamp, ...<br>
+        Naast verminderd lidgeld, kan je daarom als groep ook beroep doen op 'Fonds op Maat':
+        hiermee kan je de deelnameprijs aan activiteiten voor leden en hun gezin verlagen.<br>
+        Als je
+        <a
+          href="https://www.scoutsengidsenvlaanderen.be/aanvraag-fonds-op-maat"
+          target="_blank">dit formulier</a>
+        invult (let op: je moet ingelogd zijn op de website), 
+        komt Scouts en Gidsen Vlaanderen vzw voor 1/3 tussen in de deelnameprijs.<br>
+        Het formulier vul je als (groeps)leiding in, de ouders hoeven niets te doen.
+      </span>
     </label>
     <div class="form-group"
          ng-class="{ 'has-error': lidForm.email.$touched && lidForm.email.$invalid, 'readonly' : !hasPermission('email') }">
