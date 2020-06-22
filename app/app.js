@@ -58,7 +58,8 @@
     'ngSanitize',
     'ngMessages',
     'angular.filter',
-    'fixed.table.header'
+    'fixed.table.header',
+    'ngStorage'
   ])
 
   // lodash for use in controllers, unit tests

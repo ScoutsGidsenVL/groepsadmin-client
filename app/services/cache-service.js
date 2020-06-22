@@ -5,15 +5,23 @@
     .module('ga.services.cache', [])
     .factory('CacheService', CacheService);
 
-  CacheService.$inject = ['RestService', '$q', '$rootScope'];
+  CacheService.$inject = ['RestService', '$q', '$rootScope', '$localStorage'];
 
   // Deze service bevat logica om te bepalen of een gebruiker ergens wel/geen toegang tot heeft
 
-  function CacheService(RestService, $q, $rootScope) {
+  function CacheService(RestService, $q, $rootScope, $localStorage) {
     var resGroepen, resFuncties = {}, waitingGroepen = false, waitingFuncties = false;
 
     var indexedGroepen = {}, deferredGroepen = {};
     var indexedFuncties = {}, deferredFuncties = {};
+
+    angular.forEach(resGroepen, function (groep) {
+      indexedGroepen[groep.id] = groep;
+    });
+
+    angular.forEach(resFuncties, function (functie) {
+      indexedFuncties[functie.id] = functie;
+    });
 
     function returnGroepen() {
       var copy = {
@@ -161,6 +169,7 @@
         });
         indexedGroepen[id] = groep;
         resGroepen.groepen = groepen;
+        $localStorage.resGroepen = resGroepen;
       },
       Groepen: function (force) {
         if (force || _.isEmpty(resGroepen)) {
@@ -168,6 +177,7 @@
           return RestService.Groepen.get().$promise
             .then(function (response) {
               resGroepen = response;
+              $localStorage.resGroepen = resGroepen;
               var copiedResponse = returnGroepen();
               $rootScope.$broadcast('ga-groepen-geladen', copiedResponse);
 
@@ -211,6 +221,7 @@
           return RestService.Functies.get().$promise
             .then(function (response) {
               resFuncties = response;
+              $localStorage.resFuncties = resFuncties;
 
               angular.forEach(response.functies, function (functie) {
                 indexedFuncties[functie.id] = functie;
