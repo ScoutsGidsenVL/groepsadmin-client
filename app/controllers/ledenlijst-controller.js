@@ -35,11 +35,11 @@
       $scope.canPost = res;
     });
 
-    $scope.toggleDelen = function() {
-      $scope.deelFilter= !$scope.deelFilter
+    $scope.toggleDelen = function () {
+      $scope.deelFilter = !$scope.deelFilter
     };
 
-    $scope.initFilterVelden = function() {
+    $scope.initFilterVelden = function () {
       $scope.showSaveOptions = !$scope.showSaveOptions;
       $scope.deelFilter = false;
       $scope.selectedFilter = '';
@@ -118,6 +118,7 @@
         }),
         $q.all(filters.promises).then(function () {
           $scope.filters = filters.filters;
+          groepeerFilters($scope.filters);
         })
       ]).then(function () {
         deferred.resolve();
@@ -126,10 +127,68 @@
       return deferred.promise;
     }
 
+    function groepeerFilters(filters) {
+      $scope.categorisedFilters = {
+        '0000': {
+          naam: 'Mijn filters',
+          isHeader: true,
+          filters: []
+        },
+        '0001': {
+          naam: 'Mijn gedeelde filters',
+          isHeader: true,
+          filters: []
+        },
+        '___Z': {
+          naam: 'Standard filters',
+          isHeader: true,
+          filters: []
+        }
+      };
+
+      angular.forEach($scope.filters, function (filter) {
+        if (filter.delen === true) {
+          if (filter.gedeeldvanuit) {
+            angular.forEach(filter.groepen, function (groep) {
+              if (!$scope.categorisedFilters[groep]) {
+                $scope.categorisedFilters[groep] = {isHeader: true, filters: []};
+              }
+
+              $scope.categorisedFilters[groep].filters.push(filter);
+              CS.Groep(groep).then(
+                function (result) {
+                  if ($scope.categorisedFilters[result.groepsnummer]) {
+                    $scope.categorisedFilters[result.groepsnummer]['naam'] = 'Gedeeld met ' + result.naam + " [" + result.groepsnummer + "]"
+                  }
+                }
+              );
+            })
+          } else {
+            $scope.categorisedFilters['0001'].filters.push(filter);
+          }
+        } else if (filter.type === 'verbond') {
+          $scope.categorisedFilters['___Z'].filters.push(filter);
+        } else {
+          $scope.categorisedFilters['0000'].filters.push(filter);
+        }
+      });
+
+      $scope.sortedFilters = [];
+      angular.forEach($scope.categorisedFilters, function (filterGroup) {
+        if(filterGroup.filters.length > 0) {
+          $scope.sortedFilters.push(filterGroup);
+        }
+        angular.forEach(filterGroup.filters, function (filter) {
+          $scope.sortedFilters.push(filter)
+        })
+      });
+    }
+
+
+
     // In deze functie wordt een filter uit de backend gehaald
     // Ook worden alle mogelijke functies/ groepen waartoe de gebruiker toegang heeft opgehaald
     //
-
     function stelFilterSamen(filterId, initialLoad) {
 
       var deferred = $q.defer();
@@ -421,7 +480,7 @@
         }
       });
 
-      $scope.currentFilter.sortering = _.filter($scope.currentFilter.sortering, function(value) {
+      $scope.currentFilter.sortering = _.filter($scope.currentFilter.sortering, function (value) {
         return _.find($scope.kolommen, {'id': value});
       });
 
@@ -457,7 +516,7 @@
       });
     };
 
-    $scope.setSorteringsIndex = function() {
+    $scope.setSorteringsIndex = function () {
       _.each($scope.currentFilter.kolommen, function (value) {
         var kolom = _.find($scope.kolommen, {'id': value});
 
@@ -762,7 +821,7 @@
 
     // uitvoeren van van een sortering.
     $scope.addSort = function (sortKolom) {
-      $scope.currentFilter.sortering = _.filter($scope.currentFilter.sortering, function(value) {
+      $scope.currentFilter.sortering = _.filter($scope.currentFilter.sortering, function (value) {
         return value !== sortKolom.id
       });
       $scope.currentFilter.sortering.unshift(sortKolom.id);
