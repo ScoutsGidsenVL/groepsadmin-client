@@ -371,16 +371,7 @@
     var maakSorteerbaar = function () {
       if ($scope.data.activegroup.kanWijzigen) {
         $(".sortable").sortable({
-          cursor: 'move',
-          stop: function (event, ui) {
-            var gegevenId = ui.item.attr('data-groepseigengegevenid');
-            var gegevenIndex = ui.item.index();
-            angular.forEach($scope.data.activegroup.groepseigenGegevens, function (value) {
-              if (value.id == gegevenId) {
-                value.sort = gegevenIndex;
-              }
-            })
-          }
+          cursor: 'move'
         });
       }
       else {
@@ -534,7 +525,9 @@
     };
 
     $scope.opslaan = function () {
+      var sortedIds = $( ".sortable" ).sortable( "toArray" );
       angular.forEach($scope.data.activegroup.groepseigenGegevens, function (gegeven) {
+        gegeven.sort = sortedIds.indexOf(gegeven.id);
         if (gegeven.type !== 'lijst') {
           delete gegeven.keuzes;
         }

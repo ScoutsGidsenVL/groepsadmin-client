@@ -25,6 +25,13 @@
       $scope.model = newValue && newValue.postcode && newValue.gemeente ? newValue.postcode + ' ' + newValue.gemeente : '';
     });
 
+    $scope.changeInput = function() {
+      $scope.adres.postcode = null;
+      $scope.adres.gemeente = null;
+      $scope.adres.straat = null;
+      $scope.adres.bus = null;
+      $scope.adres.nummer = null;
+    };
 
     $scope.zoekGemeente= function (zoekterm) {
       var resultaatGemeentes = [];

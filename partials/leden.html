@@ -74,7 +74,7 @@
   <div class="panel-filter row-fluid clearfix collapse" uib-collapse="isFilterCollapsed">
     <div class="row row-filters">
       <!-- Single button -->
-      <div class="col-md-2 col-xxs-12">
+      <div class="col-md-3 col-xxs-12">
         <div class="btn-group selectpicker pull-left" uib-dropdown is-open="status.isopen">
           <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
             <div class="buttonText">{{ currentFilter.naam ? currentFilter.naam : 'Huidige' }}</div>
@@ -84,9 +84,10 @@
             <li ng-if="isLoadingFilters"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filters
               aan het laden...</a></li>
             <li ng-if="!isLoadingFilters && !(filters.length > 0)"><a href='javascript:void(0)'>Geen filters</a></li>
-            <li ng-if="!isLoadingFilters" role="menuitem" ng-repeat="filter in filters | orderBy:'naam'"><a href
-                                                                                                            ng-click="changeFilter(filter)">{{
-              filter.naam }}</a></li>
+            <li ng-if="!isLoadingFilters" role="menuitem" ng-repeat="filter in sortedFilters " ng-class="{'dropdown-header': filter.isHeader}">
+              <span ng-if="filter.isHeader">{{filter.naam }}</span>
+              <a ng-if="!filter.isHeader" href ng-click="changeFilter(filter)">{{filter.naam }}</a>
+            </li>
           </ul>
         </div>
 
@@ -129,7 +130,7 @@
           </button>
         </div>
       </div>
-      <div class="col-md-4 col-xxs-12 hidden-xs hidden-sm">
+      <div class="col-md-3 col-xxs-12 hidden-xs hidden-sm">
         <div class="pull-right">
           <button ng-if="isSavingFilters" type="button" class="btn btn-apply disabled" title="Criteria opslaan">
             <div class="loading-filter-container loading-filter-container--desktop"><i
