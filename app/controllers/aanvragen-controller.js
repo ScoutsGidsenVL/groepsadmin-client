@@ -24,7 +24,7 @@
 
     $scope.goedkeuren = function ($event, aanvraag) {
       $event.stopPropagation();
-      var link = _.find(aanvraag.links, {rel: 'afkeuren'});
+      var link = _.find(aanvraag.links, {rel: 'goedkeuren'});
       aanvraag.adres.postadres = true;
 
       $rootScope.defaultLid = {
