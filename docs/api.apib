@@ -2915,6 +2915,7 @@ Het veld `groepen` bevat alle groepen waarbij deze functie kan voorkomen en waar
                   "naam": "Mijn filter", //Niet aanwezig voor `huidige` filter als niet opgeslagen
                   "type":"verbond",  // Niet aanwezig voor `huidige` als niet opgeslagen.  Mogelijkheden ['verbond', 'groep', 'lid']
                   "groep": "A3143G", // Enkel aanwezig indien type groep
+                  "gedeeldvanuit": [ "A3143G" ], // Gedeeld vanuit welke groepen
                   "links":[
                     {
                       "href": "/groepsadmin/rest-ga/ledenlijst/filter/d5f75e23385c5e6e0139493b8546035e",  //Niet aanwezig voor `huidige` filter als niet opgeslagen
@@ -2980,7 +2981,7 @@ Het veld `groepen` bevat alle groepen waarbij deze functie kan voorkomen en waar
               "sortering": [  // Moet in aanwezig zijn in de kolommen
                 "c81e728d9d4c2f636f067f89cc14862c"
               ],
-              "delen" : true // Aangeven dat deze filter gedeeld wordt met de rest van je groep. (Enkel voor VGA's)
+              "delen" : true // Aangeven dat deze filter gedeeld wordt met de rest van je groep. (Enkel voor gebruikers die mogen posten naar '.../rest-ga/lid')
             }
 
 + Response 200
