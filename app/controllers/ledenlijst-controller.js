@@ -140,7 +140,7 @@
           filters: []
         },
         '___Z': {
-          naam: 'Standard filters',
+          naam: 'Standaard filters',
           isHeader: true,
           filters: []
         }
@@ -158,7 +158,7 @@
               CS.Groep(groep).then(
                 function (result) {
                   if ($scope.categorisedFilters[result.groepsnummer]) {
-                    $scope.categorisedFilters[result.groepsnummer]['naam'] = 'Gedeeld met ' + result.naam + " [" + result.groepsnummer + "]"
+                    $scope.categorisedFilters[result.groepsnummer]['naam'] = 'Gedeeld vanuit ' + result.naam + " [" + result.groepsnummer + "]"
                   }
                 }
               );
