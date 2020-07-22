@@ -352,7 +352,7 @@
       };
       angular.forEach($scope.lid.functies, function (value) {
         //functies toegevoegd tijdens deze sesie worden nog niet doorgegevens
-        if (value.temp != "tijdelijk") {
+        if (value.temp != "tijdelijk" && (value.functie != specialeFuncties.vga && value.functie != specialeFuncties.fv)) {
           var functieInstantie = {
             functie: value.functie,
             groep: value.groep,
