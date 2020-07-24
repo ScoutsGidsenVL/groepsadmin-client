@@ -1409,7 +1409,7 @@ Omdat de gebruiker in de meeste gevallen niet het recht heeft om de lidaanvraag 
 Het is niet mogelijk om zelf een groep aan te maken. Om een groep aan te laten maken, neem je best contact op met [groepsadministratie@scoutsengidsenvlaanderen.be](mailto:groepsadministratie@scoutsengidsenvlaanderen.be).
 :::
 
-### Groepenlijst opvragen [GET]
+### Groepen opvragen [GET]
 
 Alle groepen waar je een een functie in of rechten op hebt
 
@@ -1694,6 +1694,51 @@ Alle groepen waar je een een functie in of rechten op hebt
             // De inhoud van deze response is hetzelfde als bij `GET` op
             // `/groep/{groepsnummer}`.
 
+## Lijst van groepen [/groep/lijst{?fits}]
+
+### Lijst van groepen opvragen [GET]
+
++ Parameters
+
+    + fits (string) - De coördinaten van grenzen waarbinnen de groepen moeten liggen. Formaat 'lat1,lng1|lat2,lng2', bijvoorbeeld '51.2594,4.2215|51.1005,4.4289'
+
++ Response 200 (application/json)
+
+    + Body
+
+            // De inhoud van deze response is hetzelfde als bij `GET` op
+            // `/groep`.
+
++ Response 200 (application/vnd.google-earth.kml+xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <kml xmlns="http://earth.google.com/kml/2.2">
+              <Document>
+                <Placemark>
+                  <name>St.-Joris</name>
+                  <description><![CDATA[St.-Joris]]></description>
+                  <Point>
+                    <coordinates>4.380130880950901,51.192943518073285</coordinates>
+                  </Point>
+                </Placemark>
+                <Placemark>
+                  <name>Zaoeja</name>
+                  <description><![CDATA[Zaoeja]]></description>
+                  <Point>
+                    <coordinates>4.355885982513428,51.161516313025</coordinates>
+                  </Point>
+                </Placemark>
+                <Placemark>
+                  <name>Scouting Hoboken</name>
+                  <description><![CDATA[Scouting Hoboken]]></description>
+                  <Point>
+                    <coordinates>4.349594900000056,51.1788819</coordinates>
+                  </Point>
+                </Placemark>
+              </Document>
+            </kml>
 
 ## Ledenaantallen [/groep/{groepsnummer}/ledenaantallen]
 
