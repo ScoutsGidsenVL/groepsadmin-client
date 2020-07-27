@@ -22,6 +22,8 @@
     $scope.lidPropertiesWatchable = false;
     $scope.heeftGroepseigenvelden = false;
     $scope.functiesEnGroepenGeladen = false;
+    $scope.steekkaartLeesrecht = false;
+
     angular.extend($scope, LS.publicProperties, LS.publicMethods);
 
     var init = function () {
@@ -165,6 +167,9 @@
         }
       }
 
+      $scope.steekkaartLeesrecht = ( $.grep($scope.lid.links, function (e) {
+        return e.rel == "steekkaart";
+      }).length > 0) ;
 
       //init functies;
       CS.Functies().then(function (functiesres) {
@@ -313,6 +318,7 @@
       });
       return check
     };
+
 
 
     /*
