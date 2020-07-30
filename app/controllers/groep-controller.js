@@ -524,8 +524,13 @@
       }
     };
 
-    $scope.opslaan = function () {
-      var sortedIds = $( ".sortable" ).sortable( "toArray" );
+    $scope.opslaan = function () {      
+      var sortedIds = [];
+      var idFieldSets = $( ".idArray" );      
+      for(var i=0;i<idFieldSets.length;i++){
+        sortedIds.push(idFieldSets[i].id); 
+      }
+      
       angular.forEach($scope.data.activegroup.groepseigenGegevens, function (gegeven) {
         gegeven.sort = sortedIds.indexOf(gegeven.id);
         if (gegeven.type !== 'lijst') {

@@ -334,12 +334,12 @@
           <div ng-if="data.activegroup.groepseigenGegevens" class="sortable">
             <fieldset ng-repeat="groepseigenGegeven in data.activegroup.groepseigenGegevens | orderBy:'sort'"
                       ng-init="groepseigenGegeven.status != 'nieuw'?showme = false:showme = true;"
-                      id="{{ groepseigenGegeven.id }}">
+                      id="{{ groepseigenGegeven.id }}" class="idArray">
               <legend>
                 {{ groepseigenGegeven.label == "" ? 'Nieuw groepseigen gegeven' : groepseigenGegeven.label }}
                 <span ng-if="groepseigenGegeven.label != '' ">-
-              {{ groepseigenGegeven.type | fieldTypeFormatter }}
-            </span>
+                  {{ groepseigenGegeven.type | fieldTypeFormatter }}
+                </span>
                 <div class="pull-right">
                   <button ng-click="verwijderGroepseigenGegeven(groepseigenGegeven.id)" class="btn-minimal"
                           ng-show="data.activegroup.kanWijzigen">
