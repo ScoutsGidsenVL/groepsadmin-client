@@ -106,7 +106,7 @@
                    placeholder="Naam van filter"
                    uib-typeahead="filter as filter.naam for filter in filters | filter:{naam:$viewValue}"
                    typeahead-popup-template-url="customPopupTemplate.html" class="form-control">
-            <span ng-if="!selectedFilter.id">
+            <span ng-if="!selectedFilter.id && canPost">
               <input type="checkbox" ng-checked="deelFilter" ng-click="toggleDelen()"/> Als gedeelde filter
             </span>
             <!--<select class="selectpicker" title="Beschikbaar voor" ng-model="currentFilter" >
