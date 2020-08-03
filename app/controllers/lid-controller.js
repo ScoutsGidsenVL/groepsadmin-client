@@ -162,7 +162,7 @@
         // kan de gebruiker functie stoppen van het lid?
         $scope.canSave = _.has($scope, 'patchObj.secties');
 
-        if ($scope.canSave && someSect) {
+        if (($scope.canSave && someSect) ||$scope.isEigenProfiel) {
           $scope.kanSchrappen = true;
         }
       }
