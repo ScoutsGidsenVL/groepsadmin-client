@@ -65,7 +65,10 @@
           groep.adres
         ];
 
-        angular.forEach(groep.groepseigenGegevens, function (gegeven) {
+        groep.groepseigenGegevens = _.sortBy(groep.groepseigenGegevens, 'sort');
+
+        angular.forEach(groep.groepseigenGegevens, function (gegeven, index) {
+          gegeven.sort = index;
           if (gegeven.type === 'lijst') {
             gegeven.keuzes = gegeven.keuzes || [];
             gegeven.keuzes.push('');
@@ -524,13 +527,13 @@
       }
     };
 
-    $scope.opslaan = function () {      
+    $scope.opslaan = function () {
       var sortedIds = [];
-      var idFieldSets = $( ".idArray" );      
+      var idFieldSets = $( ".idArray" );
       for(var i=0;i<idFieldSets.length;i++){
-        sortedIds.push(idFieldSets[i].id); 
+        sortedIds.push(idFieldSets[i].id);
       }
-      
+
       angular.forEach($scope.data.activegroup.groepseigenGegevens, function (gegeven) {
         gegeven.sort = sortedIds.indexOf(gegeven.id);
         if (gegeven.type !== 'lijst') {
