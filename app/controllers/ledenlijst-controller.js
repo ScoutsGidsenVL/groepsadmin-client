@@ -527,7 +527,11 @@
     };
 
     $scope.toggleKolom = function (kol) {
-      setCurrentFilterLabel("Huidige");
+      setCurrentFilterLabel("Huidige");  
+      var sortIndexOfKol = $scope.currentFilter.sortering.indexOf(kol.id);            
+      if (!(kol.activated == undefined || kol.activated == false) == true && sortIndexOfKol != -1){        
+        $scope.currentFilter.sortering.splice(sortIndexOfKol, 1);        
+      }                      
       kol.activated = !!(kol.activated == undefined || kol.activated == false);
       $timeout(function () {
         $scope.indexeerEnGroepeerKolommen();
