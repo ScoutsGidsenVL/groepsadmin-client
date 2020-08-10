@@ -20,16 +20,16 @@
           melding: melding,
           vraag: vraag,
           // Aangeroepen vanuit de view
-          close: function() {
+          close: function() {            
             this._exit(false);
           },
           // Aangeroepen vanuit de view
-          confirm: function() {
+          confirm: function() {            
             this._exit(true);
           },
           // Aangeroepen vanuit de view
-          dismiss: function() {
-            this._exit(false);
+          dismiss: function() {            
+            this._exit(null);
           },
           _exit: function(result) {
             if(typeof(returnFunctie) === 'function') {

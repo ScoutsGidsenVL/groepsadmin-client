@@ -1,4 +1,4 @@
-<dialog ng-repeat="dialog in dialogs" close="dialog.close()" confirm="dialog.confirm()" dismiss="dialog.confirm()" title="{{dialog.title}}" >
+<dialog ng-repeat="dialog in dialogs" close="dialog.close()" confirm="dialog.confirm()" dismiss="dialog.dismiss()" title="{{dialog.title}}" >
   <p>{{dialog.melding}}</p>
   <p ng-bind-html="dialog.vraag"></p>
   <p ng-if="dialog.infoLink">
@@ -13,7 +13,7 @@
         <div class="panel panel-default container-fluid" role="dialog">
           <div class="panel-heading clearfix">
             <h3 class="panel-title">{{title}}</h3>
-            <button ng-show="closeable" type="button" class=" close btn" ng-click="close()">
+            <button ng-show="closeable" type="button" class=" close btn" ng-click="dismiss()">
               <span aria-hidden="true">&times;</span>
               <span class="sr-only">Close</span>
             </button>
