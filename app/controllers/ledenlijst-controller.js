@@ -140,7 +140,7 @@
           filters: []
         },
         '___Z': {
-          naam: 'Standard filters',
+          naam: 'Standaard filters',
           isHeader: true,
           filters: []
         }
