@@ -22,20 +22,20 @@
                       var format = function(x) {
                           console.log('x', x);
                           var precision = formaat.match(/\.([0-9]*)f/);
-                          if (precision[1]) {
+                          if (precision != null && precision[1]) {
                               precision = precision[1];
                           } else {
                               precision = 0;
-                          }
+                          }                          
                           var suffix = formaat.match(/[^ ]*[df](.*)/)[1].replace('%%', '%');
                           return x.toFixed(precision).toString().replace('.', ',') + suffix;
                       }
 
                       var werkjaren = scope.$parent.sortedKeys(scope.$parent.ledenaantallenData.takStatistieken[0].aantalLeden);
                       if (werkjaren[fields[0].offset] == 'Nu') {
-                          return 'Nu: ' + format(fields[0].value);
+                          return '<span class="tooltip-class">Nu: ' + format(fields[0].value) + '</span>';
                       } else {
-                          return werkjaren[fields[0].offset] + ': ' + format(fields[1].value);
+                          return '<span class="tooltip-class">' + werkjaren[fields[0].offset] + ': ' + format(fields[1].value) + '</span>';
                       }
                   }
               });

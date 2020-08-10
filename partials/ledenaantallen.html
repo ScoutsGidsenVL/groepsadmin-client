@@ -44,7 +44,7 @@
                 <td ng-attr-id="{{ 'tak-' + takStatistiek.takNaam + '-leden' }}" sparkline="" data-waarden="{{ sparklineData(takStatistiek.aantalLeden) }}" data-formaat='%.0f'></td>
                 <td>{{ round(takStatistiek.percentageVrouwelijkeLeden, 0) }}</td>
                 <td>{{ takStatistiek.aantalLeiding['Nu'] }}</td>
-                <td ng-attr-id="{{ 'tak-' + takStatistiek.takNaam + '-leiding' }}" sparkline="" data-waarden="{{ sparklineData(takStatistiek.aantalLeiding) }}" data-formaat='{{ criterium.formaat }}'></td>
+                <td ng-attr-id="{{ 'tak-' + takStatistiek.takNaam + '-leiding' }}" sparkline="" data-waarden="{{ sparklineData(takStatistiek.aantalLeiding) }}" data-formaat='*.0f'></td>
                 <td>{{ round(takStatistiek.omkaderingscijfer, 1) }}</td>
               </tr>
             </tbody>
