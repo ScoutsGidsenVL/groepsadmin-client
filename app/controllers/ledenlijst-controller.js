@@ -178,7 +178,10 @@
         if(filterGroup.filters.length > 0) {
           $scope.sortedFilters.push(filterGroup);
         }
-        angular.forEach(filterGroup.filters, function (filter) {
+        var groupedAndSortedFilters = filterGroup.filters.sort(function (a,b){          
+          return (a.naam.toUpperCase() > b.naam.toUpperCase()) ? 1 : ((b.naam.toUpperCase() > a.naam.toUpperCase()) ? -1 : 0);
+        });                
+        angular.forEach(groupedAndSortedFilters, function (filter) {          
           $scope.sortedFilters.push(filter)
         })
       });
