@@ -46,18 +46,20 @@
     };
 
     $scope.afkeuren = function ($event, aanvraag) {
+      console.log(aanvraag);
+      console.log($event);
       $event.stopPropagation();
-      var link = true;// _.find(aanvraag.links, {rel: 'afkeuren'});      
-      if (link) {
         var dialogData = {
           boodschap: "Lidaanvraag verwijderen.",
           vraag: "Ben je zeker dat je deze aanvraag wil afkeuren?"
         };        
 
         DialogService.bevestig(dialogData)
-          .then(function (result) {            
+          .then(function (result) {           
+            console.log(result); 
             if (result){
               function deleteAanvraag (rel){
+                console.log(rel);
                 aanvraag.saving = true;
                     link = _.find(aanvraag.links, {rel: rel});
   
@@ -93,7 +95,6 @@
               })
             }
           });
-      }
     };
 
 
