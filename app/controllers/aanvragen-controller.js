@@ -23,6 +23,7 @@
     init();
 
     $scope.goedkeuren = function ($event, aanvraag) {
+      console.log("test");
       $event.stopPropagation();
       var link = _.find(aanvraag.links, {rel: 'goedkeuren'});
       aanvraag.adres.postadres = true;
@@ -60,8 +61,9 @@
             if (result){
               function deleteAanvraag (rel){
                 console.log(rel);
+                console.log(aanvraag);
                 aanvraag.saving = true;
-                    link = _.find(aanvraag.links, {rel: rel});
+                    var link = _.find(aanvraag.links, {rel: rel});
   
                     $http({
                       url: link.href,
