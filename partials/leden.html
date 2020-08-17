@@ -363,7 +363,7 @@
               </div>
               <div ng-repeat-end ng-hide="groepering | isEmpty" ng-repeat="kolom in groepering | orderBy: 'kolomIndex'"
                    ng-class="{ 'filterDragKolom': kolom.activated }" data-kolom-id="{{kolom.id}}">
-                <label class="jcontrol control--checkbox control--collapsible noselect">
+                <label class="jcontrol control--checkbox control--collapsible noselect" ng-if="kolom.activated || !kolom.verouderd">
                   <span class="fa fa-arrows-v pull-right kolom-drag-v" ng-if="kolom.activated"></span>
                   {{ kolom.label }}
                   <input type="checkbox" ng-click="toggleKolom(kolom)" ng-checked="kolom.activated"/>

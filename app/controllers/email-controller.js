@@ -296,8 +296,10 @@
       RestService.Kolommen.get().$promise.then(
         function (result) {
           var arrValues = [];
-          _.each(result.kolommen, function (val) {
-            arrValues.push(val.label);
+          _.each(result.kolommen, function (val) {            
+            if (!val.verouderd){
+              arrValues.push(val.label);
+            }            
           });
           $scope.configEditor(arrValues);
         }

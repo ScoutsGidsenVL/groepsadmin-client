@@ -267,7 +267,9 @@
         function (result) {
           var arrValues = [];
           _.each(result.kolommen, function (val) {
-            arrValues.push(val.label);
+            if (!val.verouderd){
+              arrValues.push(val.label);
+            }            
           });
           $scope.configEditor(arrValues);
         }
