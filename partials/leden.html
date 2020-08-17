@@ -84,7 +84,7 @@
             <li ng-if="isLoadingFilters"><a href='javascript:void(0)'><i class="fa fa-spinner fa-pulse"></i>&nbsp;Filters
               aan het laden...</a></li>
             <li ng-if="!isLoadingFilters && !(filters.length > 0)"><a href='javascript:void(0)'>Geen filters</a></li>
-            <li ng-if="!isLoadingFilters" role="menuitem" ng-repeat="filter in sortedFilters " ng-class="{'dropdown-header': filter.isHeader}">
+            <li ng-if="!isLoadingFilters" role="menuitem" ng-repeat="filter in sortedFilters track by $index" ng-class="{'dropdown-header': filter.isHeader}">
               <span ng-if="filter.isHeader">{{filter.naam }}</span>
               <a ng-if="!filter.isHeader" href ng-click="changeFilter(filter)">{{filter.naam }}</a>
             </li>
