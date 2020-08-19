@@ -31,6 +31,10 @@
           'value': 'voogd',
           'label': 'Voogd'
         },
+        {
+          'value': 'Opvoedingsverantwoordelijke',
+          'label': 'Opvoedingsverantwoordelijke'
+        }
       ]
     };
 
