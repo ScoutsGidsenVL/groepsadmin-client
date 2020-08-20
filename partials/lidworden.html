@@ -13,7 +13,7 @@
       <div class="col-md-6 col-sm-12">
         <div class="form-horizontal">
           <div class="form-group">
-            <label for="_voornaam" class="col-sm-2 control-label">Voornaam</label>
+            <label for="_voornaam" class="col-sm-2 control-label"><span class="text-danger">* </span>Voornaam</label>
             <div class="col-sm-8"
                  ng-class="{ 'has-error': lidwordenForm.voornaam.$touched && lidwordenForm.voornaam.$invalid }">
               <input type="text" name="voornaam" class="form-control" id="_voornaam" placeholder="Voornaam..."
@@ -25,7 +25,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="_achternaam" class="col-sm-2 control-label">Achternaam</label>
+            <label for="_achternaam" class="col-sm-2 control-label"><span class="text-danger">* </span>Achternaam</label>
             <div class="col-sm-8"
                  ng-class="{ 'has-error': lidwordenForm.achternaam.$touched && lidwordenForm.achternaam.$invalid }">
               <input type="text" class="form-control" id="_achternaam" placeholder="Achternaam..."
@@ -57,7 +57,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="_email" class="col-sm-2 control-label">E-mail</label>
+            <label for="_email" class="col-sm-2 control-label"><span class="text-danger">* </span>E-mail</label>
             <div class="col-sm-8"
                  ng-class="{ 'has-error': lidwordenForm.email.$touched && lidwordenForm.email.$invalid }">
               <input type="email" name="email" class="form-control" id="_email" ng-model="lid.email"
@@ -122,7 +122,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="_gemeenteWrap" class="col-sm-2 control-label">Woonplaats</label>
+            <label for="_gemeenteWrap" class="col-sm-2 control-label"><span class="text-danger">* </span>Woonplaats</label>
             <div class="col-sm-6"
                  ng-class="{ 'has-error': lidwordenForm.gemeente.$touched && lidwordenForm.gemeente.$invalid }">
               <gemeente-control id="_gemeenteWrap" ng-model="gemeenteWrap"
@@ -133,7 +133,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="_straatnaam" class="col-sm-2 control-label">Adres</label>
+            <label for="_straatnaam" class="col-sm-2 control-label"><span class="text-danger">* </span>Adres</label>
             <div class="col-sm-6"
                  ng-class="{ 'has-error': lidwordenForm.straatnaam.$touched && lidwordenForm.straatnaam.$invalid}">
               <straat-control id="_straatnaam" ng-model="lid.adres.straat" adres="lid.adres"
@@ -175,6 +175,13 @@
             <label for="_opmerkingen" class="col-sm-2 control-label">Opmerkingen</label>
             <div class="col-sm-10">
               <textarea class="form-control" id="_opmerkingen" rows="4" ng-model="lid.opmerkingen"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <div class="pull-right">
+                <label class="help-block"><span class="text-danger">* </span>  Verplichte velden</label>
+              </div>
             </div>
           </div>
           <div class="form-group">
