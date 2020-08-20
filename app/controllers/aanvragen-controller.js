@@ -47,44 +47,44 @@
     };
 
     $scope.afkeuren = function ($event, aanvraag) {
+      function deleteAanvraag (rel){
+        console.log(rel);
+        console.log(aanvraag);
+        aanvraag.saving = true;
+        var link = _.find(aanvraag.links, {rel: rel});
+
+        $http({
+          url: link.href,
+          method: link.method
+        })
+          .then(function () {
+            AlertService.add('success ', "Lidaanvraag is verwijderd");
+            init();
+          })
+          .catch(function (error) {
+            AlertService.add('danger', error);
+          })
+          .finally(function () {
+            delete aanvraag.saving;
+          });
+      }
+
       console.log(aanvraag);
       console.log($event);
       $event.stopPropagation();
         var dialogData = {
           boodschap: "Lidaanvraag verwijderen.",
           vraag: "Ben je zeker dat je deze aanvraag wil afkeuren?"
-        };        
+        };
 
         DialogService.bevestig(dialogData)
-          .then(function (result) {           
-            console.log(result); 
+          .then(function (result) {
+            console.log(result);
             if (result){
-              function deleteAanvraag (rel){
-                console.log(rel);
-                console.log(aanvraag);
-                aanvraag.saving = true;
-                    var link = _.find(aanvraag.links, {rel: rel});
-  
-                    $http({
-                      url: link.href,
-                      method: link.method                    
-                    })
-                      .then(function () {
-                        AlertService.add('success ', "Lidaanvraag is verwijderd");
-                        init();
-                      })
-                      .catch(function (error) {
-                        AlertService.add('danger', error);
-                      })
-                      .finally(function () {
-                        delete aanvraag.saving;
-                      });
-              }
-              
               var bevestigMailDialogData = {
                 boodschap: "Lidaanvraag verwijderen",
-                vraag: "Wil je deze persoon mailen via <strong>" + aanvraag.email + "</strong>?"                
-              } 
+                vraag: "Wil je deze persoon mailen via <strong>" + aanvraag.email + "</strong>?"
+              }
               DialogService.bevestig(bevestigMailDialogData)
               .then(function(bevestigResult){
                 console.log(bevestigResult);
@@ -98,8 +98,5 @@
             }
           });
     };
-
-
   }
-
 })();
