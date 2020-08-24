@@ -15,6 +15,7 @@
         disabled: '=?ngDisabled',
         name: '@name',
         id: '@id',
+        mandatory: '@mandatory',
         defaultToday: '@'
       },
       controller: datumControlController
