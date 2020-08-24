@@ -5,14 +5,14 @@
     .module('ga.lidwordencontroller', [])
     .controller('LidwordenController', LidwordenController);
 
-  LidwordenController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService'];
+  LidwordenController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService', '$location', '$window'];
 
-  function LidwordenController ($scope, $routeParams, RestService, AlertService) {
+  function LidwordenController ($scope, $routeParams, RestService, AlertService, $location, $window) {
     $scope.aanvraagverstuurd = false;
     $scope.groepGeladen = false;
     $scope.publiekInschrijven = true;
     $scope.groepNr = $routeParams.groep;
-
+    $scope.voornaam = $window.localStorage.getItem('voornaam');
     init();
 
 
@@ -50,6 +50,11 @@
       if(groepsnummer) {
         $scope.lid.groepsnummer = groepsnummer;
       }
+
+      // item verwijderen uit localstorage om vervuiling tegen te gaan
+      if ($scope.voornaam){
+        $window.localStorage.removeItem('voornaam')
+      }
     }
 
     $scope.submitForm = function(form) {
@@ -61,10 +66,11 @@
         RestService.LidAanvraag.save($scope.lid).$promise
           .then(
             function () {
+              $window.localStorage.setItem('voornaam',$scope.lid.voornaam);
               $scope.lidwordenForm.$setPristine();
               $scope.lidwordenForm.$setUntouched();
               $scope.formsubmitting = false;
-              AlertService.add('success ', "Aanvraag is verstuurd.");
+              $location.path("/lidworden/verstuurd");
               init($scope.lid.groepsnummer);
             })
           .catch(function(error) {
