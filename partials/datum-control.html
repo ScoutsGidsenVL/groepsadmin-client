@@ -1,6 +1,6 @@
 <div class="input-group">
   <input type="text" name="geboortedatum" id="_geboortedatum" ng-model="model"
-         name="{{name}}" id="{{id}}"
+         name="{{name}}" id="{{id}}" ng-required="{{mandatory}}"
          class="form-control" is-open="popupCal.opened" datepicker-options="dateOptions"
          close-text="Close" uib-datepicker-popup="{{format}}" ga-parse-date
          ng-disabled="disabled" placeholder="DD/MM/JJJJ"/>
