@@ -37,10 +37,10 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="_geboortedatum" class="col-sm-2 control-label">Geboortedatum</label>
+            <label for="_geboortedatum" class="col-sm-2 control-label"><span class="text-danger">* </span>Geboortedatum</label>
             <div class="col-sm-3"
                  ng-class="{ 'has-error': lidwordenForm.geboortedatum.$touched && lidwordenForm.geboortedatum.$invalid }">
-              <datum-control ng-model="lid.geboortedatum" name="geboortedatum" id="_geboortedatum"></datum-control>
+              <datum-control ng-model="lid.geboortedatum" name="geboortedatum" id="_geboortedatum" mandatory="true"></datum-control>
               <div ng-messages="lidwordenForm.geboortedatum.$error" ng-show="lidwordenForm.geboortedatum.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
