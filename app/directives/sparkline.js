@@ -17,6 +17,7 @@
                   barWidth: 8,
                   height: 20,
                   chartRangeMin: 0,
+                //   tooltipClassname: 'tooltip-class',
                   tooltipFormatter: function(sp, options, fields) {
                       console.log('sp, options, fields', sp, options, fields);
                       var format = function(x) {
@@ -33,9 +34,9 @@
 
                       var werkjaren = scope.$parent.sortedKeys(scope.$parent.ledenaantallenData.takStatistieken[0].aantalLeden);
                       if (werkjaren[fields[0].offset] == 'Nu') {
-                          return '<span class="tooltip-class">Nu: ' + format(fields[0].value) + '</span>';
+                          return 'Nu: ' + format(fields[0].value);
                       } else {
-                          return '<span class="tooltip-class">' + werkjaren[fields[0].offset] + ': ' + format(fields[1].value) + '</span>';
+                          return werkjaren[fields[0].offset] + ': ' + format(fields[1].value);
                       }
                   }
               });
