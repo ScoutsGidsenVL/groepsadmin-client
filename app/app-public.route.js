@@ -16,6 +16,11 @@
         controller: 'LidwordenController'
       })
 
+      .when('/lidworden/verstuurd', {
+        templateUrl: 'partials/lidworden-verstuurd.html',
+        controller: 'LidwordenController'
+      })
+
       .otherwise({
         redirectTo: '/lidworden'
       });
