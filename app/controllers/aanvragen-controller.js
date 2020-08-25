@@ -48,8 +48,6 @@
 
     $scope.afkeuren = function ($event, aanvraag) {
       function deleteAanvraag (rel){
-        console.log(rel);
-        console.log(aanvraag);
         aanvraag.saving = true;
         var link = _.find(aanvraag.links, {rel: rel});
 
@@ -69,8 +67,6 @@
           });
       }
 
-      console.log(aanvraag);
-      console.log($event);
       $event.stopPropagation();
         var dialogData = {
           boodschap: "Lidaanvraag verwijderen.",
@@ -78,16 +74,14 @@
         };
 
         DialogService.bevestig(dialogData)
-          .then(function (result) {
-            console.log(result);
+          .then(function (result) {          
             if (result){
               var bevestigMailDialogData = {
                 boodschap: "Lidaanvraag verwijderen",
                 vraag: "Wil je deze persoon mailen via <strong>" + aanvraag.email + "</strong>?"
               }
               DialogService.bevestig(bevestigMailDialogData)
-              .then(function(bevestigResult){
-                console.log(bevestigResult);
+              .then(function(bevestigResult){                
                 if (bevestigResult){
                   deleteAanvraag('afkeurenMetMail');
                 }
