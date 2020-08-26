@@ -31,6 +31,10 @@
       $location.path("/lid/profiel");
     }
 
+    UserAccess.hasAccessTo("steekkaart").then(function (res) {
+      $scope.toPdf = res;
+    });
+
     UserAccess.hasAccessTo("nieuw lid").then(function (res) {
       $scope.canPost = res;
     });
@@ -178,10 +182,10 @@
         if(filterGroup.filters.length > 0) {
           $scope.sortedFilters.push(filterGroup);
         }
-        var groupedAndSortedFilters = filterGroup.filters.sort(function (a,b){          
+        var groupedAndSortedFilters = filterGroup.filters.sort(function (a,b){
           return (a.naam.toUpperCase() > b.naam.toUpperCase()) ? 1 : ((b.naam.toUpperCase() > a.naam.toUpperCase()) ? -1 : 0);
-        });                
-        angular.forEach(groupedAndSortedFilters, function (filter) {          
+        });
+        angular.forEach(groupedAndSortedFilters, function (filter) {
           $scope.sortedFilters.push(filter)
         })
       });
@@ -530,11 +534,11 @@
     };
 
     $scope.toggleKolom = function (kol) {
-      setCurrentFilterLabel("Huidige");  
-      var sortIndexOfKol = $scope.currentFilter.sortering.indexOf(kol.id);            
-      if (!(kol.activated == undefined || kol.activated == false) == true && sortIndexOfKol != -1){        
-        $scope.currentFilter.sortering.splice(sortIndexOfKol, 1);        
-      }                      
+      setCurrentFilterLabel("Huidige");
+      var sortIndexOfKol = $scope.currentFilter.sortering.indexOf(kol.id);
+      if (!(kol.activated == undefined || kol.activated == false) == true && sortIndexOfKol != -1){
+        $scope.currentFilter.sortering.splice(sortIndexOfKol, 1);
+      }
       kol.activated = !!(kol.activated == undefined || kol.activated == false);
       $timeout(function () {
         $scope.indexeerEnGroepeerKolommen();
