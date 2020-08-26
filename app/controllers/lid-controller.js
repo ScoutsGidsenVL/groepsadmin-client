@@ -42,6 +42,10 @@
       if ($routeParams.id !== 'profiel') {
         $scope.prevLid = LLS.getNextPrevLid($routeParams.id, $rootScope.leden)[0];
         $scope.nextLid = LLS.getNextPrevLid($routeParams.id, $rootScope.leden)[1];
+        // tonen van de knop "individuele steekkaart enkel indien de gebruiker toegang heeft
+        UserAccess.hasAccessTo("steekkaart").then(function (res) {
+          $scope.steekkaartLezenRecht = res;
+        });
       }
 
       RestService.Lid.get({id: $routeParams.id}).$promise.then(
