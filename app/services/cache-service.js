@@ -10,10 +10,23 @@
   // Deze service bevat logica om te bepalen of een gebruiker ergens wel/geen toegang tot heeft
 
   function CacheService(RestService, $q, $rootScope) {
-    var resGroepen, resFuncties = {}, waitingGroepen = false, waitingFuncties = false;
+    var resGroepen, resFuncties, resGroepenVga = {}, waitingGroepen = false, waitingFuncties = false, waitingGroepenVga = false;
 
     var indexedGroepen = {}, deferredGroepen = {};
+    var indexedGroepenVga = {}, deferredGroepenVga = {};
     var indexedFuncties = {}, deferredFuncties = {};
+
+    function returnGroepenVga() {
+      var copy = {
+        groepenVga: []
+      };
+
+      angular.forEach(resGroepenVga.groepen, function (groep) {
+        copy.groepenVga.push(angular.merge({}, groep));
+      });
+      return copy;
+    }
+
 
     function returnGroepen() {
       var copy = {
@@ -188,6 +201,30 @@
           return deferred.promise;
         }
       },
+      GroepenVga: function (force) {
+        if (force || _.isEmpty(resGroepenVga)) {
+          waitingGroepenVga = true;
+          return RestService.GroepWaarvanGebruikerVGA.get().$promise
+            .then(function (response) {
+              resGroepenVga = response;
+              var copiedResponse = returnGroepenVga();
+              $rootScope.$broadcast('ga-groepen-geladen', copiedResponse);
+
+              angular.forEach(response.groepen, function (groep) {
+                indexedGroepenVga[groep.id] = groep;
+              });
+              return copiedResponse;
+            })
+            .finally(function () {
+              waitingGroepenVga = false;
+            });
+        } else {
+          var deferred = $q.defer();
+          deferred.resolve(returnGroepenVga());
+          return deferred.promise;
+        }
+      },
+
       Functie: function (id) {
         var deferred = $q.defer();
 
