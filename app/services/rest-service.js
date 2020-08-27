@@ -128,6 +128,11 @@
         {},
         {get: {method: 'GET'}}
       ),
+      GroepWaarvanGebruikerVGA: $resource(
+        base + 'groep/vga',
+        {},
+        {get: {method: 'GET'}}
+      ),
       IndividueleSteekkaart: $resource(
         basejson + 'individuelesteekkaart.json',
         {},
