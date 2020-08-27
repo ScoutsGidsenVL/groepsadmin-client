@@ -106,11 +106,11 @@
       CS.Functies().then(
         function (result) {
           $scope.functies = result;
-          CS.Groepen().then(
+          CS.GroepenVga().then(
             function (result) {
               //herordenen zodat ze eenvoudig gebruikt kunnen worden in de template;
               $scope.groepEnfuncties = [];
-              angular.forEach(result.groepen, function (value) {
+              angular.forEach(result.groepenVga, function (value) {
                 var tempGroep = {};
                 tempGroep.functies = [];
                 tempGroep.groepsnummer = value.groepsnummer;
