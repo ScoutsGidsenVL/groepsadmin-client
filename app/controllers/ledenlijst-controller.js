@@ -26,6 +26,7 @@
     $scope.deelFilter = false;
 
     $scope.canPost = false;
+    $scope.isVgaOfLeiding = false;
 
     if (!access) {
       $location.path("/lid/profiel");
@@ -48,6 +49,8 @@
       $scope.deelFilter = false;
       $scope.selectedFilter = '';
     };
+
+    let criteriaCollection = [];
 
     $(function () {
       angular.element("#mySortableList").sortable({
@@ -179,10 +182,10 @@
 
       $scope.sortedFilters = [];
       angular.forEach($scope.categorisedFilters, function (filterGroup) {
-        if(filterGroup.filters.length > 0) {
+        if (filterGroup.filters.length > 0) {
           $scope.sortedFilters.push(filterGroup);
         }
-        var groupedAndSortedFilters = filterGroup.filters.sort(function (a,b){
+        var groupedAndSortedFilters = filterGroup.filters.sort(function (a, b) {
           return (a.naam.toUpperCase() > b.naam.toUpperCase()) ? 1 : ((b.naam.toUpperCase() > a.naam.toUpperCase()) ? -1 : 0);
         });
         angular.forEach(groupedAndSortedFilters, function (filter) {
@@ -191,6 +194,21 @@
       });
     }
 
+    function setGebruikerIsLeidingOfVga() {
+      let bestaandeGroep = false;
+
+      CS.GroepenVgaOfleiding().then(
+        function (result) {
+          _.each(result.groepenVgaOfleiding, function (groep) {
+            if (criteriaCollection.includes(groep.groepsnummer) || criteriaCollection.length === 0) {
+              $scope.isVgaOfLeiding = true;
+              bestaandeGroep = true;
+            } else if (!bestaandeGroep) {
+              $scope.isVgaOfLeiding = false;
+            }
+          })
+        })
+    }
 
 
     // In deze functie wordt een filter uit de backend gehaald
@@ -224,14 +242,15 @@
                 }
               });
             });
-          }
-          else if (key === "groepen") {
+          } else if (key === "groepen") {
             var items = [];
             // voor iedere waarde van huidige criterium 'groepen'
             angular.forEach(value, function (groepsnummer) {
               var promiseGroep = CS.Groep(groepsnummer).then(
                 function (result) {
                   var groep = result;
+                  criteriaCollection.push(groep.groepsnummer);
+                  setGebruikerIsLeidingOfVga();
                   items.push({
                     value: groep.groepsnummer,
                     label: groep.naam + " [" + groep.groepsnummer + "]"
@@ -247,8 +266,7 @@
               items: items
             };
             geselecteerdeCriteria.push(tempselectedCriteria);
-          }
-          else {
+          } else {
             var tempselectedCriteria = {
               title: key.charAt(0).toUpperCase() + key.slice(1),
               items: value
@@ -340,6 +358,12 @@
           value.activated = false;
         });
         criteriumItem.activated = true;
+      }
+      if ( !criteriumItem.activated && criteriumItem.value.length === 6){
+        let index = criteriaCollection.indexOf(criteriumItem.value);
+        criteriaCollection.splice(index, 1);
+      } else if (criteriumItem.activated && criteriumItem.value.length === 6) {
+        criteriaCollection.push(criteriumItem.value);
       }
     };
 
@@ -536,7 +560,7 @@
     $scope.toggleKolom = function (kol) {
       setCurrentFilterLabel("Huidige");
       var sortIndexOfKol = $scope.currentFilter.sortering.indexOf(kol.id);
-      if (!(kol.activated == undefined || kol.activated == false) == true && sortIndexOfKol != -1){
+      if (!(kol.activated == undefined || kol.activated == false) == true && sortIndexOfKol != -1) {
         $scope.currentFilter.sortering.splice(sortIndexOfKol, 1);
       }
       kol.activated = !!(kol.activated == undefined || kol.activated == false);
@@ -701,6 +725,7 @@
           _.each($scope.kolommen, function (val) {
             val.isLoaded = !!val.activated;
           });
+          setGebruikerIsLeidingOfVga();
           // ledenlijst leegmaken
           $scope.leden = [];
           $scope.totaalAantalLeden = -1;
@@ -708,13 +733,12 @@
           $scope.ledenLaden();
           if (updateDropdownVal) {
             $scope.currentFilter = response;
-          }
-          else {
+          } else {
             $scope.currentFilter.sortering = response.sortering;
             $scope.currentFilter.kolommen = response.kolommen;
           }
-
         });
+
     };
 
     angular.element($window).bind("scroll", function () {
