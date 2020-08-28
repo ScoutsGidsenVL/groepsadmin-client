@@ -195,7 +195,7 @@
     }
 
     function setGebruikerIsLeidingOfVga() {
-      let bestaandeGroep = false;
+      var bestaandeGroep = false;
 
       CS.GroepenVgaOfleiding().then(
         function (result) {
@@ -360,7 +360,7 @@
         criteriumItem.activated = true;
       }
       if ( !criteriumItem.activated && criteriumItem.value.length === 6){
-        let index = $scope.criteriaCollection.indexOf(criteriumItem.value);
+        var index = $scope.criteriaCollection.indexOf(criteriumItem.value);
         $scope.criteriaCollection.splice(index, 1);
       } else if (criteriumItem.activated && criteriumItem.value.length === 6) {
         $scope.criteriaCollection.push(criteriumItem.value);
