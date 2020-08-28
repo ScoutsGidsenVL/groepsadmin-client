@@ -10,10 +10,11 @@
   // Deze service bevat logica om te bepalen of een gebruiker ergens wel/geen toegang tot heeft
 
   function CacheService(RestService, $q, $rootScope) {
-    var resGroepen, resFuncties, resGroepenVga = {}, waitingGroepen = false, waitingFuncties = false, waitingGroepenVga = false;
+    var resGroepen, resFuncties, resGroepenVga = {}, resGroepenVgaOfLeiding = {}, waitingGroepen = false, waitingFuncties = false, waitingGroepenVga = false, waitingGroepenVgaOfleiding = false;
 
     var indexedGroepen = {}, deferredGroepen = {};
     var indexedGroepenVga = {}, deferredGroepenVga = {};
+    var indexedGroepenVgaOfLeiding = {}, deferredGroepenVgaOfLeiding = {};
     var indexedFuncties = {}, deferredFuncties = {};
 
     function returnGroepenVga() {
@@ -23,6 +24,17 @@
 
       angular.forEach(resGroepenVga.groepen, function (groep) {
         copy.groepenVga.push(angular.merge({}, groep));
+      });
+      return copy;
+    }
+
+    function returnGroepenVgaOfleiding() {
+      var copy = {
+        groepenVgaOfleiding: []
+      };
+
+      angular.forEach(resGroepenVgaOfLeiding.groepen, function (groep) {
+        copy.groepenVgaOfleiding.push(angular.merge({}, groep));
       });
       return copy;
     }
@@ -221,6 +233,29 @@
         } else {
           var deferred = $q.defer();
           deferred.resolve(returnGroepenVga());
+          return deferred.promise;
+        }
+      },
+      GroepenVgaOfleiding: function (force) {
+        if (force || _.isEmpty(resGroepenVgaOfLeiding)) {
+          waitingGroepenVgaOfleiding = true;
+          return RestService.GroepWaarvanGebruikerVGAOfleiding.get().$promise
+            .then(function (response) {
+              resGroepenVgaOfLeiding = response;
+              var copiedResponse = returnGroepenVgaOfleiding();
+              $rootScope.$broadcast('ga-groepen-geladen', copiedResponse);
+
+              angular.forEach(response.groepen, function (groep) {
+                indexedGroepenVgaOfLeiding[groep.id] = groep;
+              });
+              return copiedResponse;
+            })
+            .finally(function () {
+              waitingGroepenVgaOfleiding = false;
+            });
+        } else {
+          var deferred = $q.defer();
+          deferred.resolve(returnGroepenVgaOfleiding());
           return deferred.promise;
         }
       },
