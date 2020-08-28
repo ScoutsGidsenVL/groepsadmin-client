@@ -50,7 +50,7 @@
       $scope.selectedFilter = '';
     };
 
-    let criteriaCollection = [];
+    $scope.criteriaCollection = [];
 
     $(function () {
       angular.element("#mySortableList").sortable({
@@ -200,7 +200,7 @@
       CS.GroepenVgaOfleiding().then(
         function (result) {
           _.each(result.groepenVgaOfleiding, function (groep) {
-            if (criteriaCollection.includes(groep.groepsnummer) || criteriaCollection.length === 0) {
+            if ($scope.criteriaCollection.includes(groep.groepsnummer) || $scope.criteriaCollection.length === 0) {
               $scope.isVgaOfLeiding = true;
               bestaandeGroep = true;
             } else if (!bestaandeGroep) {
@@ -249,7 +249,7 @@
               var promiseGroep = CS.Groep(groepsnummer).then(
                 function (result) {
                   var groep = result;
-                  criteriaCollection.push(groep.groepsnummer);
+                  $scope.criteriaCollection.push(groep.groepsnummer);
                   setGebruikerIsLeidingOfVga();
                   items.push({
                     value: groep.groepsnummer,
@@ -360,10 +360,10 @@
         criteriumItem.activated = true;
       }
       if ( !criteriumItem.activated && criteriumItem.value.length === 6){
-        let index = criteriaCollection.indexOf(criteriumItem.value);
-        criteriaCollection.splice(index, 1);
+        let index = $scope.criteriaCollection.indexOf(criteriumItem.value);
+        $scope.criteriaCollection.splice(index, 1);
       } else if (criteriumItem.activated && criteriumItem.value.length === 6) {
-        criteriaCollection.push(criteriumItem.value);
+        $scope.criteriaCollection.push(criteriumItem.value);
       }
     };
 
