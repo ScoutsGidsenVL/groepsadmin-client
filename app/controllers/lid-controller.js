@@ -43,9 +43,6 @@
         $scope.prevLid = LLS.getNextPrevLid($routeParams.id, $rootScope.leden)[0];
         $scope.nextLid = LLS.getNextPrevLid($routeParams.id, $rootScope.leden)[1];
         // tonen van de knop "individuele steekkaart enkel indien de gebruiker toegang heeft
-        UserAccess.hasAccessTo("steekkaart").then(function (res) {
-          $scope.steekkaartLezenRecht = res;
-        });
       }
 
       RestService.Lid.get({id: $routeParams.id}).$promise.then(
@@ -63,6 +60,7 @@
           });
           loadSuccess($scope.lid);
           initModel();
+          setSteekkaartLeesRechten();
 
           $timeout(function () {
             // pas wanneer de lid gegevens geladen zijn mag $watch (in de loadSuccess() functie) controle toepassen op changes
@@ -171,10 +169,6 @@
         }
       }
 
-      $scope.steekkaartLeesrecht = ( $.grep($scope.lid.links, function (e) {
-        return e.rel == "steekkaart";
-      }).length > 0) ;
-
       //init functies;
       CS.Functies().then(function (functiesres) {
         var functies = functiesres;
@@ -183,6 +177,21 @@
         })
       });
 
+    }
+
+    function setSteekkaartLeesRechten() {
+      let lidGroepen = [];
+      _.each($scope.lid.functies, function(functie){
+        lidGroepen.push(functie.groep);
+      })
+      CS.GroepenVgaOfleiding().then(
+        function (result) {
+          _.each(result.groepenVgaOfleiding, function (groep) {
+              if (lidGroepen.includes(groep.groepsnummer)){
+                $scope.steekkaartLeesrecht = true;
+              }
+          })
+        })
     }
 
     function functiesEnGroepen(functies, groepen) {
@@ -324,7 +333,6 @@
     };
 
 
-
     /*
      * Panel header functionaliteit
      * ---------------------------------------
@@ -383,8 +391,7 @@
         function (error) {
           if (error.status == 403) {
             AlertService.add('warning', 'Niet alle functies kunnen geschrapt worden. <a  target="_blank" href=" https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginahulp:_src_4_TContentFunctionsEntry_OUTPUT_KAN_NIET_STOPZETTEN">Meer info</a>');
-          }
-          else {
+          } else {
             AlertService.add('danger', error);
           }
         }
