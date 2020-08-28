@@ -180,7 +180,7 @@
     }
 
     function setSteekkaartLeesRechten() {
-      let lidGroepen = [];
+      var lidGroepen = [];
       _.each($scope.lid.functies, function(functie){
         lidGroepen.push(functie.groep);
       })
