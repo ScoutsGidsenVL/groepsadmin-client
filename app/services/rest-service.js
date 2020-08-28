@@ -133,6 +133,11 @@
         {},
         {get: {method: 'GET'}}
       ),
+      GroepWaarvanGebruikerVGAOfleiding: $resource(
+        base + 'groep/leiding',
+        {},
+        {get: {method: 'GET'}}
+      ),
       IndividueleSteekkaart: $resource(
         basejson + 'individuelesteekkaart.json',
         {},
