@@ -71,6 +71,14 @@
             returnObj.arrCriteria.push(emailGeblokkeerd);
           }
         );
+        returnObj.promises[7] = RestService.VerminderLidgeld.get().$promise.then(
+        function (result) {
+          var verminderLidgeld = result;
+          verminderLidgeld.activated = false;
+          returnObj.arrCriteria.push(verminderLidgeld);
+        }
+      );
+
       return returnObj;
     };
 
@@ -472,7 +480,6 @@
       // reconstrueer het Filter object:
       // TODO: rewrite to be more generic, using multiplePossible property, for 'functies' some extra logic will be needed
       var patchedFilterObj = currentFilter;
-
       var reconstructedFilterObj = {};
       reconstructedFilterObj.criteria = {};
       // maak het criteria object adhv geactiveerde criteria en criteriaItems
@@ -550,6 +557,12 @@
       var actieveGeblokkeerdeEmail = _.find(activeCriteria, {"criteriaKey": "emailgeblokkeerd"});
       if (actieveGeblokkeerdeEmail) {
         reconstructedFilterObj.criteria.emailgeblokkeerd = _.find(actieveGeblokkeerdeEmail.items, {'activated': true}).value;
+      }
+
+      // verminderdLidgeld
+      var actiefVerminderdLidgeld = _.find(activeCriteria, {"criteriaKey": "verminderdLidgeld"});
+      if (actiefVerminderdLidgeld) {
+        reconstructedFilterObj.criteria.verminderdLidgeld = _.find(actiefVerminderdLidgeld.items, {'activated': true}).value;
       }
 
       // invididuelesteekkaart
