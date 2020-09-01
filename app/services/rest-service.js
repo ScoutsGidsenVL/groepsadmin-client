@@ -109,6 +109,11 @@
         {},
         {get: {method: 'GET'}}
       ),
+      VerminderLidgeld: $resource(
+        basejson + 'verminderdLidgeld.json',
+        {},
+        {get: {method: 'GET'}}
+      ),
       Geslacht: $resource(
         basejson + 'geslacht.json',
         {},
