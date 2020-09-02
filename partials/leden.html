@@ -166,7 +166,10 @@
           <a ng-click="deactivateCriterium(criterium)" class="filter-option-close"><i class="fa fa-trash"
                                                                                       aria-hidden="true"></i></a>
 
-          <div class="dropdown-menu" uib-dropdown-menu>
+          <div class="dropdown-menu" uib-dropdown-menu
+               ng-if="criterium.criteriaKey !== 'verminderdLidgeld' &&
+                      criterium.criteriaKey !== 'emailgeblokkeerd' &&
+                      criterium.criteriaKey !== 'adresgeblokkeerd'">
             <div class="control-selectall"
                  ng-if="criterium.multiplePossible && criterium.items.length > 1 && criterium.criteriaKey == 'groepen' ">
               <label
