@@ -572,7 +572,9 @@
           }
           var foundObj = _.find($scope.data.groepenlijst, {'id': $scope.data.activegroup.id});
           foundObj.facturatieLeidingSaved = true;
-          foundObj.facturatieLeidingCheck = true;
+          if ($scope.data.activegroup.facturatieLeidingCheck) {
+            foundObj.facturatieLeidingCheck = true;
+          }
           delete response.$promise;
           CS.UpdateGroep(response.id, response);
           return response;
