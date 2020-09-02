@@ -78,8 +78,7 @@
             //redirect to lid overzicht.
             $location.path('/');
             AlertService.add('danger', "Je hebt geen leesrechten op dit lid.");
-          }
-          else {
+          } else {
             AlertService.add('danger', error);
           }
         }
@@ -164,7 +163,7 @@
         // kan de gebruiker functie stoppen van het lid?
         $scope.canSave = _.has($scope, 'patchObj.secties');
 
-        if (($scope.canSave && someSect) ||$scope.isEigenProfiel) {
+        if (($scope.canSave && someSect) || $scope.isEigenProfiel) {
           $scope.kanSchrappen = true;
         }
       }
@@ -181,16 +180,17 @@
 
     function setSteekkaartLeesRechten() {
       var lidGroepen = [];
-      _.each($scope.lid.functies, function(functie){
+      _.each($scope.lid.functies, function (functie) {
         lidGroepen.push(functie.groep);
       })
       CS.GroepenVgaOfleiding().then(
         function (result) {
           _.each(result.groepenVgaOfleiding, function (groep) {
-              if (lidGroepen.includes(groep.groepsnummer)){
-                $scope.steekkaartLeesrecht = true;
-              }
+            if (lidGroepen.includes(groep.groepsnummer)) {
+              $scope.steekkaartLeesrecht = true;
+            }
           })
+          checkAlsLidActiefIs();
         })
     }
 
@@ -522,7 +522,17 @@
       return e.returnValue;
     };
 
-
     init();
+
+    // Wanneer een lid geen actieve funkties heeft mag men niet aan de steekkaart
+    function checkAlsLidActiefIs() {
+      var actieveFunktie = false;
+      _.each($scope.lid.functies, function (funktie) {
+        if (!funktie.einde) {
+          actieveFunktie = true;
+        }
+      })
+      $scope.steekkaartLeesrecht = actieveFunktie;
+    }
   }
 })();
