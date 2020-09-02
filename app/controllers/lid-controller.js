@@ -23,6 +23,7 @@
     $scope.heeftGroepseigenvelden = false;
     $scope.functiesEnGroepenGeladen = false;
     $scope.steekkaartLeesrecht = false;
+    $scope.actiefLid = false;
 
     angular.extend($scope, LS.publicProperties, LS.publicMethods);
 
@@ -532,7 +533,7 @@
           actieveFunktie = true;
         }
       })
-      $scope.steekkaartLeesrecht = actieveFunktie;
+      $scope.actiefLid = actieveFunktie;
     }
   }
 })();
