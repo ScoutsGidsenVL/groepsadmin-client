@@ -156,7 +156,7 @@
       angular.forEach($scope.filters, function (filter) {
         if (filter.delen === true) {
           if (filter.gedeeldvanuit) {
-            angular.forEach(filter.groepen, function (groep) {
+            angular.forEach(filter.gedeeldvanuit, function (groep) {
               if (!$scope.categorisedFilters[groep]) {
                 $scope.categorisedFilters[groep] = {isHeader: true, filters: []};
               }
