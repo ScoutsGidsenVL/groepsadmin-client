@@ -274,7 +274,7 @@
             geselecteerdeCriteria.push(tempselectedCriteria);
           }
         });
-
+        setGebruikerIsLeidingOfVga();
         $q.all(arrPromises).then(function () {
           $log.debug('all groepen en functies resolved');
           deferred.resolve();
