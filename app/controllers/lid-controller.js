@@ -23,7 +23,6 @@
     $scope.heeftGroepseigenvelden = false;
     $scope.functiesEnGroepenGeladen = false;
     $scope.steekkaartLeesrecht = false;
-    $scope.actiefLid = false;
 
     angular.extend($scope, LS.publicProperties, LS.publicMethods);
 
@@ -180,18 +179,15 @@
     }
 
     function setSteekkaartLeesRechten() {
-      var lidGroepen = [];
-      _.each($scope.lid.functies, function (functie) {
-        lidGroepen.push(functie.groep);
-      })
       CS.GroepenVgaOfleiding().then(
         function (result) {
-          _.each(result.groepenVgaOfleiding, function (groep) {
-            if (lidGroepen.includes(groep.groepsnummer)) {
-              $scope.steekkaartLeesrecht = true;
-            }
+          _.each($scope.lid.functies, function (functie) {
+            _.each(result.groepenVgaOfleiding, function (groep) {
+                if (!functie.einde && functie.groep == groep.groepsnummer) {
+                  $scope.steekkaartLeesrecht = true
+                }
+            })
           })
-          checkAlsLidActiefIs();
         })
     }
 
@@ -522,16 +518,5 @@
     };
 
     init();
-
-    // Wanneer een lid geen actieve funkties heeft mag men niet aan de steekkaart
-    function checkAlsLidActiefIs() {
-      var actieveFunktie = false;
-      _.each($scope.lid.functies, function (funktie) {
-        if (!funktie.einde) {
-          actieveFunktie = true;
-        }
-      })
-      $scope.actiefLid = actieveFunktie;
-    }
   }
 })();
