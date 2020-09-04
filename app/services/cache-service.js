@@ -119,7 +119,7 @@
           waiting: true
         };
 
-        RestService.Functie.get({id: id}).$promise
+        RestService.Functie.get({functieId: id}).$promise
           .then(function (result) {
             delete result.$promise;
             indexedFuncties[id] = result;
