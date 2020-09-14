@@ -261,6 +261,10 @@
         {
           background: "rgba(120, 97, 218, 1)",
           border: "rgba(120, 97, 218, 0.59)"
+        },
+        {
+          background: "rgb(0,159,177)",
+          border: "rgb(0,219,248)"
         }
       ];
 
@@ -281,7 +285,6 @@
         _.forEach(ledenaantallenData.ledenPerLeeftijd[keySoort], function (valueAantal, keyJaar) {
           values[alleJaren.indexOf(keyJaar)] = valueAantal;
         });
-
         data.datasets.push({
           label: ({
             '10': 'Leiding',
