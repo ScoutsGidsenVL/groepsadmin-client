@@ -655,7 +655,21 @@
       }
     };
 
+    $scope.checkGeldigeNaam = function (selectedFilter) {
+      $scope.filterNaamError = false;
+      selectedFilter = selectedFilter.trim();
+
+      if (!selectedFilter){
+        $scope.filterNaamError = true
+        $scope.isSavingFilters = false;
+        return false;
+      } else {
+        return true;
+      }
+    }
+
     $scope.saveOrOverwriteFilter = function (selectedFilter, deelFilter) {
+      $scope.filterNaamError = false;
       $scope.isSavingFilters = true;
       var reconstructedFilterObj = createFilterObject();
 
@@ -676,6 +690,9 @@
       } else {
         // voor de zekerheid leading en trailing whitespaces trimmen
         selectedFilter = selectedFilter.trim();
+        if (!this.checkGeldigeNaam(selectedFilter)){
+          return;
+        }
         var filters = LFS.getFilters();
         $q.all(filters.promises).then(function () {
           // eerst checken of de naam niet overeenkomt met bestaande filter
