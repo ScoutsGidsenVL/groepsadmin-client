@@ -3,7 +3,7 @@
   <div class="pull-left full-max-width">
 
     <h1 class="panel-title ellipsis" ng-bind="lid.vgagegevens.voornaam + ' ' + lid.vgagegevens.achternaam"></h1>
-    <h2 class="panel-subtitle" ng-bind="lid.verbondsgegevens.lidnummer"></h2>
+    <h2 class="panel-subtitle" ng-show="lid" >Lidnr: {{ lid.verbondsgegevens.lidnummer }} &emsp;  Gebruikersnaam: {{ lid.gebruikersnaam }}</h2>
     <!-- Placeholders-->
     <h1 class="panel-title placeholder placeholder--blurred" ng-show="!lid">Plaatshouder</h1>
     <h2 class="panel-subtitle placeholder placeholder--blurred" ng-show="!lid">1988randomnumber3791</h2>
@@ -21,10 +21,12 @@
     <div class="hidden-xs hidden-sm hidden-md ">
       <formerrorbutton formulier="lidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
       <button type="submit" class="btn btn-apply" ng-disabled="lidForm.$invalid" ng-click="opslaan()"
-              ng-if="lid && canSave && lidPropertiesWatchable || kanGroepseingenVeldenWijzigen "><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i
+              ng-if="lid && canSave && lidPropertiesWatchable || kanGroepseingenVeldenWijzigen "><i class="fa fa-save"
+                                                                                                    aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i
         class="fa fa-spinner fa-pulse" ng-show="saving"></i>
       </button>
-      <a href="#/lid/individuelesteekkaart/{{lid.id}}" class="btn btn-primary" ng-if="steekkaartLeesrecht || isEigenProfiel">
+      <a href="#/lid/individuelesteekkaart/{{lid.id}}" class="btn btn-primary"
+         ng-if="steekkaartLeesrecht || isEigenProfiel">
         <i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele steekkaart
       </a>
       <button type="button" class="btn btn-secondary" ng-click="schrap()"
