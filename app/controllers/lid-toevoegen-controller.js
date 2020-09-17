@@ -175,6 +175,9 @@
         origineelLid.functies.push($scope.lid.functies[0]);
       } else {
         origineelLid.functies = [];
+        AlertService.add('warning', 'Dit lid heeft nog geen functie.');
+        $scope.saving = false;
+        return;
       }
 
       RestService.LidAdd.save(origineelLid).$promise.then(
