@@ -75,7 +75,6 @@
         <input type="checkbox" class="" id="_verminderdlidgeld" ng-model="lid.vgagegevens.verminderdlidgeld"
                ng-disabled="!hasPermission('vgagegevens')"/>
         <span class="control-indicator"></span>
-
       </div>
       <span id="helpBlock" class="help-block col-xxs-12 font-default" ng-show="lid.vgagegevens.verminderdlidgeld">
         Leden zijn niet alleen maar lid van Scouts en Gidsen Vlaanderen vzw, maar gaan ook mee op weekend, kamp, ...<br>
@@ -125,7 +124,7 @@
     </div>
     <label class="form-group control checkbox {{  'verbondsgegevens.lidgeldbetaald' | formValidator:validationErrors  }}"
            ng-if="!isNieuwLidForm">
-      <div class="col-xs-5 col-xxs-12 control-label">Lidgeld betaald</div>
+      <div class="col-xs-5 col-xxs-12 control-label">Lidgeld betaald aan Scouts en Gidsen Vlaanderen</div>
       <div class="col-xs-7 col-xxs-12">
         <input type="checkbox" class="" id="_lidgeldbetaald" ng-model="lid.verbondsgegevens.lidgeldbetaald"
                ng-disabled="!hasPermission('verbondsgegevens')"/>
