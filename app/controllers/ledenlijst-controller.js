@@ -28,6 +28,8 @@
     $scope.canPost = false;
     $scope.isVgaOfLeiding = false;
 
+    $scope.filterNaamError = true;
+
     if (!access) {
       $location.path("/lid/profiel");
     }
@@ -656,7 +658,6 @@
     };
 
     $scope.checkGeldigeNaam = function (selectedFilter) {
-      $scope.filterNaamError = false;
       selectedFilter = selectedFilter.trim();
 
       if (!selectedFilter){
@@ -664,12 +665,12 @@
         $scope.isSavingFilters = false;
         return false;
       } else {
+        $scope.filterNaamError = false
         return true;
       }
     }
 
     $scope.saveOrOverwriteFilter = function (selectedFilter, deelFilter) {
-      $scope.filterNaamError = false;
       $scope.isSavingFilters = true;
       var reconstructedFilterObj = createFilterObject();
 
@@ -715,7 +716,7 @@
         });
 
       }
-
+      $scope.filterNaamError = true
     };
 
     $scope.changeFilter = function (filter) {
