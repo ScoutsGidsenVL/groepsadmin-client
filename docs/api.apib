@@ -515,7 +515,7 @@ Voor de sectie `email`:
 Voor de sectie `functies`:
 * Een functie-instantie heeft geen `id` veld.  Het wordt uniek gekenmerkt door de combinatie van de velden `functie`, `groep` en `begin`.
 * Een functie-instantie toevoegen kan door een functie-instatie toe te voegen met `begin` != `null`. `begin` zal door de server worden ingevuld op de huidige timestamp maar je geeft best een datetime mee.
-* Een functie-instantie stopzetten kan door een bestaande niet beeindigde functie-instantie opladen met `einde` != `null`. Je mag dus datum invullen, maar de server zal hier geen rekening mee houden.
+* Een functie-instantie stopzetten kan door een bestaande niet beëindigde functie-instantie op te laden met een einddatum
 * Om te bevestigen dat de functie-instantie stopgezet wordt moeten we een parameter `bevestig` met daarin een boolean toevoegen aan de request URL.
 * Er word dus enkel naar de combinatie van `functie`, `groep` en `begin` gekeken.  Alle andere velden worden genegeerd. Je bent dus niet verplicht om telkens alle functies terug te sturen naar de server als je er een enkele wil aanpassen.
 
@@ -1548,7 +1548,7 @@ Alle groepen waar je een een functie in of rechten op hebt
 Het is niet mogelijk om zelf een groep aan te maken. Om een groep aan te laten maken, neem je best contact op met [groepsadministratie@scoutsengidsenvlaanderen.be](mailto:groepsadministratie@scoutsengidsenvlaanderen.be).
 :::
 
-### Groepen opvragen [GET]
+### Groepen opvragen waar gebruiker VGA van is[GET]
 
 Alle groepen waar gebruiker VGA van is
 
@@ -2991,9 +2991,9 @@ Het veld `groepen` bevat alle groepen waarbij deze functie kan voorkomen en waar
 
 ### Overzicht opvragen [GET]
 
-2 optionele uri parameters toegelaten:
+1 optionele uri parameter toegelaten:
 * `offset`: bij het hoeveelste lid de ledenlijst moet starten (Inclusief startend van 0)
-* `aantal`: maximum aantal leden server mag teruggeven.  (de server mag minder teruggeven)
+Het aantal dat wordt teruggegeven wordt bepaalde op basis van response-tijd en belasting
 
 + Response 200 (application/json)
 
