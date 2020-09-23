@@ -3,7 +3,7 @@
   angular
     .module('ga.lid', [])
     .directive('validateEmail', function () {
-      var EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/;
+      var EMAIL_REGEXP = /^[_a-zA-Z0-9ïéè]+(\.[_a-zA-Z0-9ïéè]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/;
       return {
         require: 'ngModel',
         restrict: '',
