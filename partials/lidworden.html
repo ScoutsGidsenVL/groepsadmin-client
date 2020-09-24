@@ -60,7 +60,7 @@
             <label for="_email" class="col-sm-2 control-label"><span class="text-danger">* </span>E-mail</label>
             <div class="col-sm-8"
                  ng-class="{ 'has-error': lidwordenForm.email.$touched && lidwordenForm.email.$invalid }">
-              <input type="email" name="email" class="form-control" id="_email" ng-model="lid.email"
+              <input type="email" email name='email' class="form-control" id="_email" ng-model="lid.email"
                      placeholder="Email..." required/>
               <div ng-messages="lidwordenForm.email.$error" ng-show="lidwordenForm.email.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
@@ -121,7 +121,8 @@
               </select>
             </div>
           </div>
-          <div class="form-group">
+
+          <div class="form-group" ng-if="lid.adres.land === 'BE'">
             <label for="_gemeenteWrap" class="col-sm-2 control-label"><span class="text-danger">* </span>Woonplaats</label>
             <div class="col-sm-6"
                  ng-class="{ 'has-error': lidwordenForm.gemeente.$touched && lidwordenForm.gemeente.$invalid }">
@@ -132,7 +133,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" ng-if="lid.adres.land === 'BE'">
             <label for="_straatnaam" class="col-sm-2 control-label"><span class="text-danger">* </span>Adres</label>
             <div class="col-sm-6"
                  ng-class="{ 'has-error': lidwordenForm.straatnaam.$touched && lidwordenForm.straatnaam.$invalid}">
