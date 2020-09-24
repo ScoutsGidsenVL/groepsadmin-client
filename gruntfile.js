@@ -83,7 +83,8 @@ module.exports = function (grunt) {
           'app/directives/ui-selectpicker.js',
           'app/directives/utils.js',
           'app/directives/telefoonnummer.js',
-          'app/directives/rekeningnummer.js'
+          'app/directives/rekeningnummer.js',
+          'app/directives/ga-email.js'
         ],
         dest: 'app/assets/js/<%= pkg.name %>-public.js'
       }
@@ -191,7 +192,8 @@ module.exports = function (grunt) {
             'app/directives/ui-selectpicker.js',
             'app/directives/utils.js',
             'app/directives/telefoonnummer.js',
-            'app/directives/rekeningnummer.js'
+            'app/directives/rekeningnummer.js',
+            'app/directives/ga-email.js'
           ]
         }
       },

@@ -51,6 +51,7 @@
     'ga.ui.dialog',
     'ga.filters',
     'ga.utils',
+    'ga.validatie.email',
     'ga.validatie.rekeningnummer',
     'ga.validatie.telefoonnummer',
     'ui.bootstrap',

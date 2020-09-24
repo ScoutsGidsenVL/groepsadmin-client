@@ -18,6 +18,7 @@
     'ga.datum.control',
     'ga.gemeente.control',
     'ga.straat.control',
+    'ga.validatie.email',
     'ga.validatie.rekeningnummer',
     'ga.validatie.telefoonnummer',
     'ui.bootstrap',
