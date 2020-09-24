@@ -60,7 +60,7 @@
             <label for="_email" class="col-sm-2 control-label"><span class="text-danger">* </span>E-mail</label>
             <div class="col-sm-8"
                  ng-class="{ 'has-error': lidwordenForm.email.$touched && lidwordenForm.email.$invalid }">
-              <input type="email" name="email" class="form-control" id="_email" ng-model="lid.email"
+              <input type="email" email name='email' class="form-control" id="_email" ng-model="lid.email"
                      placeholder="Email..." required/>
               <div ng-messages="lidwordenForm.email.$error" ng-show="lidwordenForm.email.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
@@ -121,8 +121,10 @@
               </select>
             </div>
           </div>
-          <div class="form-group">
-            <label for="_gemeenteWrap" class="col-sm-2 control-label"><span class="text-danger">* </span>Woonplaats</label>
+          <!-- In het geval dat het geselecteerde land Belgie is -->
+          <div class="form-group" ng-if="lid.adres.land === 'BE'">
+            <label for="_gemeenteWrap" class="col-sm-2 control-label"><span
+              class="text-danger">* </span>Woonplaats</label>
             <div class="col-sm-6"
                  ng-class="{ 'has-error': lidwordenForm.gemeente.$touched && lidwordenForm.gemeente.$invalid }">
               <gemeente-control id="_gemeenteWrap" ng-model="gemeenteWrap"
@@ -132,12 +134,13 @@
               </div>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" ng-if="lid.adres.land === 'BE'">
             <label for="_straatnaam" class="col-sm-2 control-label"><span class="text-danger">* </span>Adres</label>
             <div class="col-sm-6"
                  ng-class="{ 'has-error': lidwordenForm.straatnaam.$touched && lidwordenForm.straatnaam.$invalid}">
               <straat-control id="_straatnaam" ng-model="lid.adres.straat" adres="lid.adres"
-                     name="straatnaam" ng-disabled="!lid.adres.postcode || !lid.adres.gemeente" required></straat-control>
+                              name="straatnaam" ng-disabled="!lid.adres.postcode || !lid.adres.gemeente"
+                              required></straat-control>
               <div ng-messages="lidwordenForm.straatnaam.$error" ng-show="lidwordenForm.straatnaam.$touched">
                 <div ng-messages-include="partials/messages.html"></div>
               </div>
@@ -152,6 +155,51 @@
             </div>
             <div class="col-sm-2">
               <input type="text" class="form-control" ng-model="lid.adres.bus" placeholder="Busnummer..."/>
+            </div>
+          </div>
+          <!-- In het geval dat het geselecteerde land niet Belgie is -->
+          <div class="form-group" ng-if="lid.adres.land !== 'BE'">
+            <label for="straat" class="col-sm-2 control-label"><span class="text-danger">* </span>Adres</label>
+            <div class="col-sm-6"
+                 ng-class="{ 'has-error': lidwordenForm.straat.$touched && lidwordenForm.straat.$invalid }">
+              <input type="text" class="form-control" ng-model="lid.adres.straat" placeholder="Straat..."
+                     name="straat" id="straat" required/>
+              <div ng-messages="lidwordenForm.straat.$error" ng-show="lidwordenForm.straat.$touched">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
+            </div>
+            <div class="col-sm-2"
+                 ng-class="{ 'has-error': lidwordenForm.huisnummer.$touched && lidwordenForm.huisnummer.$invalid }">
+              <input type="text" class="form-control" ng-model="lid.adres.nummer" placeholder="Huisnummer..."
+                     name="huisnummer" required/>
+              <div ng-messages="lidwordenForm.huisnummer.$error" ng-show="lidwordenForm.huisnummer.$touched">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <input type="text" class="form-control" ng-model="lid.adres.bus" placeholder="Busnummer..."/>
+            </div>
+          </div>
+          <div class="form-group" ng-if="lid.adres.land !== 'BE'">
+            <label for="postcode" class="col-sm-2 control-label"><span class="text-danger">* </span>Postcode</label>
+            <div class="col-sm-6"
+                 ng-class="{ 'has-error': lidwordenForm.postcode.$touched && lidwordenForm.postcode.$invalid }">
+              <input type="text" class="form-control" ng-model="lid.adres.postcode" placeholder="Postcode..."
+                     name="postcode" id="postcode" required/>
+              <div ng-messages="lidwordenForm.postcode.$error" ng-show="lidwordenForm.postcode.$touched">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" ng-if="lid.adres.land !== 'BE'">
+            <label for="gemeente" class="col-sm-2 control-label"><span class="text-danger">* </span>Woonplaats</label>
+            <div class="col-sm-6"
+                 ng-class="{ 'has-error': lidwordenForm.gemeente.$touched && lidwordenForm.gemeente.$invalid }">
+              <input type="text" class="form-control" ng-model="lid.adres.gemeente" placeholder="Gemeente..."
+                     name="gemeente" id="gemeente" required/>
+              <div ng-messages="lidwordenForm.gemeente.$error" ng-show="lidwordenForm.gemeente.$touched">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
             </div>
           </div>
           <div class="form-group">
