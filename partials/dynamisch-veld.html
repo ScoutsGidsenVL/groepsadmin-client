@@ -15,7 +15,7 @@
     <label for="{{veld.id}}" class="col-xs-5 col-xxs-12 control-label" ng-bind-html="veld.label"
            ng-show="veld.label"></label>
     <div class="col-xs-7 col-xxs-12">
-      <input type="text" class="form-control" id="{{veld.id}}" name="{{veld.id}}" ng-required="veld.verplicht"
+      <input type="text" class="form-control" id="{{veld.id}}" name="{{veld.id}}" ng-required="veld.verplicht  && veld.kanGebruikerWijzigen"
              ng-model="waarden[veld.id]" ng-disabled="!veld.kanGebruikerWijzigen"/>
     </div>
     <p class="ga-form-beschrijving" ng-bind-html="veld.beschrijving"></p>
