@@ -82,6 +82,9 @@
               _.each(error.data.fouten, function(fout) {
                 console.log("FOUT", fout);
                 $scope[fout.veld + 'Error'] = true;
+                if (fout.beschrijving == 'Onbestaand adres'){
+                  AlertService.add('warning', 'Adres niet gekend! Gelieve contact op te nemen met de verantwoordelijke van de groep.');
+                }
               });
             }
             else {
