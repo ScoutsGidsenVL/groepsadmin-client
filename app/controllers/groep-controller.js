@@ -144,7 +144,7 @@
         case 'http://localhost:8000':
           googleMapsKey = 'AIzaSyBQRUONtrmAcJ96_NILKeRvj5F5nXRh2MM';
           break;
-        case 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be':
+        case 'https://ga-dev-tvl.scoutsengidsenvlaanderen.be':
           googleMapsKey = 'AIzaSyBiKzCCqMUyu4mW0rKk777CU3pW86FZiJ8';
           break;
         case 'https://ga-staging.scoutsengidsenvlaanderen.be':
