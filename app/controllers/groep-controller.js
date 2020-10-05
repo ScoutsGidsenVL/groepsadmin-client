@@ -147,9 +147,13 @@
         case 'https://groepsadmin-dev-tvl.scoutsengidsenvlaanderen.be':
           googleMapsKey = 'AIzaSyBiKzCCqMUyu4mW0rKk777CU3pW86FZiJ8';
           break;
-        case 'https://groepsadmin-develop.scoutsengidsenvlaanderen.net':
+        case 'https://ga-staging.scoutsengidsenvlaanderen.be':
           googleMapsKey = 'AIzaSyBZU1SgLDbOfAlROSnR_cb_wWQGlQRqMqc';
           break;
+        case 'https://groepsadmin.scoutsengidsenvlaanderen.be':
+          googleMapsKey = 'AIzaSyAbMpNtZ1YdLg8qjlDqLjGXisPAFp88QA8';
+          break;
+
       }
 
       window.googleMapsCallback = callback;
