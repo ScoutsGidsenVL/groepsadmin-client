@@ -2,7 +2,7 @@
 <!-- Panel header -->
 <div class="panel-heading panel-fixed clearfix">
   <div class="row">
-    <div class="col-xs-12 col-sm-8">
+    <div class="col-xs-6 col-sm-8">
       <div ng-show="!showSaveOptions" class="pull-left">
         <button class="btn btn-default" ng-click="showSaveOptions = !showSaveOptions"
                 ng-hide="showSaveOptions || currentFilter.name"><i class="fa fa-save" aria-hidden="true"></i>&nbsp;Sjabloon
@@ -29,7 +29,7 @@
     </div>
 
     <!-- NEW ACTIONS -->
-    <div class="col-xs-12 col-sm-4" ng-class="{'hidden-xs':showSaveOptions}">
+    <div class="col-xs-6 col-sm-4" ng-class="{'hidden-xs':showSaveOptions}">
       <div class="pull-right">
         <div class="hidden-xs hidden-sm">
           <formerrorbutton formulier="emailForm" watchable="emailPropertiesWatchable"></formerrorbutton>
@@ -39,12 +39,12 @@
           </button>
         </div>
         <div class="hidden-md hidden-lg">
-          <formerrorbutton formulier="emailForm" watchable="emailPropertiesWatchable"></formerrorbutton>
           <div class="btn-group pull-right" uib-dropdown>
             <button id="split-button" type="submit" ng-disabled="isLoadingGroepen || emailForm.$invalid"
-                    class="btn btn-apply">
-              <span class="glyphicon glyphicon-envelope" aria-hidden="true" ng-click="verzenden()"></span>&nbsp;Verzenden&nbsp;
+                    class="btn btn-apply" ng-click="verzenden()">
+              <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;Verzenden&nbsp;
             </button>
+            <formerrorbutton formulier="emailForm" watchable="emailPropertiesWatchable"></formerrorbutton>
           </div>
         </div>
       </div>
@@ -131,7 +131,9 @@
                 <!-- CHECK : in het geval het om meeredere leden gaat -->
                 <div class="col-xs-12 control-label" ng-hide="leden.length == 1">
                   <strong>Ontvangers :</strong>
-                  {{ leden.length }} leden <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>&nbsp;<i
+                  {{ leden.length }} leden <span class="link-showleden"
+                                                 ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen'
+                  }}</span>&nbsp;<i
                   class="fa fa-spinner fa-pulse" ng-show="ledenLaden"></i>
                 </div>
                 <!-- END CHECK -->
@@ -146,7 +148,8 @@
                         ng-if="!lid.voornaam && !lid.achternaam && !lid.volledigenaam"> - geen naam beschikbaar - </span>
                     </li>
                   </ul>
-                  <span class="link-showleden" ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>
+                  <span class="link-showleden"
+                        ng-click="ledenVisible = !ledenVisible">{{ ledenVisible ? 'verbergen' : 'tonen' }}</span>
                 </div>
                 <label class="form-group  form-group--joined control checkbox">
                   <div class="col-xs-12">
