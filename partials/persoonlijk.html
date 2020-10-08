@@ -98,7 +98,7 @@
          ng-class="{ 'has-error': lidForm.email.$touched && lidForm.email.$invalid, 'readonly' : !hasPermission('email') }">
       <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
       <div class="col-xs-7 col-xxs-12">
-        <input  ng-required="lid.emailVerplicht" type="email" email name="email" class="form-control" id="_email" ng-model="lid.email"
+        <input  ng-required="lid.emailVerplicht" type="text" email name="email" class="form-control" id="_email" ng-model="lid.email"
                ng-disabled="!hasPermission('email')"  >
         <div ng-messages="lidForm.email.$error" ng-show="lidForm.email.$touched">
           <div ng-messages-include="partials/messages.html"></div>
