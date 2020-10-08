@@ -153,7 +153,9 @@
         case 'https://groepsadmin.scoutsengidsenvlaanderen.be':
           googleMapsKey = 'AIzaSyAbMpNtZ1YdLg8qjlDqLjGXisPAFp88QA8';
           break;
-
+        default:
+          googleMapsKey = 'AIzaSyAbMpNtZ1YdLg8qjlDqLjGXisPAFp88QA8';
+          break;
       }
 
       window.googleMapsCallback = callback;
