@@ -26,14 +26,17 @@
     });
 
     $scope.changeInput = function() {
-      $scope.adres.postcode = null;
-      $scope.adres.gemeente = null;
-      $scope.adres.straat = null;
-      $scope.adres.bus = null;
-      $scope.adres.nummer = null;
+      if (!$scope.zoekterm) {
+        $scope.adres.postcode = null;
+        $scope.adres.gemeente = null;
+        $scope.adres.straat = null;
+        $scope.adres.bus = null;
+        $scope.adres.nummer = null;
+      }
     };
 
     $scope.zoekGemeente= function (zoekterm) {
+      $scope.zoekterm = zoekterm;
       var resultaatGemeentes = [];
       return RestService.Gemeente.get({zoekterm: zoekterm, token: 1}).$promise.then(
         function (result) {
