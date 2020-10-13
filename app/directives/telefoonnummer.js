@@ -62,6 +62,7 @@
             try {
               var number = phoneUtil.parseAndKeepRawInput(modelValue, 'BE');
               var isPossible = phoneUtil.isPossibleNumber(number);
+              var numberWithoutSpaces = modelValue.replace(/\s+/g, '');
 
               if (isPossible) {
                 var isNumberValid = phoneUtil.isValidNumber(number);
@@ -69,7 +70,7 @@
                   if(!checkGsm) {
                     validated = true;
                   }
-                  else if (mobileTypes.indexOf(phoneUtil.getNumberType(number)) !== -1) {
+                  else if (mobileTypes.indexOf(phoneUtil.getNumberType(number)) !== -1 && numberWithoutSpaces.length >= 10) {
                     validated = true;
                   }
                 }
