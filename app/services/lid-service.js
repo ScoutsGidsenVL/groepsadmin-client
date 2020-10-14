@@ -129,13 +129,12 @@
 
           functieInstantie.begin = '2016-01-01T00:00:00.000+01:00'; // set static date
           functieInstantie.temp = "tijdelijk";
-
+          var index = scope.lid.functies.indexOf(functieInstantie);
+          scope.lid.functies.splice(index, 1);
           scope.lid.functies.push(functieInstantie);
           return 'stop';
         }
         else {
-
-
           angular.forEach(scope.lid.functies, function (value, key) {
             if (value.groep == groepsnummer && value.functie == functie && value.temp == "tijdelijk") {
               scope.lid.functies.splice(key, 1);
