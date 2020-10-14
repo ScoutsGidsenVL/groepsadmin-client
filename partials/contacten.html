@@ -4,7 +4,7 @@
       <div class="pull-right" ng-if="hasPermission('contacten')">
         <button type="button" ng-click="contactToevoegen(lidForm.$valid)" class="btn-minimal"
                 title="Contact toevoegen"
-                ng-show="lid.contacten.length < 2 && _.filter(lid.contacten,{'hasErrors': true}).length <= 0">
+                ng-show="lid.contacten.length < 4 && _.filter(lid.contacten,{'hasErrors': true}).length <= 0">
           <span class="glyphicon glyphicon-plus"></span></button>
       </div>
     </legend>
@@ -97,9 +97,9 @@
           <div class="col-xs-7 col-xxs-12">
             <select class="selectpicker" title="Kies een adres..." name="contacten[{{ $index }}].adres"
                     id="_adres"
-                    ng-model="contact.adres" ng-disabled="!hasPermission('contacten')" 
+                    ng-model="contact.adres" ng-disabled="!hasPermission('contacten')"
                     ng-options="adres.id as adres.straat + ', ' + adres.nummer + ' ' + adres.bus +  ', ' + adres.postcode + ', ' + adres.gemeente for adres in lid.adressen"
-                    required> 
+                    required>
             </select>
             <div ng-messages="lidForm['contacten['+$index+'].adres'].$error">
               <div ng-messages-include="partials/messages.html"></div>
@@ -111,9 +111,9 @@
           <div class="col-xs-7 col-xxs-12">
             <select class="selectpicker" title="Kies een telefoonnummer..." name="contacten[{{ $index }}].adres"
                     id="_adres"
-                    ng-model="contact.adres" ng-disabled="!hasPermission('contacten')" 
+                    ng-model="contact.adres" ng-disabled="!hasPermission('contacten')"
                     ng-options="adres.id as adres.telefoon for adres in lid.adressen"
-                    required> 
+                    required>
             </select>
             <div ng-messages="lidForm['contacten['+$index+'].adres'].$error">
               <div ng-messages-include="partials/messages.html"></div>
