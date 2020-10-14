@@ -649,6 +649,9 @@
               _.remove($scope.filters, function (f) {
                 return (f.id == filter.id);
               });
+              _.remove($scope.sortedFilters, function (f) {
+                return (f.id == filter.id);
+              });
               $scope.changeFilter($scope.filters[0]);
             })
           .finally(function () {
