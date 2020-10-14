@@ -39,7 +39,22 @@
     $scope.fileNameChanged = function (ele) {
       attachments = [];
       if (ele.files.length !== 0) {
-        attachments = Array.from(ele.files)
+
+        // Eerste totale grootte berekenen van de volledige bijlage
+        var fileSize = 0;
+        _.each(ele.files, function (file) {
+          fileSize += file.size;
+        })
+
+        // Indien de grootte wordt overschreven gaan we melding geven
+        if (fileSize > 4999999) {
+          alert('De totale grootte van de bijlage overschrijdt de toegelaten 5MB.' + '\r\n' +
+            'Probeer ze te converteren of te zippen.');
+          ele.files = null;
+          angular.element("input[type='file']").val(null);
+        } else {
+          attachments = Array.from(ele.files)
+        }
       }
     };
 
@@ -123,13 +138,13 @@
             'volledigenaam': val.waarden['be.vvksm.groepsadmin.model.column.VolledigeNaamColumn']
           };
 
-          var volledigeNaam = lid.voornaam && lid.achternaam ?  lid.voornaam + ' ' + lid.achternaam: lid.volledigenaam;
+          var volledigeNaam = lid.voornaam && lid.achternaam ? lid.voornaam + ' ' + lid.achternaam : lid.volledigenaam;
 
-          if(volledigeNaam === undefined) {
+          if (volledigeNaam === undefined) {
             volledigeNaam = val.id;
           }
 
-          if($scope.uniekeNamen[volledigeNaam] === undefined) {
+          if ($scope.uniekeNamen[volledigeNaam] === undefined) {
             $scope.leden.push(lid);
             $scope.uniekeNamen[volledigeNaam] = lid;
           }
@@ -221,7 +236,6 @@
       }
     };
 
- 
 
     var overwriteSjabloon = function (sjabloon, obj) {
       var deferred = $q.defer();
@@ -273,8 +287,8 @@
         if (res.sjablonen) {
           $scope.sjablonen = res.sjablonen;
           $scope.changeSjabloon($scope.sjablonen[0]);
-          
-                 
+
+
         }
       }, function () {
         $scope.isLoadingSjablonen = false;
@@ -296,10 +310,10 @@
       RestService.Kolommen.get().$promise.then(
         function (result) {
           var arrValues = [];
-          _.each(result.kolommen, function (val) {            
-            if (!val.verouderd){
+          _.each(result.kolommen, function (val) {
+            if (!val.verouderd) {
               arrValues.push(val.label);
-            }            
+            }
           });
           $scope.configEditor(arrValues);
         }
