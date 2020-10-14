@@ -175,7 +175,7 @@
         origineelLid.functies.push($scope.lid.functies[0]);
       } else {
         origineelLid.functies = [];
-        AlertService.add('warning', 'Dit lid heeft nog geen functie.');
+        AlertService.add('warning', 'Geef dit lid een functie.');
         $scope.saving = false;
         return;
       }
