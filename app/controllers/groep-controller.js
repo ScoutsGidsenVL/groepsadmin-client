@@ -516,6 +516,19 @@
       }
     });
 
+    $scope.$watch('data.activegroup.rekeningnummer', function () {
+      if ($scope.data.activegroup.rekeningnummer && IBAN.isValid($scope.data.activegroup.rekeningnummer)) {
+        $scope.errorRekeningnummerVerplicht = false;
+        $scope.errorRekeningnummerNietCorrect = false;
+      } else if (!$scope.data.activegroup.rekeningnummer) {
+        $scope.errorRekeningnummerVerplicht = true;
+        $scope.errorRekeningnummerNietCorrect = false;
+      } else if (!IBAN.isValid($scope.data.activegroup.rekeningnummer)){
+        $scope.errorRekeningnummerVerplicht = false;
+        $scope.errorRekeningnummerNietCorrect = true;
+      }
+    });
+
     $scope.$on('$locationChangeStart', function (event, newUrl) {
       if ($scope.groepForm.$dirty) {
         event.preventDefault();
@@ -534,6 +547,10 @@
     };
 
     $scope.opslaan = function () {
+      if ($scope.errorRekeningnummerNietCorrect || $scope.errorRekeningnummerVerplicht){
+        return;
+      }
+
       var sortedIds = [];
       var idFieldSets = $( ".idArray" );
       for(var i=0;i<idFieldSets.length;i++){

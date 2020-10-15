@@ -16,12 +16,13 @@
         </div>
       </form>
       <h1 class="panel-title" ng-if="data.groepenlijst.length == 1">{{ data.activegroup.naam + ' - ' +
-        data.activegroup.groepsnummer }}</h1>
+      data.activegroup.groepsnummer }}</h1>
     </div>
     <div class="col-xs-12 col-sm-3 col-md-2">
       <div class="pull-right" ng-show="data.activegroup.kanWijzigen">
         <div>
-          <button type="submit" class="btn btn-apply" ng-click="opslaan()">
+          <button type="submit" class="btn btn-apply" ng-click="opslaan()"
+                  ng-disabled="errorRekeningnummerVerplicht || errorRekeningnummerNietCorrect">
             <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;
             <i class="fa fa-spinner fa-pulse" ng-show="saving"></i></button>
         </div>
@@ -31,7 +32,7 @@
 </div>
 
 <div class="panel panel-default panel-default--hasmargin">
-  <form name="groepForm" novalidate>
+  <form name="groepForm">
 
     <!-- Persoonsinfo -->
     <div class="panel-body form-hover clearfix">
@@ -87,14 +88,17 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group"
+               ng-class="{ 'has-error': errorRekeningnummerVerplicht || errorRekeningnummerNietCorrect }">
             <label for="_rekeningNummer" class="col-xs-6 col-xxs-12 control-label">Rekeningnummer</label>
             <div class="col-xs-6 col-xxs-12">
               <input type="text" class="form-control" id="_rekeningNummer" ng-model="data.activegroup.rekeningnummer"
-                     ng-disabled="!data.activegroup.kanWijzigen"/>
+                     ng-disabled="!data.activegroup.kanWijzigen" required/>
               <!-- Nationaal XXX-XXXXXXX-XX -->
               <!-- Internationaal IBAN BEXX XXXX XXXX XXXX -->
               <!-- BIC KREDBEBB -->
+              <div class="help-block" ng-if="errorRekeningnummerVerplicht">Dit veld is verplicht</div>
+              <div class="help-block" ng-if="errorRekeningnummerNietCorrect">Onjuist IBAN rekeningnummer</div>
             </div>
           </div>
 
@@ -195,7 +199,7 @@
                     </div>
                   </div>
                   <div class="col-xs-6">
-                    <div ng-if="lokaal.beschrijving"   class="ellipsis">
+                    <div ng-if="lokaal.beschrijving" class="ellipsis">
                       {{ lokaal.beschrijving }}
                     </div>
                     <div ng-if="!lokaal.beschrijving && (lokaal.straat || lokaal.postcode || lokaal.gemeente)"
@@ -228,7 +232,8 @@
                 <div class="form-group">
                   <label for="_beschrijving" class=" control-label col-xs-3 col-xxs-12">Beschrijving</label>
                   <div class="col-xs-9 col-xxs-2">
-                    <input type="text" class="form-control ga-functie-list" ng-disabled="!data.activegroup.kanWijzigen" ng-model="lokaal.beschrijving"
+                    <input type="text" class="form-control ga-functie-list" ng-disabled="!data.activegroup.kanWijzigen"
+                           ng-model="lokaal.beschrijving"
                            id="_beschrijving"/>
                   </div>
                 </div>
@@ -236,18 +241,19 @@
                   <label for="_gemeenteWrap" class="col-xs-3 col-xxs-12 control-label">Gemeente</label>
                   <div class="col-xs-9 col-xxs-2">
                     <gemeente-control ng-model="gemeenteWrap" ng-disabled="!data.activegroup.kanWijzigen"
-                           id="_gemeenteWrap" name="gemeente" adres="lokaal"></gemeente-control>
+                                      id="_gemeenteWrap" name="gemeente" adres="lokaal"></gemeente-control>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="_straatnaam" class="col-xs-3 col-xxs-12 control-label">Straat</label>
                   <div class="col-xs-5 col-xxs-12">
                     <straat-control ng-disabled="!lokaal.postcode || !lokaal.gemeente || !data.activegroup.kanWijzigen"
-                           id="_straatnaam" ng-model="lokaal.straat" adres="lokaal"></straat-control>
+                                    id="_straatnaam" ng-model="lokaal.straat" adres="lokaal"></straat-control>
                   </div>
                   <div class="col-xs-2 col-xxs-12">
                     <input type="text" class="form-control" id="_huisnummer" maxlength="5" ng-model="lokaal.nummer"
-                           placeholder="Nr." ng-disabled="!lokaal.postcode || !lokaal.gemeente || !data.activegroup.kanWijzigen"/>
+                           placeholder="Nr."
+                           ng-disabled="!lokaal.postcode || !lokaal.gemeente || !data.activegroup.kanWijzigen"/>
                   </div>
                   <div class="col-xs-2 col-xxs-12">
                     <input type="text" class="form-control" id="_bus" maxlength="4" ng-model="lokaal.bus"
@@ -258,18 +264,19 @@
                 <div class="form-group">
                   <label for="_straatnaam" class="col-xs-3 col-xxs-12 control-label">Telefoon</label>
                   <div class="col-xs-9 col-xxs-12">
-                    <input type="text" class="form-control" id="_telefoon" ng-model="lokaal.telefoon" ng-disabled="!data.activegroup.kanWijzigen"/>
+                    <input type="text" class="form-control" id="_telefoon" ng-model="lokaal.telefoon"
+                           ng-disabled="!data.activegroup.kanWijzigen"/>
                   </div>
                 </div>
 
-                  <label class="form-group control checkbox">
-                    <div class="col-xs-4 col-xxs-12 control-label">Postadres</div>
-                    <div class="col-xs-8 col-xxs-12">
-                      <input type="checkbox" class="" id="_postadres" ng-model="lokaal.postadres"
-                             ng-click="changePostadres(lokaal.id)" ng-disabled="!data.activegroup.kanWijzigen"/>
-                      <span class="control-indicator"></span>
-                    </div>
-                  </label>
+                <label class="form-group control checkbox">
+                  <div class="col-xs-4 col-xxs-12 control-label">Postadres</div>
+                  <div class="col-xs-8 col-xxs-12">
+                    <input type="checkbox" class="" id="_postadres" ng-model="lokaal.postadres"
+                           ng-click="changePostadres(lokaal.id)" ng-disabled="!data.activegroup.kanWijzigen"/>
+                    <span class="control-indicator"></span>
+                  </div>
+                </label>
 
                 <a href="" class="pull-right"
                    ng-click="centerMap(lokaal.positie.latitude, lokaal.positie.longitude, lokaal.id)">Toon op kaart</a>
@@ -367,7 +374,8 @@
                   </div>
                 </div>
 
-                <div class="form-group" ng-if="groepseigenGegeven.type == 'lijst' " ng-init="groepseigenGegevenIndex = $index"
+                <div class="form-group" ng-if="groepseigenGegeven.type == 'lijst' "
+                     ng-init="groepseigenGegevenIndex = $index"
                      ng-hide="!showme">
                   <label class="col-xs-12">Mogelijke keuzes</label>
                   <div class="col-xs-12"
@@ -443,7 +451,8 @@
                     <div class="btn-group">
                       <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type"
                              uib-btn-radio="'tekst'" title="Tekst">
-                        <svg version="1.1" x="0px" y="0px" viewBox="0 0 1792 1792" xml:space="preserve" class="type-sgv">
+                        <svg version="1.1" x="0px" y="0px" viewBox="0 0 1792 1792" xml:space="preserve"
+                             class="type-sgv">
                     <path d="M250.1,251.5l52.7,26.4c7.8,3.3,76.5,4.9,206.1,4.9c28.6,0,71.6-0.7,128.9-2c57.3-1.3,100.3-2,128.9-2
                     c45.6,0,125.8-0.3,240.7-1c114.9-0.7,214-0.8,297.4-0.5c83.3,0.3,163.7,1.8,241.2,4.4c21.5,0.7,39.7-9.4,54.7-30.3l41-1
                     c2.6,0,7.2,0.2,13.7,0.5s11.1,0.5,13.7,0.5c1.3,72.9,2,182.3,2,328.1c0,52.1-1.6,87.6-4.9,106.4c-25.4,9.1-47.5,15-66.4,17.6
@@ -456,12 +465,14 @@
                     s60.5-17.3,76.2-26.4c4.6-10.4,8.3-34.5,11.2-72.3s4.9-85.1,5.9-142.1c1-57,1.5-107.4,1.5-151.4s-0.2-93.9-0.5-149.9
                     s-0.5-85-0.5-86.9c0-4.6-0.8-11.6-2.4-21s-2.4-16.8-2.4-22c0-4.6,0.2-18.9,0.5-43s0.7-47.9,1-71.3s0.3-48.3,0-74.7
                     c-0.3-26.4-1.3-48.3-2.9-65.9s-3.7-28-6.3-31.3c-7.2-7.8-59.9-11.7-158.2-11.7c-26.7,0-79.8,4.4-159.2,13.2S341.6,430.8,331.2,438
-                    c-12.4,7.8-23.4,31.1-33.2,69.8s-20,75-30.8,108.9s-24.6,51.4-41.5,52.7c-27.3-16.9-45.6-31.3-54.7-43v-374L250.1,251.5z" />
+                    c-12.4,7.8-23.4,31.1-33.2,69.8s-20,75-30.8,108.9s-24.6,51.4-41.5,52.7c-27.3-16.9-45.6-31.3-54.7-43v-374L250.1,251.5z"/>
                   </svg>
                       </label>
                       <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type"
                              uib-btn-radio="'tekst_meerdere_lijnen'" title="Tekst op meerdere lijnen">
-                        <svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1792 1792" style="enable-background:new 0 0 1792 1792;" xml:space="preserve" class="type-sgv">
+                        <svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1792 1792"
+                             style="enable-background:new 0 0 1792 1792;" xml:space="preserve" class="type-sgv">
                     <style type="text/css">
                       .st0 {
                         fill: none;
@@ -470,7 +481,7 @@
                         stroke-miterlimit: 10;
                       }
                     </style>
-                    <path d="M182.2,128.7l36.1,18.1c5.4,2.2,52.4,3.3,141.2,3.3c19.6,0,49.1-0.4,88.3-1.3c39.3-0.9,68.7-1.3,88.3-1.3
+                          <path d="M182.2,128.7l36.1,18.1c5.4,2.2,52.4,3.3,141.2,3.3c19.6,0,49.1-0.4,88.3-1.3c39.3-0.9,68.7-1.3,88.3-1.3
                         c31.2,0,86.2-0.2,165-0.7s146.7-0.6,203.8-0.3c57.1,0.2,112.2,1.2,165.3,3c14.7,0.4,27.2-6.5,37.5-20.7l28.1-0.7
                         c1.8,0,4.9,0.1,9.4,0.3c4.5,0.2,7.6,0.3,9.4,0.3c0.9,50,1.3,124.9,1.3,224.9c0,35.7-1.1,60-3.3,73c-17.4,6.2-32.6,10.3-45.5,12
                         c-11.2-19.6-23.2-48.2-36.1-85.7c-1.3-4-3.8-14.6-7.4-31.8s-6.9-33.6-10-49.2c-3.1-15.6-4.7-23.6-4.7-24.1
@@ -483,13 +494,13 @@
                         c0.7-39,1-73.6,1-103.7s-0.1-64.4-0.3-102.7s-0.3-58.2-0.3-59.6c0-3.1-0.6-7.9-1.7-14.4s-1.7-11.5-1.7-15.1c0-3.1,0.1-12.9,0.3-29.4
                         s0.4-32.8,0.7-48.9s0.2-33.1,0-51.2s-0.9-33.1-2-45.2c-1.1-12-2.6-19.2-4.4-21.4c-4.9-5.4-41-8-108.4-8c-18.3,0-54.7,3-109.1,9
                         s-85.2,11.5-92.4,16.4c-8.5,5.4-16.1,21.3-22.8,47.9c-6.7,26.5-13.7,51.4-21.1,74.6c-7.4,23.2-16.8,35.2-28.4,36.1
-                        c-18.7-11.6-31.2-21.4-37.5-29.4V129.3L182.2,128.7z" />
-                    <line class="st0" x1="927" y1="607" x2="1703" y2="607"></line>
-                    <line class="st0" x1="927" y1="777" x2="1703" y2="777"></line>
-                    <line class="st0" x1="924" y1="947" x2="1700" y2="947"></line>
-                    <line class="st0" x1="170" y1="1117" x2="1700" y2="1117"></line>
-                    <line class="st0" x1="170" y1="1287" x2="1700" y2="1287"></line>
-                    <line class="st0" x1="170" y1="1457" x2="1700" y2="1457"></line>
+                        c-18.7-11.6-31.2-21.4-37.5-29.4V129.3L182.2,128.7z"/>
+                          <line class="st0" x1="927" y1="607" x2="1703" y2="607"></line>
+                          <line class="st0" x1="927" y1="777" x2="1703" y2="777"></line>
+                          <line class="st0" x1="924" y1="947" x2="1700" y2="947"></line>
+                          <line class="st0" x1="170" y1="1117" x2="1700" y2="1117"></line>
+                          <line class="st0" x1="170" y1="1287" x2="1700" y2="1287"></line>
+                          <line class="st0" x1="170" y1="1457" x2="1700" y2="1457"></line>
                   </svg>
                       </label>
                       <label class="btn" ng-model="data.activegroup.groepseigenGegevens[$index].type"
