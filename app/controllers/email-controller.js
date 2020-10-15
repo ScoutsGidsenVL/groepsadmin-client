@@ -49,7 +49,7 @@
         // Indien de grootte wordt overschreven gaan we melding geven
         if (fileSize > 4999999) {
           alert('De totale grootte van de bijlage overschrijdt de toegelaten 5MB.' + '\r\n' +
-            'Probeer ze te converteren of te zippen.');
+            'Probeer de bijlage te verkleinen door ze te converteren of te zippen');
           ele.files = null;
           angular.element("input[type='file']").val(null);
         } else {
