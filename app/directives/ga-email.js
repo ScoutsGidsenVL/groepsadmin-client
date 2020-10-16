@@ -9,7 +9,7 @@
         require: 'ngModel',
         link: function (scope, elm, attrs, ctrl) {
           ctrl.$validators.email = function (modelValue) {
-            if (!modelValue.includes(";")) {
+            if (!modelValue.indexOf(";") < 0) {
               return ctrl.$isEmpty(modelValue) || EMAIL_REGEXP.test(modelValue);
             } else {
               var result = true;
@@ -30,7 +30,7 @@
 // Wanneer er meerdere emailadressen worden ingevoerd gaan we deze splitsen
 filterAdressen = function (adressen) {
   var emailCollection = [];
-  while (adressen.includes(";")) {
+  while (adressen.indexOf(";") > -1) {
     var index = adressen.indexOf(";");
     var adres = adressen.substring(0, index);
     emailCollection.push(adres);
