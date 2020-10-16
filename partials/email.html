@@ -115,7 +115,7 @@
               <div class="form-group" ng-class="{ 'has-error': emailForm.bcc.$touched && emailForm.bcc.$invalid }">
                 <label for="bcc" class="col-xs-4 col-xxs-12 control-label">Bcc</label>
                 <div class="col-xs-8 col-xxs-12">
-                  <input type="email" class="form-control" name="bcc" id="bcc" ng-model="sjabloon.bcc">
+                  <input type="email" class="form-control" name="bcc" id="bcc" email ng-model="sjabloon.bcc">
                   <div ng-messages="emailForm.bcc.$error" ng-show="emailForm.bcc.$touched">
                     <div ng-messages-include="partials/messages.html"></div>
                   </div>
