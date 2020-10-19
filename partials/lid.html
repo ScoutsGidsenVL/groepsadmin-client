@@ -117,16 +117,16 @@
                         ng-repeat="(key, groepseigenVeldenVerzameling) in lid.groepseigenVelden">
                 <div ng-if="groepseigenVeldenVerzameling.schema.length > 0">
                   <section class="clearfix">
-                    <legend ng-click="showgroepseigenvelden = showgroepseigenvelden ? false : true">
+                    <legend ng-click="showgroepseigenvelden = !showgroepseigenvelden">
                       <div class="row">
                         <div class="col-xs-10">
-                          {{ key }} {{ groepenlijst[key].naam }}
+                          {{ key }} {{ groepenlijst[key].naam }} {{ showgroepseigenvelden }}
                         </div>
                         <div class="col-xs-2">
-                          <div class="pull-right" ng-init="showgroepseigenvelden=true;">
+                          <div class="pull-right">
                             <button type="button" class="btn-minimal">
-                              <span ng-hide="showgroepseigenvelden" class="glyphicon glyphicon-chevron-up"></span>
-                              <span ng-hide="!showgroepseigenvelden" class="glyphicon glyphicon-chevron-down"></span>
+                              <span ng-hide="!showgroepseigenvelden" class="glyphicon glyphicon-chevron-up"></span>
+                              <span ng-hide="showgroepseigenvelden" class="glyphicon glyphicon-chevron-down"></span>
                             </button>
                           </div>
                         </div>
@@ -136,7 +136,7 @@
                   <fieldset>
                     <dynamischveldcolectie waarden="groepseigenVeldenVerzameling.waarden"
                                            velden="groepseigenVeldenVerzameling.schema"
-                                           ng-show="!showgroepseigenvelden"></dynamischveldcolectie>
+                                           ng-show="showgroepseigenvelden"></dynamischveldcolectie>
                   </fieldset>
                 </div>
               </fieldset>
