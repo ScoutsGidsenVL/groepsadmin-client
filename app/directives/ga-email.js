@@ -21,12 +21,12 @@
               while (modelValue.indexOf(";") > -1) {
                 var index = modelValue.indexOf(";");
                 var adres = modelValue.substring(0, index);
-                emailAdressen.push(adres);
+                emailAdressen.push(adres.trim());
                 modelValue = modelValue.substring(index + 1, modelValue.length)
               }
               adres = modelValue.substring(0, modelValue.length)
               if (adres.length > 0) {
-                emailAdressen.push(adres);
+                emailAdressen.push(adres.trim());
               }
 
               _.each(emailAdressen, function (adres) {
