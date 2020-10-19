@@ -23,7 +23,7 @@
     $scope.heeftGroepseigenvelden = false;
     $scope.functiesEnGroepenGeladen = false;
     $scope.steekkaartLeesrecht = false;
-
+    $scope.showgroepseigenvelden = false;
     angular.extend($scope, LS.publicProperties, LS.publicMethods);
 
     var init = function () {
@@ -241,8 +241,14 @@
 
       // Alle actieve groepen ophalen
       $scope.groepenlijst = [];
+      $scope.groepennummers = [];
 
+      $scope.counter= 0
       angular.forEach($scope.lid.functies, function (value) {
+        if ($scope.groepennummers.indexOf(value.groep) < 0){
+          $scope.groepennummers.push(value.groep);
+        }
+
         if ($scope.groepenlijst[value.groep]) return;
 
         CS.Groep(value.groep)
@@ -262,6 +268,10 @@
           $scope.heeftGroepseigenvelden = true;
         }
       });
+
+      if ($scope.groepennummers.length < 3) {
+        $scope.showgroepseigenvelden = true;
+      }
     }
 
     // nieuw lid initialiseren na update.
