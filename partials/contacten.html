@@ -86,7 +86,7 @@
           <div class="col-xs-7 col-xxs-12">
             <input type="text" name="contacten[{{ $index }}].gsm" class="form-control" id="_gsm"
                    ng-model="contact.gsm"
-                   ng-disabled="!hasPermission('contacten')" telefoonnummer>
+                   ng-disabled="!hasPermission('contacten')" telefoonnummer is-gsm>
             <div ng-messages="lidForm['contacten['+$index+'].gsm'].$error">
               <div ng-messages-include="partials/messages.html"></div>
             </div>

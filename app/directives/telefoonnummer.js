@@ -70,7 +70,7 @@
                   if(!checkGsm) {
                     validated = true;
                   }
-                  else if (mobileTypes.indexOf(phoneUtil.getNumberType(number)) !== -1 && numberWithoutSpaces.length >= 10) {
+                  else if (mobileTypes.indexOf(phoneUtil.getNumberType(number)) !== -1 && ( numberWithoutSpaces.length >= 10 && numberWithoutSpaces.length <= 12)) {
                     validated = true;
                   }
                 }
