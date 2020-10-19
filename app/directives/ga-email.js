@@ -9,15 +9,30 @@
         require: 'ngModel',
         link: function (scope, elm, attrs, ctrl) {
           ctrl.$validators.email = function (modelValue) {
+            if (ctrl.$isEmpty(modelValue)){
+              return true;
+            }
             if (!modelValue.indexOf(";") < 0) {
               return ctrl.$isEmpty(modelValue) || EMAIL_REGEXP.test(modelValue);
             } else {
               var result = true;
-              var emailAdressen = filterAdressen(modelValue);
-              _.each(emailAdressen, function (adres){
-                  if (!EMAIL_REGEXP.test(adres)){
-                    result = false;
-                  }
+              var emailAdressen = [];
+              // Wanneer er meerdere emailadressen worden ingevoerd gaan we deze splitsen
+              while (modelValue.indexOf(";") > -1) {
+                var index = modelValue.indexOf(";");
+                var adres = modelValue.substring(0, index);
+                emailAdressen.push(adres);
+                modelValue = modelValue.substring(index + 1, modelValue.length)
+              }
+              adres = modelValue.substring(0, modelValue.length)
+              if (adres.length > 0) {
+                emailAdressen.push(adres);
+              }
+
+              _.each(emailAdressen, function (adres) {
+                if (!EMAIL_REGEXP.test(adres)) {
+                  result = false;
+                }
               })
               return result;
             }
@@ -26,19 +41,3 @@
       };
     }]);
 })();
-
-// Wanneer er meerdere emailadressen worden ingevoerd gaan we deze splitsen
-filterAdressen = function (adressen) {
-  var emailCollection = [];
-  while (adressen.indexOf(";") > -1) {
-    var index = adressen.indexOf(";");
-    var adres = adressen.substring(0, index);
-    emailCollection.push(adres);
-    adressen = adressen.substring(index + 1, adressen.length)
-  }
-  adres = adressen.substring(0, adressen.length)
-  if (adres.length > 0){
-    emailCollection.push(adres);
-  }
-  return emailCollection;
-}
