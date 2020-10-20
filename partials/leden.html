@@ -291,7 +291,7 @@
                   </div>
                   <div class="select-value-group control--collapsible"
                        ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'">
-                    <div class="row">
+                    <div ng-class="{ 'row custom-row' :  criteriumItem.vinkje }">
                       <div class="col-xs-9">
                         <label class="jcontrol control--checkbox">
                           <input type="checkbox" ng-model="criteriumItem.activated"/>
