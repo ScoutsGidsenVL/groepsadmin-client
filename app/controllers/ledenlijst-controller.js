@@ -124,6 +124,7 @@
         }),
         $q.all(filterKolommen.promises).then(function () {
           $scope.kolommen = filterKolommen.kolommen;
+          verwijderSteekkaartKolom();
         }),
         $q.all(filters.promises).then(function () {
           $scope.filters = filters.filters;
@@ -361,7 +362,7 @@
         });
         criteriumItem.activated = true;
       }
-      if ( !criteriumItem.activated && criteriumItem.value.length === 6){
+      if (!criteriumItem.activated && criteriumItem.value.length === 6) {
         var index = $scope.criteriaCollection.indexOf(criteriumItem.value);
         $scope.criteriaCollection.splice(index, 1);
       } else if (criteriumItem.activated && criteriumItem.value.length === 6) {
@@ -572,6 +573,15 @@
       }, 10);
     };
 
+    var verwijderSteekkaartKolom = function () {
+      _.each($scope.kolommen, function (kolom) {
+        if (kolom && kolom.label == 'Link naar individuele steekkaart') {
+          var index = $scope.kolommen.indexOf(kolom)
+          $scope.kolommen.splice(index, 1);
+        }
+      });
+    }
+
     var createFilterObject = function () {
       var actFilterCriteria = _.filter($scope.criteria, {"activated": true});
 
@@ -663,7 +673,7 @@
     $scope.checkGeldigeNaam = function (selectedFilter) {
       selectedFilter = selectedFilter.trim();
 
-      if (!selectedFilter){
+      if (!selectedFilter) {
         $scope.filterNaamError = true
         $scope.isSavingFilters = false;
         return false;
@@ -694,7 +704,7 @@
       } else {
         // voor de zekerheid leading en trailing whitespaces trimmen
         selectedFilter = selectedFilter.trim();
-        if (!this.checkGeldigeNaam(selectedFilter)){
+        if (!this.checkGeldigeNaam(selectedFilter)) {
           return;
         }
         var filters = LFS.getFilters();
