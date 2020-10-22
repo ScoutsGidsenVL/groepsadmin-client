@@ -11,7 +11,8 @@
         scope: {
           waarden: '=',
           veld: '=',
-          formulier: '='
+          formulier: '=',
+          bewerkbaar: '='
         },
         link: function (scope, element) {
           if (angular.isArray(scope.veld.velden)) {

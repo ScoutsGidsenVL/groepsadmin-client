@@ -11,7 +11,8 @@
         scope: {
           waarden: '=',
           velden: '=',
-          formulier: '='
+          formulier: '=',
+          bewerkbaar: '='
         }
       };
     }

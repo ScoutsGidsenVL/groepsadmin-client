@@ -5,7 +5,7 @@
     <div class="col-xs-7 col-xxs-12">
       <input type="checkbox" class="" id="{{veld.id}}" name="{{veld.id}}" ng-model="waarden[veld.id]"
              ng-true-value="'true'" ng-false-value="'false'"
-             ng-required="veld.verplicht" ng-disabled="!veld.kanGebruikerWijzigen"/>
+             ng-required="veld.verplicht" ng-disabled="!veld.kanGebruikerWijzigen || !bewerkbaar"/>
       <span class="control-indicator"></span>
     </div>
     <p class="ga-form-beschrijving" ng-bind-html="veld.beschrijving"></p>
