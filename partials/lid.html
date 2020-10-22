@@ -21,7 +21,7 @@
     <div class="hidden-xs hidden-sm hidden-md ">
       <formerrorbutton formulier="lidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
       <button type="submit" class="btn btn-apply" ng-disabled="lidForm.$invalid || lid.changes.length == 0" ng-click="opslaan()"
-              ng-if="lid && canSave && lidPropertiesWatchable && kanGroepseingenVeldenWijzigen"><i class="fa fa-save"
+              ng-if="lid && canSave && lidPropertiesWatchable || kanGroepseingenVeldenWijzigen"><i class="fa fa-save"
                                                                                                     aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i
         class="fa fa-spinner fa-pulse" ng-show="saving"></i>
       </button>
