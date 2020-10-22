@@ -9,7 +9,6 @@
         require: 'ngModel',
         link: function (scope, element, attrs, ctrl) {
           var checkGsm = attrs.hasOwnProperty("isGsm") ? true : false;
-
           var formatNumber = function (value) {
             var phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
 
@@ -62,7 +61,12 @@
             try {
               var number = phoneUtil.parseAndKeepRawInput(modelValue, 'BE');
               var isPossible = phoneUtil.isPossibleNumber(number);
-              var numberWithoutSpaces = modelValue.replace(/\s+/g, '');
+              var numberWithoutSpacesOrSpecialCharacters = modelValue.replaceAll(/\s+/g, '');
+              numberWithoutSpacesOrSpecialCharacters = numberWithoutSpacesOrSpecialCharacters.replaceAll('/', '');
+              numberWithoutSpacesOrSpecialCharacters = numberWithoutSpacesOrSpecialCharacters.replaceAll('.', '');
+
+              console.log(modelValue)
+              console.log(numberWithoutSpacesOrSpecialCharacters)
 
               if (isPossible) {
                 var isNumberValid = phoneUtil.isValidNumber(number);
@@ -70,7 +74,7 @@
                   if(!checkGsm) {
                     validated = true;
                   }
-                  else if (mobileTypes.indexOf(phoneUtil.getNumberType(number)) !== -1 && ( numberWithoutSpaces.length >= 10 && numberWithoutSpaces.length <= 12)) {
+                  else if (mobileTypes.indexOf(phoneUtil.getNumberType(number)) !== -1 && ( numberWithoutSpacesOrSpecialCharacters.length >= 10 && numberWithoutSpacesOrSpecialCharacters.length <= 12)) {
                     validated = true;
                   }
                 }
