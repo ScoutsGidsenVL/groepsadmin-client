@@ -30,6 +30,9 @@
          ng-if="steekkaartLeesrecht || isEigenProfiel">
         <i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele steekkaart
       </a>
+      <button type="button" class="btn btn-secondary" ng-click="redirectToCommunicatievoorkeuren()" ng-if="isEigenProfiel"><i
+        class="fa fa-plus" aria-hidden="true"></i>&nbsp;Communicatievoorkeuren
+      </button>
       <button type="button" class="btn btn-secondary" ng-click="schrap()"
               ng-if="kanSchrappen && lidPropertiesWatchable && (magFunctiesVanLidStoppen || isEigenProfiel)"><i
         class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop
@@ -93,6 +96,8 @@
             toevoegen</a></li>
           <li role="menuitem"><a href="#" ng-click="$event.preventDefault();redirectToEmailPage(lid.id)"
                                  ng-show="!isEigenProfiel">E-mail sturen</a></li>
+          <li role="menuitem"><a href="#" ng-click="$event.preventDefault();redirectToCommunicatievoorkeuren(lid.id)"
+                                 ng-show="isEigenProfiel">Communicatievoorkeuren</a></li>
         </ul>
       </div>
 
