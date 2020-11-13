@@ -525,6 +525,10 @@
       $location.path('/email/' + id);
     };
 
+    $scope.redirectToCommunicatievoorkeuren = function() {
+      $location.path('/communicatievoorkeuren');
+    }
+
     $scope.$watch('lidForm.$valid', function (validity) {
       if (!validity) {
         $scope.openAndHighlightCollapsedInvalidBlocks();
