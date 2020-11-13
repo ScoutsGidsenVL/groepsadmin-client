@@ -32,6 +32,11 @@
         controller: 'LidController'
       })
 
+      .when('/communicatievoorkeuren', {
+        templateUrl: 'partials/lid-communicatievoorkeuren.html',
+        controller: 'CommunicatieController'
+      })
+
       .when('/lid/individuelesteekkaart/:id', {
         templateUrl: 'partials/lid-individuele-steekkaart.html',
         controller: 'LidIndividueleSteekkaartController'
