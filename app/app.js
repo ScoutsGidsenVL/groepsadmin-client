@@ -20,6 +20,7 @@
     'ga.aanvragencontroller',
     'ga.ledenlijstcontroller',
     'ga.lidcontroller',
+    'ga.communicatiecontroller',
     'ga.usercontroller',
     'ga.lidtoevoegencontroller',
     'ga.lidindividuelesteekkaartcontroller',
