@@ -10,7 +10,7 @@
 
   function CommunicatieController($location, $rootScope, $routeParams, $scope, $timeout, $window, AlertService,
                          DialogService, LS, RestService, UserAccess, FVS) {
-    
+
     $scope.lidPropertiesWatchable = false;
     angular.extend($scope, LS.publicProperties, LS.publicMethods);
 
