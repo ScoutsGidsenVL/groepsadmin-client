@@ -1,0 +1,155 @@
+<!-- Panel header -->
+<div class="panel-heading panel-fixed panel-fixed--large clearfix">
+  <div class="pull-left full-max-width">
+
+    <h1 class="panel-title ellipsis" ng-bind="lid.vgagegevens.voornaam + ' ' + lid.vgagegevens.achternaam"></h1>
+    <h2 class="panel-subtitle" ng-show="lid">Lidnummer: {{ lid.verbondsgegevens.lidnummer }}</h2>
+    <!-- Placeholders-->
+    <h1 class="panel-title placeholder placeholder--blurred" ng-show="!lid">Plaatshouder</h1>
+    <h2 class="panel-subtitle placeholder placeholder--blurred" ng-show="!lid">1988randomnumber3791</h2>
+    <!-- END OF Placeholders-->
+
+  </div>
+  <div class="pull-right">
+    <div class="hidden-xs hidden-sm hidden-md ">
+      <button type="submit" class="btn btn-apply" ng-disabled="communicatieForm.$invalid || lid.changes.length == 0"
+              ng-click="opslaan()"
+              ng-if="lid"><i class="fa fa-save"
+                             aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i
+        class="fa fa-spinner fa-pulse" ng-show="saving"></i>
+      </button>
+      <a href="#/lid/individuelesteekkaart/{{lid.id}}" class="btn btn-primary"
+         ng-if="steekkaartLeesrecht || isEigenProfiel">
+        <i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele steekkaart
+      </a>
+      <button type="button" class="btn btn-secondary" ng-click="redirectToCommunicatievoorkeuren()"
+              ng-if="isEigenProfiel"><i
+        class="fa fa-plus" aria-hidden="true"></i>&nbsp;Communicatievoorkeuren
+      </button>
+      <button type="button" class="btn btn-secondary" ng-click="schrap()"
+              ng-if="kanSchrappen && lidPropertiesWatchable"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop
+        alle functies
+      </button>
+      <button type="button" class="btn btn-secondary" ng-click="nieuwlid()" ng-if="canPost && lidPropertiesWatchable"><i
+        class="fa fa-plus" aria-hidden="true"></i>&nbsp;Nieuw lid
+      </button>
+      <button type="button" class="btn btn-secondary" ng-click="gezinslid()"
+              ng-if="(lid && canPost) && lidPropertiesWatchable" ng-disabled="!lid || !canPost"><i
+        class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;Broer/zus toevoegen
+      </button>
+      <button type="button" ng-disabled="!lid" class="btn btn-secondary" ng-click="redirectToEmailPage(lid.id)"
+              ng-if="!isEigenProfiel"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;E-mail
+        sturen
+      </button>
+    </div>
+
+    <div class="hidden-lg">
+      <formerrorbutton formulier="lidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
+      <div class="btn-group pull-right" uib-dropdown>
+        <button id="split-button" type="submit" class="btn btn-apply"
+                ng-click="opslaan()" ng-show="lid && canSave  || kanGroepseingenVeldenWijzigen">
+          <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Opslaan&nbsp;<i
+          class="fa fa-spinner fa-pulse" ng-show="saving"></i>
+        </button>
+        <a ng-if="steekkaartLeesrecht || isEigenProfiel" href="#/lid/individuelesteekkaart/{{lid.id}}"
+           class="hidden-xs btn btn-primary">
+          <i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele steekkaart
+        </a>
+        <button type="button" class="btn" ng-if="kanSchrappen || canPost" uib-dropdown-toggle>
+          <span class="caret"></span>
+          <span class="sr-only">Actie kiezen</span>
+        </button>
+        <button type="button" class="visible-xs btn" ng-if="!(kanSchrappen || canPost)" uib-dropdown-toggle>
+          <span class="caret"></span>
+          <span class="sr-only">Actie kiezen</span>
+        </button>
+        <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+            aria-labelledby="split-button">
+          <li role="menuitem" ng-hide="!steekkaartLeesrecht"><a href="#/lid/individuelesteekkaart/{{lid.id}}">Individuele
+            steekkaart</a>
+          </li>
+          <li role="menuitem" ng-hide="!kanSchrappen"><a href="#" ng-click="$event.preventDefault();schrap()">Stop alle
+            functies</a></li>
+          <li role="menuitem" ng-hide="!canPost"><a href="#" ng-click="$event.preventDefault();nieuwlid()">Nieuw lid</a>
+          </li>
+          <li role="menuitem"><a href="#" ng-click="$event.preventDefault();gezinslid()" ng-show="lid && canPost">Broer/zus
+            toevoegen</a></li>
+          <li role="menuitem"><a href="#" ng-click="$event.preventDefault();redirectToEmailPage(lid.id)"
+                                 ng-show="!isEigenProfiel">E-mail sturen</a></li>
+          <li role="menuitem"><a href="#" ng-click="$event.preventDefault();redirectToCommunicatievoorkeuren(lid.id)"
+                                 ng-show="isEigenProfiel">Communicatievoorkeuren</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default panel-default--hasmargin-large">
+  <form name="communicatieForm">
+    <div class="panel-body form-hover clearfix">
+      <section>
+        <div class="col-lg-6 col-sm-8 col-xs-12">
+          <fieldset ng-if="lid && communicatieProducten.length > 4">
+            <div class="row">
+              <legend class="col-xs-12 col-md-5 ">Nieuwsbrieven</legend>
+              <legend class="col-xs-12 col-md-7 "><span class="col-xs-offset-4 col-md-offset-0">Per e-mail</span></legend>
+            </div>
+            <div ng-repeat="(key, product) in communicatieProducten">
+              <div ng-if="product.type[0] == 'nieuwsbrief'" class="row">
+                <label class="form-group control checkbox">
+                  <div class="col-xs-5 control-label">
+                    <span class="hidden-xs"><img ng-src="{{product.image}}" width="45px"></span>
+                    {{product.omschrijving}}</div>
+                  <div class="col-xs-1">
+                    <input type="checkbox" ng-checked="!selectedCommunicatieProducten[product.id]"
+                           ng-click="verwerkCommunicatie(product)"/>
+                    <span class="control-indicator"></span>
+                  </div>
+                  <div class="col-xs-3 col-md-2">
+                    <a
+                      href="https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginas:lid_toevoegen#persoonlijk"
+                      target="_blank" class="info-button">
+                      <i class="fa fa-question-circle resolve" title="meer info"></i>
+                    </a></div>
+                </label>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset ng-if="lid">
+            <div class="row">
+              <legend class="col-md-5 col-xss-12">Tijdschriften</legend>
+              <legend class="col-md-3 col-xs-7"><span class="col-xs-offset-5 col-sm-offset-6 col-md-offset-0">Per e-mail</span></legend>
+              <legend class="col-md-3 col-xs-4"><span>Per post</span></legend>
+            </div>
+            <div ng-repeat="(key, product) in communicatieProducten.slice().reverse()">
+              <div ng-if="product.type.length > 1" class="row">
+                <label class="form-group control checkbox">
+                  <div class="col-md-5 col-xs-4 control-label">
+                    <span class="hidden-xs "><img ng-src="{{product.image}}" width="45px"></span>
+                    {{product.omschrijving}}
+                  </div>
+                  <div class="col-md- col-xs-3">
+                    <input type="checkbox" ng-checked="!selectedCommunicatieProducten[product.id]"
+                           ng-click="verwerkCommunicatie(product, product.type[1])"/>
+                    <span class="control-indicator"></span>
+                  </div>
+                  <div class="col-md-1 col-xs-1">
+                    <input type="checkbox" ng-checked="!selectedCommunicatieProducten[product.id]"
+                           ng-click="verwerkCommunicatie(product, product.type[0])"/>
+                    <span class="control-indicator"></span>
+                  </div>
+                  <div class="col-xs-1">
+                    <a
+                      target="_blank" class="info-button">
+                      <i class="fa fa-question-circle resolve" title="meer info"></i>
+                    </a>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </section>
+    </div>
+  </form>
+</div>
