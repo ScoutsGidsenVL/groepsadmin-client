@@ -368,6 +368,11 @@
           'get': {method: 'GET', cancellable: true},
           'query': {method: 'GET', isArray: true, cache: false, cancellable: true}
         }
+      ),
+      CommunicatieProducten: $resource(
+        base + 'communicatieproduct',
+        {},
+        {get: {method: 'GET'}}
       )
     }
   }
