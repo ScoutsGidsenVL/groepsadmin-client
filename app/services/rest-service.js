@@ -373,6 +373,14 @@
         base + 'communicatieproduct',
         {},
         {get: {method: 'GET'}}
+      ),
+      CommunicatieproductAbonnement: $resource(
+        base + 'communicatieproduct/abonnementen',
+        {},
+        {
+          'get': {method: 'GET', isArray: true},
+          'post': {method: 'POST'}
+        }
       )
     }
   }
