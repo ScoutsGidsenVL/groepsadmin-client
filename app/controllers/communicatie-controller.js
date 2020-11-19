@@ -78,14 +78,25 @@
       }
     }
 
+    // nieuw lid initialiseren na update.
+    function initAangepastLid() {
+      //changes array aanmaken
+      $timeout(function () {
+        initModel();
+      }, 20);
+    }
+
     // alle aanpassingen opslaan
     $scope.opslaan = function () {
       $scope.saving = true;
-      var request = $scope.selectedCommunicatieProducten;
-      RestService.CommunicatieproductAbonnement.post(request).$promise.then(
-        function (response) {
-          AlertService.add('success', 'Voorkeur is aangepast.');
+      $scope.lid.$update(
+        function () {
           $scope.saving = false;
+          AlertService.add('success', "Aanpassingen opgeslagen");
+          initAangepastLid();
+          $window.onbeforeunload = null;
+          $scope.validationErrors = [];
+          $scope.communicatieForm.$setPristine();
         },
         function (error) {
           $scope.saving = false;
@@ -265,5 +276,4 @@
 
     init();
   }
-})
-();
+})();
