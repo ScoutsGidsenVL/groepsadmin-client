@@ -65,9 +65,6 @@
               numberWithoutSpacesOrSpecialCharacters = numberWithoutSpacesOrSpecialCharacters.replaceAll('/', '');
               numberWithoutSpacesOrSpecialCharacters = numberWithoutSpacesOrSpecialCharacters.replaceAll('.', '');
 
-              console.log(modelValue)
-              console.log(numberWithoutSpacesOrSpecialCharacters)
-
               if (isPossible) {
                 var isNumberValid = phoneUtil.isValidNumber(number);
                 if(isNumberValid) {
