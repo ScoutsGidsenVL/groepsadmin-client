@@ -25,13 +25,12 @@
       RestService.Lid.get({id: 'profiel'}).$promise.then(
         function (result) {
           $scope.lid = result;
-        },
-      );
+        });
+
       RestService.CommunicatieproductAbonnement.get().$promise.then(
         function (result) {
           $scope.selectedCommunicatieProducten = result;
-        }
-      )
+        });
     };
 
     $scope.verwerkCommunicatie = function (communicatieproduct, type) {
