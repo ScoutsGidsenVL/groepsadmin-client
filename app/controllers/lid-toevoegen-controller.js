@@ -160,12 +160,18 @@
       $scope.$watch(value, setChanges, true);
     });
 
+    $scope.clearSpacesFromNumber = function () {
+      for (var i = 0; i < $scope.lid.adressen.length; i++) {
+        $scope.lid.adressen[i].nummer = $scope.lid.adressen[i].nummer.replace(/\s+/g, '');
+      }
+    }
     /*
      * Opslaan van het nieuwe lid
      * ---------------------------------------
      */
 
     $scope.opslaan = function () {
+      this.clearSpacesFromNumber();
       $scope.saving = true;
       var origineelLid = {};
       angular.copy($scope.lid, origineelLid);
