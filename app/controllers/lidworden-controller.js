@@ -57,8 +57,13 @@
       }
     }
 
+    $scope.clearSpacesFromNumber = function() {
+      $scope.lid.adres.nummer = $scope.lid.adres.nummer.replace(/\s+/g, '');
+    }
+
     $scope.submitForm = function(form) {
       if (form.$valid) {
+        this.clearSpacesFromNumber()
         $scope.formsubmitting = true;
         if($scope.lid.persoonsgegevens.rekeningnummer === '') {
           delete $scope.lid.persoonsgegevens.rekeningnummer;
