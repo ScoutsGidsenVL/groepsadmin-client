@@ -68,7 +68,7 @@
         </button>
         <ul class="dropdown-menu" uib-dropdown-menu role="menu"
             aria-labelledby="split-button">
-          <li role="menuitem" ng-hide="!steekkaartLeesrecht || isEigenProfiel"><a href="#/lid/individuelesteekkaart/{{lid.id}}">Individuele
+          <li role="menuitem" ng-hide="!steekkaartLeesrecht || !isEigenProfiel"><a href="#/lid/individuelesteekkaart/{{lid.id}}">Individuele
             steekkaart</a>
           </li>
           <li role="menuitem" ng-hide="!kanSchrappen"><a href="#" ng-click="$event.preventDefault();schrap()">Stop alle
