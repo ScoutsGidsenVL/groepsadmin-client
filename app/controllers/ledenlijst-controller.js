@@ -26,6 +26,7 @@
     $scope.deelFilter = false;
 
     $scope.canPost = false;
+    $scope.canShare = false;
     $scope.isVgaOfLeiding = false;
 
     $scope.filterNaamError = true;
@@ -40,6 +41,10 @@
 
     UserAccess.hasAccessTo("nieuw lid").then(function (res) {
       $scope.canPost = res;
+    });
+
+    UserAccess.hasAccessTo("filter delen").then(function (res) {
+      $scope.canShare = res;
     });
 
     $scope.toggleDelen = function () {
