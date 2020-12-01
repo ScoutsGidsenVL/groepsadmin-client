@@ -298,7 +298,7 @@
 
               <div class="form-group">
                 <button class="btn btn-default" ng-click="deleteSjabloon(sjabloon)"
-                        ng-hide="sjabloon.naam == 'blanco sjabloon'"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Sjabloon
+                        ng-hide="sjabloon.naam == 'blanco sjabloon' || sjabloon.naam == 'STANDAARD' || sjabloon.naam == 'standaard formaat' || sjabloon.naam == 'deelnamebewijs' "><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Sjabloon
                   verwijderen&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="isDeleting"></i></button>
               </div>
 
