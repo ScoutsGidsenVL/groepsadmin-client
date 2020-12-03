@@ -5,9 +5,9 @@
     .module('ga.lidindividuelesteekkaartcontroller', ['ga.services.alert', 'ga.services.dialog', 'ui.bootstrap'])
     .controller('LidIndividueleSteekkaartController', LidIndividueleSteekkaartController);
 
-  LidIndividueleSteekkaartController.$inject = ['$scope', '$routeParams', '$location', 'RestService', 'AlertService'];
+  LidIndividueleSteekkaartController.$inject = ['$scope', '$routeParams', '$location', 'RestService', 'AlertService', '$rootScope', 'LedenLijstService', 'LidService'];
 
-  function LidIndividueleSteekkaartController($scope, $routeParams, $location, RestService, AlertService) {
+  function LidIndividueleSteekkaartController($scope, $routeParams, $location, RestService, AlertService, $rootScope, LLS, LS) {
     /*
      * Init
      * --------------------------------------
@@ -28,14 +28,24 @@
       }
     );
 
+    $scope.isEigenProfiel = false;
     RestService.Lid.get({id: 'profiel'}).$promise.then(
       function (result) {
         $scope.ingelogdLid = result;
+        if ($scope.ingelogdLid.id === $routeParams.id) {
+          $scope.isEigenProfiel = true;
+        }
       },
       function (error) {
         AlertService.add('danger', error);
       }
     );
+
+    if (!$scope.isEigenProfiel) {
+      $scope.prevLid = LLS.getNextPrevLid($routeParams.id, $rootScope.leden)[0];
+      $scope.nextLid = LLS.getNextPrevLid($routeParams.id, $rootScope.leden)[1];
+      // tonen van de knop "individuele steekkaart enkel indien de gebruiker toegang heeft
+    }
 
     // steekkaart ophalen.
     RestService.LidIndividueleSteekkaart.get({id: $routeParams.id}).$promise.then(
@@ -125,6 +135,15 @@
 
         }
       );
+    };
+
+    $scope.gotoLid = function (direction) {
+      if (direction == "next") {
+        $location.path("/lid/individuelesteekkaart/" + $scope.nextLid.id);
+      }
+      if (direction == "prev") {
+        $location.path("/lid/individuelesteekkaart/" + $scope.prevLid.id);
+      }
     };
 
     /*

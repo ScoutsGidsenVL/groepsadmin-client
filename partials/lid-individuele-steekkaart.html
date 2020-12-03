@@ -9,9 +9,21 @@
   </div>
   <div class="pull-right">
     <formerrorbutton formulier="individueleSteekaart" watchable="watchable"></formerrorbutton>
-    <button type="submit" class="btn btn-apply" ng-enabled="" oninvalid="" ng-click="opslaan()" ng-disabled="individueleSteekaart.$invalid" ng-show="ingelogdLid && (lid.id === ingelogdLid.id)">
-      <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i>
+    <button type="submit" class="btn btn-apply" ng-enabled="" oninvalid="" ng-click="opslaan()"
+            ng-disabled="individueleSteekaart.$invalid" ng-show="ingelogdLid && (lid.id === ingelogdLid.id)">
+      <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse"
+                                                                         ng-show="saving"></i>
     </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="pull-right btn-group">
+      <button ng-if="prevLid" type="button" class="btn btn-default" ng-click="gotoLid('prev')" title="vorig lid"><span
+        class="glyphicon glyphicon-chevron-left"></span></button>
+      <button ng-if="nextLid" type="button" class="btn btn-default" ng-click="gotoLid('next')" title="volgend lid"><span
+        class="glyphicon glyphicon-chevron-right"></span></button>
+    </div>
   </div>
 </div>
 
@@ -19,12 +31,15 @@
 <div class="panel panel-default panel-default--hasmargin-large ng-scope">
   <form name="individueleSteekaart" class='panel-body form-hover clearfix'>
     <div class="individuele-steekkaart">
-      <dynamischformulier class="" waarden="individueleSteekkaartWaarden" velden="individueleSteekkaartLayoutGroups" formulier="individueleSteekaart"></dynamischformulier>
+      <dynamischformulier class="" waarden="individueleSteekkaartWaarden" velden="individueleSteekkaartLayoutGroups"
+                          formulier="individueleSteekaart"></dynamischformulier>
     </div>
     <div class="pull-right">
       <formerrorbutton formulier="individueleSteekaart" watchable="watchable"></formerrorbutton>
-      <button type="submit" class="btn btn-apply" ng-enabled="" oninvalid="" ng-click="opslaan()" ng-disabled="individueleSteekaart.$invalid" ng-show="ingelogdLid && (lid.id === ingelogdLid.id)">
-        <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse" ng-show="saving"></i>
+      <button type="submit" class="btn btn-apply" ng-enabled="" oninvalid="" ng-click="opslaan()"
+              ng-disabled="individueleSteekaart.$invalid" ng-show="ingelogdLid && (lid.id === ingelogdLid.id)">
+        <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i class="fa fa-spinner fa-pulse"
+                                                                           ng-show="saving"></i>
       </button>
     </div>
   </form>
