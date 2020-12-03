@@ -99,25 +99,41 @@
                     id="_adres"
                     ng-model="contact.adres" ng-disabled="!hasPermission('contacten')"
                     ng-options="adres.id as adres.straat + ', ' + adres.nummer + ' ' + adres.bus +  ', ' + adres.postcode + ', ' + adres.gemeente for adres in lid.adressen"
+                    ng-change="changeAdres"
                     required>
             </select>
+              <input type="text"
+                     ng-repeat="adres in lid.adressen"
+                     ng-if="contact.adres === adres.id"
+                     name="contacten[{{ $index }}].adres"
+                     id="_adres"
+                     class="form-control"
+                     ng-value="adres.straat + ' ' + adres.nummer + (adres.bus ? ' bus ' + adres.bus : '')"
+                     ng-readonly="true">
+            <input type="text"
+                   ng-repeat="adres in lid.adressen"
+                   ng-if="contact.adres === adres.id"
+                   name="contacten[{{ $index }}].adres"
+                   id="_adres"
+                   class="form-control"
+                   ng-value="adres.postcode + ' ' + adres.gemeente"
+                   ng-readonly="true">
             <div ng-messages="lidForm['contacten['+$index+'].adres'].$error">
               <div ng-messages-include="partials/messages.html"></div>
             </div>
           </div>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': lidForm['contacten['+$index+'].adres'].$invalid }">
+        <div class="form-group">
           <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Telefoon</label>
           <div class="col-xs-7 col-xxs-12">
-            <select class="selectpicker" title="Kies een telefoonnummer..." name="contacten[{{ $index }}].adres"
-                    id="_adres"
-                    ng-model="contact.adres" ng-disabled="!hasPermission('contacten')"
-                    ng-options="adres.id as adres.telefoon for adres in lid.adressen"
-                    required>
-            </select>
-            <div ng-messages="lidForm['contacten['+$index+'].adres'].$error">
-              <div ng-messages-include="partials/messages.html"></div>
-            </div>
+            <input type="text"
+                   ng-repeat="adres in lid.adressen"
+                   ng-if="contact.adres === adres.id"
+                   name="contacten[{{ $index }}].adres"
+                   id="_adres"
+                   class="form-control"
+                   ng-value="adres.telefoon"
+                   ng-readonly="true">
           </div>
         </div>
       </fieldset>
