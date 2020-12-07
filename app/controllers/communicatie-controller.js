@@ -87,6 +87,17 @@
       return result;
     }
 
+    $scope.checkValueDigital = function (communicatieproduct, type) {
+      var result = true;
+      _.each($scope.selectedCommunicatieProducten, function (communicatieproductAbonnement) {
+        if (communicatieproduct.id === communicatieproductAbonnement.communicatieproduct && (communicatieproductAbonnement.type === 'post' || communicatieproductAbonnement.type === type)) {
+          result = false;
+        }
+      })
+      return result;
+    }
+
+
     init();
   }
 })

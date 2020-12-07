@@ -87,7 +87,53 @@
   <form name="communicatieForm">
     <div class="panel-body form-hover clearfix">
       <section>
-        <div class="col-lg-6 col-sm-8 col-xs-12">
+        <div class="col-xs-12">
+          <fieldset ng-if="lid">
+            <div class="row">
+              <legend class="col-md-7 col-xss-12">Tijdschriften</legend>
+              <legend class="col-md-2 hidden-xs hidden-sm"><span>Per post</span></legend>
+              <legend class="col-md-3 hidden-xs hidden-sm"><span>Per e-mail</span></legend>
+            </div>
+            <div ng-repeat="(key, product) in communicatieProducten.slice().reverse()">
+              <div ng-if="product.type.length > 1" class="row form-group">
+                <div class="col-md-1 col-xs-2 control-label">
+                  <span><img ng-src="{{product.image}}" width="45px"></span>
+                </div>
+                <div class="col-md-2 col-xs-4 mt20">
+                  {{product.naam}}
+                </div>
+                <div class="col-md-4 col-xs-12 mt20">
+                  {{product.omschrijving}}
+                </div>
+                <div class="row hidden-md hidden-lg">
+                  <legend class="col-xs-6"><span>Per post</span></legend>
+                  <legend class="col-xs-6"><span>Per e-mail</span></legend>
+                </div>
+                <div>
+                  <label class="control checkbox col-xs-5 col-xs-offset-1 col-md-2 col-md-offset-0">
+                    <div class="control checkbox">
+                      <input type="checkbox" ng-checked="checkValue(product, product.type[0])"
+                             ng-click="verwerkCommunicatie(product, product.type[0])"/>
+                      <span class="control-indicator"></span>
+                    </div>
+                  </label>
+                  <label class="control col-xs-3 col-md-1 mt10">
+                    <div class="control checkbox">
+                      <input type="checkbox" ng-checked="checkValueDigital(product, product.type[1])"
+                             ng-click="verwerkCommunicatie(product, product.type[1])"/>
+                      <span class="control-indicator"></span>
+                    </div>
+                  </label>
+                  <div class="col-md-1 col-xs-1 mt15">
+                    <a
+                      target="_blank" class="info-button">
+                      <i class="fa fa-question-circle resolve" title="meer info"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
           <fieldset ng-if="lid && communicatieProducten.length > 4">
             <div class="row">
               <legend class="col-xs-12 col-md-5 ">Nieuwsbrieven</legend>
@@ -111,45 +157,9 @@
                       href="https://wiki.scoutsengidsenvlaanderen.be/handleidingen:groepsadmin:paginas:lid_toevoegen#persoonlijk"
                       target="_blank" class="info-button">
                       <i class="fa fa-question-circle resolve" title="meer info"></i>
-                    </a></div>
-                </label>
-              </div>
-            </div>
-          </fieldset>
-          <fieldset ng-if="lid">
-            <div class="row">
-              <legend class="col-md-5 col-xss-12">Tijdschriften</legend>
-              <legend class="col-md-2 col-xs-7">
-                <span class="col-xs-offset-5 col-sm-offset-6 col-md-offset-0">Per e-mail</span>
-              </legend>
-              <legend class="col-md-5 col-xs-4"><span>Per post</span></legend>
-            </div>
-            <div ng-repeat="(key, product) in communicatieProducten.slice().reverse()">
-              <div ng-if="product.type.length > 1" class="row form-group">
-                <label class="control checkbox col-md-7">
-                  <div class="col-md-9 col-xs-4 control-label">
-                    <span class="hidden-xs "><img ng-src="{{product.image}}" width="45px"></span>
-                    {{product.omschrijving}}
-                  </div>
-                  <div class="col-md-3 col-xs-3 control checkbox">
-                    <input type="checkbox" ng-checked="checkValue(product, product.type[1])"
-                           ng-click="verwerkCommunicatie(product, product.type[1])"/>
-                    <span class="control-indicator"></span>
+                    </a>
                   </div>
                 </label>
-                <label class="control col-md-1 mt20">
-                  <div class="col-md-1 col-xs-1">
-                    <input type="checkbox" ng-checked="checkValue(product, product.type[0])"
-                           ng-click="verwerkCommunicatie(product, product.type[0])"/>
-                    <span class="control-indicator"></span>
-                  </div>
-                </label>
-                <div class="col-md-2 col-xs-1 mt15">
-                  <a
-                    target="_blank" class="info-button">
-                    <i class="fa fa-question-circle resolve" title="meer info"></i>
-                  </a>
-                </div>
               </div>
             </div>
           </fieldset>
