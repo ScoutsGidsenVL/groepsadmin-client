@@ -32,8 +32,8 @@
       </section>
       <fieldset class="ga-functie-list" ng-hide="!contact.showme">
         <div class="form-group " ng-class="{ 'has-error': lidForm['contacten['+$index+'].rol'].$invalid }">
-          <label for="_rol" class="col-xs-5 col-xxs-12 control-label">Rol</label>
-          <div class="col-xs-7 col-xxs-12">
+          <label for="_rol" class="col-xs-4 col-xxs-12 control-label">Rol</label>
+          <div class="col-xs-8 col-xxs-12">
             <select name="contacten[{{$index}}].rol" class="selectpicker" title="Kies een rol..." id="_rol"
                     ng-model="contact.rol" ng-disabled="!hasPermission('contacten')"
                     ng-options="rol.value as rol.label for rol in contactRollen" required>
@@ -45,8 +45,8 @@
         </div>
         <div class="form-group"
              ng-class="{ 'has-error': lidForm['contacten['+$index+'].voornaam'].$invalid }">
-          <label for="_voornaam" class="col-xs-5 col-xxs-12 control-label">Voornaam</label>
-          <div class="col-xs-7 col-xxs-12">
+          <label for="_voornaam" class="col-xs-4 col-xxs-12 control-label">Voornaam</label>
+          <div class="col-xs-8 col-xxs-12">
             <input type="text" name="contacten[{{ $index }}].voornaam" class="form-control" id="_voornaam"
                    ng-model="contact.voornaam"
                    ng-required="lidForm['contacten['+$index+'].voornaam'].isRequired"
@@ -58,8 +58,8 @@
         </div>
         <div class="form-group"
              ng-class="{ 'has-error': lidForm['contacten['+$index+'].achternaam'].$invalid }">
-          <label for="_naam" class="col-xs-5 col-xxs-12 control-label">Achternaam</label>
-          <div class="col-xs-7 col-xxs-12">
+          <label for="_naam" class="col-xs-4 col-xxs-12 control-label">Achternaam</label>
+          <div class="col-xs-8 col-xxs-12">
             <input type="text" name="contacten[{{ $index }}].achternaam" class="form-control" id="_naam"
                    ng-model="contact.achternaam"
                    ng-required="lidForm['contacten['+$index+'].achternaam'].isRequired"
@@ -71,8 +71,8 @@
         </div>
         <div class="form-group"
              ng-class="{ 'has-error': lidForm['contacten['+$index+'].email'].$touched && lidForm['contacten['+$index+'].email'].$invalid }">
-          <label for="_email" class="col-xs-5 col-xxs-12 control-label">E-mail</label>
-          <div class="col-xs-7 col-xxs-12">
+          <label for="_email" class="col-xs-4 col-xxs-12 control-label">E-mail</label>
+          <div class="col-xs-8 col-xxs-12">
             <input type="email" name="contacten[{{ $index }}].email" class="form-control" id="_email"
                    ng-model="contact.email" ng-disabled="!hasPermission('contacten')">
             <div ng-messages="lidForm['contacten['+$index+'].email'].$error">
@@ -82,8 +82,8 @@
         </div>
         <div class="form-group"
              ng-class="{ 'has-error': lidForm['contacten['+$index+'].gsm'].$touched && lidForm['contacten['+$index+'].gsm'].$invalid }">
-          <label for="_gsm" class="col-xs-5 col-xxs-12 control-label">Gsm</label>
-          <div class="col-xs-7 col-xxs-12">
+          <label for="_gsm" class="col-xs-4 col-xxs-12 control-label">Gsm</label>
+          <div class="col-xs-8 col-xxs-12">
             <input type="text" name="contacten[{{ $index }}].gsm" class="form-control" id="_gsm"
                    ng-model="contact.gsm"
                    ng-disabled="!hasPermission('contacten')" telefoonnummer is-gsm>
@@ -93,8 +93,8 @@
           </div>
         </div>
         <div class="form-group" ng-class="{ 'has-error': lidForm['contacten['+$index+'].adres'].$invalid }">
-          <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Adres</label>
-          <div class="col-xs-7 col-xxs-12">
+          <label for="_adres" class="col-xs-4 col-xxs-12 control-label">Adres</label>
+          <div class="col-xs-8 col-xxs-12">
             <select class="selectpicker" title="Kies een adres..." name="contacten[{{ $index }}].adres"
                     id="_adres"
                     ng-model="contact.adres" ng-disabled="!hasPermission('contacten')"
@@ -124,8 +124,8 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="_adres" class="col-xs-5 col-xxs-12 control-label">Telefoon</label>
-          <div class="col-xs-7 col-xxs-12">
+          <label for="_adres" class="col-xs-4 col-xxs-12 control-label">Telefoon</label>
+          <div class="col-xs-8 col-xxs-12">
             <input type="text"
                    ng-repeat="adres in lid.adressen"
                    ng-if="contact.adres === adres.id"
