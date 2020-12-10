@@ -12,6 +12,19 @@
                                   DialogService, LS, RestService) {
 
     angular.extend($scope, LS.publicProperties, LS.publicMethods);
+    $scope.selectedCommunicatieProducten = [];
+
+    var communicatieproductabonnement = {
+      communicatieproduct: '',
+      type: '',
+      lid: ''
+    }
+
+    var defaultCommunicatieproductabonnement = {
+      communicatieproduct: '',
+      type: '',
+      lid: ''
+    }
 
     var init = function () {
       $scope.validationErrors = [];
@@ -20,6 +33,7 @@
       RestService.CommunicatieProducten.get().$promise.then(
         function (result) {
           $scope.communicatieProducten = result.communicatieProducten;
+          $scope.leiding = $scope.communicatieProducten > 4;
         });
 
       RestService.Lid.get({id: 'profiel'}).$promise.then(
@@ -34,21 +48,18 @@
     };
 
     $scope.verwerkCommunicatie = function (communicatieproduct, type) {
-      var communicatieproductabonnement = {
-        communicatieproduct: '',
-        type: '',
-        lid: ''
-      }
+
+      communicatieproductabonnement = Object.assign({}, defaultCommunicatieproductabonnement);
       communicatieproductabonnement.communicatieproduct = communicatieproduct.id;
       communicatieproductabonnement.type = type;
       communicatieproductabonnement.lid = $scope.lid.id;
 
       var index = -1;
-
       for (var i = 0; i < $scope.selectedCommunicatieProducten.length; i++) {
         if ($scope.selectedCommunicatieProducten[i].type === communicatieproductabonnement.type
           && $scope.selectedCommunicatieProducten[i].communicatieproduct === communicatieproductabonnement.communicatieproduct
           && $scope.selectedCommunicatieProducten[i].lid === communicatieproductabonnement.lid) {
+          console.log($scope.selectedCommunicatieProducten[i])
           index = i;
           break;
         }
@@ -59,6 +70,17 @@
         $scope.selectedCommunicatieProducten.push(communicatieproductabonnement)
       } else {
         $scope.selectedCommunicatieProducten.splice(index, 1)
+      }
+    }
+
+    function deactivateMailProducts() {
+      if ($scope.selectedCommunicatieProducten.length === 0) {
+        _.each($scope.CommunicatieProducten, function (communicatieproduct) {
+          communicatieproductabonnement.communicatieproduct = communicatieproduct.id;
+          communicatieproductabonnement.type = communicatieproduct.type[1];
+          communicatieproductabonnement.lid = $scope.lid.id;
+          $scope.selectedCommunicatieProducten.push(communicatieproductabonnement);
+        })
       }
     }
 
@@ -88,12 +110,26 @@
     }
 
     $scope.checkValueDigital = function (communicatieproduct, type) {
-      var result = true;
+      var result = false;
       _.each($scope.selectedCommunicatieProducten, function (communicatieproductAbonnement) {
-        if (communicatieproduct.id === communicatieproductAbonnement.communicatieproduct && (communicatieproductAbonnement.type === 'post' || communicatieproductAbonnement.type === type)) {
-          result = false;
+        if (!(communicatieproduct.id === communicatieproductAbonnement.communicatieproduct && type === communicatieproductAbonnement.type) &&
+          checkPostVersieInGeselecteerdeItems(communicatieproduct)) {
+          result = true;
         }
       })
+      return result;
+    }
+
+    function checkPostVersieInGeselecteerdeItems(communicatieproduct) {
+      var result = false;
+      if ($scope.selectedCommunicatieProducten.length === 0) {
+        return result;
+      }
+      _.each($scope.selectedCommunicatieProducten, function (communicatieproductAbonnement) {
+        if (communicatieproductAbonnement.type === 'post' && communicatieproduct.id === communicatieproductAbonnement.communicatieproduct) {
+          result = true;
+        }
+      });
       return result;
     }
 
