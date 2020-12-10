@@ -86,6 +86,17 @@
       }, 20);
     }
 
+    function deactivateMailProducts() {
+      if ($scope.selectedCommunicatieProducten.length === 0) {
+        _.each($scope.CommunicatieProducten, function (communicatieproduct) {
+          communicatieproductabonnement.communicatieproduct = communicatieproduct.id;
+          communicatieproductabonnement.type = communicatieproduct.type[1];
+          communicatieproductabonnement.lid = $scope.lid.id;
+          $scope.selectedCommunicatieProducten.push(communicatieproductabonnement);
+        })
+      }
+    }
+
     // alle aanpassingen opslaan
     $scope.opslaan = function () {
       $scope.saving = true;
@@ -276,4 +287,5 @@
 
     init();
   }
-})();
+})
+();
