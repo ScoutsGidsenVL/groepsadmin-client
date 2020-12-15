@@ -418,7 +418,12 @@
         <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'"
             class="kolomkop" ng-click="addSort(kolom)">
           {{ kolom.label }}
-          <ordericon filter="currentFilter" kolommen="kolommen" kolom="kolom"></ordericon>
+          <span ng-if="kolom.label === 'Lidgeld betaald aan SGV'">
+            <a href="https://wiki.scoutsengidsenvlaanderen.be/doku.php?id=handleidingen:groepsadmin:paginas:groepsinstellingen&s[]=verzekerd" target="_blank">
+            <i class="fa fa-question-circle resolve" title="meer info" style="margin-left: 3px"></i>
+          </a>
+          </span>
+          <ordericon ng-if="kolom.label !== 'Lidgeld betaald aan SGV'" filter="currentFilter" kolommen="kolommen" kolom="kolom"></ordericon>
         </th>
       </tr>
       </thead>
