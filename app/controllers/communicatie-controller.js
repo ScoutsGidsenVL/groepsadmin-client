@@ -37,7 +37,7 @@
       RestService.CommunicatieProducten.get().$promise.then(
         function (result) {
           $scope.communicatieProducten = result.communicatieProducten;
-          $scope.leiding = $scope.communicatieProducten.length > 4;
+          $scope.leiding = $scope.communicatieProducten > 4;
         });
 
       RestService.Lid.get({id: 'profiel'}).$promise.then(
@@ -52,6 +52,7 @@
     };
 
     $scope.verwerkCommunicatie = function (communicatieproduct, type) {
+
       communicatieproductabonnement = Object.assign({}, defaultCommunicatieproductabonnement);
       communicatieproductabonnement.communicatieproduct = communicatieproduct.id;
       communicatieproductabonnement.type = type;
@@ -117,13 +118,11 @@
 
     $scope.checkValue = function (communicatieproduct, type) {
       var result = true;
-
       _.each($scope.selectedCommunicatieProducten, function (communicatieproductAbonnement) {
         if (communicatieproduct.id === communicatieproductAbonnement.communicatieproduct && type === communicatieproductAbonnement.type) {
           result = false;
         }
       })
-
       return result;
     }
 
