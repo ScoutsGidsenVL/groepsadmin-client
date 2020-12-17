@@ -6,9 +6,9 @@
     .controller('EmailController', EmailController);
 
   EmailController.$inject = ['$log', '$q', '$routeParams', '$scope', '$uibModal', 'access', 'AlertService',
-    'CacheService', 'EmailService', 'LedenLijstService', 'RestService'];
+    'CacheService', 'EmailService', 'LedenLijstService', 'RestService', '$location'];
 
-  function EmailController($log, $q, $routeParams, $scope, $uibModal, access, AlertService, CS, ES, LLS, RestService) {
+  function EmailController($log, $q, $routeParams, $scope, $uibModal, access, AlertService, CS, ES, LLS, RestService, $location) {
 
     // documentation tinyMCE plugin https://www.tinymce.com/docs/integrations/angularjs/
     var attachments = [];
@@ -265,6 +265,7 @@
       var feedback = ES.getMailReportMessage(obj);
       $scope.mailIsPending = false;
       $scope.openDialog(feedback);
+      $location.path('/ledenlijst');
       // TODO: unset the flag to use in template to hide pending message
     }
 
