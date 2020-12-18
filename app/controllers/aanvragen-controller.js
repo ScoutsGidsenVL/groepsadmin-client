@@ -14,6 +14,7 @@
 
     function init() {
       $scope.isLoadingData = true;
+      $scope.ExportCsvIsLoading = false;
       RestService.LidAanvraag.lijst().$promise.then(function (result) {
         $scope.aanvragen = result.aanvragen;
         $scope.isLoadingData = false;
@@ -46,8 +47,26 @@
       $location.path("/lid/toevoegen");
     };
 
+    $scope.exportCsv = function () {
+      var blob, obj = {};
+
+      $scope.ExportCsvIsLoading = true;
+
+      RestService.AanvragenCsv.get().$promise.then(function (res) {
+        blob = new Blob([res.response], {type: 'text/csv'});
+        obj.fileUrl = window.URL.createObjectURL(blob);
+        obj.title = 'aanvragen.csv';
+        var a = document.createElement('a');
+        a.href = obj.fileUrl;
+        a.download = obj.title;
+        document.body.appendChild(a);
+        a.click();
+        $scope.ExportCsvIsLoading = false;
+      });
+    }
+
     $scope.afkeuren = function ($event, aanvraag) {
-      function deleteAanvraag (rel){
+      function deleteAanvraag(rel) {
         aanvraag.saving = true;
         var link = _.find(aanvraag.links, {rel: rel});
 
@@ -68,29 +87,29 @@
       }
 
       $event.stopPropagation();
-        var dialogData = {
-          boodschap: "Lidaanvraag verwijderen.",
-          vraag: "Ben je zeker dat je deze aanvraag wil afkeuren?"
-        };
+      var dialogData = {
+        boodschap: "Lidaanvraag verwijderen.",
+        vraag: "Ben je zeker dat je deze aanvraag wil afkeuren?"
+      };
 
-        DialogService.bevestig(dialogData)
-          .then(function (result) {          
-            if (result){
-              var bevestigMailDialogData = {
-                boodschap: "Lidaanvraag verwijderen",
-                vraag: "Wil je deze persoon mailen via <strong>" + aanvraag.email + "</strong>?"
-              }
-              DialogService.bevestig(bevestigMailDialogData)
-              .then(function(bevestigResult){                
-                if (bevestigResult){
+      DialogService.bevestig(dialogData)
+        .then(function (result) {
+          if (result) {
+            var bevestigMailDialogData = {
+              boodschap: "Lidaanvraag verwijderen",
+              vraag: "Wil je deze persoon mailen via <strong>" + aanvraag.email + "</strong>?"
+            }
+            DialogService.bevestig(bevestigMailDialogData)
+              .then(function (bevestigResult) {
+                if (bevestigResult) {
                   deleteAanvraag('afkeurenMetMail');
-                }
-                else if (bevestigResult != null){
+                } else if (bevestigResult != null) {
                   deleteAanvraag('afkeurenZonderMail');
                 }
               })
-            }
-          });
+          }
+        });
     };
   }
-})();
+})
+();
