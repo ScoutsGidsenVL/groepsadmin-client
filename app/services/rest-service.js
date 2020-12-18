@@ -217,6 +217,24 @@
           }
         }
       ),
+      AanvragenCsv: $resource(
+        base + 'lid/aanvraag/export',
+        {},
+        {
+          'get': {
+            method: 'GET',
+            headers: {accept: 'text/csv'},
+            responseType: 'arraybuffer',
+            transformResponse: function (data) {
+              var csv;
+              if (data) {
+                csv = new Blob([data], {type: 'text/csv'});
+              }
+              return {response: csv};
+            }
+          }
+        }
+      ),
       LedenSteekkaarten: $resource(
         base + 'ledenlijst/steekkaart',
         {offset: '@offset'},
