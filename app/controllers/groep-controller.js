@@ -581,6 +581,7 @@
           .update({id: $scope.data.activegroup.id, bevestiging: true}, $scope.data.activegroup)
           .$promise.then(function (response) {
           $scope.data.activegroup.groepseigenGegevens = response.groepseigenGegevens;
+          $scope.data.activegroup.adressen = response.adressen;
           angular.forEach($scope.data.activegroup.groepseigenGegevens, function (gegeven) {
             if (gegeven.type === 'lijst') {
               gegeven.keuzes = gegeven.keuzes || [];
@@ -630,10 +631,11 @@
       $q.all(promises)
         .then(function () {
           $scope.groepForm.$setPristine();
-          $scope.data.publiekInschrijven = $scope.data.activegroup['publiek-inschrijven']
+          $scope.data.publiekInschrijven = $scope.data.activegroup['publiek-inschrijven'];
         })
         .finally(function () {
           $scope.saving = false;
+          markersTekenen($scope.googleMap, $scope.data.activegroup.adressen, $scope.data.activegroup.kanWijzigen);
         });
     }
   }
