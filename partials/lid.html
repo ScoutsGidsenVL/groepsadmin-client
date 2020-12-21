@@ -30,7 +30,7 @@
         <i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele steekkaart
       </a>
       <button type="button" class="btn btn-secondary" ng-click="schrap()"
-              ng-if="kanSchrappen && lidPropertiesWatchable"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop
+              ng-if="kanSchrappen && lidPropertiesWatchable && magFunctiesVanLidStoppen"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop
         alle functies
       </button>
       <button type="button" class="btn btn-secondary" ng-click="nieuwlid()" ng-if="canPost && lidPropertiesWatchable"><i
@@ -71,7 +71,7 @@
           <li role="menuitem" ng-hide="!(steekkaartLeesrecht || isEigenProfiel)"><a href="#/lid/individuelesteekkaart/{{lid.id}}">Individuele
             steekkaart</a>
           </li>
-          <li role="menuitem" ng-hide="!kanSchrappen"><a href="#" ng-click="$event.preventDefault();schrap()">Stop alle
+          <li role="menuitem" ng-hide="!kanSchrappen && !magFunctiesVanLidStoppen"><a href="#" ng-click="$event.preventDefault();schrap()">Stop alle
             functies</a></li>
           <li role="menuitem" ng-hide="!canPost"><a href="#" ng-click="$event.preventDefault();nieuwlid()">Nieuw lid</a>
           </li>

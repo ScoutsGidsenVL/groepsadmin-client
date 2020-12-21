@@ -168,6 +168,11 @@
         }
       }
 
+      _.each($scope.lid.functies, function (functie) {
+        $scope.magFunctiesVanLidStoppen = $scope.patchObj.secties.indexOf('functies.' + functie.groep) > -1;
+      })
+
+
       //init functies;
       CS.Functies().then(function (functiesres) {
         var functies = functiesres;
@@ -175,7 +180,6 @@
           functiesEnGroepen(functies, groepenres);
         })
       });
-
     }
 
     function setSteekkaartLeesRechten() {
@@ -183,9 +187,9 @@
         function (result) {
           _.each($scope.lid.functies, function (functie) {
             _.each(result.groepenVgaOfleiding, function (groep) {
-                if (!functie.einde && functie.groep == groep.groepsnummer) {
-                  $scope.steekkaartLeesrecht = true
-                }
+              if (!functie.einde && functie.groep == groep.groepsnummer) {
+                $scope.steekkaartLeesrecht = true
+              }
             })
           })
         })
@@ -243,9 +247,9 @@
       $scope.groepenlijst = [];
       $scope.groepennummers = [];
 
-      $scope.counter= 0
+      $scope.counter = 0
       angular.forEach($scope.lid.functies, function (value) {
-        if ($scope.groepennummers.indexOf(value.groep) < 0){
+        if ($scope.groepennummers.indexOf(value.groep) < 0) {
           $scope.groepennummers.push(value.groep);
         }
 
