@@ -31,7 +31,7 @@
       ],
       height: 400,
       menubar: false,
-      toolbar: 'undo redo | bold italic underline strikethrough | forecolor backcolor | bullist numlist | alignleft aligncenter alignright | table | code | customDrpdwn | media | preview | fullscreen',
+      toolbar: 'undo redo | bold italic underline strikethrough | fontselect |forecolor backcolor | bullist numlist | alignleft aligncenter alignright | table | code | customDrpdwn | media | preview | fullscreen',
       relative_urls : false,
       remove_script_host : true,
       document_base_url : "https://groepsadmin.scoutsengidsenvlaanderen.be",
