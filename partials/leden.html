@@ -292,18 +292,18 @@
                   <div class="select-value-group control--collapsible"
                        ng-repeat="criteriumItem in criteriumItemGroup.items | orderBy:'label'">
                     <div ng-class="{ 'row custom-row' :  criteriumItem.vinkje }">
-                        <label class="jcontrol control--checkbox" ng-class="{ 'col-xs-9' :  criteriumItem.vinkje }">
-                          <input type="checkbox" ng-model="criteriumItem.activated"/>
+                      <label class="jcontrol control--checkbox" ng-class="{ 'col-xs-9' :  criteriumItem.vinkje }">
+                        <input type="checkbox" ng-model="criteriumItem.activated"/>
 
-                          {{ criteriumItem.label }}
-                          <select ng-if="!criteriumItem.vinkje"
-                                  ng-options="value[1] as value[0] for value in criteriumItem.operatorValues"
-                                  ng-model="criteriumItem.operator">
-                          </select>
+                        {{ criteriumItem.label }}
+                        <select ng-if="!criteriumItem.vinkje"
+                                ng-options="value[1] as value[0] for value in criteriumItem.operatorValues"
+                                ng-model="criteriumItem.operator">
+                        </select>
 
-                          <div class="control__indicator"></div>
-                          <br/>
-                        </label>
+                        <div class="control__indicator"></div>
+                        <br/>
+                      </label>
                       <div ng-class="{ 'col-xs-3' :  criteriumItem.vinkje }">
                         <label class="jcontrol control--checkbox control--collapsible">
                           <div ng-if="criteriumItem.vinkje" class="checkbox_title">Ja</div>
@@ -409,9 +409,7 @@
       <thead ng-show="dataLoaded" fix-head>
       <tr ng-show='!isLoadingLeden && !isSavingFilters'>
         <td colspan="{{kolommen.length}}">
-          <div class="pull-right">
-            <p><em>{{totaalAantalLeden}} rijen</em></p>
-          </div>
+          <p><em>{{totaalAantalLeden}} rijen</em></p>
         </td>
       </tr>
       <tr ng-show='!isLoadingLeden && !isSavingFilters'>
@@ -419,11 +417,14 @@
             class="kolomkop" ng-click="addSort(kolom)">
           {{ kolom.label }}
           <span ng-if="kolom.label === 'Lidgeld betaald aan SGV'">
-            <a href="https://wiki.scoutsengidsenvlaanderen.be/doku.php?id=handleidingen:groepsadmin:paginas:groepsinstellingen&s[]=verzekerd" target="_blank">
+            <a
+              href="https://wiki.scoutsengidsenvlaanderen.be/doku.php?id=handleidingen:groepsadmin:paginas:groepsinstellingen&s[]=verzekerd"
+              target="_blank">
             <i class="fa fa-question-circle resolve" title="meer info" style="margin-left: 3px"></i>
           </a>
           </span>
-          <ordericon ng-if="kolom.label !== 'Lidgeld betaald aan SGV'" filter="currentFilter" kolommen="kolommen" kolom="kolom"></ordericon>
+          <ordericon ng-if="kolom.label !== 'Lidgeld betaald aan SGV'" filter="currentFilter" kolommen="kolommen"
+                     kolom="kolom"></ordericon>
         </th>
       </tr>
       </thead>
