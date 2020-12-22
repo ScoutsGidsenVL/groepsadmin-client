@@ -3,7 +3,7 @@
   <div class="pull-left full-max-width">
 
     <h1 class="panel-title ellipsis" ng-bind="lid.vgagegevens.voornaam + ' ' + lid.vgagegevens.achternaam"></h1>
-    <h2 class="panel-subtitle" ng-show="lid" >Lidnummer: {{ lid.verbondsgegevens.lidnummer }}</h2>
+    <h2 class="panel-subtitle" ng-show="lid">Lidnummer: {{ lid.verbondsgegevens.lidnummer }}</h2>
     <!-- Placeholders-->
     <h1 class="panel-title placeholder placeholder--blurred" ng-show="!lid">Plaatshouder</h1>
     <h2 class="panel-subtitle placeholder placeholder--blurred" ng-show="!lid">1988randomnumber3791</h2>
@@ -20,9 +20,10 @@
   <div class="pull-right">
     <div class="hidden-xs hidden-sm hidden-md ">
       <formerrorbutton formulier="lidForm" watchable="lidPropertiesWatchable"></formerrorbutton>
-      <button type="submit" class="btn btn-apply" ng-disabled="lidForm.$invalid || lid.changes.length == 0" ng-click="opslaan()"
+      <button type="submit" class="btn btn-apply" ng-disabled="lidForm.$invalid || lid.changes.length == 0"
+              ng-click="opslaan()"
               ng-if="lid && canSave && lidPropertiesWatchable || kanGroepseingenVeldenWijzigen"><i class="fa fa-save"
-                                                                                                    aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i
+                                                                                                   aria-hidden="true"></i>&nbsp;Opslaan&nbsp;<i
         class="fa fa-spinner fa-pulse" ng-show="saving"></i>
       </button>
       <a href="#/lid/individuelesteekkaart/{{lid.id}}" class="btn btn-primary"
@@ -30,7 +31,8 @@
         <i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Individuele steekkaart
       </a>
       <button type="button" class="btn btn-secondary" ng-click="schrap()"
-              ng-if="kanSchrappen && lidPropertiesWatchable && magFunctiesVanLidStoppen"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop
+              ng-if="kanSchrappen && lidPropertiesWatchable && (magFunctiesVanLidStoppen || isEigenProfiel)"><i
+        class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop
         alle functies
       </button>
       <button type="button" class="btn btn-secondary" ng-click="nieuwlid()" ng-if="canPost && lidPropertiesWatchable"><i
@@ -68,10 +70,13 @@
         </button>
         <ul class="dropdown-menu" uib-dropdown-menu role="menu"
             aria-labelledby="split-button">
-          <li role="menuitem" ng-hide="!(steekkaartLeesrecht || isEigenProfiel)"><a href="#/lid/individuelesteekkaart/{{lid.id}}">Individuele
+          <li role="menuitem" ng-hide="!(steekkaartLeesrecht || isEigenProfiel)"><a
+            href="#/lid/individuelesteekkaart/{{lid.id}}">Individuele
             steekkaart</a>
           </li>
-          <li role="menuitem" ng-hide="!kanSchrappen && !magFunctiesVanLidStoppen"><a href="#" ng-click="$event.preventDefault();schrap()">Stop alle
+          <li role="menuitem" ng-hide="!kanSchrappen && !magFunctiesVanLidStoppen"><a href="#"
+                                                                                      ng-click="$event.preventDefault();schrap()">Stop
+            alle
             functies</a></li>
           <li role="menuitem" ng-hide="!canPost"><a href="#" ng-click="$event.preventDefault();nieuwlid()">Nieuw lid</a>
           </li>
@@ -150,7 +155,13 @@
           <!-- Functies -->
           <section ga-loading-section sectie-geladen="functiesEnGroepenGeladen" sectie-hoogte="130">
             <fieldset>
-              <legend>Functies</legend>
+              <legend>Functies
+                <span><a style="margin-left: 5px"
+                href="https://wiki.scoutsengidsenvlaanderen.be/doku.php?id=handleidingen:groepsadmin:paginas:lid_toevoegen#functies_stoppen"
+                target="_blank">
+                <i class="fa fa-question-circle resolve" title="meer info"></i>
+              </a></span>
+              </legend>
               <fieldset>
                 <div ng-repeat="(key,val) in orderedFuncties" class="clearfix">
                   <div class="ga-functie__titel"

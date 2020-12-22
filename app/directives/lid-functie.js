@@ -42,7 +42,11 @@
         return $scope.patchSecties.indexOf(val) > -1;
       }
     }
-  }
 
+    $scope.isGeenCrucialeFunctie = function (functie){
+      return $scope.functieslijst[functie.functie].code === 'VGA' ||
+          $scope.functieslijst[functie.functie].code === 'FV';
+    }
+  }
 
 })();

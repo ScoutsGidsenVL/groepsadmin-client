@@ -5,7 +5,7 @@
   </div>
   <div class="col-xs-4">
     <p class="pull-right">
-      <a ng-if="!functie.einde && hasPermission('functies.' + functie.groep)" href
+      <a ng-if="!functie.einde && hasPermission('functies.' + functie.groep) && !isGeenCrucialeFunctie(functie)" href
          class="btn btn-link btn-link-danger btn-link-danger--stopfunctie" ng-click="stopFunctie(functie)">Stop
         functie</a>
     </p>
