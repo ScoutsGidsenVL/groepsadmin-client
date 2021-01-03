@@ -1,7 +1,7 @@
 {
   "name": "groepsadministratie",
   "description": "Front end van de groepsadministratie",
-  "version": "1.0.0-beta.25",
+  "version": "1.0.0-live",
   "repository": {
     "type": "git",
     "url": "https://github.com/ScoutsGidsenVL/groepsadmin-client"
