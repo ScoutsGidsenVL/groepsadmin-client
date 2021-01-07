@@ -277,8 +277,8 @@
 
         return deferred.promise;
       },
-      Functies: function () {
-        if (_.isEmpty(resFuncties)) {
+      Functies: function (force) {
+        if (force || _.isEmpty(resFuncties)) {
           waitingFuncties = true;
           return RestService.Functies.get().$promise
             .then(function (response) {
