@@ -105,8 +105,7 @@
         $scope.formulierUrl = $scope.baseUrl + $scope.data.activegroup.id;
         $timeout(maakSorteerbaar, 0);
         loadGoogleMap();
-      }
-      else {
+      } else {
         angular.forEach($scope.data.groepenlijst, function (groep) {
           if (groep.id == $scope.data.activegroup.id) {
             $scope.data.activegroup = groep;
@@ -124,7 +123,6 @@
         groepenGeladen(result);
       });
     }
-
 
     // groepen ophalen
     CS.Groepen().then(
@@ -280,8 +278,7 @@
             $scope.formulierUrl = $scope.baseUrl + $scope.data.activegroup.id;
             loadGoogleMap();
             maakSorteerbaar();
-          }
-          else {
+          } else {
             angular.forEach($scope.data.groepenlijst, function (groep) {
               if (groep.id == $scope.previousgroupId) {
                 $scope.data.activegroup = groep;
@@ -290,8 +287,7 @@
             })
           }
         });
-      }
-      else {
+      } else {
         $scope.previousgroupId = $scope.data.activegroup.id;
         $scope.formulierUrl = $scope.baseUrl + $scope.data.activegroup.id;
         $scope.data.publiekInschrijven = $scope.data.activegroup['publiek-inschrijven'];
@@ -364,8 +360,7 @@
           // controle wordt er een nieuwe groepseigen functie gewist?
           if (value.id.indexOf('tempFunctie') != -1) {
             $scope.data.activegroup.groepseigenFuncties.splice(key, 1);
-          }
-          else {
+          } else {
             $scope.data.activegroup.groepseigenFuncties[key].deletedTimestamps = new Date();
           }
         }
@@ -382,8 +377,7 @@
         $(".sortable").sortable({
           cursor: 'move'
         });
-      }
-      else {
+      } else {
         $(".sortable").sortable({
           disabled: true
         });
@@ -523,7 +517,7 @@
       } else if (!$scope.data.activegroup.rekeningnummer) {
         $scope.errorRekeningnummerVerplicht = true;
         $scope.errorRekeningnummerNietCorrect = false;
-      } else if (!IBAN.isValid($scope.data.activegroup.rekeningnummer)){
+      } else if (!IBAN.isValid($scope.data.activegroup.rekeningnummer)) {
         $scope.errorRekeningnummerVerplicht = false;
         $scope.errorRekeningnummerNietCorrect = true;
       }
@@ -547,13 +541,13 @@
     };
 
     $scope.opslaan = function () {
-      if ($scope.errorRekeningnummerNietCorrect || $scope.errorRekeningnummerVerplicht){
+      if ($scope.errorRekeningnummerNietCorrect || $scope.errorRekeningnummerVerplicht) {
         return;
       }
 
       var sortedIds = [];
-      var idFieldSets = $( ".idArray" );
-      for(var i=0;i<idFieldSets.length;i++){
+      var idFieldSets = $(".idArray");
+      for (var i = 0; i < idFieldSets.length; i++) {
         sortedIds.push(idFieldSets[i].id);
       }
 
@@ -561,9 +555,8 @@
         gegeven.sort = sortedIds.indexOf(gegeven.id);
         if (gegeven.type !== 'lijst') {
           delete gegeven.keuzes;
-        }
-        else {
-          gegeven.keuzes = _.filter(gegeven.keuzes, function(keuze) {
+        } else {
+          gegeven.keuzes = _.filter(gegeven.keuzes, function (keuze) {
             return keuze !== ''
           });
         }
@@ -635,7 +628,9 @@
         })
         .finally(function () {
           $scope.saving = false;
+          CS.Groepen(true);
           markersTekenen($scope.googleMap, $scope.data.activegroup.adressen, $scope.data.activegroup.kanWijzigen);
+          CS.Functies(true);
         });
     }
   }
