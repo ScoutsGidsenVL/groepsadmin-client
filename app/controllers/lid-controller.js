@@ -292,8 +292,8 @@
       return _.has($scope, 'patchObj.secties') && $scope.patchObj.secties.indexOf(val) > -1;
     };
 
-    $scope.disableVoorNieuwLid = function () {
-      return false;
+    $scope.disableVoorNieuwLid = function (code) {
+      return (code === 'FV' || code === 'VGA') && !$scope.lid.verbondsgegevens.lidnummer;
     };
 
     // functie meteen stop zetten.
