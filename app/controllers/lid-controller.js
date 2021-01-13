@@ -118,8 +118,6 @@
               if ($scope.lidForm.$dirty) {
                 $window.onbeforeunload = unload;
               }
-
-
             }
             if (value == 'lid.functies') {
               angular.forEach(scope.lid.functies, function (value, key) {
@@ -166,11 +164,14 @@
         if (($scope.canSave && someSect) || $scope.isEigenProfiel) {
           $scope.kanSchrappen = true;
         }
+
+        _.each($scope.lid.functies, function (functie) {
+          if (!$scope.magFunctiesVanLidStoppen) {
+            $scope.magFunctiesVanLidStoppen = $scope.patchObj.secties.indexOf('functies.' + functie.groep) > -1;
+          }
+        })
       }
 
-      _.each($scope.lid.functies, function (functie) {
-        $scope.magFunctiesVanLidStoppen = $scope.patchObj.secties.indexOf('functies.' + functie.groep) > -1;
-      })
 
 
       //init functies;
@@ -409,6 +410,19 @@
         }
       );
     };
+
+    $scope.deblokkeer = function(){
+      RestService.DeblokkeerMail.patch({id: $scope.lid.id}).$promise.then(
+        function (response) {
+          AlertService.add('success ', 'E-mail gedeblokkeerd.');
+          $scope.lid = response;
+          initAangepastLid();
+        },
+        function (error) {
+          AlertService.add('warning', 'Er ging iets mis bij het deblokkeren.');
+        }
+      );
+    }
 
     // alle aanpassingen opslaan
     $scope.opslaan = function () {
