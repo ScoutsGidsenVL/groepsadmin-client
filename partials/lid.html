@@ -35,6 +35,10 @@
         class="fa fa-times" aria-hidden="true"></i>&nbsp;Stop
         alle functies
       </button>
+      <button type="button" class="btn btn-secondary" ng-click="deblokkeer()"
+              ng-if="magFunctiesVanLidStoppen && lid.geblokkeerdEmail"><i
+        class="fa fa-unlock-alt" aria-hidden="true"></i>&nbsp;Deblokkeer E-mailadres
+      </button>
       <button type="button" class="btn btn-secondary" ng-click="nieuwlid()" ng-if="canPost && lidPropertiesWatchable"><i
         class="fa fa-plus" aria-hidden="true"></i>&nbsp;Nieuw lid
       </button>
@@ -78,6 +82,11 @@
                                                                                       ng-click="$event.preventDefault();schrap()">Stop
             alle
             functies</a></li>
+          <li role="menuitem" ng-hide="!magFunctiesVanLidStoppen && !lid.geblokkeerdEmail">
+            <a href="#" ng-click="$event.preventDefault();deblokkeer()">
+              Deblokkeer E-mailadres
+            </a>
+          </li>
           <li role="menuitem" ng-hide="!canPost"><a href="#" ng-click="$event.preventDefault();nieuwlid()">Nieuw lid</a>
           </li>
           <li role="menuitem"><a href="#" ng-click="$event.preventDefault();gezinslid()" ng-show="lid && canPost">Broer/zus
