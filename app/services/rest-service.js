@@ -41,6 +41,13 @@
           }
         }
       ),
+      DeblokkeerMail: $resource(
+        base + 'lid/:id/deblokkeermailadres',
+        {id: '@id'},
+        {
+          patch: {method: 'PATCH'}
+        }
+      ),
       LidAdd: $resource(
         base + 'lid/',
         {},
