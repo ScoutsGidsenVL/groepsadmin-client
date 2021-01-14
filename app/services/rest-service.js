@@ -318,7 +318,7 @@
       Kolommen: $resource(
         base + 'ledenlijst/kolom-type',
         {},
-        {'get': {method: 'GET', cache: true}}
+        {'get': {method: 'GET', cache: false}}
       ),
       Gemeente: $resource(
         base + 'gis/gemeente?term=:zoekterm',
