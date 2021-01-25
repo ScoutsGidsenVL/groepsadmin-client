@@ -114,6 +114,7 @@
         })
       }
 
+      $scope.data.activegroup.groepseigenFuncties = _.sortBy($scope.data.activegroup.groepseigenFuncties, 'beschrijving');
       $scope.data.publiekInschrijven = $scope.data.activegroup['publiek-inschrijven'];
 
       if (deregisterListener) {
@@ -294,6 +295,7 @@
         loadGoogleMap();
         maakSorteerbaar();
       }
+      $scope.data.activegroup.groepseigenFuncties = _.sortBy($scope.data.activegroup.groepseigenFuncties, 'beschrijving');
     };
 
     // marker-icon click
