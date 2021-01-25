@@ -60,7 +60,7 @@
 
       var index = getIndexVanCommunicatieproduct(communicatieproductabonnement);
 
-      // als record niet in array dan mag die toegevoegd worden, anders verwijderd.
+      // als record niet in array bestaat dan mag die toegevoegd worden, anders verwijderd.
       if (index < 0) {
         $scope.selectedCommunicatieProducten.push(communicatieproductabonnement);
         if (!$scope.leiding){
