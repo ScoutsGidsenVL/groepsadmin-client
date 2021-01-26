@@ -88,6 +88,9 @@
         }
       });
 
+      $rootScope.$on('$routeChangeSuccess', function() {
+        gtag('config', 'UA-371621-8', {'page_path': $location.path()});
+      });
 
     }]);
 
