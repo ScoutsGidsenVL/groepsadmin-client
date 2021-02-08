@@ -409,10 +409,21 @@
       <thead ng-show="dataLoaded" fix-head>
       <tr ng-show='!isLoadingLeden && !isSavingFilters'>
         <td colspan="{{kolommen.length}}">
-          <p><em>{{totaalAantalLeden}} rijen</em></p>
+          <p><em>{{totaalAantalLeden}} rijen</em> <em><i
+            class="fa fa-spinner fa-pulse" ng-show="ledenAanLijstToevoegen"></i> {{ aantalLedenGeselecteerd() }} </em></p>
         </td>
       </tr>
       <tr ng-show='!isLoadingLeden && !isSavingFilters'>
+        <th>
+          <label class="form-group control checkbox" style="margin-top: -5px !important">
+            <input type="checkbox" class="checkbox-leden"
+                   ng-click="selecteerAlleLeden()"
+                   ng-disabled="ledenAanLijstToevoegen"
+                   ng-checked="checkAlsAlleLedenZijnGeselecteerd()"
+            />
+            <span class="control-indicator"></span>
+          </label>
+        </th>
         <th ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'"
             class="kolomkop" ng-click="addSort(kolom)">
           {{ kolom.label }}
@@ -438,8 +449,17 @@
           voldoet.
         </td>
       </tr>
-      <tr ng-repeat="lid in leden" ga-lid="{{lid.id}}">
-        <td ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'"
+      <tr ng-repeat="lid in leden" >
+        <td>
+          <label class="form-group control checkbox" style="margin-top: -5px !important">
+            <input type="checkbox" class="checkbox-leden"
+                   ng-click="voegLidToeAanLijst(lid)"
+                   ng-checked="checkLidInLijst(lid)"
+            />
+            <span class="control-indicator"></span>
+          </label>
+        </td>
+        <td ng-repeat="kolom in kolommen | filter : { activated : true} | orderBy: 'kolomIndex'" ga-lid="{{lid.id}}"
             style="position: relative;">
           <div ng-if="!kolom.isLoaded" class="data-placeholder"></div>
           <div ng-if="kolom.isLoaded && kolom.type == 'vinkje'" class="control noselect">
@@ -480,3 +500,22 @@
     </div>
   </script>
 </div>
+
+<!-- bootstrap modal -->
+<script type="text/ng-template" id="geenSelectie.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Geen leden geselecteerd</h3>
+  </div>
+  <div>
+    <h5 style="margin-left: 1.2em">Gelieve eerst leden te selecteren.</h5>
+    <h5 style="margin-left: 1.2em">Indien je alle leden wil selecteren klik je op het bovenste vinkje.</h5>
+  </div>
+  <div class="modal-body">
+    <div>
+      <img src="img/header.jpg" alt="etiket informatie" style="max-width:100%"/>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">Sluiten</button>
+  </div>
+</script>
