@@ -70,9 +70,13 @@
           "lid": $scope.sjabloon.bestemming.lid,
           "contacten": $scope.sjabloon.bestemming.contacten,
           "groepseigenGegevens": []
-        }
+        },
+        "lidIds": []
       };
 
+      _.forEach(LLS.getGeselecteerdeLeden(), function (lid) {
+        sjabloonObj.lidIds.push(lid.id);
+      })
 
       var formData = new FormData();
       // bijlages toevoegen aan multipart/form-data
@@ -127,11 +131,38 @@
 
     $scope.getLeden = function (offset) {
       $scope.ledenLaden = true;
+      if (LLS.getAantalGeselecteerdeLeden() === 0 ) {
+        LLS.getLeden(offset).then(function (res) {
+          $scope.aantalLedenGeladen += res.leden.length;
 
-      LLS.getLeden(offset).then(function (res) {
-        $scope.aantalLedenGeladen += res.leden.length;
+          _.each(res.leden, function (val) {
+            var lid = {
+              'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'],
+              'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'],
+              'volledigenaam': val.waarden['be.vvksm.groepsadmin.model.column.VolledigeNaamColumn']
+            };
 
-        _.each(res.leden, function (val) {
+            var volledigeNaam = lid.voornaam && lid.achternaam ? lid.voornaam + ' ' + lid.achternaam : lid.volledigenaam;
+
+            if (volledigeNaam === undefined) {
+              volledigeNaam = val.id;
+            }
+
+            if ($scope.uniekeNamen[volledigeNaam] === undefined) {
+              $scope.leden.push(lid);
+              $scope.uniekeNamen[volledigeNaam] = lid;
+            }
+
+          });
+          if (res.totaal > $scope.aantalLedenGeladen) {
+            offset += 50;
+            $scope.getLeden(offset);
+          } else {
+            $scope.ledenLaden = false;
+          }
+        })
+      } else {
+        _.each(LLS.getGeselecteerdeLeden(), function( val) {
           var lid = {
             'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'],
             'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'],
@@ -148,15 +179,9 @@
             $scope.leden.push(lid);
             $scope.uniekeNamen[volledigeNaam] = lid;
           }
-
-        });
-        if (res.totaal > $scope.aantalLedenGeladen) {
-          offset += 50;
-          $scope.getLeden(offset);
-        } else {
           $scope.ledenLaden = false;
-        }
-      })
+        })
+      }
     };
 
     $scope.deleteSjabloon = function (sjObj) {

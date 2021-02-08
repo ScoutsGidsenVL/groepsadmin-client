@@ -54,8 +54,13 @@
         "inhoud": $scope.sjabloon.inhoud,
         "blanco": $scope.sjabloon.blanco,
         "familie": $scope.sjabloon.familie,
-        "alleAdressen": $scope.sjabloon.alleAdressen
+        "alleAdressen": $scope.sjabloon.alleAdressen,
+        "lidIds": []
       };
+
+      _.forEach(LLS.getGeselecteerdeLeden(), function (lid) {
+        payload.lidIds.push(lid.id);
+      })
 
       $scope.etikettenIsPending = true;
       $scope.etiketPropertiesWatchable = false;
@@ -84,22 +89,33 @@
 
     $scope.getLeden = function (offset) {
       $scope.ledenLaden = true;
-      LLS.getLeden(offset).then(function (res) {
-        _.each(res.leden, function (val) {
+      if (LLS.getAantalGeselecteerdeLeden() === 0) {
+        LLS.getLeden(offset).then(function (res) {
+          _.each(res.leden, function (val) {
+            $scope.leden.push({
+              'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'],
+              'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'],
+              'volledigenaam': val.waarden['be.vvksm.groepsadmin.model.column.VolledigeNaamColumn']
+            });
+          });
+          if (res.totaal > $scope.leden.length) {
+            offset += 50;
+            $scope.getLeden(offset);
+          } else {
+            $scope.ledenLaden = false;
+          }
+        })
+      } else {
+        _.each(LLS.getGeselecteerdeLeden(), function( val) {
           $scope.leden.push({
             'voornaam': val.waarden['be.vvksm.groepsadmin.model.column.VoornaamColumn'],
             'achternaam': val.waarden['be.vvksm.groepsadmin.model.column.AchternaamColumn'],
             'volledigenaam': val.waarden['be.vvksm.groepsadmin.model.column.VolledigeNaamColumn']
           });
-        });
-        if (res.totaal > $scope.leden.length) {
-          offset += 50;
-          $scope.getLeden(offset);
-        } else {
           $scope.ledenLaden = false;
-        }
-      })
-    };
+        })
+      }
+    }
 
     $scope.deleteSjabloon = function (sjObj) {
       $scope.isDeleting = true;
@@ -269,7 +285,7 @@
           _.each(result.kolommen, function (val) {
             if (!val.verouderd){
               arrValues.push(val.label);
-            }            
+            }
           });
           $scope.configEditor(arrValues);
         }
