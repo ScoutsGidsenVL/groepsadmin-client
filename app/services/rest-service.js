@@ -210,8 +210,8 @@
         base + 'ledenlijst?offset=:offset',
         {offset: '@offset'},
         {
-          'get': {
-            method: 'GET',
+          'post': {
+            method: 'POST',
             headers: {accept: 'text/csv'},
             responseType: 'arraybuffer',
             transformResponse: function (data) {

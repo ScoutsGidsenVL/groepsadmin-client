@@ -5,13 +5,14 @@
     .module('ga.ledenlijstcontroller', [])
     .controller('LedenlijstController', LedenlijstController);
 
-  LedenlijstController.$inject = ['$q', '$filter', '$log', '$location', '$rootScope', '$scope', '$timeout', 'LedenFilterService', 'LedenLijstService', 'RestService', '$window', 'access', 'UserAccess', 'CacheService'];
+  LedenlijstController.$inject = ['$q', '$filter', '$log', '$location', '$rootScope', '$scope', '$timeout', 'LedenFilterService', 'LedenLijstService', 'RestService', '$window', 'access', 'UserAccess', 'CacheService', '$uibModal'];
 
-  function LedenlijstController($q, $filter, $log, $location, $rootScope, $scope, $timeout, LFS, LLS, RestService, $window, access, UserAccess, CS) {
+  function LedenlijstController($q, $filter, $log, $location, $rootScope, $scope, $timeout, LFS, LLS, RestService, $window, access, UserAccess, CS, $uibModal) {
     // Kolommen sortable maken
     $scope.isLoadingFilters = true;
     $scope.hasLoadedFilters = false;
     $scope.dataLoaded = false;
+    $scope.ledenAanLijstToevoegen = false;
 
     $scope.busy = false;
     $scope.end = false;
@@ -28,6 +29,7 @@
     $scope.canPost = false;
     $scope.canShare = false;
     $scope.isVgaOfLeiding = false;
+    $scope.alleGeselecteerd = false;
 
     $scope.filterNaamError = true;
 
@@ -218,6 +220,58 @@
         })
     }
 
+    $scope.voegLidToeAanLijst = function (lid) {
+      if (LLS.isLidInLijst(lid)) {
+        LLS.verwijderLidUitLijst(lid);
+      } else {
+        LLS.voegLidToeAanMailLijst(lid);
+      }
+    }
+
+    $scope.checkLidInLijst = function (lid) {
+      return LLS.isLidInLijst(lid);
+    }
+
+    $scope.clearSelectie = function () {
+      LLS.wisGeselecteerdeLeden();
+    }
+
+    $scope.aantalLedenGeselecteerd = function () {
+      return LLS.getAantalGeselecteerdeLeden() > 0 && LLS.getAantalGeselecteerdeLeden() < 2 ? '(1 lid geselecteerd)' : LLS.getAantalGeselecteerdeLeden() > 1 ? '(' + LLS.getAantalGeselecteerdeLeden() + ' leden geselecteerd)' : '';
+    }
+
+    $scope.selecteerAlleLeden = function () {
+      $scope.aantalLedenGeladen = 0;
+      LLS.voegAlleLedenToe();
+      if ($scope.checkAlsAlleLedenZijnGeselecteerd()){
+        $scope.getLeden(0)
+      } else {
+        $scope.clearSelectie();
+      }
+    }
+
+    $scope.getLeden = function (offset) {
+      $scope.ledenAanLijstToevoegen = true;
+      LLS.getLeden(offset).then(function (res) {
+        $scope.aantalLedenGeladen += res.leden.length;
+
+        _.each(res.leden, function (lid) {
+          if (!$scope.checkLidInLijst(lid)){
+            LLS.voegLidToeAanMailLijst(lid);
+          }
+        });
+        if (res.totaal > $scope.aantalLedenGeladen) {
+          offset += 50;
+          $scope.getLeden(offset);
+        } else {
+          $scope.ledenAanLijstToevoegen = false;
+        }
+      })
+    }
+
+    $scope.checkAlsAlleLedenZijnGeselecteerd = function () {
+      return LLS.checkAlleLedenGeselecteerd();
+    }
 
     // In deze functie wordt een filter uit de backend gehaald
     // Ook worden alle mogelijke functies/ groepen waartoe de gebruiker toegang heeft opgehaald
@@ -755,6 +809,8 @@
       var reconstructedFilterObj = createFilterObject();
       $scope.isSavingFilters = true;
 
+      LLS.wisGeselecteerdeLeden();
+
       LFS.saveFilter('huidige', reconstructedFilterObj).then(
         function (response) {
           $scope.isSavingFilters = false;
@@ -933,10 +989,18 @@
       $location.path("/lid/toevoegen");
     };
     $scope.redirectToEmailPage = function () {
-      $location.path("/email/ledenlijst");
+      if (LLS.getAantalGeselecteerdeLeden() > 0) {
+        $location.path("/email/ledenlijst");
+      } else {
+        this.openInfoDialog();
+      }
     };
     $scope.redirectToEtikettenPage = function () {
-      $location.path("/etiketten");
+      if (LLS.getAantalGeselecteerdeLeden() > 0) {
+        $location.path("/etiketten");
+      } else {
+        this.openInfoDialog();
+      }
     };
 
     function init() {
@@ -961,10 +1025,21 @@
           $scope.dataLoaded = true;
         });
       });
-
-
     }
 
+    $scope.openInfoDialog = function (infoObj) {
+      var modalInstance = $uibModal.open({
+        animation: $scope.animationsEnabled,
+        templateUrl: 'geenSelectie.html',
+        controller: 'ModalInstanceController',
+        size: '',
+        resolve: {
+          feedback: function () {
+            return infoObj;
+          }
+        }
+      });
+    };
     $rootScope.$on('leeftijdCriterium', function (event, data) {
       var label = data.op31december ? 'was op 31 december' : 'Is nu';
       $scope.leeftijdOpDatum = [label, data.op31december];
