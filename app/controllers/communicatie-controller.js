@@ -37,7 +37,7 @@
       RestService.CommunicatieProducten.get().$promise.then(
         function (result) {
           $scope.communicatieProducten = result.communicatieProducten;
-          $scope.leiding = $scope.communicatieProducten > 4;
+          $scope.leiding = $scope.communicatieProducten.length > 4;
         });
 
       RestService.Lid.get({id: 'profiel'}).$promise.then(
@@ -52,7 +52,6 @@
     };
 
     $scope.verwerkCommunicatie = function (communicatieproduct, type) {
-
       communicatieproductabonnement = Object.assign({}, defaultCommunicatieproductabonnement);
       communicatieproductabonnement.communicatieproduct = communicatieproduct.id;
       communicatieproductabonnement.type = type;
@@ -79,36 +78,14 @@
       }
     }
 
-    // nieuw lid initialiseren na update.
-    function initAangepastLid() {
-      //changes array aanmaken
-      $timeout(function () {
-        initModel();
-      }, 20);
-    }
-
-    function deactivateMailProducts() {
-      if ($scope.selectedCommunicatieProducten.length === 0) {
-        _.each($scope.CommunicatieProducten, function (communicatieproduct) {
-          communicatieproductabonnement.communicatieproduct = communicatieproduct.id;
-          communicatieproductabonnement.type = communicatieproduct.type[1];
-          communicatieproductabonnement.lid = $scope.lid.id;
-          $scope.selectedCommunicatieProducten.push(communicatieproductabonnement);
-        })
-      }
-    }
-
     // alle aanpassingen opslaan
     $scope.opslaan = function () {
       $scope.saving = true;
-      $scope.lid.$update(
-        function () {
+      var request = $scope.selectedCommunicatieProducten;
+      RestService.CommunicatieproductAbonnement.post(request).$promise.then(
+        function (response) {
+          AlertService.add('success', 'Voorkeur is aangepast.');
           $scope.saving = false;
-          AlertService.add('success', "Aanpassingen opgeslagen");
-          initAangepastLid();
-          $window.onbeforeunload = null;
-          $scope.validationErrors = [];
-          $scope.communicatieForm.$setPristine();
         },
         function (error) {
           $scope.saving = false;
@@ -118,11 +95,13 @@
 
     $scope.checkValue = function (communicatieproduct, type) {
       var result = true;
+
       _.each($scope.selectedCommunicatieProducten, function (communicatieproductAbonnement) {
         if (communicatieproduct.id === communicatieproductAbonnement.communicatieproduct && type === communicatieproductAbonnement.type) {
           result = false;
         }
       })
+
       return result;
     }
 
