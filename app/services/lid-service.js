@@ -125,12 +125,8 @@
           var functieInstantie = {};
           functieInstantie.functie = functie;
           functieInstantie.groep = groepsnummer;
-
-
           functieInstantie.begin = '2016-01-01T00:00:00.000+01:00'; // set static date
           functieInstantie.temp = "tijdelijk";
-          var index = scope.lid.functies.indexOf(functieInstantie);
-          scope.lid.functies.splice(index, 1);
           scope.lid.functies.push(functieInstantie);
           return 'stop';
         }
