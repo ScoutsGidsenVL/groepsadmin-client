@@ -40,6 +40,8 @@
         else if (rejection.status == 403) {
           if (rejection.data && rejection.data.beschrijving) {
             AlertService.add('danger', rejection.data.beschrijving);
+          } else if (rejection.data.response.type === 'application/pdf') {
+            AlertService.add('danger', 'Geen leesrechten op de geselecteerde leden');
           } else {
             AlertService.add('danger', "Je bent niet ingelogd");
           }
