@@ -192,8 +192,8 @@
         base + 'ledenlijst?offset=:offset',
         {offset: '@offset'},
         {
-          'get': {
-            method: 'GET',
+          'post': {
+            method: 'POST',
             headers: {accept: 'application/pdf'},
             responseType: 'arraybuffer',
             transformResponse: function (data) {
@@ -246,8 +246,8 @@
         base + 'ledenlijst/steekkaart',
         {offset: '@offset'},
         {
-          'get': {
-            method: 'GET',
+          'post': {
+            method: 'POST',
             headers: {accept: 'application/pdf'},
             responseType: 'arraybuffer',
             transformResponse: function (data) {
