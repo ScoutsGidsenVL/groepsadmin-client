@@ -101,7 +101,7 @@
         });
       }
       if (type == 'lijst' && extension == 'pdf') {
-        RestService.LedenPdf.get({offset: 0}).$promise.then(function (res) {
+        RestService.LedenPdf.post({offset: 0}, ledenIds).$promise.then(function (res) {
           blob = new Blob([res.response], {type: 'application/pdf'});
           obj.fileUrl = window.URL.createObjectURL(blob);
           obj.title = type + '.' + extension;
@@ -109,11 +109,13 @@
         });
       }
       if (type == 'steekkaarten' && extension == 'pdf') {
-        RestService.LedenSteekkaarten.get({offset: 0}).$promise.then(function (res) {
+        RestService.LedenSteekkaarten.post({offset: 0}, ledenIds).$promise.then(function (res) {
           blob = new Blob([res.response], {type: 'application/pdf'});
           obj.fileUrl = window.URL.createObjectURL(blob);
           obj.title = type + '.' + extension;
           deferred.resolve(obj);
+        }).catch(function (err) {
+          deferred.reject(err);
         });
       }
 
