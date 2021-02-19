@@ -971,18 +971,21 @@
     };
 
     $scope.export = function (type, extension) {
-      $scope.exportButtons[type + extension].isLoading = true;
-      LLS.export(type, extension).then(function (res) {
-        $scope.exportButtons[type + extension].isLoading = false;
-        var a = document.createElement('a');
-        a.href = res.fileUrl;
-        a.download = res.title;
-        document.body.appendChild(a);
-        a.click();
-      }, function () {
-        AlertService.add('danger', "De ledenlijst kon niet worden geëxporteerd");
-        $scope.exportButtons[type + extension].isLoading = false;
-      })
+      if (LLS.getAantalGeselecteerdeLeden() > 0) {
+        $scope.exportButtons[type + extension].isLoading = true;
+        LLS.export(type, extension).then(function (res) {
+          $scope.exportButtons[type + extension].isLoading = false;
+          var a = document.createElement('a');
+          a.href = res.fileUrl;
+          a.download = res.title;
+          document.body.appendChild(a);
+          a.click();
+        }).catch(function () {
+          $scope.exportButtons[type + extension].isLoading = false;
+        })
+      } else {
+        this.openInfoDialog();
+      }
     };
 
     $scope.nieuwlid = function () {
