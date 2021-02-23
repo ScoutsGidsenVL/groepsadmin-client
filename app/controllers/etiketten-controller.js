@@ -225,7 +225,7 @@
 
       ETS.saveSjabloon(sjabloon.id, obj).then(
         function (result) {
-          AlertService.add('success', "Template '" + sjabloon.naam + "' werd succesvol opgeslagen");
+          AlertService.add('success', "Sjabloon '" + sjabloon.naam + "' werd succesvol opgeslagen");
           deferred.resolve(result);
         });
 
