@@ -5,15 +5,16 @@
     .module('ga.lidwordencontroller', [])
     .controller('LidwordenController', LidwordenController);
 
-  LidwordenController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService', '$location', '$window'];
+  LidwordenController.$inject = ['$scope', '$routeParams', 'RestService', 'AlertService', '$location', '$window', 'LidService'];
 
-  function LidwordenController ($scope, $routeParams, RestService, AlertService, $location, $window) {
+  function LidwordenController ($scope, $routeParams, RestService, AlertService, $location, $window, LS) {
     $scope.aanvraagverstuurd = false;
     $scope.groepGeladen = false;
     $scope.publiekInschrijven = true;
     $scope.groepNr = $routeParams.groep;
     $scope.voornaam = $window.localStorage.getItem('voornaam');
     init();
+    angular.extend($scope, LS.publicProperties, LS.publicMethods);
 
 
     $scope.popupCal = function() {
@@ -37,6 +38,12 @@
           $scope.groepGeladen = true;
         });
 
+    RestService.Groepseigengegevens.get({ groepsnummer:$scope.groepNr })
+      .$promise
+      .then(function (result){
+          $scope.lid.groepsEigenGegevens = result;
+      })
+
     function init(groepsnummer) {
       $scope.lid = {
         persoonsgegevens: {
@@ -44,7 +51,9 @@
         },
         adres: {
           land: 'BE'
-        }
+        },
+        contacten: [],
+        gegevens: {}
       };
 
       if(groepsnummer) {
@@ -57,11 +66,56 @@
       }
     }
 
+    $scope.contactToevoegen = function (formIsValid) {
+      var scope = this;
+        var newcontact = {
+          'rol': 'moeder',
+          'adres': {
+            'land': 'BE'
+          },
+          'id': '' + Date.now()
+        };
+        newcontact.showme = true
+        $scope.lid.contacten.push(newcontact);
+    }
+
+
+    $scope.neemAdresOver = function(index){
+      if (!$scope.checkAdres(index)){
+        $scope.lid.contacten[index].adres.land = $scope.lid.adres.land;
+        $scope.lid.contacten[index].adres.straat = $scope.lid.adres.straat;
+        $scope.lid.contacten[index].adres.nummer = $scope.lid.adres.nummer;
+        $scope.lid.contacten[index].adres.bus = $scope.lid.adres.bus;
+        $scope.lid.contacten[index].adres.postcode = $scope.lid.adres.postcode;
+        $scope.lid.contacten[index].adres.gemeente = $scope.lid.adres.gemeente;
+      } else{
+        $scope.lid.contacten[index].adres.land = 'BE';
+        $scope.lid.contacten[index].adres.straat = '';
+        $scope.lid.contacten[index].adres.nummer = '';
+        $scope.lid.contacten[index].adres.bus = '';
+        $scope.lid.contacten[index].adres.postcode = '';
+        $scope.lid.contacten[index].adres.gemeente = '';
+      }
+
+    }
+
+    $scope.checkAdres = function (index) {
+      return $scope.lid.contacten[index].adres.gemeente && $scope.lid.contacten[index].adres.postcode &&
+      $scope.lid.contacten[index].adres.straat && $scope.lid.contacten[index].adres.postcode &&
+      $scope.lid.contacten[index].adres.land === $scope.lid.adres.land &&
+      $scope.lid.contacten[index].adres.straat === $scope.lid.adres.straat &&
+      $scope.lid.contacten[index].adres.nummer === $scope.lid.adres.nummer &&
+      $scope.lid.contacten[index].adres.bus === $scope.lid.adres.bus &&
+      $scope.lid.contacten[index].adres.postcode === $scope.lid.adres.postcode &&
+      $scope.lid.contacten[index].adres.gemeente === $scope.lid.adres.gemeente;
+    }
+
     $scope.clearSpacesFromNumber = function() {
       $scope.lid.adres.nummer = $scope.lid.adres.nummer.replace(/\s+/g, '');
     }
 
     $scope.submitForm = function(form) {
+      console.log($scope.lid)
       if (form.$valid) {
         this.clearSpacesFromNumber()
         $scope.formsubmitting = true;
