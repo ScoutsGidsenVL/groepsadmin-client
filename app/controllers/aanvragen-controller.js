@@ -42,6 +42,7 @@
         adressen: [
           aanvraag.adres
         ],
+        contacten: aanvraag.contacten,
         lidaanvraag: link
       };
       $location.path("/lid/toevoegen");
