@@ -21,6 +21,7 @@
     'ga.validatie.email',
     'ga.validatie.rekeningnummer',
     'ga.validatie.telefoonnummer',
+    'ngSanitize',
     'ui.bootstrap',
     'ngMessages'])
 
