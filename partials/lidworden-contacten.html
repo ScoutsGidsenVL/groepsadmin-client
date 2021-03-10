@@ -1,0 +1,223 @@
+<section ga-loading-section sectie-geladen="lid" sectie-hoogte="100">
+  <fieldset>
+    <div class="row">
+      <legend class="col-md-6 ml12">Contacten
+        <div class="pull-right">
+          <button type="button" ng-click="contactToevoegen(lidwordenForm.$valid)" class="btn-minimal"
+                  title="Contact toevoegen"
+                  ng-show="lid.contacten.length < 4">
+            <span class="glyphicon glyphicon-plus"></span></button>
+        </div>
+      </legend>
+    </div>
+    <fieldset ng-repeat="contact in lid.contacten" ng-show="lid">
+      <section class="clearfix col-md-6 ml20">
+        <legend ng-class="{'has-error': contact.hasErrors}" ng-init="contact.showme = false; "
+                ng-click="contact.showme = !contact.showme">
+          {{ contact.rol ? contact.rol : '' }} {{ contact.voornaam ? contact.voornaam : ''}} {{
+          contact.achternaam ? contact.achternaam : '' }}
+          <div ng-if="!contact.rol && !contact.naam && !contact.voornaam" class="pull-left">
+            Nieuw contact
+          </div>
+          <div class="pull-right">
+            <button type="button" class="btn-minimal">
+                        <span ng-hide="contact.showme" class="glyphicon glyphicon-chevron-down"
+                              title="Contact tonen"></span>
+              <span ng-hide="!contact.showme" class="glyphicon glyphicon-chevron-up"
+                    title="Contact verbergen"></span>
+            </button>
+            <button type="button" ng-click="deleteContact(contact.id)"
+                    class="btn-minimal"><span class="glyphicon glyphicon-trash" title="Adres wissen"></span>
+            </button>
+          </div>
+        </legend>
+      </section>
+      <fieldset class="col-md-12 contact-block" ng-hide="!contact.showme">
+        <div class="form-group" ng-class="{ 'has-error': lidwordenForm['contacten['+$index+'].rol'].$invalid }">
+          <label for="_rol" class="col-xs-4 col-xxs-12 col-md-2 control-label">Rol</label>
+          <div class="col-xs-8 col-xxs-12 col-md-7">
+            <select name="contacten[{{$index}}].rol" class="selectpicker" title="Kies een rol..." id="_rol"
+                    ng-model="contact.rol"
+                    ng-options="rol.value as rol.label for rol in contactRollen" required>
+            </select>
+            <div ng-messages="lidwordenForm['contacten['+$index+'].rol'].$error">
+              <div ng-messages-include="partials/messages.html"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group"
+             ng-class="{ 'has-error': lidwordenForm['contacten['+$index+'].voornaam'].$invalid }">
+          <label for="_voornaam" class="col-xs-4 col-xxs-12 col-md-2 control-label">Voornaam</label>
+          <div class="col-xs-8 col-xxs-12 col-md-7">
+            <input type="text" name="contacten[{{ $index }}].voornaam" class="form-control" id="_voornaam"
+                   ng-model="contact.voornaam"
+                   ng-required="lidwordenForm['contacten['+$index+'].voornaam'].isRequired">
+            <div ng-messages="lidwordenForm['contacten['+$index+'].voornaam'].$error">
+              <div ng-messages-include="partials/messages.html"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group"
+             ng-class="{ 'has-error': lidwordenForm['contacten['+$index+'].achternaam'].$invalid }">
+          <label for="_naam" class="col-xs-4 col-xxs-12 col-md-2 control-label">Achternaam</label>
+          <div class="col-xs-8 col-xxs-12 col-md-7">
+            <input type="text" name="contacten[{{ $index }}].achternaam" class="form-control" id="_naam"
+                   ng-model="contact.achternaam"
+                   ng-required="lidwordenForm['contacten['+$index+'].achternaam'].isRequired">
+            <div ng-messages="lidwordenForm['contacten['+$index+'].achternaam'].$error">
+              <div ng-messages-include="partials/messages.html"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group"
+             ng-class="{ 'has-error': lidwordenForm['contacten['+$index+'].email'].$touched && lidwordenForm['contacten['+$index+'].email'].$invalid }">
+          <label for="_email" class="col-xs-4 col-xxs-12 col-md-2 control-label">E-mail</label>
+          <div class="col-xs-8 col-xxs-12 col-md-7">
+            <input type="email" name="contacten[{{ $index }}].email" class="form-control" id="_email"
+                   ng-model="contact.email">
+            <div ng-messages="lidwordenForm['contacten['+$index+'].email'].$error">
+              <div ng-messages-include="partials/messages.html"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group"
+             ng-class="{ 'has-error': lidwordenForm['contacten['+$index+'].gsm'].$touched && lidwordenForm['contacten['+$index+'].gsm'].$invalid }">
+          <label for="_gsm" class="col-xs-4 col-xxs-12 col-md-2 control-label">Gsm</label>
+          <div class="col-xs-8 col-xxs-12 col-md-7">
+            <input type="text" name="contacten[{{ $index }}].gsm" class="form-control" id="_gsm"
+                   ng-model="contact.gsm"
+                   telefoonnummer is-gsm>
+            <div ng-messages="lidwordenForm['contacten['+$index+'].gsm'].$error">
+              <div ng-messages-include="partials/messages.html"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="_adres" class="col-xs-4 col-xxs-12 col-md-2 control-label">Telefoon</label>
+          <div class="col-xs-8 col-xxs-12 col-md-7">
+            <input type="text"
+                   name="contacten[{{ $index }}].adres"
+                   id="_adres"
+                   class="form-control"
+                   telefoonnummer
+                   ng-model="contact.telefoon">
+          </div>
+        </div>
+        <div class="mb6p ml4p">
+          <label class="form-group control checkbox">
+            <div class="col-xs-4 col-xxs-12 col-md-2 control-label">Zelfde adres</div>
+            <div class="col-xs-8 col-xxs-12 col-md-1">
+              <input type="checkbox" class="" id="_postadres"
+                     ng-click="neemAdresOver($index)"
+                     ng-checked="checkAdres($index)"
+                     ng-model="contact.zelfdeAdres"
+              />
+              <span class="control-indicator"></span>
+            </div>
+          </label>
+        </div>
+        <div class="form-group ml-3" ng-class="{ 'has-error': lidwordenForm['contacten['+$index+'].adres.adres'].$invalid }">
+          <div class="form-group">
+            <label for="_land" class="col-sm-2 control-label">Land</label>
+            <div class="col-sm-10">
+              <select class="selectpicker" id="_land" ng-model="contact.adres.land" ng-disabled="contact.zelfdeAdres">
+                <option value="BE">België</option>
+                <option value="DE">Duitsland</option>
+                <option value="FR">Frankrijk</option>
+                <option value="GB">Groot-Brittannië</option>
+                <option value="LU">Luxemburg</option>
+                <option value="NL">Nederland</option>
+                <option value="CA">Canada</option>
+              </select>
+            </div>
+          </div>
+          <!-- In het geval dat het geselecteerde land Belgie is -->
+          <div class="form-group" ng-if="contact.adres.land === 'BE'">
+            <label for="_gemeenteWrap" class="col-sm-2 control-label"><span
+              class="text-danger">* </span>Woonplaats</label>
+            <div class="col-sm-7"
+                 ng-class="{ 'has-error': lidwordenForm['contacten['+$index+'].adres.gemeente'].$touched && lidwordenForm['contacten['+$index+'].adres.gemeente'].$invalid }">
+              <gemeente-control id="_gemeenteWrap" ng-model="gemeenteWrap"
+                                name="contacten[{{ $index }}].adres.gemeente" adres="contact.adres" required ng-disabled="contact.zelfdeAdres"></gemeente-control>
+              <div ng-messages="lidwordenForm['contacten['+$index+'].adres.gemeente'].$error"
+                   ng-show="lidwordenForm['contacten['+$index+'].adres.gemeente'].$touched">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" ng-if="contact.adres.land === 'BE'">
+            <label for="_straatnaam" class="col-sm-2 control-label"><span class="text-danger">* </span>Adres</label>
+            <div class="col-sm-7"
+                 ng-class="{ 'has-error': lidwordenForm['contacten['+$index+'].adres.straatnaam'].$touched && lidwordenForm['contacten['+$index+'].adres.straatnaam'].$invalid}">
+              <straat-control id="_straatnaam" ng-model="contact.adres.straat" adres="contact.adres"
+                              name="contacten[{{ $index }}].adres.straatnaam" ng-disabled="!contact.adres.postcode || !contact.adres.gemeente || contact.zelfdeAdres"
+                              required></straat-control>
+              <div ng-messages="lidwordenForm['contacten['+$index+'].adres.straatnaam'].$error"
+                   ng-show="lidwordenForm['contacten['+$index+'].adres.straatnaam'].$touched">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
+            </div>
+            <div class="col-sm-2"
+                 ng-class="{ 'has-error': lidwordenForm['contacten['+$index+'].adres.huisnummer'].$touched && lidwordenForm['contacten['+$index+'].adres.huisnummer'].$invalid}">
+              <input type="text" class="form-control" ng-model="contact.adres.nummer" placeholder="Huisnummer..."
+                     name="contacten[{{ $index }}].adres.huisnummer" required ng-disabled="contact.zelfdeAdres"/>
+              <div ng-messages="lidwordenForm['contacten['+$index+'].adres.huisnummer'].$error" ng-show="lidwordenForm['contacten['+$index+'].adres.huisnummer'].$touched">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
+            </div>
+            <div class="col-sm-1">
+              <input type="text" class="form-control" maxlength="5" ng-model="contact.adres.bus"
+                     placeholder="Busnummer..." ng-disabled="contact.zelfdeAdres"/>
+            </div>
+          </div>
+          <!-- In het geval dat het geselecteerde land niet Belgie is -->
+          <div class="form-group" ng-if="contact.adres.land !== 'BE'">
+            <label for="straat" class="col-sm-2 control-label"><span class="text-danger">* </span>Adres</label>
+            <div class="col-sm-7"
+                 ng-class="{ 'has-error': lidwordenForm['contacten['+$index+'].adres.straat'].$touched && lidwordenForm['contacten['+$index+'].adres.straat'].$invalid }">
+              <input type="text" class="form-control" ng-model="contact.adres.straat" placeholder="Straat..."
+                     name="lidwordenForm['contacten['+$index+'].adres'].straat" id="straat" required ng-disabled="contact.zelfdeAdres"/>
+              <div ng-messages="lidwordenForm['contacten['+$index+'].adres.straat'].$error" ng-show="lidwordenForm['contacten['+$index+'].adres.straat'].$touched">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
+            </div>
+            <div class="col-sm-2"
+                 ng-class="{ 'has-error': lidwordenForm['contacten['+$index+'].adres.huisnummer'].$touched && lidwordenForm['contacten['+$index+'].adres.huisnummer'].$invalid }">
+              <input type="text" class="form-control" ng-model="contact.adres.nummer" placeholder="Huisnummer..."
+                     name="lidwordenForm['contacten['+$index+'].huisnummer']" required ng-disabled="contact.zelfdeAdres"/>
+              <div ng-messages="lidwordenForm['contacten['+$index+'].adres.huisnummer'].$error" ng-show="lidwordenForm['contacten['+$index+'].adres.huisnummer'].$touched">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
+            </div>
+            <div class="col-sm-1">
+              <input type="text" maxlength="5" class="form-control" ng-model="contact.adres.bus"
+                     placeholder="Busnummer..." ng-disabled="contact.zelfdeAdres"/>
+            </div>
+          </div>
+          <div class="form-group" ng-if="contact.adres.land !== 'BE'">
+            <label for="postcode" class="col-sm-2 control-label"><span class="text-danger">* </span>Postcode</label>
+            <div class="col-sm-6"
+                 ng-class="{ 'has-error': lidwordenForm['contacten['+$index+'].adres.postcode'].$touched && lidwordenForm['contacten['+$index+'].adres.postcode'].$invalid }">
+              <input type="text" class="form-control" ng-model="contact.adres.postcode" placeholder="Postcode..."
+                     name="lidwordenForm['contacten['+$index+'].postcode']" id="postcode" required ng-disabled="contact.zelfdeAdres"/>
+              <div ng-messages="lidwordenForm['contacten['+$index+'].adres.postcode'].$error" ng-show="lidwordenForm['contacten['+$index+'].adres.postcode'].$touched">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" ng-if="contact.adres.land !== 'BE'">
+            <label for="gemeente" class="col-sm-2 control-label"><span class="text-danger">* </span>Woonplaats</label>
+            <div class="col-sm-6"
+                 ng-class="{ 'has-error': lidwordenForm['contacten['+$index+'].adres.gemeente'].$touched && lidwordenForm['contacten['+$index+'].adres.gemeente'].$invalid }">
+              <input type="text" class="form-control" ng-model="contact.adres.gemeente" placeholder="Gemeente..."
+                     name="lidwordenForm['contacten['+$index+'].gemeente']" id="gemeente" required ng-disabled="contact.zelfdeAdres"/>
+              <div ng-messages="lidwordenForm['contacten['+$index+'].adres.gemeente'].$error" ng-show="lidwordenForm['contacten['+$index+'].adres.gemeente'].$touched">
+                <div ng-messages-include="partials/messages.html"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </fieldset>
+  </fieldset>
+</section>
