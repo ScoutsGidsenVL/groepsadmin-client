@@ -160,6 +160,11 @@
         {groepsnummer: '@groepsnummer'},
         {get: {method: 'GET', cache: true}}
       ),
+      Groepseigengegevens: $resource(
+        base + 'groep/groepseigengegevens/:groepsnummer',
+        {groepsnummer: '@groepsnummer'},
+        {get: {method: 'GET', isArray: true, cache: false}}
+      ),
       Oudleden: $resource(
         basejson + 'oudleden.json',
         {},
