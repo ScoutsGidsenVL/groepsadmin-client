@@ -81,7 +81,7 @@
             postadres: false,
             omschrijving: "",
             id: 'tempadres' + Date.now(),
-            bus: null
+            bus: ''
           };
           if (!_.find(scope.lid.adressen, {postadres: true})) {
             newadres.postadres = true;
