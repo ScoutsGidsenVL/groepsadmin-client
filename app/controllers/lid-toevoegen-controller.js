@@ -17,6 +17,7 @@
     $scope.functiesEnGroepenGeladen = false;
     $scope.isNieuwLidForm = true;
     $scope.showFunctieToevoegen = true;
+    $scope.heeftGroepseigenvelden = false;
 
     angular.extend($scope, LS.publicProperties, LS.publicMethods);
 
@@ -70,20 +71,19 @@
 
       if ($rootScope.defaultLid) {
         $scope.lidaanvraag = $rootScope.defaultLid.lidaanvraag;
-        delete $rootScope.defaultLid.lidaanvraag;
-
+        $scope.groepsnummer = $rootScope.defaultLid.groepsnummer;
         angular.extend(lid, $rootScope.defaultLid);
 
-        angular.forEach(lid.adressen, function (adres) {
-          var randomId = "" + Date.now();
-          angular.forEach(lid.contacten, function (contact, key) {
-            if (adres.id == contact.adres) {
-              contact.adres = randomId;
-            }
-            contact.id = key;
-          });
-          adres.id = randomId;
-        });
+        // angular.forEach(lid.adressen, function (adres) {
+        //   var randomId = "" + Date.now();
+        //   angular.forEach(lid.contacten, function (contact, key) {
+        //     if ((adres.id === contact.adres || (adres.id === contact.adres))) {
+        //       contact.adres = randomId;
+        //     }
+        //     contact.id = key;
+        //   });
+        //   adres.id = randomId;
+        // });
 
         delete $rootScope.defaultLid;
       }
@@ -93,6 +93,42 @@
 
       $scope.lid = lid;
       $scope.lid.adressen[0].showme = true;
+      $scope.lid.adressen[0].postadres = true;
+
+      if ($scope.lid.groepseigenGegevens && $scope.lid.groepseigenGegevens.length > 0) {
+        $scope.heeftGroepseigenvelden = true;
+        $scope.lid.groepseigenVelden = {};
+        $scope.lid.groepseigenVelden[$scope.groepsnummer] = {};
+        $scope.lid.groepseigenVelden[$scope.groepsnummer].schema = [];
+        $scope.lid.groepseigenVelden[$scope.groepsnummer].waarden = {};
+
+        var waarden = {};
+        _.forEach($scope.lid.groepseigenGegevens, function (ge) {
+
+          $scope.lid.groepseigenVelden[$scope.groepsnummer].schema.push(ge);
+          waarden[ge.id] = ge.waarde;
+        })
+        $scope.lid.groepseigenVelden[$scope.groepsnummer].waarden = waarden;
+      }
+
+      //contacten adres id doorgeven ipv volledig adres
+      var counter = 0;
+      _.forEach($scope.lid.adressen, function (adres) {
+        counter++;
+        _.forEach($scope.lid.contacten, function (contact) {
+          if ((adres.id === contact.adres) || (adres.id === contact.adres.id)) {
+            adres.id = 'tempadres_' + counter;
+            contact.adres = adres.id;
+            contact.id = 'tempcontact_' + counter
+          }
+        })
+      })
+
+      _.forEach($scope.lid.adressen, function (adres) {
+        if (adres.id.length > 28){
+          adres.id = 'tempadres';
+        }
+      })
 
       if ($scope.lidaanvraag) {
         $scope.updateSuggesties();
@@ -121,7 +157,9 @@
                     tempGroep.functies.push(value2);
                   }
                 });
-                $scope.groepEnfuncties.push(tempGroep);
+                if (!$scope.groepsnummer || ($scope.groepsnummer && $scope.groepsnummer === value.groepsnummer)) {
+                  $scope.groepEnfuncties.push(tempGroep);
+                }
               });
               $scope.functiesEnGroepenGeladen = true;
             }
@@ -142,7 +180,7 @@
       return true;
     };
 
-    $scope.disableVoorNieuwLid = function(val){
+    $scope.disableVoorNieuwLid = function (val) {
       var check = false;
       if (val === "FV" || val === "VGA") {
         check = true
@@ -185,7 +223,6 @@
         $scope.saving = false;
         return;
       }
-
       RestService.LidAdd.save(origineelLid).$promise.then(
         function (response) {
           if ($scope.lidaanvraag) {
@@ -198,7 +235,6 @@
           if ($scope.lid.functies.length > 1) {
             var patchDeel = {};
             patchDeel.functies = $scope.lid.functies.splice(1, $scope.lid.functies.length - 1);
-
             RestService.Lid.update({id: response.id}, patchDeel).$promise.then(
               function (response) {
                 $scope.lidForm.$setPristine();
@@ -222,14 +258,12 @@
           $scope.saving = false;
           if (error.status == 403) {
             AlertService.add('warning', error);
-          }
-          else if (error.data.fouten && error.data.fouten.length >= 1) {
+          } else if (error.data.fouten && error.data.fouten.length >= 1) {
             _.each(error.data.fouten, function (fout) {
               console.log("FOUT", fout);
               $scope[fout.veld + 'Error'] = true;
             });
-          }
-          else {
+          } else {
             AlertService.add('danger', error);
           }
         }
@@ -253,8 +287,7 @@
       if ($scope.lidForm.$dirty) {
         if (newUrl.indexOf('?suggestie=1')) {
           //suggestie geklikt, dus vraag hoeft niet gesteld te worden
-        }
-        else {
+        } else {
           event.preventDefault();
           DialogService.paginaVerlaten($scope.locationChange, newUrl);
         }
@@ -285,8 +318,6 @@
         voornaam: $scope.lid.vgagegevens.voornaam,
         achternaam: $scope.lid.vgagegevens.achternaam
       }).$promise.then(function (result) {
-        console.log(result.leden);
-
         if (0 < result.leden.length) {
           AlertService.add('warning', "Er zijn leden gevonden met een gelijkaardige naam. Ga naar het juiste lid of negeer dit bericht: ", result.leden);
         }
