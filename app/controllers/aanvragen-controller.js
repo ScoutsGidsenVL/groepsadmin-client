@@ -24,11 +24,9 @@
     init();
 
     $scope.goedkeuren = function ($event, aanvraag) {
-      console.log("test");
       $event.stopPropagation();
       var link = _.find(aanvraag.links, {rel: 'goedkeuren'});
       aanvraag.adres.postadres = true;
-
       $rootScope.defaultLid = {
         vgagegevens: {
           voornaam: aanvraag.voornaam,
@@ -39,10 +37,10 @@
         persoonsgegevens: aanvraag.persoonsgegevens,
         email: aanvraag.email,
         id: aanvraag.id,
-        adressen: [
-          aanvraag.adres
-        ],
+        adressen: aanvraag.adressen,
         contacten: aanvraag.contacten,
+        groepsnummer: aanvraag.groepsnummer,
+        groepseigenGegevens: aanvraag.groepsEigenGegevens,
         lidaanvraag: link
       };
       $location.path("/lid/toevoegen");
