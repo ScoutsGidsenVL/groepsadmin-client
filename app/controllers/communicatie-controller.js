@@ -62,7 +62,7 @@
       // als record niet in array bestaat dan mag die toegevoegd worden, anders verwijderd.
       if (index < 0) {
         $scope.selectedCommunicatieProducten.push(communicatieproductabonnement);
-        if (!$scope.leiding){
+        if (!$scope.leiding) {
           checkBijlages();
         } else {
           voegAlleBijlageVoorLeidingToe(communicatieproductabonnement.type);
@@ -72,7 +72,7 @@
         if (communicatieproduct.type === post) {
           voegNieuwsbriefAanLijst(communicatieproduct);
         }
-        if (!$scope.leiding){
+        if (!$scope.leiding) {
           checkBijlages();
         }
       }
@@ -105,36 +105,34 @@
       return result;
     }
 
-    $scope.verwerkCommunicatieBijlages = function() {
-      if ($scope.checkAantalBijlages(post)){
+    $scope.verwerkCommunicatieBijlages = function () {
+      if ($scope.checkAantalBijlages(post)) {
         verwijderAlleBijlageVoorLeiding(post);
       } else {
         voegAlleBijlageVoorLeidingToe(post);
       }
-      console.log($scope.selectedCommunicatieProducten.length)
     }
 
-    $scope.verwerkCommunicatieBijlagesDigitaal = function(){
-      if ($scope.checkAantalBijlages(nieuwsbrief)){
+    $scope.verwerkCommunicatieBijlagesDigitaal = function () {
+      if ($scope.checkAantalBijlages(nieuwsbrief)) {
         verwijderAlleBijlageVoorLeiding(nieuwsbrief);
       } else {
         voegAlleBijlageVoorLeidingToe(nieuwsbrief);
       }
-      console.log($scope.selectedCommunicatieProducten.length)
     }
 
-    $scope.checkAantalBijlages = function(type) {
+    $scope.checkAantalBijlages = function (type) {
       var counter = 0;
       _.each($scope.selectedCommunicatieProducten, function (communicatieproductAbonnement) {
-        if (communicatieproductAbonnement.type === type){
-          _.each($scope.communicatieProducten, function (communicatieProduct){
-            if (communicatieProduct.id === communicatieproductAbonnement.communicatieproduct){
+        if (communicatieproductAbonnement.type === type) {
+          _.each($scope.communicatieProducten, function (communicatieProduct) {
+            if (communicatieProduct.id === communicatieproductAbonnement.communicatieproduct) {
               counter++;
             }
           })
         }
       })
-      return counter >= 3
+      return (counter >= 3);
     }
 
     $scope.checkValueDigital = function (communicatieproduct, type) {
@@ -181,13 +179,13 @@
     }
 
     // Automatisch toevoegen of verwijderen van Go Scout it in geval van een lid en in geval dat zowel krak als boem zijn afgevinkt
-    function checkBijlages(){
-      var communicatieproductBijlage= {};
+    function checkBijlages() {
+      var communicatieproductBijlage = {};
       var aantalPostRecords = 0;
       var aantalNieuwsbriefRecords = 0;
 
-      _.each($scope.communicatieProducten, function (communicatieProduct){
-        if (communicatieProduct.naam === goScoutIt){
+      _.each($scope.communicatieProducten, function (communicatieProduct) {
+        if (communicatieProduct.naam === goScoutIt) {
           communicatieproductBijlage = communicatieProduct;
         }
       })
@@ -208,12 +206,12 @@
       communicatieproductabonnement.lid = $scope.lid.id;
       var index = getIndexVanCommunicatieproduct(communicatieproductabonnement);
 
-      if (aantalPostRecords >= 2){
-        if (index < 0 ){
+      if (aantalPostRecords >= 2) {
+        if (index < 0) {
           $scope.selectedCommunicatieProducten.push(communicatieproductabonnement);
         }
       } else {
-        if (index > 0){
+        if (index > 0) {
           $scope.selectedCommunicatieProducten.splice(index, 1)
         }
       }
@@ -224,12 +222,12 @@
       communicatieproductabonnement.lid = $scope.lid.id;
       index = getIndexVanCommunicatieproduct(communicatieproductabonnement);
 
-      if (aantalNieuwsbriefRecords >= 2){
-        if (index < 0 ){
+      if (aantalNieuwsbriefRecords >= 2) {
+        if (index < 0) {
           $scope.selectedCommunicatieProducten.push(communicatieproductabonnement);
         }
       } else {
-        if (index > 0){
+        if (index > 0) {
           $scope.selectedCommunicatieProducten.splice(index, 1)
         }
       }
@@ -238,27 +236,31 @@
 
     function verwijderAlleBijlageVoorLeiding(type) {
       _.each($scope.communicatieProducten, function (communicatieproduct) {
-        if (communicatieproduct.bijlage){
+        if (communicatieproduct.bijlage) {
           communicatieproductabonnement = Object.assign({}, defaultCommunicatieproductabonnement);
           communicatieproductabonnement.communicatieproduct = communicatieproduct.id;
           communicatieproductabonnement.type = type;
           communicatieproductabonnement.lid = $scope.lid.id;
         }
         if (communicatieproductabonnement) {
-          var index = getIndexVanCommunicatieproduct(communicatieproductabonnement);
-          $scope.selectedCommunicatieProducten.splice(index, 1);
+          do {
+            var index = getIndexVanCommunicatieproduct(communicatieproductabonnement);
+            $scope.selectedCommunicatieProducten.splice(index, 1);
+          } while (index > -1)
         }
       })
     }
 
     function voegAlleBijlageVoorLeidingToe(type) {
       _.each($scope.communicatieProducten, function (communicatieproduct) {
-        if (communicatieproduct.bijlage){
+        if (communicatieproduct.bijlage) {
           communicatieproductabonnement = Object.assign({}, defaultCommunicatieproductabonnement);
           communicatieproductabonnement.communicatieproduct = communicatieproduct.id;
           communicatieproductabonnement.type = type;
           communicatieproductabonnement.lid = $scope.lid.id;
-          $scope.selectedCommunicatieProducten.push(communicatieproductabonnement);
+          if (getIndexVanCommunicatieproduct(communicatieproductabonnement) < 0) {
+            $scope.selectedCommunicatieProducten.push(communicatieproductabonnement);
+          }
         }
       })
     }
