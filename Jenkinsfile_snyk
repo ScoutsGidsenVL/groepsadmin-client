@@ -6,6 +6,39 @@ pipeline {
   }
 
   stages {
+    stage('build') {
+      steps {
+        sh "npm --production prune --ignore-scripts"
+        sh "npm --production install --ignore-scripts"
+        sh "node_modules/.bin/bower prune --production"
+        sh "node_modules/.bin/bower install --production"
+        sh "node_modules/.bin/grunt build"
+        sh "(cd node_modules/aglio-theme-olio && ./scripts/setup-cache.js)"
+        sh "node_modules/.bin/aglio --theme-condense-nav=false --theme-style default --theme-style docs/custom.less -i docs/api.apib -o docs/api.html"
+        sh "rm -rf client.zip"
+        /* jquery en keycloak apart is voor apitest.html */
+        sh "zip -r client.zip index.html formulier.html apitest.html logintest.html app css data docs/api.html fonts img js less partials bower_components/jquery/jquery.js bower_components/keycloak/dist/keycloak.js"
+      }
+    }
+
+    stage('archive') {
+      steps {
+        archive 'client.zip'
+          script{
+              def artifactory = Artifactory.server 'artifactory'
+              def uploadSpec = '''{
+                "files": [
+                  {
+                    "pattern": "client.zip",
+                    "target": "groepsadmin-client/${BRANCH_NAME}/${BUILD_ID}/"
+                  }
+               ]
+              }'''
+              def buildInfo = artifactory.upload spec: uploadSpec
+              artifactory.publishBuildInfo buildInfo
+          }
+        }
+      }
     stage('security-check') {
       steps {
         snykSecurity failOnIssues: false, organisation: 'informatica', projectName: 'groepsadmin-client', snykInstallation: 'snyk-jenkins', snykTokenId: 'snyk-api'
