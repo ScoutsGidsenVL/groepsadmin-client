@@ -1,0 +1,37 @@
+pipeline {
+  agent any
+
+  triggers {
+    cron('H H * * 0')
+  }
+
+  stages {
+    stage('security-check') {
+      steps {
+        snykSecurity failOnIssues: false, organisation: 'informatica', projectName: 'groepsadmin-client', snykInstallation: 'snyk-jenkins', snykTokenId: 'snyk-api'
+      }
+    }
+  }
+
+  post {
+    failure {
+      emailen()
+    }
+    unstable {
+      emailen()
+    }
+    changed {
+      emailen()
+    }
+  }
+}
+
+def emailen() {
+  mail(
+    to: "tvl@scoutsengidsenvlaanderen.be,${env.CHANGE_AUTHOR_EMAIL}, jr@scoutsengidsenvlaanderen.be",
+    subject: "[Jenkins] ${currentBuild.fullDisplayName} ${currentBuild.currentResult}",
+    body: """${currentBuild.fullDisplayName} ${currentBuild.currentResult}
+
+${currentBuild.absoluteUrl}"""
+  )
+}

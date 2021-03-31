@@ -1,10 +1,6 @@
 pipeline {
   agent any
 
-  triggers {
-    cron('H H * * 0')
-  }
-
   options {
     buildDiscarder(logRotator(artifactNumToKeepStr: '10'))
   }
@@ -51,12 +47,6 @@ pipeline {
     stage('deploy') {
       steps {
         sh 'ssh lxc-deb-rundeck.vvksm.local sudo -u rundeck /opt/deploy-ga.sh frontend ${BRANCH_NAME}'
-      }
-    }
-
-    stage('security-check') {
-      steps {
-        snykSecurity failOnIssues: false, organisation: 'informatica', projectName: 'groepsadmin-client', snykInstallation: 'snyk-jenkins', snykTokenId: 'snyk-api'
       }
     }
   }
