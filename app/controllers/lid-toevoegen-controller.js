@@ -116,7 +116,10 @@
       _.forEach($scope.lid.adressen, function (adres) {
         counter++;
         _.forEach($scope.lid.contacten, function (contact) {
-          if ((adres.id === contact.adres) || (adres.id === contact.adres.id)) {
+          if (adres.straat === contact.adres.straat &&
+            adres.nummer === contact.adres.nummer &&
+            adres.postcode === contact.adres.postcode &&
+            adres.gemeente === contact.adres.gemeente ) {
             adres.id = 'tempadres_' + counter;
             contact.adres = adres.id;
             contact.id = 'tempcontact_' + counter
@@ -125,7 +128,7 @@
       })
 
       _.forEach($scope.lid.adressen, function (adres) {
-        if (adres.id.length > 28){
+        if (adres.id.length > 28) {
           adres.id = 'tempadres';
         }
       })
