@@ -37,7 +37,7 @@
       RestService.CommunicatieProducten.get().$promise.then(
         function (result) {
           $scope.communicatieProducten = result.communicatieProducten;
-          $scope.leiding = $scope.communicatieProducten.length > 4;
+          $scope.leiding = $scope.communicatieProducten.length >= 4;
         });
 
       RestService.Lid.get({id: 'profiel'}).$promise.then(
@@ -49,6 +49,9 @@
         function (result) {
           $scope.selectedCommunicatieProducten = result;
         });
+
+
+
     };
 
     $scope.verwerkCommunicatie = function (communicatieproduct, type) {
