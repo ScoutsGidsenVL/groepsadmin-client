@@ -23,8 +23,6 @@
 
     $scope.data = {};
     $scope.data.groepenlijst = [];
-    $scope.contactenGeladen = false;
-
 
     function groepenGeladen(result) {
       $scope.data.groepenlijst.splice(0);
@@ -59,6 +57,11 @@
           }
 
           contacten[contact.oidLid].push(groepering);
+
+          groepering.push({
+            naam: contact.naam,
+            email: contact.email
+          });
         });
 
         groep.adres = [
@@ -77,24 +80,6 @@
 
         groep.kanWijzigen = (_.find(groep.links, {method: 'PATCH'}) !== undefined);
         $scope.data.groepenlijst.push(groep);
-      });
-
-
-      angular.forEach(contacten, function (groeplijst, id) {
-        RestService.Lid.get({id: id}).$promise.then(function (res) {
-          angular.forEach(groeplijst, function (groepering) {
-            groepering.push({
-              naam: res.vgagegevens.voornaam + ' ' + res.vgagegevens.achternaam,
-              email: res.email
-            });
-
-          });
-
-          delete contacten[id];
-          if ($.isEmptyObject(contacten)) {
-            $scope.contactenGeladen = true;
-          }
-        });
       });
 
       // by default is de eerste groep actief
