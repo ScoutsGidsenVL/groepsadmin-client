@@ -556,6 +556,12 @@
         $scope.data.activegroup.facturatieLeden = new Date()
       }
 
+      // Opvangen van kleine letters in huisnummers
+      angular.forEach($scope.data.activegroup.adressen, function (adres){
+        adres.nummer = adres.nummer.toUpperCase();
+        adres.bus = adres.bus.toUpperCase();
+      });
+
       var promises = [
         RestService.Groep
           .update({id: $scope.data.activegroup.id, bevestiging: true}, $scope.data.activegroup)
