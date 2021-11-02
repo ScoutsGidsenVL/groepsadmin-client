@@ -559,7 +559,7 @@
       // Opvangen van kleine letters in huisnummers
       angular.forEach($scope.data.activegroup.adressen, function (adres){
         adres.nummer = adres.nummer.toUpperCase();
-        adres.bus = adres.bus.toUpperCase();
+        adres.bus = adres.bus ? adres.bus.toUpperCase() : null;
       });
 
       var promises = [
