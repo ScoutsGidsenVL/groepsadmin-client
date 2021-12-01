@@ -90,7 +90,13 @@
               }
             }
           } else if (_.includes(rejection.data, 'Je hebt de Groepsadministratie kapotgemaakt')) {
-            AlertService.add('danger', 'Goed bezig! Je hebt de Groepsadministratie kapotgemaakt<br><br>Nee hoor ;-) We zijn gewoon even aan het werken aan de Groepsadministratie. Terwijl wij alles proberen op te lossen kan je ondertussen eens kijken wat er allemaal op <a href="https://www.scoutsengidsenvlaanderen.be">onze website</a> te vinden is.');
+            AlertService.add('danger', 'Ai, er liep iets fout met de Groepsadministratie.<br><br>' +
+              'Laat je even aan <a href="mailto:groepsadministratie@scoutsengidsenvlaanderen.be">groepsadministratie@scoutsengidsenvlaanderen.be</a> weten wat je aan het doen was? <br><br> ' +
+              'Eventueel verduidelijkt met een printscreen. <br><br>' +
+              'Zo kunnen wij gerichter zoeken hoe de Groepsadministratie geoptimaliseerd kan worden. <br><br> <br><br> ' +
+              'Bedankt voor je hulp, <br><br> <br><br>' +
+              'Groetjes <br><br> <br><br>' +
+              'Team Groepsadministratie' );
           } else {
             AlertService.add('danger', JSON.stringify(rejection.data, null, 2));
           }
