@@ -73,11 +73,12 @@
           } else {
             var a = document.createElement('a');
             a.href = res.fileUrl;
-            a.target = '_blank';
-            a.download = res.title;
-
-            document.body.appendChild(a);
-            a.click();
+            window.open(res.fileUrl, res.title);
+            // a.target = '_blank';
+            // a.download = res.title;
+            //
+            // document.body.appendChild(a);
+            // a.click();
             $scope.etikettenIsPending = false;
             $scope.etiketPropertiesWatchable = true;
           }
