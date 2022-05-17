@@ -22,6 +22,12 @@ pipeline {
     }
 
     stage('archive') {
+      when {
+            anyOf {
+                branch "production"
+                branch "staging"
+            }
+      }
       steps {
         archive 'client.zip'
 
