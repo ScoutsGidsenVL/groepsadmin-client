@@ -171,7 +171,16 @@
                 $scope.categorisedFilters[groep] = {isHeader: true, filters: []};
               }
 
-              $scope.categorisedFilters[groep].filters.push(filter);
+              var filterIdArray = [];
+
+              angular.forEach($scope.categorisedFilters[groep].filters, function (existingFilter) {
+                filterIdArray.push(existingFilter.id);
+              })
+
+              if (!filterIdArray.includes(filter.id)) {
+                $scope.categorisedFilters[groep].filters.push(filter);
+              }
+
               CS.Groep(groep).then(
                 function (result) {
                   if ($scope.categorisedFilters[result.groepsnummer]) {
