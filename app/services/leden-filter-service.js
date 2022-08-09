@@ -588,16 +588,6 @@
         });
       }
 
-
-      // temp = _.filter(_.find(activeCriteria, {"criteriaKey":"oudleden"}).items, {'activated': true});
-      // if(temp && temp.length > 0){
-      //   var arrTemp = [];
-      //   _.each(temp, function(val){
-      //     arrTemp.push(val.value);
-      //   });
-      //   reconstructedFilterObj.criteria.oudleden = arrTemp;
-      // }
-
       //reconstructedFilterObj.kolommen = patchedFilterObj.kolommen;
       reconstructedFilterObj.kolommen = activeKolommen;
       reconstructedFilterObj.groepen = patchedFilterObj.groepen;
