@@ -25,17 +25,17 @@
       {
         naam: 'Facebook',
         url: 'https://www.facebook.com/scoutsengidsenvlaanderen',
-        afbeelding: 'https://oudesite.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_fb.png'
+        afbeelding: ' https://static.scoutsengidsenvlaanderen.be/images/menubalk/balk_sprite_fb.png'
       },
       {
         naam: 'Twitter',
         url: 'https://twitter.com/ScoutsGidsenVL',
-        afbeelding: 'https://oudesite.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_twitter.png'
+        afbeelding: ' https://static.scoutsengidsenvlaanderen.be/images/menubalk/balk_sprite_twitter.png'
       },
       {
         naam: 'Instagram',
         url: '"https://instagram.com/scoutsgidsenvl',
-        afbeelding: 'https://oudesite.scoutsengidsenvlaanderen.be/files/algemeen/menubalk/balk_sprite_instagram.png'
+        afbeelding: ' https://static.scoutsengidsenvlaanderen.be/images/menubalk/balk_sprite_instagram.png'
       }
     ];
 
