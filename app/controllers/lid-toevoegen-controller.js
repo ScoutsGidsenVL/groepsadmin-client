@@ -133,6 +133,12 @@
         }
       })
 
+      _.forEach($scope.lid.contacten, function (contact) {
+        if (contact.id.length > 28) {
+          contact.id = 'tempcontact';
+        }
+      })
+
       if ($scope.lidaanvraag) {
         $scope.updateSuggesties();
       }
