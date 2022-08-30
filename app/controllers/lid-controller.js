@@ -352,7 +352,7 @@
       $location.path("/lid/toevoegen");
     };
 
-    // nieuw gezindslid aanmaken
+    // nieuw gezinslid aanmaken
     $scope.gezinslid = function () {
       console.log($scope.lid)
       //bereid lid voor om doorgegeven te worden.
