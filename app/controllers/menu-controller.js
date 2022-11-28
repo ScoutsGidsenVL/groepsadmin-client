@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -7,43 +7,52 @@
 
   MenuController.$inject = ['$scope', '$timeout', 'UserAccess', '$q'];
 
-  function MenuController ($scope, $timeout, UserAccess, $q) {
+  function MenuController($scope, $timeout, UserAccess, $q) {
 
     function updateMenu(ledenlijst, groep, aanvragen) {
       $scope.menuItems = [
         {
           label: 'Ledenlijst',
           condition: ledenlijst,
-          iconclasses : 'fa fa-users',
+          iconclasses: 'fa fa-users',
           href: '#/ledenlijst'
         },
         {
           label: 'Ledenaantallen',
           condition: groep,
-          iconclasses : 'fa fa-area-chart',
+          iconclasses: 'fa fa-area-chart',
           href: '#/ledenaantallen'
         },
         {
           label: 'Groepsinstellingen',
           condition: groep,
-          iconclasses : 'fa fa-cogs',
+          iconclasses: 'fa fa-cogs',
           href: '#/groepsinstellingen'
         },
         {
           label: 'Profiel',
           condition: true,
-          iconclasses : 'fa fa-user',
+          iconclasses: 'fa fa-user',
           href: '#/lid/profiel'
         },
         {
           label: 'Lidaanvragen',
           condition: aanvragen,
-          iconclasses : 'fa fa-address-book-o',
+          iconclasses: 'fa fa-address-book-o',
           href: '#/aanvragen'
         },
+        {
+          label: 'Nieuwe Groepsadministratie',
+          condition: true,
+          iconclasses: 'fa fa-external-link',
+          href:
+            window.origin = 'localhost:8000' ?  'http://localhost:3000/groepsadmin/frontend/dashboard'
+            : window.origin = 'https://ga-staging.scoutsengidsenvlaanderen.be/' ? 'https://ga-staging.scoutsengidsenvlaanderen.be/groepsadmin/frontend/dashboard'
+            : 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/frontend/dashboard'
+        }
       ];
 
-      $timeout(function() {
+      $timeout(function () {
         window.app.positionBody();
       }, 10);
     }
@@ -65,8 +74,8 @@
       updateMenu(ledenlijst, groep);
     });*/
 
-    $q.all([UserAccess.hasAccessToGroepen(),UserAccess.hasAccessTo("ledenlijst"),UserAccess.hasAccessTo("aanvragen")])
-      .then(function(result) {
+    $q.all([UserAccess.hasAccessToGroepen(), UserAccess.hasAccessTo("ledenlijst"), UserAccess.hasAccessTo("aanvragen")])
+      .then(function (result) {
         var conditionGroep = result[0];
         var conditionLedenLijst = result[1];
         var conditionAanvragen = result[2];
