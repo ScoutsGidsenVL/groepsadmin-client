@@ -42,7 +42,7 @@
           href: '#/aanvragen'
         },
         {
-          label: 'Nieuwe Groepsadministratie',
+          label: 'Nieuwe Layout',
           condition: true,
           iconclasses: 'fa fa-external-link',
           href:
