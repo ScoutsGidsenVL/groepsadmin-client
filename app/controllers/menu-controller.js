@@ -45,16 +45,24 @@
           label: 'Nieuwe Layout',
           condition: true,
           iconclasses: 'fa fa-external-link',
-          href:
-            window.origin = 'localhost:8000' ?  'http://localhost:3000/groepsadmin/frontend/dashboard'
-            : window.origin = 'https://ga-staging.scoutsengidsenvlaanderen.be/' ? 'https://ga-staging.scoutsengidsenvlaanderen.be/groepsadmin/frontend/dashboard'
-            : 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/frontend/dashboard'
+          href: getLink(),
+
         }
       ];
 
       $timeout(function () {
         window.app.positionBody();
       }, 10);
+    }
+
+    function getLink() {
+      if (window.origin === 'http://localhost:8000') {
+        return 'http://localhost:3000/groepsadmin/frontend/dashboard'
+      } else if (window.origin === 'https://ga-staging.scoutsengidsenvlaanderen.be/') {
+        return 'https://ga-staging.scoutsengidsenvlaanderen.be/groepsadmin/frontend/dashboard'
+      } else {
+        return 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/frontend/dashboard'
+      }
     }
 
     var ledenlijst = false;
