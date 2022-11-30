@@ -42,10 +42,10 @@
           href: '#/aanvragen'
         },
         {
-          label: 'Nieuwe Layout',
+          label: 'Nieuwe layout',
           condition: true,
           iconclasses: 'fa fa-external-link',
-          href: getLink(),
+          href: getLink()
 
         }
       ];
@@ -57,11 +57,9 @@
 
     function getLink() {
       if (window.origin === 'http://localhost:8000') {
-        return 'http://localhost:3000/groepsadmin/frontend/dashboard'
-      } else if (window.origin === 'https://ga-staging.scoutsengidsenvlaanderen.be') {
-        return 'https://ga-staging.scoutsengidsenvlaanderen.be/groepsadmin/frontend/dashboard'
+        return 'http://localhost:3000/groepsadmin/frontend/dashboard';
       } else {
-        return 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/frontend/dashboard'
+        return '/groepsadmin/frontend/dashboard';
       }
     }
 
