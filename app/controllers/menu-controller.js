@@ -58,7 +58,7 @@
     function getLink() {
       if (window.origin === 'http://localhost:8000') {
         return 'http://localhost:3000/groepsadmin/frontend/dashboard'
-      } else if (window.origin === 'https://ga-staging.scoutsengidsenvlaanderen.be/') {
+      } else if (window.origin === 'https://ga-staging.scoutsengidsenvlaanderen.be') {
         return 'https://ga-staging.scoutsengidsenvlaanderen.be/groepsadmin/frontend/dashboard'
       } else {
         return 'https://groepsadmin.scoutsengidsenvlaanderen.be/groepsadmin/frontend/dashboard'
