@@ -22,7 +22,7 @@
     "grunt-contrib-uglify": "^4.0.0",
     "grunt-injector": "^1.1.0",
     "grunt-version-bump": "^1.0.8",
-    "keycloak-js": "^7.0.1"
+    "keycloak-js": "^20.0.1"
   },
   "devDependencies": {
     "grunt-connect-proxy": "^0.2.0",
