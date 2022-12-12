@@ -75,13 +75,23 @@ a.accordion-toggle {
 .jqstooltip {
   background-color: #323333 !important;
   opacity: 0.8;
- font-size: 11px !important; 
- padding: 5px !important; 
- color: white !important; 
- text-align: center !important;  
- border-color: #CCCCCC !important; 
- max-width: 400px !important; 
- max-height: 400px !important; 
+ font-size: 11px !important;
+ padding: 5px !important;
+ color: white !important;
+ text-align: center !important;
+ border-color: #CCCCCC !important;
+ max-width: 400px !important;
+ max-height: 400px !important;
  min-height: 20px;
  width: 100px;
+}
+
+.blink {
+  animation: blinker 2s cubic-bezier(.5, 0, 1, 1) infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 10;
+  }
 }
