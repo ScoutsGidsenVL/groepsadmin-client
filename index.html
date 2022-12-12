@@ -96,7 +96,11 @@
         <!-- Desktop-menu -->
         <ul class="nav navbar-nav hidden-sm hidden-xs hidden-md nav-menu" >
           <li ng-repeat="menuItem in menuItems" ng-show="menuItem.condition" active-link="active">
-            <a ng-href="{{menuItem.href}}" ng-attr-target="{{(menuItem.targetBlank) ? '_blank' : undefined}}">
+            <a ng-href="{{menuItem.href}}" ng-attr-target="{{(menuItem.targetBlank) ? '_blank' : undefined}}"
+               ng-class="{'blink':  menuItem.label === 'Nieuwe layout'}"
+               ng-style="{
+               'color': menuItem.label === 'Nieuwe layout' ? '#f0ad4e' : '',
+               'text-shadow': menuItem.label === 'Nieuwe layout' ? '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black' : ''}">
               <i ng-class="menuItem.iconclasses" aria-hidden="true"></i>&nbsp; <span class="navbar-nav-menulabel" ng-bind="menuItem.label" ng-cloak></span>
             </a>
           </li>
